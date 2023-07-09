@@ -1,0 +1,18 @@
+version: '3.5'
+name: coworking-mobile
+services:
+  mockoon:
+    container_name: coworking-mobile-mockoon
+    image: mockoon/cli:4.0.0
+    entrypoint: "mockoon-cli start -d /mock.json --port=3001 -l 0.0.0.0 --daemon-off"
+    ports:
+      - 3001:3001
+    networks:
+      - coworking-mobile
+    volumes:
+      - './mockoon.json:/mock.json'
+
+networks:
+  coworking-mobile:
+    name: coworking-mobile
+    driver: bridge

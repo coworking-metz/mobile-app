@@ -1,0 +1,36 @@
+{
+  "airConditioning": {
+    "title": "Air conditioninh"
+  },
+  "bicycle": {
+    "title": "Bicycle"
+  },
+  "coffeeMachine": {
+    "title": "Coffee machine"
+  },
+  "description": "Frequently Asked Questions",
+  "gate": {
+    "title": "Gate"
+  },
+  "issue": {
+    "title": "Other issue"
+  },
+  "operating": {
+    "description": "everyday from 7AM to 11PM",
+    "title": "Opening hours"
+  },
+  "parking": {
+    "title": "Parking"
+  },
+  "printer": {
+    "title": "Printer"
+  },
+  "rules": {
+    "title": "Rules"
+  },
+  "search": {
+    "empty": "Nothing found",
+    "placeholder": "Search"
+  },
+  "title": "Help"
+}

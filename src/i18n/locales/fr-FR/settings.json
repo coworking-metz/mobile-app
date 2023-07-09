@@ -1,0 +1,53 @@
+{
+  "general": {
+    "language": {
+      "label": "Langue",
+      "system": {
+        "label": "Système",
+        "unsupported": "Cette langue n'est pas encore supportée"
+      }
+    },
+    "onboarding": {
+      "label": "Revoir l'introduction"
+    },
+    "theme": {
+      "label": "Thème",
+      "value": {
+        "auto": "Automatique",
+        "dark": "Sombre",
+        "light": "Clair"
+      }
+    },
+    "title": "Paramètres"
+  },
+  "profile": {
+    "presence": {
+      "onFail": {
+        "message": "Impossible de récupérer la présence"
+      },
+      "title": "Ma présence"
+    }
+  },
+  "support": {
+    "account": {
+      "label": "Mon compte"
+    },
+    "contact": {
+      "label": "Contacter l'équipe",
+      "onFail": {
+        "action": "Détail",
+        "message": "Impossible de contacter l'équipe"
+      }
+    },
+    "help": {
+      "label": "Aide"
+    },
+    "signal": {
+      "label": "Groupe Signal"
+    },
+    "store": {
+      "label": "Boutique"
+    },
+    "title": "Utile"
+  }
+}

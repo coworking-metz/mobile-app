@@ -1,0 +1,46 @@
+{
+  "general": {
+    "language": {
+      "label": "Language",
+      "system": {
+        "label": "System",
+        "unsupported": "This language isn't supported yet"
+      }
+    },
+    "onboarding": {
+      "label": "Checkout onboarding again"
+    },
+    "theme": {
+      "label": "Theme",
+      "value": {
+        "auto": "Auto",
+        "dark": "Dark",
+        "light": "Light"
+      }
+    },
+    "title": "Settings"
+  },
+  "profile": {
+    "presence": {
+      "title": "My presence"
+    }
+  },
+  "support": {
+    "account": {
+      "label": "My account"
+    },
+    "contact": {
+      "label": "Contact the team"
+    },
+    "help": {
+      "label": "Help"
+    },
+    "signal": {
+      "label": "Signal community"
+    },
+    "store": {
+      "label": "Store"
+    },
+    "title": "Support"
+  }
+}

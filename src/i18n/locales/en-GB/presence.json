@@ -1,0 +1,26 @@
+{
+  "byDay": {
+    "list": {
+      "forecast": "Forecast",
+      "label": "{{start}}h - {{end}}h",
+      "title": "Attendance per hour"
+    },
+    "title": "Present on {{day}}",
+    "type": {
+      "CURRENT": "This {{day}}",
+      "PREVIOUS": "Last {{day}}",
+      "TODAY": "Today"
+    }
+  },
+  "byWeek": {
+    "list": {
+      "forecast": "Forecast",
+      "title": "Daily attendance"
+    },
+    "title": "Present during the week",
+    "type": {
+      "CURRENT": "Current",
+      "PREVIOUS": "Previous"
+    }
+  }
+}

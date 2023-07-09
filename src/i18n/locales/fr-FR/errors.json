@@ -1,0 +1,8 @@
+{
+  "default": {
+    "message": "Oups 🫢"
+  },
+  "timeout": {
+    "message": "Navré pour cette attente. Cela peut être dû à une connexion interrompue ou de mauvaise qualité.\nMais tout n'est pas perdu ! Vous pouvez retenter votre chance dès maintenant 🤞"
+  }
+}

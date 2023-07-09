@@ -1,0 +1,39 @@
+{
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "development-simulator": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      }
+    },
+    "preview": {
+      "channel": "staging",
+      "distribution": "internal",
+      "env": {
+        "APP_ADAPTIVE_ICON": "./src/assets/images/adaptive-icon-dev.png",
+        "APP_ICON": "./src/assets/images/icon-dev.png",
+        "APP_NAME": "Le Poulailler (dev)"
+      }
+    },
+    "production": {
+      "channel": "production"
+    }
+  },
+  "cli": {
+    "promptToConfigurePushNotifications": false,
+    "version": ">= 3.16.0"
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleTeamId": "UCLTV6L95C",
+        "ascAppId": "6452401030"
+      }
+    }
+  }
+}

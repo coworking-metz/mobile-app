@@ -1,0 +1,545 @@
+{
+  "uuid": "24b9c1a8-40f0-40ad-bb65-ed03b51aeea0",
+  "lastMigration": 28,
+  "name": "Coworking Metz API",
+  "endpointPrefix": "",
+  "latency": 2000,
+  "port": 3001,
+  "hostname": "",
+  "routes": [
+    {
+      "uuid": "b95fc1c5-ac2b-4c28-a66b-949a04ba1b9e",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "tickets/mobile/v1/intercom",
+      "responses": [
+        {
+          "uuid": "92057efb-79a2-4b06-a763-0febcf18352b",
+          "body": "{\n    \"triggered\": \"{{ now }}\",\n    \"locked\": \"{{ dateTimeShift date=(now) seconds=5 }}\",\n    \"timeout\": \"PT5S\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "4e2de3f4-5f89-4a88-8485-4d86ad9cec98",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "tickets/mobile/v1/auth/token",
+      "responses": [
+        {
+          "uuid": "0dcbdcb0-debd-4440-b272-98c27f31053c",
+          "body": "{\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1hcmllIFBvdWxlIiwiZW1haWwiOiJtYXJpZS5wb3VsZUBjb3dvcmtpbmctbWV0ei5mciIsInJvbGVzIjpbImFkbWluaXN0cmF0b3IiXSwiaWF0IjoxNTE2MjM5MDIyfQ.0c7_6A803_kkWsTIFMk5Z0D3KcYjNJL72oxMr0ZfNOI\",\n    \"refreshToken\": \"fakeRefreshToken\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Set-Cookie",
+              "value": "refresh_token=mocked"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "5fd57c1b-4940-45d0-b00c-7d324719b6d0",
+          "body": "{\n  \"code\": \"jwt_auth_obsolete_token\",\n  \"data\": [],\n  \"message\": \"Expired refresh token\",\n  \"statusCode\": 401,\n  \"success\": false\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "4638d0bf-3dd5-4e22-9baf-c110138fa472",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "tickets/mobile/v1/presence/week",
+      "responses": [
+        {
+          "uuid": "c55b8282-6a08-4fec-9c30-937331ce0bcf",
+          "body": "{\n    {{setVar 'currentIndex' (dateFormat (now) 'i')}}\n    {{setVar 'mondayFromPreviousWeek' (dateFormat (dateTimeShift date=(now) days=(subtract -6 @currentIndex)) 'yyyy-MM-dd') }}\n    \"previous\": {\n        \"from\": \"{{ @mondayFromPreviousWeek }}\",\n        \"to\": \"{{ dateFormat (dateTimeShift date=@mondayFromPreviousWeek days=7) 'yyyy-MM-dd' }}\",\n        \"timeline\": [\n          {{#repeat 7}}\n            {{setVar 'timelineDay' (dateTimeShift date=@mondayFromPreviousWeek days=@index) }}\n            {\n              \"date\": \"{{ dateFormat @timelineDay 'yyyy-MM-dd' }}\",\n              {{#if (includes '135' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'datatype.number' min=10 max=20 }}\n              {{/if}}\n              {{#if (includes '24' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'datatype.number' min=15 max=32 }}\n              {{/if}}\n              {{#if (includes '67' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'datatype.number' min=0 max=6 }}\n              {{/if}}\n            }\n          {{/repeat}}\n        ]\n    },\n    {{setVar 'mondayFromThisWeek' (dateFormat (dateTimeShift date=(now) days=(subtract 1 @currentIndex)) 'yyyy-MM-dd') }}\n    \"current\": {\n        \"from\": \"{{ @mondayFromThisWeek }}\",\n        \"to\": \"{{ dateFormat (now) 'yyyy-MM-dd' }}\",\n        \"timeline\": [\n          {{#repeat @currentIndex}}\n            {{setVar 'timelineDay' (dateTimeShift date=@mondayFromThisWeek days=@index) }}\n            {\n              \"date\": \"{{ dateFormat @timelineDay 'yyyy-MM-dd' }}\",\n              {{#if (includes '135' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'datatype.number' min=10 max=20 }}\n              {{/if}}\n              {{#if (includes '24' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'datatype.number' min=15 max=32 }}\n              {{/if}}\n              {{#if (includes '67' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'datatype.number' min=0 max=6 }}\n              {{/if}}\n            }\n          {{/repeat}}\n        ]\n    }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "46065294-59f1-4310-98d3-5fe5abb27de4",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "tickets/mobile/v1/presence/day",
+      "responses": [
+        {
+          "uuid": "2b317273-83c2-4fe3-903d-47a467e03e8c",
+          "body": "{\n    \"previous\": {\n        {{setVar 'dayFromPreviousWeek' (dateFormat (dateTimeShift date=(now) days=-7) 'yyyy-MM-dd') }}\n        \"from\": \"{{ dateTimeShift date=@dayFromPreviousWeek hours=6 }}\",\n        \"to\": \"{{ dateTimeShift date=@dayFromPreviousWeek hours=21 }}\",\n        \"timeline\": [\n          {{#repeat 15}}\n            {{setVar 'timelineHour' (dateTimeShift date=(dateFormat @dayFromPreviousWeek 'yyyy-MM-dd') hours=(add 7 @index)) }}\n            {\n              \"date\": \"{{ @timelineHour }}\",\n              \"value\": {{ faker 'datatype.number' min=0 max=28 }}\n            }\n          {{/repeat}}\n        ]\n    },\n    \"current\": {\n        {{setVar 'today' (dateFormat (now) 'yyyy-MM-dd') }}\n        \"from\": \"{{ dateTimeShift date=@today hours=6 }}\",\n        \"to\": \"{{ now }}\",\n        \"timeline\": [\n          {{#repeat (subtract (dateFormat (now) 'HH') 7) }}\n            {{setVar 'timelineHour' (dateTimeShift date=@today hours=(add @index 7)) }}\n            {\n              \"date\": \"{{ @timelineHour }}\",\n              \"value\": {{ faker 'datatype.number' min=10 max=28 }}\n            }\n          {{/repeat}}\n        ]\n    }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "b77cada0-da58-4a40-a0e5-4fd5c7724129",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "tickets/mobile/v1/presence/now",
+      "responses": [
+        {
+          "uuid": "1a24bbf2-5e22-4bd6-b9a5-8318b434a5c6",
+          "body": "{\n    \"fetchedAt\": \"{{ now }}\",\n    \"count\": {{ faker 'datatype.number' min=0 max=28 }},\n    \"total\": 28\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "bb88232f-d27e-4f65-95e1-aba963dd0802",
+          "body": "{\n  \"code\": \"jwt_auth_invalid_token\",\n  \"data\": [],\n  \"message\": \"Expired token\",\n  \"statusCode\": 401,\n  \"success\": false\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "b7da27f7-a716-452f-b664-5489d52e4ed5",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "tickets/mobile/v1/profile",
+      "responses": [
+        {
+          "uuid": "22cb76ca-b184-4f59-b9d8-5e6f898ba66c",
+          "body": "{\n  {{setVar 'subscriptionStartDate' (date (dateTimeShift date=(now) months=-1) (now) 'yyyy-MM-dd') }}\n    \"id\": {{ faker 'datatype.number' min=1 max=800 }},\n    \"picture\": \"\",\n    \"email\": \"{{ faker 'internet.email' }}\",\n    \"firstname\": \"{{faker 'name.firstName'}}\",\n    \"lastname\": \"{{faker 'name.lastName'}}\",\n    \"balance\": {{ faker 'datatype.number' min=-10 max=20 }},\n    \"subscription\": {\n        \"startDate\": \"{{ @subscriptionStartDate }}\",\n        \"endDate\": \"{{ dateTimeShift date=@subscriptionStartDate months=1 format='yyyy-MM-dd' }}\",\n        \"purchased\": \"{{ dateTimeShift date=@subscriptionStartDate days=-3 format='yyyy-MM-dd' }}\"\n    }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "dc541f27-b066-4de8-b448-6d9fe27e3c43",
+          "body": "{\n  {{setVar 'subscriptionStartDate' (date (dateTimeShift date=(now) months=-1) (now) 'yyyy-MM-dd') }}\n    \"id\": {{ faker 'datatype.number' min=1 max=800 }},\n    \"picture\": \"\",\n    \"email\": \"{{ faker 'internet.email' }}\",\n    \"firstname\": \"{{faker 'name.firstName'}}\",\n    \"lastname\": \"{{faker 'name.lastName'}}\",\n    \"balance\": {{ faker 'datatype.number' min=0 max=20 }},\n    \"subscription\": null\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Without subscription",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": "RANDOM",
+      "type": "http"
+    },
+    {
+      "uuid": "dd0be3b3-725d-428a-94bb-be0c239f49cc",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "tickets/mobile/v1/profile/presence",
+      "responses": [
+        {
+          "uuid": "e2df3133-2a4e-490d-b158-b23574bb7966",
+          "body": "{\n  \"timeline\": [\n    {{#repeat 370}}\n    {{setVar 'timelineDate' (dateTimeShift date=(now) years=-1 days=@index format='yyyy-MM-dd') }}\n    {\n      \"date\": \"{{ @timelineDate }}\",\n      {{#if (includes '12345' (dateFormat @timelineDate 'i') )}}\n      \"amount\": {{ oneOf (array 0 0.5 0.5 1 1 1 1 1) }},\n      {{/if}}\n      {{#if (includes '67' (dateFormat @timelineDate 'i') )}}\n      \"amount\": {{ oneOf (array 0 0 0 0 0 0 0 0 0 0.5) }},\n      {{/if}}\n      \"type\": \"{{ oneOf (array 'SUBSCRIPTION' 'BALANCE') }}\"\n    }\n    {{/repeat}}\n    ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "3ace92a9-46e7-4560-9d7f-babded132cd8",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "",
+      "responses": [
+        {
+          "uuid": "27b5a890-1f93-4936-8a18-40c2eae5c42f",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "576564d2-c817-450e-845c-52c2071b6af8",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "tickets/mobile/v1/amour-food/menu",
+      "responses": [
+        {
+          "uuid": "52e39d41-ad26-4e85-97c8-2a146a000544",
+          "body": "{\n  \"id\": 1,\n  \"date\": \"2023-04-11\",\n  \"label\": \"Rigatonis, pesto ail des ours\",\n  \"description\": \"Rigatonis, pesto ail des ours, asperges, speck et noisettes\\n–\\nRigatonis, pesto ail des ours, asperges, noisettes\\n–\\nCrème Choco liégeois\",\n  \"url\": \"https://lamourfood.fr/boutique/11-avril-2023/\",\n  \"picture\": \"https://www.bliiida.fr/wp-content/uploads/2019/04/629-1.jpg\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Rigatonis, pesto ail des ours",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "d32f1882-6998-4bd1-b924-f8c88ce0d26b",
+          "body": "{\n  \"id\": 2,\n  \"date\": \"2023-05-16\",\n  \"label\": \"Halloumi grillé\",\n  \"description\": \"Shawarma de Poulet, semoule d’orge, houmous, sauce au zaatar et herbes fraîches, salade, fenouil, chou rouge, chou blanc, grenade\\n–\\nHalloumi grillé, falafel, semoule d’orge, houmous, sauce au zaatar et herbes fraîches, salade, fenouil, chou rouge, chou blanc, grenade\\n–\\nTiramisu aux fraises\",\n  \"url\": \"https://lamourfood.fr/boutique/16-mai-2023/\",\n  \"picture\": \"https://www.bliiida.fr/wp-content/uploads/2020/05/99297060_3304409356284913_4721751959911006208_o-700x875.jpg\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Halloumi grillé",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "c4362bce-65a4-4965-83fc-1c31b1f60873",
+          "body": "{\n  \"id\": 3,\n  \"date\": \"2019-03-18\",\n  \"label\": \"Pâtisseries avec l'Amour Food\",\n  \"description\": \"Du bon et du vrai, nous cuisinons autrement, plus près, plus sain, plus juste.\\n\\nNous vous invitons à une rencontre avant tout humaine et gourmande.\\n\\nCet atelier sera réalisé avec des produits frais, locaux, de saison et \\\"faits maison\\\"\",\n  \"url\": \"https://factuel.univ-lorraine.fr/node/10848\",\n  \"picture\": \"https://factuel.univ-lorraine.fr/sites/factuel.univ-lorraine.fr/files/field/image/2019/03/macarons-2548827_1920.jpg\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Pâtisseries avec l'Amour Food",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "077b5cf7-17fc-4487-93d4-77cdfc9b2016",
+          "body": "{\n  \"id\": 4,\n  \"date\": \"2023-07-06\",\n  \"label\": \"Burger Veggie\",\n  \"description\": \"Burger Pulled Pork , sauce barbecue, tomate, cornichon aigre doux, oignons rouges, salade, sauce tartare maison, frites belges\\n–\\nBurger Veggie, sauce barbecue, tomate, cornichon aigre doux, oignons rouges, salade, sauce tartare maison, frites belges\\n–\\nCarrot Cake, cream cheese orange\",\n  \"url\": \"https://lamourfood.fr/boutique/06-juillet-2023/\",\n  \"picture\": \"https://www.eatingwell.com/thmb/VfuAH7_s8oGW8LtG1VBZcl4KMlM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/6683924-cab8a11ae8c24c50b48aae8ed95049e6.jpg\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Burger Veggie",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "6d8caf63-2454-4aba-9ac3-bd891f1961cc",
+          "body": "{\n  \"id\": 5,\n  \"date\": \"2023-07-21\",\n  \"label\": \"Focaccia olives et tomates séchées\",\n  \"description\": \"Focaccia olives et tomates séchées, burrata, tagliata de boeuf au barbecue, tagliatelles de courgettes\\n–\\nFocaccia olives et tomates séchées, aubergine confite, tagliatelles de courgettes\\n–\\nClafoutis de nectarines jaunes\",\n  \"url\": \"https://lamourfood.fr/boutique/21-juillet-2023/\",\n  \"picture\": \"https://www.177milkstreet.com/assets/site/Recipes/_large/Tomato-Olive-Focaccia.jpg\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Focaccia olives et tomates séchées",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": "RANDOM"
+    },
+    {
+      "uuid": "2376a1bb-f7b0-4eca-aca9-f5c35765e92e",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "tickets/mobile/v1/parking",
+      "responses": [
+        {
+          "uuid": "7abb819b-5e12-4286-9553-b12d2a6f779a",
+          "body": "{\n    \"triggered\": \"{{ now }}\",\n    \"open\": \"{{ dateTimeShift date=(now) seconds=60 }}\",\n    \"timeout\": \"PT5S\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "e1e024a4-238b-4359-804b-09d0c25a6d52",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "tickets/mobile/v1/auth/login",
+      "responses": [
+        {
+          "uuid": "d562cf56-796e-4cd5-b067-b05b0953861d",
+          "body": "",
+          "latency": 1500,
+          "statusCode": 302,
+          "label": "",
+          "headers": [
+            {
+              "key": "Location",
+              "value": "{{ queryParam 'redirect' 'poulailler://' }}?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1hcmllIFBvdWxlIiwiZW1haWwiOiJtYXJpZS5wb3VsZUBjb3dvcmtpbmctbWV0ei5mciIsInJvbGVzIjpbImFkbWluaXN0cmF0b3IiXSwiaWF0IjoxNTE2MjM5MDIyfQ.0c7_6A803_kkWsTIFMk5Z0D3KcYjNJL72oxMr0ZfNOI&refreshToken=fakeRefreshToken"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "http://coworking-metz.local/api-json-wp",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "folders": [],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "3ace92a9-46e7-4560-9d7f-babded132cd8"
+    },
+    {
+      "type": "route",
+      "uuid": "e1e024a4-238b-4359-804b-09d0c25a6d52"
+    },
+    {
+      "type": "route",
+      "uuid": "4e2de3f4-5f89-4a88-8485-4d86ad9cec98"
+    },
+    {
+      "type": "route",
+      "uuid": "b95fc1c5-ac2b-4c28-a66b-949a04ba1b9e"
+    },
+    {
+      "type": "route",
+      "uuid": "dd0be3b3-725d-428a-94bb-be0c239f49cc"
+    },
+    {
+      "type": "route",
+      "uuid": "b7da27f7-a716-452f-b664-5489d52e4ed5"
+    },
+    {
+      "type": "route",
+      "uuid": "b77cada0-da58-4a40-a0e5-4fd5c7724129"
+    },
+    {
+      "type": "route",
+      "uuid": "4638d0bf-3dd5-4e22-9baf-c110138fa472"
+    },
+    {
+      "type": "route",
+      "uuid": "46065294-59f1-4310-98d3-5fe5abb27de4"
+    },
+    {
+      "type": "route",
+      "uuid": "576564d2-c817-450e-845c-52c2071b6af8"
+    },
+    {
+      "type": "route",
+      "uuid": "2376a1bb-f7b0-4eca-aca9-f5c35765e92e"
+    }
+  ]
+}

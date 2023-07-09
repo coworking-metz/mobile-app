@@ -1,0 +1,27 @@
+{
+  "access": {
+    "title": "Accéder au lieu"
+  },
+  "bliiida": {
+    "title": "Bliiida"
+  },
+  "description": "Foire Aux Questions",
+  "furniture": {
+    "title": "Équipement"
+  },
+  "issue": {
+    "title": "Un problème ?"
+  },
+  "operating": {
+    "description": "tous les jours de 7h à 23h",
+    "title": "Ouverture"
+  },
+  "rules": {
+    "title": "Règlement"
+  },
+  "search": {
+    "empty": "Rien trouvé",
+    "placeholder": "Rechercher"
+  },
+  "title": "Aide"
+}

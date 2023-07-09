@@ -1,0 +1,34 @@
+{
+  "description": "Pour ceux qui sachent",
+  "services": {
+    "apiBaseUrl": {
+      "label": "URL de base pour l'API"
+    },
+    "title": "Services"
+  },
+  "store": {
+    "accessToken": {
+      "label": "Jeton d'accès",
+      "onCopy": {
+        "message": "Jeton d'accès copié"
+      }
+    },
+    "clear": {
+      "label": "Tout réinitialiser",
+      "onSuccess": {
+        "message": "Toutes les données ont été réinitialisées"
+      }
+    },
+    "onboarding": {
+      "label": "Introduction passée ou complétée"
+    },
+    "refreshToken": {
+      "label": "Jeton de rafraîchissement",
+      "onCopy": {
+        "message": "Jeton de rafraîchissement copié"
+      }
+    },
+    "title": "Stockage"
+  },
+  "title": "Réglages avancés"
+}

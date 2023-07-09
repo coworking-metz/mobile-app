@@ -1,0 +1,60 @@
+# Le Poulailler - Coworking Metz Mobile
+
+This project holds the Coworking Metz mobile application source code.
+
+## Getting Started
+
+These instructions will give you a copy of the project up and running on
+your local machine for development and testing purposes.
+
+### Prerequisites
+
+Requirements for the software and other tools to build, test and push
+
+- [Git](https://git-scm.com/) - Version control system
+- [Docker](https://www.docker.com/) - Container platform
+- [Node](https://nodejs.org/en) - Cross-platform JavaScript runtime environment
+- [expo](https://docs.expo.dev/) - Platform for making universal native apps
+
+### Install
+
+A step by step series of examples that tell you how to get a development environment running:
+
+```bash
+git clone git@github.com:coworking-metz/mobile-app.git
+cd coworking-mobile
+npm i
+```
+
+### Start the project
+
+```bash
+npm start
+```
+
+### Mock the API
+
+In case you don't want to rely on the API, you can start [`mockoon`](https://mockoon.com) through `docker-compose`
+which will mock the responses with random data.
+Any credentials will work during the login flow.
+
+```bash
+docker-compose -f mock/docker-compose.yml up -d
+```
+
+### Build locally
+
+```bash
+eas build --profile preview --platform ios --local
+```
+
+Then `Xcode` -> `CMD + SHIFT + 2` -> `Devices` -> finally drag and drop the `.ipa` file.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+- [README-Template](https://github.com/PurpleBooth/a-good-readme-template) for what you're reading
+

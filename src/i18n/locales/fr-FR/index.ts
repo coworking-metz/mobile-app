@@ -1,0 +1,13 @@
+export { default as onboarding } from './onboarding.json';
+export { default as actions } from './actions.json';
+export { default as home } from './home.json';
+export { default as auth } from './auth.json';
+export { default as validations } from './validations.json';
+export { default as errors } from './errors.json';
+export { default as settings } from './settings.json';
+export { default as advanced } from './advanced.json';
+export { default as about } from './about.json';
+export { default as footer } from './footer.json';
+export { default as notFound } from './notFound.json';
+export { default as help } from './help.json';
+export { default as presence } from './presence.json';

@@ -1,0 +1,34 @@
+{
+  "description": "For those who are in on it",
+  "services": {
+    "apiBaseUrl": {
+      "label": "API base url"
+    },
+    "title": "Services"
+  },
+  "store": {
+    "accessToken": {
+      "label": "Access token",
+      "onCopy": {
+        "message": "Access token copied"
+      }
+    },
+    "clear": {
+      "label": "Reset everything",
+      "onSuccess": {
+        "message": "All data has been reset"
+      }
+    },
+    "onboarding": {
+      "label": "User has dismissed or completed onboarding"
+    },
+    "refreshToken": {
+      "label": "Refresh token",
+      "onCopy": {
+        "message": "Refresh token copied"
+      }
+    },
+    "title": "Application storage"
+  },
+  "title": "Advanced settings"
+}

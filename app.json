@@ -1,32 +1,55 @@
 {
   "expo": {
-    "name": "coworking-mobile",
-    "slug": "coworking-mobile",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#E9B142",
+        "foregroundImage": "./src/assets/images/adaptive-icon.png"
+      },
+      "package": "fr.coworking_metz.mobile"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "experiments": {
+      "tsconfigPaths": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "46b88b1b-3fc8-457c-b375-b33fc168a776"
+      },
+      "router": {
+        "origin": false
       }
     },
-    "web": {
-      "bundler": "metro",
-      "favicon": "./assets/images/favicon.png"
-    }
+    "icon": "./src/assets/images/icon.png",
+    "ios": {
+      "bundleIdentifier": "fr.coworking-metz.mobile",
+      "supportsTablet": true
+    },
+    "name": "Le Poulailler",
+    "orientation": "portrait",
+    "owner": "coworking-metz",
+    "packagerOpts": {
+      "assetExts": ["md"]
+    },
+    "plugins": [
+      "@vonovak/react-native-theme-control",
+      "expo-localization",
+      "expo-router",
+      "sentry-expo"
+    ],
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "scheme": "poulailler",
+    "slug": "coworking-mobile",
+    "splash": {
+      "backgroundColor": "#E9B142",
+      "image": "./src/assets/images/splash.png",
+      "resizeMode": "contain"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/d4548eb7-404d-4a34-a484-8c0a1f01e0d6"
+    },
+    "userInterfaceStyle": "automatic",
+    "version": "1.0.0"
   }
 }

@@ -1,0 +1,26 @@
+{
+  "byDay": {
+    "list": {
+      "forecast": "Prévision",
+      "label": "{{start}}h - {{end}}h",
+      "title": "Fréquentation par heure"
+    },
+    "title": "Présents le {{day}}",
+    "type": {
+      "CURRENT": "Ce {{day}}",
+      "PREVIOUS": "{{day}} dernier",
+      "TODAY": "Aujourd'hui"
+    }
+  },
+  "byWeek": {
+    "list": {
+      "forecast": "Prévision",
+      "title": "Fréquentation journalière"
+    },
+    "title": "Présents la semaine",
+    "type": {
+      "CURRENT": "Actuelle",
+      "PREVIOUS": "Précédente"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "amourFood": {
+    "date": "{{date, datetime}}",
+    "onFetchFail": {
+      "action": "Read more",
+      "message": "Unable to fetch today menu"
+    },
+    "order": "Order"
+  },
+  "intercom": {
+    "description": "for a brief moment",
+    "label": "Unlock steel gate",
+    "loading": "requesting...",
+    "onFail": {
+      "message": "Unable to unlock 😔"
+    },
+    "onSuccessiveTaps": {
+      "action": "Yes",
+      "message": "Is there something wrong?"
+    },
+    "onUnlocked": {
+      "description": "locking in ",
+      "label": "Gate is unlocked!"
+    }
+  },
+  "onAged": {
+    "message": "Last refresh {{since}}"
+  },
+  "parking": {
+    "description": "by opening the gate",
+    "label": "Access parking spots",
+    "loading": "requesting...",
+    "onFail": {
+      "message": "Unable to open 😔"
+    },
+    "onSuccessiveTaps": {
+      "action": "Yes",
+      "message": "Is there something wrong?"
+    },
+    "onUnlocked": {
+      "description": "closing in ",
+      "label": "Gate is open!"
+    }
+  },
+  "people": {
+    "capacity": " out of {{total}}",
+    "onFetchFail": {
+      "action": "Read more",
+      "message": "Unable to fetch occupancy"
+    },
+    "present_one": "A single person is here",
+    "present_other": "occupied desks",
+    "present_zero": "Nobody there"
+  },
+  "tickets": {
+    "coupons": {
+      "available_one": "Last one!",
+      "available_other": "{{count}} available",
+      "available_zero": "None left",
+      "depleted_one": "One overconsumed",
+      "depleted_other": "{{count}} overconsumed",
+      "description": "Tickets have unlimited validity, and each ticket is equivalent to two half-days.\nPresence of less than 5 hours in a day corresponds to half a day.",
+      "label": "Individual tickets",
+      "order": "Buy"
+    },
+    "subscription": {
+      "description": "Subscription allows access to the coworking space for 30 rolling days starting from the chosen start date.",
+      "expiration": "{{expired, datetime }}",
+      "label": "Subscription",
+      "order": "Renew",
+      "status": {
+        "expiredSince": "Subscription expired since",
+        "ongoingUntil": "Subscription valid until"
+      }
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "amourFood": {
+    "date": "Ce {{date, datetime}}",
+    "onFetchFail": {
+      "action": "En savoir plus",
+      "message": "Impossible de récupérer le menu"
+    },
+    "order": "Commander"
+  },
+  "intercom": {
+    "description": "pendant un court instant",
+    "label": "Déverrouiller le portail",
+    "loading": "demande en cours...",
+    "onFail": {
+      "message": "Impossible de\ndéverrouiller 😔"
+    },
+    "onSuccessiveTaps": {
+      "action": "Oui",
+      "message": "Quelque chose ne va pas ?"
+    },
+    "onUnlocked": {
+      "description": "verrouillage dans ",
+      "label": "C'est ouvert !"
+    }
+  },
+  "onAged": {
+    "message": "Dernière mise à jour {{since}}"
+  },
+  "parking": {
+    "description": "en ouvrant la barrière",
+    "label": "Accéder au parking",
+    "loading": "demande en cours...",
+    "onFail": {
+      "message": "Impossible\nd'ouvrir 😔"
+    },
+    "onSuccessiveTaps": {
+      "action": "Oui",
+      "message": "Quelque chose ne va pas ?"
+    },
+    "onUnlocked": {
+      "description": "fermeture dans ",
+      "label": "La barrière est ouverte !"
+    }
+  },
+  "people": {
+    "capacity": " sur {{total}}",
+    "onFetchFail": {
+      "action": "En savoir plus",
+      "message": "Impossible de récupérer l'occupation actuelle"
+    },
+    "present_one": "Une seule personne présente",
+    "present_other": "postes occupés",
+    "present_zero": "Aucune personne présente"
+  },
+  "tickets": {
+    "coupons": {
+      "available_one": "C'est le dernier !",
+      "available_other": "{{count}} disponibles",
+      "available_zero": "Y'en a plus 😔",
+      "depleted_one": "Un surconsommé",
+      "depleted_other": "{{count}} surconsommés",
+      "description": "Les tickets sont sans fin de validité et chaque ticket équivaut à deux demi-journées.\nUne présence de moins de 5 heures sur une journée correspond à une demi-journée.",
+      "label": "Tickets à la journée",
+      "order": "Acheter"
+    },
+    "subscription": {
+      "description": "L'abonnement permet d'accéder au Coworking sur 30 jours glissants à compter de la date de début choisie.",
+      "expiration": "{{expired, datetime }}",
+      "label": "Abonnement",
+      "order": "Renouveler",
+      "status": {
+        "expiredSince": "Abonnement expiré le",
+        "ongoingUntil": "Abonnement valide jusqu'au"
+      }
+    }
+  }
+}

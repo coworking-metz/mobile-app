@@ -1,0 +1,37 @@
+{
+  "credits": {
+    "lordicon": {
+      "label": "Animated by Lordicon"
+    },
+    "title": "Credits"
+  },
+  "description": "this application",
+  "legal": {
+    "license": {
+      "label": "License"
+    },
+    "title": "Legal"
+  },
+  "opensource": {
+    "github": {
+      "label": "GitHub"
+    },
+    "gitlab": {
+      "label": "GitLab"
+    },
+    "title": "Open Source"
+  },
+  "technical": {
+    "buildDate": {
+      "label": "Build date"
+    },
+    "buildNumber": {
+      "label": "Build number"
+    },
+    "title": "Technical",
+    "version": {
+      "label": "Version"
+    }
+  },
+  "title": "About"
+}
