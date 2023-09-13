@@ -14,7 +14,7 @@ const BeProductiveStep = ({ containerHeight }: { active: boolean; containerHeigh
 
   useEffect(() => {
     if (animation.current && !isPlaying) {
-      animation.current.play();
+      requestAnimationFrame(() => animation.current?.play());
       setPlaying(true);
     }
   }, [animation, isPlaying]);

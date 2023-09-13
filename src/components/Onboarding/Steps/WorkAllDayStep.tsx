@@ -22,7 +22,7 @@ const WorkAllDayStep = ({
 
   useEffect(() => {
     if (animation.current && !isPlaying) {
-      animation.current.play();
+      requestAnimationFrame(() => animation.current?.play());
       setPlaying(true);
     }
   }, [animation, isPlaying]);

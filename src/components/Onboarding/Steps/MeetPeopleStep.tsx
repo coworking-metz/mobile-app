@@ -21,7 +21,7 @@ const MeetPeopleStep = ({
 
   useEffect(() => {
     if (animation.current && active && !isPlaying) {
-      animation.current.play();
+      requestAnimationFrame(() => animation.current?.play());
       setPlaying(true);
     }
   }, [animation, active, isPlaying]);
