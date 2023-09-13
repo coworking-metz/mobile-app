@@ -3,7 +3,7 @@ name: coworking-mobile
 services:
   mockoon:
     container_name: coworking-mobile-mockoon
-    image: mockoon/cli:4.0.0
+    image: mockoon/cli:4.1.0
     entrypoint: "mockoon-cli start -d /mock.json --port=3001 -l 0.0.0.0 --daemon-off"
     ports:
       - 3001:3001
