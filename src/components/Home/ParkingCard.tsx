@@ -199,8 +199,8 @@ const ParkingCard: ForwardRefRenderFunction<
           <BarrierAnimation
             ref={animation}
             autoPlay={false}
-            color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
             loop={false}
+            progress={0.133}
             style={isLoading && { opacity: 0 }}
           />
         </View>
