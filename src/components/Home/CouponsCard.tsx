@@ -1,9 +1,9 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text } from 'react-native';
-import { ProgressBar } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 
@@ -84,19 +84,29 @@ const BalanceCard = ({
         </>
       )}
 
-      {count >= 0 ? (
-        <ProgressBar
-          progress={count < total ? (count / total) * 100 : 100}
-          progressColor={theme.meatBrown}
-          style={tw`absolute bottom-0 h-2 left-0 right-0 bg-neutral-300 dark:bg-gray-800`}
-        />
-      ) : (
-        <ProgressBar
-          progress={-count < MAX_DEPLETION_ALLOWED ? (-count / MAX_DEPLETION_ALLOWED) * 100 : 100}
-          progressColor={tw.prefixMatch('dark') ? tw.color('red-700') : tw.color('red-600')}
-          style={tw`absolute bottom-0 h-2 left-0 right-0 bg-neutral-300 dark:bg-gray-800`}
-        />
-      )}
+      <View style={tw`absolute bottom-0 left-0 right-0 h-2 bg-neutral-300 dark:bg-gray-800`}>
+        {count >= 0 ? (
+          <LinearGradient
+            colors={[theme.peachYellow, theme.meatBrown]}
+            end={{ x: 1, y: 0 }}
+            start={{ x: 0, y: 1 }}
+            style={tw`rounded-full h-full w-[${count < total ? (count / total) * 100 : 100}%]`}
+          />
+        ) : (
+          <LinearGradient
+            colors={
+              tw.prefixMatch('dark')
+                ? ([tw.color('red-700'), tw.color('red-900')] as string[])
+                : ([tw.color('red-600'), tw.color('red-800')] as string[])
+            }
+            end={{ x: 1, y: 0 }}
+            start={{ x: 0, y: 1 }}
+            style={tw`rounded-full h-full w-[${
+              -count < MAX_DEPLETION_ALLOWED ? (-count / MAX_DEPLETION_ALLOWED) * 100 : 100
+            }%]`}
+          />
+        )}
+      </View>
     </View>
   );
 };

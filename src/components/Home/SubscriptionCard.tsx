@@ -1,5 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text } from 'react-native';
@@ -42,11 +43,14 @@ const SubscriptionCard = ({ expired, since, ...props }: { expired: string; since
         size={36}
         style={tw`self-center shrink-0`}
       />
-      <ProgressBar
-        progress={getTimeleft(since, expired) * 100}
-        progressColor={theme.meatBrown}
-        style={tw`h-2 absolute bottom-0 left-0 right-0 bg-neutral-300 dark:bg-gray-800`}
-      />
+      <View style={tw`absolute bottom-0 left-0 right-0 h-2 bg-neutral-300 dark:bg-gray-800`}>
+        <LinearGradient
+          colors={[theme.peachYellow, theme.meatBrown]}
+          end={{ x: 1, y: 0 }}
+          start={{ x: 0, y: 1 }}
+          style={tw`rounded-full h-full w-[${getTimeleft(since, expired) * 100}%]`}
+        />
+      </View>
     </View>
   );
 };
