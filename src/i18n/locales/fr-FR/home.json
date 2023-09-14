@@ -57,6 +57,10 @@
       "available_one": "C'est le dernier !",
       "available_other": "{{count}} disponibles",
       "available_zero": "Y'en a plus 😔",
+      "balance": {
+        "label": "Solde",
+        "onDepleted": "Une surconsommation excessive peut entraîner une suspension de vos accès 😔"
+      },
       "depleted_one": "Un surconsommé",
       "depleted_other": "{{count}} surconsommés",
       "description": "Les tickets sont sans fin de validité et chaque ticket équivaut à deux demi-journées.\nUne présence de moins de 5 heures sur une journée correspond à une demi-journée.",
@@ -69,8 +73,9 @@
       "label": "Abonnement",
       "order": "Renouveler",
       "status": {
-        "expiredSince": "Abonnement expiré le",
-        "ongoingUntil": "Abonnement valide jusqu'au"
+        "expiredSince": "{{prefix}}expiré le",
+        "ongoingUntil": "{{prefix}}valide jusqu'au",
+        "prefix": "Abonnement "
       }
     }
   }

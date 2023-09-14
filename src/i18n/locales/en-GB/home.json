@@ -57,6 +57,10 @@
       "available_one": "Last one!",
       "available_other": "{{count}} available",
       "available_zero": "None left",
+      "balance": {
+        "label": "Balance",
+        "onDepleted": "Excessive overconsumption can lead to a suspension of your access 😔"
+      },
       "depleted_one": "One overconsumed",
       "depleted_other": "{{count}} overconsumed",
       "description": "Tickets have unlimited validity, and each ticket is equivalent to two half-days.\nPresence of less than 5 hours in a day corresponds to half a day.",
@@ -69,8 +73,9 @@
       "label": "Subscription",
       "order": "Renew",
       "status": {
-        "expiredSince": "Subscription expired since",
-        "ongoingUntil": "Subscription valid until"
+        "expiredSince": "{{prefix}}expired since",
+        "ongoingUntil": "{{prefix}}valid until",
+        "prefix": "Subscription "
       }
     }
   }

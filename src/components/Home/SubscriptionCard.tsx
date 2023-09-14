@@ -24,8 +24,12 @@ const SubscriptionCard = ({ expired, since, ...props }: { expired: string; since
       <View style={tw`flex flex-col shrink-1`}>
         <Text numberOfLines={1} style={tw`text-base text-slate-500 dark:text-slate-400`}>
           {dayjs().isBefore(expired)
-            ? t('home.tickets.subscription.status.ongoingUntil')
-            : t('home.tickets.subscription.status.expiredSince')}
+            ? t('home.tickets.subscription.status.ongoingUntil', {
+                prefix: t('home.tickets.subscription.status.prefix'),
+              })
+            : t('home.tickets.subscription.status.expiredSince', {
+                prefix: t('home.tickets.subscription.status.prefix'),
+              })}
         </Text>
         <Text style={tw`text-2xl text-slate-900 dark:text-gray-200`}>
           {t('home.tickets.subscription.expiration', {

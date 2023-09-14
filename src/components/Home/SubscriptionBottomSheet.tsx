@@ -1,5 +1,7 @@
 import CaldendarAnimation from '../Animations/CaldendarAnimation';
 import AppBottomSheet from '../AppBottomSheet';
+import ServiceRow from '../Settings/ServiceRow';
+import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -35,6 +37,23 @@ const SubscriptionBottomSheet = ({
         <Text style={tw`text-left text-base text-slate-500 dark:text-slate-400 w-full`}>
           {t('home.tickets.subscription.description')}
         </Text>
+        <ServiceRow
+          description={
+            dayjs().isBefore(subscription.endDate)
+              ? t('home.tickets.subscription.status.ongoingUntil', { prefix: '' })
+              : t('home.tickets.subscription.status.expiredSince', { prefix: '' })
+          }
+          label={t('home.tickets.subscription.label')}
+          style={tw`w-full px-0`}>
+          <Text style={tw`text-base text-slate-500 ml-auto`}>
+            {t('home.tickets.subscription.expiration', {
+              expired: new Date(subscription.endDate),
+              formatParams: {
+                expired: { weekday: 'long', month: 'long', day: 'numeric' },
+              },
+            })}
+          </Text>
+        </ServiceRow>
         <Link asChild href="https://www.coworking-metz.fr/boutique/pass-resident/">
           <Button backgroundColor={theme.darkVanilla} style={tw`h-14 self-stretch`}>
             <Text style={tw`text-base font-medium`}>{t('home.tickets.subscription.order')}</Text>
