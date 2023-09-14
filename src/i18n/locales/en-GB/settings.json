@@ -22,6 +22,10 @@
   },
   "profile": {
     "presence": {
+      "onFail": {
+        "action": "Learn more",
+        "message": "Unable to fetch presence"
+      },
       "title": "My presence"
     }
   },
@@ -30,7 +34,10 @@
       "label": "My account"
     },
     "contact": {
-      "label": "Contact the team"
+      "label": "Contact the team",
+      "onFail": {
+        "message": "Unable to contact the team"
+      }
     },
     "help": {
       "label": "Help"

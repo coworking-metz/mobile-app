@@ -23,6 +23,7 @@
   "profile": {
     "presence": {
       "onFail": {
+        "action": "En savoir plus",
         "message": "Impossible de récupérer la présence"
       },
       "title": "Ma présence"
@@ -35,7 +36,6 @@
     "contact": {
       "label": "Contacter l'équipe",
       "onFail": {
-        "action": "Détail",
         "message": "Impossible de contacter l'équipe"
       }
     },

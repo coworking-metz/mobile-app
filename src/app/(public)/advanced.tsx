@@ -4,10 +4,11 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
-import { ToastPresets } from 'react-native-ui-lib';
+import { Switch, ToastPresets } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
+import { theme } from '@/helpers/colors';
 import { parseErrorText } from '@/helpers/error';
 import { HTTP } from '@/services/http';
 import useAuthStore from '@/stores/auth';
@@ -89,7 +90,11 @@ const Advanced = () => {
         withBottomDivider
         label={t('advanced.store.onboarding.label')}
         style={tw`px-3 mx-3`}>
-        <Text style={tw`text-base text-slate-500 ml-auto`}>{`${settingsStore.hasOnboard}`}</Text>
+        <Switch
+          value={settingsStore.hasOnboard}
+          onColor={theme.meatBrown}
+          onValueChange={(value) => settingsStore.setOnboard(value)}
+        />
       </ServiceRow>
       <ServiceRow
         withBottomDivider

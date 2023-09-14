@@ -3,8 +3,7 @@ import dayjs from 'dayjs';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text } from 'react-native';
-import { ProgressBar } from 'react-native-ui-lib';
+import { Text, View } from 'react-native';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 

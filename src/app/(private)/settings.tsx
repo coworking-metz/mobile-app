@@ -24,7 +24,7 @@ import ServiceRow from '@/components/Settings/ServiceRow';
 import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 import ThemePicker from '@/components/Settings/ThemePicker';
 import { theme } from '@/helpers/colors';
-import { parseErrorText } from '@/helpers/error';
+import { handleSilentError, parseErrorText } from '@/helpers/error';
 import { getLanguageLabel, SYSTEM_LANGUAGE } from '@/i18n';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -100,13 +100,27 @@ const Settings = () => {
 
   useEffect(() => {
     if (!userStore.presenceTimeline.length) {
-      userStore.fetchPresenceTimeline().catch(() => {
-        toastStore.add({
-          message: t('settings.profile.presence.onFail.message'),
-          type: ToastPresets.FAILURE,
-          timeout: 3000,
+      userStore
+        .fetchPresenceTimeline()
+        .catch(handleSilentError)
+        .catch(async (error) => {
+          const errorMessage = await parseErrorText(error);
+          const toast = toastStore.add({
+            message: t('settings.profile.presence.onFail.message'),
+            type: ToastPresets.FAILURE,
+            action: {
+              label: t('settings.profile.presence.onFail.action'),
+              onPress: () => {
+                noticeStore.add({
+                  message: t('settings.profile.presence.onFail.message'),
+                  description: errorMessage,
+                  type: 'error',
+                });
+                toastStore.dismiss(toast.id);
+              },
+            },
+          });
         });
-      });
     }
   }, []);
 

@@ -20,7 +20,7 @@
       }
     },
     "onboarding": {
-      "label": "User has dismissed or completed onboarding"
+      "label": "Onboarding dismissed or completed"
     },
     "refreshToken": {
       "label": "Refresh token",

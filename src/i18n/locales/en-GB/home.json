@@ -2,7 +2,7 @@
   "amourFood": {
     "date": "{{date, datetime}}",
     "onFetchFail": {
-      "action": "Read more",
+      "action": "Learn more",
       "message": "Unable to fetch today menu"
     },
     "order": "Order"
@@ -45,7 +45,7 @@
   "people": {
     "capacity": " out of {{total}}",
     "onFetchFail": {
-      "action": "Read more",
+      "action": "Learn more",
       "message": "Unable to fetch occupancy"
     },
     "present_one": "A single person is here",
