@@ -50,6 +50,30 @@ eas build --profile preview --platform ios --local
 
 Then `Xcode` -> `CMD + SHIFT + 2` -> `Devices` -> finally drag and drop the `.ipa` file.
 
+## Deploy
+
+Everything is done through [Expo Application Services](https://docs.expo.dev/guides/overview/).
+
+### Build for staging
+
+```bash
+eas build --profile preview --platform all
+eas build --profile preview --platform ios # only for iOS
+eas build --profile preview --platform android # only for Android
+```
+
+### Build for production
+
+```bash
+eas build --profile production --platform all
+```
+
+### Submit
+
+```bash
+eas submit
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details

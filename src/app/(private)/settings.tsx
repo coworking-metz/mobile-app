@@ -158,7 +158,10 @@ const Settings = () => {
 
         {/* this is the footer below the scrollview */}
         <AppFooter
-          style={[tw`absolute bottom-0 mx-auto self-center px-3`, { marginBottom: insets.bottom }]}
+          style={[
+            tw`absolute bottom-0 mx-auto self-center py-6 px-3`,
+            { marginBottom: insets.bottom },
+          ]}
           onLayout={({ nativeEvent }: LayoutChangeEvent) => {
             setFooterHeight(nativeEvent.layout.height);
             setFooterWidth(nativeEvent.layout.width);
