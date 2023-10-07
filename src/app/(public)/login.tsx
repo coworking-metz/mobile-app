@@ -9,7 +9,7 @@ import {
 } from 'expo-web-browser';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, ScrollView, Text, TouchableNativeFeedback, View } from 'react-native';
+import { Linking, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';

@@ -4,8 +4,17 @@ import { Text, View } from 'react-native';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import StandingWorkAnimation from '@/components/Animations/StandingWorkAnimation';
+import WorkOnTheGoAnimation from '@/components/Animations/WorkOnTheGoAnimation';
+import ThemePicker from '@/components/Settings/ThemePicker';
 
-const BeProductiveStep = ({ containerHeight }: { active: boolean; containerHeight?: number }) => {
+const ServicesStep = ({
+  containerHeight,
+  onPickingTheme,
+}: {
+  active: boolean;
+  containerHeight?: number;
+  onPickingTheme: () => void;
+}) => {
   const { t } = useTranslation();
   const animation = useRef<LottieView>(null);
   // as there is no way to know whether the animation is playing
@@ -28,24 +37,29 @@ const BeProductiveStep = ({ containerHeight }: { active: boolean; containerHeigh
             ...(containerHeight && { height: containerHeight / 2 }),
           },
         ]}>
-        <StandingWorkAnimation
+        <WorkOnTheGoAnimation
           ref={animation}
           loop
           autoPlay={false}
           progress={0.5}
-          style={tw`w-full max-w-[256px] mb-[-92px]`}
+          style={tw`w-[320px]`}
         />
       </View>
-      <View style={tw`mt-4 flex flex-col self-stretch px-6 justify-start items-start`}>
+      <View
+        style={[
+          tw`mt-4 flex flex-col self-stretch px-6 justify-start items-start`,
+          { ...(containerHeight && { minHeight: containerHeight / 2 - 60 }) },
+        ]}>
         <Text style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-          {t('onboarding.beProductive.title')}
+          {t('onboarding.services.title')}
         </Text>
-        <Text style={tw`mt-4 text-base text-gray-500`}>
-          {t('onboarding.beProductive.description')}
-        </Text>
+        <Text style={tw`mt-4 text-base text-gray-500`}>{t('onboarding.services.description')}</Text>
+        <View style={tw`mt-auto w-full`}>
+          <ThemePicker onPress={onPickingTheme} />
+        </View>
       </View>
     </>
   );
 };
 
-export default BeProductiveStep;
+export default ServicesStep;

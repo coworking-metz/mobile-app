@@ -55,22 +55,22 @@ const MobileAppAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> =
         // 'layers.12.shapes.0.it.2.c.k': '#ff0000',
         // // Phone.Buttons.Fill 1
         // 'layers.13.shapes.0.it.2.c.k': '#eaeaea',
-        'layers.13.shapes.0.it.2.c.k': (tw.prefixMatch('dark')
-          ? tw.color('zinc-900')
-          : tw.color('gray-100')) as string,
+        // 'layers.13.shapes.0.it.2.c.k': (tw.prefixMatch('dark')
+        //   ? tw.color('zinc-900')
+        //   : tw.color('gray-100')) as string,
         // // Phone.Screen.Stroke 1
         // 'layers.13.shapes.1.it.1.c.k': '#201d1d',
         // // Phone.Screen.Fill 1
         // 'layers.13.shapes.1.it.2.c.k': '#eaeaea',
-        'layers.13.shapes.1.it.2.c.k': (tw.prefixMatch('dark')
-          ? tw.color('zinc-900')
-          : tw.color('gray-100')) as string,
+        // 'layers.13.shapes.1.it.2.c.k': (tw.prefixMatch('dark')
+        //   ? tw.color('zinc-900')
+        //   : tw.color('gray-100')) as string,
         // // Phone.Background.Stroke 1
         // 'layers.13.shapes.2.it.1.c.k': '#201d1d',
         // // Phone.Background.Fill 1
-        'layers.13.shapes.2.it.2.c.k': (tw.prefixMatch('dark')
-          ? tw.color('black')
-          : tw.color('white')) as string,
+        // 'layers.13.shapes.2.it.2.c.k': (tw.prefixMatch('dark')
+        //   ? tw.color('black')
+        //   : tw.color('white')) as string,
         // // Shadow badge.Stroke 1
         // 'layers.14.shapes.1.c.k': '#eaeaea',
         // // Line + Shadow.Stroke 1

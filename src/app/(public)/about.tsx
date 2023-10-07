@@ -37,6 +37,14 @@ const About = () => {
       </ServiceRow>
 
       <Text style={tw`text-sm uppercase text-slate-500 mx-6 mt-6`}>{t('about.credits.title')}</Text>
+      <Link asChild href="https://lottiefiles.com/">
+        <ServiceRow
+          description="https://lottiefiles.com/"
+          label={t('about.credits.lottiefiles.label')}
+          style={tw`px-3 mx-3`}
+          suffixIcon="open-in-new"
+        />
+      </Link>
       <Link asChild href="https://lordicon.com/">
         <ServiceRow
           description="https://lordicon.com/"

@@ -9,7 +9,7 @@ import ServiceRow from '@/components/Settings/ServiceRow';
 import { getLanguageLabel, SYSTEM_LANGUAGE } from '@/i18n';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 
-const WhatIsThisStep = ({
+const AboutStep = ({
   active,
   containerHeight,
   onPickingLanguage,
@@ -59,17 +59,17 @@ const WhatIsThisStep = ({
           <Animated.Text
             entering={FadeInLeft.duration(750).delay(150)}
             style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-            {t('onboarding.whatIsThis.title')}
+            {t('onboarding.about.title')}
           </Animated.Text>
           <Animated.Text
             entering={FadeInLeft.duration(750).delay(300)}
             style={tw`text-xl text-slate-500 dark:text-slate-400`}>
-            {t('onboarding.whatIsThis.headline')}
+            {t('onboarding.about.headline')}
           </Animated.Text>
           <Animated.Text
             entering={FadeInDown.duration(750).delay(500)}
             style={tw`mt-4 text-base text-gray-500`}>
-            {t('onboarding.whatIsThis.description')}
+            {t('onboarding.about.description')}
           </Animated.Text>
           <Animated.View entering={FadeInDown.duration(750).delay(500)} style={tw`mt-auto w-full`}>
             <ServiceRow
@@ -93,4 +93,4 @@ const WhatIsThisStep = ({
   );
 };
 
-export default WhatIsThisStep;
+export default AboutStep;

@@ -16,10 +16,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import PaginationDot from '@/components/Onboarding/PaginationDot';
 import Step from '@/components/Onboarding/Step';
-import BeProductiveStep from '@/components/Onboarding/Steps/BeProductiveStep';
-import MeetPeopleStep from '@/components/Onboarding/Steps/MeetPeopleStep';
-import WhatIsThisStep from '@/components/Onboarding/Steps/WhatIsThisStep';
-import WorkAllDayStep from '@/components/Onboarding/Steps/WorkAllDayStep';
+import AboutStep from '@/components/Onboarding/Steps/AboutStep';
+import ActivityStep from '@/components/Onboarding/Steps/ActivityStep';
+import EventsStep from '@/components/Onboarding/Steps/EventsStep';
+import ServicesStep from '@/components/Onboarding/Steps/ServicesStep';
 import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
 import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 import { theme } from '@/helpers/colors';
@@ -58,24 +58,24 @@ const Onboarding = () => {
 
   const screens: OnboardingScreen[] = [
     {
-      key: 'what-is-this',
+      key: 'about',
       component: (active: boolean) => (
-        <WhatIsThisStep active={active} onPickingLanguage={() => setPickingLanguage(true)} />
+        <AboutStep active={active} onPickingLanguage={() => setPickingLanguage(true)} />
       ),
     },
     {
-      key: 'work-all-day',
+      key: 'activity',
+      component: (active: boolean) => <ActivityStep active={active} />,
+    },
+    {
+      key: 'services',
       component: (active: boolean) => (
-        <WorkAllDayStep active={active} onPickingTheme={() => setPickingTheme(true)} />
+        <ServicesStep active={active} onPickingTheme={() => setPickingTheme(true)} />
       ),
     },
     {
-      key: 'be-productive',
-      component: (active: boolean) => <BeProductiveStep active={active} />,
-    },
-    {
-      key: 'meet-people',
-      component: (active: boolean) => <MeetPeopleStep active={active} />,
+      key: 'events',
+      component: (active: boolean) => <EventsStep active={active} />,
     },
   ];
 

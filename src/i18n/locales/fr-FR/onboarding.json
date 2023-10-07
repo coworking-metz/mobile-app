@@ -1,19 +1,20 @@
 {
-  "beProductive": {
-    "description": "Profitez de l'espace collaboratif ou des phone boxes à disposition pour vos échanges, que ce soit en petit groupe jusqu'à 4 personnes ou en individuel.\n\nEt pour vos réunions ou événements plus importants, des salles de réunion lumineuses et accueillantes sont disponibles à la location.",
-    "title": "D'échange"
-  },
-  "meetPeople": {
-    "description": "Des pauses café empreintes de convivialité, des petits déjeuners qui réchauffent le cœur, et les événements du Poulailler ainsi que les festivals organisés avec une passion débordante par Bliiida vous ouvriront les portes de rencontres palpitantes !\n\nSous oublier la cantina l'Amour Food, où chaque midi, vous pourrez déguster des plats exquis qui éveilleront vos papilles 😋",
-    "title": "Et de rencontre"
-  },
-  "whatIsThis": {
-    "description": "Découvrez une application qui vous offre un accès rapide et pratique à la fois aux informations générales et à vos données personnalisées.\n\nQue ce soit pour vos abonnements, les événements à ne pas manquer, ou encore les places disponibles, tout est à portée de pouce !\n\nPar ailleurs, est-ce que le Français vous convient ?",
+  "about": {
+    "description": "Découvrez un accès rapide et pratique aux informations du Coworking Metz et à ses services.\n\nQue ce soit pour consulter les places disponibles, les événements à ne pas manquer, ou encore accéder au lieu, tout est à portée de pouce !\n\nPar ailleurs, est-ce que le Français vous convient ?",
     "headline": "Dans votre poche",
     "title": "Le Poulailler"
   },
-  "workAllDay": {
-    "description": "Que vous souhaitiez passer toute la journée ou seulement quelques heures (de 7h à 23h), notre espace vous accueille.\n\nVous avez la liberté de choisir votre emplacement et de profiter de tous les équipements nécessaires, y compris un éclairage adapté pour une atmosphère parfaite, des écrans et des prises électriques.\n\nEt parce que nous aimons que vous vous sentiez comme à la maison, vous pouvez également personnaliser l'ambiance lumineuse de l'application.\nPréférez-vous une ambiance qui s'ajuste automatiquement, une luminosité claire ou une atmosphère plus sombre ?",
-    "title": "Un lieu de travail"
+  "activity": {
+    "description": "Pour anticiper la disponibilité de l'open space, ouvert de 7h à 23h, suivez en temps réel le nombre de coworkers présents et consultez les prévisions pour les prochaines heures et jours.\n\nVotre historique personnel, ainsi que le détail de votre abonnement et de vos tickets sont également disponibles en un clin d'oeil.",
+    "headline": "D'hier, d'aujourd'hui et de demain",
+    "title": "Consultez l'activité"
+  },
+  "events": {
+    "description": "Accédez au calendrier complet des événements à venir, organisés par l'association ou par Bliiida.\nEt n'oubliez pas de jeter un coup d'œil au repas de midi proposé par l'Amour Food.\n\nVous ne manquerez plus aucune occasion de rencontrer de nouvelles personnes et de vivre des expériences mémorables !",
+    "title": "Restez informé"
+  },
+  "services": {
+    "description": "Que ce soit à pied, à vélo, ou en voiture, vous avez le contrôle complet pour ouvrir la barrière du parking ou déverrouiller la porte d'entrée piétonne et vélo, quand vous le souhaitez.\n\nEt parce que nous aimons vous offrir des options, vous pouvez également personnaliser votre expérience.\nQuelle ambiance préférez-vous ?",
+    "title": "Venez comme vous voulez"
   }
 }
