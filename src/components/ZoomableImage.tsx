@@ -27,7 +27,7 @@ const ZoombableImage = ({
     });
   }, []);
 
-  if (!width || !height) return null;
+  if (!width || !height) return <View style={[tw`bg-gray-200 dark:bg-gray-900`, style]} />;
 
   return (
     <>

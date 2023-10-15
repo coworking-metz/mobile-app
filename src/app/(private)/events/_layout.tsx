@@ -6,7 +6,7 @@ import tw, { useDeviceContext } from 'twrnc';
 
 import { theme } from '@/helpers/colors';
 
-export default function PresenceLayout() {
+export default function EventsLayout() {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -39,12 +39,12 @@ export default function PresenceLayout() {
           },
         }}>
         <Stack.Screen
-          name="by-week"
+          name="calendar"
           options={{
             animationTypeForReplace: 'pop',
           }}
         />
-        <Stack.Screen name="by-day" />
+        <Stack.Screen name="[id]" />
       </Stack>
     </View>
   );

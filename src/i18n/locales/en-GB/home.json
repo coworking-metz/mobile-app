@@ -23,9 +23,6 @@
       "label": "Gate is unlocked!"
     }
   },
-  "onAged": {
-    "message": "Last refresh {{since}}"
-  },
   "parking": {
     "description": "by opening the gate",
     "label": "Access parking spots",

@@ -1,11 +1,16 @@
 {
-  "amourFood": {
-    "date": "Ce {{date, datetime}}",
+  "calendar": {
+    "all": {
+      "description": "Consulter le calendrier",
+      "label": "Tous les évènements"
+    },
+    "event": {
+      "date": "Ce {{date, datetime}}"
+    },
     "onFetchFail": {
       "action": "En savoir plus",
-      "message": "Impossible de récupérer le menu"
-    },
-    "order": "Commander"
+      "message": "Impossible de récupérer les évènements"
+    }
   },
   "intercom": {
     "description": "pendant un court instant",
@@ -22,9 +27,6 @@
       "description": "verrouillage dans ",
       "label": "C'est ouvert !"
     }
-  },
-  "onAged": {
-    "message": "Dernière mise à jour {{since}}"
   },
   "parking": {
     "description": "en ouvrant la barrière",

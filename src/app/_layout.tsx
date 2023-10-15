@@ -65,7 +65,6 @@ const RootLayout = () => {
                 name="(private)/presence"
                 options={{
                   presentation: 'modal',
-                  // animation: 'fade',
                 }}
               />
               <Stack.Screen
@@ -73,6 +72,12 @@ const RootLayout = () => {
                 options={{
                   headerShown: false,
                   animation: 'fade',
+                }}
+              />
+              <Stack.Screen
+                name="(private)/events"
+                options={{
+                  presentation: 'modal',
                 }}
               />
             </Stack>

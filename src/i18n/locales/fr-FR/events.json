@@ -1,0 +1,8 @@
+{
+  "calendar": {
+    "title": "Tous les évènements"
+  },
+  "detail": {
+    "date": "Ce {{date, datetime}}"
+  }
+}

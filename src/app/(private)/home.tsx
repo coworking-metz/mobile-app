@@ -1,16 +1,10 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Link, useNavigation } from 'expo-router';
-import { isNil } from 'lodash';
+import { isNil, capitalize } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  AppState,
-  RefreshControl,
-  View,
-  useColorScheme,
-  type LayoutChangeEvent,
-} from 'react-native';
+import { AppState, RefreshControl, View, useColorScheme } from 'react-native';
 import Animated, {
   FadeIn,
   FadeInLeft,
@@ -18,14 +12,15 @@ import Animated, {
   FadeInUp,
   FadeOutUp,
 } from 'react-native-reanimated';
-import Carousel from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader, ToastPresets, TouchableOpacity } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
-import AmourFoodBottomSheet from '@/components/Home/AmourFoodBottomSheet';
-import AmoorFoodCard from '@/components/Home/AmourFoodCard';
+import CalendarAllEventsCard from '@/components/Home/CalendarAllEventsCard';
+import CalendarEventBottomSheet from '@/components/Home/CalendarEventBottomSheet';
+import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import CouponsBottomSheet from '@/components/Home/CouponsBottomSheet';
 import CouponsCard from '@/components/Home/CouponsCard';
+import HomeCarousel from '@/components/Home/HomeCarousel';
 import ParkingCard from '@/components/Home/ParkingCard';
 import PresenceCard from '@/components/Home/PresenceCard';
 import PresentsCount from '@/components/Home/PresentsCount';
@@ -35,9 +30,10 @@ import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnlockCard from '@/components/Home/UnlockCard';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
-import { getMenu, type AmourFoodMenu } from '@/services/api/amourFood';
+import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 import { getPresenceNow, type ApiCurrentPresence } from '@/services/api/presence';
 import useAuthStore from '@/stores/auth';
+import useCalendarStore from '@/stores/calendar';
 import useNoticeStore from '@/stores/notice';
 import usePresenceStore from '@/stores/presence';
 import useToastStore from '@/stores/toast';
@@ -47,7 +43,7 @@ dayjs.extend(relativeTime);
 
 const homeLogger = log.extend(`[${__filename.split('/').pop()}]`);
 
-const AGE_PERIOD_IN_SECONDS = 300; // 5 minutes
+const AGE_PERIOD_IN_SECONDS = Number(process.env.EXPO_PUBLIC_REFRESH_PERIOD || 300); // 5 minutes
 
 export default function HomeScreen({}) {
   useDeviceContext(tw);
@@ -57,16 +53,15 @@ export default function HomeScreen({}) {
   const insets = useSafeAreaInsets();
   const { profile, isFetchingProfile, fetchProfile } = useUserStore();
   const presenceStore = usePresenceStore();
+  const calendarStore = useCalendarStore();
   const noticeStore = useNoticeStore();
   const toastStore = useToastStore();
   const navigation = useNavigation();
   const [isReady, setReady] = useState(false);
-  const [isFetchingCurrentPresence, setCurrentPresenceFetching] = useState(false);
+  const [isFetchingCurrentPresence, setCurrentPresenceFetching] = useState(true);
   const [currentPresence, setCurrentPresence] = useState<ApiCurrentPresence | null>(null);
 
-  const [isFetchingMenu, setFetchingMenu] = useState(false);
-  const [todayMenu, setTodayMenu] = useState<AmourFoodMenu | null>(null);
-  const [selectedMenu, setSelectedMenu] = useState<AmourFoodMenu | null>(null);
+  const [selectedCalendarEvent, setSelectedCalendarEvent] = useState<CalendarEvent | null>(null);
 
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
@@ -75,7 +70,6 @@ export default function HomeScreen({}) {
   const [lastFetch, setLastFetch] = useState<string | null>(null);
   const [isAged, setAged] = useState<boolean>(false);
 
-  const [stackCardsWidth, setStackCardsWidth] = React.useState<number>(0);
   const stackCards = useMemo(
     () =>
       [
@@ -92,6 +86,30 @@ export default function HomeScreen({}) {
         </TouchableOpacity>,
       ].filter(Boolean),
     [profile, colorScheme, isReady, isFetchingProfile],
+  );
+
+  const calendarCards = useMemo(
+    () =>
+      [
+        <Link asChild href="/events/calendar" key={`all-calendar-events-card`}>
+          <TouchableOpacity>
+            <CalendarAllEventsCard loading={calendarStore.isFetchingEvents && !isReady} />
+          </TouchableOpacity>
+        </Link>,
+        ...calendarStore.events
+          .filter(
+            ({ start }) =>
+              dayjs().isSame(start, 'day') || dayjs().add(1, 'day').isSame(start, 'day'),
+          )
+          .map((event) => (
+            <Link asChild href={`/events/${event.id}`} key={`calendar-event-${event.id}-card`}>
+              <TouchableOpacity>
+                <CalendarEventCard event={event} />
+              </TouchableOpacity>
+            </Link>
+          )),
+      ].filter(Boolean),
+    [profile, colorScheme, isReady, calendarStore],
   );
 
   const fetchCurrentPresence = useCallback(() => {
@@ -121,21 +139,20 @@ export default function HomeScreen({}) {
       .finally(() => setCurrentPresenceFetching(false));
   }, []);
 
-  const fetchMenu = useCallback(() => {
-    setFetchingMenu(true);
-    return getMenu()
-      .then(setTodayMenu)
+  const fetchCalendarEvents = useCallback(() => {
+    return calendarStore
+      .fetchEvents()
       .catch(handleSilentError)
       .catch(async (error) => {
         const errorMessage = await parseErrorText(error);
         const toast = toastStore.add({
-          message: t('home.amourFood.onFetchFail.message'),
+          message: t('home.calendar.onFetchFail.message'),
           type: ToastPresets.FAILURE,
           action: {
-            label: t('home.amourFood.onFetchFail.action'),
+            label: t('home.calendar.onFetchFail.action'),
             onPress: () => {
               noticeStore.add({
-                message: t('home.amourFood.onFetchFail.message'),
+                message: t('home.calendar.onFetchFail.message'),
                 description: errorMessage,
                 type: 'error',
               });
@@ -144,8 +161,7 @@ export default function HomeScreen({}) {
           },
         });
         return Promise.reject(error);
-      })
-      .finally(() => setFetchingMenu(false));
+      });
   }, []);
 
   const fetchEverything = useCallback(() => {
@@ -154,7 +170,7 @@ export default function HomeScreen({}) {
       fetchCurrentPresence(),
       presenceStore.fetchWeekPresence(),
       presenceStore.fetchDayPresence(),
-      fetchMenu(),
+      fetchCalendarEvents(),
     ])
       .then(() => {
         setLastFetch(new Date().toISOString());
@@ -235,9 +251,7 @@ export default function HomeScreen({}) {
               entering={FadeInUp.duration(300)}
               exiting={FadeOutUp.duration(300)}
               style={tw`ml-3 text-sm text-slate-500 dark:text-slate-400 shrink grow`}>
-              {t('home.onAged.message', {
-                since: dayjs(lastFetch).fromNow(),
-              })}
+              {capitalize(dayjs(lastFetch).fromNow())}
             </Animated.Text>
           ) : null}
           <Link asChild href="/settings">
@@ -290,38 +304,17 @@ export default function HomeScreen({}) {
           </Link>
         </Animated.View>
 
-        <Animated.View
+        <HomeCarousel
+          elements={stackCards}
           entering={FadeInRight.duration(750).delay(400)}
           style={[tw`flex flex-col w-full overflow-visible h-24`]}
-          onLayout={({ nativeEvent }: LayoutChangeEvent) =>
-            setStackCardsWidth(nativeEvent.layout.width)
-          }>
-          {stackCardsWidth && stackCards.length ? (
-            <Carousel
-              snapEnabled
-              data={stackCards}
-              height={92}
-              loop={false}
-              renderItem={({ item, index }) => (
-                <View key={index} style={index > 0 && tw`ml-4`}>
-                  {item}
-                </View>
-              )}
-              style={[tw`flex flex-row w-full overflow-visible`]}
-              width={stackCards.length > 1 ? stackCardsWidth - 16 : stackCardsWidth}
-            />
-          ) : (
-            <></>
-          )}
-        </Animated.View>
+        />
 
-        <Animated.View
-          entering={FadeInLeft.duration(750).delay(600)}
-          style={tw`flex flex-col self-stretch`}>
-          <TouchableOpacity style={tw`grow basis-0`} onPress={() => setSelectedMenu(todayMenu)}>
-            <AmoorFoodCard loading={isFetchingMenu && !isReady} menu={todayMenu} />
-          </TouchableOpacity>
-        </Animated.View>
+        <HomeCarousel
+          elements={calendarCards}
+          entering={FadeInRight.duration(750).delay(600)}
+          style={[tw`flex flex-col w-full overflow-visible h-24`]}
+        />
 
         <Animated.View
           entering={FadeInUp.duration(500).delay(700)}
@@ -336,8 +329,11 @@ export default function HomeScreen({}) {
         </Animated.View>
       </Animated.ScrollView>
 
-      {selectedMenu ? (
-        <AmourFoodBottomSheet menu={selectedMenu} onClose={() => setSelectedMenu(null)} />
+      {selectedCalendarEvent ? (
+        <CalendarEventBottomSheet
+          event={selectedCalendarEvent}
+          onClose={() => setSelectedCalendarEvent(null)}
+        />
       ) : null}
 
       {profile?.subscription && hasSelectSubscription ? (

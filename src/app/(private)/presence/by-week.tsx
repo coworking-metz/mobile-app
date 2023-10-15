@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { BlurView } from 'expo-blur';
 import { Link } from 'expo-router';
+import { capitalize } from 'lodash';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, View } from 'react-native';
@@ -20,10 +21,11 @@ import PresenceCard from '@/components/Home/PresenceCard';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { type ApiPresence } from '@/services/api/presence';
 import usePresenceStore from '@/stores/presence';
+
 dayjs.extend(LocalizedFormat);
 
 const MAX_HEADER_HEIGHT = 144;
-const MIN_HEADER_HEIGHT = 56;
+const MIN_HEADER_HEIGHT = 64;
 const INTERPOLATE_INPUT = [
   -1,
   0,
@@ -35,10 +37,6 @@ enum PresenceType {
   PREVIOUS = 'PREVIOUS',
   CURRENT = 'CURRENT',
 }
-
-const capitalize = (str: string) => {
-  return `${str.charAt(0).toLocaleUpperCase()}${str.slice(1)}`;
-};
 
 const PRESENCE_TYPES = [PresenceType.PREVIOUS, PresenceType.CURRENT];
 
@@ -174,7 +172,7 @@ const PresenceByWeek = () => {
             ))}
           </Animated.View>
         </View>
-        <View style={[tw`w-full min-h-[14] grow`]}></View>
+        <View style={[tw`w-full min-h-14 grow`]}></View>
       </Animated.ScrollView>
 
       <Animated.View
