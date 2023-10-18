@@ -7,7 +7,13 @@ import { capitalize } from 'lodash';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View, useColorScheme } from 'react-native';
-import { AgendaList, CalendarProvider, WeekCalendar } from 'react-native-calendars';
+import {
+  AgendaList,
+  CalendarProvider,
+  ExpandableCalendar,
+  WeekCalendar,
+} from 'react-native-calendars';
+import { type MarkedDates } from 'react-native-calendars/src/types';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -118,7 +124,6 @@ const AllEvents = () => {
 
       <CalendarProvider
         key={colorScheme}
-        style={tw`bg-transparent`}
         date={new Date().toISOString().slice(0, 10)}
         // onDateChanged={onDateChanged}
         // onMonthChange={onMonthChange}
@@ -127,39 +132,59 @@ const AllEvents = () => {
         // theme={todayBtnTheme.current}
         // todayBottomMargin={16}>
       >
-        <WeekCalendar
+        {/* <WeekCalendar
           allowShadow={false}
           firstDay={1}
           theme={{
-            calendarBackground: 'transparent',
+            backgroundColor: tw.color('gray-100') as string,
+            calendarBackground: tw.color('gray-100') as string,
             todayTextColor: theme.meatBrown,
             selectedDayBackgroundColor: theme.meatBrown,
             selectedDayTextColor: theme.charlestonGreen,
           }}
           // markedDates={marked.current}
+        /> */}
+        <ExpandableCalendar
+          // horizontal={false}
+          // hideArrows
+          animateScroll
+          allowShadow={false}
+          firstDay={1}
+          markedDates={calendarStore.events.reduce((acc, event) => {
+            return {
+              ...acc,
+              [new Date(event.start).toISOString().slice(0, 10)]: {
+                marked: true,
+                dotColor: getEventCategoryLinearColors(event)[0],
+              },
+            };
+          }, {} as MarkedDates)}
+          style={tw`border-b-[1px] border-gray-200 dark:border-gray-800`}
+          // disablePan
+          // hideKnob
+          // initialPosition={ExpandableCalendar.positions.OPEN}
+          // calendarStyle={styles.calendar}
+          // headerStyle={styles.header} // for horizontal only
+          // disableWeekScroll
+          // leftArrowImageSource={leftArrowIcon}
+          // markedDates={marked.current}
+          // theme={theme.current}
+          // disableAllTouchEventsForDisabledDays
+          // rightArrowImageSource={rightArrowIcon}
+          // closeOnDayPress={false}
+          theme={{
+            calendarBackground: tw.prefixMatch('dark')
+              ? tw.color('black')
+              : (tw.color('gray-100') as string),
+            // calendarBackground: 'transparent',
+            todayTextColor: theme.meatBrown,
+            selectedDayBackgroundColor: theme.meatBrown,
+            selectedDayTextColor: theme.charlestonGreen,
+          }}
         />
-        {/* <ExpandableCalendar
-            // horizontal={false}
-            // hideArrows
-            allowShadow={false}
-            // disablePan
-            // hideKnob
-            // initialPosition={ExpandableCalendar.positions.OPEN}
-            // calendarStyle={styles.calendar}
-            // headerStyle={styles.header} // for horizontal only
-            // disableWeekScroll
-            // leftArrowImageSource={leftArrowIcon}
-            // markedDates={marked.current}
-            // theme={theme.current}
-            // disableAllTouchEventsForDisabledDays
-            firstDay={1}
-            // rightArrowImageSource={rightArrowIcon}
-            animateScroll
-            // closeOnDayPress={false}
-          /> */}
         <AgendaList
-          // scrollToNextEvent
           avoidDateUpdates
+          scrollToNextEvent
           dayFormat={'MMM d, yyyy'}
           infiniteListProps={{
             itemHeight: 96,
@@ -177,8 +202,6 @@ const AllEvents = () => {
             title: event.start,
             data: [event],
           }))}
-          sectionStyle={tw`bg-transparent`}
-          style={tw`bg-transparent`}
         />
       </CalendarProvider>
     </Animated.View>

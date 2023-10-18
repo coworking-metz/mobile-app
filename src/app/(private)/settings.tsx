@@ -245,25 +245,7 @@ const Settings = () => {
                 )}
               </Text>
             </ServiceRow>
-            <ThemePicker
-              withBottomDivider
-              style={tw`px-3 mx-3`}
-              onPress={() => setPickingTheme(true)}
-            />
-            <ServiceRow
-              label={t('actions.logout')}
-              prefixIcon="logout"
-              style={tw`px-3 mx-3`}
-              onPress={() =>
-                authStore.logout().then(() => {
-                  toastStore.add({
-                    message: t('auth.logout.onSuccess.message'),
-                    type: ToastPresets.SUCCESS,
-                    timeout: 3000,
-                  });
-                })
-              }
-            />
+            <ThemePicker style={tw`px-3 mx-3`} onPress={() => setPickingTheme(true)} />
 
             <Animated.Text
               entering={FadeInLeft.duration(300)}
@@ -315,6 +297,21 @@ const Settings = () => {
               style={tw`px-3 mx-3`}
               suffixIcon={null}
               onPress={onContactTeam}
+            />
+
+            <ServiceRow
+              label={t('actions.logout')}
+              prefixIcon="logout"
+              style={tw`px-3 mx-3 mt-6`}
+              onPress={() =>
+                authStore.logout().then(() => {
+                  toastStore.add({
+                    message: t('auth.logout.onSuccess.message'),
+                    type: ToastPresets.SUCCESS,
+                    timeout: 3000,
+                  });
+                })
+              }
             />
           </View>
 

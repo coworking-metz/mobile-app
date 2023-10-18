@@ -1,4 +1,5 @@
 import createSecureStorage from './SecureStorage';
+import useCalendarStore from './calendar';
 import useUserStore from './user';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
@@ -48,7 +49,7 @@ const useAuthStore = create<AuthState>()(
       },
       logout: async (): Promise<void> => {
         await set({ user: null, accessToken: null, refreshToken: null });
-        return useUserStore.getState().clear();
+        await Promise.all([useUserStore.getState().clear(), useCalendarStore.getState().clear()]);
       },
       clear: async (): Promise<void> => {
         await set({

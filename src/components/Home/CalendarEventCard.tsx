@@ -15,11 +15,9 @@ type TextColor = 'black' | 'white';
 
 const CalendarEventCard = ({
   event = null,
-  loading = false,
   style,
 }: {
   event?: CalendarEvent | null;
-  loading?: boolean;
   style?: StyleProps | false;
 }) => {
   const { t } = useTranslation();
@@ -58,31 +56,7 @@ const CalendarEventCard = ({
         tw`flex flex-row items-start justify-between bg-gray-200 dark:bg-gray-900 rounded-2xl self-stretch overflow-hidden`,
         style,
       ]}>
-      {loading ? (
-        <View style={tw`flex flex-col gap-[1.5] p-3`}>
-          <Skeleton
-            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-            height={16}
-            show={loading}
-            width={96}
-          />
-          <Skeleton
-            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-            height={22}
-            show={loading}
-            width={172}
-          />
-          <Skeleton
-            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-            height={22}
-            show={loading}
-            width={144}
-          />
-        </View>
-      ) : event ? (
+      {event ? (
         <>
           <View
             style={[

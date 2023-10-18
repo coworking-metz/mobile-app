@@ -91,11 +91,6 @@ export default function HomeScreen({}) {
   const calendarCards = useMemo(
     () =>
       [
-        <Link asChild href="/events/calendar" key={`all-calendar-events-card`}>
-          <TouchableOpacity>
-            <CalendarAllEventsCard loading={calendarStore.isFetchingEvents && !isReady} />
-          </TouchableOpacity>
-        </Link>,
         ...calendarStore.events
           .filter(
             ({ start }) =>
@@ -108,6 +103,11 @@ export default function HomeScreen({}) {
               </TouchableOpacity>
             </Link>
           )),
+        <Link asChild href="/events/calendar" key={`all-calendar-events-card`}>
+          <TouchableOpacity>
+            <CalendarAllEventsCard loading={calendarStore.isFetchingEvents && !isReady} />
+          </TouchableOpacity>
+        </Link>,
       ].filter(Boolean),
     [profile, colorScheme, isReady, calendarStore],
   );

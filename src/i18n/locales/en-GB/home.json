@@ -1,15 +1,20 @@
 {
-  "amourFood": {
-    "date": "{{date, datetime}}",
+  "calendar": {
+    "all": {
+      "description": "Browse full calendar",
+      "label": "All events"
+    },
+    "event": {
+      "date": "{{date, datetime}}"
+    },
     "onFetchFail": {
       "action": "Learn more",
-      "message": "Unable to fetch today menu"
-    },
-    "order": "Order"
+      "message": "Unable to fetch calendar events"
+    }
   },
   "intercom": {
     "description": "for a brief moment",
-    "label": "Unlock steel gate",
+    "label": "Unlock front gate",
     "loading": "requesting...",
     "onFail": {
       "message": "Unable to unlock 😔"
