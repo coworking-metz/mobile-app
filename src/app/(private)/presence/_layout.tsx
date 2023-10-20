@@ -44,7 +44,14 @@ export default function PresenceLayout() {
             animationTypeForReplace: 'pop',
           }}
         />
-        <Stack.Screen name="by-day" />
+        <Stack.Screen
+          name="by-day"
+          options={{
+            ...(Platform.OS === 'android' && {
+              animation: 'slide_from_right',
+            }),
+          }}
+        />
       </Stack>
     </View>
   );

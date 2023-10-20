@@ -54,10 +54,48 @@ const RootLayout = () => {
                 }}
               />
               <Stack.Screen
+                name="(public)/advanced"
+                options={{
+                  headerShown: false,
+                  ...(Platform.OS === 'android' && {
+                    animation: 'slide_from_right',
+                  }),
+                }}
+              />
+              <Stack.Screen
+                name="(public)/about"
+                options={{
+                  headerShown: false,
+                  ...(Platform.OS === 'android' && {
+                    animation: 'slide_from_right',
+                  }),
+                }}
+              />
+              <Stack.Screen
                 name="(public)/onboarding"
                 options={{
                   presentation: 'modal',
                   headerShown: false,
+                  ...(Platform.OS === 'android' && {
+                    animation: 'slide_from_bottom',
+                  }),
+                }}
+              />
+
+              <Stack.Screen
+                name="(private)/home"
+                options={{
+                  animation: 'fade',
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="(private)/settings"
+                options={{
+                  headerShown: false,
+                  ...(Platform.OS === 'android' && {
+                    animation: 'slide_from_right',
+                  }),
                 }}
               />
 
@@ -65,19 +103,21 @@ const RootLayout = () => {
                 name="(private)/presence"
                 options={{
                   presentation: 'modal',
-                }}
-              />
-              <Stack.Screen
-                name="(private)/home"
-                options={{
                   headerShown: false,
-                  animation: 'fade',
+                  ...(Platform.OS === 'android' && {
+                    animation: 'slide_from_bottom',
+                  }),
                 }}
               />
+
               <Stack.Screen
                 name="(private)/events"
                 options={{
                   presentation: 'modal',
+                  headerShown: false,
+                  ...(Platform.OS === 'android' && {
+                    animation: 'slide_from_bottom',
+                  }),
                 }}
               />
             </Stack>

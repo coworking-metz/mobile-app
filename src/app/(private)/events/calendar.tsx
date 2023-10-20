@@ -6,7 +6,7 @@ import { Link } from 'expo-router';
 import { capitalize } from 'lodash';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View, useColorScheme } from 'react-native';
+import { Platform, Text, View, useColorScheme } from 'react-native';
 import {
   AgendaList,
   CalendarProvider,
@@ -111,6 +111,7 @@ const AllEvents = () => {
           paddingTop: 16,
           paddingLeft: insets.left,
           paddingRight: insets.right,
+          ...(Platform.OS === 'android' && { paddingTop: insets.top + 16 }),
         },
       ]}>
       <Animated.Text

@@ -44,7 +44,14 @@ export default function EventsLayout() {
             animationTypeForReplace: 'pop',
           }}
         />
-        <Stack.Screen name="[id]" />
+        <Stack.Screen
+          name="[id]"
+          options={{
+            ...(Platform.OS === 'android' && {
+              animation: 'slide_from_right',
+            }),
+          }}
+        />
       </Stack>
     </View>
   );
