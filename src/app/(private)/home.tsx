@@ -4,7 +4,7 @@ import { Link, useNavigation } from 'expo-router';
 import { isNil, capitalize } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppState, RefreshControl, View, useColorScheme } from 'react-native';
+import { AppState, RefreshControl, View, useColorScheme, Text } from 'react-native';
 import Animated, {
   FadeIn,
   FadeInLeft,
@@ -15,7 +15,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader, ToastPresets, TouchableOpacity } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
-import CalendarAllEventsCard from '@/components/Home/CalendarAllEventsCard';
+import CalendarEmptyCard from '@/components/Home/CalendarEmptyCard';
 import CalendarEventBottomSheet from '@/components/Home/CalendarEventBottomSheet';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import CouponsBottomSheet from '@/components/Home/CouponsBottomSheet';
@@ -30,7 +30,7 @@ import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnlockCard from '@/components/Home/UnlockCard';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
-import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
+import { type CalendarEvent } from '@/services/api/calendar';
 import { getPresenceNow, type ApiCurrentPresence } from '@/services/api/presence';
 import useAuthStore from '@/stores/auth';
 import useCalendarStore from '@/stores/calendar';
@@ -76,7 +76,7 @@ export default function HomeScreen({}) {
         profile?.subscription && (
           <TouchableOpacity key={`subscription-card`} onPress={() => selectSubscription(true)}>
             <SubscriptionCard
-              expired={profile.subscription.endDate}
+              expired={dayjs(profile.subscription.endDate).endOf('day').toISOString()}
               since={profile.subscription.startDate}
             />
           </TouchableOpacity>
@@ -90,26 +90,18 @@ export default function HomeScreen({}) {
 
   const calendarCards = useMemo(
     () =>
-      [
-        ...calendarStore.events
-          .filter(
-            ({ start }) =>
-              dayjs().isSame(start, 'day') || dayjs().add(1, 'day').isSame(start, 'day'),
-          )
-          .map((event) => (
-            <Link asChild href={`/events/${event.id}`} key={`calendar-event-${event.id}-card`}>
-              <TouchableOpacity>
-                <CalendarEventCard event={event} />
-              </TouchableOpacity>
-            </Link>
-          )),
-        <Link asChild href="/events/calendar" key={`all-calendar-events-card`}>
-          <TouchableOpacity>
-            <CalendarAllEventsCard loading={calendarStore.isFetchingEvents && !isReady} />
-          </TouchableOpacity>
-        </Link>,
-      ].filter(Boolean),
-    [profile, colorScheme, isReady, calendarStore],
+      calendarStore.events
+        .filter(
+          ({ start }) => dayjs().isSame(start, 'day') || dayjs().add(1, 'day').isSame(start, 'day'),
+        )
+        .map((event) => (
+          <Link asChild href={`/events/${event.id}`} key={`calendar-event-${event.id}-card`}>
+            <TouchableOpacity>
+              <CalendarEventCard event={event} />
+            </TouchableOpacity>
+          </Link>
+        )),
+    [colorScheme, isReady, calendarStore],
   );
 
   const fetchCurrentPresence = useCallback(() => {
@@ -232,8 +224,8 @@ export default function HomeScreen({}) {
 
       <Animated.ScrollView
         contentContainerStyle={[
-          tw`relative grow flex flex-col items-start gap-4 justify-start pt-2 pb-4 px-4`,
-          { paddingTop: insets.top },
+          tw`relative grow flex flex-col items-start gap-4 justify-start pt-2 px-4`,
+          { paddingTop: insets.top, paddingBottom: insets.bottom + 32 },
         ]}
         entering={FadeIn.duration(750)}
         horizontal={false}
@@ -304,18 +296,47 @@ export default function HomeScreen({}) {
           </Link>
         </Animated.View>
 
+        <Animated.View
+          entering={FadeInLeft.duration(750).delay(400)}
+          style={tw`flex flex-row items-start w-full justify-between`}>
+          <Text style={tw`text-base font-medium text-slate-500`}>{t('home.tickets.label')}</Text>
+          {/* <Link href="https://www.coworking-metz.fr/la-boutique/">
+            <Text style={tw`text-base text-amber-500`}>{t('home.tickets.store')}</Text>
+          </Link> */}
+        </Animated.View>
         <HomeCarousel
           elements={stackCards}
-          entering={FadeInRight.duration(750).delay(400)}
+          entering={FadeInLeft.duration(750).delay(400)}
           style={[tw`flex flex-col w-full overflow-visible h-24`]}
         />
 
-        <HomeCarousel
-          elements={calendarCards}
+        <Animated.View
           entering={FadeInRight.duration(750).delay(600)}
-          style={[tw`flex flex-col w-full overflow-visible h-24`]}
-        />
+          style={tw`flex flex-row items-start w-full justify-between`}>
+          <Text style={tw`text-base font-medium text-slate-500`}>{t('home.calendar.label')}</Text>
+          <Link href="/events/calendar">
+            <Text style={tw`text-base text-amber-500`}>{t('home.calendar.browse')}</Text>
+          </Link>
+        </Animated.View>
 
+        {calendarStore.events.length ? (
+          <HomeCarousel
+            elements={calendarCards}
+            style={[tw`flex flex-col w-full overflow-visible h-24`]}
+          />
+        ) : (
+          <CalendarEmptyCard
+            entering={FadeInRight.duration(750).delay(600)}
+            loading={calendarStore.isFetchingEvents && !isReady}
+            style={tw`w-full`}
+          />
+        )}
+
+        <Animated.Text
+          entering={FadeInUp.duration(500).delay(600)}
+          style={tw`text-base font-medium text-slate-500`}>
+          {t('home.services.label')}
+        </Animated.Text>
         <Animated.View
           entering={FadeInUp.duration(500).delay(700)}
           style={tw`flex flex-col self-stretch`}>

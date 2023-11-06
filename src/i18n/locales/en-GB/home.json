@@ -1,12 +1,13 @@
 {
   "calendar": {
-    "all": {
-      "description": "Browse full calendar",
-      "label": "All events"
+    "browse": "Browse",
+    "empty": {
+      "label": "Nothing planned in the near future"
     },
     "event": {
       "date": "{{date, datetime}}"
     },
+    "label": "Events",
     "onFetchFail": {
       "action": "Learn more",
       "message": "Unable to fetch calendar events"
@@ -54,6 +55,9 @@
     "present_other": "occupied desks",
     "present_zero": "Nobody there"
   },
+  "services": {
+    "label": "Services"
+  },
   "tickets": {
     "coupons": {
       "available_one": "Last one!",
@@ -69,6 +73,8 @@
       "label": "Individual tickets",
       "order": "Buy"
     },
+    "label": "Membership",
+    "store": "Store",
     "subscription": {
       "description": "Subscription allows access to the coworking space for 30 rolling days starting from the chosen start date.",
       "expiration": "{{expired, datetime }}",
@@ -76,6 +82,7 @@
       "order": "Renew",
       "status": {
         "expiredSince": "{{prefix}}expired since",
+        "expiresToday": "{{prefix}}about to expire",
         "ongoingUntil": "{{prefix}}valid until",
         "prefix": "Subscription "
       }

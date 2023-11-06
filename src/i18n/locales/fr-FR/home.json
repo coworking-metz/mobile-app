@@ -1,12 +1,13 @@
 {
   "calendar": {
-    "all": {
-      "description": "Consulter le calendrier",
-      "label": "Tous les évènements"
+    "browse": "Consulter",
+    "empty": {
+      "label": "Rien de prévu prochainement"
     },
     "event": {
       "date": "Ce {{date, datetime}}"
     },
+    "label": "Évènements",
     "onFetchFail": {
       "action": "En savoir plus",
       "message": "Impossible de récupérer les évènements"
@@ -54,6 +55,9 @@
     "present_other": "postes occupés",
     "present_zero": "Aucune personne présente"
   },
+  "services": {
+    "label": "Services"
+  },
   "tickets": {
     "coupons": {
       "available_one": "C'est le dernier !",
@@ -69,6 +73,8 @@
       "label": "Tickets à la journée",
       "order": "Acheter"
     },
+    "label": "Adhésion",
+    "store": "Boutique",
     "subscription": {
       "description": "L'abonnement permet d'accéder au Coworking sur 30 jours glissants à compter de la date de début choisie.",
       "expiration": "{{expired, datetime }}",
@@ -76,6 +82,7 @@
       "order": "Renouveler",
       "status": {
         "expiredSince": "{{prefix}}expiré le",
+        "expiresToday": "{{prefix}}touchant à sa fin",
         "ongoingUntil": "{{prefix}}valide jusqu'au",
         "prefix": "Abonnement "
       }
