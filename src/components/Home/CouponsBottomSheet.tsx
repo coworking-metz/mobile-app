@@ -24,7 +24,7 @@ const CouponsBottomSheet = ({
 
   return (
     <AppBottomSheet style={style} onClose={onClose}>
-      <View style={tw`flex flex-col items-center justify-between p-6`}>
+      <View style={tw`flex flex-col w-full  justify-between p-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <CouponsAnimation style={tw`h-56`} />
         </View>
@@ -36,7 +36,7 @@ const CouponsBottomSheet = ({
           {t('home.tickets.coupons.description')}
         </Text>
         <ServiceRow label={t('home.tickets.coupons.balance.label')} style={tw`w-full px-0`}>
-          <Text style={tw`text-base text-slate-500 ml-auto`}>
+          <Text style={tw`text-base text-slate-500 grow text-right`}>
             {balance >= 0
               ? t('home.tickets.coupons.available', {
                   count: balance,

@@ -4,7 +4,6 @@ import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { BlurView } from 'expo-blur';
 import { useNavigation, useRouter } from 'expo-router';
 import React, { useMemo, type ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Platform, View } from 'react-native';
 import Animated, {
   FadeInDown,
@@ -19,7 +18,7 @@ import { theme } from '@/helpers/colors';
 dayjs.extend(LocalizedFormat);
 
 const MAX_HEADER_HEIGHT = 144;
-const MIN_HEADER_HEIGHT = 64;
+const MIN_HEADER_HEIGHT = Platform.OS === 'ios' ? 64 : 56;
 const INTERPOLATE_INPUT_RANGE = [
   -1,
   0,
@@ -41,7 +40,6 @@ const ModalLayout = ({
 }) => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
-  const { t } = useTranslation();
   const router = useRouter();
   const navigation = useNavigation();
   const verticalScrollProgress = useSharedValue(0);

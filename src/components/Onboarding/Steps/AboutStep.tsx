@@ -53,7 +53,7 @@ const AboutStep = ({
       {containerHeight ? (
         <View
           style={[
-            tw`mt-4 flex flex-col self-stretch px-6 justify-start items-start`,
+            tw`mt-4 flex flex-col self-stretch px-6 justify-start`,
             { minHeight: containerHeight / 2 - 60 },
           ]}>
           <Animated.Text

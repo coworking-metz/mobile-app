@@ -53,7 +53,7 @@ const EventsStep = ({ active, containerHeight }: { active: boolean; containerHei
           onAnimationFinish={onAnimationFinish}
         />
       </View>
-      <View style={tw`mt-4 flex flex-col self-stretch px-6 justify-start items-start`}>
+      <View style={tw`mt-4 flex flex-col self-stretch px-6 justify-start `}>
         <Text style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onboarding.events.title')}
         </Text>

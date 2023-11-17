@@ -4,7 +4,6 @@ import { Text, View } from 'react-native';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import DesktopWorkAnimation from '@/components/Animations/DesktopWorkAnimation';
-import ThemePicker from '@/components/Settings/ThemePicker';
 
 const ActivityStep = ({ containerHeight }: { active: boolean; containerHeight?: number }) => {
   const { t } = useTranslation();
@@ -37,7 +36,7 @@ const ActivityStep = ({ containerHeight }: { active: boolean; containerHeight?: 
           style={tw`w-[375px]`}
         />
       </View>
-      <View style={tw`mt-4 flex flex-col self-stretch px-6 justify-start items-start`}>
+      <View style={tw`mt-4 flex flex-col self-stretch px-6 justify-start`}>
         <Text style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onboarding.activity.title')}
         </Text>

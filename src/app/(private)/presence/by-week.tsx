@@ -25,7 +25,7 @@ import usePresenceStore from '@/stores/presence';
 dayjs.extend(LocalizedFormat);
 
 const MAX_HEADER_HEIGHT = 144;
-const MIN_HEADER_HEIGHT = 64;
+const MIN_HEADER_HEIGHT = Platform.OS === 'ios' ? 64 : 56;
 const INTERPOLATE_INPUT = [
   -1,
   0,

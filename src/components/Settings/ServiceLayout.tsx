@@ -83,7 +83,7 @@ const ServiceLayout = ({
       <View style={tw`flex flex-col grow relative`}>
         <Animated.View
           style={[
-            tw`absolute flex flex-col items-start px-6 pb-6`,
+            tw`absolute flex flex-col px-6 pb-6`,
             {
               top: NAVIGATION_HEIGHT + insets.top,
               left: insets.left,

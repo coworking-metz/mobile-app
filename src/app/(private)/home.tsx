@@ -236,6 +236,7 @@ export default function HomeScreen({}) {
             onRefresh={onRefresh}
           />
         }
+        showsVerticalScrollIndicator={false}
         style={[tw`h-full w-full`]}>
         <View style={tw`flex flex-row items-center w-full`}>
           {isAged && lastFetch ? (
@@ -312,10 +313,10 @@ export default function HomeScreen({}) {
 
         <Animated.View
           entering={FadeInRight.duration(750).delay(600)}
-          style={tw`flex flex-row items-start w-full justify-between`}>
+          style={tw`flex flex-row justify-between w-full`}>
           <Text style={tw`text-base font-medium text-slate-500`}>{t('home.calendar.label')}</Text>
-          <Link href="/events/calendar">
-            <Text style={tw`text-base text-amber-500`}>{t('home.calendar.browse')}</Text>
+          <Link asChild href="/events/calendar">
+            <Text style={tw`text-base text-amber-500 min-w-[16]`}>{t('home.calendar.browse')}</Text>
           </Link>
         </Animated.View>
 

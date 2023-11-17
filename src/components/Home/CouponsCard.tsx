@@ -51,7 +51,7 @@ const BalanceCard = ({
         </View>
       ) : (
         <>
-          <View style={tw`flex flex-col shrink-1 mr-auto`}>
+          <View style={tw`flex flex-col shrink grow`}>
             <Text style={tw`text-base text-slate-500 dark:text-slate-400`}>
               {t('home.tickets.coupons.label')}
             </Text>
@@ -71,7 +71,7 @@ const BalanceCard = ({
               iconStyle={tw`h-6 w-6 mr-0`}
               name="alert"
               size={36}
-              style={tw`self-center shrink-0`}
+              style={tw`self-center shrink-0 grow-0`}
             />
           )}
           <MaterialCommunityIcons

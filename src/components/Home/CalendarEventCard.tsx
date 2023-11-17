@@ -60,7 +60,7 @@ const CalendarEventCard = ({
         <>
           <View
             style={[
-              tw`h-full pl-3 py-2 max-w-2/3`,
+              tw`h-full pl-3 py-2 max-w-2/3 shrink-0`,
               { ...(backgroundColor && { backgroundColor }) },
             ]}>
             <Text
@@ -83,7 +83,7 @@ const CalendarEventCard = ({
             <Text
               numberOfLines={2}
               style={[
-                tw`text-xl`,
+                tw`text-xl grow`,
                 {
                   ...(textColor && {
                     color: tw.color(textColor === 'black' ? 'slate-900' : 'gray-200'),
@@ -94,7 +94,7 @@ const CalendarEventCard = ({
             </Text>
           </View>
           <View
-            style={[tw`h-full grow relative`]}
+            style={[tw`h-full grow relative shrink`]}
             onLayout={({ nativeEvent }: LayoutChangeEvent) =>
               setContainerWidth(nativeEvent.layout.width)
             }>

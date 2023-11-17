@@ -158,10 +158,7 @@ const Settings = () => {
 
         {/* this is the footer below the scrollview */}
         <AppFooter
-          style={[
-            tw`absolute bottom-0 mx-auto self-center py-6 px-3`,
-            { marginBottom: insets.bottom },
-          ]}
+          style={[tw`absolute bottom-0 self-center py-6 px-3`, { marginBottom: insets.bottom }]}
           onLayout={({ nativeEvent }: LayoutChangeEvent) => {
             setFooterHeight(nativeEvent.layout.height);
             setFooterWidth(nativeEvent.layout.width);
@@ -237,7 +234,7 @@ const Settings = () => {
               prefixIcon="web"
               style={tw`px-3 mx-3`}
               onPress={() => setPickingLanguage(true)}>
-              <Text style={tw`text-base text-amber-500 ml-auto`}>
+              <Text style={tw`text-base text-amber-500 grow text-right`}>
                 {getLanguageLabel(
                   !chosenLanguage || chosenLanguage === SYSTEM_OPTION
                     ? SYSTEM_LANGUAGE

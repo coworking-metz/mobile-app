@@ -45,7 +45,7 @@ const SubscriptionBottomSheet = ({
           }
           label={t('home.tickets.subscription.label')}
           style={tw`w-full px-0`}>
-          <Text style={tw`text-base text-slate-500 ml-auto`}>
+          <Text style={tw`text-base text-slate-500 grow text-right`}>
             {t('home.tickets.subscription.expiration', {
               expired: new Date(subscription.endDate),
               formatParams: {

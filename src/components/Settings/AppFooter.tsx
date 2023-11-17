@@ -9,12 +9,12 @@ const AppFooter = ({ style, ...props }: ViewProps) => {
   const { t } = useTranslation();
 
   return (
-    <View style={[tw`flex flex-col items-center gap-1 text-center`, style]} {...props}>
-      <Text style={tw`text-slate-500`}>{t('footer.copyright')}</Text>
-      <Text style={tw`text-slate-500`}>{t('footer.madeWith')}</Text>
+    <View style={[tw`flex flex-col gap-1 w-full`, style]} {...props}>
+      <Text style={tw`text-slate-500 text-center`}>{t('footer.copyright')}</Text>
+      <Text style={tw`text-slate-500 text-center`}>{t('footer.madeWith')}</Text>
 
-      <Link href="/about">
-        <Text style={tw`text-amber-500`}>{t('footer.about')}</Text>
+      <Link asChild href="/about">
+        <Text style={tw`text-amber-500 text-center`}>{t('footer.about')}</Text>
       </Link>
     </View>
   );

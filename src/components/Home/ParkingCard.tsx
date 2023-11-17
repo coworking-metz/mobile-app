@@ -205,7 +205,7 @@ const ParkingCard: ForwardRefRenderFunction<
           />
         </View>
       </Animated.View>
-      <Animated.View style={tw`flex flex-col z-20`}>
+      <Animated.View style={tw`flex flex-col z-20 w-full`}>
         <Text
           style={[
             tw`text-xl font-medium text-slate-900 dark:text-gray-200`,
@@ -213,11 +213,11 @@ const ParkingCard: ForwardRefRenderFunction<
           ]}>
           {isUnlocked ? t('home.parking.onUnlocked.label') : t('home.parking.label')}
         </Text>
-        <View style={[tw`flex flex-row items-center`]}>
+        <View style={[tw`flex flex-row items-center gap-1`]}>
           {isLoading ? (
             <Text
               style={[
-                tw`flex flex-row items-center text-base text-slate-500 dark:text-slate-400`,
+                tw`flex flex-row items-center text-base text-slate-500 dark:text-slate-400 grow`,
                 disabled && tw`opacity-30`,
               ]}>
               {t('home.parking.loading')}
@@ -239,7 +239,7 @@ const ParkingCard: ForwardRefRenderFunction<
           ) : (
             <Text
               style={[
-                tw`flex flex-row items-center text-base text-slate-500 dark:text-slate-400`,
+                tw`flex flex-row items-center text-base text-slate-500 dark:text-slate-400 grow`,
                 disabled && tw`opacity-30`,
               ]}>
               {t('home.parking.description')}
