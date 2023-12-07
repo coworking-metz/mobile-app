@@ -37,17 +37,17 @@ const About = () => {
       </ServiceRow>
 
       <Text style={tw`text-sm uppercase text-slate-500 mx-6 mt-6`}>{t('about.credits.title')}</Text>
-      <Link asChild href="https://lottiefiles.com/">
+      <Link asChild href="https://lottiefiles.com/page/license">
         <ServiceRow
-          description="https://lottiefiles.com/"
+          description="https://lottiefiles.com/page/license"
           label={t('about.credits.lottiefiles.label')}
           style={tw`px-3 mx-3`}
           suffixIcon="open-in-new"
         />
       </Link>
-      <Link asChild href="https://lordicon.com/">
+      <Link asChild href="https://lordicon.com/license-terms#license-rights">
         <ServiceRow
-          description="https://lordicon.com/"
+          description="https://lordicon.com/license-terms#license-rights"
           label={t('about.credits.lordicon.label')}
           style={tw`px-3 mx-3`}
           suffixIcon="open-in-new"

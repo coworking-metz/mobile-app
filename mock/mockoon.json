@@ -1,9 +1,9 @@
 {
   "uuid": "24b9c1a8-40f0-40ad-bb65-ed03b51aeea0",
-  "lastMigration": 28,
+  "lastMigration": 29,
   "name": "Coworking Metz API",
   "endpointPrefix": "",
-  "latency": 1000,
+  "latency": 300,
   "port": 3001,
   "hostname": "",
   "routes": [
@@ -96,7 +96,7 @@
       "responses": [
         {
           "uuid": "c55b8282-6a08-4fec-9c30-937331ce0bcf",
-          "body": "{\n    {{setVar 'currentIndex' (dateFormat (now) 'i')}}\n    {{setVar 'mondayFromPreviousWeek' (dateFormat (dateTimeShift date=(now) days=(subtract -6 @currentIndex)) 'yyyy-MM-dd') }}\n    \"previous\": {\n        \"from\": \"{{ @mondayFromPreviousWeek }}\",\n        \"to\": \"{{ dateFormat (dateTimeShift date=@mondayFromPreviousWeek days=7) 'yyyy-MM-dd' }}\",\n        \"timeline\": [\n          {{#repeat 7}}\n            {{setVar 'timelineDay' (dateTimeShift date=@mondayFromPreviousWeek days=@index) }}\n            {\n              \"date\": \"{{ dateFormat @timelineDay 'yyyy-MM-dd' }}\",\n              {{#if (includes '135' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'datatype.number' min=10 max=20 }}\n              {{/if}}\n              {{#if (includes '24' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'datatype.number' min=15 max=32 }}\n              {{/if}}\n              {{#if (includes '67' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'datatype.number' min=0 max=6 }}\n              {{/if}}\n            }\n          {{/repeat}}\n        ]\n    },\n    {{setVar 'mondayFromThisWeek' (dateFormat (dateTimeShift date=(now) days=(subtract 1 @currentIndex)) 'yyyy-MM-dd') }}\n    \"current\": {\n        \"from\": \"{{ @mondayFromThisWeek }}\",\n        \"to\": \"{{ dateFormat (now) 'yyyy-MM-dd' }}\",\n        \"timeline\": [\n          {{#repeat @currentIndex}}\n            {{setVar 'timelineDay' (dateTimeShift date=@mondayFromThisWeek days=@index) }}\n            {\n              \"date\": \"{{ dateFormat @timelineDay 'yyyy-MM-dd' }}\",\n              {{#if (includes '135' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'datatype.number' min=10 max=20 }}\n              {{/if}}\n              {{#if (includes '24' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'datatype.number' min=15 max=32 }}\n              {{/if}}\n              {{#if (includes '67' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'datatype.number' min=0 max=6 }}\n              {{/if}}\n            }\n          {{/repeat}}\n        ]\n    }\n}",
+          "body": "{\n    {{setVar 'currentIndex' (dateFormat (now) 'i')}}\n    {{setVar 'mondayFromPreviousWeek' (dateFormat (dateTimeShift date=(now) days=(subtract -6 @currentIndex)) 'yyyy-MM-dd') }}\n    \"previous\": {\n        \"from\": \"{{ @mondayFromPreviousWeek }}\",\n        \"to\": \"{{ dateFormat (dateTimeShift date=@mondayFromPreviousWeek days=7) 'yyyy-MM-dd' }}\",\n        \"timeline\": [\n          {{#repeat 7}}\n            {{setVar 'timelineDay' (dateTimeShift date=@mondayFromPreviousWeek days=@index) }}\n            {\n              \"date\": \"{{ dateFormat @timelineDay 'yyyy-MM-dd' }}\",\n              {{#if (includes '135' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'number.int' min=10 max=20 }}\n              {{/if}}\n              {{#if (includes '24' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'number.int' min=15 max=32 }}\n              {{/if}}\n              {{#if (includes '67' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'number.int' min=0 max=6 }}\n              {{/if}}\n            }\n          {{/repeat}}\n        ]\n    },\n    {{setVar 'mondayFromThisWeek' (dateFormat (dateTimeShift date=(now) days=(subtract 1 @currentIndex)) 'yyyy-MM-dd') }}\n    \"current\": {\n        \"from\": \"{{ @mondayFromThisWeek }}\",\n        \"to\": \"{{ dateFormat (now) 'yyyy-MM-dd' }}\",\n        \"timeline\": [\n          {{#repeat @currentIndex}}\n            {{setVar 'timelineDay' (dateTimeShift date=@mondayFromThisWeek days=@index) }}\n            {\n              \"date\": \"{{ dateFormat @timelineDay 'yyyy-MM-dd' }}\",\n              {{#if (includes '135' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'number.int' min=10 max=20 }}\n              {{/if}}\n              {{#if (includes '24' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'number.int' min=15 max=32 }}\n              {{/if}}\n              {{#if (includes '67' (dateFormat @timelineDay 'i') )}}\n              \"value\": {{ faker 'number.int' min=0 max=6 }}\n              {{/if}}\n            }\n          {{/repeat}}\n        ]\n    }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -125,7 +125,7 @@
       "responses": [
         {
           "uuid": "2b317273-83c2-4fe3-903d-47a467e03e8c",
-          "body": "{\n    \"previous\": {\n        {{setVar 'dayFromPreviousWeek' (dateFormat (dateTimeShift date=(now) days=-7) 'yyyy-MM-dd') }}\n        \"from\": \"{{ dateTimeShift date=@dayFromPreviousWeek hours=6 }}\",\n        \"to\": \"{{ dateTimeShift date=@dayFromPreviousWeek hours=21 }}\",\n        \"timeline\": [\n          {{#repeat 15}}\n            {{setVar 'timelineHour' (dateTimeShift date=(dateFormat @dayFromPreviousWeek 'yyyy-MM-dd') hours=(add 7 @index)) }}\n            {\n              \"date\": \"{{ @timelineHour }}\",\n              \"value\": {{ faker 'datatype.number' min=0 max=28 }}\n            }\n          {{/repeat}}\n        ]\n    },\n    \"current\": {\n        {{setVar 'today' (dateFormat (now) 'yyyy-MM-dd') }}\n        \"from\": \"{{ dateTimeShift date=@today hours=6 }}\",\n        \"to\": \"{{ now }}\",\n        \"timeline\": [\n          {{#repeat (subtract (dateFormat (now) 'HH') 7) }}\n            {{setVar 'timelineHour' (dateTimeShift date=@today hours=(add @index 7)) }}\n            {\n              \"date\": \"{{ @timelineHour }}\",\n              \"value\": {{ faker 'datatype.number' min=10 max=28 }}\n            }\n          {{/repeat}}\n        ]\n    }\n}",
+          "body": "{\n    \"previous\": {\n        {{setVar 'dayFromPreviousWeek' (dateFormat (dateTimeShift date=(now) days=-7) 'yyyy-MM-dd') }}\n        \"from\": \"{{ dateTimeShift date=@dayFromPreviousWeek hours=6 }}\",\n        \"to\": \"{{ dateTimeShift date=@dayFromPreviousWeek hours=21 }}\",\n        \"timeline\": [\n          {{#repeat 15}}\n            {{setVar 'timelineHour' (dateTimeShift date=(dateFormat @dayFromPreviousWeek 'yyyy-MM-dd') hours=(add 7 @index)) }}\n            {\n              \"date\": \"{{ @timelineHour }}\",\n              \"value\": {{ faker 'number.int' min=0 max=28 }}\n            }\n          {{/repeat}}\n        ]\n    },\n    \"current\": {\n        {{setVar 'today' (dateFormat (now) 'yyyy-MM-dd') }}\n        \"from\": \"{{ dateTimeShift date=@today hours=6 }}\",\n        \"to\": \"{{ now }}\",\n        \"timeline\": [\n          {{#repeat (subtract (dateFormat (now) 'HH') 7) }}\n            {{setVar 'timelineHour' (dateTimeShift date=@today hours=(add @index 7)) }}\n            {\n              \"date\": \"{{ @timelineHour }}\",\n              \"value\": {{ faker 'number.int' min=10 max=28 }}\n            }\n          {{/repeat}}\n        ]\n    }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -154,7 +154,7 @@
       "responses": [
         {
           "uuid": "1a24bbf2-5e22-4bd6-b9a5-8318b434a5c6",
-          "body": "{\n    \"fetchedAt\": \"{{ now }}\",\n    \"count\": {{ faker 'datatype.number' min=0 max=28 }},\n    \"total\": 28\n}",
+          "body": "{\n    \"fetchedAt\": \"{{ now }}\",\n    \"count\": {{ faker 'number.int' min=0 max=28 }},\n    \"total\": 28\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -201,7 +201,7 @@
       "responses": [
         {
           "uuid": "22cb76ca-b184-4f59-b9d8-5e6f898ba66c",
-          "body": "{\n  {{setVar 'subscriptionStartDate' (date (dateTimeShift date=(now) months=-1) (now) 'yyyy-MM-dd') }}\n    \"id\": {{ faker 'datatype.number' min=1 max=800 }},\n    \"picture\": \"\",\n    \"email\": \"{{ faker 'internet.email' }}\",\n    \"firstname\": \"{{faker 'name.firstName'}}\",\n    \"lastname\": \"{{faker 'name.lastName'}}\",\n    \"balance\": {{ faker 'datatype.number' min=-10 max=20 }},\n    \"subscription\": {\n        \"startDate\": \"{{ @subscriptionStartDate }}\",\n        \"endDate\": \"{{ dateTimeShift date=@subscriptionStartDate months=1 format='yyyy-MM-dd' }}\",\n        \"purchased\": \"{{ dateTimeShift date=@subscriptionStartDate days=-3 format='yyyy-MM-dd' }}\"\n    }\n}",
+          "body": "{\n  {{setVar 'subscriptionStartDate' (date (dateTimeShift date=(now) months=-1) (now) 'yyyy-MM-dd') }}\n    \"id\": {{ faker 'number.int' min=1 max=800 }},\n    \"picture\": \"\",\n    \"email\": \"{{ faker 'internet.email' }}\",\n    \"firstname\": \"{{faker 'person.firstName'}}\",\n    \"lastname\": \"{{faker 'person.lastName'}}\",\n    \"balance\": {{ faker 'number.int' min=-10 max=20 }},\n    \"subscription\": {\n        \"startDate\": \"{{ @subscriptionStartDate }}\",\n        \"endDate\": \"{{ dateTimeShift date=@subscriptionStartDate months=1 format='yyyy-MM-dd' }}\",\n        \"purchased\": \"{{ dateTimeShift date=@subscriptionStartDate days=-3 format='yyyy-MM-dd' }}\"\n    }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -219,7 +219,7 @@
         },
         {
           "uuid": "dc541f27-b066-4de8-b448-6d9fe27e3c43",
-          "body": "{\n  {{setVar 'subscriptionStartDate' (date (dateTimeShift date=(now) months=-1) (now) 'yyyy-MM-dd') }}\n    \"id\": {{ faker 'datatype.number' min=1 max=800 }},\n    \"picture\": \"\",\n    \"email\": \"{{ faker 'internet.email' }}\",\n    \"firstname\": \"{{faker 'name.firstName'}}\",\n    \"lastname\": \"{{faker 'name.lastName'}}\",\n    \"balance\": {{ faker 'datatype.number' min=0 max=20 }},\n    \"subscription\": null\n}",
+          "body": "{\n  {{setVar 'subscriptionStartDate' (date (dateTimeShift date=(now) months=-1) (now) 'yyyy-MM-dd') }}\n    \"id\": {{ faker 'number.int' min=1 max=800 }},\n    \"picture\": \"\",\n    \"email\": \"{{ faker 'internet.email' }}\",\n    \"firstname\": \"{{faker 'person.firstName'}}\",\n    \"lastname\": \"{{faker 'person.lastName'}}\",\n    \"balance\": {{ faker 'number.int' min=0 max=20 }},\n    \"subscription\": null\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "Without subscription",
@@ -273,13 +273,13 @@
       "uuid": "3ace92a9-46e7-4560-9d7f-babded132cd8",
       "type": "http",
       "documentation": "",
-      "method": "get",
-      "endpoint": "",
+      "method": "post",
+      "endpoint": "esp32-parking-remote/button/gate_remote/press",
       "responses": [
         {
           "uuid": "27b5a890-1f93-4936-8a18-40c2eae5c42f",
           "body": "",
-          "latency": 0,
+          "latency": 12000,
           "statusCode": 200,
           "label": "",
           "headers": [],
@@ -500,7 +500,7 @@
       "responses": [
         {
           "uuid": "78b84d96-117c-4863-8f52-cc9e57ed1837",
-          "body": "[\n  {{#repeat 1000 2000}}\n  {{setVar 'subscriptionStartDate' (date (dateTimeShift date=(now) months=-1 days=(modulo @index 30)) (now) 'yyyy-MM-dd') }}\n  {\n    \"id\": {{ faker 'datatype.number' min=1 max=999999 }},\n    \"picture\": \"https://images.unsplash.com/{{ oneOf (array 'photo-1550525811-e5869dd03032' 'photo-1500648767791-00dcc994a43e' 'photo-1472099645785-5658abf4ff4e' 'photo-1502685104226-ee32379fefbe' 'photo-1519345182560-3f2917c472ef' 'photo-1463453091185-61582044d556' 'photo-1500917293891-ef795e70e1f6' 'photo-1494790108377-be9c29b29330' 'photo-1507003211169-0a1dd7228f2d' 'photo-1501031170107-cfd33f0cbdcc' 'photo-1517070208541-6ddc4d3efbcb' 'photo-1487412720507-e7ab37603c6f') }}?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80\",\n    \"email\": \"{{ faker 'internet.email' }}\",\n    \"firstname\": \"{{faker 'name.firstName'}}\",\n    \"lastname\": \"{{faker 'name.lastName'}}\",\n    \"lastSeen\": \"{{ now }}\",\n    \"balance\": {{ faker 'datatype.number' min=-10 max=20 }},\n    \"subscription\": {\n        \"startDate\": \"{{ @subscriptionStartDate }}\",\n        \"endDate\": \"{{ dateTimeShift date=@subscriptionStartDate months=1 format='yyyy-MM-dd' }}\",\n        \"purchased\": \"{{ dateTimeShift date=@subscriptionStartDate days=-3 format='yyyy-MM-dd' }}\"\n    },\n    \"memberships\": [\n      {\n        \"purchaseDate\": \"2022-07-13\",\n        \"membershipStart\": \"2022-01-01\"\n      },\n      {\n        \"purchaseDate\": \"2023-01-19\",\n        \"membershipStart\": \"2023-01-19\"\n      }\n    ],\n    \"macAddresses\": [\n      {{#repeat 0 3}}\n      \"{{ faker 'internet.mac' }}\"\n      {{/repeat}}\n    ]\n  }\n  {{/repeat}}\n]",
+          "body": "[\n  {{#repeat 1000 2000}}\n  {{setVar 'subscriptionStartDate' (date (dateTimeShift date=(now) months=-1 days=(modulo @index 30)) (now) 'yyyy-MM-dd') }}\n  {\n    \"id\": {{ faker 'number.int' min=1 max=999999 }},\n    \"picture\": \"https://images.unsplash.com/{{ oneOf (array 'photo-1550525811-e5869dd03032' 'photo-1500648767791-00dcc994a43e' 'photo-1472099645785-5658abf4ff4e' 'photo-1502685104226-ee32379fefbe' 'photo-1519345182560-3f2917c472ef' 'photo-1463453091185-61582044d556' 'photo-1500917293891-ef795e70e1f6' 'photo-1494790108377-be9c29b29330' 'photo-1507003211169-0a1dd7228f2d' 'photo-1501031170107-cfd33f0cbdcc' 'photo-1517070208541-6ddc4d3efbcb' 'photo-1487412720507-e7ab37603c6f') }}?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80\",\n    \"email\": \"{{ faker 'internet.email' }}\",\n    \"firstname\": \"{{faker 'person.firstName'}}\",\n    \"lastname\": \"{{faker 'person.lastName'}}\",\n    \"lastSeen\": \"{{ date (dateTimeShift date=(now) years=-1) (now) }}\",\n    \"created\": \"{{ date '2020-11-20' '2020-11-25' \"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\" }}\",\n    \"active\": {{ boolean }},\n    \"balance\": {{ faker 'number.int' min=-10 max=20 }},\n    \"subscription\": {\n      \"startDate\": \"{{ @subscriptionStartDate }}\",\n      \"endDate\": \"{{ dateTimeShift date=@subscriptionStartDate months=1 format='yyyy-MM-dd' }}\",\n      \"purchased\": \"{{ dateTimeShift date=@subscriptionStartDate days=-3 format='yyyy-MM-dd' }}\"\n    }\n  }\n  {{/repeat}}\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -529,7 +529,7 @@
       "responses": [
         {
           "uuid": "049be275-e06a-47ac-a2a3-04d1bff557f6",
-          "body": "{\n  {{setVar 'subscriptionStartDate' (date (dateTimeShift date=(now) months=-1) (now) 'yyyy-MM-dd') }}\n  \"id\": {{ faker 'datatype.number' min=1 max=800 }},\n  \"picture\": \"https://coworking-metz.fr/polaroid/2.jpg\",\n  \"email\": \"{{ faker 'internet.email' }}\",\n  \"firstname\": \"{{faker 'name.firstName'}}\",\n  \"lastname\": \"{{faker 'name.lastName'}}\",\n  \"lastSeen\": \"{{ now }}\",\n  \"balance\": {{ faker 'datatype.number' min=-10 max=20 }},\n  \"subscription\": {\n      \"startDate\": \"{{ @subscriptionStartDate }}\",\n      \"endDate\": \"{{ dateTimeShift date=@subscriptionStartDate months=1 format='yyyy-MM-dd' }}\",\n      \"purchased\": \"{{ dateTimeShift date=@subscriptionStartDate days=-3 format='yyyy-MM-dd' }}\"\n  },\n  \"tickets\": [\n    {{#repeat 1 5}}\n    {\n      \"purchaseDate\": \"2022-07-13\",\n      \"tickets\": 10\n    }\n    {{/repeat}}\n  ],\n  \"presences\": [\n    {{#repeat 10 20}}\n    {{setVar 'timelineDate' (dateTimeShift date=@subscriptionStartDate days=@index format='yyyy-MM-dd') }}\n    {\n      \"date\": \"{{ @timelineDate }}\",\n      {{#if (includes '12345' (dateFormat @timelineDate 'i') )}}\n      \"amount\": {{ oneOf (array 0 0.5 0.5 1 1 1 1 1) }},\n      {{/if}}\n      {{#if (includes '67' (dateFormat @timelineDate 'i') )}}\n      \"amount\": {{ oneOf (array 0 0 0 0 0 0 0 0 0 0.5) }},\n      {{/if}}\n      \"type\": \"{{ oneOf (array 'SUBSCRIPTION' 'BALANCE') }}\"\n    }\n    {{/repeat}}\n  ],\n  \"memberships\": [\n    {\n      \"purchaseDate\": \"2022-07-13\",\n      \"membershipStart\": \"2022-01-01\"\n    },\n    {\n      \"purchaseDate\": \"2023-01-01\",\n      \"membershipStart\": \"2023-01-01\"\n    }\n  ],\n  \"macAddresses\": [\n    {{#repeat 0 3}}\n    \"{{ faker 'internet.mac' }}\"\n    {{/repeat}}\n  ]\n}",
+          "body": "{\n  {{setVar 'subscriptionStartDate' (date (dateTimeShift date=(now) months=-1) (now) 'yyyy-MM-dd') }}\n  \"id\": \"{{ faker 'number.int' min=1 max=800 }}\",\n  \"picture\": \"https://images.unsplash.com/{{ oneOf (array 'photo-1550525811-e5869dd03032' 'photo-1500648767791-00dcc994a43e' 'photo-1472099645785-5658abf4ff4e' 'photo-1502685104226-ee32379fefbe' 'photo-1519345182560-3f2917c472ef' 'photo-1463453091185-61582044d556' 'photo-1500917293891-ef795e70e1f6' 'photo-1494790108377-be9c29b29330' 'photo-1507003211169-0a1dd7228f2d' 'photo-1501031170107-cfd33f0cbdcc' 'photo-1517070208541-6ddc4d3efbcb' 'photo-1487412720507-e7ab37603c6f') }}?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80\",\n  \"email\": \"{{ faker 'internet.email' }}\",\n  \"firstname\": \"{{ faker 'person.firstName'}}\",\n  \"lastname\": \"{{ faker 'person.lastName'}}\",\n  \"lastSeen\": \"{{ date (dateTimeShift date=(now) days=-3) (now)  }}\",\n  \"created\": \"{{ date '2020-11-20' '2020-11-25' \"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\" }}\",\n  \"active\": {{ boolean }},\n  \"balance\": {{ faker 'number.int' min=-10 max=20 }},\n  \"subscription\": {\n    \"id\": {{ faker 'number.int' min=1 max=999999 }},\n    \"startDate\": \"{{ @subscriptionStartDate }}\",\n    \"endDate\": \"{{ dateTimeShift date=@subscriptionStartDate months=1 format='yyyy-MM-dd' }}\",\n    \"purchased\": \"{{ dateTimeShift date=@subscriptionStartDate days=-3 format='yyyy-MM-dd' }}\"\n  },\n  \"subscriptions\": [\n    {{#repeat 1 12}}\n    {{setVar 'startDate' (dateTimeShift date=@subscriptionStartDate months=(subtract -1 @index) format='yyyy-MM-dd') }}\n    {\n      \"id\": \"{{ faker 'number.int' min=1 max=999999 }}\",\n      \"startDate\": \"{{ @startDate }}\",\n      \"endDate\": \"{{ dateTimeShift date=@startDate months=1 format='yyyy-MM-dd' }}\",\n      \"purchased\": \"{{ dateTimeShift date=@startDate days=-3 format='yyyy-MM-dd' }}\"\n    }\n    {{/repeat}}\n  ],\n  \"tickets\": [\n    {{#repeat 1 12}}\n    {{setVar 'purchaseDate' (dateTimeShift date=@subscriptionStartDate years=-1 months=(subtract -1 @index) format='yyyy-MM-dd') }}\n    {\n      \"id\": \"{{ faker 'number.int' min=1 max=999999 }}\",\n      \"purchaseDate\": \"{{ @purchaseDate }}\",\n      \"tickets\": 10\n    }\n    {{/repeat}}\n  ],\n  \"presences\": [\n    {{#repeat 180 }}\n    {{setVar 'timelineDate' (dateTimeShift date=@subscriptionStartDate days=@index months=-6 format='yyyy-MM-dd') }}\n    {\n      \"id\": \"{{ faker 'number.int' min=1 max=999999 }}\",\n      \"date\": \"{{ @timelineDate }}\",\n      {{#if (includes '12345' (dateFormat @timelineDate 'i') )}}\n      \"amount\": {{ oneOf (array 0 0.5 0.5 1 1 1 1 1) }},\n      {{/if}}\n      {{#if (includes '67' (dateFormat @timelineDate 'i') )}}\n      \"amount\": {{ oneOf (array 0 0 0 0 0 0 0 0 0 0.5) }},\n      {{/if}}\n      \"type\": \"{{ oneOf (array 'SUBSCRIPTION' 'TICKET') }}\"\n    }\n    {{/repeat}}\n  ],\n  \"memberships\": [\n    {\n      \"id\": \"{{ faker 'number.int' min=1 max=999999 }}\",\n      \"purchaseDate\": \"2022-07-13\",\n      \"membershipStart\": \"2022-01-01\"\n    },\n    {\n      \"id\": \"{{ faker 'number.int' min=1 max=999999 }}\",\n      \"purchaseDate\": \"2023-01-01\",\n      \"membershipStart\": \"2023-01-01\"\n    }\n  ],\n  \"devices\": [\n    {{#repeat 1 3}}\n    {\n      \"id\": \"{{ faker 'number.int' min=1 max=999999 }}\",\n      \"macAddress\": \"{{ faker 'internet.mac' }}\"\n    }\n    {{/repeat}}\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -661,6 +661,82 @@
       "enabled": true,
       "responseMode": null,
       "type": "http"
+    },
+    {
+      "uuid": "7c8c5840-35d6-431b-8ee0-34dfe79b6545",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "tickets/manager/v1/members/:id",
+      "responses": [
+        {
+          "uuid": "8f3981c3-c100-4ade-94c2-6d9227292e9f",
+          "body": "{\n  {{setVar 'subscriptionStartDate' (date (dateTimeShift date=(now) months=-1) (now) 'yyyy-MM-dd') }}\n  \"id\": {{ faker 'number.int' min=1 max=800 }},\n  \"picture\": \"https://images.unsplash.com/{{ oneOf (array 'photo-1550525811-e5869dd03032' 'photo-1500648767791-00dcc994a43e' 'photo-1472099645785-5658abf4ff4e' 'photo-1502685104226-ee32379fefbe' 'photo-1519345182560-3f2917c472ef' 'photo-1463453091185-61582044d556' 'photo-1500917293891-ef795e70e1f6' 'photo-1494790108377-be9c29b29330' 'photo-1507003211169-0a1dd7228f2d' 'photo-1501031170107-cfd33f0cbdcc' 'photo-1517070208541-6ddc4d3efbcb' 'photo-1487412720507-e7ab37603c6f') }}?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80\",\n  \"email\": \"{{ faker 'internet.email' }}\",\n  \"firstname\": \"{{ faker 'person.firstName'}}\",\n  \"lastname\": \"{{ faker 'person.lastName'}}\",\n  \"lastSeen\": \"{{ date (dateTimeShift date=(now) days=-3) (now)  }}\",\n  \"created\": \"{{ date '2020-11-20' '2020-11-25' \"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'\" }}\",\n  \"balance\": {{ faker 'number.int' min=-10 max=20 }},\n  \"subscription\": {\n    \"id\": {{ faker 'number.int' min=1 max=999999 }},\n    \"startDate\": \"{{ @subscriptionStartDate }}\",\n    \"endDate\": \"{{ dateTimeShift date=@subscriptionStartDate months=1 format='yyyy-MM-dd' }}\",\n    \"purchased\": \"{{ dateTimeShift date=@subscriptionStartDate days=-3 format='yyyy-MM-dd' }}\"\n  },\n  \"subscriptions\": [\n    {{#repeat 1 12}}\n    {{setVar 'startDate' (dateTimeShift date=@subscriptionStartDate months=(subtract -1 @index) format='yyyy-MM-dd') }}\n    {\n      \"id\": {{ faker 'number.int' min=1 max=999999 }},\n      \"startDate\": \"{{ @startDate }}\",\n      \"endDate\": \"{{ dateTimeShift date=@startDate months=1 format='yyyy-MM-dd' }}\",\n      \"purchased\": \"{{ dateTimeShift date=@startDate days=-3 format='yyyy-MM-dd' }}\"\n    }\n    {{/repeat}}\n  ],\n  \"tickets\": [\n    {{#repeat 1 5}}\n    {{setVar 'purchaseDate' (dateTimeShift date=@subscriptionStartDate years=-1 months=(subtract -1 @index) format='yyyy-MM-dd') }}\n    {\n      \"id\": {{ faker 'number.int' min=1 max=999999 }},\n      \"purchaseDate\": \"{{ @purchaseDate }}\",\n      \"tickets\": 10\n    }\n    {{/repeat}}\n  ],\n  \"presences\": [\n    {{#repeat 180 }}\n    {{setVar 'timelineDate' (dateTimeShift date=@subscriptionStartDate days=@index months=-6 format='yyyy-MM-dd') }}\n    {\n      \"id\": {{ faker 'number.int' min=1 max=999999 }},\n      \"date\": \"{{ @timelineDate }}\",\n      {{#if (includes '12345' (dateFormat @timelineDate 'i') )}}\n      \"amount\": {{ oneOf (array 0 0.5 0.5 1 1 1 1 1) }},\n      {{/if}}\n      {{#if (includes '67' (dateFormat @timelineDate 'i') )}}\n      \"amount\": {{ oneOf (array 0 0 0 0 0 0 0 0 0 0.5) }},\n      {{/if}}\n      \"type\": \"{{ oneOf (array 'SUBSCRIPTION' 'TICKET') }}\"\n    }\n    {{/repeat}}\n  ],\n  \"memberships\": [\n    {\n      \"id\": {{ faker 'number.int' min=1 max=999999 }},\n      \"purchaseDate\": \"2022-07-13\",\n      \"membershipStart\": \"2022-01-01\"\n    },\n    {\n      \"id\": {{ faker 'number.int' min=1 max=999999 }},\n      \"purchaseDate\": \"2023-01-01\",\n      \"membershipStart\": \"2023-01-01\"\n    }\n  ],\n  \"devices\": [\n    {{#repeat 1 3}}\n    {\n      \"id\": {{ faker 'number.int' min=1 max=999999 }},\n      \"macAddress\": \"{{ faker 'internet.mac' }}\"\n    }\n    {{/repeat}}\n  ]\n}",
+          "latency": 1000,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "0b43dc57-245b-4eeb-a363-a62d98444999",
+          "body": "{\n  \"message\": \"Oops something went wrong\"\n}",
+          "latency": 1000,
+          "statusCode": 500,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "f6c5937b-8713-4508-8fa5-a5e229398b59",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "tickets/mobile/v1/open-space/door",
+      "responses": [
+        {
+          "uuid": "1146a36d-3f4b-4913-b5e7-8ea3db09a4de",
+          "body": "{\n    \"triggered\": \"{{ now }}\",\n    \"locked\": \"{{ dateTimeShift date=(now) seconds=60 }}\",\n    \"timeout\": \"PT60S\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
     }
   ],
   "proxyMode": false,
@@ -724,6 +800,10 @@
         {
           "type": "route",
           "uuid": "d72d4754-f40b-47f7-a0b5-da029485de17"
+        },
+        {
+          "type": "route",
+          "uuid": "7c8c5840-35d6-431b-8ee0-34dfe79b6545"
         }
       ]
     },
@@ -775,6 +855,10 @@
         {
           "type": "route",
           "uuid": "7bd3b603-48bf-4f94-86bb-3f8b4a17bd55"
+        },
+        {
+          "type": "route",
+          "uuid": "f6c5937b-8713-4508-8fa5-a5e229398b59"
         }
       ]
     }

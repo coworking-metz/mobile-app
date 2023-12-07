@@ -15,3 +15,11 @@ export const openParkingGate = (): Promise<{
 }> => {
   return HTTP.post('/parking').then(({ data }) => data);
 };
+
+export const unlockOpenSpaceDoor = (): Promise<{
+  triggered: string;
+  locked: string;
+  timeout: string;
+}> => {
+  return HTTP.post('/open-space/door').then(({ data }) => data);
+};

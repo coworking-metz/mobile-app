@@ -32,7 +32,7 @@ import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import { theme } from '@/helpers/colors';
 import { parseErrorText } from '@/helpers/error';
-import { openParkingGate } from '@/services/api/intercom';
+import { openParkingGate } from '@/services/api/services';
 import useNoticeStore from '@/stores/notice';
 import useToastStore from '@/stores/toast';
 

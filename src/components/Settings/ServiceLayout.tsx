@@ -16,7 +16,7 @@ import { KeyboardAwareScrollView } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import { theme } from '@/helpers/colors';
 
-const NAVIGATION_HEIGHT = 56;
+const NAVIGATION_HEIGHT = 48;
 
 const AnimatedKeyboardAwareScrollView =
   Animated.createAnimatedComponent<KeyboardAwareScrollView>(KeyboardAwareScrollView);
@@ -69,7 +69,7 @@ const ServiceLayout = ({
   const titleStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
       verticalScrollProgress.value,
-      [0, headerHeight, headerHeight + 40],
+      [0, headerHeight, headerHeight + 32],
       [0, 0, 1],
     );
 
@@ -167,7 +167,7 @@ const ServiceLayout = ({
             color={tw.prefixMatch('dark') ? tw.color('gray-500') : theme.charlestonGreen}
             iconStyle={{ marginRight: 0 }}
             name="arrow-left"
-            size={40}
+            size={32}
             style={tw`p-1`}
             underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
             onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}

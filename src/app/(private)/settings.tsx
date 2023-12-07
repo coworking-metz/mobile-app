@@ -32,7 +32,7 @@ import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 import useToastStore from '@/stores/toast';
 import useUserStore from '@/stores/user';
 
-const NAVIGATION_HEIGHT = 64;
+const NAVIGATION_HEIGHT = 48;
 const HEADER_HEIGHT = 192;
 const INTERPOLATE_INPUT = [-1, 0, HEADER_HEIGHT, HEADER_HEIGHT];
 const IS_PROD = Constants.releaseChannel === 'production';
@@ -347,7 +347,7 @@ const Settings = () => {
               color={tw.prefixMatch('dark') ? tw.color('gray-500') : theme.charlestonGreen}
               iconStyle={{ marginRight: 0 }}
               name="arrow-left"
-              size={40}
+              size={32}
               style={tw`p-1 shrink-0`}
               underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
               onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}

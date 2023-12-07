@@ -27,7 +27,9 @@ import PresentsCount from '@/components/Home/PresentsCount';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
-import UnlockCard from '@/components/Home/UnlockCard';
+import UnlockGateCard from '@/components/Home/UnlockGateCard';
+import UnlockInsideDoorBottomSheet from '@/components/Home/UnlockInsideDoorBottomSheet';
+import UnlockInsideDoorCard from '@/components/Home/UnlockInsideDoorCard';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import { type CalendarEvent } from '@/services/api/calendar';
@@ -65,6 +67,7 @@ export default function HomeScreen({}) {
 
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
+  const [hasUnlockInsideDoor, setUnlockInsideDoor] = useState<boolean>(false);
 
   const [refreshing, setRefreshing] = useState(false);
   const [lastFetch, setLastFetch] = useState<string | null>(null);
@@ -341,13 +344,19 @@ export default function HomeScreen({}) {
         <Animated.View
           entering={FadeInUp.duration(500).delay(700)}
           style={tw`flex flex-col self-stretch`}>
-          <UnlockCard />
+          <UnlockGateCard />
         </Animated.View>
 
         <Animated.View
           entering={FadeInUp.duration(500).delay(800)}
           style={tw`flex flex-col self-stretch`}>
           <ParkingCard />
+        </Animated.View>
+
+        <Animated.View
+          entering={FadeInUp.duration(500).delay(900)}
+          style={tw`flex flex-col self-stretch`}>
+          <UnlockInsideDoorCard onUnlocked={() => setUnlockInsideDoor(true)} />
         </Animated.View>
       </Animated.ScrollView>
 
@@ -367,6 +376,10 @@ export default function HomeScreen({}) {
 
       {!isNil(profile) && hasSelectBalance ? (
         <CouponsBottomSheet balance={profile.balance} onClose={() => selectBalance(false)} />
+      ) : null}
+
+      {hasUnlockInsideDoor ? (
+        <UnlockInsideDoorBottomSheet onClose={() => setUnlockInsideDoor(false)} />
       ) : null}
     </Animated.View>
   );
