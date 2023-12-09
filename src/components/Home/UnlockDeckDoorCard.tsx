@@ -8,7 +8,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { parseErrorText } from '@/helpers/error';
-import { unlockOpenSpaceDoor } from '@/services/api/services';
+import { unlockDeckDoor } from '@/services/api/services';
 import useNoticeStore from '@/stores/notice';
 import useToastStore from '@/stores/toast';
 
@@ -41,7 +41,7 @@ const UnlockCard: ForwardRefRenderFunction<
       setTapHistory([...tapHistory, new Date().toISOString()]);
     }
     setLoading(true);
-    unlockOpenSpaceDoor()
+    unlockDeckDoor()
       .then(({ locked }) => {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         onUnlocked(locked);
@@ -50,7 +50,7 @@ const UnlockCard: ForwardRefRenderFunction<
         const description = await parseErrorText(error);
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         noticeStore.add({
-          message: t('home.openSpace.door.onFail.message'),
+          message: t('home.deck.door.onFail.message'),
           description,
           type: 'error',
         });
@@ -122,7 +122,7 @@ const UnlockCard: ForwardRefRenderFunction<
             tw`text-xl font-medium text-slate-900 dark:text-gray-200`,
             disabled && tw`opacity-30`,
           ]}>
-          {t('home.openSpace.door.label')}
+          {t('home.deck.door.label')}
         </Text>
         <View style={[tw`flex flex-row items-center gap-1`]}>
           {isLoading ? (
@@ -131,7 +131,7 @@ const UnlockCard: ForwardRefRenderFunction<
                 tw`flex flex-row items-center text-base text-slate-500 dark:text-slate-400 grow`,
                 disabled && tw`opacity-30`,
               ]}>
-              {t('home.openSpace.door.loading')}
+              {t('home.deck.door.loading')}
             </Text>
           ) : (
             <Text
@@ -139,7 +139,7 @@ const UnlockCard: ForwardRefRenderFunction<
                 tw`flex flex-row items-center text-base text-slate-500 dark:text-slate-400 grow`,
                 disabled && tw`opacity-30`,
               ]}>
-              {t('home.openSpace.door.description')}
+              {t('home.deck.door.description')}
             </Text>
           )}
         </View>

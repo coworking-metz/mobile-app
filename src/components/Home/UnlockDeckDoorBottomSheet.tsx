@@ -1,4 +1,3 @@
-import CaldendarAnimation from '../Animations/CaldendarAnimation';
 import UnlockAnimation from '../Animations/UnlockAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import React from 'react';
@@ -7,7 +6,7 @@ import { Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 
-const UnlockInsideDoorBottomSheet = ({
+const UnlockDeckDoorBottomSheet = ({
   style,
   onClose,
 }: {
@@ -22,14 +21,14 @@ const UnlockInsideDoorBottomSheet = ({
         <UnlockAnimation style={tw`w-full max-h-[144px]`} />
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-          {t('home.openSpace.door.onUnlocked.label')}
+          {t('home.deck.door.onUnlocked.label')}
         </Text>
         <Text style={tw`text-center text-base text-slate-500 dark:text-slate-400 w-full`}>
-          {t('home.openSpace.door.onUnlocked.description')}
+          {t('home.deck.door.onUnlocked.description')}
         </Text>
       </View>
     </AppBottomSheet>
   );
 };
 
-export default UnlockInsideDoorBottomSheet;
+export default UnlockDeckDoorBottomSheet;

@@ -27,9 +27,9 @@ import PresentsCount from '@/components/Home/PresentsCount';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
+import UnlockDeckDoorBottomSheet from '@/components/Home/UnlockDeckDoorBottomSheet';
+import UnlockDeckDoorCard from '@/components/Home/UnlockDeckDoorCard';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
-import UnlockInsideDoorBottomSheet from '@/components/Home/UnlockInsideDoorBottomSheet';
-import UnlockInsideDoorCard from '@/components/Home/UnlockInsideDoorCard';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import { type CalendarEvent } from '@/services/api/calendar';
@@ -356,7 +356,7 @@ export default function HomeScreen({}) {
         <Animated.View
           entering={FadeInUp.duration(500).delay(900)}
           style={tw`flex flex-col self-stretch`}>
-          <UnlockInsideDoorCard onUnlocked={() => setUnlockInsideDoor(true)} />
+          <UnlockDeckDoorCard onUnlocked={() => setUnlockInsideDoor(true)} />
         </Animated.View>
       </Animated.ScrollView>
 
@@ -379,7 +379,7 @@ export default function HomeScreen({}) {
       ) : null}
 
       {hasUnlockInsideDoor ? (
-        <UnlockInsideDoorBottomSheet onClose={() => setUnlockInsideDoor(false)} />
+        <UnlockDeckDoorBottomSheet onClose={() => setUnlockInsideDoor(false)} />
       ) : null}
     </Animated.View>
   );

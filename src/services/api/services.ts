@@ -16,7 +16,7 @@ export const openParkingGate = (): Promise<{
   return HTTP.post('/parking').then(({ data }) => data);
 };
 
-export const unlockOpenSpaceDoor = (): Promise<{
+export const unlockDeckDoor = (): Promise<{
   triggered: string;
   locked: string;
   timeout: string;

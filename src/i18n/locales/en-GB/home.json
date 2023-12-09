@@ -1,4 +1,22 @@
 {
+  "Deck": {
+    "door": {
+      "description": "from the deck",
+      "label": "Open the door",
+      "loading": "requesting...",
+      "onFail": {
+        "message": "Unable to open\nthe door 😔"
+      },
+      "onSuccessiveTaps": {
+        "action": "Yes",
+        "message": "Is there something wrong?"
+      },
+      "onUnlocked": {
+        "description": "You can push the door\nand enter into the Open Space.",
+        "label": "Door is open!"
+      }
+    }
+  },
   "calendar": {
     "browse": "Browse",
     "empty": {
