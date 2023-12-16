@@ -5,7 +5,7 @@ export const unlockSteelGate = (): Promise<{
   locked: string;
   timeout: string;
 }> => {
-  return HTTP.post('/intercom').then(({ data }) => data);
+  return HTTP.post('/mobile/v1/intercom').then(({ data }) => data);
 };
 
 export const openParkingGate = (): Promise<{
@@ -13,7 +13,7 @@ export const openParkingGate = (): Promise<{
   open: string;
   timeout: string;
 }> => {
-  return HTTP.post('/parking').then(({ data }) => data);
+  return HTTP.post('/mobile/v1/parking').then(({ data }) => data);
 };
 
 export const unlockDeckDoor = (): Promise<{
@@ -21,5 +21,5 @@ export const unlockDeckDoor = (): Promise<{
   locked: string;
   timeout: string;
 }> => {
-  return HTTP.post('/open-space/door').then(({ data }) => data);
+  return HTTP.post('/mobile/v1/open-space/door').then(({ data }) => data);
 };

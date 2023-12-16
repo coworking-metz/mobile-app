@@ -53,7 +53,7 @@ export default function Login() {
 
     const loginUri = new URL(`${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/login`);
     if (!IS_PROD) {
-      loginUri.searchParams.append('redirect', redirectUriOnSuccess);
+      loginUri.searchParams.append('follow', redirectUriOnSuccess);
     }
 
     openAuthSessionAsync(loginUri.toString())

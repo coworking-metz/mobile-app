@@ -1,5 +1,19 @@
 {
-  "Deck": {
+  "calendar": {
+    "browse": "Browse",
+    "empty": {
+      "label": "Nothing planned in the near future"
+    },
+    "event": {
+      "date": "{{date, datetime}}"
+    },
+    "label": "Events",
+    "onFetchFail": {
+      "action": "Learn more",
+      "message": "Unable to fetch calendar events"
+    }
+  },
+  "deck": {
     "door": {
       "description": "from the deck",
       "label": "Open the door",
@@ -15,20 +29,6 @@
         "description": "You can push the door\nand enter into the Open Space.",
         "label": "Door is open!"
       }
-    }
-  },
-  "calendar": {
-    "browse": "Browse",
-    "empty": {
-      "label": "Nothing planned in the near future"
-    },
-    "event": {
-      "date": "{{date, datetime}}"
-    },
-    "label": "Events",
-    "onFetchFail": {
-      "action": "Learn more",
-      "message": "Unable to fetch calendar events"
     }
   },
   "intercom": {

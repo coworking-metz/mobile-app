@@ -10,5 +10,5 @@ export interface AmourFoodMenu {
 }
 
 export const getMenu = (): Promise<AmourFoodMenu> => {
-  return HTTP.get('/amour-food/menu').then(({ data }) => data);
+  return HTTP.get('/mobile/v1/amour-food/menu').then(({ data }) => data);
 };

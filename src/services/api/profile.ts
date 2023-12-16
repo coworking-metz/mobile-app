@@ -15,7 +15,7 @@ export type ApiUserProfile = {
 };
 
 export const getUserProfile = (): Promise<ApiUserProfile> => {
-  return HTTP.get('/profile').then(({ data }) => data);
+  return HTTP.get('/mobile/v1/profile').then(({ data }) => data);
 };
 
 export type ApiUserPresenceTimelineItem = {
@@ -27,5 +27,5 @@ export type ApiUserPresenceTimelineItem = {
 export const getUserPresence = (): Promise<{
   timeline: ApiUserPresenceTimelineItem[];
 }> => {
-  return HTTP.get('/profile/presence').then(({ data }) => data);
+  return HTTP.get('/mobile/v1/profile/presence').then(({ data }) => data);
 };

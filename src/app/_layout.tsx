@@ -1,5 +1,4 @@
 import { SplashScreen, Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import { Platform, View } from 'react-native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
@@ -27,7 +26,6 @@ const RootLayout = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <StatusBar translucent />
       <I18nProvider>
         <AuthProvider>
           <SafeAreaProvider>

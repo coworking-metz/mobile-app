@@ -13,5 +13,5 @@ export interface CalendarEvent {
 }
 
 export const getCalendarEvents = (): Promise<CalendarEvent[]> => {
-  return HTTP.get('/calendar/events').then(({ data }) => data);
+  return HTTP.get('/mobile/v1/calendar/events').then(({ data }) => data);
 };

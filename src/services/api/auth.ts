@@ -13,7 +13,7 @@ export type ApiUser = {
 };
 
 export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiTokens> => {
-  return HTTP.post('/auth/token', { refreshToken }).then(({ data }) => data);
+  return HTTP.post('/auth/tokens', { refreshToken }).then(({ data }) => data);
 };
 
 /**

@@ -61,7 +61,7 @@ const CalendarEventCard = ({
           <View
             style={[
               tw`h-full pl-3 py-2 max-w-2/3 shrink-0`,
-              { ...(backgroundColor && { backgroundColor }) },
+              // { ...(backgroundColor && { backgroundColor }) },
             ]}>
             <Text
               numberOfLines={1}

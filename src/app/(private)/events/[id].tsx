@@ -1,9 +1,10 @@
+import dayjs from 'dayjs';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { isNil } from 'lodash';
 import { useMemo } from 'react';
-
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
+import openMap from 'react-native-open-maps';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
 import { Button } from 'react-native-ui-lib';
 import tw from 'twrnc';
@@ -36,20 +37,29 @@ export default function Page() {
               style={tw`h-40 mx-4 rounded-2xl bg-gray-200 dark:bg-gray-900`}
               transition={300}
             />
-            <Text style={tw`text-xl text-slate-500 dark:text-slate-400 mx-6 mt-4`}>
-              {t('events.detail.date', {
+            <ServiceRow
+              withBottomDivider
+              description={t('events.detail.time', {
+                startTime: dayjs(event.start).format('LT'),
+                endTime: dayjs(event.end).format('LT'),
+              })}
+              label={t('events.detail.date', {
                 date: new Date(event.start),
                 formatParams: {
                   date: { weekday: 'long', month: 'long', day: 'numeric' },
                 },
               })}
-            </Text>
+              prefixIcon="calendar-outline"
+              style={tw`mt-3 mx-3 px-3`}
+            />
             {event.location ? (
               <ServiceRow
+                withBottomDivider
                 label={event.location}
                 prefixIcon="map-marker-outline"
                 style={tw`mx-3 px-3`}
                 suffixIcon="directions"
+                onPress={() => openMap({ query: event.location })}
               />
             ) : null}
             {event.description ? (
