@@ -1,17 +1,11 @@
 import { Image } from 'expo-image';
-import { Skeleton } from 'moti/skeleton';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useColorScheme, type LayoutChangeEvent } from 'react-native';
-// import { getColors } from 'react-native-image-colors';
-import { Text, View } from 'react-native';
+import { Text, View, useColorScheme, type LayoutChangeEvent } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
-import { invertColor } from '@/helpers/colors';
 import { type CalendarEvent } from '@/services/api/calendar';
-
-type TextColor = 'black' | 'white';
 
 const CalendarEventCard = ({
   event = null,
@@ -21,34 +15,9 @@ const CalendarEventCard = ({
   style?: StyleProps | false;
 }) => {
   const { t } = useTranslation();
-  const [backgroundColor, setBackgroundColor] = React.useState<string | null>(null);
-  const [textColor, setTextColor] = React.useState<TextColor | null>(null);
   const [containerWidth, setContainerWidth] = React.useState<number>(0);
 
   const colorScheme = useColorScheme();
-
-  useEffect(() => {
-    const initialColor = (
-      colorScheme === 'dark' ? tw.color('gray-900') : tw.color('gray-200')
-    ) as string;
-    setBackgroundColor(initialColor);
-    setTextColor(invertColor(initialColor, true, true) as TextColor);
-  }, [colorScheme]);
-
-  // useEffect(() => {
-  //   getColors(event.picture, {
-  //     cache: true,
-  //     key: event.picture,
-  //   }).then((imageColors) => {
-  //     if (imageColors.platform === 'android') {
-  //       setBackgroundColor(imageColors.average);
-  //       setTextColor(invertColor(imageColors.average, true, true) as TextColor);
-  //     } else if (imageColors.platform === 'ios') {
-  //       setBackgroundColor(imageColors.background);
-  //       setTextColor(invertColor(imageColors.background, true, true) as TextColor);
-  //     }
-  //   });
-  // }, [event.picture]);
 
   return (
     <View
@@ -58,21 +27,8 @@ const CalendarEventCard = ({
       ]}>
       {event ? (
         <>
-          <View
-            style={[
-              tw`h-full pl-3 py-2 max-w-2/3 shrink-0`,
-              // { ...(backgroundColor && { backgroundColor }) },
-            ]}>
-            <Text
-              numberOfLines={1}
-              style={[
-                tw`text-base`,
-                {
-                  ...(textColor && {
-                    color: tw.color(textColor === 'black' ? 'slate-500' : 'slate-400'),
-                  }),
-                },
-              ]}>
+          <View style={tw`h-full pl-3 py-2 max-w-2/3 shrink-0`}>
+            <Text numberOfLines={1} style={tw`text-base text-slate-500 dark:text-slate-400`}>
               {t('home.calendar.event.date', {
                 date: new Date(event.start),
                 formatParams: {
@@ -80,16 +36,7 @@ const CalendarEventCard = ({
                 },
               })}
             </Text>
-            <Text
-              numberOfLines={2}
-              style={[
-                tw`text-xl grow`,
-                {
-                  ...(textColor && {
-                    color: tw.color(textColor === 'black' ? 'slate-900' : 'gray-200'),
-                  }),
-                },
-              ]}>
+            <Text numberOfLines={2} style={tw`text-xl grow text-gray-900 dark:text-gray-200`}>
               {event.label}
             </Text>
           </View>
@@ -103,7 +50,7 @@ const CalendarEventCard = ({
                 visible
                 position={Fader.position.START}
                 size={containerWidth}
-                tintColor={backgroundColor || ''}
+                tintColor={colorScheme === 'dark' ? tw.color('gray-900') : tw.color('gray-200')}
               />
             </View>
             <Image contentFit="cover" source={event.picture} style={tw`h-full`} transition={1000} />

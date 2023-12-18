@@ -18,6 +18,7 @@ import tw, { useDeviceContext } from 'twrnc';
 import CalendarEmptyCard from '@/components/Home/CalendarEmptyCard';
 import CalendarEventBottomSheet from '@/components/Home/CalendarEventBottomSheet';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
+import ControlsCard from '@/components/Home/ControlsCard';
 import CouponsBottomSheet from '@/components/Home/CouponsBottomSheet';
 import CouponsCard from '@/components/Home/CouponsCard';
 import HomeCarousel from '@/components/Home/HomeCarousel';
@@ -67,7 +68,6 @@ export default function HomeScreen({}) {
 
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
-  const [hasUnlockInsideDoor, setUnlockInsideDoor] = useState<boolean>(false);
 
   const [refreshing, setRefreshing] = useState(false);
   const [lastFetch, setLastFetch] = useState<string | null>(null);
@@ -118,7 +118,7 @@ export default function HomeScreen({}) {
           message: t('home.people.onFetchFail.message'),
           type: ToastPresets.FAILURE,
           action: {
-            label: t('home.people.onFetchFail.action'),
+            label: t('actions.more'),
             onPress: () => {
               noticeStore.add({
                 message: t('home.people.onFetchFail.message'),
@@ -144,7 +144,7 @@ export default function HomeScreen({}) {
           message: t('home.calendar.onFetchFail.message'),
           type: ToastPresets.FAILURE,
           action: {
-            label: t('home.calendar.onFetchFail.action'),
+            label: t('actions.more'),
             onPress: () => {
               noticeStore.add({
                 message: t('home.calendar.onFetchFail.message'),
@@ -356,7 +356,11 @@ export default function HomeScreen({}) {
         <Animated.View
           entering={FadeInUp.duration(500).delay(900)}
           style={tw`flex flex-col self-stretch`}>
-          <UnlockDeckDoorCard onUnlocked={() => setUnlockInsideDoor(true)} />
+          <Link asChild href="/controls">
+            <TouchableOpacity>
+              <ControlsCard />
+            </TouchableOpacity>
+          </Link>
         </Animated.View>
       </Animated.ScrollView>
 
@@ -376,10 +380,6 @@ export default function HomeScreen({}) {
 
       {!isNil(profile) && hasSelectBalance ? (
         <CouponsBottomSheet balance={profile.balance} onClose={() => selectBalance(false)} />
-      ) : null}
-
-      {hasUnlockInsideDoor ? (
-        <UnlockDeckDoorBottomSheet onClose={() => setUnlockInsideDoor(false)} />
       ) : null}
     </Animated.View>
   );

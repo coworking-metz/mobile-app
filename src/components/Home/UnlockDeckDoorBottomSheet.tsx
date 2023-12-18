@@ -21,10 +21,10 @@ const UnlockDeckDoorBottomSheet = ({
         <UnlockAnimation style={tw`w-full max-h-[144px]`} />
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-          {t('home.deck.door.onUnlocked.label')}
+          {t('controls.door.onUnlocked.label')}
         </Text>
         <Text style={tw`text-center text-base text-slate-500 dark:text-slate-400 w-full`}>
-          {t('home.deck.door.onUnlocked.description')}
+          {t('controls.door.onUnlocked.description')}
         </Text>
       </View>
     </AppBottomSheet>

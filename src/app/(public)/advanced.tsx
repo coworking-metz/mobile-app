@@ -78,7 +78,10 @@ const Advanced = () => {
   }, [authStore.clear, settingsStore.clear]);
 
   return (
-    <ServiceLayout description={t('advanced.description')} title={t('advanced.title')}>
+    <ServiceLayout
+      description={t('advanced.description')}
+      style={tw`py-6`}
+      title={t('advanced.title')}>
       <Animated.Text
         entering={FadeInLeft.duration(300)}
         style={[tw`text-sm uppercase text-slate-500 mx-6`]}>

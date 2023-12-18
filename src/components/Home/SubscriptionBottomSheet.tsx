@@ -1,4 +1,4 @@
-import CaldendarAnimation from '../Animations/CaldendarAnimation';
+import CalendarAnimation from '../Animations/CalendarAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import ServiceRow from '../Settings/ServiceRow';
 import dayjs from 'dayjs';
@@ -29,7 +29,7 @@ const SubscriptionBottomSheet = ({
   return (
     <AppBottomSheet style={style} onClose={onClose}>
       <View style={tw`flex flex-col items-center justify-between gap-4 p-6`}>
-        <CaldendarAnimation style={tw`w-full`} />
+        <CalendarAnimation style={tw`w-full`} />
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('home.tickets.subscription.label')}

@@ -1,0 +1,16 @@
+{
+  "door": {
+    "onFail": {
+      "message": "Impossible d'ouvrir\nla porte 😔"
+    },
+    "onSuccessiveTaps": {
+      "action": "Oui",
+      "message": "Quelque chose ne va pas ?"
+    },
+    "onUnlocked": {
+      "description": "Vous pouvez ouvrir la porte\net entrer dans l'Open Space.",
+      "label": "C'est ouvert !"
+    }
+  },
+  "title": "Gérer l'espace"
+}

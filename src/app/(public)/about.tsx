@@ -15,7 +15,7 @@ const About = () => {
   const { t } = useTranslation();
 
   return (
-    <ServiceLayout description={t('about.description')} title={t('about.title')}>
+    <ServiceLayout description={t('about.description')} style={tw`py-6`} title={t('about.title')}>
       <Text style={tw`text-sm uppercase text-slate-500 mx-6`}>{t('about.legal.title')}</Text>
       <ServiceRow label={t('about.legal.license.label')} style={tw`px-3 mx-3`}>
         <Text style={tw`text-base text-slate-500 grow text-right`}>MIT</Text>

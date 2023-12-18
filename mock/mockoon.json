@@ -589,11 +589,163 @@
       "uuid": "f6c5937b-8713-4508-8fa5-a5e229398b59",
       "documentation": "",
       "method": "post",
-      "endpoint": "api/mobile/v1/open-space/door",
+      "endpoint": "api/mobile/v1/lights/:id/on",
       "responses": [
         {
           "uuid": "1146a36d-3f4b-4913-b5e7-8ea3db09a4de",
+          "body": "{\n  \"state\": \"on\",\n  \"updated\": \"{{ now }}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "36e21ff7-8d38-44b7-bb5f-3def58195678",
+          "body": "{\n  \"message\": \"Vous devez être présent pour actionner les lumières\"\n}",
+          "latency": 0,
+          "statusCode": 428,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": "RANDOM",
+      "type": "http"
+    },
+    {
+      "uuid": "e727a1dd-e739-4bf3-bc5a-cfa02e89fa02",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/mobile/v1/doors/deck/unlock",
+      "responses": [
+        {
+          "uuid": "52f91dbf-5dd0-4d0b-a940-08cd4644264b",
           "body": "{\n    \"triggered\": \"{{ now }}\",\n    \"locked\": \"{{ dateTimeShift date=(now) seconds=60 }}\",\n    \"timeout\": \"PT60S\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "0cf5c6a6-64b3-497a-834a-e93d420b6dfd",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/mobile/v1/lights/:id/off",
+      "responses": [
+        {
+          "uuid": "24d27568-fd3c-4cb9-9651-e7100c7aacde",
+          "body": "{\n  \"state\": \"off\",\n  \"updated\": \"{{ now }}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "1655a055-3b0c-4a04-a0aa-4d8662c60919",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/mobile/v1/fans/:id/on",
+      "responses": [
+        {
+          "uuid": "5b9996b2-4588-4f7d-8403-6f43b27bb8ad",
+          "body": "{\n  \"state\": \"on\",\n  \"updated\": \"{{ now }}\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        },
+        {
+          "uuid": "7c175071-c0f0-458d-a4c0-0446dedda036",
+          "body": "{\n  \"message\": \"Vous devez être présent pour actionner la climatisation/ventilation\"\n}",
+          "latency": 0,
+          "statusCode": 428,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "7b66f169-670c-44eb-9714-831731c04f55",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/mobile/v1/fans/:id/off",
+      "responses": [
+        {
+          "uuid": "6a1b1993-bd0b-45b0-b022-814cc480f99e",
+          "body": "{\n  \"state\": \"off\",\n  \"updated\": \"{{ now }}\"\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -719,6 +871,22 @@
         {
           "type": "route",
           "uuid": "f6c5937b-8713-4508-8fa5-a5e229398b59"
+        },
+        {
+          "type": "route",
+          "uuid": "0cf5c6a6-64b3-497a-834a-e93d420b6dfd"
+        },
+        {
+          "type": "route",
+          "uuid": "e727a1dd-e739-4bf3-bc5a-cfa02e89fa02"
+        },
+        {
+          "type": "route",
+          "uuid": "1655a055-3b0c-4a04-a0aa-4d8662c60919"
+        },
+        {
+          "type": "route",
+          "uuid": "7b66f169-670c-44eb-9714-831731c04f55"
         }
       ]
     },

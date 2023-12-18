@@ -9,27 +9,12 @@
     },
     "label": "Évènements",
     "onFetchFail": {
-      "action": "En savoir plus",
       "message": "Impossible de récupérer les évènements"
     }
   },
-  "deck": {
-    "door": {
-      "description": "depuis la terrasse",
-      "label": "Ouvrir la porte",
-      "loading": "demande en cours...",
-      "onFail": {
-        "message": "Impossible d'ouvrir\nla porte 😔"
-      },
-      "onSuccessiveTaps": {
-        "action": "Oui",
-        "message": "Quelque chose ne va pas ?"
-      },
-      "onUnlocked": {
-        "description": "Vous pouvez ouvrir la porte\net entrer dans l'Open Space.",
-        "label": "C'est ouvert !"
-      }
-    }
+  "controls": {
+    "description": "@:controls.description",
+    "label": "@:controls.title"
   },
   "intercom": {
     "description": "pendant un court instant",
@@ -66,7 +51,6 @@
   "people": {
     "capacity": " sur {{total}}",
     "onFetchFail": {
-      "action": "En savoir plus",
       "message": "Impossible de récupérer l'occupation actuelle"
     },
     "present_one": "Une seule personne présente",

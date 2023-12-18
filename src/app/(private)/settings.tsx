@@ -109,7 +109,7 @@ const Settings = () => {
             message: t('settings.profile.presence.onFail.message'),
             type: ToastPresets.FAILURE,
             action: {
-              label: t('settings.profile.presence.onFail.action'),
+              label: t('actions.more'),
               onPress: () => {
                 noticeStore.add({
                   message: t('settings.profile.presence.onFail.message'),

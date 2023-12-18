@@ -12,3 +12,4 @@ export { default as notFound } from './notFound.json';
 export { default as help } from './help.json';
 export { default as presence } from './presence.json';
 export { default as events } from './events.json';
+export { default as controls } from './controls.json';
