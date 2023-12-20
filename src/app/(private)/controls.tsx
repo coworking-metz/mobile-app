@@ -11,7 +11,6 @@ import Animated, {
   withTiming,
   withRepeat,
   cancelAnimation,
-  withSpring,
   Easing,
   withSequence,
 } from 'react-native-reanimated';
@@ -19,6 +18,7 @@ import { ToastPresets } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
+import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
 import UnlockDeckDoorBottomSheet from '@/components/Home/UnlockDeckDoorBottomSheet';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import { theme } from '@/helpers/colors';
@@ -94,6 +94,12 @@ const ActionableLight = ({
   const [isActive, setActive] = useState(active);
   const [isLoading, setLoading] = useState(false);
 
+  const xTranslation = useSharedValue(0);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: xTranslation.value }],
+  }));
+
   const toggle = useCallback(() => {
     setLoading(true);
     toastStore.dismissAll();
@@ -108,6 +114,12 @@ const ActionableLight = ({
           type: ToastPresets.FAILURE,
         });
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+
+        xTranslation.value = withSequence(
+          withTiming(-1, { duration: 100 / 2 }),
+          withRepeat(withTiming(1, { duration: 100 }), 5, true),
+          withTiming(0, { duration: 100 / 2 }),
+        );
       })
       .finally(() => setLoading(false));
   }, [id, active, isActive]);
@@ -116,6 +128,7 @@ const ActionableLight = ({
     <ActionableIcon
       active={isActive}
       activeIcon="ceiling-light"
+      iconStyle={animatedStyle}
       inactiveIcon="ceiling-light-outline"
       loading={isLoading}
       style={style}
@@ -253,53 +266,64 @@ const ActionableDeckDoor = ({
 const Controls = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
-
+  const [hasFloorplanLoaded, setFloorplanLoaded] = useState<boolean>(false);
   const [hasUnlockInsideDoor, setUnlockInsideDoor] = useState<boolean>(false);
 
   return (
     <>
       <ServiceLayout style={tw`bg-transparent`} title={t('controls.title')}>
-        <View style={[tw`w-full relative`]}>
+        <View style={[tw`flex flex-col grow items-center justify-center w-full relative`]}>
           <Image
+            blurRadius={!hasFloorplanLoaded ? 16 : 0}
             source={
               tw.prefixMatch('dark')
                 ? require('@/assets/images/floorplan-night.png')
                 : require('@/assets/images/floorplan-day.png')
             }
             style={[tw`w-full`, { aspectRatio: 750 / 1334 }]}
+            onLoadEnd={() => setFloorplanLoaded(true)}
           />
 
-          {/* Lights */}
-          <ActionableLight id="1" style={tw`top-[19%] left-[21%]`} />
-          <ActionableLight active id="2" style={tw`top-[19%] left-[49%]`} />
-          <ActionableLight id="3" style={tw`top-[19%] left-[67%]`} />
-          <ActionableLight id="4" style={tw`top-[36%] left-[49%]`} />
-          <ActionableLight id="5" style={tw`top-[36%] left-[67%]`} />
-          <ActionableLight id="6" style={tw`top-[31%] left-[21%]`} />
-          <ActionableLight id="7" style={tw`top-[42%] left-[21%]`} />
-          <ActionableLight active id="8" style={tw`top-[42%] left-[21%]`} />
-          <ActionableLight id="9" style={tw`top-[58%] left-[25%]`} />
-          <ActionableLight id="10" style={tw`top-[70%] left-[25%]`} />
+          {!hasFloorplanLoaded ? (
+            <VerticalLoadingAnimation
+              color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
+              style={tw`absolute h-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full`}
+            />
+          ) : (
+            <>
+              {/* Lights */}
+              <ActionableLight id="1" style={tw`top-[19%] left-[21%]`} />
+              <ActionableLight active id="2" style={tw`top-[19%] left-[49%]`} />
+              <ActionableLight id="3" style={tw`top-[19%] left-[67%]`} />
+              <ActionableLight id="4" style={tw`top-[36%] left-[49%]`} />
+              <ActionableLight id="5" style={tw`top-[36%] left-[67%]`} />
+              <ActionableLight id="6" style={tw`top-[31%] left-[21%]`} />
+              <ActionableLight id="7" style={tw`top-[42%] left-[21%]`} />
+              <ActionableLight active id="8" style={tw`top-[42%] left-[21%]`} />
+              <ActionableLight id="9" style={tw`top-[58%] left-[25%]`} />
+              <ActionableLight id="10" style={tw`top-[70%] left-[25%]`} />
 
-          {/* Door */}
-          <ActionableDeckDoor
-            active={false}
-            style={tw`top-[46%] left-[78%]`}
-            onUnlock={() => setUnlockInsideDoor(true)}
-          />
+              {/* Door */}
+              <ActionableDeckDoor
+                active={false}
+                style={tw`top-[46%] left-[78%]`}
+                onUnlock={() => setUnlockInsideDoor(true)}
+              />
 
-          {/* Fans */}
-          <ActionableFan active id="1" style={tw`top-[16%] left-[5%]`} />
-          <ActionableFan id="2" style={tw`top-[43%] left-[5%]`} />
+              {/* Fans */}
+              <ActionableFan active id="1" style={tw`top-[16%] left-[5%]`} />
+              <ActionableFan id="2" style={tw`top-[43%] left-[5%]`} />
 
-          {/* TV */}
-          <ActionableIcon
-            disabled
-            active={false}
-            activeIcon="volume-high"
-            inactiveIcon="volume-off"
-            style={tw`top-[72%] left-[68%]`}
-          />
+              {/* TV */}
+              <ActionableIcon
+                disabled
+                active={false}
+                activeIcon="volume-high"
+                inactiveIcon="volume-off"
+                style={tw`top-[72%] left-[68%]`}
+              />
+            </>
+          )}
         </View>
       </ServiceLayout>
 

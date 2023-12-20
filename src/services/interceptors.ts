@@ -153,8 +153,7 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
       // handle timeout error by translating with a proper message
       if (error.code === 'ECONNABORTED' && error.message?.includes('timeout')) {
         const timeoutDuration = (error as AxiosError).config?.timeout;
-        return Promise.reject(new Error(i18n.t('error.timeout.message')));
-        // TODO: should translate timeout error message
+        return Promise.reject(new Error(i18n.t('errors.timeout.message')));
       }
 
       return Promise.reject(error);
