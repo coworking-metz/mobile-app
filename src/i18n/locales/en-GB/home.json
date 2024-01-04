@@ -9,7 +9,6 @@
     },
     "label": "Events",
     "onFetchFail": {
-      "action": "Learn more",
       "message": "Unable to fetch calendar events"
     }
   },
@@ -48,7 +47,6 @@
   "people": {
     "capacity": " out of {{total}}",
     "onFetchFail": {
-      "action": "Learn more",
       "message": "Unable to fetch occupancy"
     },
     "present_one": "A single person is here",

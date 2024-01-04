@@ -5,7 +5,8 @@ import { View } from 'react-native';
 import { ContributionGraph } from 'react-native-chart-kit';
 import Animated, { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
-import { type ApiUserPresenceTimelineItem } from '@/services/api/profile';
+import { theme } from '@/helpers/colors';
+import { type ApiMemberActivity } from '@/services/api/members';
 
 const SQUARE_SIZE = 20;
 const SQUARE_GAP = 1;
@@ -13,11 +14,11 @@ const MINIMUM_SQUARES = 150;
 
 const PresenceGraph = ({
   loading = false,
-  timeline = [],
+  activity = [],
   style,
 }: {
   loading?: boolean;
-  timeline?: ApiUserPresenceTimelineItem[];
+  activity?: ApiMemberActivity[];
   style?: StyleProps;
 }) => {
   const { i18n } = useTranslation();
@@ -48,7 +49,10 @@ const PresenceGraph = ({
             backgroundGradientToOpacity: 0,
             color: (opacity = 1) => {
               if (opacity > 0.15) {
-                return `rgba(234, 178, 52, ${opacity * 1.1})`;
+                if (opacity === 1) {
+                  return theme.meatBrown;
+                }
+                return theme.peachYellow;
               } else if (tw.prefixMatch('dark')) {
                 return `rgba(255, 255, 255, 0.1)`;
               } else {
@@ -68,19 +72,19 @@ const PresenceGraph = ({
             )
           }
           height={210}
-          numDays={Math.max(timeline.length, MINIMUM_SQUARES)}
+          numDays={Math.max(activity.length, MINIMUM_SQUARES)}
           style={tw`w-full`}
           tooltipDataAttrs={({ date }) => ({
             // onPress: (evt) => {
             //   console.log(evt.nativeEvent.pageX, date);
             // },
           })}
-          values={timeline.map((item) => ({
+          values={activity.map((item) => ({
             date: item.date,
-            count: item.amount,
+            count: item.value,
           }))}
           width={
-            Math.ceil(Math.max(timeline.length, MINIMUM_SQUARES) / 7) * (SQUARE_SIZE + SQUARE_GAP) +
+            Math.ceil(Math.max(activity.length, MINIMUM_SQUARES) / 7) * (SQUARE_SIZE + SQUARE_GAP) +
             64
           } // magic formula
         />

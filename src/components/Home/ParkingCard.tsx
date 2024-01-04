@@ -2,7 +2,6 @@ import BarrierAnimation from '../Animations/BarrierAnimation';
 import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
 import ReanimatedText from '../ReanimatedText';
 import * as Haptics from 'expo-haptics';
-import { router } from 'expo-router';
 import { isNil } from 'lodash';
 import React, {
   forwardRef,
@@ -27,19 +26,14 @@ import Animated, {
   withTiming,
   type StyleProps,
 } from 'react-native-reanimated';
-import { ToastPresets } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import { theme } from '@/helpers/colors';
 import { parseErrorText } from '@/helpers/error';
 import { openParkingGate } from '@/services/api/services';
 import useNoticeStore from '@/stores/notice';
-import useToastStore from '@/stores/toast';
 
 const FILL_BACKGROUND_ANIMATION_DURATION_IN_MS = 300;
-const WARN_ON_SUCCESSIVE_TAPS_COUNT = 3;
-const WARN_ON_SUCCESSIVE_TAPS_PERIOD_IN_MS = 20_000;
-const WARN_ON_SUCCESSIVE_TAPS_INTEVAL_IN_MS = 60_000; // wait for 60 seconds before warning again
 
 const ParkingCard: ForwardRefRenderFunction<
   TouchableOpacity,
@@ -51,28 +45,19 @@ const ParkingCard: ForwardRefRenderFunction<
 > = ({ children, disabled = false, style }, ref) => {
   const { t } = useTranslation();
   const noticeStore = useNoticeStore();
-  const toastStore = useToastStore();
   const animation = useRef<LottieView>(null);
   const opening = useSharedValue(0);
   const [cardWidth, setCardWidth] = useState(0);
   const [isLoading, setLoading] = useState(false);
   const [isUnlocked, setUnlocked] = useState<boolean | null>(null);
   const [timeLeft, setTimeLeft] = useState<number>(0);
-  const [tapHistory, setTapHistory] = useState<string[]>([]);
-  const [lastWarning, setLastWarning] = useState<string | null>(null);
 
   const onOpen = () => {
     if (isLoading) return;
-    if (
-      !lastWarning ||
-      Date.now() - Date.parse(lastWarning) > WARN_ON_SUCCESSIVE_TAPS_INTEVAL_IN_MS
-    ) {
-      setTapHistory([...tapHistory, new Date().toISOString()]);
-    }
     setLoading(true);
     openParkingGate()
-      .then(({ open, triggered }) => {
-        const timeleftInMs = Date.parse(open) - Date.now();
+      .then(({ closed }) => {
+        const timeleftInMs = Date.parse(closed) - Date.now();
         const timeleftBeforeLockInMs =
           (timeleftInMs > 0 ? timeleftInMs : 2 * FILL_BACKGROUND_ANIMATION_DURATION_IN_MS) -
           FILL_BACKGROUND_ANIMATION_DURATION_IN_MS;
@@ -92,7 +77,7 @@ const ParkingCard: ForwardRefRenderFunction<
         const description = await parseErrorText(error);
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         noticeStore.add({
-          message: t('home.intercom.onFail.message'),
+          message: t('home.parking.onFail.message'),
           description,
           type: 'error',
         });
@@ -101,37 +86,6 @@ const ParkingCard: ForwardRefRenderFunction<
         setLoading(false);
       });
   };
-
-  // TODO: enable the following code once Help section is ready
-  /*
-  useEffect(() => {
-    const recentTaps = [...tapHistory]
-      .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
-      .slice(0, WARN_ON_SUCCESSIVE_TAPS_COUNT);
-    if (recentTaps.length === WARN_ON_SUCCESSIVE_TAPS_COUNT) {
-      const [mostRecentTap] = recentTaps;
-      const oldestTap = recentTaps.pop() || mostRecentTap;
-      const isTappingSuccessively =
-        new Date(mostRecentTap).getTime() - new Date(oldestTap).getTime() <
-        WARN_ON_SUCCESSIVE_TAPS_PERIOD_IN_MS;
-
-      if (isTappingSuccessively) {
-        const toast = toastStore.add({
-          message: t('home.parking.onSuccessiveTaps.message'),
-          type: ToastPresets.GENERAL,
-          action: {
-            label: t('home.parking.onSuccessiveTaps.action'),
-            onPress: () => {
-              router.push('/help/gate');
-              toastStore.dismiss(toast.id);
-            },
-          },
-        });
-        setLastWarning(new Date().toISOString());
-      }
-    }
-  }, [tapHistory]);
-  */
 
   useEffect(() => {
     if (animation.current && !isNil(isUnlocked)) {

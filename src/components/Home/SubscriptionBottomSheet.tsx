@@ -1,4 +1,4 @@
-import CaldendarAnimation from '../Animations/CaldendarAnimation';
+import CalendarAnimation from '../Animations/CalendarAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import ServiceRow from '../Settings/ServiceRow';
 import dayjs from 'dayjs';
@@ -12,15 +12,11 @@ import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 
 const SubscriptionBottomSheet = ({
-  subscription,
+  endDate,
   style,
   onClose,
 }: {
-  subscription: {
-    startDate: string;
-    endDate: string;
-    purchased: string;
-  };
+  endDate: string;
   style?: StyleProps;
   onClose?: () => void;
 }) => {
@@ -29,7 +25,7 @@ const SubscriptionBottomSheet = ({
   return (
     <AppBottomSheet style={style} onClose={onClose}>
       <View style={tw`flex flex-col items-center justify-between gap-4 p-6`}>
-        <CaldendarAnimation style={tw`w-full`} />
+        <CalendarAnimation style={tw`w-full`} />
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('home.tickets.subscription.label')}
@@ -39,7 +35,7 @@ const SubscriptionBottomSheet = ({
         </Text>
         <ServiceRow
           description={
-            dayjs().isBefore(subscription.endDate)
+            dayjs().isBefore(endDate)
               ? t('home.tickets.subscription.status.ongoingUntil', { prefix: '' })
               : t('home.tickets.subscription.status.expiredSince', { prefix: '' })
           }
@@ -47,7 +43,7 @@ const SubscriptionBottomSheet = ({
           style={tw`w-full px-0`}>
           <Text style={tw`text-base text-slate-500 grow text-right`}>
             {t('home.tickets.subscription.expiration', {
-              expired: new Date(subscription.endDate),
+              expired: new Date(endDate),
               formatParams: {
                 expired: { weekday: 'long', month: 'long', day: 'numeric' },
               },

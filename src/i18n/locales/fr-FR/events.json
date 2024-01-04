@@ -3,6 +3,7 @@
     "title": "Tous les évènements"
   },
   "detail": {
-    "date": "Ce {{date, datetime}}"
+    "date": "Ce {{date, datetime}}",
+    "time": "de {{startTime}} à {{endTime}}"
   }
 }

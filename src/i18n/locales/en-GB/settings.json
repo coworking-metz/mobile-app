@@ -23,7 +23,6 @@
   "profile": {
     "presence": {
       "onFail": {
-        "action": "Learn more",
         "message": "Unable to fetch presence"
       },
       "title": "My presence"

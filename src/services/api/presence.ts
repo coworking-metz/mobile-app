@@ -18,7 +18,7 @@ export type ApiPresencePeriod = {
 };
 
 export const getPresenceByWeek = (): Promise<ApiPresencePeriod> => {
-  return HTTP.get('/presence/week').then(({ data }) => {
+  return HTTP.get('/mobile/v1/presence/week').then(({ data }) => {
     return {
       ...data,
       current: {
@@ -40,7 +40,7 @@ export const getPresenceByWeek = (): Promise<ApiPresencePeriod> => {
 };
 
 export const getPresenceByDay = (): Promise<ApiPresencePeriod> => {
-  return HTTP.get('/presence/day').then(({ data }) => {
+  return HTTP.get('/mobile/v1/presence/day').then(({ data }) => {
     return {
       ...data,
       current: {
@@ -66,5 +66,5 @@ export type ApiCurrentPresence = {
 };
 
 export const getPresenceNow = (): Promise<ApiCurrentPresence> => {
-  return HTTP.get('/presence/now').then(({ data }) => data);
+  return HTTP.get('/mobile/v1/presence/now').then(({ data }) => data);
 };

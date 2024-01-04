@@ -5,21 +5,57 @@ export const unlockSteelGate = (): Promise<{
   locked: string;
   timeout: string;
 }> => {
-  return HTTP.post('/intercom').then(({ data }) => data);
+  return HTTP.post('/interphone').then(({ data }) => data);
 };
 
 export const openParkingGate = (): Promise<{
   triggered: string;
-  open: string;
+  closed: string;
   timeout: string;
 }> => {
   return HTTP.post('/parking').then(({ data }) => data);
 };
 
-export const unlockOpenSpaceDoor = (): Promise<{
+export const unlockDeckDoor = (): Promise<{
   triggered: string;
   locked: string;
   timeout: string;
 }> => {
-  return HTTP.post('/open-space/door').then(({ data }) => data);
+  return HTTP.post('/doors/deck/unlock').then(({ data }) => data);
+};
+
+export const turnOnLight = (
+  lightId: string | number,
+): Promise<{
+  state: 'on';
+  updated: string;
+}> => {
+  return HTTP.post(`/lights/${lightId}/on`).then(({ data }) => data);
+};
+
+export const turnOffLight = (
+  lightId: string | number,
+): Promise<{
+  state: 'off';
+  updated: string;
+}> => {
+  return HTTP.post(`/lights/${lightId}/off`).then(({ data }) => data);
+};
+
+export const turnOnFan = (
+  fanId: string | number,
+): Promise<{
+  state: 'on';
+  updated: string;
+}> => {
+  return HTTP.post(`/fans/${fanId}/on`).then(({ data }) => data);
+};
+
+export const turnOffFan = (
+  fanId: string | number,
+): Promise<{
+  state: 'off';
+  updated: string;
+}> => {
+  return HTTP.post(`/fans/${fanId}/off`).then(({ data }) => data);
 };

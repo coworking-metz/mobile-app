@@ -3,6 +3,7 @@
     "title": "All events"
   },
   "detail": {
-    "date": "{{date, datetime}}"
+    "date": "{{date, datetime}}",
+    "time": "from {{startTime}} to {{endTime}}"
   }
 }

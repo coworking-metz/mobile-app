@@ -13,7 +13,6 @@ export const useAppI18n = () => {
   return useContext(I18nContext);
 };
 
-// This hook will protect the route access based on user authentication.
 const useChosenLanguange = (language: string | null, setReady: (ready: boolean) => void) => {
   const { i18n } = useTranslation();
 

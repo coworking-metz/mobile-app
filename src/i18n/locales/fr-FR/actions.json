@@ -1,8 +1,9 @@
 {
   "close": "Fermer",
   "help": "J'ai besoin d'aide",
-  "login": "S'identifier",
-  "logout": "Se déconnecter",
+  "login": "M'identifier",
+  "logout": "Me déconnecter",
+  "more": "En savoir plus",
   "next": "Continuer",
   "skip": "Passer",
   "start": "Allons-y !",

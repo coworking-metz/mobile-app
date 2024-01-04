@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import { type LayoutChangeEvent } from 'react-native/types';
 import Animated, {
   FadeInLeft,
+  type StyleProps,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -26,11 +27,13 @@ const ServiceLayout = ({
   description,
   renderHeader,
   children,
+  style,
 }: {
   title: string;
   description?: string;
   renderHeader?: () => ReactNode;
   children: ReactNode;
+  style?: StyleProps;
 }) => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
@@ -129,11 +132,12 @@ const ServiceLayout = ({
           onScroll={onVerticalScroll}>
           <View
             style={[
-              tw`flex flex-col w-full grow py-6 bg-gray-50 dark:bg-zinc-900`,
+              tw`flex flex-col w-full grow bg-gray-50 dark:bg-zinc-900`,
               {
                 paddingLeft: insets.left,
                 paddingRight: insets.right,
               },
+              style,
             ]}>
             {children}
           </View>

@@ -74,8 +74,10 @@ const ServiceRow: ForwardRefRenderFunction<TouchableHighlight, ServiceRowProps> 
                   tw`text-sm text-slate-500 dark:text-slate-400`,
                   disabled && tw`opacity-40`,
                 ]}>
-                {renderDescription ? renderDescription(description) : description}
+                {description}
               </Text>
+            ) : renderDescription ? (
+              renderDescription()
             ) : null}
           </View>
           <>{children}</>

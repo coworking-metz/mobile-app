@@ -21,6 +21,7 @@ export const useAppAuth = () => {
   return useContext(AuthContext);
 };
 
+// This hook will protect the route access based on user authentication.
 const useProtectedRoute = (
   refreshToken: string | null,
   ready: boolean,
@@ -57,7 +58,7 @@ const useProtectedRoute = (
                 message: t('auth.login.onRefreshTokenFail.message'),
                 type: ToastPresets.FAILURE,
                 action: {
-                  label: t('auth.login.onRefreshTokenFail.action'),
+                  label: t('actions.more'),
                   onPress: () => {
                     noticeStore.add({
                       message: t('auth.login.onRefreshTokenFail.label'),
