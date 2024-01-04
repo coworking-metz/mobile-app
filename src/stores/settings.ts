@@ -11,6 +11,8 @@ interface SettingsState {
   setOnboard: (hasOnboard: boolean) => Promise<void>;
   language: StoreLanguage;
   setLanguange: (language: StoreLanguage) => Promise<void>;
+  apiBaseUrl: string | null;
+  setApiBaseUrl: (apiBaseUrl: string) => Promise<void>;
   clear: () => Promise<void>;
 }
 
@@ -24,6 +26,10 @@ const useSettingsStore = create<SettingsState>()(
       language: SYSTEM_OPTION,
       setLanguange: async (language: StoreLanguage): Promise<void> => {
         await set({ language });
+      },
+      apiBaseUrl: null,
+      setApiBaseUrl: async (apiBaseUrl: string | null): Promise<void> => {
+        await set({ apiBaseUrl: apiBaseUrl || null });
       },
       clear: async (): Promise<void> => {
         await set({

@@ -11,7 +11,7 @@ import { Button } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 
-const CouponsBottomSheet = ({
+const TicketsBottomSheet = ({
   balance,
   style,
   onClose,
@@ -74,4 +74,4 @@ const CouponsBottomSheet = ({
   );
 };
 
-export default CouponsBottomSheet;
+export default TicketsBottomSheet;

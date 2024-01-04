@@ -1,7 +1,7 @@
 import { type AxiosError } from 'axios';
 
 export enum ApiErrorCode {
-  EXPIRED_ACCESS_TOKEN = 'jwt_auth_invalid_token',
+  EXPIRED_ACCESS_TOKEN = 'EXPIRED_ACCESS_TOKEN',
 }
 
 export interface ApiError {

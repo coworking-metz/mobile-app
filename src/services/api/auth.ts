@@ -7,6 +7,7 @@ interface ApiTokens {
 }
 
 export type ApiUser = {
+  id: string;
   name: string;
   email: string;
   roles: string[];

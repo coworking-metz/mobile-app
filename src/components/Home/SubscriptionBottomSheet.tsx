@@ -12,15 +12,11 @@ import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 
 const SubscriptionBottomSheet = ({
-  subscription,
+  endDate,
   style,
   onClose,
 }: {
-  subscription: {
-    startDate: string;
-    endDate: string;
-    purchased: string;
-  };
+  endDate: string;
   style?: StyleProps;
   onClose?: () => void;
 }) => {
@@ -39,7 +35,7 @@ const SubscriptionBottomSheet = ({
         </Text>
         <ServiceRow
           description={
-            dayjs().isBefore(subscription.endDate)
+            dayjs().isBefore(endDate)
               ? t('home.tickets.subscription.status.ongoingUntil', { prefix: '' })
               : t('home.tickets.subscription.status.expiredSince', { prefix: '' })
           }
@@ -47,7 +43,7 @@ const SubscriptionBottomSheet = ({
           style={tw`w-full px-0`}>
           <Text style={tw`text-base text-slate-500 grow text-right`}>
             {t('home.tickets.subscription.expiration', {
-              expired: new Date(subscription.endDate),
+              expired: new Date(endDate),
               formatParams: {
                 expired: { weekday: 'long', month: 'long', day: 'numeric' },
               },

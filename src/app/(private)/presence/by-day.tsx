@@ -151,7 +151,7 @@ const PresenceByDay = () => {
         showsVerticalScrollIndicator={false}
         style={tw`w-full h-full`}
         onScroll={onVerticalScroll}>
-        <View style={tw`flex flex-col gap-3`}>
+        <View style={tw`flex flex-col gap-3 grow`}>
           <PresenceCard
             color="amber"
             history={presence?.timeline.map(({ date, value }) => ({
@@ -165,7 +165,10 @@ const PresenceByDay = () => {
             <SegmentedControl
               selectedIndex={selectedTypeIndex}
               values={PRESENCE_TYPES.map((type, index) => {
-                if (dayjs().isSame(dayjs(getPresenceFromTypeIndex(index)?.from), 'day')) {
+                if (
+                  getPresenceFromTypeIndex(index)?.from &&
+                  dayjs().isSame(dayjs(getPresenceFromTypeIndex(index)?.from), 'day')
+                ) {
                   return t(`presence.byDay.type.TODAY`);
                 }
                 return t(`presence.byDay.type.${type}`, {
@@ -181,7 +184,7 @@ const PresenceByDay = () => {
           </Animated.View>
           <Animated.View
             entering={FadeInUp.duration(400).delay(400)}
-            style={tw`flex flex-col bg-gray-50 dark:bg-zinc-900 grow-0`}>
+            style={tw`flex flex-col bg-white dark:bg-zinc-900 grow`}>
             <Animated.Text style={tw`text-sm uppercase text-slate-500 mx-6 mt-6`}>
               {t('presence.byDay.list.title')}
             </Animated.Text>
@@ -211,7 +214,6 @@ const PresenceByDay = () => {
             ))}
           </Animated.View>
         </View>
-        <View style={[tw`w-full min-h-14 grow`]}></View>
       </Animated.ScrollView>
 
       <Animated.View

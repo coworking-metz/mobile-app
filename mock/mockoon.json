@@ -3,7 +3,7 @@
   "lastMigration": 29,
   "name": "Coworking Metz API",
   "endpointPrefix": "",
-  "latency": 300,
+  "latency": 1000,
   "port": 3001,
   "hostname": "",
   "routes": [
@@ -15,7 +15,7 @@
       "responses": [
         {
           "uuid": "92057efb-79a2-4b06-a763-0febcf18352b",
-          "body": "{\n    \"triggered\": \"{{ now }}\",\n    \"locked\": \"{{ dateTimeShift date=(now) seconds=5 }}\",\n    \"timeout\": \"PT5S\"\n}",
+          "body": "{\n    \"triggered\": \"{{ now }}\",\n    \"locked\": \"{{ dateTimeShift date=(now) seconds=3 }}\",\n    \"timeout\": \"PT3S\"\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

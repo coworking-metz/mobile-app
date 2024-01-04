@@ -207,17 +207,16 @@ const Help = () => {
             <Link asChild href={to}>
               <ServiceRow
                 withBottomDivider
-                description={markdownDescription}
                 label={label}
-                renderDescription={(description) =>
-                  description && (
+                renderDescription={() =>
+                  markdownDescription && (
                     <Markdown
                       style={{
                         body: tw`text-sm text-slate-500 dark:text-slate-400`,
                         strong: tw`font-semibold text-slate-600 dark:text-slate-300`,
                         paragraph: tw`my-1`, // https://github.com/iamacup/react-native-markdown-display/issues/155#issuecomment-1034175229
                       }}>
-                      {description}
+                      {markdownDescription}
                     </Markdown>
                   )
                 }

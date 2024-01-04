@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Link, useNavigation } from 'expo-router';
-import { isNil, capitalize } from 'lodash';
+import { capitalize } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppState, RefreshControl, View, useColorScheme, Text } from 'react-native';
+import { AppState, RefreshControl, Text, View, useColorScheme } from 'react-native';
 import Animated, {
   FadeIn,
   FadeInLeft,
@@ -15,12 +15,12 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader, ToastPresets, TouchableOpacity } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
+import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
+import BalanceCard from '@/components/Home/BalanceCard';
 import CalendarEmptyCard from '@/components/Home/CalendarEmptyCard';
 import CalendarEventBottomSheet from '@/components/Home/CalendarEventBottomSheet';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import ControlsCard from '@/components/Home/ControlsCard';
-import CouponsBottomSheet from '@/components/Home/CouponsBottomSheet';
-import CouponsCard from '@/components/Home/CouponsCard';
 import HomeCarousel from '@/components/Home/HomeCarousel';
 import ParkingCard from '@/components/Home/ParkingCard';
 import PresenceCard from '@/components/Home/PresenceCard';
@@ -28,19 +28,16 @@ import PresentsCount from '@/components/Home/PresentsCount';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
-import UnlockDeckDoorBottomSheet from '@/components/Home/UnlockDeckDoorBottomSheet';
-import UnlockDeckDoorCard from '@/components/Home/UnlockDeckDoorCard';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import { type CalendarEvent } from '@/services/api/calendar';
-import { getPresenceNow, type ApiCurrentPresence } from '@/services/api/presence';
+import { getCurrentMembers, getMemberProfile, type ApiMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 import useCalendarStore from '@/stores/calendar';
 import useNoticeStore from '@/stores/notice';
 import usePresenceStore from '@/stores/presence';
 import useToastStore from '@/stores/toast';
-import useUserStore from '@/stores/user';
 
 dayjs.extend(relativeTime);
 
@@ -51,10 +48,11 @@ const AGE_PERIOD_IN_SECONDS = Number(process.env.EXPO_PUBLIC_REFRESH_PERIOD || 3
 export default function HomeScreen({}) {
   useDeviceContext(tw);
   const { t } = useTranslation();
-  const accessToken = useAuthStore((state) => state.accessToken);
+  const user = useAuthStore((state) => state.user);
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
-  const { profile, isFetchingProfile, fetchProfile } = useUserStore();
+  const [isFetchingProfile, setFetchingProfile] = useState(false);
+  const [profile, setProfile] = useState<ApiMemberProfile | null>(null);
   const presenceStore = usePresenceStore();
   const calendarStore = useCalendarStore();
   const noticeStore = useNoticeStore();
@@ -62,7 +60,7 @@ export default function HomeScreen({}) {
   const navigation = useNavigation();
   const [isReady, setReady] = useState(false);
   const [isFetchingCurrentPresence, setCurrentPresenceFetching] = useState(true);
-  const [currentPresence, setCurrentPresence] = useState<ApiCurrentPresence | null>(null);
+  const [currentPresence, setCurrentPresence] = useState<number | null>(null);
 
   const [selectedCalendarEvent, setSelectedCalendarEvent] = useState<CalendarEvent | null>(null);
 
@@ -73,22 +71,34 @@ export default function HomeScreen({}) {
   const [lastFetch, setLastFetch] = useState<string | null>(null);
   const [isAged, setAged] = useState<boolean>(false);
 
+  const currentSubscription = useMemo(() => {
+    return profile?.abos.find(({ current }) => current);
+  }, [profile]);
+
   const stackCards = useMemo(
     () =>
       [
-        profile?.subscription && (
+        currentSubscription && dayjs().isBefore(currentSubscription.aboEnd) && (
           <TouchableOpacity key={`subscription-card`} onPress={() => selectSubscription(true)}>
             <SubscriptionCard
-              expired={dayjs(profile.subscription.endDate).endOf('day').toISOString()}
-              since={profile.subscription.startDate}
+              expired={dayjs(currentSubscription.aboEnd).endOf('day').toISOString()}
+              since={currentSubscription.aboStart}
             />
           </TouchableOpacity>
         ),
         <TouchableOpacity key={`coupons-card`} onPress={() => selectBalance(true)}>
-          <CouponsCard count={profile?.balance} loading={isFetchingProfile && !isReady} />
+          <BalanceCard count={profile?.balance} loading={isFetchingProfile && !isReady} />
         </TouchableOpacity>,
+        currentSubscription && dayjs().isAfter(currentSubscription.aboEnd) && (
+          <TouchableOpacity key={`subscription-card`} onPress={() => selectSubscription(true)}>
+            <SubscriptionCard
+              expired={dayjs(currentSubscription.aboEnd).endOf('day').toISOString()}
+              since={currentSubscription.aboStart}
+            />
+          </TouchableOpacity>
+        ),
       ].filter(Boolean),
-    [profile, colorScheme, isReady, isFetchingProfile],
+    [currentSubscription, profile, colorScheme, isReady, isFetchingProfile],
   );
 
   const calendarCards = useMemo(
@@ -107,10 +117,39 @@ export default function HomeScreen({}) {
     [colorScheme, isReady, calendarStore],
   );
 
+  const fetchProfile = useCallback(() => {
+    if (user?.id) {
+      setFetchingProfile(true);
+      return getMemberProfile(user.id)
+        .then(setProfile)
+        .catch(handleSilentError)
+        .catch(async (error) => {
+          const errorMessage = await parseErrorText(error);
+          const toast = toastStore.add({
+            message: t('home.profile.onFetch.fail'),
+            type: ToastPresets.FAILURE,
+            action: {
+              label: t('actions.more'),
+              onPress: () => {
+                noticeStore.add({
+                  message: t('home.profile.onFetch.fail'),
+                  description: errorMessage,
+                  type: 'error',
+                });
+                toastStore.dismiss(toast.id);
+              },
+            },
+          });
+          return Promise.reject(error);
+        })
+        .finally(() => setCurrentPresenceFetching(false));
+    }
+  }, [user]);
+
   const fetchCurrentPresence = useCallback(() => {
     setCurrentPresenceFetching(true);
-    return getPresenceNow()
-      .then(setCurrentPresence)
+    return getCurrentMembers()
+      .then((members) => setCurrentPresence(members.length))
       .catch(handleSilentError)
       .catch(async (error) => {
         const errorMessage = await parseErrorText(error);
@@ -163,9 +202,9 @@ export default function HomeScreen({}) {
     return Promise.all([
       fetchProfile(),
       fetchCurrentPresence(),
-      presenceStore.fetchWeekPresence(),
-      presenceStore.fetchDayPresence(),
-      fetchCalendarEvents(),
+      // presenceStore.fetchWeekPresence(),
+      // presenceStore.fetchDayPresence(),
+      // fetchCalendarEvents(),
     ])
       .then(() => {
         setLastFetch(new Date().toISOString());
@@ -180,13 +219,14 @@ export default function HomeScreen({}) {
   }, []);
 
   useEffect(() => {
-    if (!!accessToken) {
+    if (!!user) {
       setReady(false);
+      console.log('fetchEverything');
       fetchEverything().finally(() => {
         setReady(true);
       });
     }
-  }, [accessToken]);
+  }, [user]);
 
   useEffect(() => {
     const handleChange = AppState.addEventListener('change', (changedState) => {
@@ -259,9 +299,9 @@ export default function HomeScreen({}) {
 
         <Animated.View entering={FadeInLeft.duration(750).delay(150)} style={tw`mb-4 ml-3`}>
           <PresentsCount
-            count={currentPresence?.count}
+            count={currentPresence || 0}
             loading={isFetchingCurrentPresence && !isReady}
-            total={currentPresence?.total}
+            total={28}
           />
         </Animated.View>
 
@@ -371,15 +411,15 @@ export default function HomeScreen({}) {
         />
       ) : null}
 
-      {profile?.subscription && hasSelectSubscription ? (
+      {currentSubscription && hasSelectSubscription ? (
         <SubscriptionBottomSheet
-          subscription={profile.subscription}
+          endDate={currentSubscription.aboEnd}
           onClose={() => selectSubscription(false)}
         />
       ) : null}
 
-      {!isNil(profile) && hasSelectBalance ? (
-        <CouponsBottomSheet balance={profile.balance} onClose={() => selectBalance(false)} />
+      {hasSelectBalance ? (
+        <BalanceBottomSheet balance={profile?.balance || 0} onClose={() => selectBalance(false)} />
       ) : null}
     </Animated.View>
   );

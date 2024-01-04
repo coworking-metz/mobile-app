@@ -108,7 +108,7 @@ const PresenceByWeek = () => {
     <Animated.View style={tw`dark:bg-black`}>
       <Animated.ScrollView
         contentContainerStyle={[
-          tw`flex flex-col grow`,
+          tw`flex flex-col grow `,
           {
             paddingTop: maxHeaderHeight,
             paddingLeft: insets.left,
@@ -121,7 +121,7 @@ const PresenceByWeek = () => {
         showsVerticalScrollIndicator={false}
         style={tw`w-full h-full`}
         onScroll={onVerticalScroll}>
-        <View style={tw`flex flex-col gap-3`}>
+        <View style={tw`flex flex-col gap-3 grow`}>
           <PresenceCard
             color="blue"
             history={presence?.timeline.map(({ date, value }) => ({
@@ -142,7 +142,7 @@ const PresenceByWeek = () => {
           </Animated.View>
           <Animated.View
             entering={FadeInUp.duration(400).delay(400)}
-            style={tw`flex flex-col bg-white dark:bg-zinc-900 grow-0`}>
+            style={tw`flex flex-col bg-white dark:bg-zinc-900 grow`}>
             <Animated.Text style={tw`text-sm uppercase text-slate-500 mx-6 mt-6`}>
               {t('presence.byWeek.list.title')}
             </Animated.Text>
@@ -172,7 +172,6 @@ const PresenceByWeek = () => {
             ))}
           </Animated.View>
         </View>
-        <View style={[tw`w-full min-h-14 grow`]}></View>
       </Animated.ScrollView>
 
       <Animated.View

@@ -13,6 +13,7 @@ import { type AppError, AppErrorCode, ApiErrorCode } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import i18n from '@/i18n';
 import useAuthStore from '@/stores/auth';
+import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
 // import { useHttpStore } from '@/stores/http';
 
@@ -27,6 +28,15 @@ const MAX_REQUEST_RETRIES = 2;
 
 // to avoid dependency cycle @see https://stackoverflow.com/a/51048400/15183871
 const createHttpInterceptors = (httpInstance: AxiosInstance) => {
+  httpInstance.interceptors.request.use(async (config: AppAxiosRequestConfig) => {
+    const { apiBaseUrl } = useSettingsStore.getState();
+    if (apiBaseUrl) {
+      config.baseURL = apiBaseUrl;
+    }
+
+    return config;
+  });
+
   httpInstance.interceptors.request.use((config: AppAxiosRequestConfig) => {
     httpLogger.trace(
       `>> ${[

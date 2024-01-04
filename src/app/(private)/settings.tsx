@@ -26,11 +26,11 @@ import ThemePicker from '@/components/Settings/ThemePicker';
 import { theme } from '@/helpers/colors';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
 import { getLanguageLabel, SYSTEM_LANGUAGE } from '@/i18n';
+import { type ApiMemberActivity, getMemberActivity } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 import useToastStore from '@/stores/toast';
-import useUserStore from '@/stores/user';
 
 const NAVIGATION_HEIGHT = 48;
 const HEADER_HEIGHT = 192;
@@ -45,7 +45,8 @@ const Settings = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const authStore = useAuthStore();
-  const userStore = useUserStore();
+  const [activity, setActivity] = useState<ApiMemberActivity[]>([]);
+  const [isFetchingActivity, setFetchingActivity] = useState(false);
   const chosenLanguage = useSettingsStore((state) => state.language);
   const verticalScrollProgress = useSharedValue(0);
   const [isPickingLanguage, setPickingLanguage] = useState(false);
@@ -99,9 +100,10 @@ const Settings = () => {
   }, [verticalScrollProgress]);
 
   useEffect(() => {
-    if (!userStore.presenceTimeline.length) {
-      userStore
-        .fetchPresenceTimeline()
+    if (authStore.user?.id && !activity.length) {
+      setFetchingActivity(true);
+      getMemberActivity(authStore.user.id)
+        .then(setActivity)
         .catch(handleSilentError)
         .catch(async (error) => {
           const errorMessage = await parseErrorText(error);
@@ -120,7 +122,8 @@ const Settings = () => {
               },
             },
           });
-        });
+        })
+        .finally(() => setFetchingActivity(false));
     }
   }, []);
 
@@ -191,10 +194,7 @@ const Settings = () => {
               style={tw`text-sm uppercase text-slate-500 mx-6`}>
               {t('settings.profile.presence.title')}
             </Animated.Text>
-            <PresenceGraph
-              loading={userStore.isFetchingPresenceTimeline}
-              timeline={userStore.presenceTimeline}
-            />
+            <PresenceGraph activity={activity} loading={isFetchingActivity} />
 
             <Animated.Text
               entering={FadeInLeft.duration(300)}

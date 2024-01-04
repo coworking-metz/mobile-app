@@ -1,9 +1,10 @@
 import * as Clipboard from 'expo-clipboard';
 import { useRouter } from 'expo-router';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { TextInput, View } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
-import { Switch, ToastPresets } from 'react-native-ui-lib';
+import { Switch, TextField, ToastPresets } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
@@ -21,6 +22,7 @@ const Advanced = () => {
   const toastStore = useToastStore();
   const authStore = useAuthStore();
   const settingsStore = useSettingsStore();
+  const [apiBaseUrl, setApiBaseUrl] = useState('https://tickets.coworking-metz.fr/api');
 
   const copyAccessToken = useCallback(() => {
     Clipboard.setStringAsync(authStore.accessToken as string)
@@ -127,10 +129,17 @@ const Advanced = () => {
         {t('advanced.services.title')}
       </Animated.Text>
       <ServiceRow
-        description={HTTP.defaults.baseURL}
         label={t('advanced.services.apiBaseUrl.label')}
-        style={tw`px-3 mx-3`}
-      />
+        renderDescription={() => (
+          <TextInput
+            autoCapitalize="none"
+            placeholder={HTTP.defaults.baseURL}
+            style={tw`text-slate-500 dark:text-slate-400`}
+            value={settingsStore.apiBaseUrl || ''}
+            onChangeText={settingsStore.setApiBaseUrl}
+          />
+        )}
+        style={tw`px-3 mx-3`}></ServiceRow>
     </ServiceLayout>
   );
 };

@@ -76,6 +76,9 @@
       "order": "Acheter"
     },
     "label": "Adhésion",
+    "onFetch": {
+      "fail": "Impossible de récupérer le profil"
+    },
     "store": "Boutique",
     "subscription": {
       "description": "L'abonnement permet d'accéder au Coworking sur 30 jours glissants à compter de la date de début choisie.",

@@ -20,7 +20,9 @@ import ServiceRow from '@/components/Settings/ServiceRow';
 import { theme } from '@/helpers/colors';
 import { parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
+import { HTTP } from '@/services/http';
 import useNoticeStore from '@/stores/notice';
+import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
 
 const loginLogger = log.extend(`[${__filename.split('/').pop()}]`);
@@ -33,6 +35,7 @@ export default function Login() {
   const { t } = useTranslation();
   const noticeStore = useNoticeStore();
   const toastStore = useToastStore();
+  const settingsStore = useSettingsStore();
   const [isLoading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -51,10 +54,14 @@ export default function Login() {
       path: '/home',
     });
 
-    const loginUri = new URL(`${process.env.EXPO_PUBLIC_API_BASE_URL}/auth/login`);
-    if (!IS_PROD) {
-      loginUri.searchParams.append('follow', redirectUriOnSuccess);
-    }
+    const loginUri = HTTP.getUri({
+      ...(settingsStore.apiBaseUrl && { baseURL: settingsStore.apiBaseUrl }),
+      url: '/auth/login',
+      params: {
+        follow: redirectUriOnSuccess,
+      },
+    });
+    loginLogger.debug('openAuthSessionAsync', loginUri);
 
     openAuthSessionAsync(loginUri.toString())
       .then((result) => {
@@ -74,7 +81,7 @@ export default function Login() {
           type: 'error',
         });
       });
-  }, []);
+  }, [settingsStore]);
 
   return (
     <ScrollView

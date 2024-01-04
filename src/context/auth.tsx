@@ -21,6 +21,7 @@ export const useAppAuth = () => {
   return useContext(AuthContext);
 };
 
+// This hook will protect the route access based on user authentication.
 const useProtectedRoute = (
   refreshToken: string | null,
   ready: boolean,
