@@ -8,8 +8,8 @@
       "date": "Ce {{date, datetime}}"
     },
     "label": "Évènements",
-    "onFetchFail": {
-      "message": "Impossible de récupérer les évènements"
+    "onFetch": {
+      "fail": "Impossible de récupérer les évènements"
     }
   },
   "controls": {
@@ -50,8 +50,8 @@
   },
   "people": {
     "capacity": " sur {{total}}",
-    "onFetchFail": {
-      "message": "Impossible de récupérer l'occupation actuelle"
+    "onFetch": {
+      "fail": "Impossible de récupérer l'occupation actuelle"
     },
     "present_one": "Une seule personne présente",
     "present_other": "postes occupés",

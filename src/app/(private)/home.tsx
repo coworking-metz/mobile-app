@@ -1,10 +1,11 @@
+import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Link, useNavigation } from 'expo-router';
+import { Link } from 'expo-router';
 import { capitalize } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppState, RefreshControl, Text, View, useColorScheme } from 'react-native';
+import { RefreshControl, Text, View, useColorScheme } from 'react-native';
 import Animated, {
   FadeIn,
   FadeInLeft,
@@ -29,10 +30,10 @@ import ProfilePicture from '@/components/Home/ProfilePicture';
 import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
-import { handleSilentError, parseErrorText } from '@/helpers/error';
+import { parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
-import { type CalendarEvent } from '@/services/api/calendar';
-import { getCurrentMembers, getMemberProfile, type ApiMemberProfile } from '@/services/api/members';
+import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
+import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 import useCalendarStore from '@/stores/calendar';
 import useNoticeStore from '@/stores/notice';
@@ -51,16 +52,10 @@ export default function HomeScreen({}) {
   const user = useAuthStore((state) => state.user);
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
-  const [isFetchingProfile, setFetchingProfile] = useState(false);
-  const [profile, setProfile] = useState<ApiMemberProfile | null>(null);
   const presenceStore = usePresenceStore();
   const calendarStore = useCalendarStore();
   const noticeStore = useNoticeStore();
   const toastStore = useToastStore();
-  const navigation = useNavigation();
-  const [isReady, setReady] = useState(false);
-  const [isFetchingCurrentPresence, setCurrentPresenceFetching] = useState(true);
-  const [currentPresence, setCurrentPresence] = useState<number | null>(null);
 
   const [selectedCalendarEvent, setSelectedCalendarEvent] = useState<CalendarEvent | null>(null);
 
@@ -68,8 +63,98 @@ export default function HomeScreen({}) {
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
 
   const [refreshing, setRefreshing] = useState(false);
-  const [lastFetch, setLastFetch] = useState<string | null>(null);
-  const [isAged, setAged] = useState<boolean>(false);
+
+  const notifyError = useCallback(
+    async (label: string, error: Error) => {
+      const errorMessage = await parseErrorText(error);
+      const toast = toastStore.add({
+        message: label,
+        type: ToastPresets.FAILURE,
+        action: {
+          label: t('actions.more'),
+          onPress: () => {
+            noticeStore.add({
+              message: label,
+              description: errorMessage,
+              type: 'error',
+            });
+            toastStore.dismiss(toast.id);
+          },
+        },
+      });
+    },
+    [toastStore, noticeStore, t],
+  );
+
+  const {
+    data: currentMembers,
+    isLoading: isLoadingCurrentMembers,
+    refetch: refetchCurrentMembers,
+    error: currentMembersError,
+    dataUpdatedAt: currentMembersUpdatedAt,
+  } = useQuery({
+    queryKey: ['currentMembers'],
+    queryFn: getCurrentMembers,
+  });
+
+  const {
+    data: profile,
+    isLoading: isLoadingProfile,
+    refetch: refetchProfile,
+    error: profileError,
+  } = useQuery({
+    queryKey: ['profile', user?.id],
+    queryFn: ({ queryKey: [_, userId] }) => {
+      if (userId) {
+        return getMemberProfile(userId);
+      }
+      throw new Error('Missing user id');
+    },
+    enabled: !!user,
+  });
+
+  const {
+    data: calendarEvents,
+    isFetching: isFetchingCalendarEvents,
+    refetch: refreshCalendarEvents,
+    error: calendarEventsError,
+  } = useQuery({
+    queryKey: ['calendarEvents'],
+    queryFn: getCalendarEvents,
+    enabled: false,
+  });
+
+  useEffect(() => {
+    if (profileError) {
+      notifyError(t('home.tickets.onFetch.fail'), profileError);
+    }
+  }, [profileError]);
+
+  useEffect(() => {
+    if (currentMembersError) {
+      notifyError(t('home.people.onFetch.fail'), currentMembersError);
+    }
+  }, [currentMembersError]);
+
+  useEffect(() => {
+    if (calendarEventsError) {
+      console.log({ calendarEventsError });
+      notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
+    }
+  }, [calendarEventsError]);
+
+  const onRefresh = useCallback(() => {
+    if (user?.id) {
+      setRefreshing(true);
+      Promise.all([
+        refetchProfile(),
+        refetchCurrentMembers(),
+        // refreshCalendarEvents()
+      ]).finally(() => {
+        setRefreshing(false);
+      });
+    }
+  }, [user]);
 
   const currentSubscription = useMemo(() => {
     return profile?.abos.find(({ current }) => current);
@@ -87,23 +172,27 @@ export default function HomeScreen({}) {
           </TouchableOpacity>
         ),
         <TouchableOpacity key={`coupons-card`} onPress={() => selectBalance(true)}>
-          <BalanceCard count={profile?.balance} loading={isFetchingProfile && !isReady} />
+          <BalanceCard count={profile?.balance} loading={isLoadingProfile} />
         </TouchableOpacity>,
-        currentSubscription && dayjs().isAfter(currentSubscription.aboEnd) && (
-          <TouchableOpacity key={`subscription-card`} onPress={() => selectSubscription(true)}>
-            <SubscriptionCard
-              expired={dayjs(currentSubscription.aboEnd).endOf('day').toISOString()}
-              since={currentSubscription.aboStart}
-            />
-          </TouchableOpacity>
-        ),
-      ].filter(Boolean),
-    [currentSubscription, profile, colorScheme, isReady, isFetchingProfile],
+      ]
+        .sort(() => {
+          // balance should come first when it is negative
+          // or when subscription is expired
+          if (
+            (profile?.balance && profile.balance < 0) ||
+            dayjs().isAfter(currentSubscription?.aboEnd)
+          ) {
+            return -1;
+          }
+          return 1;
+        })
+        .filter(Boolean),
+    [currentSubscription, profile, colorScheme, isLoadingProfile],
   );
 
   const calendarCards = useMemo(
     () =>
-      calendarStore.events
+      (calendarEvents || [])
         .filter(
           ({ start }) => dayjs().isSame(start, 'day') || dayjs().add(1, 'day').isSame(start, 'day'),
         )
@@ -114,145 +203,8 @@ export default function HomeScreen({}) {
             </TouchableOpacity>
           </Link>
         )),
-    [colorScheme, isReady, calendarStore],
+    [colorScheme, calendarEvents],
   );
-
-  const fetchProfile = useCallback(() => {
-    if (user?.id) {
-      setFetchingProfile(true);
-      return getMemberProfile(user.id)
-        .then(setProfile)
-        .catch(handleSilentError)
-        .catch(async (error) => {
-          const errorMessage = await parseErrorText(error);
-          const toast = toastStore.add({
-            message: t('home.profile.onFetch.fail'),
-            type: ToastPresets.FAILURE,
-            action: {
-              label: t('actions.more'),
-              onPress: () => {
-                noticeStore.add({
-                  message: t('home.profile.onFetch.fail'),
-                  description: errorMessage,
-                  type: 'error',
-                });
-                toastStore.dismiss(toast.id);
-              },
-            },
-          });
-          return Promise.reject(error);
-        })
-        .finally(() => setCurrentPresenceFetching(false));
-    }
-  }, [user]);
-
-  const fetchCurrentPresence = useCallback(() => {
-    setCurrentPresenceFetching(true);
-    return getCurrentMembers()
-      .then((members) => setCurrentPresence(members.length))
-      .catch(handleSilentError)
-      .catch(async (error) => {
-        const errorMessage = await parseErrorText(error);
-        const toast = toastStore.add({
-          message: t('home.people.onFetchFail.message'),
-          type: ToastPresets.FAILURE,
-          action: {
-            label: t('actions.more'),
-            onPress: () => {
-              noticeStore.add({
-                message: t('home.people.onFetchFail.message'),
-                description: errorMessage,
-                type: 'error',
-              });
-              toastStore.dismiss(toast.id);
-            },
-          },
-        });
-        return Promise.reject(error);
-      })
-      .finally(() => setCurrentPresenceFetching(false));
-  }, []);
-
-  const fetchCalendarEvents = useCallback(() => {
-    return calendarStore
-      .fetchEvents()
-      .catch(handleSilentError)
-      .catch(async (error) => {
-        const errorMessage = await parseErrorText(error);
-        const toast = toastStore.add({
-          message: t('home.calendar.onFetchFail.message'),
-          type: ToastPresets.FAILURE,
-          action: {
-            label: t('actions.more'),
-            onPress: () => {
-              noticeStore.add({
-                message: t('home.calendar.onFetchFail.message'),
-                description: errorMessage,
-                type: 'error',
-              });
-              toastStore.dismiss(toast.id);
-            },
-          },
-        });
-        return Promise.reject(error);
-      });
-  }, []);
-
-  const fetchEverything = useCallback(() => {
-    return Promise.all([
-      fetchProfile(),
-      fetchCurrentPresence(),
-      // presenceStore.fetchWeekPresence(),
-      // presenceStore.fetchDayPresence(),
-      // fetchCalendarEvents(),
-    ])
-      .then(() => {
-        setLastFetch(new Date().toISOString());
-        setAged(false);
-      })
-      .catch(handleSilentError);
-  }, []);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    fetchEverything().finally(() => setRefreshing(false));
-  }, []);
-
-  useEffect(() => {
-    if (!!user) {
-      setReady(false);
-      console.log('fetchEverything');
-      fetchEverything().finally(() => {
-        setReady(true);
-      });
-    }
-  }, [user]);
-
-  useEffect(() => {
-    const handleChange = AppState.addEventListener('change', (changedState) => {
-      if (changedState === 'active') {
-        homeLogger.debug('App has come to the foreground!');
-        if (dayjs().subtract(AGE_PERIOD_IN_SECONDS, 'seconds').isAfter(lastFetch)) {
-          setAged(true);
-        }
-      }
-    });
-
-    return () => {
-      handleChange.remove();
-    };
-  }, [lastFetch]);
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      homeLogger.debug('Screen is focused');
-      if (dayjs().subtract(AGE_PERIOD_IN_SECONDS, 'seconds').isAfter(lastFetch)) {
-        setAged(true);
-      }
-    });
-
-    return unsubscribe;
-  }, [navigation, lastFetch]);
 
   return (
     <Animated.View style={[tw`flex w-full flex-col items-stretch dark:bg-black`]}>
@@ -282,12 +234,13 @@ export default function HomeScreen({}) {
         showsVerticalScrollIndicator={false}
         style={[tw`h-full w-full`]}>
         <View style={tw`flex flex-row items-center w-full`}>
-          {isAged && lastFetch ? (
+          {currentMembersUpdatedAt &&
+          dayjs().diff(currentMembersUpdatedAt, 'second') > AGE_PERIOD_IN_SECONDS ? (
             <Animated.Text
               entering={FadeInUp.duration(300)}
               exiting={FadeOutUp.duration(300)}
               style={tw`ml-3 text-sm text-slate-500 dark:text-slate-400 shrink grow`}>
-              {capitalize(dayjs(lastFetch).fromNow())}
+              {capitalize(dayjs(currentMembersUpdatedAt).fromNow())}
             </Animated.Text>
           ) : null}
           <Link asChild href="/settings">
@@ -299,8 +252,8 @@ export default function HomeScreen({}) {
 
         <Animated.View entering={FadeInLeft.duration(750).delay(150)} style={tw`mb-4 ml-3`}>
           <PresentsCount
-            count={currentPresence || 0}
-            loading={isFetchingCurrentPresence && !isReady}
+            count={currentMembers?.length || 0}
+            loading={isLoadingCurrentMembers}
             total={28}
           />
         </Animated.View>
@@ -317,7 +270,7 @@ export default function HomeScreen({}) {
                   date: new Date(date),
                   value,
                 }))}
-                loading={presenceStore.isFetchingWeekPresence && !isReady}
+                loading={presenceStore.isFetchingWeekPresence}
                 sharedTransitionTag="week-presence-card"
                 type="day"
               />
@@ -332,7 +285,7 @@ export default function HomeScreen({}) {
                   date: new Date(date),
                   value,
                 }))}
-                loading={presenceStore.isFetchingDayPresence && !isReady}
+                loading={presenceStore.isFetchingDayPresence}
                 sharedTransitionTag="week-presence-card"
                 type="hour"
               />
@@ -371,7 +324,7 @@ export default function HomeScreen({}) {
         ) : (
           <CalendarEmptyCard
             entering={FadeInRight.duration(750).delay(600)}
-            loading={calendarStore.isFetchingEvents && !isReady}
+            loading={isFetchingCalendarEvents}
             style={tw`w-full`}
           />
         )}
