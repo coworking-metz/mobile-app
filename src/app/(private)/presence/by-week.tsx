@@ -138,6 +138,7 @@ const PresenceByWeek = () => {
               date: new Date(date),
               value,
             }))}
+            loading={isFetchingDailyPresence}
             style={tw`h-48 mx-4`}
             type="day"
           />
@@ -165,7 +166,7 @@ const PresenceByWeek = () => {
                     style={tw`px-3 mx-3`}
                     suffixIcon="chevron-right"
                     withBottomDivider={index < presence.timeline.length - 1}>
-                    {dayjs(dailyPresenceUpdatedAt).isBefore(date) ? (
+                    {!dayjs(dailyPresenceUpdatedAt).startOf('day').isAfter(date) ? (
                       <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
                         <Animated.Text style={tw`text-xs text-slate-900 dark:text-gray-200 `}>
                           {t('presence.byWeek.list.forecast')}

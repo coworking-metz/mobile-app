@@ -168,6 +168,7 @@ const PresenceByDay = () => {
               date: new Date(date),
               value,
             }))}
+            loading={isFetchingHourlyPresence}
             style={tw`h-48 mx-4`}
             type="hour"
           />
