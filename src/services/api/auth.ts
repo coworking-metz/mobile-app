@@ -11,6 +11,7 @@ export type ApiUser = {
   name: string;
   email: string;
   roles: string[];
+  picture?: string;
 };
 
 export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiTokens> => {
