@@ -23,21 +23,21 @@ const SubscriptionCard = ({ expired, since, ...props }: { expired: string; since
       <View style={tw`flex flex-col shrink grow`}>
         <Text numberOfLines={1} style={tw`text-base text-slate-500 dark:text-slate-400`}>
           {dayjs().isSame(expired, 'day')
-            ? t('home.tickets.subscription.status.expiresToday', {
-                prefix: t('home.tickets.subscription.status.prefix'),
+            ? t('home.profile.subscription.status.expiresToday', {
+                prefix: t('home.profile.subscription.status.prefix'),
               })
             : dayjs().isBefore(expired)
-            ? t('home.tickets.subscription.status.ongoingUntil', {
-                prefix: t('home.tickets.subscription.status.prefix'),
-              })
-            : t('home.tickets.subscription.status.expiredSince', {
-                prefix: t('home.tickets.subscription.status.prefix'),
-              })}
+              ? t('home.profile.subscription.status.ongoingUntil', {
+                  prefix: t('home.profile.subscription.status.prefix'),
+                })
+              : t('home.profile.subscription.status.expiredSince', {
+                  prefix: t('home.profile.subscription.status.prefix'),
+                })}
         </Text>
         <Text style={tw`text-2xl text-slate-900 dark:text-gray-200`}>
           {dayjs().isSame(expired, 'day')
             ? dayjs(expired).fromNow()
-            : t('home.tickets.subscription.expiration', {
+            : t('home.profile.subscription.expiration', {
                 expired: new Date(expired),
                 formatParams: {
                   expired: { weekday: 'long', month: 'long', day: 'numeric' },

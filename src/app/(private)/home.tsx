@@ -142,7 +142,7 @@ export default function HomeScreen({}) {
 
   useEffect(() => {
     if (profileError) {
-      notifyError(t('home.tickets.onFetch.fail'), profileError);
+      notifyError(t('home.profile.onFetch.fail'), profileError);
     }
   }, [profileError]);
 
@@ -323,9 +323,9 @@ export default function HomeScreen({}) {
         <Animated.View
           entering={FadeInLeft.duration(750).delay(400)}
           style={tw`flex flex-row items-start w-full justify-between`}>
-          <Text style={tw`text-base font-medium text-slate-500`}>{t('home.tickets.label')}</Text>
+          <Text style={tw`text-base font-medium text-slate-500`}>{t('home.profile.label')}</Text>
           {/* <Link href="https://www.coworking-metz.fr/la-boutique/">
-            <Text style={tw`text-base text-amber-500`}>{t('home.tickets.store')}</Text>
+            <Text style={tw`text-base text-amber-500`}>{t('home.profile.store')}</Text>
           </Link> */}
         </Animated.View>
         <HomeCarousel

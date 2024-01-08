@@ -53,24 +53,7 @@
     "present_other": "occupied desks",
     "present_zero": "Nobody there"
   },
-  "services": {
-    "label": "Services"
-  },
-  "tickets": {
-    "coupons": {
-      "available_one": "Last one!",
-      "available_other": "{{count}} available",
-      "available_zero": "None left",
-      "balance": {
-        "label": "Balance",
-        "onDepleted": "Excessive overconsumption can lead to a suspension of your access 😔"
-      },
-      "depleted_one": "One overconsumed",
-      "depleted_other": "{{count}} overconsumed",
-      "description": "Tickets have unlimited validity, and each ticket is equivalent to two half-days.\nPresence of less than 5 hours in a day corresponds to half a day.",
-      "label": "Individual tickets",
-      "order": "Buy"
-    },
+  "profile": {
     "label": "Membership",
     "onFetch": {
       "fail": "Unable to fetch profile"
@@ -87,6 +70,23 @@
         "ongoingUntil": "{{prefix}}valid until",
         "prefix": "Subscription "
       }
+    },
+    "tickets": {
+      "available_one": "Last one!",
+      "available_other": "{{count}} available",
+      "available_zero": "None left",
+      "balance": {
+        "label": "Balance",
+        "onDepleted": "Excessive overconsumption can lead to a suspension of your access 😔"
+      },
+      "depleted_one": "One overconsumed",
+      "depleted_other": "{{count}} overconsumed",
+      "description": "Tickets have unlimited validity, and each ticket is equivalent to two half-days.\nPresence of less than 5 hours in a day corresponds to half a day.",
+      "label": "Individual tickets",
+      "order": "Add"
     }
+  },
+  "services": {
+    "label": "Services"
   }
 }
