@@ -30,18 +30,18 @@ const TicketsBottomSheet = ({
         </View>
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
-          {t('home.tickets.coupons.label')}
+          {t('home.profile.tickets.label')}
         </Text>
         <Text style={tw`text-left text-base text-slate-500 dark:text-slate-400 w-full mt-4`}>
-          {t('home.tickets.coupons.description')}
+          {t('home.profile.tickets.description')}
         </Text>
-        <ServiceRow label={t('home.tickets.coupons.balance.label')} style={tw`w-full px-0`}>
+        <ServiceRow label={t('home.profile.tickets.balance.label')} style={tw`w-full px-0`}>
           <Text style={tw`text-base text-slate-500 grow text-right`}>
             {balance >= 0
-              ? t('home.tickets.coupons.available', {
+              ? t('home.profile.tickets.available', {
                   count: balance,
                 })
-              : t('home.tickets.coupons.depleted', {
+              : t('home.profile.tickets.depleted', {
                   count: -balance,
                 })}
           </Text>
@@ -56,7 +56,7 @@ const TicketsBottomSheet = ({
               style={tw`shrink-0 grow-0`}
             />
             <Text style={tw`text-base text-slate-500 shrink grow basis-0`}>
-              {t('home.tickets.coupons.balance.onDepleted', {
+              {t('home.profile.tickets.balance.onDepleted', {
                 count: -balance,
               })}
             </Text>
@@ -66,7 +66,7 @@ const TicketsBottomSheet = ({
         )}
         <Link asChild href="https://www.coworking-metz.fr/boutique/carnet-10-journees/">
           <Button backgroundColor={theme.darkVanilla} style={tw`h-14 self-stretch`}>
-            <Text style={tw`text-base font-medium`}>{t('home.tickets.coupons.order')}</Text>
+            <Text style={tw`text-base font-medium`}>{t('home.profile.tickets.order')}</Text>
           </Button>
         </Link>
       </View>

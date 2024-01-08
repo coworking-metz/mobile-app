@@ -28,21 +28,21 @@ const SubscriptionBottomSheet = ({
         <CalendarAnimation style={tw`w-full`} />
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-          {t('home.tickets.subscription.label')}
+          {t('home.profile.subscription.label')}
         </Text>
         <Text style={tw`text-left text-base text-slate-500 dark:text-slate-400 w-full`}>
-          {t('home.tickets.subscription.description')}
+          {t('home.profile.subscription.description')}
         </Text>
         <ServiceRow
           description={
             dayjs().isBefore(endDate)
-              ? t('home.tickets.subscription.status.ongoingUntil', { prefix: '' })
-              : t('home.tickets.subscription.status.expiredSince', { prefix: '' })
+              ? t('home.profile.subscription.status.ongoingUntil', { prefix: '' })
+              : t('home.profile.subscription.status.expiredSince', { prefix: '' })
           }
-          label={t('home.tickets.subscription.label')}
+          label={t('home.profile.subscription.label')}
           style={tw`w-full px-0`}>
           <Text style={tw`text-base text-slate-500 grow text-right`}>
-            {t('home.tickets.subscription.expiration', {
+            {t('home.profile.subscription.expiration', {
               expired: new Date(endDate),
               formatParams: {
                 expired: { weekday: 'long', month: 'long', day: 'numeric' },
@@ -52,7 +52,7 @@ const SubscriptionBottomSheet = ({
         </ServiceRow>
         <Link asChild href="https://www.coworking-metz.fr/boutique/pass-resident/">
           <Button backgroundColor={theme.darkVanilla} style={tw`h-14 self-stretch`}>
-            <Text style={tw`text-base font-medium`}>{t('home.tickets.subscription.order')}</Text>
+            <Text style={tw`text-base font-medium`}>{t('home.profile.subscription.order')}</Text>
           </Button>
         </Link>
       </View>

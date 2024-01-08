@@ -5,6 +5,9 @@
       "label": "{{start}}h - {{end}}h",
       "title": "Attendance per hour"
     },
+    "onFetch": {
+      "fail": "Unable to fetch hourly attendance"
+    },
     "title": "Present on {{day}}",
     "type": {
       "CURRENT": "This {{day}}",
@@ -16,6 +19,9 @@
     "list": {
       "forecast": "Forecast",
       "title": "Daily attendance"
+    },
+    "onFetch": {
+      "fail": "Unable to fetch daily attendance"
     },
     "title": "Present during the week",
     "type": {

@@ -11,10 +11,11 @@ export type ApiUser = {
   name: string;
   email: string;
   roles: string[];
+  picture?: string;
 };
 
 export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiTokens> => {
-  return HTTP.post('/auth/tokens', { refreshToken }).then(({ data }) => data);
+  return HTTP.post('/api/auth/tokens', { refreshToken }).then(({ data }) => data);
 };
 
 /**

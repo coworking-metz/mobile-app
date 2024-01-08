@@ -56,7 +56,7 @@ export default function Login() {
 
     const loginUri = HTTP.getUri({
       ...(settingsStore.apiBaseUrl && { baseURL: settingsStore.apiBaseUrl }),
-      url: '/auth/login',
+      url: '/api/auth/login',
       params: {
         follow: redirectUriOnSuccess,
       },

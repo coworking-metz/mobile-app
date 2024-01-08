@@ -53,14 +53,14 @@ const BalanceCard = ({
         <>
           <View style={tw`flex flex-col shrink grow`}>
             <Text style={tw`text-base text-slate-500 dark:text-slate-400`}>
-              {t('home.tickets.coupons.label')}
+              {t('home.profile.tickets.label')}
             </Text>
             <Text style={tw`text-2xl text-slate-900 dark:text-gray-200`}>
               {count >= 0
-                ? t('home.tickets.coupons.available', {
+                ? t('home.profile.tickets.available', {
                     count: count,
                   })
-                : t('home.tickets.coupons.depleted', {
+                : t('home.profile.tickets.depleted', {
                     count: -count,
                   })}
             </Text>

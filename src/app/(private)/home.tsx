@@ -34,10 +34,9 @@ import { parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
+import { getPresenceByDay, getPresenceByWeek } from '@/services/api/presence';
 import useAuthStore from '@/stores/auth';
-import useCalendarStore from '@/stores/calendar';
 import useNoticeStore from '@/stores/notice';
-import usePresenceStore from '@/stores/presence';
 import useToastStore from '@/stores/toast';
 
 dayjs.extend(relativeTime);
@@ -52,8 +51,6 @@ export default function HomeScreen({}) {
   const user = useAuthStore((state) => state.user);
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
-  const presenceStore = usePresenceStore();
-  const calendarStore = useCalendarStore();
   const noticeStore = useNoticeStore();
   const toastStore = useToastStore();
 
@@ -121,12 +118,31 @@ export default function HomeScreen({}) {
   } = useQuery({
     queryKey: ['calendarEvents'],
     queryFn: getCalendarEvents,
-    enabled: false,
+  });
+
+  const {
+    data: dailyPresence,
+    isFetching: isFetchingDailyPresence,
+    refetch: refreshDailyPresence,
+    error: dailyPresenceError,
+  } = useQuery({
+    queryKey: ['dailyPresence'],
+    queryFn: getPresenceByWeek,
+  });
+
+  const {
+    data: hourlyPresence,
+    isFetching: isFetchingHourlyPresence,
+    refetch: refreshHourlyPresence,
+    error: hourlyPresenceError,
+  } = useQuery({
+    queryKey: ['hourlyPresence'],
+    queryFn: getPresenceByDay,
   });
 
   useEffect(() => {
     if (profileError) {
-      notifyError(t('home.tickets.onFetch.fail'), profileError);
+      notifyError(t('home.profile.onFetch.fail'), profileError);
     }
   }, [profileError]);
 
@@ -138,10 +154,21 @@ export default function HomeScreen({}) {
 
   useEffect(() => {
     if (calendarEventsError) {
-      console.log({ calendarEventsError });
       notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
     }
   }, [calendarEventsError]);
+
+  useEffect(() => {
+    if (dailyPresenceError) {
+      notifyError(t('presence.byWeek.onFetch.fail'), dailyPresenceError);
+    }
+  }, [dailyPresenceError]);
+
+  useEffect(() => {
+    if (hourlyPresenceError) {
+      notifyError(t('presence.byDay.onFetch.fail'), hourlyPresenceError);
+    }
+  }, [hourlyPresenceError]);
 
   const onRefresh = useCallback(() => {
     if (user?.id) {
@@ -149,7 +176,9 @@ export default function HomeScreen({}) {
       Promise.all([
         refetchProfile(),
         refetchCurrentMembers(),
-        // refreshCalendarEvents()
+        refreshCalendarEvents(),
+        refreshDailyPresence(),
+        refreshHourlyPresence(),
       ]).finally(() => {
         setRefreshing(false);
       });
@@ -266,12 +295,11 @@ export default function HomeScreen({}) {
               <PresenceCard
                 disabled
                 color="blue"
-                history={presenceStore.weekPresence?.current.timeline.map(({ date, value }) => ({
+                history={dailyPresence?.current.timeline.map(({ date, value }) => ({
                   date: new Date(date),
                   value,
                 }))}
-                loading={presenceStore.isFetchingWeekPresence}
-                sharedTransitionTag="week-presence-card"
+                loading={!dailyPresence && isFetchingDailyPresence}
                 type="day"
               />
             </TouchableOpacity>
@@ -281,12 +309,11 @@ export default function HomeScreen({}) {
               <PresenceCard
                 disabled
                 color="amber"
-                history={presenceStore.dayPresence?.current.timeline.map(({ date, value }) => ({
+                history={hourlyPresence?.current.timeline.map(({ date, value }) => ({
                   date: new Date(date),
                   value,
                 }))}
-                loading={presenceStore.isFetchingDayPresence}
-                sharedTransitionTag="week-presence-card"
+                loading={!hourlyPresence && isFetchingHourlyPresence}
                 type="hour"
               />
             </TouchableOpacity>
@@ -296,9 +323,9 @@ export default function HomeScreen({}) {
         <Animated.View
           entering={FadeInLeft.duration(750).delay(400)}
           style={tw`flex flex-row items-start w-full justify-between`}>
-          <Text style={tw`text-base font-medium text-slate-500`}>{t('home.tickets.label')}</Text>
+          <Text style={tw`text-base font-medium text-slate-500`}>{t('home.profile.label')}</Text>
           {/* <Link href="https://www.coworking-metz.fr/la-boutique/">
-            <Text style={tw`text-base text-amber-500`}>{t('home.tickets.store')}</Text>
+            <Text style={tw`text-base text-amber-500`}>{t('home.profile.store')}</Text>
           </Link> */}
         </Animated.View>
         <HomeCarousel
@@ -316,7 +343,7 @@ export default function HomeScreen({}) {
           </Link>
         </Animated.View>
 
-        {calendarStore.events.length ? (
+        {calendarEvents?.length ? (
           <HomeCarousel
             elements={calendarCards}
             style={[tw`flex flex-col w-full overflow-visible h-24`]}

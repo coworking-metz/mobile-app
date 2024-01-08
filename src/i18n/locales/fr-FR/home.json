@@ -57,24 +57,7 @@
     "present_other": "postes occupés",
     "present_zero": "Aucune personne présente"
   },
-  "services": {
-    "label": "Services"
-  },
-  "tickets": {
-    "coupons": {
-      "available_one": "C'est le dernier !",
-      "available_other": "{{count}} disponibles",
-      "available_zero": "Y'en a plus 😔",
-      "balance": {
-        "label": "Solde",
-        "onDepleted": "Une surconsommation excessive peut entraîner une suspension de vos accès 😔"
-      },
-      "depleted_one": "Un surconsommé",
-      "depleted_other": "{{count}} surconsommés",
-      "description": "Les tickets sont sans fin de validité et chaque ticket équivaut à deux demi-journées.\nUne présence de moins de 5 heures sur une journée correspond à une demi-journée.",
-      "label": "Tickets à la journée",
-      "order": "Acheter"
-    },
+  "profile": {
     "label": "Adhésion",
     "onFetch": {
       "fail": "Impossible de récupérer le profil"
@@ -91,6 +74,23 @@
         "ongoingUntil": "{{prefix}}valide jusqu'au",
         "prefix": "Abonnement "
       }
+    },
+    "tickets": {
+      "available_one": "C'est le dernier !",
+      "available_other": "{{count}} disponibles",
+      "available_zero": "Y'en a plus 😔",
+      "balance": {
+        "label": "Solde",
+        "onDepleted": "Une surconsommation excessive peut entraîner une suspension de vos accès 😔"
+      },
+      "depleted_one": "Un surconsommé",
+      "depleted_other": "{{count}} surconsommés",
+      "description": "Les tickets sont sans fin de validité et chaque ticket équivaut à deux demi-journées.\nUne présence de moins de 5 heures sur une journée correspond à une demi-journée.",
+      "label": "Tickets à la journée",
+      "order": "Ajouter"
     }
+  },
+  "services": {
+    "label": "Services"
   }
 }

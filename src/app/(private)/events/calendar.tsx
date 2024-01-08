@@ -1,4 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -7,20 +8,14 @@ import { capitalize } from 'lodash';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, View, useColorScheme } from 'react-native';
-import {
-  AgendaList,
-  CalendarProvider,
-  ExpandableCalendar,
-  WeekCalendar,
-} from 'react-native-calendars';
+import { AgendaList, CalendarProvider, ExpandableCalendar } from 'react-native-calendars';
 import { type MarkedDates } from 'react-native-calendars/src/types';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import { theme } from '@/helpers/colors';
-import { type CalendarEvent } from '@/services/api/calendar';
-import useCalendarStore from '@/stores/calendar';
+import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
 dayjs.extend(LocalizedFormat);
 
@@ -94,10 +89,19 @@ const MemoAgendaItem = React.memo(AgendaItem);
 
 const AllEvents = () => {
   useDeviceContext(tw);
-  const calendarStore = useCalendarStore();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
+
+  const {
+    data: calendarEvents,
+    isFetching: isFetchingCalendarEvents,
+    refetch: refreshCalendarEvents,
+    error: calendarEventsError,
+  } = useQuery({
+    queryKey: ['calendarEvents'],
+    queryFn: getCalendarEvents,
+  });
 
   const renderItem = useCallback(({ item }: { item: CalendarEvent }) => {
     return <MemoAgendaItem event={item} />;
@@ -151,7 +155,7 @@ const AllEvents = () => {
           animateScroll
           allowShadow={false}
           firstDay={1}
-          markedDates={calendarStore.events.reduce((acc, event) => {
+          markedDates={(calendarEvents || []).reduce((acc, event) => {
             return {
               ...acc,
               [new Date(event.start).toISOString().slice(0, 10)]: {
@@ -199,7 +203,7 @@ const AllEvents = () => {
               </Text>
             </View>
           )}
-          sections={calendarStore.events.map((event) => ({
+          sections={(calendarEvents || []).map((event) => ({
             title: event.start,
             data: [event],
           }))}
