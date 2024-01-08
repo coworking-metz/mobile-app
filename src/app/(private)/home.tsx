@@ -34,9 +34,9 @@ import { parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
+import { getPresenceByDay, getPresenceByWeek } from '@/services/api/presence';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
-import usePresenceStore from '@/stores/presence';
 import useToastStore from '@/stores/toast';
 
 dayjs.extend(relativeTime);
@@ -51,7 +51,6 @@ export default function HomeScreen({}) {
   const user = useAuthStore((state) => state.user);
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
-  const presenceStore = usePresenceStore();
   const noticeStore = useNoticeStore();
   const toastStore = useToastStore();
 
@@ -121,6 +120,26 @@ export default function HomeScreen({}) {
     queryFn: getCalendarEvents,
   });
 
+  const {
+    data: dailyPresence,
+    isFetching: isFetchingDailyPresence,
+    refetch: refreshDailyPresence,
+    error: dailyPresenceError,
+  } = useQuery({
+    queryKey: ['dailyPresence'],
+    queryFn: getPresenceByWeek,
+  });
+
+  const {
+    data: hourlyPresence,
+    isFetching: isFetchingHourlyPresence,
+    refetch: refreshHourlyPresence,
+    error: hourlyPresenceError,
+  } = useQuery({
+    queryKey: ['hourlyPresence'],
+    queryFn: getPresenceByDay,
+  });
+
   useEffect(() => {
     if (profileError) {
       notifyError(t('home.tickets.onFetch.fail'), profileError);
@@ -139,13 +158,27 @@ export default function HomeScreen({}) {
     }
   }, [calendarEventsError]);
 
+  useEffect(() => {
+    if (dailyPresenceError) {
+      notifyError(t('presence.byWeek.onFetch.fail'), dailyPresenceError);
+    }
+  }, [dailyPresenceError]);
+
+  useEffect(() => {
+    if (hourlyPresenceError) {
+      notifyError(t('presence.byDay.onFetch.fail'), hourlyPresenceError);
+    }
+  }, [hourlyPresenceError]);
+
   const onRefresh = useCallback(() => {
     if (user?.id) {
       setRefreshing(true);
       Promise.all([
         refetchProfile(),
         refetchCurrentMembers(),
-        // refreshCalendarEvents()
+        refreshCalendarEvents(),
+        refreshDailyPresence(),
+        refreshHourlyPresence(),
       ]).finally(() => {
         setRefreshing(false);
       });
@@ -262,12 +295,11 @@ export default function HomeScreen({}) {
               <PresenceCard
                 disabled
                 color="blue"
-                history={presenceStore.weekPresence?.current.timeline.map(({ date, value }) => ({
+                history={dailyPresence?.current.timeline.map(({ date, value }) => ({
                   date: new Date(date),
                   value,
                 }))}
-                loading={presenceStore.isFetchingWeekPresence}
-                sharedTransitionTag="week-presence-card"
+                loading={!dailyPresence && isFetchingDailyPresence}
                 type="day"
               />
             </TouchableOpacity>
@@ -277,12 +309,11 @@ export default function HomeScreen({}) {
               <PresenceCard
                 disabled
                 color="amber"
-                history={presenceStore.dayPresence?.current.timeline.map(({ date, value }) => ({
+                history={hourlyPresence?.current.timeline.map(({ date, value }) => ({
                   date: new Date(date),
                   value,
                 }))}
-                loading={presenceStore.isFetchingDayPresence}
-                sharedTransitionTag="week-presence-card"
+                loading={!hourlyPresence && isFetchingHourlyPresence}
                 type="hour"
               />
             </TouchableOpacity>

@@ -96,7 +96,6 @@ const PresenceCard = ({
   style,
   history = [],
   at,
-  sharedTransitionTag,
   children,
   loading = false,
   disabled = false,
@@ -107,7 +106,6 @@ const PresenceCard = ({
   style?: StyleProps;
   history?: GraphPoint[];
   at?: string;
-  sharedTransitionTag?: string;
   loading?: boolean;
   disabled?: boolean;
   children?: ReactNode;
@@ -173,7 +171,6 @@ const PresenceCard = ({
 
   return (
     <Animated.View
-      sharedTransitionTag={sharedTransitionTag}
       style={[tw`relative rounded-2xl h-full overflow-hidden bg-gray-200 dark:bg-gray-900`, style]}>
       {history.length > 0 ? (
         <MaskedView

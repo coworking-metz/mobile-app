@@ -1,5 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
+import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { BlurView } from 'expo-blur';
@@ -21,8 +22,7 @@ import tw, { useDeviceContext } from 'twrnc';
 import PresenceCard from '@/components/Home/PresenceCard';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { theme } from '@/helpers/colors';
-import { type ApiPresence } from '@/services/api/presence';
-import usePresenceStore from '@/stores/presence';
+import { getPresenceByDay, type ApiPresence } from '@/services/api/presence';
 dayjs.extend(LocalizedFormat);
 
 const MAX_HEADER_HEIGHT = 144;
@@ -49,7 +49,17 @@ const PresenceByDay = () => {
   const navigation = useNavigation();
   const verticalScrollProgress = useSharedValue(0);
   const [selectedTypeIndex, setSelectedTypeIndex] = useState<number>(1);
-  const dayPresence = usePresenceStore((state) => state.dayPresence);
+
+  const {
+    data: hourlyPresence,
+    dataUpdatedAt: hourlyPresenceUpdatedAt,
+    isFetching: isFetchingHourlyPresence,
+    error: hourlyPresenceError,
+  } = useQuery({
+    queryKey: ['hourlyPresence'],
+    refetchOnMount: false,
+    queryFn: getPresenceByDay,
+  });
 
   const onVerticalScroll = useAnimatedScrollHandler({
     onScroll: ({ contentOffset }) => {
@@ -120,19 +130,19 @@ const PresenceByDay = () => {
       const type = PRESENCE_TYPES[typeIndex];
       switch (type) {
         case PresenceType.PREVIOUS:
-          return dayPresence?.previous ?? null;
+          return hourlyPresence?.previous ?? null;
         case PresenceType.CURRENT:
-          return dayPresence?.current ?? null;
+          return hourlyPresence?.current ?? null;
         default:
           return null;
       }
     },
-    [dayPresence],
+    [hourlyPresence],
   );
 
   const presence = useMemo<ApiPresence | null>(() => {
     return getPresenceFromTypeIndex(selectedTypeIndex);
-  }, [dayPresence, selectedTypeIndex]);
+  }, [hourlyPresence, selectedTypeIndex]);
 
   return (
     <Animated.View style={tw`bg-gray-100 dark:bg-black`}>
@@ -197,9 +207,7 @@ const PresenceByDay = () => {
                 })}
                 style={tw`px-3 mx-3`}
                 withBottomDivider={index < presence.timeline.length - 1}>
-                {dayjs(dayPresence?.at)
-                  .add(1, 'hour')
-                  .isBefore(item.date) ? (
+                {dayjs(hourlyPresenceUpdatedAt).add(1, 'hour').isBefore(item.date) ? (
                   <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
                     <Animated.Text style={tw`text-xs text-slate-900 dark:text-gray-200 `}>
                       {t('presence.byDay.list.forecast')}

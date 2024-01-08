@@ -18,7 +18,7 @@ export type ApiPresencePeriod = {
 };
 
 export const getPresenceByWeek = (): Promise<ApiPresencePeriod> => {
-  return HTTP.get('/mobile/v1/presence/week').then(({ data }) => {
+  return HTTP.get('https://mock.matthieupetit.dev/api/mobile/v1/presence/week').then(({ data }) => {
     return {
       ...data,
       current: {
@@ -40,7 +40,7 @@ export const getPresenceByWeek = (): Promise<ApiPresencePeriod> => {
 };
 
 export const getPresenceByDay = (): Promise<ApiPresencePeriod> => {
-  return HTTP.get('/mobile/v1/presence/day').then(({ data }) => {
+  return HTTP.get('https://mock.matthieupetit.dev/api/mobile/v1/presence/day').then(({ data }) => {
     return {
       ...data,
       current: {
@@ -57,14 +57,4 @@ export const getPresenceByDay = (): Promise<ApiPresencePeriod> => {
       },
     };
   });
-};
-
-export type ApiCurrentPresence = {
-  fetchedAt: string;
-  count: number;
-  total: number;
-};
-
-export const getPresenceNow = (): Promise<ApiCurrentPresence> => {
-  return HTTP.get('/mobile/v1/presence/now').then(({ data }) => data);
 };

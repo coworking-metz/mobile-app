@@ -5,6 +5,9 @@
       "label": "{{start}}h - {{end}}h",
       "title": "Fréquentation par heure"
     },
+    "onFetch": {
+      "fail": "Impossible de récupérer la présence de la journée"
+    },
     "title": "Présents le {{day}}",
     "type": {
       "CURRENT": "Ce {{day}}",
@@ -16,6 +19,9 @@
     "list": {
       "forecast": "Prévision",
       "title": "Fréquentation journalière"
+    },
+    "onFetch": {
+      "fail": "Impossible de récupérer la présence de la semaine"
     },
     "title": "Présents la semaine",
     "type": {

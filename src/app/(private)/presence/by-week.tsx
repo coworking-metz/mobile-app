@@ -1,4 +1,5 @@
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
+import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { BlurView } from 'expo-blur';
@@ -19,8 +20,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import PresenceCard from '@/components/Home/PresenceCard';
 import ServiceRow from '@/components/Settings/ServiceRow';
-import { type ApiPresence } from '@/services/api/presence';
-import usePresenceStore from '@/stores/presence';
+import { getPresenceByWeek, type ApiPresence } from '@/services/api/presence';
 
 dayjs.extend(LocalizedFormat);
 
@@ -46,7 +46,17 @@ const PresenceByWeek = () => {
   const { t } = useTranslation();
   const verticalScrollProgress = useSharedValue(0);
   const [selectedTypeIndex, setSelectedTypeIndex] = useState<number>(1);
-  const weekPresence = usePresenceStore((state) => state.weekPresence);
+
+  const {
+    data: dailyPresence,
+    dataUpdatedAt: dailyPresenceUpdatedAt,
+    isFetching: isFetchingDailyPresence,
+    error: dailyPresenceError,
+  } = useQuery({
+    queryKey: ['dailyPresence'],
+    refetchOnMount: false,
+    queryFn: getPresenceByWeek,
+  });
 
   const onVerticalScroll = useAnimatedScrollHandler({
     onScroll: ({ contentOffset }) => {
@@ -96,13 +106,13 @@ const PresenceByWeek = () => {
     const type = PRESENCE_TYPES[selectedTypeIndex];
     switch (type) {
       case PresenceType.PREVIOUS:
-        return weekPresence?.previous ?? null;
+        return dailyPresence?.previous ?? null;
       case PresenceType.CURRENT:
-        return weekPresence?.current ?? null;
+        return dailyPresence?.current ?? null;
       default:
         return null;
     }
-  }, [weekPresence, selectedTypeIndex]);
+  }, [dailyPresence, selectedTypeIndex]);
 
   return (
     <Animated.View style={tw`dark:bg-black`}>
@@ -155,7 +165,7 @@ const PresenceByWeek = () => {
                     style={tw`px-3 mx-3`}
                     suffixIcon="chevron-right"
                     withBottomDivider={index < presence.timeline.length - 1}>
-                    {dayjs(weekPresence?.at).isBefore(date) ? (
+                    {dayjs(dailyPresenceUpdatedAt).isBefore(date) ? (
                       <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
                         <Animated.Text style={tw`text-xs text-slate-900 dark:text-gray-200 `}>
                           {t('presence.byWeek.list.forecast')}
