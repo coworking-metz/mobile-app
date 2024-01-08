@@ -21,7 +21,9 @@ export const unlockDeckDoor = (): Promise<{
   locked: string;
   timeout: string;
 }> => {
-  return HTTP.post('/doors/deck/unlock').then(({ data }) => data);
+  return HTTP.post('https://mock.matthieupetit.dev/api/mobile/v1/doors/deck/unlock').then(
+    ({ data }) => data,
+  );
 };
 
 export const turnOnLight = (
@@ -30,7 +32,9 @@ export const turnOnLight = (
   state: 'on';
   updated: string;
 }> => {
-  return HTTP.post(`/api/lights/${lightId}/on`).then(({ data }) => data);
+  return HTTP.post(`https://mock.matthieupetit.dev/api/mobile/v1/lights/${lightId}/on`).then(
+    ({ data }) => data,
+  );
 };
 
 export const turnOffLight = (
@@ -39,7 +43,9 @@ export const turnOffLight = (
   state: 'off';
   updated: string;
 }> => {
-  return HTTP.post(`/api/lights/${lightId}/off`).then(({ data }) => data);
+  return HTTP.post(`https://mock.matthieupetit.dev/api/mobile/v1/lights/${lightId}/off`).then(
+    ({ data }) => data,
+  );
 };
 
 export const turnOnFan = (
@@ -48,7 +54,9 @@ export const turnOnFan = (
   state: 'on';
   updated: string;
 }> => {
-  return HTTP.post(`/api/fans/${fanId}/on`).then(({ data }) => data);
+  return HTTP.post(`https://mock.matthieupetit.dev/api/mobile/v1/fans/${fanId}/on`).then(
+    ({ data }) => data,
+  );
 };
 
 export const turnOffFan = (
@@ -57,5 +65,7 @@ export const turnOffFan = (
   state: 'off';
   updated: string;
 }> => {
-  return HTTP.post(`/api/fans/${fanId}/off`).then(({ data }) => data);
+  return HTTP.post(`https://mock.matthieupetit.dev/api/mobile/v1/fans/${fanId}/off`).then(
+    ({ data }) => data,
+  );
 };

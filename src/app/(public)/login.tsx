@@ -70,16 +70,17 @@ export default function Login() {
           const url = (result as WebBrowserRedirectResult).url || redirectUriOnSuccess;
           return Linking.openURL(url);
         }
-        setLoading(false);
       })
       .catch(async (error) => {
-        setLoading(false);
         const description = await parseErrorText(error);
         noticeStore.add({
           message: t('errors.default.message'),
           description,
           type: 'error',
         });
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [settingsStore]);
 
