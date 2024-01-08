@@ -35,7 +35,6 @@ import { log } from '@/helpers/logger';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
-import useCalendarStore from '@/stores/calendar';
 import useNoticeStore from '@/stores/notice';
 import usePresenceStore from '@/stores/presence';
 import useToastStore from '@/stores/toast';
@@ -53,7 +52,6 @@ export default function HomeScreen({}) {
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
   const presenceStore = usePresenceStore();
-  const calendarStore = useCalendarStore();
   const noticeStore = useNoticeStore();
   const toastStore = useToastStore();
 
@@ -121,7 +119,6 @@ export default function HomeScreen({}) {
   } = useQuery({
     queryKey: ['calendarEvents'],
     queryFn: getCalendarEvents,
-    enabled: false,
   });
 
   useEffect(() => {
@@ -138,7 +135,6 @@ export default function HomeScreen({}) {
 
   useEffect(() => {
     if (calendarEventsError) {
-      console.log({ calendarEventsError });
       notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
     }
   }, [calendarEventsError]);
@@ -316,7 +312,7 @@ export default function HomeScreen({}) {
           </Link>
         </Animated.View>
 
-        {calendarStore.events.length ? (
+        {calendarEvents?.length ? (
           <HomeCarousel
             elements={calendarCards}
             style={[tw`flex flex-col w-full overflow-visible h-24`]}

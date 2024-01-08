@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { isNil } from 'lodash';
@@ -13,18 +14,28 @@ import ModalLayout from '@/components/ModalLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import ZoombableImage from '@/components/ZoomableImage';
 import { theme } from '@/helpers/colors';
-import { type CalendarEvent } from '@/services/api/calendar';
-import useCalendarStore from '@/stores/calendar';
+import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
 export default function Page() {
   const { id } = useLocalSearchParams();
   const { t } = useTranslation();
   const router = useRouter();
-  const calendarStore = useCalendarStore();
+
+  const {
+    data: calendarEvents,
+    isFetching: isFetchingCalendarEvents,
+    refetch: refreshCalendarEvents,
+    error: calendarEventsError,
+  } = useQuery({
+    queryKey: ['calendarEvents'],
+    queryFn: getCalendarEvents,
+  });
 
   const event = useMemo<CalendarEvent | null>(() => {
-    return (!isNil(id) && calendarStore.events.find((event) => `${event.id}` === `${id}`)) || null;
-  }, [calendarStore.events]);
+    return (
+      (!isNil(id) && (calendarEvents || []).find((event) => `${event.id}` === `${id}`)) || null
+    );
+  }, [calendarEvents]);
 
   return (
     <ModalLayout from="/events/calendar" title={event?.label || ''}>
