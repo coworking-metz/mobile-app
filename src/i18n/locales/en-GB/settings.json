@@ -22,8 +22,8 @@
   },
   "profile": {
     "presence": {
-      "onFail": {
-        "message": "Unable to fetch presence"
+      "onFetch": {
+        "fail": "Unable to fetch presence"
       },
       "title": "My presence"
     }

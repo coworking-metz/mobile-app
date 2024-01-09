@@ -14,7 +14,7 @@ import Animated, {
   FadeOutUp,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Fader, ToastPresets, TouchableOpacity } from 'react-native-ui-lib';
+import { Fader, TouchableOpacity } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
@@ -30,14 +30,12 @@ import ProfilePicture from '@/components/Home/ProfilePicture';
 import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
-import { parseErrorText } from '@/helpers/error';
+import { isSilentError, useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
 import { getPresenceByDay, getPresenceByWeek } from '@/services/api/presence';
 import useAuthStore from '@/stores/auth';
-import useNoticeStore from '@/stores/notice';
-import useToastStore from '@/stores/toast';
 
 dayjs.extend(relativeTime);
 
@@ -51,8 +49,7 @@ export default function HomeScreen({}) {
   const user = useAuthStore((state) => state.user);
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
-  const noticeStore = useNoticeStore();
-  const toastStore = useToastStore();
+  const notifyError = useErrorNotification();
 
   const [selectedCalendarEvent, setSelectedCalendarEvent] = useState<CalendarEvent | null>(null);
 
@@ -60,28 +57,6 @@ export default function HomeScreen({}) {
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
 
   const [refreshing, setRefreshing] = useState(false);
-
-  const notifyError = useCallback(
-    async (label: string, error: Error) => {
-      const errorMessage = await parseErrorText(error);
-      const toast = toastStore.add({
-        message: label,
-        type: ToastPresets.FAILURE,
-        action: {
-          label: t('actions.more'),
-          onPress: () => {
-            noticeStore.add({
-              message: label,
-              description: errorMessage,
-              type: 'error',
-            });
-            toastStore.dismiss(toast.id);
-          },
-        },
-      });
-    },
-    [toastStore, noticeStore, t],
-  );
 
   const {
     data: currentMembers,
@@ -92,6 +67,7 @@ export default function HomeScreen({}) {
   } = useQuery({
     queryKey: ['currentMembers'],
     queryFn: getCurrentMembers,
+    retry: false,
   });
 
   const {
@@ -107,6 +83,7 @@ export default function HomeScreen({}) {
       }
       throw new Error('Missing user id');
     },
+    retry: false,
     enabled: !!user,
   });
 
@@ -118,6 +95,7 @@ export default function HomeScreen({}) {
   } = useQuery({
     queryKey: ['calendarEvents'],
     queryFn: getCalendarEvents,
+    retry: false,
   });
 
   const {
@@ -128,6 +106,7 @@ export default function HomeScreen({}) {
   } = useQuery({
     queryKey: ['dailyPresence'],
     queryFn: getPresenceByWeek,
+    retry: false,
   });
 
   const {
@@ -138,34 +117,35 @@ export default function HomeScreen({}) {
   } = useQuery({
     queryKey: ['hourlyPresence'],
     queryFn: getPresenceByDay,
+    retry: false,
   });
 
   useEffect(() => {
-    if (profileError) {
+    if (profileError && !isSilentError(profileError)) {
       notifyError(t('home.profile.onFetch.fail'), profileError);
     }
   }, [profileError]);
 
   useEffect(() => {
-    if (currentMembersError) {
+    if (currentMembersError && !isSilentError(currentMembersError)) {
       notifyError(t('home.people.onFetch.fail'), currentMembersError);
     }
   }, [currentMembersError]);
 
   useEffect(() => {
-    if (calendarEventsError) {
+    if (calendarEventsError && !isSilentError(calendarEventsError)) {
       notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
     }
   }, [calendarEventsError]);
 
   useEffect(() => {
-    if (dailyPresenceError) {
+    if (dailyPresenceError && !isSilentError(dailyPresenceError)) {
       notifyError(t('presence.byWeek.onFetch.fail'), dailyPresenceError);
     }
   }, [dailyPresenceError]);
 
   useEffect(() => {
-    if (hourlyPresenceError) {
+    if (hourlyPresenceError && !isSilentError(hourlyPresenceError)) {
       notifyError(t('presence.byDay.onFetch.fail'), hourlyPresenceError);
     }
   }, [hourlyPresenceError]);

@@ -1,8 +1,5 @@
 import { version as appVersion } from '../../package.json';
 import axios from 'axios';
-import useSettingsStore from '@/stores/settings';
-
-console.log(useSettingsStore.getState().apiBaseUrl);
 
 const httpInstance = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_BASE_URL,

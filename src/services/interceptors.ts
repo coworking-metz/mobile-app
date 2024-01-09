@@ -15,7 +15,6 @@ import i18n from '@/i18n';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
-// import { useHttpStore } from '@/stores/http';
 
 const httpLogger = log.extend(`[http]`);
 
@@ -24,7 +23,7 @@ export interface AppAxiosRequestConfig<D = unknown> extends InternalAxiosRequest
   cancelToken?: CancelToken;
 }
 
-const MAX_REQUEST_RETRIES = 2;
+const MAX_REQUEST_RETRIES = 1;
 
 // to avoid dependency cycle @see https://stackoverflow.com/a/51048400/15183871
 const createHttpInterceptors = (httpInstance: AxiosInstance) => {

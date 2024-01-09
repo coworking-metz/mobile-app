@@ -1,4 +1,9 @@
 import { type AxiosError } from 'axios';
+import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ToastPresets } from 'react-native-ui-lib';
+import useNoticeStore from '@/stores/notice';
+import useToastStore from '@/stores/toast';
 
 export enum ApiErrorCode {
   EXPIRED_ACCESS_TOKEN = 'EXPIRED_ACCESS_TOKEN',
@@ -43,20 +48,50 @@ export const parseErrorText = async (error: AxiosError | Error): Promise<string>
   return error.message;
 };
 
+export type AnyError = AppError | AxiosError<ApiError> | Error;
+
+export const isSilentError = (error: AnyError): boolean =>
+  [AppErrorCode.DISCONNECTED, AppErrorCode.CANCELED].includes((error as AppError)?.code) ||
+  [ApiErrorCode.EXPIRED_ACCESS_TOKEN].includes(
+    ((error as AxiosError).response?.data as ApiError)?.code,
+  );
+
 /**
  * Silence some errors that don't need to be handled by the UI.
- *
- * @param error
- * @returns
  */
 export const handleSilentError = async (error: AppError | AxiosError): Promise<void> => {
-  if (
-    [AppErrorCode.DISCONNECTED, AppErrorCode.CANCELED].includes((error as AppError)?.code) ||
-    [ApiErrorCode.EXPIRED_ACCESS_TOKEN].includes(
-      ((error as AxiosError).response?.data as ApiError)?.code,
-    )
-  ) {
+  if (isSilentError(error)) {
     return Promise.resolve();
   }
   return Promise.reject(error);
+};
+
+export const useErrorNotification = () => {
+  const toastStore = useToastStore();
+  const noticeStore = useNoticeStore();
+  const { t } = useTranslation();
+
+  const notifyError = useCallback(
+    async (label: string, error: Error) => {
+      const errorMessage = await parseErrorText(error);
+      const toast = toastStore.add({
+        message: label,
+        type: ToastPresets.FAILURE,
+        action: {
+          label: t('actions.more'),
+          onPress: () => {
+            noticeStore.add({
+              message: label,
+              description: errorMessage,
+              type: 'error',
+            });
+            toastStore.dismiss(toast.id);
+          },
+        },
+      });
+    },
+    [toastStore, noticeStore, t],
+  );
+
+  return notifyError;
 };

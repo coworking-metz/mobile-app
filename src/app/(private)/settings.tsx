@@ -1,4 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useQuery } from '@tanstack/react-query';
 import { BlurView } from 'expo-blur';
 import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
@@ -24,9 +25,9 @@ import ServiceRow from '@/components/Settings/ServiceRow';
 import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 import ThemePicker from '@/components/Settings/ThemePicker';
 import { theme } from '@/helpers/colors';
-import { handleSilentError, parseErrorText } from '@/helpers/error';
-import { getLanguageLabel, SYSTEM_LANGUAGE } from '@/i18n';
-import { type ApiMemberActivity, getMemberActivity } from '@/services/api/members';
+import { isSilentError, parseErrorText, useErrorNotification } from '@/helpers/error';
+import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
+import { getMemberActivity } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
@@ -43,15 +44,36 @@ const Settings = () => {
   const noticeStore = useNoticeStore();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
+  const notifyError = useErrorNotification();
   const router = useRouter();
   const authStore = useAuthStore();
-  const [activity, setActivity] = useState<ApiMemberActivity[]>([]);
-  const [isFetchingActivity, setFetchingActivity] = useState(false);
   const chosenLanguage = useSettingsStore((state) => state.language);
   const verticalScrollProgress = useSharedValue(0);
   const [isPickingLanguage, setPickingLanguage] = useState(false);
   const [isPickingTheme, setPickingTheme] = useState(false);
   const [isContactingTeam, setContactingTeam] = useState(false);
+
+  const {
+    data: activity,
+    isFetching: isFetchingActivity,
+    error: activityError,
+  } = useQuery({
+    queryKey: ['activity', authStore.user?.id],
+    queryFn: ({ queryKey: [_, userId] }) => {
+      if (userId) {
+        return getMemberActivity(userId);
+      }
+      throw new Error('Missing user id');
+    },
+    retry: false,
+    enabled: !!authStore.user,
+  });
+
+  useEffect(() => {
+    if (activityError && !isSilentError(activityError)) {
+      notifyError(t('settings.profile.presence.onFetch.fail'), activityError);
+    }
+  }, [activityError]);
 
   /* this is a hell of a hack */
   const [footerHeight, setFooterHeight] = useState(0);
@@ -98,34 +120,6 @@ const Settings = () => {
       transform: [{ scale }],
     };
   }, [verticalScrollProgress]);
-
-  useEffect(() => {
-    if (authStore.user?.id && !activity.length) {
-      setFetchingActivity(true);
-      getMemberActivity(authStore.user.id)
-        .then(setActivity)
-        .catch(handleSilentError)
-        .catch(async (error) => {
-          const errorMessage = await parseErrorText(error);
-          const toast = toastStore.add({
-            message: t('settings.profile.presence.onFail.message'),
-            type: ToastPresets.FAILURE,
-            action: {
-              label: t('actions.more'),
-              onPress: () => {
-                noticeStore.add({
-                  message: t('settings.profile.presence.onFail.message'),
-                  description: errorMessage,
-                  type: 'error',
-                });
-                toastStore.dismiss(toast.id);
-              },
-            },
-          });
-        })
-        .finally(() => setFetchingActivity(false));
-    }
-  }, []);
 
   return (
     <View style={[{ flex: 1 }, tw`bg-gray-100 dark:bg-black`]}>
