@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SplashScreen, Stack } from 'expo-router';
 import { Platform, View } from 'react-native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -9,7 +10,6 @@ import { I18nProvider } from '@/context/i18n';
 import '@/i18n';
 import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
