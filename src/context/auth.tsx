@@ -1,9 +1,9 @@
+import { ToastPresets } from '@ddx0510/react-native-ui-lib';
 import { useGlobalSearchParams, useRootNavigation, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ToastPresets } from 'react-native-ui-lib';
-import { parseErrorText } from '@/helpers/error';
+import { parseErrorText, useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -31,10 +31,9 @@ const useProtectedRoute = (
   const segments = useSegments();
   const rootNavigation = useRootNavigation();
   const router = useRouter();
-  const toastStore = useToastStore();
   const authStore = useAuthStore();
   const hasOnboard = useSettingsStore((state) => state.hasOnboard);
-  const noticeStore = useNoticeStore();
+  const notifyError = useErrorNotification();
 
   const { accessToken: queryAccessToken, refreshToken: queryRefreshToken } = useGlobalSearchParams<{
     accessToken: string;
@@ -52,24 +51,8 @@ const useProtectedRoute = (
           return authStore
             .refreshAccessToken()
             .then(() => Promise.resolve(true))
-            .catch(async (error) => {
-              const errorMessage = await parseErrorText(error);
-              const toast = toastStore.add({
-                message: t('auth.login.onRefreshTokenFail.message'),
-                type: ToastPresets.FAILURE,
-                action: {
-                  label: t('actions.more'),
-                  onPress: () => {
-                    noticeStore.add({
-                      message: t('auth.login.onRefreshTokenFail.label'),
-                      description: errorMessage,
-                      type: 'error',
-                    });
-                    toastStore.dismiss(toast.id);
-                  },
-                },
-              });
-
+            .catch((error) => {
+              notifyError(t('auth.login.onRefreshTokenFail.message'), error);
               return Promise.resolve(false);
             });
         }

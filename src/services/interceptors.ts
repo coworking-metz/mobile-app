@@ -1,4 +1,5 @@
 import { version as appVersion } from '../../package.json';
+import { ToastPresets } from '@ddx0510/react-native-ui-lib';
 import {
   type AxiosError,
   type AxiosHeaders,
@@ -8,8 +9,7 @@ import {
   type InternalAxiosRequestConfig,
 } from 'axios';
 import axiosRetry from 'axios-retry';
-import { ToastPresets } from 'react-native-ui-lib';
-import { type AppError, AppErrorCode, ApiErrorCode } from '@/helpers/error';
+import { type AppError, AppErrorCode, ApiErrorCode, useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import i18n from '@/i18n';
 import useAuthStore from '@/stores/auth';
@@ -150,11 +150,8 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
         // the user should be properly logged out
         await authStore.logout();
         // explain what happened to the user
-        useToastStore.getState().add({
-          message: i18n.t('auth.login.onRefreshTokenFail.message'),
-          type: ToastPresets.FAILURE,
-          timeout: 3000,
-        });
+        const notifyError = useErrorNotification();
+        notifyError(i18n.t('auth.login.onRefreshTokenFail.message'), error);
 
         return Promise.reject(disconnectedError);
       }

@@ -1,3 +1,4 @@
+import { KeyboardAwareScrollView } from '@ddx0510/react-native-ui-lib';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { useRouter } from 'expo-router';
@@ -13,7 +14,6 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { KeyboardAwareScrollView } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import { theme } from '@/helpers/colors';
 

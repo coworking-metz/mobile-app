@@ -37,7 +37,7 @@ const SubscriptionCard = ({ expired, since, ...props }: { expired: string; since
         <Text style={tw`text-2xl text-slate-900 dark:text-gray-200`}>
           {dayjs().isSame(expired, 'day')
             ? dayjs(expired).fromNow()
-            : t('home.profile.subscription.expiration', {
+            : t('home.profile.subscription.date', {
                 expired: new Date(expired),
                 formatParams: {
                   expired: { weekday: 'long', month: 'long', day: 'numeric' },

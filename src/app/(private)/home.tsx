@@ -1,3 +1,4 @@
+import { Fader, TouchableOpacity } from '@ddx0510/react-native-ui-lib';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -14,7 +15,6 @@ import Animated, {
   FadeOutUp,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Fader, TouchableOpacity } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
@@ -374,6 +374,7 @@ export default function HomeScreen({}) {
       {currentSubscription && hasSelectSubscription ? (
         <SubscriptionBottomSheet
           endDate={currentSubscription.aboEnd}
+          startDate={currentSubscription.aboStart}
           onClose={() => selectSubscription(false)}
         />
       ) : null}

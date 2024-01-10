@@ -1,9 +1,9 @@
+import { Fader } from '@ddx0510/react-native-ui-lib';
 import { Image } from 'expo-image';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View, useColorScheme, type LayoutChangeEvent } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
-import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import { type CalendarEvent } from '@/services/api/calendar';
 

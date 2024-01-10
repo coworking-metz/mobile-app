@@ -1,3 +1,4 @@
+import { Button } from '@ddx0510/react-native-ui-lib';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -7,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import openMap from 'react-native-open-maps';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
-import { Button } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import ModalLayout from '@/components/ModalLayout';

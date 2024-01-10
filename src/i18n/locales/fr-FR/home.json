@@ -64,21 +64,22 @@
     },
     "store": "Boutique",
     "subscription": {
+      "date": "{{expired, datetime }}",
       "description": "L'abonnement permet d'accéder au Coworking sur 30 jours glissants à compter de la date de début choisie.",
-      "expiration": "{{expired, datetime }}",
       "label": "Abonnement",
       "order": "Renouveler",
       "status": {
         "expiredSince": "{{prefix}}expiré le",
         "expiresToday": "{{prefix}}touchant à sa fin",
         "ongoingUntil": "{{prefix}}valide jusqu'au",
-        "prefix": "Abonnement "
+        "prefix": "Abonnement ",
+        "startedOn": "{{prefix}}débutant le"
       }
     },
     "tickets": {
       "available_one": "C'est le dernier !",
       "available_other": "{{count}} disponibles",
-      "available_zero": "Y'en a plus 😔",
+      "available_zero": "Y'en a plus",
       "balance": {
         "label": "Solde",
         "onDepleted": "Une surconsommation excessive peut entraîner une suspension de vos accès 😔"

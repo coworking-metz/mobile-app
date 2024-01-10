@@ -1,10 +1,10 @@
+import { Fader } from '@ddx0510/react-native-ui-lib';
 import { Image } from 'expo-image';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { type LayoutChangeEvent, Text, View, type ViewProps } from 'react-native';
 import Animated, { type AnimateProps, type StyleProps } from 'react-native-reanimated';
-import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 
 const BalanceCard = ({

@@ -1,13 +1,13 @@
 import CouponsAnimation from '../Animations/CouponsAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import ServiceRow from '../Settings/ServiceRow';
+import { Button } from '@ddx0510/react-native-ui-lib';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
-import { Button } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 
@@ -24,7 +24,7 @@ const TicketsBottomSheet = ({
 
   return (
     <AppBottomSheet style={style} onClose={onClose}>
-      <View style={tw`flex flex-col w-full  justify-between p-6`}>
+      <View style={tw`flex flex-col w-full justify-between p-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <CouponsAnimation style={tw`h-56`} />
         </View>
@@ -47,7 +47,7 @@ const TicketsBottomSheet = ({
           </Text>
         </ServiceRow>
         {balance < 0 ? (
-          <View style={tw`flex flex-row items-start flex-gap-2 w-full overflow-hidden mb-4`}>
+          <View style={tw`flex flex-row items-start flex-gap-2 w-full overflow-hidden`}>
             <MaterialCommunityIcons
               color={tw.color('yellow-500')}
               iconStyle={tw`h-6 w-6 mr-0`}

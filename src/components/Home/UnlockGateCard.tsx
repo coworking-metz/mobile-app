@@ -1,6 +1,7 @@
 import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
 import LockUnlockAnimation from '../Animations/LockUnlockAnimation';
 import ReanimatedText from '../ReanimatedText';
+import { ToastPresets } from '@ddx0510/react-native-ui-lib';
 import * as Haptics from 'expo-haptics';
 import { router } from 'expo-router';
 import { isNil } from 'lodash';
@@ -27,7 +28,6 @@ import Animated, {
   withTiming,
   type StyleProps,
 } from 'react-native-reanimated';
-import { ToastPresets } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import { theme } from '@/helpers/colors';
