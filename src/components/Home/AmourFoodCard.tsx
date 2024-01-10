@@ -1,3 +1,4 @@
+import { Fader } from '@ddx0510/react-native-ui-lib';
 import { Image } from 'expo-image';
 import { Skeleton } from 'moti/skeleton';
 import React, { useEffect } from 'react';
@@ -6,7 +7,6 @@ import { useColorScheme, type LayoutChangeEvent } from 'react-native';
 // import { getColors } from 'react-native-image-colors';
 import { Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
-import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import { invertColor } from '@/helpers/colors';
 import { type AmourFoodMenu } from '@/services/api/amourFood';

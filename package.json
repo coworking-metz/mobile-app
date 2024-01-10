@@ -18,6 +18,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@ddx0510/react-native-ui-lib": "^7.0.2",
     "@expo/vector-icons": "^13.0.0",
     "@gorhom/bottom-sheet": "^4",
     "@leeoniya/ufuzzy": "^1.0.14",
@@ -74,7 +75,6 @@
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
-    "react-native-ui-lib": "^7.14.2",
     "react-native-uuid": "^2.0.1",
     "sentry-expo": "~7.1.1",
     "twrnc": "^3.6.7",

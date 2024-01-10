@@ -1,3 +1,4 @@
+import { Button } from '@ddx0510/react-native-ui-lib';
 import { makeRedirectUri } from 'expo-auth-session';
 import Constants from 'expo-constants';
 import { Link } from 'expo-router';
@@ -11,7 +12,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import WelcomeAnimation from '@/components/Animations/WelcomeAnimation';

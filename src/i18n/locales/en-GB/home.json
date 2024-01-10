@@ -60,15 +60,16 @@
     },
     "store": "Store",
     "subscription": {
+      "date": "{{expired, datetime }}",
       "description": "Subscription allows access to the coworking space for 30 rolling days starting from the chosen start date.",
-      "expiration": "{{expired, datetime }}",
       "label": "Subscription",
       "order": "Renew",
       "status": {
         "expiredSince": "{{prefix}}expired since",
         "expiresToday": "{{prefix}}about to expire",
         "ongoingUntil": "{{prefix}}valid until",
-        "prefix": "Subscription "
+        "prefix": "Subscription ",
+        "startedOn": "{{prefix}}started on"
       }
     },
     "tickets": {

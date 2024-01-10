@@ -1,10 +1,10 @@
+import { Switch, TextField, ToastPresets } from '@ddx0510/react-native-ui-lib';
 import * as Clipboard from 'expo-clipboard';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TextInput, View } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
-import { Switch, TextField, ToastPresets } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
