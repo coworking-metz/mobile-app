@@ -42,13 +42,21 @@ Any credentials will work during the login flow.
 docker-compose -f mock/docker-compose.yml up -d
 ```
 
-### Build locally
+## Build locally
+
+### iOS
 
 ```bash
 eas build --profile preview --platform ios --local
 ```
-
 Then `Xcode` -> `CMD + SHIFT + 2` -> `Devices` -> finally drag and drop the `.ipa` file.
+
+### Android
+
+```bash
+eas build --profile preview --platform android --local
+adb install build-*.apk
+```
 
 ## Deploy
 
