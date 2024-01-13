@@ -49,7 +49,11 @@ docker-compose -f mock/docker-compose.yml up -d
 ```bash
 eas build --profile preview --platform ios --local
 ```
-Then `Xcode` -> `CMD + SHIFT + 2` -> `Devices` -> finally drag and drop the `.ipa` file.
+Then:
+- launch `Xcode`
+- navigate to `Window` -> `Devices and Simulators` -> `Devices`
+- select your device
+- finally drag and drop the `.ipa` file in the `Installed Apps` section
 
 ### Android
 

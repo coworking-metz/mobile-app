@@ -13,8 +13,8 @@ export interface ApiMemberProfile {
   activity: number;
   activeUser: boolean;
   balance: number;
-  membershipOk: boolean;
-  lastMembership: number;
+  membershipOk?: boolean;
+  lastMembership?: number;
   abos: {
     aboEnd: string;
     aboStart: string;

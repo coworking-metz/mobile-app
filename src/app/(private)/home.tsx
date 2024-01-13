@@ -29,6 +29,8 @@ import CalendarEmptyCard from '@/components/Home/CalendarEmptyCard';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import ControlsCard from '@/components/Home/ControlsCard';
 import HomeCarousel from '@/components/Home/HomeCarousel';
+import MembershipBottomSheet from '@/components/Home/MembershipBottomSheet';
+import MembershipCard from '@/components/Home/MembershipCard';
 import ParkingCard from '@/components/Home/ParkingCard';
 import PresenceCard from '@/components/Home/PresenceCard';
 import PresentsCount from '@/components/Home/PresentsCount';
@@ -59,6 +61,7 @@ export default function HomeScreen({}) {
 
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
+  const [hasSelectMembership, selectMembership] = useState<boolean>(false);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -97,14 +100,14 @@ export default function HomeScreen({}) {
     (nextAppState: AppStateStatus) => {
       if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
         homeLogger.debug('App has come to the foreground!');
-        if (hasSelectBalance || hasSelectSubscription) {
+        if (hasSelectBalance || hasSelectSubscription || hasSelectMembership) {
           refetchProfile();
         }
       }
 
       appState.current = nextAppState;
     },
-    [hasSelectBalance, hasSelectSubscription, refetchProfile],
+    [hasSelectBalance, hasSelectSubscription, hasSelectMembership, refetchProfile],
   );
 
   const appState = useRef(AppState.currentState);
@@ -203,31 +206,48 @@ export default function HomeScreen({}) {
 
   const stackCards = useMemo(
     () =>
-      [
-        currentSubscription && dayjs().isBefore(currentSubscription.aboEnd) && (
-          <TouchableOpacity key={`subscription-card`} onPress={() => selectSubscription(true)}>
-            <SubscriptionCard
-              expired={dayjs(currentSubscription.aboEnd).endOf('day').toISOString()}
-              since={currentSubscription.aboStart}
-            />
-          </TouchableOpacity>
-        ),
-        <TouchableOpacity key={`coupons-card`} onPress={() => selectBalance(true)}>
-          <BalanceCard count={profile?.balance} loading={isLoadingProfile} />
-        </TouchableOpacity>,
-      ]
-        .sort(() => {
+      (
+        [
+          currentSubscription && {
+            order: dayjs().isAfter(currentSubscription.aboEnd) ? 1 : 0,
+            component: (
+              <TouchableOpacity key={`subscription-card`} onPress={() => selectSubscription(true)}>
+                <SubscriptionCard
+                  expired={dayjs(currentSubscription.aboEnd).endOf('day').toISOString()}
+                  since={currentSubscription.aboStart}
+                />
+              </TouchableOpacity>
+            ),
+          },
+          {
+            order: profile?.balance && profile.balance < 0 ? 2 : 0,
+            component: (
+              <TouchableOpacity key={`balance-card`} onPress={() => selectBalance(true)}>
+                <BalanceCard count={profile?.balance} loading={isLoadingProfile} />
+              </TouchableOpacity>
+            ),
+          },
+          profile && {
+            order: !profile?.membershipOk ? 3 : 0,
+            component: (
+              <TouchableOpacity key={`membership-card`} onPress={() => selectMembership(true)}>
+                <MembershipCard
+                  lastMembershipYear={profile.lastMembership}
+                  lastSeen={profile.lastSeen}
+                  loading={isLoadingProfile}
+                  valid={profile.membershipOk}
+                />
+              </TouchableOpacity>
+            ),
+          },
+        ].filter(Boolean) as { order: number; component: React.ReactNode }[]
+      )
+        .sort((a, b) => {
           // balance should come first when it is negative
           // or when subscription is expired
-          if (
-            (profile?.balance && profile.balance < 0) ||
-            dayjs().isAfter(currentSubscription?.aboEnd)
-          ) {
-            return -1;
-          }
-          return 1;
+          return (b.order || 0) - (a.order || 0);
         })
-        .filter(Boolean),
+        .map(({ component }) => component),
     [currentSubscription, profile, colorScheme, isLoadingProfile],
   );
 
@@ -336,9 +356,6 @@ export default function HomeScreen({}) {
           entering={FadeInLeft.duration(750).delay(400)}
           style={tw`flex flex-row items-start w-full justify-between`}>
           <Text style={tw`text-base font-medium text-slate-500`}>{t('home.profile.label')}</Text>
-          {/* <Link href="https://www.coworking-metz.fr/la-boutique/">
-            <Text style={tw`text-base text-amber-500`}>{t('home.profile.store')}</Text>
-          </Link> */}
         </Animated.View>
         <HomeCarousel
           elements={stackCards}
@@ -414,6 +431,15 @@ export default function HomeScreen({}) {
           balance={profile?.balance || 0}
           loading={isFetchingProfile}
           onClose={() => selectBalance(false)}
+        />
+      ) : null}
+
+      {hasSelectMembership && profile ? (
+        <MembershipBottomSheet
+          lastMembershipYear={profile.lastMembership}
+          loading={isFetchingProfile}
+          valid={profile.membershipOk}
+          onClose={() => selectMembership(false)}
         />
       ) : null}
     </Animated.View>

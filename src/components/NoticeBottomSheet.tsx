@@ -57,7 +57,7 @@ const NoticeBottomSheet = () => {
         <View style={tw`flex flex-col h-32 w-32 items-center justify-center`}>
           {getAnimation(mostRecentUndismissedNotice.type)}
         </View>
-        <View style={tw`flex flex-col items-center grow gap-2 self-stretch px-4 pb-4`}>
+        <View style={tw`flex flex-col items-center grow gap-2 self-stretch pb-4`}>
           <Text
             style={tw`text-center text-2xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
             {mostRecentUndismissedNotice.message}

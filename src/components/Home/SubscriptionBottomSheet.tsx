@@ -88,7 +88,7 @@ const SubscriptionBottomSheet = ({
         </ServiceRow>
         <Link asChild href="https://www.coworking-metz.fr/boutique/pass-resident/" style={tw`mt-2`}>
           <Button backgroundColor={theme.darkVanilla} style={tw`h-14 self-stretch`}>
-            <Text style={tw`text-base font-medium`}>{t('home.profile.subscription.order')}</Text>
+            <Text style={tw`text-base font-medium`}>{t('home.profile.subscription.renew')}</Text>
           </Button>
         </Link>
       </View>
