@@ -79,13 +79,13 @@ const Settings = () => {
   const [footerHeight, setFooterHeight] = useState(0);
   const [footerWidth, setFooterWidth] = useState(0);
 
-  const onContactTeam = useCallback(() => {
+  const onContactTeamByEmail = useCallback(() => {
     setContactingTeam(true);
     Linking.openURL('mailto:contact@coworking-metz.fr')
       .catch(async (error) => {
         const description = await parseErrorText(error);
         noticeStore.add({
-          message: t('settings.support.contact.onFail.message'),
+          message: t('settings.support.contact.mail.onOpen.fail'),
           description,
           type: 'error',
         });
@@ -274,20 +274,36 @@ const Settings = () => {
               asChild
               href="https://signal.group/#CjQKICGvCmD9n9SJSW6z_g5FmRg5rRUj4hWpC1X5XxOexGwrEhDxUfX0r6UQ_blpMGz938M9">
               <ServiceRow
-                withBottomDivider
                 label={t('settings.support.signal.label')}
                 prefixIcon="chat-outline"
                 style={tw`px-3 mx-3`}
                 suffixIcon="open-in-new"
               />
             </Link>
+
+            <Animated.Text
+              entering={FadeInLeft.duration(300)}
+              style={tw`text-sm uppercase text-slate-500 mx-6 mt-6`}>
+              {t('settings.support.contact.label')}
+            </Animated.Text>
+            <Link
+              asChild
+              href="https://conversations-widget.brevo.com/?hostId=65324d6bf96d92531b4091f8">
+              <ServiceRow
+                withBottomDivider
+                label={t('settings.support.contact.conversations.label')}
+                prefixIcon="chat-question-outline"
+                style={tw`px-3 mx-3`}
+                suffixIcon="open-in-new"
+              />
+            </Link>
             <ServiceRow
-              label={t('settings.support.contact.label')}
+              label={t('settings.support.contact.mail.label')}
               loading={isContactingTeam}
               prefixIcon="email-outline"
               style={tw`px-3 mx-3`}
               suffixIcon={null}
-              onPress={onContactTeam}
+              onPress={onContactTeamByEmail}
             />
 
             <ServiceRow

@@ -33,9 +33,15 @@
       "label": "Mon compte"
     },
     "contact": {
+      "conversations": {
+        "label": "Par chat"
+      },
       "label": "Contacter l'équipe",
-      "onFail": {
-        "message": "Impossible de contacter l'équipe"
+      "mail": {
+        "label": "Par mail",
+        "onOpen": {
+          "fail": "Impossible de contacter par mail"
+        }
       }
     },
     "help": {

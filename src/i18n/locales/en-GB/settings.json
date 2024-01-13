@@ -33,9 +33,15 @@
       "label": "My account"
     },
     "contact": {
+      "conversations": {
+        "label": "By direct message"
+      },
       "label": "Contact the team",
-      "onFail": {
-        "message": "Unable to contact the team"
+      "mail": {
+        "label": "By email",
+        "onOpen": {
+          "fail": "Unable to contact by email"
+        }
       }
     },
     "help": {
