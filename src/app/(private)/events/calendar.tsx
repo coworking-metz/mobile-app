@@ -1,7 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link } from 'expo-router';
 import { capitalize } from 'lodash';
@@ -16,8 +15,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import { theme } from '@/helpers/colors';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
-
-dayjs.extend(LocalizedFormat);
 
 const getEventCategoryLinearColors = (event: CalendarEvent): string[] => {
   switch (event.category) {

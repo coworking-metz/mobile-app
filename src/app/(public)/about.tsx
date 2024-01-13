@@ -9,7 +9,6 @@ import { Text } from 'react-native';
 import tw from 'twrnc';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
-dayjs.extend(LocalizedFormat);
 
 const About = () => {
   const { t } = useTranslation();

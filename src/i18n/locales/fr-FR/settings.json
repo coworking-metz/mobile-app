@@ -25,6 +25,26 @@
       "onFetch": {
         "fail": "Impossible de récupérer la présence"
       },
+      "period": {
+        "all": "Depuis le début",
+        "last6Months": "6 derniers mois"
+      },
+      "selected": {
+        "description": "La consommation est automatiquement calculée en fonction des abonnements et de la présence.\nUne présence de moins de 5 heures correspond à une demi-journée, et une demi-journée consomme un demi-ticket.",
+        "type": {
+          "label": "Consommation",
+          "overconsummed": "Surconsommation",
+          "value": {
+            "subscription": "Abonnement",
+            "ticketFull": "1 ticket",
+            "ticketHalf": "0.5 ticket"
+          }
+        },
+        "unit": {
+          "full": "journée entière",
+          "half": "demi-journée"
+        }
+      },
       "title": "Ma présence"
     }
   },

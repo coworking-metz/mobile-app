@@ -2,7 +2,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { BlurView } from 'expo-blur';
 import { useNavigation, useRouter } from 'expo-router';
 import { capitalize } from 'lodash';
@@ -23,7 +22,6 @@ import PresenceCard from '@/components/Home/PresenceCard';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { theme } from '@/helpers/colors';
 import { getPresenceByDay, type ApiPresence } from '@/services/api/presence';
-dayjs.extend(LocalizedFormat);
 
 const MAX_HEADER_HEIGHT = 144;
 const MIN_HEADER_HEIGHT = Platform.OS === 'ios' ? 64 : 56;

@@ -33,7 +33,7 @@ const SubscriptionBottomSheet = ({
       <View style={tw`flex flex-col items-center justify-between p-6`}>
         <CalendarAnimation style={tw`w-full`} />
         <Text
-          style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+          style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
           {t('home.profile.subscription.label')}
         </Text>
         <Text style={tw`text-left text-base text-slate-500 dark:text-slate-400 w-full mt-4`}>

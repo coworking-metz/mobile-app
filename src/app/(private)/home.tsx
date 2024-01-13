@@ -1,7 +1,6 @@
 import { Fader, TouchableOpacity } from '@ddx0510/react-native-ui-lib';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import { Link } from 'expo-router';
 import { capitalize } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -44,8 +43,6 @@ import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
 import { getPresenceByDay, getPresenceByWeek } from '@/services/api/presence';
 import useAuthStore from '@/stores/auth';
-
-dayjs.extend(relativeTime);
 
 const homeLogger = log.extend(`[${__filename.split('/').pop()}]`);
 

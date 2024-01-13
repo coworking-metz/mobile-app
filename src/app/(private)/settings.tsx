@@ -1,11 +1,13 @@
 import { ToastPresets } from '@ddx0510/react-native-ui-lib';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useQuery } from '@tanstack/react-query';
+import SegmentedControl from '@react-native-segmented-control/segmented-control';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { BlurView } from 'expo-blur';
 import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
 import { Link, useRouter } from 'expo-router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableNativeFeedback, View, type LayoutChangeEvent } from 'react-native';
 import Animated, {
@@ -20,6 +22,7 @@ import tw, { useDeviceContext } from 'twrnc';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import AppFooter from '@/components/Settings/AppFooter';
 import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
+import PresenceBottomSheet from '@/components/Settings/PresenceBottomSheet';
 import PresenceGraph from '@/components/Settings/PresenceGraph';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
@@ -27,7 +30,12 @@ import ThemePicker from '@/components/Settings/ThemePicker';
 import { theme } from '@/helpers/colors';
 import { isSilentError, parseErrorText, useErrorNotification } from '@/helpers/error';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
-import { getMemberActivity } from '@/services/api/members';
+import {
+  type ApiMemberActivity,
+  getMemberActivity,
+  getMemberProfile,
+  type ApiMemberProfile,
+} from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
@@ -49,6 +57,13 @@ const Settings = () => {
   const authStore = useAuthStore();
   const chosenLanguage = useSettingsStore((state) => state.language);
   const verticalScrollProgress = useSharedValue(0);
+  const queryClient = useQueryClient();
+  const profile = useMemo(() => {
+    return queryClient.getQueryData(['profile', authStore.user?.id]) as ApiMemberProfile;
+  }, [queryClient]);
+
+  const [shouldRenderAllPresences, setRenderAllPresences] = useState<boolean>(false);
+  const [selectedPresence, setSelectedPresence] = useState<ApiMemberActivity | null>(null);
   const [isPickingLanguage, setPickingLanguage] = useState(false);
   const [isPickingTheme, setPickingTheme] = useState(false);
   const [isContactingTeam, setContactingTeam] = useState(false);
@@ -121,6 +136,32 @@ const Settings = () => {
     };
   }, [verticalScrollProgress]);
 
+  const nonCompliantDates = useMemo(() => {
+    return (
+      activity
+        ?.filter(({ type }) => type === 'ticket')
+        .sort((a, b) => dayjs(a.date).diff(b.date))
+        .reduce((acc, item) => {
+          const sum = acc.reduce((s, { value }) => s + value, 0);
+          if (sum <= Math.abs(profile?.balance)) {
+            return [...acc, item];
+          }
+          return acc;
+        }, [] as ApiMemberActivity[])
+        .map(({ date }) => date) ?? []
+    );
+  }, [activity, profile]);
+
+  const onDateSelect = useCallback(
+    (selectedDate: string) => {
+      const activityFound = activity?.find(({ date }) => selectedDate === date);
+      if (activityFound) {
+        setSelectedPresence(activityFound?.date === selectedPresence?.date ? null : activityFound);
+      }
+    },
+    [setSelectedPresence, activity],
+  );
+
   return (
     <View style={[{ flex: 1 }, tw`bg-gray-100 dark:bg-black`]}>
       <View style={tw`flex flex-col grow relative`}>
@@ -188,7 +229,28 @@ const Settings = () => {
               style={tw`text-sm uppercase text-slate-500 mx-6`}>
               {t('settings.profile.presence.title')}
             </Animated.Text>
-            <PresenceGraph activity={activity} loading={isFetchingActivity} />
+            <PresenceGraph
+              activity={activity}
+              key={`presence-graph-${shouldRenderAllPresences ? 'all' : '6-months'}`}
+              loading={isFetchingActivity}
+              nonCompliantDates={nonCompliantDates}
+              selectedDate={selectedPresence?.date}
+              startDate={
+                shouldRenderAllPresences ? null : dayjs().subtract(6, 'month').format('YYYY-MM-DD')
+              }
+              onDateSelect={onDateSelect}
+            />
+            <SegmentedControl
+              selectedIndex={shouldRenderAllPresences ? 0 : 1}
+              style={tw`mx-6`}
+              values={[
+                t(`settings.profile.presence.period.all`),
+                t(`settings.profile.presence.period.last6Months`),
+              ]}
+              onChange={(event) => {
+                setRenderAllPresences(event.nativeEvent.selectedSegmentIndex === 0);
+              }}
+            />
 
             <Animated.Text
               entering={FadeInLeft.duration(300)}
@@ -368,6 +430,13 @@ const Settings = () => {
 
       {isPickingLanguage && <LanguageBottomSheet onClose={() => setPickingLanguage(false)} />}
       {isPickingTheme && <ThemeBottomSheet onClose={() => setPickingTheme(false)} />}
+      {selectedPresence && (
+        <PresenceBottomSheet
+          activity={selectedPresence}
+          nonCompliant={nonCompliantDates.includes(selectedPresence.date)}
+          onClose={() => setSelectedPresence(null)}
+        />
+      )}
     </View>
   );
 };
