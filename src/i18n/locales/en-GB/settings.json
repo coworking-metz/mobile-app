@@ -25,6 +25,26 @@
       "onFetch": {
         "fail": "Unable to fetch presence"
       },
+      "period": {
+        "all": "Since the beginning",
+        "last6Months": "Last 6 months"
+      },
+      "selected": {
+        "description": "Consumption is automatically calculated based on subscriptions and attendance.\nPresence of less than 5 hours corresponds to half a day, and half a day consumes half a ticket.",
+        "type": {
+          "label": "Consumption",
+          "overconsummed": "Overconsumption",
+          "value": {
+            "subscription": "Subscription",
+            "ticketFull": "1 ticket",
+            "ticketHalf": "0.5 ticket"
+          }
+        },
+        "unit": {
+          "full": "full day",
+          "half": "half day"
+        }
+      },
       "title": "My presence"
     }
   },

@@ -1,6 +1,4 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import dayjs from 'dayjs';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { BlurView } from 'expo-blur';
 import { useNavigation, useRouter } from 'expo-router';
 import React, { useMemo, type ReactNode } from 'react';
@@ -15,7 +13,6 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import { theme } from '@/helpers/colors';
-dayjs.extend(LocalizedFormat);
 
 const MAX_HEADER_HEIGHT = 144;
 const MIN_HEADER_HEIGHT = Platform.OS === 'ios' ? 64 : 56;

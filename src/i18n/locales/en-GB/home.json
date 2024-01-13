@@ -17,7 +17,7 @@
     "label": "Unlock front gate",
     "loading": "requesting...",
     "onFail": {
-      "message": "Unable to unlock 😔"
+      "message": "Unable to unlock"
     },
     "onSuccessiveTaps": {
       "action": "Yes",
@@ -33,7 +33,7 @@
     "label": "Access parking spots",
     "loading": "requesting...",
     "onFail": {
-      "message": "Unable to open 😔"
+      "message": "Unable to open"
     },
     "onSuccessiveTaps": {
       "action": "Yes",
@@ -91,7 +91,7 @@
       "available_zero": "None left",
       "balance": {
         "label": "Balance",
-        "onDepleted": "Excessive overconsumption can lead to a suspension of your access 😔"
+        "onDepleted": "Excessive overconsumption can lead to a suspension of your access."
       },
       "depleted_one": "One overconsumed",
       "depleted_other": "{{count}} overconsumed",

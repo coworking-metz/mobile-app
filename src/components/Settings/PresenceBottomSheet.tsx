@@ -1,0 +1,97 @@
+import MedalAnimation from '../Animations/MedalAnimation';
+import MedalTickedAnimation from '../Animations/MedalTickedAnimation';
+import AppBottomSheet from '../AppBottomSheet';
+import ServiceRow from '../Settings/ServiceRow';
+import { Button } from '@ddx0510/react-native-ui-lib';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import dayjs from 'dayjs';
+import { Link } from 'expo-router';
+import { Skeleton } from 'moti/skeleton';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Text, View } from 'react-native';
+import { ProgressChart } from 'react-native-chart-kit';
+import AnimatedProgressWheel from 'react-native-progress-wheel';
+import { Easing, type StyleProps } from 'react-native-reanimated';
+import tw from 'twrnc';
+import { theme } from '@/helpers/colors';
+import { type ApiMemberActivity } from '@/services/api/members';
+
+const PresenceBottomSheet = ({
+  activity,
+  nonCompliant,
+  loading = false,
+  style,
+  onClose,
+}: {
+  activity: ApiMemberActivity;
+  nonCompliant?: boolean;
+  loading?: boolean;
+  style?: StyleProps;
+  onClose?: () => void;
+}) => {
+  const { t } = useTranslation();
+
+  const ringColor = useMemo(() => {
+    if (activity.value === 1) return nonCompliant ? tw.color('red-700') : theme.meatBrown;
+    return nonCompliant ? tw.color('red-300') : theme.peachYellow;
+  }, [activity, nonCompliant]);
+
+  return (
+    <AppBottomSheet style={style} onClose={onClose}>
+      <View style={tw`flex flex-col w-full justify-between p-6`}>
+        <Text
+          style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+          {dayjs(activity.date).format('dddd LL')}
+        </Text>
+        <View style={tw`flex items-center justify-center mt-4`}>
+          <AnimatedProgressWheel
+            rounded
+            showProgressLabel
+            animateFromValue={0}
+            backgroundColor={
+              (tw.prefixMatch('dark') ? tw.color('gray-700') : tw.color('gray-100')) as string
+            }
+            color={ringColor as string}
+            duration={activity.value === 1 ? 3000 : 2000}
+            easing={Easing.inOut(Easing.ease)}
+            labelStyle={tw`text-slate-900 dark:text-gray-200 text-center text-3xl font-bold`}
+            max={activity.value === 1 ? 1 : 2}
+            progress={1}
+            rotation={'-90deg'}
+            size={144}
+            subtitle={
+              activity.value === 1
+                ? t('settings.profile.presence.selected.unit.full')
+                : t('settings.profile.presence.selected.unit.half')
+            }
+            subtitleStyle={tw`max-w-24 text-slate-500 dark:text-slate-400 text-center text-sm`}
+            width={12}
+          />
+        </View>
+
+        <ServiceRow
+          label={
+            nonCompliant
+              ? t('settings.profile.presence.selected.type.overconsummed')
+              : t('settings.profile.presence.selected.type.label')
+          }
+          style={tw`w-full px-0 mt-2`}>
+          <Text style={tw`text-base text-slate-500 grow text-right`}>
+            {activity.type === 'subscription'
+              ? t(`settings.profile.presence.selected.type.value.subscription`)
+              : activity.value > 0.5
+                ? t(`settings.profile.presence.selected.type.value.ticketFull`)
+                : t(`settings.profile.presence.selected.type.value.ticketHalf`)}
+          </Text>
+        </ServiceRow>
+
+        <Text style={tw`text-left text-base text-slate-500 dark:text-slate-400 w-full mb-2`}>
+          {t('settings.profile.presence.selected.description')}
+        </Text>
+      </View>
+    </AppBottomSheet>
+  );
+};
+
+export default PresenceBottomSheet;
