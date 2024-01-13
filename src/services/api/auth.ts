@@ -6,12 +6,16 @@ interface ApiTokens {
   refreshToken: string;
 }
 
+export type ApiUserRole = 'admin' | 'coworker' | 'guest' | 'external';
+export type ApiUserCapability = 'UNLOCK_GATE' | 'PARKING_ACCESS';
+
 export type ApiUser = {
   id: string;
   name: string;
   email: string;
-  roles: string[];
+  roles: ApiUserRole[];
   picture?: string;
+  capabilities: ApiUserCapability[];
 };
 
 export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiTokens> => {

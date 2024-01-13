@@ -10,13 +10,23 @@
     "accessToken": {
       "label": "Access token",
       "onCopy": {
-        "message": "Access token copied"
+        "fail": "Unable to copy access token",
+        "success": "Access token copied"
       }
     },
     "clear": {
       "label": "Reset everything",
-      "onSuccess": {
-        "message": "All data has been reset"
+      "onClear": {
+        "fail": "Unable to reset data",
+        "success": "All data has been reset"
+      }
+    },
+    "invalidate": {
+      "description": "Requests to the API will be resent",
+      "label": "Invalidate cache",
+      "onInvalidate": {
+        "fail": "Unable to reset cache",
+        "success": "Cache has been reset"
       }
     },
     "onboarding": {
@@ -25,7 +35,8 @@
     "refreshToken": {
       "label": "Refresh token",
       "onCopy": {
-        "message": "Refresh token copied"
+        "fail": "Unable to copy refresh token",
+        "success": "Refresh token copied"
       }
     },
     "title": "Application storage"

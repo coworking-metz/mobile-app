@@ -6,6 +6,7 @@ import {
   coolDownAsync,
   openAuthSessionAsync,
   warmUpAsync,
+  WebBrowserPresentationStyle,
   type WebBrowserRedirectResult,
 } from 'expo-web-browser';
 import React, { useCallback, useEffect, useState } from 'react';

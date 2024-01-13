@@ -10,13 +10,23 @@
     "accessToken": {
       "label": "Jeton d'accès",
       "onCopy": {
-        "message": "Jeton d'accès copié"
+        "fail": "Impossible de copier le jeton d'accès",
+        "success": "Jeton d'accès copié"
       }
     },
     "clear": {
       "label": "Tout réinitialiser",
-      "onSuccess": {
-        "message": "Toutes les données ont été réinitialisées"
+      "onClear": {
+        "fail": "Impossible de réinitialiser les données",
+        "success": "Toutes les données ont été réinitialisées"
+      }
+    },
+    "invalidate": {
+      "description": "Les requêtes seront de nouveau envoyées vers l'API",
+      "label": "Invalider le cache",
+      "onInvalidate": {
+        "fail": "Impossible d'invalider le cache",
+        "success": "Le cache a été invalidé"
       }
     },
     "onboarding": {
@@ -25,7 +35,8 @@
     "refreshToken": {
       "label": "Jeton de rafraîchissement",
       "onCopy": {
-        "message": "Jeton de rafraîchissement copié"
+        "fail": "Impossible de copier le jeton de rafraîchissement",
+        "success": "Jeton de rafraîchissement copié"
       }
     },
     "title": "Stockage"

@@ -4,9 +4,16 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Link } from 'expo-router';
 import { capitalize } from 'lodash';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RefreshControl, Text, View, useColorScheme } from 'react-native';
+import {
+  AppState,
+  type AppStateStatus,
+  RefreshControl,
+  Text,
+  View,
+  useColorScheme,
+} from 'react-native';
 import Animated, {
   FadeIn,
   FadeInLeft,
@@ -19,7 +26,6 @@ import tw, { useDeviceContext } from 'twrnc';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
 import CalendarEmptyCard from '@/components/Home/CalendarEmptyCard';
-import CalendarEventBottomSheet from '@/components/Home/CalendarEventBottomSheet';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import ControlsCard from '@/components/Home/ControlsCard';
 import HomeCarousel from '@/components/Home/HomeCarousel';
@@ -51,8 +57,6 @@ export default function HomeScreen({}) {
   const insets = useSafeAreaInsets();
   const notifyError = useErrorNotification();
 
-  const [selectedCalendarEvent, setSelectedCalendarEvent] = useState<CalendarEvent | null>(null);
-
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
 
@@ -68,11 +72,13 @@ export default function HomeScreen({}) {
     queryKey: ['currentMembers'],
     queryFn: getCurrentMembers,
     retry: false,
+    enabled: !!user,
   });
 
   const {
     data: profile,
     isLoading: isLoadingProfile,
+    isFetching: isFetchingProfile,
     refetch: refetchProfile,
     error: profileError,
   } = useQuery({
@@ -87,16 +93,40 @@ export default function HomeScreen({}) {
     enabled: !!user,
   });
 
-  const {
-    data: calendarEvents,
-    isFetching: isFetchingCalendarEvents,
-    refetch: refreshCalendarEvents,
-    error: calendarEventsError,
-  } = useQuery({
-    queryKey: ['calendarEvents'],
-    queryFn: getCalendarEvents,
-    retry: false,
-  });
+  const handleAppStateChange = useCallback(
+    (nextAppState: AppStateStatus) => {
+      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+        homeLogger.debug('App has come to the foreground!');
+        if (hasSelectBalance || hasSelectSubscription) {
+          refetchProfile();
+        }
+      }
+
+      appState.current = nextAppState;
+    },
+    [hasSelectBalance, hasSelectSubscription, refetchProfile],
+  );
+
+  const appState = useRef(AppState.currentState);
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+
+    return () => {
+      subscription.remove();
+    };
+  }, [handleAppStateChange]);
+
+  // const {
+  //   data: calendarEvents,
+  //   isFetching: isFetchingCalendarEvents,
+  //   refetch: refreshCalendarEvents,
+  //   error: calendarEventsError,
+  // } = useQuery({
+  //   queryKey: ['calendarEvents'],
+  //   queryFn: getCalendarEvents,
+  //   retry: false,
+  //   enabled: !!user,
+  // });
 
   const {
     data: dailyPresence,
@@ -107,18 +137,20 @@ export default function HomeScreen({}) {
     queryKey: ['dailyPresence'],
     queryFn: getPresenceByWeek,
     retry: false,
+    enabled: !!user,
   });
 
-  const {
-    data: hourlyPresence,
-    isFetching: isFetchingHourlyPresence,
-    refetch: refreshHourlyPresence,
-    error: hourlyPresenceError,
-  } = useQuery({
-    queryKey: ['hourlyPresence'],
-    queryFn: getPresenceByDay,
-    retry: false,
-  });
+  // const {
+  //   data: hourlyPresence,
+  //   isFetching: isFetchingHourlyPresence,
+  //   refetch: refreshHourlyPresence,
+  //   error: hourlyPresenceError,
+  // } = useQuery({
+  //   queryKey: ['hourlyPresence'],
+  //   queryFn: getPresenceByDay,
+  //   retry: false,
+  //   enabled: !!user,
+  // });
 
   useEffect(() => {
     if (profileError && !isSilentError(profileError)) {
@@ -132,11 +164,11 @@ export default function HomeScreen({}) {
     }
   }, [currentMembersError]);
 
-  useEffect(() => {
-    if (calendarEventsError && !isSilentError(calendarEventsError)) {
-      notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
-    }
-  }, [calendarEventsError]);
+  // useEffect(() => {
+  //   if (calendarEventsError && !isSilentError(calendarEventsError)) {
+  //     notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
+  //   }
+  // }, [calendarEventsError]);
 
   useEffect(() => {
     if (dailyPresenceError && !isSilentError(dailyPresenceError)) {
@@ -144,11 +176,11 @@ export default function HomeScreen({}) {
     }
   }, [dailyPresenceError]);
 
-  useEffect(() => {
-    if (hourlyPresenceError && !isSilentError(hourlyPresenceError)) {
-      notifyError(t('presence.byDay.onFetch.fail'), hourlyPresenceError);
-    }
-  }, [hourlyPresenceError]);
+  // useEffect(() => {
+  //   if (hourlyPresenceError && !isSilentError(hourlyPresenceError)) {
+  //     notifyError(t('presence.byDay.onFetch.fail'), hourlyPresenceError);
+  //   }
+  // }, [hourlyPresenceError]);
 
   const onRefresh = useCallback(() => {
     if (user?.id) {
@@ -156,9 +188,9 @@ export default function HomeScreen({}) {
       Promise.all([
         refetchProfile(),
         refetchCurrentMembers(),
-        refreshCalendarEvents(),
+        // refreshCalendarEvents(),
         refreshDailyPresence(),
-        refreshHourlyPresence(),
+        // refreshHourlyPresence(),
       ]).finally(() => {
         setRefreshing(false);
       });
@@ -199,21 +231,21 @@ export default function HomeScreen({}) {
     [currentSubscription, profile, colorScheme, isLoadingProfile],
   );
 
-  const calendarCards = useMemo(
-    () =>
-      (calendarEvents || [])
-        .filter(
-          ({ start }) => dayjs().isSame(start, 'day') || dayjs().add(1, 'day').isSame(start, 'day'),
-        )
-        .map((event) => (
-          <Link asChild href={`/events/${event.id}`} key={`calendar-event-${event.id}-card`}>
-            <TouchableOpacity>
-              <CalendarEventCard event={event} />
-            </TouchableOpacity>
-          </Link>
-        )),
-    [colorScheme, calendarEvents],
-  );
+  // const calendarCards = useMemo(
+  //   () =>
+  //     (calendarEvents || [])
+  //       .filter(
+  //         ({ start }) => dayjs().isSame(start, 'day') || dayjs().add(1, 'day').isSame(start, 'day'),
+  //       )
+  //       .map((event) => (
+  //         <Link asChild href={`/events/${event.id}`} key={`calendar-event-${event.id}-card`}>
+  //           <TouchableOpacity>
+  //             <CalendarEventCard event={event} />
+  //           </TouchableOpacity>
+  //         </Link>
+  //       )),
+  //   [colorScheme, calendarEvents],
+  // );
 
   return (
     <Animated.View style={[tw`flex w-full flex-col items-stretch dark:bg-black`]}>
@@ -271,7 +303,7 @@ export default function HomeScreen({}) {
           entering={FadeInRight.duration(750).delay(300)}
           style={tw`flex flex-row flex-wrap w-full items-center gap-4 h-24`}>
           <Link asChild href="/presence/by-week">
-            <TouchableOpacity style={tw`grow basis-0`}>
+            <TouchableOpacity style={tw`grow basis-0 max-w-1/2`}>
               <PresenceCard
                 disabled
                 color="blue"
@@ -284,7 +316,7 @@ export default function HomeScreen({}) {
               />
             </TouchableOpacity>
           </Link>
-          <Link asChild href="/presence/by-day">
+          {/* <Link asChild href="/presence/by-day">
             <TouchableOpacity style={tw`grow basis-0`}>
               <PresenceCard
                 disabled
@@ -297,7 +329,7 @@ export default function HomeScreen({}) {
                 type="hour"
               />
             </TouchableOpacity>
-          </Link>
+          </Link> */}
         </Animated.View>
 
         <Animated.View
@@ -314,7 +346,7 @@ export default function HomeScreen({}) {
           style={[tw`flex flex-col w-full overflow-visible h-24`]}
         />
 
-        <Animated.View
+        {/* <Animated.View
           entering={FadeInRight.duration(750).delay(600)}
           style={tw`flex flex-row justify-between w-full`}>
           <Text style={tw`text-base font-medium text-slate-500`}>{t('home.calendar.label')}</Text>
@@ -334,26 +366,30 @@ export default function HomeScreen({}) {
             loading={isFetchingCalendarEvents}
             style={tw`w-full`}
           />
-        )}
+        )} */}
 
         <Animated.Text
           entering={FadeInUp.duration(500).delay(600)}
           style={tw`text-base font-medium text-slate-500`}>
           {t('home.services.label')}
         </Animated.Text>
-        <Animated.View
-          entering={FadeInUp.duration(500).delay(700)}
-          style={tw`flex flex-col self-stretch`}>
-          <UnlockGateCard />
-        </Animated.View>
+        {user?.capabilities.includes('UNLOCK_GATE') && (
+          <Animated.View
+            entering={FadeInUp.duration(500).delay(700)}
+            style={tw`flex flex-col self-stretch`}>
+            <UnlockGateCard />
+          </Animated.View>
+        )}
 
-        <Animated.View
-          entering={FadeInUp.duration(500).delay(800)}
-          style={tw`flex flex-col self-stretch`}>
-          <ParkingCard />
-        </Animated.View>
+        {user?.capabilities.includes('PARKING_ACCESS') && (
+          <Animated.View
+            entering={FadeInUp.duration(500).delay(800)}
+            style={tw`flex flex-col self-stretch`}>
+            <ParkingCard />
+          </Animated.View>
+        )}
 
-        <Animated.View
+        {/* <Animated.View
           entering={FadeInUp.duration(500).delay(900)}
           style={tw`flex flex-col self-stretch`}>
           <Link asChild href="/controls">
@@ -361,26 +397,24 @@ export default function HomeScreen({}) {
               <ControlsCard />
             </TouchableOpacity>
           </Link>
-        </Animated.View>
+        </Animated.View> */}
       </Animated.ScrollView>
-
-      {selectedCalendarEvent ? (
-        <CalendarEventBottomSheet
-          event={selectedCalendarEvent}
-          onClose={() => setSelectedCalendarEvent(null)}
-        />
-      ) : null}
 
       {currentSubscription && hasSelectSubscription ? (
         <SubscriptionBottomSheet
           endDate={currentSubscription.aboEnd}
+          loading={isFetchingProfile}
           startDate={currentSubscription.aboStart}
           onClose={() => selectSubscription(false)}
         />
       ) : null}
 
       {hasSelectBalance ? (
-        <BalanceBottomSheet balance={profile?.balance || 0} onClose={() => selectBalance(false)} />
+        <BalanceBottomSheet
+          balance={profile?.balance || 0}
+          loading={isFetchingProfile}
+          onClose={() => selectBalance(false)}
+        />
       ) : null}
     </Animated.View>
   );

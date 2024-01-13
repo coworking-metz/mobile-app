@@ -1,9 +1,10 @@
-import { Switch, TextField, ToastPresets } from '@ddx0510/react-native-ui-lib';
+import { Switch, ToastPresets } from '@ddx0510/react-native-ui-lib';
+import { useQueryClient } from '@tanstack/react-query';
 import * as Clipboard from 'expo-clipboard';
 import { useRouter } from 'expo-router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TextInput, View } from 'react-native';
+import { TextInput } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
@@ -12,6 +13,7 @@ import { theme } from '@/helpers/colors';
 import { parseErrorText } from '@/helpers/error';
 import { HTTP } from '@/services/http';
 import useAuthStore from '@/stores/auth';
+import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
 
@@ -20,64 +22,89 @@ const Advanced = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const toastStore = useToastStore();
+  const noticeStore = useNoticeStore();
   const authStore = useAuthStore();
   const settingsStore = useSettingsStore();
-  const [apiBaseUrl, setApiBaseUrl] = useState('https://tickets.coworking-metz.fr/api');
+  const queryClient = useQueryClient();
 
   const copyAccessToken = useCallback(() => {
     Clipboard.setStringAsync(authStore.accessToken as string)
       .then(() => {
         toastStore.add({
-          message: t('advanced.store.accessToken.onCopy.message'),
+          message: t('advanced.store.accessToken.onCopy.success'),
           type: ToastPresets.SUCCESS,
           timeout: 3000,
         });
       })
       .catch(async (error: Error) => {
-        const errorMessage = await parseErrorText(error);
-        toastStore.add({
-          message: errorMessage,
-          type: ToastPresets.FAILURE,
+        const description = await parseErrorText(error);
+        noticeStore.add({
+          message: t('advanced.store.accessToken.onCopy.fail'),
+          description,
+          type: 'error',
         });
       });
-  }, [authStore.accessToken]);
+  }, [authStore.accessToken, toastStore, noticeStore]);
 
   const copyRefreshToken = useCallback(() => {
     Clipboard.setStringAsync(authStore.refreshToken as string)
       .then(() => {
         toastStore.add({
-          message: t('advanced.store.refreshToken.onCopy.message'),
+          message: t('advanced.store.refreshToken.onCopy.success'),
           type: ToastPresets.SUCCESS,
           timeout: 3000,
         });
       })
       .catch(async (error: Error) => {
-        const errorMessage = await parseErrorText(error);
-        toastStore.add({
-          message: errorMessage,
-          type: ToastPresets.FAILURE,
+        const description = await parseErrorText(error);
+        noticeStore.add({
+          message: t('advanced.store.refreshToken.onCopy.fail'),
+          description,
+          type: 'error',
         });
       });
-  }, [authStore.refreshToken]);
+  }, [authStore.refreshToken, toastStore, noticeStore]);
+
+  const invalidateCache = useCallback(() => {
+    queryClient
+      .invalidateQueries()
+      .then(() => {
+        toastStore.add({
+          message: t('advanced.store.invalidate.onInvalidate.success'),
+          type: ToastPresets.SUCCESS,
+          timeout: 3000,
+        });
+      })
+      .catch(async (error: Error) => {
+        const description = await parseErrorText(error);
+        noticeStore.add({
+          message: t('advanced.store.invalidate.onInvalidate.fail'),
+          description,
+          type: 'error',
+        });
+      });
+  }, [queryClient, toastStore, noticeStore]);
 
   const clearEverything = useCallback(() => {
     Promise.all([authStore.clear(), settingsStore.clear()])
+      .then(() => queryClient.clear())
       .then(() => {
         toastStore.add({
-          message: t('advanced.store.clear.onSuccess.message'),
+          message: t('advanced.store.clear.onClear.success'),
           type: ToastPresets.SUCCESS,
           timeout: 3000,
         });
         router.push('/login');
       })
       .catch(async (error: Error) => {
-        const errorMessage = await parseErrorText(error);
-        toastStore.add({
-          message: errorMessage,
-          type: ToastPresets.FAILURE,
+        const description = await parseErrorText(error);
+        noticeStore.add({
+          message: t('advanced.store.clear.onClear.fail'),
+          description,
+          type: 'error',
         });
       });
-  }, [authStore.clear, settingsStore.clear]);
+  }, [queryClient, authStore.clear, settingsStore.clear, toastStore, noticeStore]);
 
   return (
     <ServiceLayout
@@ -115,6 +142,14 @@ const Advanced = () => {
         style={tw`px-3 mx-3`}
         suffixIcon="content-copy"
         onPress={copyRefreshToken}
+      />
+      <ServiceRow
+        withBottomDivider
+        description={t('advanced.store.invalidate.description')}
+        label={t('advanced.store.invalidate.label')}
+        style={tw`px-3 mx-3`}
+        suffixIcon="cloud-sync-outline"
+        onPress={invalidateCache}
       />
       <ServiceRow
         label={t('advanced.store.clear.label')}

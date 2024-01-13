@@ -4,6 +4,7 @@ import ServiceRow from '../Settings/ServiceRow';
 import { Button } from '@ddx0510/react-native-ui-lib';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
+import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
@@ -13,10 +14,12 @@ import { theme } from '@/helpers/colors';
 
 const TicketsBottomSheet = ({
   balance,
+  loading = false,
   style,
   onClose,
 }: {
   balance: number;
+  loading?: boolean;
   style?: StyleProps;
   onClose?: () => void;
 }) => {
@@ -36,15 +39,24 @@ const TicketsBottomSheet = ({
           {t('home.profile.tickets.description')}
         </Text>
         <ServiceRow label={t('home.profile.tickets.balance.label')} style={tw`w-full px-0`}>
-          <Text style={tw`text-base text-slate-500 grow text-right`}>
-            {balance >= 0
-              ? t('home.profile.tickets.available', {
-                  count: balance,
-                })
-              : t('home.profile.tickets.depleted', {
-                  count: -balance,
-                })}
-          </Text>
+          {loading ? (
+            <Skeleton
+              backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
+              colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+              height={24}
+              width={96}
+            />
+          ) : (
+            <Text style={tw`text-base text-slate-500 grow text-right`}>
+              {balance >= 0
+                ? t('home.profile.tickets.available', {
+                    count: balance,
+                  })
+                : t('home.profile.tickets.depleted', {
+                    count: -balance,
+                  })}
+            </Text>
+          )}
         </ServiceRow>
         {balance < 0 ? (
           <View style={tw`flex flex-row items-start flex-gap-2 w-full overflow-hidden`}>
@@ -64,7 +76,10 @@ const TicketsBottomSheet = ({
         ) : (
           <></>
         )}
-        <Link asChild href="https://www.coworking-metz.fr/boutique/carnet-10-journees/">
+        <Link
+          asChild
+          href="https://www.coworking-metz.fr/boutique/carnet-10-journees/"
+          style={tw`mt-2`}>
           <Button backgroundColor={theme.darkVanilla} style={tw`h-14 self-stretch`}>
             <Text style={tw`text-base font-medium`}>{t('home.profile.tickets.order')}</Text>
           </Button>

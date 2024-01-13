@@ -67,26 +67,9 @@ const BalanceCard = ({
         </View>
       ) : (
         <>
-          {/* <View style={tw`flex flex-col shrink-1 mr-auto mt-3`}>
-            <Text style={tw`text-2xl text-slate-900 dark:text-gray-200`}>
-              {t('home.calendar.empty.label')}
-            </Text>
-            <Text style={tw`text-base text-slate-500 dark:text-slate-400`}>
-              {t('home.calendar.empty.description')}
-            </Text>
-          </View>
-          <Image
-            contentFit="cover"
-            contentPosition={{
-              top: 8,
-              left: 0,
-            }}
-            source={require('@/assets/images/calendar-outline.svg')}
-            style={[tw`h-full grow max-w-[7rem] ml-3 `]}
-          /> */}
           <Image
             contentFit="contain"
-            source={require('@/assets/images/calendar-outline.svg')}
+            source={require('@/assets/images/calendar-outline-washed-out.svg')}
             style={[tw`h-16 w-full`]}
           />
           <Text style={tw`text-base text-slate-500 dark:text-slate-400`}>

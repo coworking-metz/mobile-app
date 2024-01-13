@@ -50,6 +50,7 @@ const useAuthStore = create<AuthState>()(
       },
       clear: async (): Promise<void> => {
         await set({
+          user: null,
           accessToken: null,
           refreshToken: null,
         });
