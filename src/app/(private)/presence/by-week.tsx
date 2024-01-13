@@ -159,26 +159,26 @@ const PresenceByWeek = () => {
             </Animated.Text>
             {presence?.timeline.map(({ date, value }, index) => (
               <View key={`week-presence-${date}`}>
-                <Link asChild href="/presence/by-day">
-                  <ServiceRow
-                    description={dayjs(date).format('LL')}
-                    label={capitalize(dayjs(date).format('dddd'))}
-                    style={tw`px-3 mx-3`}
-                    suffixIcon="chevron-right"
-                    withBottomDivider={index < presence.timeline.length - 1}>
-                    {!dayjs(dailyPresenceUpdatedAt).startOf('day').isAfter(date) ? (
-                      <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
-                        <Animated.Text style={tw`text-xs text-slate-900 dark:text-gray-200 `}>
-                          {t('presence.byWeek.list.forecast')}
-                        </Animated.Text>
-                      </View>
-                    ) : null}
-                    <Animated.Text
-                      style={tw`text-base text-slate-900 dark:text-gray-200 w-7 text-right`}>
-                      {value}
-                    </Animated.Text>
-                  </ServiceRow>
-                </Link>
+                {/* <Link asChild href="/presence/by-day"> */}
+                <ServiceRow
+                  description={dayjs(date).format('LL')}
+                  label={capitalize(dayjs(date).format('dddd'))}
+                  style={tw`px-3 mx-3`}
+                  // suffixIcon="chevron-right"
+                  withBottomDivider={index < presence.timeline.length - 1}>
+                  {!dayjs(dailyPresenceUpdatedAt).startOf('day').isAfter(date) ? (
+                    <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
+                      <Animated.Text style={tw`text-xs text-slate-900 dark:text-gray-200 `}>
+                        {t('presence.byWeek.list.forecast')}
+                      </Animated.Text>
+                    </View>
+                  ) : null}
+                  <Animated.Text
+                    style={tw`text-base text-slate-900 dark:text-gray-200 w-7 text-right`}>
+                    {value}
+                  </Animated.Text>
+                </ServiceRow>
+                {/* </Link> */}
               </View>
             ))}
           </Animated.View>

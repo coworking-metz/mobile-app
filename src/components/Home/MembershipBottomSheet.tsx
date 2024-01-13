@@ -1,8 +1,10 @@
-import CouponsAnimation from '../Animations/CouponsAnimation';
+import MedalAnimation from '../Animations/MedalAnimation';
+import MedalTickedAnimation from '../Animations/MedalTickedAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import ServiceRow from '../Settings/ServiceRow';
 import { Button } from '@ddx0510/react-native-ui-lib';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
@@ -12,13 +14,15 @@ import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 
-const BalanceBottomSheet = ({
-  balance,
+const MembershipBottomSheet = ({
+  lastMembershipYear,
+  valid,
   loading = false,
   style,
   onClose,
 }: {
-  balance: number;
+  lastMembershipYear?: number;
+  valid?: boolean;
   loading?: boolean;
   style?: StyleProps;
   onClose?: () => void;
@@ -29,36 +33,36 @@ const BalanceBottomSheet = ({
     <AppBottomSheet style={style} onClose={onClose}>
       <View style={tw`flex flex-col w-full justify-between p-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-          <CouponsAnimation style={tw`h-56`} />
+          {valid ? <MedalTickedAnimation /> : <MedalAnimation />}
         </View>
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
-          {t('home.profile.tickets.label')}
+          {t('home.profile.membership.label')}
         </Text>
         <Text style={tw`text-left text-base text-slate-500 dark:text-slate-400 w-full mt-4`}>
-          {t('home.profile.tickets.description')}
+          {t('home.profile.membership.description')}
         </Text>
-        <ServiceRow label={t('home.profile.tickets.balance.label')} style={tw`w-full px-0`}>
+
+        <ServiceRow label={t('home.profile.membership.status.label')} style={tw`w-full px-0`}>
           {loading ? (
             <Skeleton
               backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
               colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
               height={24}
-              width={96}
+              width={128}
             />
           ) : (
             <Text style={tw`text-base text-slate-500 grow text-right`}>
-              {balance >= 0
-                ? t('home.profile.tickets.available', {
-                    count: balance,
-                  })
-                : t('home.profile.tickets.depleted', {
-                    count: -balance,
-                  })}
+              {valid
+                ? t('home.profile.membership.status.valid', { year: lastMembershipYear })
+                : lastMembershipYear
+                  ? t('home.profile.membership.status.invalid', { year: lastMembershipYear })
+                  : t('home.profile.membership.status.none')}
             </Text>
           )}
         </ServiceRow>
-        {balance < 0 ? (
+
+        {!valid ? (
           <View style={tw`flex flex-row items-start flex-gap-2 mb-4 w-full overflow-hidden`}>
             <MaterialCommunityIcons
               color={tw.color('yellow-500')}
@@ -68,25 +72,28 @@ const BalanceBottomSheet = ({
               style={tw`shrink-0 grow-0`}
             />
             <Text style={tw`text-base text-slate-500 shrink grow basis-0`}>
-              {t('home.profile.tickets.balance.onDepleted', {
-                count: -balance,
-              })}
+              {t('home.profile.membership.required')}
             </Text>
           </View>
         ) : (
           <></>
         )}
-        <Link
-          asChild
-          href="https://www.coworking-metz.fr/boutique/carnet-10-journees/"
-          style={tw`mt-2`}>
-          <Button backgroundColor={theme.darkVanilla} style={tw`h-14 self-stretch`}>
-            <Text style={tw`text-base font-medium`}>{t('home.profile.tickets.add')}</Text>
-          </Button>
-        </Link>
+
+        {!valid && (
+          <Link
+            asChild
+            href="https://www.coworking-metz.fr/boutique/carte-adherent/"
+            style={tw`mt-2`}>
+            <Button backgroundColor={theme.darkVanilla} style={tw`h-14 self-stretch`}>
+              <Text style={tw`text-base font-medium`}>
+                {t('home.profile.membership.renew', { year: dayjs().year() })}
+              </Text>
+            </Button>
+          </Link>
+        )}
       </View>
     </AppBottomSheet>
   );
 };
 
-export default BalanceBottomSheet;
+export default MembershipBottomSheet;

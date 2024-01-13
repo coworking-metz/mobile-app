@@ -21,7 +21,7 @@
     "label": "Déverrouiller le portail",
     "loading": "demande en cours...",
     "onFail": {
-      "message": "Impossible de\ndéverrouiller 😔"
+      "message": "Impossible de déverrouiller"
     },
     "onSuccessiveTaps": {
       "action": "Oui",
@@ -37,7 +37,7 @@
     "label": "Accéder au parking",
     "loading": "demande en cours...",
     "onFail": {
-      "message": "Impossible\nd'ouvrir 😔"
+      "message": "Impossible d'ouvrir"
     },
     "onSuccessiveTaps": {
       "action": "Oui",
@@ -59,15 +59,27 @@
   },
   "profile": {
     "label": "Adhésion",
+    "membership": {
+      "description": "Afin d'assurer une couverture totale de ses membres et de leurs biens, la carte adhérent est obligatoire pour tout usager de l'espace de Coworking.\n\nC'est une prérogative de notre assureur.",
+      "label": "Carte adhérent",
+      "renew": "Renouveler pour {{year}}",
+      "required": "Sans cette cotisation, vous ne serez pas en mesure de pouvoir accéder à l'espace de Coworking.",
+      "status": {
+        "invalid": "Dernière adhésion en {{year}}",
+        "label": "Statut",
+        "none": "Aucune adhésion",
+        "toRenew": "À renouveler pour {{year}}",
+        "valid": "Valide pour l'année {{year}}"
+      }
+    },
     "onFetch": {
       "fail": "Impossible de récupérer le profil"
     },
-    "store": "Boutique",
     "subscription": {
       "date": "{{expired, datetime }}",
       "description": "L'abonnement permet d'accéder au Coworking sur 30 jours glissants à compter de la date de début choisie.",
       "label": "Abonnement",
-      "order": "Renouveler",
+      "renew": "Renouveler",
       "status": {
         "expiredSince": "{{prefix}}expiré le",
         "expiresToday": "{{prefix}}touchant à sa fin",
@@ -77,18 +89,18 @@
       }
     },
     "tickets": {
+      "add": "Ajouter",
       "available_one": "C'est le dernier !",
       "available_other": "{{count}} disponibles",
       "available_zero": "Y'en a plus",
       "balance": {
         "label": "Solde",
-        "onDepleted": "Une surconsommation excessive peut entraîner une suspension de vos accès 😔"
+        "onDepleted": "Une surconsommation excessive peut entraîner une suspension de vos accès."
       },
       "depleted_one": "Un surconsommé",
       "depleted_other": "{{count}} surconsommés",
       "description": "Les tickets sont sans fin de validité et chaque ticket équivaut à deux demi-journées.\nUne présence de moins de 5 heures sur une journée correspond à une demi-journée.",
-      "label": "Tickets à la journée",
-      "order": "Ajouter"
+      "label": "Tickets à la journée"
     }
   },
   "services": {
