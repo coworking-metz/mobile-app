@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { BlurView } from 'expo-blur';
 import { Link } from 'expo-router';
 import { capitalize } from 'lodash';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, View } from 'react-native';
 import Animated, {
@@ -19,6 +19,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import PresenceCard from '@/components/Home/PresenceCard';
 import ServiceRow from '@/components/Settings/ServiceRow';
+import { isSilentError, useErrorNotification } from '@/helpers/error';
 import { getPresenceByWeek, type ApiPresence } from '@/services/api/presence';
 
 const MAX_HEADER_HEIGHT = 144;
@@ -41,6 +42,7 @@ const PresenceByWeek = () => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
+  const notifyError = useErrorNotification();
   const verticalScrollProgress = useSharedValue(0);
   const [selectedTypeIndex, setSelectedTypeIndex] = useState<number>(1);
 
@@ -54,6 +56,12 @@ const PresenceByWeek = () => {
     refetchOnMount: false,
     queryFn: getPresenceByWeek,
   });
+
+  useEffect(() => {
+    if (dailyPresenceError && !isSilentError(dailyPresenceError)) {
+      notifyError(t('presence.byWeek.onFetch.fail'), dailyPresenceError);
+    }
+  }, [dailyPresenceError]);
 
   const onVerticalScroll = useAnimatedScrollHandler({
     onScroll: ({ contentOffset }) => {
