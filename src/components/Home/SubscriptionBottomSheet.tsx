@@ -51,7 +51,7 @@ const SubscriptionBottomSheet = ({
               width={128}
             />
           ) : (
-            <Text style={tw`text-base text-slate-500 grow text-right`}>
+            <Text style={tw`text-base text-slate-500 dark:text-slate-400 grow text-right`}>
               {t('home.profile.subscription.date', {
                 expired: new Date(startDate),
                 formatParams: {
@@ -76,7 +76,7 @@ const SubscriptionBottomSheet = ({
               width={128}
             />
           ) : (
-            <Text style={tw`text-base text-slate-500 grow text-right`}>
+            <Text style={tw`text-base text-slate-500 dark:text-slate-400 grow text-right`}>
               {t('home.profile.subscription.date', {
                 expired: new Date(endDate),
                 formatParams: {

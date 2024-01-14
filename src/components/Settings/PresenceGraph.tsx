@@ -1,6 +1,6 @@
 import VerticalLoadingAnimation from '../Animations/VerticalLoadingAnimation';
 import dayjs from 'dayjs';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text } from 'react-native';
 import { ContributionGraph } from 'react-native-chart-kit';
@@ -18,7 +18,7 @@ const PresenceGraph = ({
   selectedDate,
   loading = false,
   activity = [],
-  nonCompliantDates = ['2023-12-17', '2023-12-22'],
+  nonCompliantDates = [],
   style,
   onDateSelect,
 }: {
@@ -118,52 +118,53 @@ const PresenceGraph = ({
   ) : (
     <Animated.ScrollView
       ref={animatedScrollViewRef}
-      contentContainerStyle={[tw`flex flex-row grow`]}
       horizontal={true}
       scrollEventThrottle={16}
       showsHorizontalScrollIndicator={false}
-      style={[style]}
-      onContentSizeChange={() => animatedScrollViewRef.current?.scrollToEnd({ animated: true })}>
-      {!startDate && (
-        <Text
-          style={tw`text-3xl font-bold tracking-tight text-slate-900 dark:text-gray-200 self-center ml-6`}>
-          {dayjs(earliestDate).year()}
-        </Text>
-      )}
-      <ContributionGraph
-        chartConfig={{
-          backgroundGradientTo: 'transparent',
-          backgroundGradientFromOpacity: 0,
-          backgroundGradientFrom: 'transparent',
-          backgroundGradientToOpacity: 0,
-          color: getSquareColor,
-          labelColor: (opacity = 1) =>
-            tw.prefixMatch('dark')
-              ? `rgba(255, 255, 255, ${opacity})`
-              : `rgba(0, 0, 0, ${opacity})`,
-          strokeWidth: 2, // optional, default 3
-        }}
-        endDate={new Date()}
-        getMonthLabel={(month) =>
-          new Intl.DateTimeFormat(i18n.language, {
-            month: 'long',
-            timeZone: 'UTC',
-          }).format(new Date(`2023-${month < 9 ? `0${month + 1}` : month + 1}-01`))
-        }
-        height={210}
-        numDays={squaresCount}
-        style={tw`w-full`}
-        tooltipDataAttrs={({ date }) => ({
-          // onPress: (evt) => {
-          //   console.log(evt.nativeEvent.pageX, date);
-          // },
-        })}
-        values={values}
-        width={Math.ceil(squaresCount / 7) * (SQUARE_SIZE + SQUARE_GAP) + 64} // magic formula
-        onDayPress={({ count, date }) => {
-          if (count) onDateSelect?.(date);
-        }}
-      />
+      style={[style, { transform: [{ scaleX: -1 }] }]}>
+      <View
+        key={`presence-graph-${startDate ? `6months` : 'all'}`}
+        style={[tw`flex flex-row`, { transform: [{ scaleX: -1 }] }]}>
+        {!startDate && (
+          <Text
+            style={tw`text-3xl font-bold tracking-tight text-slate-900 dark:text-gray-200 self-center ml-6`}>
+            {dayjs(earliestDate).year()}
+          </Text>
+        )}
+        <ContributionGraph
+          chartConfig={{
+            backgroundGradientTo: 'transparent',
+            backgroundGradientFromOpacity: 0,
+            backgroundGradientFrom: 'transparent',
+            backgroundGradientToOpacity: 0,
+            color: getSquareColor,
+            labelColor: (opacity = 1) =>
+              tw.prefixMatch('dark')
+                ? `rgba(255, 255, 255, ${opacity})`
+                : `rgba(0, 0, 0, ${opacity})`,
+            strokeWidth: 2, // optional, default 3
+          }}
+          endDate={new Date()}
+          getMonthLabel={(month) =>
+            new Intl.DateTimeFormat(i18n.language, {
+              month: 'long',
+              timeZone: 'UTC',
+            }).format(new Date(`2023-${month < 9 ? `0${month + 1}` : month + 1}-01`))
+          }
+          height={210}
+          numDays={squaresCount}
+          tooltipDataAttrs={({ date }) => ({
+            // onPress: (evt) => {
+            //   console.log(evt.nativeEvent.pageX, date);
+            // },
+          })}
+          values={values}
+          width={Math.ceil(squaresCount / 7) * (SQUARE_SIZE + SQUARE_GAP) + 64} // magic formula
+          onDayPress={({ count, date }) => {
+            if (count) onDateSelect?.(date);
+          }}
+        />
+      </View>
     </Animated.ScrollView>
   );
 };

@@ -1,5 +1,4 @@
 import { version as appVersion } from '../../package.json';
-import { ToastPresets } from '@ddx0510/react-native-ui-lib';
 import {
   type AxiosError,
   type AxiosHeaders,
@@ -9,12 +8,12 @@ import {
   type InternalAxiosRequestConfig,
 } from 'axios';
 import axiosRetry from 'axios-retry';
+import { useTranslation } from 'react-i18next';
 import { type AppError, AppErrorCode, ApiErrorCode, useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import i18n from '@/i18n';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
-import useToastStore from '@/stores/toast';
 
 const httpLogger = log.extend(`[http]`);
 
@@ -82,6 +81,7 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
       ...config.headers,
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       ...(appVersion ? { 'X-APP-VERSION': appVersion } : {}),
+      ...(i18n.language ? { 'Accept-Language': i18n.language } : {}),
     } as AxiosHeaders;
 
     return {

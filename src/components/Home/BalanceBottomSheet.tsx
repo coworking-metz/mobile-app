@@ -47,7 +47,7 @@ const BalanceBottomSheet = ({
               width={96}
             />
           ) : (
-            <Text style={tw`text-base text-slate-500 grow text-right`}>
+            <Text style={tw`text-base text-slate-500 dark:text-slate-400 grow text-right`}>
               {balance >= 0
                 ? t('home.profile.tickets.available', {
                     count: balance,
@@ -67,7 +67,7 @@ const BalanceBottomSheet = ({
               size={24}
               style={tw`shrink-0 grow-0`}
             />
-            <Text style={tw`text-base text-slate-500 shrink grow basis-0`}>
+            <Text style={tw`text-base text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
               {t('home.profile.tickets.balance.onDepleted')}
             </Text>
           </View>

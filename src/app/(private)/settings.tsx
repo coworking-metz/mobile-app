@@ -1,7 +1,7 @@
 import { ToastPresets } from '@ddx0510/react-native-ui-lib';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { BlurView } from 'expo-blur';
 import Constants from 'expo-constants';
@@ -34,7 +34,6 @@ import {
   type ApiMemberActivity,
   getMemberActivity,
   getMemberProfile,
-  type ApiMemberProfile,
 } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -57,10 +56,6 @@ const Settings = () => {
   const authStore = useAuthStore();
   const chosenLanguage = useSettingsStore((state) => state.language);
   const verticalScrollProgress = useSharedValue(0);
-  const queryClient = useQueryClient();
-  const profile = useMemo(() => {
-    return queryClient.getQueryData(['profile', authStore.user?.id]) as ApiMemberProfile;
-  }, [queryClient]);
 
   const [shouldRenderAllPresences, setRenderAllPresences] = useState<boolean>(false);
   const [selectedPresence, setSelectedPresence] = useState<ApiMemberActivity | null>(null);
@@ -81,6 +76,24 @@ const Settings = () => {
       throw new Error('Missing user id');
     },
     retry: false,
+    refetchOnMount: false,
+    enabled: !!authStore.user,
+  });
+
+  const {
+    data: profile,
+    isFetching: isFetchingProfile,
+    error: profileError,
+  } = useQuery({
+    queryKey: ['profile', authStore.user?.id],
+    queryFn: ({ queryKey: [_, userId] }) => {
+      if (userId) {
+        return getMemberProfile(userId);
+      }
+      throw new Error('Missing user id');
+    },
+    retry: false,
+    refetchOnMount: false,
     enabled: !!authStore.user,
   });
 
@@ -89,6 +102,12 @@ const Settings = () => {
       notifyError(t('settings.profile.presence.onFetch.fail'), activityError);
     }
   }, [activityError]);
+
+  useEffect(() => {
+    if (profileError && !isSilentError(profileError)) {
+      notifyError(t('home.profile.onFetch.fail'), profileError);
+    }
+  }, [profileError]);
 
   /* this is a hell of a hack */
   const [footerHeight, setFooterHeight] = useState(0);
@@ -137,19 +156,22 @@ const Settings = () => {
   }, [verticalScrollProgress]);
 
   const nonCompliantDates = useMemo(() => {
-    return (
-      activity
-        ?.filter(({ type }) => type === 'ticket')
-        .sort((a, b) => dayjs(a.date).diff(b.date))
+    const balance = profile?.balance || 0;
+    if (balance < 0 && activity) {
+      return activity
+        .filter(({ type }) => type === 'ticket')
+        .sort((a, b) => dayjs(b.date).diff(a.date))
         .reduce((acc, item) => {
           const sum = acc.reduce((s, { value }) => s + value, 0);
-          if (sum <= Math.abs(profile?.balance)) {
+          if (sum < Math.abs(balance)) {
             return [...acc, item];
           }
           return acc;
         }, [] as ApiMemberActivity[])
-        .map(({ date }) => date) ?? []
-    );
+        .map(({ date }) => date);
+    }
+
+    return [];
   }, [activity, profile]);
 
   const onDateSelect = useCallback(
@@ -231,8 +253,7 @@ const Settings = () => {
             </Animated.Text>
             <PresenceGraph
               activity={activity}
-              key={`presence-graph-${shouldRenderAllPresences ? 'all' : '6-months'}`}
-              loading={isFetchingActivity}
+              loading={isFetchingActivity || isFetchingProfile}
               nonCompliantDates={nonCompliantDates}
               selectedDate={selectedPresence?.date}
               startDate={

@@ -17,7 +17,7 @@ const About = () => {
     <ServiceLayout description={t('about.description')} style={tw`py-6`} title={t('about.title')}>
       <Text style={tw`text-sm uppercase text-slate-500 mx-6`}>{t('about.legal.title')}</Text>
       <ServiceRow label={t('about.legal.license.label')} style={tw`px-3 mx-3`}>
-        <Text style={tw`text-base text-slate-500 grow text-right`}>MIT</Text>
+        <Text style={tw`text-base text-slate-500 dark:text-slate-400 grow text-right`}>MIT</Text>
       </ServiceRow>
 
       <Text style={tw`text-sm uppercase text-slate-500 mx-6 mt-6`}>
@@ -27,10 +27,12 @@ const About = () => {
         withBottomDivider
         label={t('about.technical.version.label')}
         style={tw`px-3 mx-3`}>
-        <Text style={tw`text-base text-slate-500 grow text-right`}>{version}</Text>
+        <Text style={tw`text-base text-slate-500 dark:text-slate-400 grow text-right`}>
+          {version}
+        </Text>
       </ServiceRow>
       <ServiceRow label={t('about.technical.buildDate.label')} style={tw`px-3 mx-3`}>
-        <Text style={tw`text-base text-slate-500 grow text-right`}>
+        <Text style={tw`text-base text-slate-500 dark:text-slate-400 grow text-right`}>
           {dayjs(Constants.expoConfig?.extra?.buildDate).format('L LT')}
         </Text>
       </ServiceRow>

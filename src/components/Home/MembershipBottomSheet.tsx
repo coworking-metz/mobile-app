@@ -52,7 +52,7 @@ const MembershipBottomSheet = ({
               width={128}
             />
           ) : (
-            <Text style={tw`text-base text-slate-500 grow text-right`}>
+            <Text style={tw`text-base text-slate-500 dark:text-slate-400 grow text-right`}>
               {valid
                 ? t('home.profile.membership.status.valid', { year: lastMembershipYear })
                 : lastMembershipYear
@@ -71,7 +71,7 @@ const MembershipBottomSheet = ({
               size={24}
               style={tw`shrink-0 grow-0`}
             />
-            <Text style={tw`text-base text-slate-500 shrink grow basis-0`}>
+            <Text style={tw`text-base text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
               {t('home.profile.membership.required')}
             </Text>
           </View>

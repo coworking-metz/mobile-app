@@ -40,6 +40,7 @@ export const getStatsPerDay = (from?: string, to?: string): Promise<ApiPeriodSta
 export const getPresenceByWeek = (): Promise<ApiPresencePeriod> => {
   const currentMonday = dayjs().day(1).startOf('day'); // monday from current week
   const previousMonday = currentMonday.subtract(1, 'week');
+
   return getStatsPerDay(previousMonday.format('YYYY-MM-DD')).then((dayStats) => {
     const previousTimeline = dayStats
       .filter(({ date }) => dayjs(date).isBefore(currentMonday))

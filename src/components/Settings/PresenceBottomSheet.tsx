@@ -77,7 +77,7 @@ const PresenceBottomSheet = ({
               : t('settings.profile.presence.selected.type.label')
           }
           style={tw`w-full px-0 mt-2`}>
-          <Text style={tw`text-base text-slate-500 grow text-right`}>
+          <Text style={tw`text-base text-slate-500 dark:text-slate-400 grow text-right`}>
             {activity.type === 'subscription'
               ? t(`settings.profile.presence.selected.type.value.subscription`)
               : activity.value > 0.5
