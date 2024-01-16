@@ -53,7 +53,7 @@ const PresenceBottomSheet = ({
               (tw.prefixMatch('dark') ? tw.color('gray-700') : tw.color('gray-100')) as string
             }
             color={ringColor as string}
-            duration={activity.value === 1 ? 3000 : 2000}
+            duration={activity.value === 1 ? 2000 : 1500}
             easing={Easing.inOut(Easing.ease)}
             labelStyle={tw`text-slate-900 dark:text-gray-200 text-center text-3xl font-bold`}
             max={activity.value === 1 ? 1 : 2}
@@ -65,7 +65,7 @@ const PresenceBottomSheet = ({
                 ? t('settings.profile.presence.selected.unit.full')
                 : t('settings.profile.presence.selected.unit.half')
             }
-            subtitleStyle={tw`max-w-24 text-slate-500 dark:text-slate-400 text-center text-sm`}
+            subtitleStyle={tw`max-w-24 text-center text-sm font-normal text-slate-500 dark:text-slate-400`}
             width={12}
           />
         </View>
@@ -77,7 +77,8 @@ const PresenceBottomSheet = ({
               : t('settings.profile.presence.selected.type.label')
           }
           style={tw`w-full px-0 mt-2`}>
-          <Text style={tw`text-base text-slate-500 dark:text-slate-400 grow text-right`}>
+          <Text
+            style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
             {activity.type === 'subscription'
               ? t(`settings.profile.presence.selected.type.value.subscription`)
               : activity.value > 0.5
@@ -86,7 +87,8 @@ const PresenceBottomSheet = ({
           </Text>
         </ServiceRow>
 
-        <Text style={tw`text-left text-base text-slate-500 dark:text-slate-400 w-full mb-2`}>
+        <Text
+          style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400 w-full mb-2`}>
           {t('settings.profile.presence.selected.description')}
         </Text>
       </View>

@@ -1,5 +1,12 @@
 import { HTTP } from '../http';
 
+export interface ApiMemberSubscription {
+  aboEnd: string;
+  aboStart: string;
+  current: boolean;
+  purchaseDate: string;
+}
+
 export interface ApiMemberProfile {
   _id: string;
   wpUserId: number;
@@ -15,12 +22,7 @@ export interface ApiMemberProfile {
   balance: number;
   membershipOk?: boolean;
   lastMembership?: number;
-  abos: {
-    aboEnd: string;
-    aboStart: string;
-    current: boolean;
-    purchaseDate: string;
-  }[];
+  abos: ApiMemberSubscription[];
 }
 
 export const getCurrentMembers = (): Promise<ApiMemberProfile[]> => {

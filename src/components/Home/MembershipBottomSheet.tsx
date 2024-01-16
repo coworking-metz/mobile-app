@@ -39,7 +39,7 @@ const MembershipBottomSheet = ({
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
           {t('home.profile.membership.label')}
         </Text>
-        <Text style={tw`text-left text-base text-slate-500 dark:text-slate-400 w-full mt-4`}>
+        <Text style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
           {t('home.profile.membership.description')}
         </Text>
 
@@ -52,7 +52,8 @@ const MembershipBottomSheet = ({
               width={128}
             />
           ) : (
-            <Text style={tw`text-base text-slate-500 dark:text-slate-400 grow text-right`}>
+            <Text
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
               {valid
                 ? t('home.profile.membership.status.valid', { year: lastMembershipYear })
                 : lastMembershipYear
@@ -71,7 +72,8 @@ const MembershipBottomSheet = ({
               size={24}
               style={tw`shrink-0 grow-0`}
             />
-            <Text style={tw`text-base text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
+            <Text
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
               {t('home.profile.membership.required')}
             </Text>
           </View>
@@ -86,7 +88,9 @@ const MembershipBottomSheet = ({
             style={tw`mt-2`}>
             <Button backgroundColor={theme.darkVanilla} style={tw`h-14 self-stretch`}>
               <Text style={tw`text-base font-medium`}>
-                {t('home.profile.membership.renew', { year: dayjs().year() })}
+                {lastMembershipYear
+                  ? t('home.profile.membership.renew', { year: dayjs().year() })
+                  : t('home.profile.membership.get', { year: dayjs().year() })}
               </Text>
             </Button>
           </Link>

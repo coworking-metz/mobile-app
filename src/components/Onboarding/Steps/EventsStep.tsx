@@ -57,7 +57,9 @@ const EventsStep = ({ active, containerHeight }: { active: boolean; containerHei
         <Text style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onboarding.events.title')}
         </Text>
-        <Text style={tw`mt-4 text-base text-gray-500`}>{t('onboarding.events.description')}</Text>
+        <Text style={tw`mt-4 text-base font-normal text-gray-500`}>
+          {t('onboarding.events.description')}
+        </Text>
       </View>
     </>
   );

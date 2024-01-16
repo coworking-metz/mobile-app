@@ -58,47 +58,54 @@
     "present_zero": "Aucune personne présente"
   },
   "profile": {
-    "label": "Adhésion",
+    "label": "Situation",
     "membership": {
       "description": "Afin d'assurer une couverture totale de ses membres et de leurs biens, la carte adhérent est obligatoire pour tout usager de l'espace de Coworking.\n\nC'est une prérogative de notre assureur.",
+      "get": "Adhérer pour {{year}}",
       "label": "Carte adhérent",
       "renew": "Renouveler pour {{year}}",
       "required": "Sans cette cotisation, vous ne serez pas en mesure de pouvoir accéder à l'espace de Coworking.",
       "status": {
         "invalid": "Dernière adhésion en {{year}}",
         "label": "Statut",
-        "none": "Aucune adhésion",
-        "toRenew": "À renouveler pour {{year}}",
-        "valid": "Valide pour l'année {{year}}"
+        "none": "Aucune",
+        "toRenew": "À renouveler",
+        "valid": "Valide pour {{year}}"
       }
     },
     "onFetch": {
       "fail": "Impossible de récupérer le profil"
     },
     "subscription": {
-      "date": "{{expired, datetime }}",
+      "date": "{{date, datetime }}",
       "description": "L'abonnement permet d'accéder au Coworking sur 30 jours glissants à compter de la date de début choisie.",
-      "label": "Abonnement",
+      "get": "S'abonner",
+      "label": {
+        "active": "Abonnement actuel",
+        "expired": "Abonnement expiré",
+        "next": "Prochain abonnement",
+        "none": "Abonnement"
+      },
       "renew": "Renouveler",
       "status": {
-        "expiredSince": "{{prefix}}expiré le",
-        "expiresToday": "{{prefix}}touchant à sa fin",
-        "ongoingUntil": "{{prefix}}valide jusqu'au",
-        "prefix": "Abonnement ",
-        "startedOn": "{{prefix}}débutant le"
+        "expiredSince": "Expiré le",
+        "expiresToday": "Touchant à sa fin",
+        "none": "Aucun",
+        "ongoingUntil": "Valide jusqu'au",
+        "startedOn": "Débutant le"
       }
     },
     "tickets": {
       "add": "Ajouter",
-      "available_one": "C'est le dernier !",
-      "available_other": "{{count}} disponibles",
-      "available_zero": "Y'en a plus",
+      "available_one": "seul",
+      "available_other": "disponibles",
+      "available_zero": "Aucun",
       "balance": {
-        "label": "Solde",
+        "label": "Solde actuel",
         "onDepleted": "Une surconsommation excessive peut entraîner une suspension de vos accès."
       },
-      "depleted_one": "Un surconsommé",
-      "depleted_other": "{{count}} surconsommés",
+      "depleted_one": "surconsommé",
+      "depleted_other": "surconsommés",
       "description": "Les tickets sont sans fin de validité et chaque ticket équivaut à deux demi-journées.\nUne présence de moins de 5 heures sur une journée correspond à une demi-journée.",
       "label": "Tickets à la journée"
     }

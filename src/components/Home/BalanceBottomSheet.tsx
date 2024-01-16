@@ -35,7 +35,7 @@ const BalanceBottomSheet = ({
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
           {t('home.profile.tickets.label')}
         </Text>
-        <Text style={tw`text-left text-base text-slate-500 dark:text-slate-400 w-full mt-4`}>
+        <Text style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
           {t('home.profile.tickets.description')}
         </Text>
         <ServiceRow label={t('home.profile.tickets.balance.label')} style={tw`w-full px-0`}>
@@ -47,15 +47,26 @@ const BalanceBottomSheet = ({
               width={96}
             />
           ) : (
-            <Text style={tw`text-base text-slate-500 dark:text-slate-400 grow text-right`}>
-              {balance >= 0
-                ? t('home.profile.tickets.available', {
-                    count: balance,
-                  })
-                : t('home.profile.tickets.depleted', {
-                    count: -balance,
-                  })}
-            </Text>
+            <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
+              {balance != 0 && (
+                <Text
+                  numberOfLines={1}
+                  style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
+                  {Math.abs(balance)}
+                </Text>
+              )}
+              <Text
+                numberOfLines={1}
+                style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+                {balance >= 0
+                  ? t('home.profile.tickets.available', {
+                      count: balance,
+                    })
+                  : t('home.profile.tickets.depleted', {
+                      count: -balance,
+                    })}
+              </Text>
+            </View>
           )}
         </ServiceRow>
         {balance < 0 ? (
@@ -67,7 +78,7 @@ const BalanceBottomSheet = ({
               size={24}
               style={tw`shrink-0 grow-0`}
             />
-            <Text style={tw`text-base text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
+            <Text style={tw`text-left text-base font-normal text-slate-500 shrink grow basis-0`}>
               {t('home.profile.tickets.balance.onDepleted')}
             </Text>
           </View>

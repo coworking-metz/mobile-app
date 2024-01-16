@@ -74,7 +74,9 @@ export default function Page() {
               />
             ) : null}
             {event.description ? (
-              <Text style={tw`text-base text-gray-500 mx-6 mt-2`}>{event.description}</Text>
+              <Text style={tw`text-base font-normal text-gray-500 mx-6 mt-2`}>
+                {event.description}
+              </Text>
             ) : null}
           </View>
 
@@ -105,7 +107,7 @@ export default function Page() {
             <Animated.Text
               entering={FadeInLeft.duration(500).delay(150)}
               numberOfLines={2}
-              style={tw`text-base text-center text-slate-500 dark:text-slate-400`}>
+              style={tw`text-base font-normal text-center text-slate-500 dark:text-slate-400`}>
               {t('notFound.description')}
             </Animated.Text>
           </View>

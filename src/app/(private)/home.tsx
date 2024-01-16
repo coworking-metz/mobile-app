@@ -12,6 +12,8 @@ import {
   Text,
   View,
   useColorScheme,
+  ScrollView,
+  Platform,
 } from 'react-native';
 import Animated, {
   FadeIn,
@@ -30,7 +32,7 @@ import ControlsCard from '@/components/Home/ControlsCard';
 import HomeCarousel from '@/components/Home/HomeCarousel';
 import MembershipBottomSheet from '@/components/Home/MembershipBottomSheet';
 import MembershipCard from '@/components/Home/MembershipCard';
-import ParkingCard from '@/components/Home/ParkingCard';
+import OpenParkingCard from '@/components/Home/OpenParkingCard';
 import PresenceCard from '@/components/Home/PresenceCard';
 import PresentsCount from '@/components/Home/PresentsCount';
 import ProfilePicture from '@/components/Home/ProfilePicture';
@@ -39,14 +41,14 @@ import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
 import { isSilentError, useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
-import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
+import { getCalendarEvents } from '@/services/api/calendar';
 import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
 import { getPresenceByDay, getPresenceByWeek } from '@/services/api/presence';
 import useAuthStore from '@/stores/auth';
 
 const homeLogger = log.extend(`[${__filename.split('/').pop()}]`);
 
-const AGE_PERIOD_IN_SECONDS = Number(process.env.EXPO_PUBLIC_REFRESH_PERIOD || 300); // 5 minutes
+const AGE_PERIOD_IN_SECONDS = 300; // 5 minutes
 
 export default function HomeScreen({}) {
   useDeviceContext(tw);
@@ -116,17 +118,17 @@ export default function HomeScreen({}) {
     };
   }, [handleAppStateChange]);
 
-  // const {
-  //   data: calendarEvents,
-  //   isFetching: isFetchingCalendarEvents,
-  //   refetch: refreshCalendarEvents,
-  //   error: calendarEventsError,
-  // } = useQuery({
-  //   queryKey: ['calendarEvents'],
-  //   queryFn: getCalendarEvents,
-  //   retry: false,
-  //   enabled: !!user,
-  // });
+  const {
+    data: calendarEvents,
+    isFetching: isFetchingCalendarEvents,
+    refetch: refreshCalendarEvents,
+    error: calendarEventsError,
+  } = useQuery({
+    queryKey: ['calendarEvents'],
+    queryFn: getCalendarEvents,
+    retry: false,
+    enabled: !!user,
+  });
 
   const {
     data: dailyPresence,
@@ -164,11 +166,11 @@ export default function HomeScreen({}) {
     }
   }, [currentMembersError]);
 
-  // useEffect(() => {
-  //   if (calendarEventsError && !isSilentError(calendarEventsError)) {
-  //     notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
-  //   }
-  // }, [calendarEventsError]);
+  useEffect(() => {
+    if (calendarEventsError && !isSilentError(calendarEventsError)) {
+      notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
+    }
+  }, [calendarEventsError]);
 
   useEffect(() => {
     if (dailyPresenceError && !isSilentError(dailyPresenceError)) {
@@ -198,71 +200,9 @@ export default function HomeScreen({}) {
   }, [user]);
 
   const currentSubscription = useMemo(() => {
-    return profile?.abos.find(({ current }) => current);
+    // retrieve ongoing subscription or the most recent one
+    return profile?.abos.find(({ current }) => current) ?? profile?.abos.find(() => true) ?? null;
   }, [profile]);
-
-  const stackCards = useMemo(
-    () =>
-      (
-        [
-          currentSubscription && {
-            order: dayjs().isAfter(currentSubscription.aboEnd) ? 1 : 0,
-            component: (
-              <TouchableOpacity key={`subscription-card`} onPress={() => selectSubscription(true)}>
-                <SubscriptionCard
-                  expired={dayjs(currentSubscription.aboEnd).endOf('day').toISOString()}
-                  since={currentSubscription.aboStart}
-                />
-              </TouchableOpacity>
-            ),
-          },
-          {
-            order: profile?.balance && profile.balance < 0 ? 2 : 0,
-            component: (
-              <TouchableOpacity key={`balance-card`} onPress={() => selectBalance(true)}>
-                <BalanceCard count={profile?.balance} loading={isLoadingProfile} />
-              </TouchableOpacity>
-            ),
-          },
-          profile && {
-            order: !profile?.membershipOk ? 3 : 0,
-            component: (
-              <TouchableOpacity key={`membership-card`} onPress={() => selectMembership(true)}>
-                <MembershipCard
-                  lastMembershipYear={profile.lastMembership}
-                  lastSeen={profile.lastSeen}
-                  loading={isLoadingProfile}
-                  valid={profile.membershipOk}
-                />
-              </TouchableOpacity>
-            ),
-          },
-        ].filter(Boolean) as { order: number; component: React.ReactNode }[]
-      )
-        .sort((a, b) => {
-          // balance should come first when it is negative
-          // or when subscription is expired
-          return (b.order || 0) - (a.order || 0);
-        })
-        .map(({ component }) => component),
-    [currentSubscription, profile, colorScheme, isLoadingProfile],
-  );
-
-  // const calendarCards = useMemo(
-  //   () =>
-  //     (calendarEvents || [])
-  //       .filter(
-  //         ({ start }) => dayjs().isSame(start, 'day') || dayjs().add(1, 'day').isSame(start, 'day'),
-  //       )
-  //       .map((event) => (
-  //         <Link asChild href={`/events/${event.id}`} key={`calendar-event-${event.id}-card`}>
-  //           <TouchableOpacity>
-  //             <CalendarEventCard event={event} />
-  //           </TouchableOpacity>
-  //         </Link>
-  //       )),
-  //   [colorScheme, calendarEvents],
-  // );
 
   return (
     <Animated.View style={[tw`flex w-full flex-col items-stretch dark:bg-black`]}>
@@ -270,14 +210,14 @@ export default function HomeScreen({}) {
         <Fader
           visible
           position={Fader.position.TOP}
-          size={insets.top}
+          size={insets.top || (Platform.OS === 'android' ? 16 : 0)}
           tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
         />
       </View>
 
       <Animated.ScrollView
         contentContainerStyle={[
-          tw`relative grow flex flex-col items-start gap-4 justify-start pt-2 px-4`,
+          tw`relative grow flex flex-col items-start justify-start pt-2`,
           { paddingTop: insets.top, paddingBottom: insets.bottom + 32 },
         ]}
         entering={FadeIn.duration(750)}
@@ -291,7 +231,7 @@ export default function HomeScreen({}) {
         }
         showsVerticalScrollIndicator={false}
         style={[tw`h-full w-full`]}>
-        <View style={tw`flex flex-row items-center w-full`}>
+        <View style={tw`flex flex-row items-center w-full px-4`}>
           {currentMembersUpdatedAt &&
           dayjs().diff(currentMembersUpdatedAt, 'second') > AGE_PERIOD_IN_SECONDS ? (
             <Animated.Text
@@ -308,7 +248,9 @@ export default function HomeScreen({}) {
           </Link>
         </View>
 
-        <Animated.View entering={FadeInLeft.duration(750).delay(150)} style={tw`mb-4 ml-3`}>
+        <Animated.View
+          entering={FadeInLeft.duration(750).delay(150)}
+          style={tw`mt-4 ml-6 mr-4 self-stretch`}>
           <PresentsCount
             count={currentMembers?.length || 0}
             loading={isLoadingCurrentMembers}
@@ -316,9 +258,9 @@ export default function HomeScreen({}) {
           />
         </Animated.View>
 
-        <Animated.View
+        {/* <Animated.View
           entering={FadeInRight.duration(750).delay(300)}
-          style={tw`flex flex-row flex-wrap w-full items-center gap-4 h-24`}>
+          style={tw`flex flex-row flex-wrap w-full items-center gap-4 h-24 px-4 mt-2`}>
           <Link asChild href="/presence/by-week">
             <TouchableOpacity style={tw`grow basis-0 max-w-1/2`}>
               <PresenceCard
@@ -333,7 +275,7 @@ export default function HomeScreen({}) {
               />
             </TouchableOpacity>
           </Link>
-          {/* <Link asChild href="/presence/by-day">
+          <Link asChild href="/presence/by-day">
             <TouchableOpacity style={tw`grow basis-0`}>
               <PresenceCard
                 disabled
@@ -346,33 +288,86 @@ export default function HomeScreen({}) {
                 type="hour"
               />
             </TouchableOpacity>
-          </Link> */}
-        </Animated.View>
+          </Link>
+        </Animated.View> */}
 
         <Animated.View
           entering={FadeInLeft.duration(750).delay(400)}
-          style={tw`flex flex-row items-start w-full justify-between`}>
-          <Text style={tw`text-base font-medium text-slate-500`}>{t('home.profile.label')}</Text>
+          style={tw`flex flex-row mt-8 mb-3 px-4`}>
+          <Text style={tw`text-sm font-normal uppercase text-slate-500 grow`}>
+            {t('home.profile.label')}
+          </Text>
         </Animated.View>
-        <HomeCarousel
+        {/* <HomeCarousel
           elements={stackCards}
           entering={FadeInLeft.duration(750).delay(400)}
           style={[tw`flex flex-col w-full overflow-visible h-24`]}
-        />
+        /> */}
+        <ScrollView
+          contentContainerStyle={tw`flex flex-row items-stretch gap-4 px-4`}
+          horizontal={true}
+          scrollEventThrottle={16}
+          showsHorizontalScrollIndicator={false}
+          style={tw`w-full`}>
+          <TouchableOpacity key={`balance-card`} onPress={() => selectBalance(true)}>
+            <BalanceCard count={profile?.balance} loading={isLoadingProfile} style={tw`h-38`} />
+          </TouchableOpacity>
+          <TouchableOpacity key={`subscription-card`} onPress={() => selectSubscription(true)}>
+            <SubscriptionCard
+              loading={isLoadingProfile}
+              style={tw`h-38`}
+              subscription={currentSubscription}
+            />
+          </TouchableOpacity>
+          {profile && (
+            <TouchableOpacity key={`membership-card`} onPress={() => selectMembership(true)}>
+              <MembershipCard
+                lastMembershipYear={profile.lastMembership}
+                loading={isLoadingProfile}
+                style={tw`h-38`}
+                valid={profile.membershipOk}
+              />
+            </TouchableOpacity>
+          )}
+        </ScrollView>
 
-        {/* <Animated.View
+        <Animated.View
           entering={FadeInRight.duration(750).delay(600)}
-          style={tw`flex flex-row justify-between w-full`}>
-          <Text style={tw`text-base font-medium text-slate-500`}>{t('home.calendar.label')}</Text>
+          style={tw`flex flex-row justify-between w-full mt-8 mb-3 px-4`}>
+          <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
+            {t('home.calendar.label')}
+          </Text>
           <Link asChild href="/events/calendar">
-            <Text style={tw`text-base text-amber-500 min-w-[16]`}>{t('home.calendar.browse')}</Text>
+            <Text style={tw`text-base font-normal text-amber-500 min-w-[16]`}>
+              {t('home.calendar.browse')}
+            </Text>
           </Link>
         </Animated.View>
 
-        {calendarEvents?.length ? (
+        <ScrollView
+          contentContainerStyle={tw`flex flex-row gap-4 px-4`}
+          horizontal={true}
+          scrollEventThrottle={16}
+          showsHorizontalScrollIndicator={false}
+          style={tw`w-full`}>
+          {(calendarEvents || [])
+            .filter(
+              ({ start }) =>
+                dayjs().isSame(start, 'day') || dayjs().add(1, 'day').isSame(start, 'day'),
+            )
+            .map((event) => (
+              <Link asChild href={`/events/${event.id}`} key={`calendar-event-${event.id}-card`}>
+                <TouchableOpacity style={tw`w-80`}>
+                  <CalendarEventCard event={event} />
+                </TouchableOpacity>
+              </Link>
+            ))}
+        </ScrollView>
+
+        {/* {calendarEvents?.length ? (
           <HomeCarousel
             elements={calendarCards}
-            style={[tw`flex flex-col w-full overflow-visible h-24`]}
+            style={[tw`flex flex-col w-full overflow-visible h-56`]}
           />
         ) : (
           <CalendarEmptyCard
@@ -382,28 +377,25 @@ export default function HomeScreen({}) {
           />
         )} */}
 
-        <Animated.Text
-          entering={FadeInUp.duration(500).delay(600)}
-          style={tw`text-base font-medium text-slate-500`}>
-          {t('home.services.label')}
-        </Animated.Text>
-        {user?.capabilities.includes('UNLOCK_GATE') && (
-          <Animated.View
-            entering={FadeInUp.duration(500).delay(700)}
-            style={tw`flex flex-col self-stretch`}>
-            <UnlockGateCard />
-          </Animated.View>
-        )}
+        <View style={tw`flex flex-col w-full px-4 gap-4 mt-8 mb-3`}>
+          <Animated.Text
+            entering={FadeInUp.duration(500).delay(600)}
+            style={tw`text-sm font-normal uppercase text-slate-500`}>
+            {t('home.services.label')}
+          </Animated.Text>
+          {user?.capabilities.includes('UNLOCK_GATE') && (
+            <Animated.View entering={FadeInUp.duration(500).delay(700)}>
+              <UnlockGateCard />
+            </Animated.View>
+          )}
 
-        {user?.capabilities.includes('PARKING_ACCESS') && (
-          <Animated.View
-            entering={FadeInUp.duration(500).delay(800)}
-            style={tw`flex flex-col self-stretch`}>
-            <ParkingCard />
-          </Animated.View>
-        )}
+          {user?.capabilities.includes('PARKING_ACCESS') && (
+            <Animated.View entering={FadeInUp.duration(500).delay(800)}>
+              <OpenParkingCard />
+            </Animated.View>
+          )}
 
-        {/* <Animated.View
+          {/* <Animated.View
           entering={FadeInUp.duration(500).delay(900)}
           style={tw`flex flex-col self-stretch`}>
           <Link asChild href="/controls">
@@ -412,13 +404,13 @@ export default function HomeScreen({}) {
             </TouchableOpacity>
           </Link>
         </Animated.View> */}
+        </View>
       </Animated.ScrollView>
 
-      {currentSubscription && hasSelectSubscription ? (
+      {hasSelectSubscription ? (
         <SubscriptionBottomSheet
-          endDate={currentSubscription.aboEnd}
           loading={isFetchingProfile}
-          startDate={currentSubscription.aboStart}
+          subscription={currentSubscription}
           onClose={() => selectSubscription(false)}
         />
       ) : null}

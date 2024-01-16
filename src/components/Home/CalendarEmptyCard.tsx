@@ -72,7 +72,7 @@ const BalanceCard = ({
             source={require('@/assets/images/calendar-outline-washed-out.svg')}
             style={[tw`h-16 w-full`]}
           />
-          <Text style={tw`text-base text-slate-500 dark:text-slate-400`}>
+          <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
             {t('home.calendar.empty.label')}
           </Text>
         </>

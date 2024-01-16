@@ -44,21 +44,21 @@ const PresentsCount = ({
   }
 
   return (
-    <View style={[tw`flex flex-col justify-end h-24 overflow-hidden`, style]} {...props}>
+    <View style={[tw`flex flex-col justify-end h-30 w-full`, style]} {...props}>
       <View style={tw`flex flex-row w-full items-end`}>
-        <View style={tw`flex flex-col h-18 pt-3`}>
+        <View style={tw`flex flex-col h-24`}>
           <AnimatedNumber
-            style={tw`text-7xl leading-[4.5rem] font-bold text-slate-900 dark:text-gray-200 min-w-[3rem] mb-[-1rem]`}
-            time={48} // milliseconds between each step
+            style={tw`text-8xl leading-[6.5rem] font-bold text-slate-900 dark:text-gray-200 min-w-[3rem]`}
+            time={64} // milliseconds between each step
             value={count}
           />
         </View>
-        <Text style={tw`text-4xl font-normal text-slate-500 dark:text-slate-400 h-9 mb-2`}>
+        <Text style={tw`text-5xl font-normal text-slate-500 dark:text-slate-400 h-12 mb-3`}>
           {t('home.people.capacity', { total: total })}
         </Text>
       </View>
 
-      <Text style={tw`text-xl text-slate-500 dark:text-slate-400`}>
+      <Text style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
         {t('home.people.present', { count: count })}
       </Text>
     </View>

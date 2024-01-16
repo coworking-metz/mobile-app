@@ -63,7 +63,7 @@ const NoticeBottomSheet = () => {
             {mostRecentUndismissedNotice.message}
           </Text>
           {mostRecentUndismissedNotice.description && (
-            <Text style={tw`text-center text-xl text-slate-500 dark:text-slate-400`}>
+            <Text style={tw`text-center text-xl font-normal text-slate-500 dark:text-slate-400`}>
               {mostRecentUndismissedNotice.description}
             </Text>
           )}

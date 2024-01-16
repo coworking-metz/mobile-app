@@ -57,6 +57,7 @@
     "label": "Membership",
     "membership": {
       "description": "In order to ensure complete coverage for its members and their belongings, the membership card is mandatory for all Coworking members.\n\nThis is a requirement from our insurer.",
+      "get": "Join for {{year}}",
       "label": "Membership card",
       "renew": "Renew for {{year}}",
       "required": "Without this subscription, you will not be able to access the Coworking location.",
@@ -72,29 +73,35 @@
       "fail": "Unable to fetch profile"
     },
     "subscription": {
-      "date": "{{expired, datetime }}",
+      "date": "{{date, datetime }}",
       "description": "Subscription allows access to the Coworking location for 30 rolling days starting from the chosen start date.",
-      "label": "Subscription",
+      "get": "Get one",
+      "label": {
+        "active": "Active subscription",
+        "expired": "Expired subscription",
+        "next": "Next subscription",
+        "none": "Subscription"
+      },
       "renew": "Renew",
       "status": {
-        "expiredSince": "{{prefix}}expired since",
-        "expiresToday": "{{prefix}}about to expire",
-        "ongoingUntil": "{{prefix}}valid until",
-        "prefix": "Subscription ",
-        "startedOn": "{{prefix}}started on"
+        "expiredSince": "Expired since",
+        "expiresToday": "About to expire",
+        "none": "None",
+        "ongoingUntil": "Valid until",
+        "startedOn": "Started on"
       }
     },
     "tickets": {
       "add": "Add",
-      "available_one": "Last one!",
-      "available_other": "{{count}} available",
-      "available_zero": "None left",
+      "available_one": "left",
+      "available_other": "available",
+      "available_zero": "None",
       "balance": {
-        "label": "Balance",
+        "label": "Current balance",
         "onDepleted": "Excessive overconsumption can lead to a suspension of your access."
       },
-      "depleted_one": "One overconsumed",
-      "depleted_other": "{{count}} overconsumed",
+      "depleted_one": "overconsumed",
+      "depleted_other": "overconsumed",
       "description": "Tickets have unlimited validity, and each ticket is equivalent to two half-days.\nPresence of less than 5 hours in a day corresponds to half a day.",
       "label": "Individual tickets"
     }

@@ -1,8 +1,11 @@
 import * as british from './locales/en-GB';
 import * as french from './locales/fr-FR';
 import dayjs from 'dayjs';
+import calendar from 'dayjs/plugin/calendar';
+import isBetween from 'dayjs/plugin/isBetween';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import updateLocale from 'dayjs/plugin/updateLocale';
 import * as Localisation from 'expo-localization';
 // @see https://dev.to/ramonak/react-native-internationalization-with-i18next-568n
 import i18n from 'i18next';
@@ -12,9 +15,28 @@ import 'intl-pluralrules';
 // load all dayjs locales supported by the app
 import 'dayjs/locale/fr';
 import 'dayjs/locale/en';
-
+dayjs.extend(updateLocale);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
+dayjs.extend(calendar);
+dayjs.extend(isBetween);
+
+dayjs.updateLocale('fr', {
+  calendar: {
+    lastDay: '[Hier à] LT',
+    sameDay: "[Aujourd'hui à] LT",
+    nextDay: '[Demain à] LT',
+    lastWeek: 'dddd [dernier à] LT',
+    nextWeek: 'dddd [prochain à] LT',
+    sameElse: '[Le] dddd LL',
+  },
+});
+
+dayjs.updateLocale('en', {
+  calendar: {
+    sameElse: '[on] dddd LL',
+  },
+});
 
 export const SYSTEM_LANGUAGE = Localisation.locale.substring(0, 2);
 

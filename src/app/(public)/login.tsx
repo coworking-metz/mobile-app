@@ -72,6 +72,10 @@ export default function Login() {
           return Linking.openURL(url);
         }
       })
+      .then(() => {
+        // should clear all previous notifications
+        toastStore.dismissAll();
+      })
       .catch(async (error) => {
         const description = await parseErrorText(error);
         noticeStore.add({

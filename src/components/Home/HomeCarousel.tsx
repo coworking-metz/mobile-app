@@ -18,7 +18,7 @@ const HomeCarousel = ({
         <Carousel
           snapEnabled
           data={elements}
-          height={92}
+          // height={`100%`}
           loop={false}
           renderItem={({ item, index }) => (
             <View
