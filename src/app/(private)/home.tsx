@@ -1,4 +1,4 @@
-import { Fader, TouchableOpacity } from '@ddx0510/react-native-ui-lib';
+import { Fader } from '@ddx0510/react-native-ui-lib';
 import TouchableScale from '@jonny/touchable-scale';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
@@ -8,16 +8,13 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import {
   AppState,
-  type AppStateStatus,
+  Platform,
   RefreshControl,
+  ScrollView,
   Text,
   View,
   useColorScheme,
-  ScrollView,
-  Platform,
-  TouchableHighlight,
-  TouchableNativeFeedback,
-  TouchableWithoutFeedback,
+  type AppStateStatus,
 } from 'react-native';
 import Animated, {
   FadeIn,
@@ -29,28 +26,21 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import AppTouchableScale from '@/components/AppTouchableScale';
-import AmourFoodEventCard from '@/components/Home/AmourFoodEventCard';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
-import CalendarEmptyCard from '@/components/Home/CalendarEmptyCard';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
-import ControlsCard from '@/components/Home/ControlsCard';
-import HomeCarousel from '@/components/Home/HomeCarousel';
 import MembershipBottomSheet from '@/components/Home/MembershipBottomSheet';
 import MembershipCard from '@/components/Home/MembershipCard';
 import OpenParkingCard from '@/components/Home/OpenParkingCard';
-import PresenceCard from '@/components/Home/PresenceCard';
-import PresentsCount from '@/components/Home/PresentsCount';
+import PresentMembers from '@/components/Home/PresentMembers';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
 import { isSilentError, useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
-import { getAmourFoodEvents } from '@/services/api/amour-food';
 import { getCalendarEvents } from '@/services/api/calendar';
 import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
-import { getPresenceByDay, getPresenceByWeek } from '@/services/api/presence';
 import useAuthStore from '@/stores/auth';
 
 const homeLogger = log.extend(`[${__filename.split('/').pop()}]`);
@@ -260,11 +250,7 @@ export default function HomeScreen({}) {
         <Animated.View
           entering={FadeInLeft.duration(750).delay(150)}
           style={tw`mt-4 ml-6 mr-4 self-stretch`}>
-          <PresentsCount
-            count={currentMembers?.length || 0}
-            loading={isLoadingCurrentMembers}
-            total={28}
-          />
+          <PresentMembers loading={isLoadingCurrentMembers} members={currentMembers} total={28} />
         </Animated.View>
 
         {/* <Animated.View
@@ -323,14 +309,14 @@ export default function HomeScreen({}) {
               subscription={currentSubscription}
             />
           </AppTouchableScale>
-          <TouchableScale key={`membership-card`} onPress={() => selectMembership(true)}>
+          <AppTouchableScale key={`membership-card`} onPress={() => selectMembership(true)}>
             <MembershipCard
               lastMembershipYear={profile?.lastMembership}
               loading={isLoadingProfile}
               style={tw`h-38`}
               valid={profile?.membershipOk}
             />
-          </TouchableScale>
+          </AppTouchableScale>
         </ScrollView>
 
         <Animated.View

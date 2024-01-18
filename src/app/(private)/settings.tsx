@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { BlurView } from 'expo-blur';
 import Constants from 'expo-constants';
+import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
 import * as Linking from 'expo-linking';
 import { Link, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -178,6 +179,7 @@ const Settings = () => {
     (selectedDate: string) => {
       const activityFound = activity?.find(({ date }) => selectedDate === date);
       if (activityFound) {
+        impactAsync(ImpactFeedbackStyle.Light);
         setSelectedPresence(activityFound?.date === selectedPresence?.date ? null : activityFound);
       }
     },

@@ -1,13 +1,19 @@
 import TouchableScale, { type TouchableScaleProps } from '@jonny/touchable-scale';
-import React, { forwardRef, type ForwardRefRenderFunction } from 'react';
+import { impactAsync, ImpactFeedbackStyle } from 'expo-haptics';
+import React, { forwardRef, useCallback, type ForwardRefRenderFunction } from 'react';
 
 const AppTouchableScale: ForwardRefRenderFunction<typeof TouchableScale, TouchableScaleProps> = (
-  { children, ...props },
+  { children, onPress, ...props },
   ref,
 ) => {
+  const vibrateOnPress = useCallback(() => {
+    impactAsync(ImpactFeedbackStyle.Light);
+    return onPress?.();
+  }, [onPress]);
+
   return (
     // @ts-ignore
-    <TouchableScale innerRef={ref} {...props}>
+    <TouchableScale innerRef={ref} onPress={vibrateOnPress} {...props}>
       {children}
     </TouchableScale>
   );
