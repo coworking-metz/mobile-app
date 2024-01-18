@@ -7,6 +7,7 @@ import Animated, { FadeInLeft } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
+import AppRoundedButton from '@/components/AppRoundedButton';
 import { theme } from '@/helpers/colors';
 
 const MissingScreen = () => {
@@ -57,9 +58,9 @@ const MissingScreen = () => {
         </Animated.Text>
 
         <Link asChild href="/help">
-          <Button backgroundColor={theme.darkVanilla} style={tw`mt-4 mx-2 h-14 self-stretch`}>
+          <AppRoundedButton style={tw`mt-4 mx-2 h-14 self-stretch`}>
             <Text style={tw`text-base font-medium`}>{t('notFound.help')}</Text>
-          </Button>
+          </AppRoundedButton>
         </Link>
       </View>
     </View>

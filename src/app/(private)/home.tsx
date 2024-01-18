@@ -1,4 +1,5 @@
 import { Fader, TouchableOpacity } from '@ddx0510/react-native-ui-lib';
+import TouchableScale from '@jonny/touchable-scale';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
@@ -14,6 +15,9 @@ import {
   useColorScheme,
   ScrollView,
   Platform,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Animated, {
   FadeIn,
@@ -24,6 +28,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
+import AppTouchableScale from '@/components/AppTouchableScale';
+import AmourFoodEventCard from '@/components/Home/AmourFoodEventCard';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
 import CalendarEmptyCard from '@/components/Home/CalendarEmptyCard';
@@ -41,6 +47,7 @@ import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
 import { isSilentError, useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
+import { getAmourFoodEvents } from '@/services/api/amour-food';
 import { getCalendarEvents } from '@/services/api/calendar';
 import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
 import { getPresenceByDay, getPresenceByWeek } from '@/services/api/presence';
@@ -119,28 +126,28 @@ export default function HomeScreen({}) {
   }, [handleAppStateChange]);
 
   const {
-    data: calendarEvents,
-    isFetching: isFetchingCalendarEvents,
-    refetch: refreshCalendarEvents,
-    error: calendarEventsError,
+    data: amourFoodEvents,
+    isFetching: isFetchingAmourFoodEvents,
+    refetch: refreshAmourFoodEvents,
+    error: amourFoodEventsError,
   } = useQuery({
-    queryKey: ['calendarEvents'],
-    queryFn: getCalendarEvents,
+    queryKey: ['amourFoodEvents'],
+    queryFn: getAmourFoodEvents,
     retry: false,
     enabled: !!user,
   });
 
-  const {
-    data: dailyPresence,
-    isFetching: isFetchingDailyPresence,
-    refetch: refreshDailyPresence,
-    error: dailyPresenceError,
-  } = useQuery({
-    queryKey: ['dailyPresence'],
-    queryFn: getPresenceByWeek,
-    retry: false,
-    enabled: !!user,
-  });
+  // const {
+  //   data: dailyPresence,
+  //   isFetching: isFetchingDailyPresence,
+  //   refetch: refreshDailyPresence,
+  //   error: dailyPresenceError,
+  // } = useQuery({
+  //   queryKey: ['dailyPresence'],
+  //   queryFn: getPresenceByWeek,
+  //   retry: false,
+  //   enabled: !!user,
+  // });
 
   // const {
   //   data: hourlyPresence,
@@ -167,16 +174,16 @@ export default function HomeScreen({}) {
   }, [currentMembersError]);
 
   useEffect(() => {
-    if (calendarEventsError && !isSilentError(calendarEventsError)) {
-      notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
+    if (amourFoodEventsError && !isSilentError(amourFoodEventsError)) {
+      notifyError(t('home.calendar.onFetch.fail'), amourFoodEventsError);
     }
-  }, [calendarEventsError]);
+  }, [amourFoodEventsError]);
 
-  useEffect(() => {
-    if (dailyPresenceError && !isSilentError(dailyPresenceError)) {
-      notifyError(t('presence.byWeek.onFetch.fail'), dailyPresenceError);
-    }
-  }, [dailyPresenceError]);
+  // useEffect(() => {
+  //   if (dailyPresenceError && !isSilentError(dailyPresenceError)) {
+  //     notifyError(t('presence.byWeek.onFetch.fail'), dailyPresenceError);
+  //   }
+  // }, [dailyPresenceError]);
 
   // useEffect(() => {
   //   if (hourlyPresenceError && !isSilentError(hourlyPresenceError)) {
@@ -190,8 +197,8 @@ export default function HomeScreen({}) {
       Promise.all([
         refetchProfile(),
         refetchCurrentMembers(),
-        // refreshCalendarEvents(),
-        refreshDailyPresence(),
+        refreshAmourFoodEvents(),
+        // refreshDailyPresence(),
         // refreshHourlyPresence(),
       ]).finally(() => {
         setRefreshing(false);
@@ -241,11 +248,13 @@ export default function HomeScreen({}) {
               {capitalize(dayjs(currentMembersUpdatedAt).fromNow())}
             </Animated.Text>
           ) : null}
-          <Link asChild href="/settings">
-            <TouchableOpacity style={tw`ml-auto`}>
-              <ProfilePicture />
-            </TouchableOpacity>
-          </Link>
+          <View style={tw`ml-auto`}>
+            <Link asChild href="/settings">
+              <AppTouchableScale>
+                <ProfilePicture />
+              </AppTouchableScale>
+            </Link>
+          </View>
         </View>
 
         <Animated.View
@@ -298,37 +307,30 @@ export default function HomeScreen({}) {
             {t('home.profile.label')}
           </Text>
         </Animated.View>
-        {/* <HomeCarousel
-          elements={stackCards}
-          entering={FadeInLeft.duration(750).delay(400)}
-          style={[tw`flex flex-col w-full overflow-visible h-24`]}
-        /> */}
         <ScrollView
           contentContainerStyle={tw`flex flex-row items-stretch gap-4 px-4`}
           horizontal={true}
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
           style={tw`w-full`}>
-          <TouchableOpacity key={`balance-card`} onPress={() => selectBalance(true)}>
+          <AppTouchableScale key={`balance-card`} onPress={() => selectBalance(true)}>
             <BalanceCard count={profile?.balance} loading={isLoadingProfile} style={tw`h-38`} />
-          </TouchableOpacity>
-          <TouchableOpacity key={`subscription-card`} onPress={() => selectSubscription(true)}>
+          </AppTouchableScale>
+          <AppTouchableScale key={`subscription-card`} onPress={() => selectSubscription(true)}>
             <SubscriptionCard
               loading={isLoadingProfile}
               style={tw`h-38`}
               subscription={currentSubscription}
             />
-          </TouchableOpacity>
-          {profile && (
-            <TouchableOpacity key={`membership-card`} onPress={() => selectMembership(true)}>
-              <MembershipCard
-                lastMembershipYear={profile.lastMembership}
-                loading={isLoadingProfile}
-                style={tw`h-38`}
-                valid={profile.membershipOk}
-              />
-            </TouchableOpacity>
-          )}
+          </AppTouchableScale>
+          <TouchableScale key={`membership-card`} onPress={() => selectMembership(true)}>
+            <MembershipCard
+              lastMembershipYear={profile?.lastMembership}
+              loading={isLoadingProfile}
+              style={tw`h-38`}
+              valid={profile?.membershipOk}
+            />
+          </TouchableScale>
         </ScrollView>
 
         <Animated.View
@@ -350,16 +352,23 @@ export default function HomeScreen({}) {
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
           style={tw`w-full`}>
-          {(calendarEvents || [])
-            .filter(
-              ({ start }) =>
-                dayjs().isSame(start, 'day') || dayjs().add(1, 'day').isSame(start, 'day'),
+          {amourFoodEvents
+            ?.filter(({ time }) =>
+              dayjs(time).isBetween(
+                dayjs().subtract(1, 'day').startOf('day'),
+                dayjs().add(2, 'day').endOf('day'),
+                'day',
+              ),
             )
+            .sort((a, b) => dayjs(a.time).diff(dayjs(b.time)))
             .map((event) => (
-              <Link asChild href={`/events/${event.id}`} key={`calendar-event-${event.id}-card`}>
-                <TouchableOpacity style={tw`w-80`}>
-                  <CalendarEventCard event={event} />
-                </TouchableOpacity>
+              <Link
+                asChild
+                href={`/events/amour-food/${event.time}`}
+                key={`amour-food-event-card-${event.time}`}>
+                <AppTouchableScale style={tw`w-80`}>
+                  <AmourFoodEventCard event={event} />
+                </AppTouchableScale>
               </Link>
             ))}
         </ScrollView>
@@ -383,6 +392,7 @@ export default function HomeScreen({}) {
             style={tw`text-sm font-normal uppercase text-slate-500`}>
             {t('home.services.label')}
           </Animated.Text>
+
           {user?.capabilities.includes('UNLOCK_GATE') && (
             <Animated.View entering={FadeInUp.duration(500).delay(700)}>
               <UnlockGateCard />
@@ -399,9 +409,9 @@ export default function HomeScreen({}) {
           entering={FadeInUp.duration(500).delay(900)}
           style={tw`flex flex-col self-stretch`}>
           <Link asChild href="/controls">
-            <TouchableOpacity>
+            <TouchableScale>
               <ControlsCard />
-            </TouchableOpacity>
+            </TouchableScale>
           </Link>
         </Animated.View> */}
         </View>

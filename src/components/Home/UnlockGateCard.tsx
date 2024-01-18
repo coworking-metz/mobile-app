@@ -1,21 +1,12 @@
 import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
 import LockUnlockAnimation from '../Animations/LockUnlockAnimation';
+import AppTouchableScale from '../AppTouchableScale';
 import ReanimatedText from '../ReanimatedText';
-import { ToastPresets } from '@ddx0510/react-native-ui-lib';
 import * as Haptics from 'expo-haptics';
-import { router } from 'expo-router';
 import { isNil } from 'lodash';
-import React, {
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-  type ForwardRefRenderFunction,
-  type ReactNode,
-} from 'react';
+import React, { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View, type LayoutChangeEvent, TouchableHighlight, Touchable } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Text, View, type LayoutChangeEvent } from 'react-native';
 import Animated, {
   Easing,
   interpolate,
@@ -169,7 +160,7 @@ const UnlockCard = ({
   );
 
   return (
-    <TouchableOpacity
+    <AppTouchableScale
       disabled={disabled}
       style={[
         tw`flex flex-row items-center gap-4 px-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
@@ -250,7 +241,7 @@ const UnlockCard = ({
         </Animated.View>
         {children}
       </>
-    </TouchableOpacity>
+    </AppTouchableScale>
   );
 };
 

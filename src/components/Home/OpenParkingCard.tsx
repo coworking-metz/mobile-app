@@ -1,6 +1,7 @@
 import BarrierAnimation from '../Animations/BarrierAnimation';
 import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
 import ReanimatedText from '../ReanimatedText';
+import TouchableScale from '@jonny/touchable-scale';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
 import React, {
@@ -123,7 +124,7 @@ const OpenParkingCard = ({
   );
 
   return (
-    <TouchableOpacity
+    <TouchableScale
       disabled={disabled}
       style={[
         tw`flex flex-row items-center gap-4 px-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
@@ -204,7 +205,7 @@ const OpenParkingCard = ({
         </Animated.View>
         {children}
       </>
-    </TouchableOpacity>
+    </TouchableScale>
   );
 };
 

@@ -1,17 +1,15 @@
 import CalendarAnimation from '../Animations/CalendarAnimation';
 import AppBottomSheet from '../AppBottomSheet';
+import AppRoundedButton from '../AppRoundedButton';
 import ServiceRow from '../Settings/ServiceRow';
-import { Button } from '@ddx0510/react-native-ui-lib';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
-import { capitalize } from 'lodash';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
-import { theme } from '@/helpers/colors';
 import { type ApiMemberSubscription } from '@/services/api/members';
 
 const SubscriptionBottomSheet = ({
@@ -38,7 +36,7 @@ const SubscriptionBottomSheet = ({
 
   return (
     <AppBottomSheet style={style} onClose={onClose}>
-      <View style={tw`flex flex-col items-center justify-between p-6`}>
+      <View style={tw`flex flex-col w-full justify-between p-6`}>
         <CalendarAnimation style={tw`w-full`} />
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
@@ -95,13 +93,13 @@ const SubscriptionBottomSheet = ({
           </>
         )}
         <Link asChild href="https://www.coworking-metz.fr/boutique/pass-resident/" style={tw`mt-2`}>
-          <Button backgroundColor={theme.darkVanilla} style={tw`h-14 self-stretch`}>
+          <AppRoundedButton style={tw`h-14 self-stretch`}>
             <Text style={tw`text-base font-medium`}>
               {subscription
                 ? t('home.profile.subscription.renew')
                 : t('home.profile.subscription.get')}
             </Text>
-          </Button>
+          </AppRoundedButton>
         </Link>
       </View>
     </AppBottomSheet>

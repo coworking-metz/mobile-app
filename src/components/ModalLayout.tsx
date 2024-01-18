@@ -25,13 +25,14 @@ const INTERPOLATE_INPUT_RANGE = [
 
 const TITLE_LEFT_ORIGIN = 24;
 const TITLE_LEFT_DESTINATION = 64;
+const TITLE_RIGHT_DESTINATION = 56;
 
 const ModalLayout = ({
   title,
   from,
   children,
 }: {
-  title: string;
+  title?: string;
   from?: string;
   children?: ReactNode;
 }) => {
@@ -92,6 +93,13 @@ const ModalLayout = ({
       from ? TITLE_LEFT_DESTINATION : TITLE_LEFT_ORIGIN,
     ]);
 
+    const marginRight = interpolate(verticalScrollProgress.value, INTERPOLATE_INPUT_RANGE, [
+      0,
+      0,
+      TITLE_RIGHT_DESTINATION,
+      TITLE_RIGHT_DESTINATION,
+    ]);
+
     const fontSize = interpolate(
       verticalScrollProgress.value,
       INTERPOLATE_INPUT_RANGE,
@@ -100,6 +108,7 @@ const ModalLayout = ({
 
     return {
       marginLeft,
+      marginRight,
       fontSize,
     };
   }, [verticalScrollProgress, insets, from]);

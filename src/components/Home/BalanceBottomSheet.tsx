@@ -1,7 +1,7 @@
 import CouponsAnimation from '../Animations/CouponsAnimation';
 import AppBottomSheet from '../AppBottomSheet';
+import AppRoundedButton from '../AppRoundedButton';
 import ServiceRow from '../Settings/ServiceRow';
-import { Button } from '@ddx0510/react-native-ui-lib';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
-import { theme } from '@/helpers/colors';
 
 const BalanceBottomSheet = ({
   balance,
@@ -89,9 +88,9 @@ const BalanceBottomSheet = ({
           asChild
           href="https://www.coworking-metz.fr/boutique/carnet-10-journees/"
           style={tw`mt-2`}>
-          <Button backgroundColor={theme.darkVanilla} style={tw`h-14 self-stretch`}>
+          <AppRoundedButton style={tw`h-14 self-stretch`}>
             <Text style={tw`text-base font-medium`}>{t('home.profile.tickets.add')}</Text>
-          </Button>
+          </AppRoundedButton>
         </Link>
       </View>
     </AppBottomSheet>

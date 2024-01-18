@@ -1,8 +1,8 @@
 import MedalAnimation from '../Animations/MedalAnimation';
 import MedalTickedAnimation from '../Animations/MedalTickedAnimation';
 import AppBottomSheet from '../AppBottomSheet';
+import AppRoundedButton from '../AppRoundedButton';
 import ServiceRow from '../Settings/ServiceRow';
-import { Button } from '@ddx0510/react-native-ui-lib';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
-import { theme } from '@/helpers/colors';
 
 const MembershipBottomSheet = ({
   lastMembershipYear,
@@ -86,13 +85,13 @@ const MembershipBottomSheet = ({
             asChild
             href="https://www.coworking-metz.fr/boutique/carte-adherent/"
             style={tw`mt-2`}>
-            <Button backgroundColor={theme.darkVanilla} style={tw`h-14 self-stretch`}>
+            <AppRoundedButton style={tw`h-14 self-stretch`}>
               <Text style={tw`text-base font-medium`}>
                 {lastMembershipYear
                   ? t('home.profile.membership.renew', { year: dayjs().year() })
                   : t('home.profile.membership.get', { year: dayjs().year() })}
               </Text>
-            </Button>
+            </AppRoundedButton>
           </Link>
         )}
       </View>

@@ -10,53 +10,57 @@ import openMap from 'react-native-open-maps';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
 import tw from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
-import AppRoundedButton from '@/components/AppRoundedButton';
+import AppButtonWide from '@/components/AppRoundedButton';
 import ModalLayout from '@/components/ModalLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import ZoombableImage from '@/components/ZoomableImage';
 import { theme } from '@/helpers/colors';
+import { type AmourFoodEvent, getAmourFoodEvents } from '@/services/api/amour-food';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
+import useAuthStore from '@/stores/auth';
 
 export default function Page() {
-  const { id } = useLocalSearchParams();
+  const { time } = useLocalSearchParams();
+  const user = useAuthStore((state) => state.user);
   const { t } = useTranslation();
   const router = useRouter();
 
   const {
-    data: calendarEvents,
-    isFetching: isFetchingCalendarEvents,
-    refetch: refreshCalendarEvents,
-    error: calendarEventsError,
+    data: amourFoodEvents,
+    isFetching: isFetchingAmourFoodEvents,
+    error: amourFoodEventsError,
   } = useQuery({
-    queryKey: ['calendarEvents'],
-    queryFn: getCalendarEvents,
+    queryKey: ['amourFoodEvents'],
+    queryFn: getAmourFoodEvents,
+    retry: false,
+    enabled: !!user,
   });
 
-  const event = useMemo<CalendarEvent | null>(() => {
+  const event = useMemo<AmourFoodEvent | null>(() => {
     return (
-      (!isNil(id) && (calendarEvents || []).find((event) => `${event.id}` === `${id}`)) || null
+      (!isNil(time) && amourFoodEvents?.find((event) => `${event.time}` === `${time}`)) || null
     );
-  }, [calendarEvents]);
+  }, [amourFoodEvents]);
 
   return (
-    <ModalLayout from="/events/calendar" title={event?.label || ''}>
+    <ModalLayout from="/events/calendar" title={event?.nom}>
       {event ? (
         <>
           <View style={tw`flex flex-col grow items-stretch w-full`}>
             <ZoombableImage
               contentFit="cover"
-              source={event.picture}
+              source={event.illustration}
               style={tw`h-40 mx-4 rounded-2xl bg-gray-200 dark:bg-gray-900`}
               transition={300}
             />
             <ServiceRow
               withBottomDivider
               description={t('events.detail.time', {
-                startTime: dayjs(event.start).format('LT'),
-                endTime: dayjs(event.end).format('LT'),
+                startTime: dayjs(event.time).add(12, 'hour').format('LT'),
+                endTime: dayjs(event.time).add(13, 'hour').add(30, 'minute').format('LT'),
               })}
               label={t('events.detail.date', {
-                date: new Date(event.start),
+                date: new Date(event.time),
                 formatParams: {
                   date: { weekday: 'long', month: 'long', day: 'numeric' },
                 },
@@ -81,13 +85,13 @@ export default function Page() {
             ) : null}
           </View>
 
-          {event.url ? (
+          {event.permalink ? (
             <View style={tw`mx-6 mt-auto pt-6 pb-2`}>
-              <AppRoundedButton
+              <AppButtonWide
                 style={tw`min-h-14 self-stretch`}
-                onPress={() => router.push(event.url)}>
+                onPress={() => router.push(event.permalink)}>
                 <Text style={tw`text-base font-medium`}>{t('actions.takeALook')}</Text>
-              </AppRoundedButton>
+              </AppButtonWide>
             </View>
           ) : null}
         </>

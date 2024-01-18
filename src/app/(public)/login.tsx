@@ -1,4 +1,5 @@
 import { Button } from '@ddx0510/react-native-ui-lib';
+import TouchableScale from '@jonny/touchable-scale';
 import { makeRedirectUri } from 'expo-auth-session';
 import Constants from 'expo-constants';
 import { Link } from 'expo-router';
@@ -16,6 +17,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import WelcomeAnimation from '@/components/Animations/WelcomeAnimation';
+import AppRoundedButton from '@/components/AppRoundedButton';
 import AppFooter from '@/components/Settings/AppFooter';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { theme } from '@/helpers/colors';
@@ -113,17 +115,13 @@ export default function Login() {
           {t('auth.login.title')}
         </Text>
 
-        <Button
-          backgroundColor={theme.darkVanilla}
-          disabled={isLoading}
-          style={tw`mt-4 mx-2 h-14`}
-          onPress={onSubmit}>
+        <AppRoundedButton disabled={isLoading} style={tw`mt-4 mx-2 h-14`} onPress={onSubmit}>
           {isLoading ? (
             <HorizontalLoadingAnimation />
           ) : (
             <Text style={tw`text-base font-medium`}>{t('actions.login')}</Text>
           )}
-        </Button>
+        </AppRoundedButton>
         <Link asChild href="/onboarding">
           <Button
             activeBackgroundColor={
