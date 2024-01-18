@@ -1,5 +1,7 @@
+import { type CalendarEvent } from './calendar';
 import { type AppAxiosRequestConfig } from '../interceptors';
 import axios, { type AxiosError, type AxiosResponse } from 'axios';
+import dayjs from 'dayjs';
 import { log } from '@/helpers/logger';
 
 const amourFoodHttpLogger = log.extend(`[http]`);
@@ -89,13 +91,28 @@ export interface AmourFoodEvent {
   };
 }
 
-export const getAmourFoodEvents = (): Promise<AmourFoodEvent[]> => {
+export const getAmourFoodEvents = (): Promise<CalendarEvent[]> => {
   return amourFoodHttpInstance.get('custom/v1/menu').then(({ data }) =>
-    data.map((event: AmourFoodEvent) => ({
-      ...event,
-      time: event.time * 1000,
-      location: "L'Amour Food, 7 Av. de Blida, 57000 Metz",
-      description: event.description.replace(/<[^>]*>?/gm, ''), // strip HTML tags
-    })),
+    data
+      .map(
+        (event: AmourFoodEvent) =>
+          ({
+            id: event.time,
+            start: dayjs(event.time * 1000)
+              .add(11, 'hour')
+              .toISOString(),
+            end: dayjs(event.time * 1000)
+              .add(12, 'hour')
+              .add(30, 'minute')
+              .toISOString(),
+            label: event.nom,
+            description: event.description.replace(/<[^>]*>?/gm, ''), // strip HTML tags
+            location: "L'Amour Food, 7 Av. de Blida, 57000 Metz",
+            url: event.permalink,
+            picture: event.illustration,
+            category: 'AMOUR_FOOD',
+          }) as CalendarEvent,
+      )
+      .sort((a: CalendarEvent, b: CalendarEvent) => dayjs(a.start).diff(b.start)),
   );
 };

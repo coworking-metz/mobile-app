@@ -1,11 +1,12 @@
 import dayjs from 'dayjs';
 import { BlurView } from 'expo-blur';
 import { Image, ImageBackground } from 'expo-image';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AmourFoodSquareLogo from '@/assets/images/amour-food-square.png';
 import { type CalendarEvent } from '@/services/api/calendar';
 
 const CalendarEventCard = ({
@@ -16,6 +17,14 @@ const CalendarEventCard = ({
   style?: StyleProps | false;
 }) => {
   const { t } = useTranslation();
+
+  const categorySource = useMemo(() => {
+    switch (event?.category) {
+      case 'AMOUR_FOOD':
+        return AmourFoodSquareLogo;
+    }
+    return null;
+  }, [event]);
 
   return (
     <View style={[tw`rounded-2xl overflow-hidden`, style]}>
@@ -29,12 +38,11 @@ const CalendarEventCard = ({
             intensity={64}
             style={tw`w-full flex flex-row items-center px-3 py-2 mt-auto`}
             tint={tw.prefixMatch('dark') ? 'dark' : 'light'}>
-            <View style={[tw`h-10 w-10 bg-white rounded-lg overflow-hidden p-1`]}>
-              <Image
-                source={require('@/assets/images/amour-food-square.png')}
-                style={[tw`h-full w-full`]}
-              />
-            </View>
+            {categorySource && (
+              <View style={[tw`h-10 w-10 bg-white rounded-lg overflow-hidden p-1`]}>
+                <Image source={categorySource} style={[tw`h-full w-full`]} />
+              </View>
+            )}
             <View style={tw`flex flex-col items-start shrink-1 ml-3`}>
               <Text
                 numberOfLines={1}

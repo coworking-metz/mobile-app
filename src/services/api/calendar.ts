@@ -1,3 +1,4 @@
+import { getAmourFoodEvents } from './amour-food';
 import { HTTP } from '../http';
 
 export interface CalendarEvent {
@@ -13,7 +14,8 @@ export interface CalendarEvent {
 }
 
 export const getCalendarEvents = (): Promise<CalendarEvent[]> => {
-  return HTTP.get('https://mock.matthieupetit.dev/api/mobile/v1/calendar/events').then(
-    ({ data }) => data,
-  );
+  // return HTTP.get('https://mock.matthieupetit.dev/api/mobile/v1/calendar/events').then(
+  //   ({ data }) => data,
+  // );
+  return getAmourFoodEvents();
 };

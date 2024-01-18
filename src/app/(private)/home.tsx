@@ -126,13 +126,13 @@ export default function HomeScreen({}) {
   }, [handleAppStateChange]);
 
   const {
-    data: amourFoodEvents,
-    isFetching: isFetchingAmourFoodEvents,
-    refetch: refreshAmourFoodEvents,
-    error: amourFoodEventsError,
+    data: calendarEvents,
+    isFetching: isFetchingCalendarEvents,
+    refetch: refreshCalendarEvents,
+    error: calendarEventsError,
   } = useQuery({
-    queryKey: ['amourFoodEvents'],
-    queryFn: getAmourFoodEvents,
+    queryKey: ['calendarEvents'],
+    queryFn: getCalendarEvents,
     retry: false,
     enabled: !!user,
   });
@@ -174,10 +174,10 @@ export default function HomeScreen({}) {
   }, [currentMembersError]);
 
   useEffect(() => {
-    if (amourFoodEventsError && !isSilentError(amourFoodEventsError)) {
-      notifyError(t('home.calendar.onFetch.fail'), amourFoodEventsError);
+    if (calendarEventsError && !isSilentError(calendarEventsError)) {
+      notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
     }
-  }, [amourFoodEventsError]);
+  }, [calendarEventsError]);
 
   // useEffect(() => {
   //   if (dailyPresenceError && !isSilentError(dailyPresenceError)) {
@@ -197,7 +197,7 @@ export default function HomeScreen({}) {
       Promise.all([
         refetchProfile(),
         refetchCurrentMembers(),
-        refreshAmourFoodEvents(),
+        refreshCalendarEvents(),
         // refreshDailyPresence(),
         // refreshHourlyPresence(),
       ]).finally(() => {
@@ -352,22 +352,14 @@ export default function HomeScreen({}) {
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
           style={tw`w-full`}>
-          {amourFoodEvents
-            ?.filter(({ time }) =>
-              dayjs(time).isBetween(
-                dayjs().subtract(1, 'day').startOf('day'),
-                dayjs().add(2, 'day').endOf('day'),
-                'day',
-              ),
+          {calendarEvents
+            ?.filter(({ start }) =>
+              dayjs(start).isBetween(dayjs(), dayjs().add(1, 'day').endOf('day')),
             )
-            .sort((a, b) => dayjs(a.time).diff(dayjs(b.time)))
             .map((event) => (
-              <Link
-                asChild
-                href={`/events/amour-food/${event.time}`}
-                key={`amour-food-event-card-${event.time}`}>
+              <Link asChild href={`/events/${event.id}`} key={`calendar-event-card-${event.id}`}>
                 <AppTouchableScale style={tw`w-80`}>
-                  <AmourFoodEventCard event={event} />
+                  <CalendarEventCard event={event} />
                 </AppTouchableScale>
               </Link>
             ))}
