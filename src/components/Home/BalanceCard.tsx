@@ -1,18 +1,13 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
-import { theme } from '@/helpers/colors';
-
-const MAX_DEPLETION_ALLOWED = 5;
 
 const BalanceCard = ({
   count = 0,
-  total = 10,
   loading = false,
   style,
 }: {
@@ -35,7 +30,7 @@ const BalanceCard = ({
         size={40}
       />
 
-      <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+      <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
         {t('home.profile.tickets.label')}
       </Text>
       {loading ? (
@@ -84,7 +79,7 @@ const BalanceCard = ({
       ) : (
         count > 0 && (
           <MaterialCommunityIcons
-            color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
+            color={tw.color('emerald-600')}
             name="check-circle"
             size={20}
             style={tw`absolute top-3 right-3`}

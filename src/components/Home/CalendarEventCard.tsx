@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { BlurView } from 'expo-blur';
 import { Image, ImageBackground } from 'expo-image';
+import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
@@ -11,9 +12,11 @@ import { type CalendarEvent } from '@/services/api/calendar';
 
 const CalendarEventCard = ({
   event = null,
+  loading = false,
   style,
 }: {
   event?: CalendarEvent | null;
+  loading?: boolean;
   style?: StyleProps | false;
 }) => {
   const { t } = useTranslation();
@@ -27,13 +30,20 @@ const CalendarEventCard = ({
   }, [event]);
 
   return (
-    <View style={[tw`rounded-2xl overflow-hidden`, style]}>
-      {event ? (
-        <ImageBackground
-          contentFit="cover"
-          contentPosition="center"
-          source={event.picture}
-          style={tw`w-full h-56 flex rounded-2xl overflow-hidden relative`}>
+    <View style={[tw`rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-900`, style]}>
+      <ImageBackground
+        contentFit="cover"
+        contentPosition="center"
+        source={event?.picture}
+        style={tw`w-full h-full flex rounded-2xl overflow-hidden relative`}>
+        {loading ? (
+          <Skeleton
+            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
+            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+            height={'100%'}
+            width={'100%'}
+          />
+        ) : event ? (
           <BlurView
             intensity={64}
             style={tw`w-full flex flex-row items-center px-3 py-2 mt-auto`}
@@ -64,8 +74,8 @@ const CalendarEventCard = ({
               </Text>
             </View>
           </BlurView>
-        </ImageBackground>
-      ) : null}
+        ) : null}
+      </ImageBackground>
     </View>
   );
 };

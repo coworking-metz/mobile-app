@@ -1,5 +1,5 @@
-import MedalAnimation from '../Animations/MedalAnimation';
-import MedalTickedAnimation from '../Animations/MedalTickedAnimation';
+import MedalAnimation from '../Animations/MembershipFormAnimation';
+import MedalTickedAnimation from '../Animations/MembershipFormTickedAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import ServiceRow from '../Settings/ServiceRow';
 import { Button } from '@ddx0510/react-native-ui-lib';

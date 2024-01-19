@@ -1,8 +1,9 @@
 {
   "calendar": {
-    "browse": "Consulter",
+    "browse": "Tous",
     "empty": {
-      "label": "Rien de prévu prochainement"
+      "action": "Voir tous les évènements",
+      "label": "Il n'y a rien de prévu prochainement."
     },
     "event": {
       "date": "Ce {{date, datetime}}"

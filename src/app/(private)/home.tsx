@@ -21,6 +21,7 @@ import Animated, {
   FadeInLeft,
   FadeInRight,
   FadeInUp,
+  FadeOut,
   FadeOutUp,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -28,6 +29,7 @@ import tw, { useDeviceContext } from 'twrnc';
 import AppTouchableScale from '@/components/AppTouchableScale';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
+import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import MembershipBottomSheet from '@/components/Home/MembershipBottomSheet';
 import MembershipCard from '@/components/Home/MembershipCard';
@@ -117,7 +119,7 @@ export default function HomeScreen({}) {
 
   const {
     data: calendarEvents,
-    isFetching: isFetchingCalendarEvents,
+    isLoading: isLoadingCalendarEvents,
     refetch: refreshCalendarEvents,
     error: calendarEventsError,
   } = useQuery({
@@ -126,6 +128,16 @@ export default function HomeScreen({}) {
     retry: false,
     enabled: !!user,
   });
+
+  const nextCalendarEvents = useMemo(() => {
+    return (
+      calendarEvents?.filter(
+        ({ start, end }) =>
+          dayjs(start).isBetween(dayjs(), dayjs().add(1, 'day').endOf('day')) ||
+          dayjs(end).isBetween(dayjs(), dayjs().add(1, 'day').endOf('day')),
+      ) ?? []
+    );
+  }, [calendarEvents]);
 
   // const {
   //   data: dailyPresence,
@@ -203,7 +215,7 @@ export default function HomeScreen({}) {
 
   return (
     <Animated.View style={[tw`flex w-full flex-col items-stretch dark:bg-black`]}>
-      <View style={[tw`absolute top-0 left-0 right-0 z-10`]}>
+      <View style={[tw`absolute top-0 left-0 right-0 z-20`]}>
         <Fader
           visible
           position={Fader.position.TOP}
@@ -249,8 +261,13 @@ export default function HomeScreen({}) {
 
         <Animated.View
           entering={FadeInLeft.duration(750).delay(150)}
-          style={tw`mt-4 ml-6 mr-4 self-stretch`}>
-          <PresentMembers loading={isLoadingCurrentMembers} members={currentMembers} total={28} />
+          style={tw`flex self-stretch ml-6 mr-4`}>
+          <PresentMembers
+            loading={isLoadingCurrentMembers}
+            members={currentMembers}
+            style={tw`mt-4`}
+            total={28}
+          />
         </Animated.View>
 
         {/* <Animated.View
@@ -286,38 +303,39 @@ export default function HomeScreen({}) {
           </Link>
         </Animated.View> */}
 
-        <Animated.View
-          entering={FadeInLeft.duration(750).delay(400)}
-          style={tw`flex flex-row mt-8 mb-3 px-4`}>
-          <Text style={tw`text-sm font-normal uppercase text-slate-500 grow`}>
-            {t('home.profile.label')}
-          </Text>
+        <Animated.View entering={FadeInLeft.duration(750).delay(400)} style={tw`flex self-stretch`}>
+          <View style={tw`flex flex-row mt-8 mb-3 px-4`}>
+            <Text style={tw`text-sm font-normal uppercase text-slate-500 grow`}>
+              {t('home.profile.label')}
+            </Text>
+          </View>
+
+          <ScrollView
+            contentContainerStyle={tw`flex flex-row items-stretch gap-4 px-4`}
+            horizontal={true}
+            scrollEventThrottle={16}
+            showsHorizontalScrollIndicator={false}
+            style={tw`w-full`}>
+            <AppTouchableScale key={`balance-card`} onPress={() => selectBalance(true)}>
+              <BalanceCard count={profile?.balance} loading={isLoadingProfile} style={tw`h-38`} />
+            </AppTouchableScale>
+            <AppTouchableScale key={`subscription-card`} onPress={() => selectSubscription(true)}>
+              <SubscriptionCard
+                loading={isLoadingProfile}
+                style={tw`h-38`}
+                subscription={currentSubscription}
+              />
+            </AppTouchableScale>
+            <AppTouchableScale key={`membership-card`} onPress={() => selectMembership(true)}>
+              <MembershipCard
+                lastMembershipYear={profile?.lastMembership}
+                loading={isLoadingProfile}
+                style={tw`h-38`}
+                valid={profile?.membershipOk}
+              />
+            </AppTouchableScale>
+          </ScrollView>
         </Animated.View>
-        <ScrollView
-          contentContainerStyle={tw`flex flex-row items-stretch gap-4 px-4`}
-          horizontal={true}
-          scrollEventThrottle={16}
-          showsHorizontalScrollIndicator={false}
-          style={tw`w-full`}>
-          <AppTouchableScale key={`balance-card`} onPress={() => selectBalance(true)}>
-            <BalanceCard count={profile?.balance} loading={isLoadingProfile} style={tw`h-38`} />
-          </AppTouchableScale>
-          <AppTouchableScale key={`subscription-card`} onPress={() => selectSubscription(true)}>
-            <SubscriptionCard
-              loading={isLoadingProfile}
-              style={tw`h-38`}
-              subscription={currentSubscription}
-            />
-          </AppTouchableScale>
-          <AppTouchableScale key={`membership-card`} onPress={() => selectMembership(true)}>
-            <MembershipCard
-              lastMembershipYear={profile?.lastMembership}
-              loading={isLoadingProfile}
-              style={tw`h-38`}
-              valid={profile?.membershipOk}
-            />
-          </AppTouchableScale>
-        </ScrollView>
 
         <Animated.View
           entering={FadeInRight.duration(750).delay(600)}
@@ -326,43 +344,37 @@ export default function HomeScreen({}) {
             {t('home.calendar.label')}
           </Text>
           <Link asChild href="/events/calendar">
-            <Text style={tw`text-base font-normal text-amber-500 min-w-[16]`}>
+            <Text style={tw`text-base font-normal text-right text-amber-500 min-w-[16]`}>
               {t('home.calendar.browse')}
             </Text>
           </Link>
         </Animated.View>
 
-        <ScrollView
-          contentContainerStyle={tw`flex flex-row gap-4 px-4`}
-          horizontal={true}
-          scrollEventThrottle={16}
-          showsHorizontalScrollIndicator={false}
-          style={tw`w-full`}>
-          {calendarEvents
-            ?.filter(({ start }) =>
-              dayjs(start).isBetween(dayjs(), dayjs().add(1, 'day').endOf('day')),
-            )
-            .map((event) => (
-              <Link asChild href={`/events/${event.id}`} key={`calendar-event-card-${event.id}`}>
-                <AppTouchableScale style={tw`w-80`}>
-                  <CalendarEventCard event={event} />
-                </AppTouchableScale>
-              </Link>
-            ))}
-        </ScrollView>
-
-        {/* {calendarEvents?.length ? (
-          <HomeCarousel
-            elements={calendarCards}
-            style={[tw`flex flex-col w-full overflow-visible h-56`]}
-          />
-        ) : (
-          <CalendarEmptyCard
-            entering={FadeInRight.duration(750).delay(600)}
-            loading={isFetchingCalendarEvents}
-            style={tw`w-full`}
-          />
-        )} */}
+        <Animated.View entering={FadeInRight.duration(750).delay(600)} style={tw`flex w-full`}>
+          <ScrollView
+            contentContainerStyle={tw`flex flex-row gap-4 px-4 h-56 min-w-full`}
+            horizontal={true}
+            scrollEnabled={nextCalendarEvents.length > 0}
+            scrollEventThrottle={16}
+            showsHorizontalScrollIndicator={false}
+            style={tw`w-full`}>
+            {isLoadingCalendarEvents ? (
+              <Animated.View exiting={FadeOut.duration(500)}>
+                <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`w-80`} />
+              </Animated.View>
+            ) : nextCalendarEvents.length ? (
+              nextCalendarEvents.map((event) => (
+                <Link asChild href={`/events/${event.id}`} key={`calendar-event-card-${event.id}`}>
+                  <AppTouchableScale style={tw`w-80`}>
+                    <CalendarEventCard event={event} />
+                  </AppTouchableScale>
+                </Link>
+              ))
+            ) : (
+              <CalendarEmptyState style={tw`w-full h-full mt-4`} />
+            )}
+          </ScrollView>
+        </Animated.View>
 
         <View style={tw`flex flex-col w-full px-4 gap-4 mt-8 mb-3`}>
           <Animated.Text

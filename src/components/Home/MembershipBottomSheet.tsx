@@ -1,5 +1,5 @@
-import MedalAnimation from '../Animations/MedalAnimation';
-import MedalTickedAnimation from '../Animations/MedalTickedAnimation';
+import MembershipFormAnimation from '../Animations/MembershipFormAnimation';
+import MembershipFormTickedAnimation from '../Animations/MembershipFormTickedAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
 import ServiceRow from '../Settings/ServiceRow';
@@ -32,7 +32,7 @@ const MembershipBottomSheet = ({
     <AppBottomSheet style={style} onClose={onClose}>
       <View style={tw`flex flex-col w-full justify-between p-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-          {valid ? <MedalTickedAnimation /> : <MedalAnimation />}
+          {valid ? <MembershipFormTickedAnimation /> : <MembershipFormAnimation />}
         </View>
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>

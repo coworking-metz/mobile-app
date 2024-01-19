@@ -215,7 +215,7 @@ const UnlockCard = ({
                 {t('home.intercom.loading')}
               </Text>
             ) : isUnlocked ? (
-              <View>
+              <>
                 <Text
                   style={[
                     tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400`,
@@ -227,7 +227,7 @@ const UnlockCard = ({
                   style={[tw`font-semibold text-slate-900 dark:text-gray-200`]}
                   text={timeLeftInSeconds}
                 />
-              </View>
+              </>
             ) : (
               <Text
                 style={[

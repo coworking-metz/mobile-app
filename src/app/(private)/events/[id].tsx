@@ -1,7 +1,7 @@
 import { Button } from '@ddx0510/react-native-ui-lib';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { isNil } from 'lodash';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,13 +14,11 @@ import AppRoundedButton from '@/components/AppRoundedButton';
 import ModalLayout from '@/components/ModalLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import ZoombableImage from '@/components/ZoomableImage';
-import { theme } from '@/helpers/colors';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
 export default function Page() {
   const { id } = useLocalSearchParams();
   const { t } = useTranslation();
-  const router = useRouter();
 
   const {
     data: calendarEvents,
@@ -83,11 +81,11 @@ export default function Page() {
 
           {event.url ? (
             <View style={tw`mx-6 mt-auto pt-6 pb-2`}>
-              <AppRoundedButton
-                style={tw`min-h-14 self-stretch`}
-                onPress={() => router.push(event.url)}>
-                <Text style={tw`text-base font-medium`}>{t('actions.takeALook')}</Text>
-              </AppRoundedButton>
+              <Link asChild href={event.url}>
+                <AppRoundedButton style={tw`min-h-14 self-stretch`}>
+                  <Text style={tw`text-base font-medium`}>{t('actions.takeALook')}</Text>
+                </AppRoundedButton>
+              </Link>
             </View>
           ) : null}
         </>

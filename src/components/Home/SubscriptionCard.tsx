@@ -1,6 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -11,11 +10,9 @@ import { type ApiMemberSubscription } from '@/services/api/members';
 
 const SubscriptionCard = ({
   subscription,
-  valid = true,
   loading,
   style,
 }: {
-  valid?: boolean;
   subscription?: ApiMemberSubscription | null;
   loading?: boolean;
   style?: StyleProps;
@@ -71,7 +68,7 @@ const SubscriptionCard = ({
         size={40}
       />
 
-      <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>{label}</Text>
+      <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>{label}</Text>
       {loading ? (
         <Skeleton
           backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}

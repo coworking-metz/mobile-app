@@ -1,8 +1,9 @@
 {
   "calendar": {
-    "browse": "Browse",
+    "browse": "All",
     "empty": {
-      "label": "Nothing planned in the near future"
+      "action": "Browse all events",
+      "label": "There's nothing planned in the near future."
     },
     "event": {
       "date": "{{date, datetime}}"

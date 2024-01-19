@@ -27,11 +27,11 @@ const MembershipCard = ({
       ]}>
       <MaterialCommunityIcons
         color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-        name="medal-outline"
+        name="badge-account-horizontal-outline"
         size={40}
       />
 
-      <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+      <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
         {t('home.profile.membership.label')}
       </Text>
       {loading ? (
