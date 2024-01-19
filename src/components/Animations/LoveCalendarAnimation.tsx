@@ -19,6 +19,12 @@ const LoveCalendarAnimation: ForwardRefRenderFunction<LottieView, AnimationProps
     const borderColor = (
       tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('black')
     ) as string;
+    const tearoutBackgroundColor = (
+      tw.prefixMatch('dark') ? tw.color('gray-700') : tw.color('gray-300')
+    ) as string; // '#eaeaea'
+    const tearoutBorderColor = (
+      tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('zinc-800')
+    ) as string; // '#231f20'
     const heartColor = (
       tw.prefixMatch('dark') ? tw.color('pink-800') : tw.color('red-600')
     ) as string;
@@ -27,9 +33,9 @@ const LoveCalendarAnimation: ForwardRefRenderFunction<LottieView, AnimationProps
     ) as string;
     return colouriseLottie(LoveCalendar, {
       // tearout.Group 1.Stroke 1
-      'layers.0.shapes.0.it.1.c.k': '#231f20',
+      'layers.0.shapes.0.it.1.c.k': tearoutBorderColor,
       // tearout.Group 1.Fill 1
-      'layers.0.shapes.0.it.2.c.k': '#eaeaea',
+      'layers.0.shapes.0.it.2.c.k': tearoutBackgroundColor,
       // Love.Group 1.Fill 1
       'layers.1.shapes.0.it.1.c.k.0.s': backgroundColor,
       // Love.Group 1.Fill 1

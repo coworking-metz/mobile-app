@@ -89,7 +89,16 @@ const BalanceBottomSheet = ({
           href="https://www.coworking-metz.fr/boutique/carnet-10-journees/"
           style={tw`mt-2`}>
           <AppRoundedButton style={tw`h-14 self-stretch`}>
-            <Text style={tw`text-base font-medium`}>{t('home.profile.tickets.add')}</Text>
+            <Text style={tw`text-base text-black font-medium`}>
+              {t('home.profile.tickets.add')}
+            </Text>
+            <MaterialCommunityIcons
+              color={tw.color('black')}
+              iconStyle={tw`h-6 w-6`}
+              name="open-in-new"
+              size={24}
+              style={tw`ml-1`}
+            />
           </AppRoundedButton>
         </Link>
       </View>

@@ -32,7 +32,11 @@ const MembershipBottomSheet = ({
     <AppBottomSheet style={style} onClose={onClose}>
       <View style={tw`flex flex-col w-full justify-between p-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-          {valid ? <MembershipFormTickedAnimation /> : <MembershipFormAnimation />}
+          {valid ? (
+            <MembershipFormTickedAnimation style={tw`h-56`} />
+          ) : (
+            <MembershipFormAnimation style={tw`h-56`} />
+          )}
         </View>
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
@@ -86,11 +90,18 @@ const MembershipBottomSheet = ({
             href="https://www.coworking-metz.fr/boutique/carte-adherent/"
             style={tw`mt-2`}>
             <AppRoundedButton style={tw`h-14 self-stretch`}>
-              <Text style={tw`text-base font-medium`}>
+              <Text style={tw`text-base font-medium text-black`}>
                 {lastMembershipYear
                   ? t('home.profile.membership.renew', { year: dayjs().year() })
                   : t('home.profile.membership.get', { year: dayjs().year() })}
               </Text>
+              <MaterialCommunityIcons
+                color={tw.color('black')}
+                iconStyle={tw`h-6 w-6`}
+                name="open-in-new"
+                size={24}
+                style={tw`ml-1`}
+              />
             </AppRoundedButton>
           </Link>
         )}

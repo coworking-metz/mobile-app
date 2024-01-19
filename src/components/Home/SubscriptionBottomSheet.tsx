@@ -2,6 +2,7 @@ import CalendarAnimation from '../Animations/CalendarAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
 import ServiceRow from '../Settings/ServiceRow';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
@@ -94,11 +95,18 @@ const SubscriptionBottomSheet = ({
         )}
         <Link asChild href="https://www.coworking-metz.fr/boutique/pass-resident/" style={tw`mt-2`}>
           <AppRoundedButton style={tw`h-14 self-stretch`}>
-            <Text style={tw`text-base font-medium`}>
+            <Text style={tw`text-base font-medium text-black`}>
               {subscription
                 ? t('home.profile.subscription.renew')
                 : t('home.profile.subscription.get')}
             </Text>
+            <MaterialCommunityIcons
+              color={tw.color('black')}
+              iconStyle={tw`h-6 w-6`}
+              name="open-in-new"
+              size={24}
+              style={tw`ml-1`}
+            />
           </AppRoundedButton>
         </Link>
       </View>

@@ -1,4 +1,5 @@
 import { Button } from '@ddx0510/react-native-ui-lib';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
@@ -83,7 +84,14 @@ export default function Page() {
             <View style={tw`mx-6 mt-auto pt-6 pb-2`}>
               <Link asChild href={event.url}>
                 <AppRoundedButton style={tw`min-h-14 self-stretch`}>
-                  <Text style={tw`text-base font-medium`}>{t('actions.takeALook')}</Text>
+                  <Text style={tw`text-base font-medium text-black`}>{t('actions.takeALook')}</Text>
+                  <MaterialCommunityIcons
+                    color={tw.color('black')}
+                    iconStyle={tw`h-6 w-6`}
+                    name="open-in-new"
+                    size={24}
+                    style={tw`ml-1`}
+                  />
                 </AppRoundedButton>
               </Link>
             </View>

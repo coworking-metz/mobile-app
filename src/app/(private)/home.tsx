@@ -1,5 +1,4 @@
 import { Fader } from '@ddx0510/react-native-ui-lib';
-import TouchableScale from '@jonny/touchable-scale';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
@@ -13,7 +12,6 @@ import {
   ScrollView,
   Text,
   View,
-  useColorScheme,
   type AppStateStatus,
 } from 'react-native';
 import Animated, {
@@ -53,7 +51,6 @@ export default function HomeScreen({}) {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const user = useAuthStore((state) => state.user);
-  const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
   const notifyError = useErrorNotification();
 
@@ -215,15 +212,6 @@ export default function HomeScreen({}) {
 
   return (
     <Animated.View style={[tw`flex w-full flex-col items-stretch dark:bg-black`]}>
-      <View style={[tw`absolute top-0 left-0 right-0 z-20`]}>
-        <Fader
-          visible
-          position={Fader.position.TOP}
-          size={insets.top || (Platform.OS === 'android' ? 16 : 0)}
-          tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
-        />
-      </View>
-
       <Animated.ScrollView
         contentContainerStyle={[
           tw`relative grow flex flex-col items-start justify-start pt-2`,
@@ -406,6 +394,14 @@ export default function HomeScreen({}) {
         </Animated.View> */}
         </View>
       </Animated.ScrollView>
+
+      <View style={[tw`absolute top-0 left-0 right-0`]}>
+        <Fader
+          position={Fader.position.TOP}
+          size={insets.top || (Platform.OS === 'android' ? 16 : 0)}
+          tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
+        />
+      </View>
 
       {hasSelectSubscription ? (
         <SubscriptionBottomSheet

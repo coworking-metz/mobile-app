@@ -8,7 +8,6 @@ import {
   type InternalAxiosRequestConfig,
 } from 'axios';
 import axiosRetry from 'axios-retry';
-import { useTranslation } from 'react-i18next';
 import { type AppError, AppErrorCode, ApiErrorCode, useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import i18n from '@/i18n';
