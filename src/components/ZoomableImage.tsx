@@ -4,7 +4,7 @@ import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-vi
 import { Image, type ImageProps } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { Modal, Image as RNImage, TouchableOpacity, View } from 'react-native';
+import { Modal, Platform, Image as RNImage, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw from 'twrnc';
 
@@ -39,7 +39,7 @@ const ZoombableImage = ({
         />
       </TouchableOpacity>
       <Modal transparent animationType="fade" visible={isSelected}>
-        <StatusBar style="light" />
+        {Platform.OS === 'ios' && <StatusBar style="light" />}
         <View style={tw`flex flex-col h-full w-full bg-black`}>
           <View
             style={[

@@ -5,6 +5,7 @@ import React, { useMemo, type ReactNode } from 'react';
 import { Platform, View } from 'react-native';
 import Animated, {
   FadeInDown,
+  type StyleProps,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -31,10 +32,12 @@ const ModalLayout = ({
   title,
   from,
   children,
+  contentStyle,
 }: {
   title?: string;
   from?: string;
   children?: ReactNode;
+  contentStyle?: StyleProps;
 }) => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
@@ -124,13 +127,14 @@ const ModalLayout = ({
             paddingRight: insets.right,
             paddingBottom: insets.bottom + 16,
           },
+          contentStyle,
         ]}
         horizontal={false}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         style={tw`w-full h-full`}
         onScroll={onVerticalScroll}>
-        <View style={tw`flex flex-col grow gap-3`}>{children}</View>
+        {children}
       </Animated.ScrollView>
 
       <Animated.View

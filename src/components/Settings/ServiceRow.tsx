@@ -67,7 +67,9 @@ const ServiceRow: ForwardRefRenderFunction<TouchableHighlight, ServiceRowProps> 
               style={[tw`text-base font-normal dark:text-gray-200`, disabled && tw`opacity-40`]}>
               {label}
             </Text>
-            {description ? (
+            {renderDescription ? (
+              renderDescription(description, disabled)
+            ) : description ? (
               <Text
                 numberOfLines={1}
                 style={[
@@ -76,8 +78,6 @@ const ServiceRow: ForwardRefRenderFunction<TouchableHighlight, ServiceRowProps> 
                 ]}>
                 {description}
               </Text>
-            ) : renderDescription ? (
-              renderDescription()
             ) : null}
           </View>
           <>{children}</>

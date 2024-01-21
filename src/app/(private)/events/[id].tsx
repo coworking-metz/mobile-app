@@ -1,15 +1,14 @@
-import { Button } from '@ddx0510/react-native-ui-lib';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 import { isNil } from 'lodash';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import openMap from 'react-native-open-maps';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
-import tw from 'twrnc';
+import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import ModalLayout from '@/components/ModalLayout';
@@ -17,7 +16,8 @@ import ServiceRow from '@/components/Settings/ServiceRow';
 import ZoombableImage from '@/components/ZoomableImage';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
-export default function Page() {
+export default function CalendarEventPage() {
+  useDeviceContext(tw);
   const { id } = useLocalSearchParams();
   const { t } = useTranslation();
 
@@ -38,47 +38,45 @@ export default function Page() {
   }, [calendarEvents]);
 
   return (
-    <ModalLayout from="/events/calendar" title={event?.label || ''}>
+    <ModalLayout contentStyle={tw`gap-3`} from="/events/calendar" title={event?.label || ''}>
       {event ? (
         <>
-          <View style={tw`flex flex-col grow items-stretch w-full`}>
-            <ZoombableImage
-              contentFit="cover"
-              source={event.picture}
-              style={tw`h-40 mx-4 rounded-2xl bg-gray-200 dark:bg-gray-900`}
-              transition={300}
-            />
+          <ZoombableImage
+            contentFit="cover"
+            source={event.picture}
+            style={tw`h-44 mx-4 rounded-2xl bg-gray-200 dark:bg-gray-900`}
+            transition={300}
+          />
+          <ServiceRow
+            withBottomDivider
+            description={t('events.detail.time', {
+              startTime: dayjs(event.start).format('LT'),
+              endTime: dayjs(event.end).format('LT'),
+            })}
+            label={t('events.detail.date', {
+              date: new Date(event.start),
+              formatParams: {
+                date: { weekday: 'long', month: 'long', day: 'numeric' },
+              },
+            })}
+            prefixIcon="calendar-outline"
+            style={tw`mt-3 mx-3 px-3`}
+          />
+          {event.location ? (
             <ServiceRow
               withBottomDivider
-              description={t('events.detail.time', {
-                startTime: dayjs(event.start).format('LT'),
-                endTime: dayjs(event.end).format('LT'),
-              })}
-              label={t('events.detail.date', {
-                date: new Date(event.start),
-                formatParams: {
-                  date: { weekday: 'long', month: 'long', day: 'numeric' },
-                },
-              })}
-              prefixIcon="calendar-outline"
-              style={tw`mt-3 mx-3 px-3`}
+              label={event.location}
+              prefixIcon="map-marker-outline"
+              style={tw`mx-3 px-3`}
+              suffixIcon="directions"
+              onPress={() => openMap({ query: event.location })}
             />
-            {event.location ? (
-              <ServiceRow
-                withBottomDivider
-                label={event.location}
-                prefixIcon="map-marker-outline"
-                style={tw`mx-3 px-3`}
-                suffixIcon="directions"
-                onPress={() => openMap({ query: event.location })}
-              />
-            ) : null}
-            {event.description ? (
-              <Text style={tw`text-base font-normal text-gray-500 mx-6 mt-2`}>
-                {event.description}
-              </Text>
-            ) : null}
-          </View>
+          ) : null}
+          {event.description ? (
+            <Text style={tw`text-base font-normal text-gray-500 mx-6 mt-2`}>
+              {event.description}
+            </Text>
+          ) : null}
 
           {event.url ? (
             <View style={tw`mx-6 mt-auto pt-6 pb-2`}>

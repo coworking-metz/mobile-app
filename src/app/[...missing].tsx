@@ -18,7 +18,7 @@ const MissingScreen = () => {
   return (
     <View
       style={[
-        tw`flex flex-col gap-4 h-full w-full dark:bg-black`,
+        tw`flex flex-col gap-4 h-full w-full bg-gray-100 dark:bg-black`,
         {
           paddingTop: insets.top,
           paddingBottom: insets.bottom,

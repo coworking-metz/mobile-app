@@ -8,8 +8,10 @@ import tw from 'twrnc';
 
 const CalendarEmptyState = ({
   style,
+  description,
   ...props
 }: AnimateProps<ViewProps> & {
+  description: string;
   loading?: boolean;
   style?: StyleProps | false;
 }) => {
@@ -19,7 +21,7 @@ const CalendarEmptyState = ({
     <Animated.View style={[tw`flex flex-col items-center`, style]} {...props}>
       <LoveCalendarAnimation style={tw`h-32`} />
       <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
-        {t('home.calendar.empty.label')}
+        {description}
       </Text>
       <Link asChild href="/events/calendar">
         <Text style={tw`text-base font-normal text-amber-500 text-center mt-4`}>

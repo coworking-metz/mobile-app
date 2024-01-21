@@ -266,7 +266,7 @@ const Settings = () => {
             <SegmentedControl
               fontStyle={tw`font-normal`}
               selectedIndex={shouldRenderAllPresences ? 0 : 1}
-              style={tw`mx-6`}
+              style={tw`mx-6 mt-3`}
               values={[
                 t(`settings.profile.presence.period.all`),
                 t(`settings.profile.presence.period.last6Months`),

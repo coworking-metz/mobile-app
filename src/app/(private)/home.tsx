@@ -211,7 +211,7 @@ export default function HomeScreen({}) {
   }, [profile]);
 
   return (
-    <Animated.View style={[tw`flex w-full flex-col items-stretch dark:bg-black`]}>
+    <Animated.View style={[tw`flex w-full flex-col items-stretch bg-gray-100 dark:bg-black`]}>
       <Animated.ScrollView
         contentContainerStyle={[
           tw`relative grow flex flex-col items-start justify-start pt-2`,
@@ -292,7 +292,7 @@ export default function HomeScreen({}) {
         </Animated.View> */}
 
         <Animated.View entering={FadeInLeft.duration(750).delay(400)} style={tw`flex self-stretch`}>
-          <View style={tw`flex flex-row mt-8 mb-3 px-4`}>
+          <View style={tw`flex flex-row mt-12 mb-3 px-4`}>
             <Text style={tw`text-sm font-normal uppercase text-slate-500 grow`}>
               {t('home.profile.label')}
             </Text>
@@ -327,7 +327,7 @@ export default function HomeScreen({}) {
 
         <Animated.View
           entering={FadeInRight.duration(750).delay(600)}
-          style={tw`flex flex-row justify-between w-full mt-8 mb-3 px-4`}>
+          style={tw`flex flex-row justify-between w-full mt-12 mb-3 px-4`}>
           <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
             {t('home.calendar.label')}
           </Text>
@@ -359,12 +359,15 @@ export default function HomeScreen({}) {
                 </Link>
               ))
             ) : (
-              <CalendarEmptyState style={tw`w-full h-full mt-4`} />
+              <CalendarEmptyState
+                description={t('home.calendar.empty.label')}
+                style={tw`w-full h-full mt-4`}
+              />
             )}
           </ScrollView>
         </Animated.View>
 
-        <View style={tw`flex flex-col w-full px-4 gap-4 mt-8 mb-3`}>
+        <View style={tw`flex flex-col w-full px-4 gap-4 mt-12 mb-3`}>
           <Animated.Text
             entering={FadeInUp.duration(500).delay(600)}
             style={tw`text-sm font-normal uppercase text-slate-500`}>

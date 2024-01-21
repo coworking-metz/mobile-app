@@ -163,7 +163,7 @@ const Onboarding = () => {
       <View
         pointerEvents={isPickingLanguage ? 'none' : 'auto'}
         style={[
-          tw`overflow-hidden dark:bg-black`,
+          tw`overflow-hidden bg-gray-100 dark:bg-black`,
           { paddingLeft: insets.left, paddingBottom: insets.bottom, paddingRight: insets.right },
         ]}
         onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>

@@ -3,7 +3,6 @@ import { BlurView } from 'expo-blur';
 import { Image, ImageBackground } from 'expo-image';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -19,8 +18,6 @@ const CalendarEventCard = ({
   loading?: boolean;
   style?: StyleProps | false;
 }) => {
-  const { t } = useTranslation();
-
   const categorySource = useMemo(() => {
     switch (event?.category) {
       case 'AMOUR_FOOD':
@@ -57,15 +54,7 @@ const CalendarEventCard = ({
               <Text
                 numberOfLines={1}
                 style={tw`text-base font-light text-slate-800 dark:text-slate-300`}>
-                {dayjs().isSame(event.start, 'day') ||
-                dayjs().add(1, 'day').isSame(event.start, 'day')
-                  ? dayjs(event.start).calendar()
-                  : t('home.calendar.event.date', {
-                      date: new Date(event.start),
-                      formatParams: {
-                        date: { weekday: 'long', month: 'long', day: 'numeric' },
-                      },
-                    })}
+                {dayjs(event.start).calendar()}
               </Text>
               <Text
                 numberOfLines={1}

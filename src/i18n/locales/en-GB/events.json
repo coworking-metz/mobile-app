@@ -1,9 +1,37 @@
 {
   "calendar": {
-    "title": "All events"
+    "title": "Events"
   },
   "detail": {
     "date": "{{date, datetime}}",
     "time": "from {{startTime}} to {{endTime}}"
+  },
+  "period": {
+    "label": "Period",
+    "options": {
+      "day": {
+        "description": "this {{date}}",
+        "empty": "No events today",
+        "label": "Today"
+      },
+      "month": {
+        "description": "from {{from}} to {{to}}",
+        "empty": "No events this month",
+        "label": "This month"
+      },
+      "none": {
+        "description": "since {{date}}",
+        "empty": "No events",
+        "label": "All"
+      },
+      "week": {
+        "description": "from {{from}} to {{to}}",
+        "empty": "No events this week",
+        "label": "This week"
+      }
+    }
+  },
+  "previous": {
+    "label": "Past events"
   }
 }

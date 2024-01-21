@@ -17,7 +17,6 @@ const ProfilePicture = ({ style }: { picture?: string; style?: StyleProps }) => 
           contentFit="cover"
           contentPosition={'top center'}
           source={user.picture}
-          // style={tw`absolute top-0 left-0 bottom-0 right-0 h-[150%]`}
           style={tw`h-full`}
           transition={1000}
         />

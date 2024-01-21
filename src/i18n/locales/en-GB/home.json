@@ -2,7 +2,7 @@
   "calendar": {
     "browse": "All",
     "empty": {
-      "action": "Browse all events",
+      "action": "Discover other events",
       "label": "There's nothing planned in the near future."
     },
     "event": {

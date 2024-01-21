@@ -103,7 +103,7 @@ export default function Login() {
           paddingRight: insets.right,
         },
       ]}
-      style={tw`flex flex-col grow shrink dark:bg-black`}>
+      style={tw`flex flex-col grow shrink bg-gray-100 dark:bg-black`}>
       <View style={tw`flex flex-col justify-end self-center shrink grow basis-0`}>
         <WelcomeAnimation style={tw`w-full max-w-[256px] max-h-[256px]`} />
       </View>

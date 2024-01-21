@@ -82,7 +82,7 @@ const ServiceLayout = ({
   }, [verticalScrollProgress, headerHeight]);
 
   return (
-    <View style={[{ flex: 1 }, tw`dark:bg-black`]}>
+    <View style={[{ flex: 1 }, tw`bg-gray-100 dark:bg-black`]}>
       <View style={tw`flex flex-col grow relative`}>
         <Animated.View
           style={[

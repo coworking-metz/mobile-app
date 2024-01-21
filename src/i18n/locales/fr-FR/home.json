@@ -2,7 +2,7 @@
   "calendar": {
     "browse": "Tous",
     "empty": {
-      "action": "Voir tous les évènements",
+      "action": "Découvrir d'autres évènements",
       "label": "Il n'y a rien de prévu prochainement."
     },
     "event": {

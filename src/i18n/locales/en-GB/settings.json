@@ -26,7 +26,7 @@
         "fail": "Unable to fetch presence"
       },
       "period": {
-        "all": "Since the beginning",
+        "all": "Since my arrival",
         "last6Months": "Last 6 months"
       },
       "selected": {

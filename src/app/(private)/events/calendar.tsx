@@ -1,213 +1,212 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Link } from 'expo-router';
-import { capitalize } from 'lodash';
-import React, { useCallback } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View, useColorScheme } from 'react-native';
-import { AgendaList, CalendarProvider, ExpandableCalendar } from 'react-native-calendars';
-import { type MarkedDates } from 'react-native-calendars/src/types';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import Animated, { FadeInDown } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { View, Text, TouchableOpacity, Platform, ScrollView } from 'react-native';
+import Animated, { FadeInLeft, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
-import { theme } from '@/helpers/colors';
-import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
+import AppTouchableScale from '@/components/AppTouchableScale';
+import PeriodBottomSheet, { type PeriodType } from '@/components/Events/PeriodBottomSheet';
+import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
+import CalendarEventCard from '@/components/Home/CalendarEventCard';
+import ModalLayout from '@/components/ModalLayout';
+import { isSilentError, useErrorNotification } from '@/helpers/error';
+import { type CalendarEvent, getCalendarEvents } from '@/services/api/calendar';
 
-const getEventCategoryLinearColors = (event: CalendarEvent): string[] => {
-  switch (event.category) {
-    case 'AMOUR_FOOD':
-      return [tw.color('rose-300') as string, tw.color('rose-500') as string];
-    case 'BLIIIDA':
-      return [tw.color('neutral-500') as string, tw.color('slate-800') as string];
-    case 'COWORKING':
-      return [theme.peachYellow, theme.meatBrown];
-    default:
-      return [tw.color('gray-500') as string, tw.color('gray-800') as string];
-  }
-};
+interface EventsGroupedByDate {
+  date: string;
+  events: CalendarEvent[];
+}
 
-const AgendaItem = ({ event }: { event: CalendarEvent }) => {
+const PeriodChip = ({ selected, onPress }: { selected: PeriodType; onPress?: () => void }) => {
+  const { t } = useTranslation();
+
   return (
-    <Link asChild href={`/events/${event.id}`} style={tw`mx-3 h-24`}>
-      <TouchableOpacity>
-        <View
-          style={[
-            tw`flex flex-row items-start justify-between gap-3 pr-2 bg-gray-200 dark:bg-gray-900 rounded-2xl h-full w-full overflow-hidden`,
-          ]}>
-          <View style={tw`w-2 h-full bg-neutral-300 dark:bg-gray-800`}>
-            <LinearGradient
-              colors={getEventCategoryLinearColors(event)}
-              end={{ x: 1, y: 0 }}
-              start={{ x: 0, y: 1 }}
-              style={tw`rounded-full h-full`}
-            />
-          </View>
-          <View style={[tw`flex flex-col h-full grow basis-0 py-2`]}>
-            <Text numberOfLines={1} style={[tw`text-base text-slate-500 dark:text-slate-400`]}>
-              {dayjs(event.start).format('LT')} - {dayjs(event.end).format('LT')}
-            </Text>
-            <Text
-              numberOfLines={1}
-              style={[tw`text-lg font-medium text-slate-900 dark:text-gray-200`]}>
-              {event.label}
-            </Text>
-            {event.location ? (
-              <View style={[tw`flex flex-row items-center gap-1`]}>
-                <MaterialCommunityIcons
-                  color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-                  iconStyle={tw`h-4 w-4 mr-0`}
-                  name="map-marker-outline"
-                  size={20}
-                  style={tw`self-center shrink-0`}
-                />
-                <Text numberOfLines={1} style={[tw`text-base text-slate-500 dark:text-slate-400`]}>
-                  {event.location}
-                </Text>
-              </View>
-            ) : null}
-          </View>
-          <MaterialCommunityIcons
-            color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-            iconStyle={tw`h-6 w-6`}
-            name="chevron-right"
-            size={28}
-            style={tw`self-center shrink-0`}
-          />
-        </View>
-      </TouchableOpacity>
-    </Link>
+    <TouchableOpacity onPress={onPress}>
+      <View
+        style={tw`flex flex-row items-center justify-center px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-900`}>
+        <Text style={tw`text-base font-normal text-slate-900 dark:text-gray-200`}>
+          {t(`events.period.options.${selected ?? 'none'}.label`)}
+        </Text>
+        <MaterialCommunityIcons
+          color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
+          name="chevron-down"
+          size={20}
+          style={tw`ml-1`}
+        />
+      </View>
+    </TouchableOpacity>
   );
 };
 
-const MemoAgendaItem = React.memo(AgendaItem);
+const PreviousEventsChip = ({ selected, onPress }: { selected: boolean; onPress?: () => void }) => {
+  const { t } = useTranslation();
 
-const AllEvents = () => {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <View
+        style={[
+          tw`flex flex-row items-center justify-center px-4 py-2 rounded-full border-[1px]`,
+          selected
+            ? tw`bg-amber-50 border-amber-700 dark:bg-amber-950 dark:border-amber-500`
+            : tw`bg-gray-200 dark:bg-gray-900 border-transparent`,
+        ]}>
+        <Text
+          style={[
+            tw`text-base font-normal `,
+            selected
+              ? tw`text-amber-700 dark:text-amber-500`
+              : tw`text-slate-900 dark:text-gray-200`,
+          ]}>
+          {t(`events.previous.label`)}
+        </Text>
+        {selected && (
+          <MaterialCommunityIcons
+            color={tw.prefixMatch('dark') ? tw.color('amber-500') : tw.color('amber-700')}
+            name="check"
+            size={20}
+            style={tw`ml-1`}
+          />
+        )}
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+const Calendar = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
-  const colorScheme = useColorScheme();
+  const notifyError = useErrorNotification();
+  const [selectedPeriod, setSelectedPeriod] = useState<PeriodType | null>('day');
+  const [hasSelectedPeriodFilter, setSelectedPeriodFilter] = useState<boolean>(false);
+  const [withPreviousEvents, setPreviousEvents] = useState<boolean>(false);
 
   const {
     data: calendarEvents,
-    isFetching: isFetchingCalendarEvents,
-    refetch: refreshCalendarEvents,
+    isLoading: isLoadingCalendarEvents,
     error: calendarEventsError,
   } = useQuery({
     queryKey: ['calendarEvents'],
     queryFn: getCalendarEvents,
+    initialData: [],
   });
 
-  const renderItem = useCallback(({ item }: { item: CalendarEvent }) => {
-    return <MemoAgendaItem event={item} />;
-  }, []);
+  useEffect(() => {
+    if (calendarEventsError && !isSilentError(calendarEventsError)) {
+      notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
+    }
+  }, [calendarEventsError]);
+
+  const eventsGroupedByDate = useMemo(() => {
+    return (
+      calendarEvents?.reduce((groups, event) => {
+        const groupFound = groups.find((group) => dayjs(group.date).isSame(event.start, 'day'));
+
+        if (groupFound) {
+          return [
+            ...groups.filter((group) => group.date !== groupFound.date),
+            {
+              ...groupFound,
+              events: [...groupFound.events, event],
+            },
+          ];
+        }
+
+        return [
+          ...groups,
+          {
+            date: dayjs(event.start).format('YYYY-MM-DD'),
+            events: [event],
+          },
+        ];
+      }, [] as EventsGroupedByDate[]) ?? []
+    );
+  }, [calendarEvents]);
+
+  const filteredEventsGroups = useMemo(() => {
+    const now = dayjs();
+    return eventsGroupedByDate
+      ?.filter((group) => {
+        switch (selectedPeriod) {
+          case 'day':
+            return now.isSame(group.date, 'day');
+          case 'week':
+            return now.isSame(group.date, 'week');
+          case 'month':
+            return now.isSame(group.date, 'month');
+          default:
+            return true;
+        }
+      })
+      .filter((group) => withPreviousEvents || now.startOf('day').isBefore(group.date, 'day'));
+  }, [eventsGroupedByDate, selectedPeriod, withPreviousEvents]);
 
   return (
-    <Animated.View
-      style={[
-        tw`flex flex-col grow bg-gray-100 dark:bg-black`,
-        {
-          paddingTop: 16,
-          paddingLeft: insets.left,
-          paddingRight: insets.right,
-          ...(Platform.OS === 'android' && { paddingTop: insets.top + 16 }),
-        },
-      ]}>
-      <Animated.Text
-        entering={FadeInDown.duration(300).delay(150)}
-        numberOfLines={1}
-        style={[
-          tw`text-base font-semibold tracking-tight mb-4 ml-6 text-slate-900 dark:text-gray-200`,
-        ]}>
-        {t('events.calendar.title')}
-      </Animated.Text>
-
-      <CalendarProvider
-        key={colorScheme}
-        date={new Date().toISOString().slice(0, 10)}
-        // onDateChanged={onDateChanged}
-        // onMonthChange={onMonthChange}
-        // showTodayButton
-        // disabledOpacity={0.6}
-        // theme={todayBtnTheme.current}
-        // todayBottomMargin={16}>
-      >
-        {/* <WeekCalendar
-          allowShadow={false}
-          firstDay={1}
-          theme={{
-            backgroundColor: tw.color('gray-100') as string,
-            calendarBackground: tw.color('gray-100') as string,
-            todayTextColor: theme.meatBrown,
-            selectedDayBackgroundColor: theme.meatBrown,
-            selectedDayTextColor: theme.charlestonGreen,
-          }}
-          // markedDates={marked.current}
-        /> */}
-        <ExpandableCalendar
-          // horizontal={false}
-          // hideArrows
-          animateScroll
-          allowShadow={false}
-          firstDay={1}
-          markedDates={(calendarEvents || []).reduce((acc, event) => {
-            return {
-              ...acc,
-              [new Date(event.start).toISOString().slice(0, 10)]: {
-                marked: true,
-                dotColor: getEventCategoryLinearColors(event)[0],
-              },
-            };
-          }, {} as MarkedDates)}
-          style={tw`border-b-[1px] border-gray-200 dark:border-gray-800`}
-          // disablePan
-          // hideKnob
-          // initialPosition={ExpandableCalendar.positions.OPEN}
-          // calendarStyle={styles.calendar}
-          // headerStyle={styles.header} // for horizontal only
-          // disableWeekScroll
-          // leftArrowImageSource={leftArrowIcon}
-          // markedDates={marked.current}
-          // theme={theme.current}
-          // disableAllTouchEventsForDisabledDays
-          // rightArrowImageSource={rightArrowIcon}
-          // closeOnDayPress={false}
-          theme={{
-            calendarBackground: tw.prefixMatch('dark')
-              ? tw.color('black')
-              : (tw.color('gray-100') as string),
-            // calendarBackground: 'transparent',
-            todayTextColor: theme.meatBrown,
-            selectedDayBackgroundColor: theme.meatBrown,
-            selectedDayTextColor: theme.charlestonGreen,
-          }}
-        />
-        <AgendaList
-          avoidDateUpdates
-          scrollToNextEvent
-          dayFormat={'MMM d, yyyy'}
-          infiniteListProps={{
-            itemHeight: 96,
-            titleHeight: 48,
-          }}
-          renderItem={renderItem}
-          renderSectionHeader={(date) => (
-            <View style={tw`flex flex-row items-end ml-3 pb-2 h-full`}>
-              <Text style={tw`text-sm text-slate-500`}>
-                {capitalize(dayjs(date as unknown as string).format('dddd LL'))}
-              </Text>
-            </View>
+    <>
+      <ModalLayout title={t('events.calendar.title')}>
+        <View style={tw`mb-8`}>
+          <ScrollView
+            contentContainerStyle={tw`flex flex-row items-center gap-4 px-4`}
+            horizontal={true}
+            scrollEventThrottle={16}
+            showsHorizontalScrollIndicator={false}
+            style={tw`w-full `}>
+            <PeriodChip selected={selectedPeriod} onPress={() => setSelectedPeriodFilter(true)} />
+            <PreviousEventsChip
+              selected={withPreviousEvents}
+              onPress={() => setPreviousEvents(!withPreviousEvents)}
+            />
+          </ScrollView>
+        </View>
+        <Animated.View exiting={FadeOut.duration(500)} style={tw`mx-4 flex flex-col gap-8`}>
+          {isLoadingCalendarEvents ? (
+            <>
+              <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`h-44`} />
+              <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`h-44 mt-8`} />
+            </>
+          ) : filteredEventsGroups?.length ? (
+            filteredEventsGroups.map((group) => (
+              <View key={`calendar-group-${group.date}`} style={tw`flex flex-col gap-4`}>
+                <Animated.Text
+                  entering={FadeInLeft.duration(300)}
+                  exiting={FadeOut.duration(300)}
+                  style={tw`text-sm font-normal uppercase text-slate-500 mx-2`}>
+                  {dayjs(group.date).format('dddd LL')}
+                </Animated.Text>
+                {group.events.map((event) => (
+                  <Link
+                    asChild
+                    href={`/events/${event.id}`}
+                    key={`calendar-event-card-${event.id}`}>
+                    <AppTouchableScale style={tw`w-full h-44`}>
+                      <CalendarEventCard event={event} />
+                    </AppTouchableScale>
+                  </Link>
+                ))}
+              </View>
+            ))
+          ) : (
+            <CalendarEmptyState
+              description={t(`events.period.options.${selectedPeriod ?? 'none'}.empty`)}
+              style={tw`w-full h-full mt-4`}
+            />
           )}
-          sections={(calendarEvents || []).map((event) => ({
-            title: event.start,
-            data: [event],
-          }))}
+        </Animated.View>
+      </ModalLayout>
+
+      {hasSelectedPeriodFilter && (
+        <PeriodBottomSheet
+          enableContentPanningGesture={Platform.OS !== 'ios'}
+          events={calendarEvents}
+          selected={selectedPeriod}
+          onClose={() => setSelectedPeriodFilter(false)}
+          onSelect={setSelectedPeriod}
         />
-      </CalendarProvider>
-    </Animated.View>
+      )}
+    </>
   );
 };
 
-export default AllEvents;
+export default Calendar;

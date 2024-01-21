@@ -28,13 +28,13 @@ dayjs.updateLocale('fr', {
     nextDay: '[Demain à] LT',
     lastWeek: 'dddd [dernier à] LT',
     nextWeek: 'dddd [prochain à] LT',
-    sameElse: '[Le] dddd LL',
+    sameElse: '[Le] dddd D MMMM à LT',
   },
 });
 
 dayjs.updateLocale('en', {
   calendar: {
-    sameElse: '[on] dddd LL',
+    sameElse: '[on] dddd MMMM D',
   },
 });
 
