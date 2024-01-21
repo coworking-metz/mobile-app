@@ -234,7 +234,7 @@ export default function HomeScreen({}) {
             <Animated.Text
               entering={FadeInUp.duration(300)}
               exiting={FadeOutUp.duration(300)}
-              style={tw`ml-3 text-sm text-slate-500 dark:text-slate-400 shrink grow`}>
+              style={tw`ml-3 text-sm font-normal text-slate-500 dark:text-slate-400 shrink grow`}>
               {capitalize(dayjs(currentMembersUpdatedAt).fromNow())}
             </Animated.Text>
           ) : null}

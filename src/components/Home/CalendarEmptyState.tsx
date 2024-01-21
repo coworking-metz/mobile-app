@@ -18,7 +18,7 @@ const CalendarEmptyState = ({
   return (
     <Animated.View style={[tw`flex flex-col items-center`, style]} {...props}>
       <LoveCalendarAnimation style={tw`h-32`} />
-      <Text style={tw`text-base text-center text-slate-500 dark:text-slate-400`}>
+      <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
         {t('home.calendar.empty.label')}
       </Text>
       <Link asChild href="/events/calendar">

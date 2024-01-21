@@ -8,7 +8,7 @@ import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { type ApiMemberSubscription } from '@/services/api/members';
@@ -36,7 +36,10 @@ const SubscriptionBottomSheet = ({
   }, [subscription, t]);
 
   return (
-    <AppBottomSheet style={style} onClose={onClose}>
+    <AppBottomSheet
+      style={style}
+      onClose={onClose}
+      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <View style={tw`flex flex-col w-full justify-between p-6`}>
         <CalendarAnimation style={tw`w-full`} />
         <Text

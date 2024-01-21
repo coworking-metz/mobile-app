@@ -1,16 +1,9 @@
-import MedalAnimation from '../Animations/MembershipFormAnimation';
-import MedalTickedAnimation from '../Animations/MembershipFormTickedAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import ServiceRow from '../Settings/ServiceRow';
-import { Button } from '@ddx0510/react-native-ui-lib';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
-import { Link } from 'expo-router';
-import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
-import { ProgressChart } from 'react-native-chart-kit';
+import { Platform, Text, View } from 'react-native';
 import AnimatedProgressWheel from 'react-native-progress-wheel';
 import { Easing, type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -20,13 +13,11 @@ import { type ApiMemberActivity } from '@/services/api/members';
 const PresenceBottomSheet = ({
   activity,
   nonCompliant,
-  loading = false,
   style,
   onClose,
 }: {
   activity: ApiMemberActivity;
   nonCompliant?: boolean;
-  loading?: boolean;
   style?: StyleProps;
   onClose?: () => void;
 }) => {
@@ -38,7 +29,10 @@ const PresenceBottomSheet = ({
   }, [activity, nonCompliant]);
 
   return (
-    <AppBottomSheet style={style} onClose={onClose}>
+    <AppBottomSheet
+      style={style}
+      onClose={onClose}
+      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <View style={tw`flex flex-col w-full justify-between p-6`}>
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>

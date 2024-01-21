@@ -57,7 +57,8 @@ const ThemeOptions = () => {
           selected={chosenTheme === theme.code}
           style={[tw`px-3 mx-3`]}
           suffixIcon={chosenTheme === theme.code ? 'check' : null}
-          onPress={() => onThemePicked(theme.code)}></ServiceRow>
+          onPress={() => onThemePicked(theme.code)}
+        />
       ))}
     </View>
   );

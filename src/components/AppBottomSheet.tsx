@@ -1,7 +1,7 @@
 import AppBottomSheetBackdrop from './AppBottomSheetBackdrop';
 import BottomSheet, { BottomSheetScrollView, type BottomSheetProps } from '@gorhom/bottom-sheet';
 import React, { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Dimensions, Platform } from 'react-native';
+import { Dimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw from 'twrnc';
 
@@ -51,7 +51,6 @@ const AppBottomSheet = ({ children, style, ...props }: AppBottomSheetProps) => {
       detached={true}
       handleIndicatorStyle={tw`bg-gray-500 rounded-full`}
       {...props}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}
       snapPoints={snapPoints}
       style={[tw`mx-4 rounded-[2rem] overflow-hidden relative`, style]}>
       {children && (

@@ -7,7 +7,7 @@ import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 
@@ -25,7 +25,10 @@ const BalanceBottomSheet = ({
   const { t } = useTranslation();
 
   return (
-    <AppBottomSheet style={style} onClose={onClose}>
+    <AppBottomSheet
+      style={style}
+      onClose={onClose}
+      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <View style={tw`flex flex-col w-full justify-between p-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <CouponsAnimation style={tw`h-56`} />

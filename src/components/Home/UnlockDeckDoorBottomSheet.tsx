@@ -2,7 +2,7 @@ import UnlockAnimation from '../Animations/UnlockAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 
@@ -16,7 +16,10 @@ const UnlockDeckDoorBottomSheet = ({
   const { t } = useTranslation();
 
   return (
-    <AppBottomSheet style={style} onClose={onClose}>
+    <AppBottomSheet
+      style={style}
+      onClose={onClose}
+      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <View style={tw`flex flex-col items-center justify-between gap-4 p-6`}>
         <UnlockAnimation style={tw`w-full max-h-[144px]`} />
         <Text

@@ -6,7 +6,7 @@ import UnlockAnimation from './Animations/UnlockAnimation';
 import WarningAnimation from './Animations/WarningAnimation';
 import AppBottomSheet from './AppBottomSheet';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import tw from 'twrnc';
 import type BottomSheet from '@gorhom/bottom-sheet';
 import useNoticeStore, { type NoticeType } from '@/stores/notice';
@@ -52,7 +52,9 @@ const NoticeBottomSheet = () => {
   if (!mostRecentUndismissedNotice) return null;
 
   return (
-    <AppBottomSheet onClose={onClose}>
+    <AppBottomSheet
+      onClose={onClose}
+      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <View style={tw`flex flex-col items-center justify-between gap-4 p-6`}>
         <View style={tw`flex flex-col h-32 w-32 items-center justify-center`}>
           {getAnimation(mostRecentUndismissedNotice.type)}

@@ -264,6 +264,7 @@ const Settings = () => {
               onDateSelect={onDateSelect}
             />
             <SegmentedControl
+              fontStyle={tw`font-normal`}
               selectedIndex={shouldRenderAllPresences ? 0 : 1}
               style={tw`mx-6`}
               values={[
