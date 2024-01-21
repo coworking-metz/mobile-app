@@ -11,22 +11,23 @@
     "options": {
       "day": {
         "description": "this {{date}}",
-        "empty": "No events today",
+        "empty": "No events found today",
         "label": "Today"
       },
       "month": {
         "description": "from {{from}} to {{to}}",
-        "empty": "No events this month",
+        "empty": "No events found this month",
         "label": "This month"
       },
       "none": {
-        "description": "since {{date}}",
-        "empty": "No events",
-        "label": "All"
+        "empty": "No events found",
+        "fromToday": "from today",
+        "label": "All",
+        "since": "since {{date}}"
       },
       "week": {
         "description": "from {{from}} to {{to}}",
-        "empty": "No events this week",
+        "empty": "No events found this week",
         "label": "This week"
       }
     }

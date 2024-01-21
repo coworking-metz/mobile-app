@@ -32,7 +32,8 @@ const CalendarEventCard = ({
         contentFit="cover"
         contentPosition="center"
         source={event?.picture}
-        style={tw`w-full h-full flex rounded-2xl overflow-hidden relative`}>
+        style={tw`w-full h-full flex rounded-2xl overflow-hidden relative`}
+        {...(event?.end && dayjs().isAfter(event.end) && { imageStyle: { opacity: 0.5 } })}>
         {loading ? (
           <Skeleton
             backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}

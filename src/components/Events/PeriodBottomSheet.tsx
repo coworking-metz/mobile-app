@@ -13,16 +13,17 @@ export type PeriodType = (typeof PERIODS)[number];
 
 type PeriodOptionsProps = {
   selected?: PeriodType;
+  withPastEvents?: boolean;
   events: CalendarEvent[];
   onSelect?: (selected: PeriodType) => void;
 };
 
-const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
+const PeriodOptions = ({ selected, withPastEvents, events, onSelect }: PeriodOptionsProps) => {
   const { t } = useTranslation();
   const { close } = useBottomSheet();
 
   const onPeriodPicked = useCallback(
-    (newSelected: PeriodType) => {
+    async (newSelected: PeriodType) => {
       onSelect?.(newSelected);
       close();
     },
@@ -38,27 +39,34 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
             date: now.format('dddd'),
           });
         case 'week':
+          const weekFrom = withPastEvents ? now.startOf('week') : now;
           return t('events.period.options.week.description', {
-            from: now.startOf('week').format('dddd DD'),
+            from: weekFrom.format('dddd DD'),
             to: now.endOf('week').format('dddd DD'),
           });
         case 'month':
+          const monthFrom = withPastEvents ? now.startOf('month') : now;
           return t('events.period.options.month.description', {
-            from: now.startOf('month').format('ll').split(' ').slice(0, 3).join(' '),
+            from: monthFrom.format('ll').split(' ').slice(0, 3).join(' '),
             to: now.endOf('month').format('ll').split(' ').slice(0, 3).join(' '),
           });
         case null:
-          const [firstEvent] = events;
-          if (firstEvent) {
-            return t('events.period.options.none.description', {
-              date: dayjs(firstEvent.start).format('LL'),
-            });
+          if (withPastEvents) {
+            const [firstEvent] = events;
+            if (firstEvent) {
+              return t('events.period.options.none.since', {
+                date: dayjs(firstEvent.start).format('LL'),
+              });
+            }
+          } else {
+            return t('events.period.options.none.fromToday');
           }
+
           break;
       }
       return '';
     },
-    [events],
+    [events, withPastEvents],
   );
 
   const getPeriodCount = useCallback(
@@ -68,14 +76,22 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
         case 'day':
           return events.filter((event) => now.isSame(event.start, 'day')).length;
         case 'week':
-          return events.filter((event) => now.isSame(event.start, 'week')).length;
+          return events
+            .filter((event) => now.isSame(event.start, 'week'))
+            .filter((event) => withPastEvents || now.startOf('day').isBefore(event.start, 'day'))
+            .length;
         case 'month':
-          return events.filter((event) => now.isSame(event.start, 'month')).length;
+          return events
+            .filter((event) => now.isSame(event.start, 'month'))
+            .filter((event) => withPastEvents || now.startOf('day').isBefore(event.start, 'day'))
+            .length;
         case null:
-          return events.length;
+          return events.filter(
+            (event) => withPastEvents || now.startOf('day').isBefore(event.start, 'day'),
+          ).length;
       }
     },
-    [events],
+    [events, withPastEvents],
   );
 
   return (
@@ -92,7 +108,7 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
           style={[tw`px-3 mx-3`]}
           onPress={() => onPeriodPicked(period)}>
           <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
-            <Animated.Text style={tw`text-xs text-slate-900 dark:text-gray-200 `}>
+            <Animated.Text style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
               {getPeriodCount(period)}
             </Animated.Text>
           </View>
@@ -104,13 +120,19 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
 
 const PeriodBottomSheet = ({
   selected,
-  onSelect,
+  withPastEvents,
   events,
+  onSelect,
   ...props
 }: Omit<AppBottomSheetProps & PeriodOptionsProps, 'children'>) => {
   return (
     <AppBottomSheet {...props}>
-      <PeriodOptions events={events} selected={selected} onSelect={onSelect} />
+      <PeriodOptions
+        events={events}
+        selected={selected}
+        withPastEvents={withPastEvents}
+        onSelect={onSelect}
+      />
     </AppBottomSheet>
   );
 };

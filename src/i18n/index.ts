@@ -3,6 +3,7 @@ import * as french from './locales/fr-FR';
 import dayjs from 'dayjs';
 import calendar from 'dayjs/plugin/calendar';
 import isBetween from 'dayjs/plugin/isBetween';
+import isoWeek from 'dayjs/plugin/isoWeek';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
@@ -20,6 +21,7 @@ dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
 dayjs.extend(calendar);
 dayjs.extend(isBetween);
+dayjs.extend(isoWeek);
 
 dayjs.updateLocale('fr', {
   calendar: {

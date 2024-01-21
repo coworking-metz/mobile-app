@@ -1,10 +1,10 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { Link } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text, TouchableOpacity, Platform, ScrollView } from 'react-native';
+import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInLeft, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import AppTouchableScale from '@/components/AppTouchableScale';
@@ -13,7 +13,7 @@ import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import ModalLayout from '@/components/ModalLayout';
 import { isSilentError, useErrorNotification } from '@/helpers/error';
-import { type CalendarEvent, getCalendarEvents } from '@/services/api/calendar';
+import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
 interface EventsGroupedByDate {
   date: string;
@@ -41,7 +41,7 @@ const PeriodChip = ({ selected, onPress }: { selected: PeriodType; onPress?: () 
   );
 };
 
-const PreviousEventsChip = ({ selected, onPress }: { selected: boolean; onPress?: () => void }) => {
+const PastEventsChip = ({ selected, onPress }: { selected: boolean; onPress?: () => void }) => {
   const { t } = useTranslation();
 
   return (
@@ -78,10 +78,17 @@ const PreviousEventsChip = ({ selected, onPress }: { selected: boolean; onPress?
 const Calendar = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
+  const { period } = useLocalSearchParams<{ period?: string }>();
   const notifyError = useErrorNotification();
-  const [selectedPeriod, setSelectedPeriod] = useState<PeriodType | null>('day');
+  const [selectedPeriod, setSelectedPeriod] = useState<PeriodType | null>(null);
   const [hasSelectedPeriodFilter, setSelectedPeriodFilter] = useState<boolean>(false);
-  const [withPreviousEvents, setPreviousEvents] = useState<boolean>(false);
+  const [withPastEvents, setPastEvents] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (period) {
+      setSelectedPeriod(period as PeriodType);
+    }
+  }, [period]);
 
   const {
     data: calendarEvents,
@@ -140,8 +147,8 @@ const Calendar = () => {
             return true;
         }
       })
-      .filter((group) => withPreviousEvents || now.startOf('day').isBefore(group.date, 'day'));
-  }, [eventsGroupedByDate, selectedPeriod, withPreviousEvents]);
+      .filter((group) => withPastEvents || now.startOf('day').isBefore(group.date, 'day'));
+  }, [eventsGroupedByDate, selectedPeriod, withPastEvents]);
 
   return (
     <>
@@ -154,9 +161,9 @@ const Calendar = () => {
             showsHorizontalScrollIndicator={false}
             style={tw`w-full `}>
             <PeriodChip selected={selectedPeriod} onPress={() => setSelectedPeriodFilter(true)} />
-            <PreviousEventsChip
-              selected={withPreviousEvents}
-              onPress={() => setPreviousEvents(!withPreviousEvents)}
+            <PastEventsChip
+              selected={withPastEvents}
+              onPress={() => setPastEvents(!withPastEvents)}
             />
           </ScrollView>
         </View>
@@ -201,6 +208,7 @@ const Calendar = () => {
           enableContentPanningGesture={Platform.OS !== 'ios'}
           events={calendarEvents}
           selected={selectedPeriod}
+          withPastEvents={withPastEvents}
           onClose={() => setSelectedPeriodFilter(false)}
           onSelect={setSelectedPeriod}
         />

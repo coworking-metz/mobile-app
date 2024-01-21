@@ -25,6 +25,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import AppTouchableScale from '@/components/AppTouchableScale';
+import { type PeriodType } from '@/components/Events/PeriodBottomSheet';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
@@ -73,6 +74,12 @@ export default function HomeScreen({}) {
     enabled: !!user,
   });
 
+  useEffect(() => {
+    if (currentMembersError && !isSilentError(currentMembersError)) {
+      notifyError(t('home.people.onFetch.fail'), currentMembersError);
+    }
+  }, [currentMembersError]);
+
   const {
     data: profile,
     isLoading: isLoadingProfile,
@@ -91,6 +98,12 @@ export default function HomeScreen({}) {
     enabled: !!user,
   });
 
+  useEffect(() => {
+    if (profileError && !isSilentError(profileError)) {
+      notifyError(t('home.profile.onFetch.fail'), profileError);
+    }
+  }, [profileError]);
+
   const handleAppStateChange = useCallback(
     (nextAppState: AppStateStatus) => {
       if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
@@ -107,12 +120,14 @@ export default function HomeScreen({}) {
 
   const appState = useRef(AppState.currentState);
   useEffect(() => {
-    const subscription = AppState.addEventListener('change', handleAppStateChange);
-
-    return () => {
-      subscription.remove();
-    };
+    const appChangeSubscription = AppState.addEventListener('change', handleAppStateChange);
+    return () => appChangeSubscription.remove();
   }, [handleAppStateChange]);
+
+  const currentSubscription = useMemo(() => {
+    // retrieve ongoing subscription or the most recent one
+    return profile?.abos.find(({ current }) => current) ?? profile?.abos.find(() => true) ?? null;
+  }, [profile]);
 
   const {
     data: calendarEvents,
@@ -126,6 +141,12 @@ export default function HomeScreen({}) {
     enabled: !!user,
   });
 
+  useEffect(() => {
+    if (calendarEventsError && !isSilentError(calendarEventsError)) {
+      notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
+    }
+  }, [calendarEventsError]);
+
   const nextCalendarEvents = useMemo(() => {
     return (
       calendarEvents?.filter(
@@ -136,79 +157,28 @@ export default function HomeScreen({}) {
     );
   }, [calendarEvents]);
 
-  // const {
-  //   data: dailyPresence,
-  //   isFetching: isFetchingDailyPresence,
-  //   refetch: refreshDailyPresence,
-  //   error: dailyPresenceError,
-  // } = useQuery({
-  //   queryKey: ['dailyPresence'],
-  //   queryFn: getPresenceByWeek,
-  //   retry: false,
-  //   enabled: !!user,
-  // });
-
-  // const {
-  //   data: hourlyPresence,
-  //   isFetching: isFetchingHourlyPresence,
-  //   refetch: refreshHourlyPresence,
-  //   error: hourlyPresenceError,
-  // } = useQuery({
-  //   queryKey: ['hourlyPresence'],
-  //   queryFn: getPresenceByDay,
-  //   retry: false,
-  //   enabled: !!user,
-  // });
-
-  useEffect(() => {
-    if (profileError && !isSilentError(profileError)) {
-      notifyError(t('home.profile.onFetch.fail'), profileError);
+  const firstPeriodWithEvents: PeriodType = useMemo(() => {
+    const [nextEvent] = calendarEvents?.filter(({ start }) => dayjs().isBefore(start)) || [];
+    if (nextEvent) {
+      if (dayjs(nextEvent.start).isSame(dayjs(), 'week')) {
+        return 'week';
+      } else if (dayjs(nextEvent.start).isSame(dayjs(), 'month')) {
+        return 'month';
+      }
     }
-  }, [profileError]);
-
-  useEffect(() => {
-    if (currentMembersError && !isSilentError(currentMembersError)) {
-      notifyError(t('home.people.onFetch.fail'), currentMembersError);
-    }
-  }, [currentMembersError]);
-
-  useEffect(() => {
-    if (calendarEventsError && !isSilentError(calendarEventsError)) {
-      notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
-    }
-  }, [calendarEventsError]);
-
-  // useEffect(() => {
-  //   if (dailyPresenceError && !isSilentError(dailyPresenceError)) {
-  //     notifyError(t('presence.byWeek.onFetch.fail'), dailyPresenceError);
-  //   }
-  // }, [dailyPresenceError]);
-
-  // useEffect(() => {
-  //   if (hourlyPresenceError && !isSilentError(hourlyPresenceError)) {
-  //     notifyError(t('presence.byDay.onFetch.fail'), hourlyPresenceError);
-  //   }
-  // }, [hourlyPresenceError]);
+    return null;
+  }, [calendarEvents]);
 
   const onRefresh = useCallback(() => {
     if (user?.id) {
       setRefreshing(true);
-      Promise.all([
-        refetchProfile(),
-        refetchCurrentMembers(),
-        refreshCalendarEvents(),
-        // refreshDailyPresence(),
-        // refreshHourlyPresence(),
-      ]).finally(() => {
-        setRefreshing(false);
-      });
+      Promise.all([refetchProfile(), refetchCurrentMembers(), refreshCalendarEvents()]).finally(
+        () => {
+          setRefreshing(false);
+        },
+      );
     }
   }, [user]);
-
-  const currentSubscription = useMemo(() => {
-    // retrieve ongoing subscription or the most recent one
-    return profile?.abos.find(({ current }) => current) ?? profile?.abos.find(() => true) ?? null;
-  }, [profile]);
 
   return (
     <Animated.View style={[tw`flex w-full flex-col items-stretch bg-gray-100 dark:bg-black`]}>
@@ -361,8 +331,20 @@ export default function HomeScreen({}) {
             ) : (
               <CalendarEmptyState
                 description={t('home.calendar.empty.label')}
-                style={tw`w-full h-full mt-4`}
-              />
+                style={tw`w-full h-full mt-4`}>
+                <Link
+                  asChild
+                  href={[
+                    '/events/calendar',
+                    firstPeriodWithEvents && `period=${firstPeriodWithEvents}`,
+                  ]
+                    .filter(Boolean)
+                    .join('?')}>
+                  <Text style={tw`text-base font-normal text-amber-500 text-center mt-4`}>
+                    {t('home.calendar.empty.action')}
+                  </Text>
+                </Link>
+              </CalendarEmptyState>
             )}
           </ScrollView>
         </Animated.View>
