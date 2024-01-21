@@ -1,65 +1,104 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
-import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react';
+import { Skeleton } from 'moti/skeleton';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
+import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
-import { theme } from '@/helpers/colors';
+import { type ApiMemberSubscription } from '@/services/api/members';
 
-const getTimeleft = (since: string, expired: string): number => {
-  const totalTime = Date.parse(expired) - Date.parse(since);
-  const timeleft = Date.parse(expired) - Date.now();
-  return totalTime > 0 ? (timeleft > 0 ? timeleft : 0) / totalTime : 0;
-};
-
-const SubscriptionCard = ({ expired, since, ...props }: { expired: string; since: string }) => {
+const SubscriptionCard = ({
+  subscription,
+  loading,
+  style,
+}: {
+  subscription?: ApiMemberSubscription | null;
+  loading?: boolean;
+  style?: StyleProps;
+}) => {
   const { t } = useTranslation();
+
+  const label = useMemo(() => {
+    if (!subscription) return t('home.profile.subscription.label.none');
+    const now = dayjs();
+    if (now.startOf('day').isAfter(subscription.aboEnd))
+      return t('home.profile.subscription.label.expired');
+    if (now.isBefore(subscription.aboStart)) return t('home.profile.subscription.label.next');
+    return t('home.profile.subscription.label.active');
+  }, [subscription, t]);
+
+  const value = useMemo(() => {
+    if (!subscription) return t('home.profile.subscription.status.none');
+    if (dayjs().startOf('day').isBefore(subscription.aboStart))
+      return t('home.profile.subscription.date', {
+        date: new Date(subscription.aboStart),
+        formatParams: {
+          date: { month: 'short', day: 'numeric' },
+        },
+      });
+    if (
+      dayjs().isSame(subscription.aboEnd, 'day') ||
+      dayjs().add(1, 'day').isSame(subscription.aboEnd, 'day')
+    )
+      return dayjs(subscription.aboEnd).calendar().split(' ')[0];
+    if (dayjs().isSame(subscription.aboEnd, 'week'))
+      return dayjs(subscription.aboEnd).format('dddd');
+    return t('home.profile.subscription.date', {
+      date: new Date(subscription.aboEnd),
+      formatParams: {
+        date: { month: 'short', day: 'numeric' },
+      },
+    });
+  }, [subscription, t]);
 
   return (
     <View
-      {...props}
-      style={tw`flex flex-row items-start justify-between bg-gray-200 dark:bg-gray-900 rounded-2xl min-h-24 self-stretch relative overflow-hidden px-3 py-2`}>
-      <View style={tw`flex flex-col shrink grow`}>
-        <Text numberOfLines={1} style={tw`text-base text-slate-500 dark:text-slate-400`}>
-          {dayjs().isSame(expired, 'day')
-            ? t('home.profile.subscription.status.expiresToday', {
-                prefix: t('home.profile.subscription.status.prefix'),
-              })
-            : dayjs().isBefore(expired)
-              ? t('home.profile.subscription.status.ongoingUntil', {
-                  prefix: t('home.profile.subscription.status.prefix'),
-                })
-              : t('home.profile.subscription.status.expiredSince', {
-                  prefix: t('home.profile.subscription.status.prefix'),
-                })}
-        </Text>
-        <Text style={tw`text-2xl text-slate-900 dark:text-gray-200`}>
-          {dayjs().isSame(expired, 'day')
-            ? dayjs(expired).fromNow()
-            : t('home.profile.subscription.date', {
-                expired: new Date(expired),
-                formatParams: {
-                  expired: { weekday: 'long', month: 'long', day: 'numeric' },
-                },
-              })}
-        </Text>
-      </View>
+      style={[
+        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl w-32 relative overflow-hidden pl-3 pt-2 pb-4`,
+        style,
+      ]}>
       <MaterialCommunityIcons
         color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-        iconStyle={{ height: 24, width: 24, marginRight: 0 }}
-        name={dayjs().isBefore(expired) ? 'calendar-check' : 'calendar-blank'}
-        size={36}
-        style={tw`self-center shrink-0 grow-0`}
+        name={
+          subscription && !dayjs().startOf('day').isAfter(subscription.aboEnd)
+            ? 'calendar-month'
+            : 'calendar-blank'
+        }
+        size={40}
       />
-      <View style={tw`absolute bottom-0 left-0 right-0 h-2 bg-neutral-300 dark:bg-gray-800`}>
-        <LinearGradient
-          colors={[theme.peachYellow, theme.meatBrown]}
-          end={{ x: 1, y: 0 }}
-          start={{ x: 0, y: 1 }}
-          style={tw`rounded-full h-full w-[${getTimeleft(since, expired) * 100}%]`}
+
+      <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>{label}</Text>
+      {loading ? (
+        <Skeleton
+          backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
+          colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+          height={26}
+          show={loading}
+          width={96}
         />
-      </View>
+      ) : (
+        <Text
+          numberOfLines={1}
+          style={[
+            tw`text-2xl font-normal`,
+            subscription
+              ? tw`text-slate-900 dark:text-gray-200`
+              : tw`text-gray-400 dark:text-slate-600`,
+          ]}>
+          {value}
+        </Text>
+      )}
+
+      {subscription &&
+        dayjs().isBetween(subscription.aboStart, subscription.aboEnd, 'day', '[]') && (
+          <MaterialCommunityIcons
+            color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
+            name="check-circle"
+            size={20}
+            style={tw`absolute top-3 right-3`}
+          />
+        )}
     </View>
   );
 };

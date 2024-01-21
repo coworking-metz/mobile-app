@@ -64,20 +64,20 @@ const ServiceRow: ForwardRefRenderFunction<TouchableHighlight, ServiceRowProps> 
           <View style={tw`flex flex-col shrink grow overflow-hidden`}>
             <Text
               numberOfLines={description ? 1 : 2}
-              style={[tw`text-base dark:text-gray-200`, disabled && tw`opacity-40`]}>
+              style={[tw`text-base font-normal dark:text-gray-200`, disabled && tw`opacity-40`]}>
               {label}
             </Text>
-            {description ? (
+            {renderDescription ? (
+              renderDescription(description, disabled)
+            ) : description ? (
               <Text
                 numberOfLines={1}
                 style={[
-                  tw`text-sm text-slate-500 dark:text-slate-400`,
+                  tw`text-sm font-normal text-slate-500 dark:text-slate-400`,
                   disabled && tw`opacity-40`,
                 ]}>
                 {description}
               </Text>
-            ) : renderDescription ? (
-              renderDescription()
             ) : null}
           </View>
           <>{children}</>

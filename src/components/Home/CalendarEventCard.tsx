@@ -1,62 +1,71 @@
-import { Fader } from '@ddx0510/react-native-ui-lib';
-import { Image } from 'expo-image';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Text, View, useColorScheme, type LayoutChangeEvent } from 'react-native';
+import dayjs from 'dayjs';
+import { BlurView } from 'expo-blur';
+import { Image, ImageBackground } from 'expo-image';
+import { Skeleton } from 'moti/skeleton';
+import React, { useMemo } from 'react';
+import { Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AmourFoodSquareLogo from '@/assets/images/amour-food-square.png';
 import { type CalendarEvent } from '@/services/api/calendar';
 
 const CalendarEventCard = ({
   event = null,
+  loading = false,
   style,
 }: {
   event?: CalendarEvent | null;
+  loading?: boolean;
   style?: StyleProps | false;
 }) => {
-  const { t } = useTranslation();
-  const [containerWidth, setContainerWidth] = React.useState<number>(0);
-
-  const colorScheme = useColorScheme();
+  const categorySource = useMemo(() => {
+    switch (event?.category) {
+      case 'AMOUR_FOOD':
+        return AmourFoodSquareLogo;
+    }
+    return null;
+  }, [event]);
 
   return (
-    <View
-      style={[
-        tw`flex flex-row items-start justify-between bg-gray-200 dark:bg-gray-900 rounded-2xl self-stretch overflow-hidden`,
-        style,
-      ]}>
-      {event ? (
-        <>
-          <View style={tw`h-full pl-3 py-2 max-w-2/3 shrink-0`}>
-            <Text numberOfLines={1} style={tw`text-base text-slate-500 dark:text-slate-400`}>
-              {t('home.calendar.event.date', {
-                date: new Date(event.start),
-                formatParams: {
-                  date: { weekday: 'long', month: 'long', day: 'numeric' },
-                },
-              })}
-            </Text>
-            <Text numberOfLines={2} style={tw`text-xl grow text-gray-900 dark:text-gray-200`}>
-              {event.label}
-            </Text>
-          </View>
-          <View
-            style={[tw`h-full grow relative shrink`]}
-            onLayout={({ nativeEvent }: LayoutChangeEvent) =>
-              setContainerWidth(nativeEvent.layout.width)
-            }>
-            <View style={tw`absolute left-0 top-0 bottom-0 z-10`}>
-              <Fader
-                visible
-                position={Fader.position.START}
-                size={containerWidth}
-                tintColor={colorScheme === 'dark' ? tw.color('gray-900') : tw.color('gray-200')}
-              />
+    <View style={[tw`rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-900`, style]}>
+      <ImageBackground
+        contentFit="cover"
+        contentPosition="center"
+        source={event?.picture}
+        style={tw`w-full h-full flex rounded-2xl overflow-hidden relative`}
+        {...(event?.end && dayjs().isAfter(event.end) && { imageStyle: { opacity: 0.5 } })}>
+        {loading ? (
+          <Skeleton
+            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
+            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+            height={'100%'}
+            width={'100%'}
+          />
+        ) : event ? (
+          <BlurView
+            intensity={64}
+            style={tw`w-full flex flex-row items-center px-3 py-2 mt-auto`}
+            tint={tw.prefixMatch('dark') ? 'dark' : 'light'}>
+            {categorySource && (
+              <View style={[tw`h-10 w-10 bg-white rounded-lg overflow-hidden p-1`]}>
+                <Image source={categorySource} style={[tw`h-full w-full`]} />
+              </View>
+            )}
+            <View style={tw`flex flex-col items-start shrink-1 ml-3`}>
+              <Text
+                numberOfLines={1}
+                style={tw`text-base font-light text-slate-800 dark:text-slate-300`}>
+                {dayjs(event.start).calendar()}
+              </Text>
+              <Text
+                numberOfLines={1}
+                style={tw`text-xl font-medium text-gray-900 dark:text-gray-200`}>
+                {event.label}
+              </Text>
             </View>
-            <Image contentFit="cover" source={event.picture} style={tw`h-full`} transition={1000} />
-          </View>
-        </>
-      ) : null}
+          </BlurView>
+        ) : null}
+      </ImageBackground>
     </View>
   );
 };

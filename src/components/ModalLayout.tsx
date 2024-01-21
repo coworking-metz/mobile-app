@@ -5,6 +5,7 @@ import React, { useMemo, type ReactNode } from 'react';
 import { Platform, View } from 'react-native';
 import Animated, {
   FadeInDown,
+  type StyleProps,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -25,15 +26,18 @@ const INTERPOLATE_INPUT_RANGE = [
 
 const TITLE_LEFT_ORIGIN = 24;
 const TITLE_LEFT_DESTINATION = 64;
+const TITLE_RIGHT_DESTINATION = 56;
 
 const ModalLayout = ({
   title,
   from,
   children,
+  contentStyle,
 }: {
-  title: string;
+  title?: string;
   from?: string;
   children?: ReactNode;
+  contentStyle?: StyleProps;
 }) => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
@@ -92,6 +96,13 @@ const ModalLayout = ({
       from ? TITLE_LEFT_DESTINATION : TITLE_LEFT_ORIGIN,
     ]);
 
+    const marginRight = interpolate(verticalScrollProgress.value, INTERPOLATE_INPUT_RANGE, [
+      0,
+      0,
+      TITLE_RIGHT_DESTINATION,
+      TITLE_RIGHT_DESTINATION,
+    ]);
+
     const fontSize = interpolate(
       verticalScrollProgress.value,
       INTERPOLATE_INPUT_RANGE,
@@ -100,6 +111,7 @@ const ModalLayout = ({
 
     return {
       marginLeft,
+      marginRight,
       fontSize,
     };
   }, [verticalScrollProgress, insets, from]);
@@ -115,13 +127,14 @@ const ModalLayout = ({
             paddingRight: insets.right,
             paddingBottom: insets.bottom + 16,
           },
+          contentStyle,
         ]}
         horizontal={false}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         style={tw`w-full h-full`}
         onScroll={onVerticalScroll}>
-        <View style={tw`flex flex-col grow gap-3`}>{children}</View>
+        {children}
       </Animated.ScrollView>
 
       <Animated.View

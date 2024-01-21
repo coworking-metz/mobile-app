@@ -10,11 +10,11 @@ const AppFooter = ({ style, ...props }: ViewProps) => {
 
   return (
     <View style={[tw`flex flex-col gap-1 w-full`, style]} {...props}>
-      <Text style={tw`text-slate-500 text-center`}>{t('footer.copyright')}</Text>
-      <Text style={tw`text-slate-500 text-center`}>{t('footer.madeWith')}</Text>
+      <Text style={tw`font-normal text-slate-500 text-center`}>{t('footer.copyright')}</Text>
+      <Text style={tw`font-normal text-slate-500 text-center`}>{t('footer.madeWith')}</Text>
 
       <Link asChild href="/about">
-        <Text style={tw`text-amber-500 text-center`}>{t('footer.about')}</Text>
+        <Text style={tw`font-normal text-amber-500 text-center`}>{t('footer.about')}</Text>
       </Link>
     </View>
   );

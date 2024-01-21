@@ -1,4 +1,12 @@
 import { HTTP } from '../http';
+import dayjs from 'dayjs';
+
+export interface ApiMemberSubscription {
+  aboEnd: string;
+  aboStart: string;
+  current: boolean;
+  purchaseDate: string;
+}
 
 export interface ApiMemberProfile {
   _id: string;
@@ -15,16 +23,13 @@ export interface ApiMemberProfile {
   balance: number;
   membershipOk?: boolean;
   lastMembership?: number;
-  abos: {
-    aboEnd: string;
-    aboStart: string;
-    current: boolean;
-    purchaseDate: string;
-  }[];
+  abos: ApiMemberSubscription[];
 }
 
 export const getCurrentMembers = (): Promise<ApiMemberProfile[]> => {
-  return HTTP.get('/api/current-members').then(({ data }) => data);
+  return HTTP.get('/api/current-members').then(({ data }) =>
+    data.sort((a: ApiMemberProfile, b: ApiMemberProfile) => dayjs(a.lastSeen).diff(b.lastSeen)),
+  );
 };
 
 export const getMemberProfile = (memberId: string | number): Promise<ApiMemberProfile> => {
@@ -65,4 +70,8 @@ export interface ApiMemberTicket {
 
 export const getMemberTickets = (memberId: string): Promise<ApiMemberTicket[]> => {
   return HTTP.get(`/api/members/${memberId}/tickets`).then(({ data }) => data);
+};
+
+export const buildMemberPictureUrl = (wordpressUserId: number) => {
+  return `${process.env.EXPO_PUBLIC_WORDPRESS_BASE_URL}/polaroid/${wordpressUserId}-raw-small.jpg`;
 };

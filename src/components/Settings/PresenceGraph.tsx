@@ -67,7 +67,7 @@ const PresenceGraph = ({
       if (opacity > 0.15) {
         if (hasSelectedDate) {
           if (opacity >= 1) {
-            return theme.blueCrayola; // should be 1 because count is 3 (the highest)
+            return `${tw.color('amber-800')}`; // should be 1 because count is 3 (the highest)
           }
         }
 

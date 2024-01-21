@@ -1,4 +1,5 @@
 import { Button } from '@ddx0510/react-native-ui-lib';
+import TouchableScale from '@jonny/touchable-scale';
 import { makeRedirectUri } from 'expo-auth-session';
 import Constants from 'expo-constants';
 import { Link } from 'expo-router';
@@ -16,6 +17,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import WelcomeAnimation from '@/components/Animations/WelcomeAnimation';
+import AppRoundedButton from '@/components/AppRoundedButton';
 import AppFooter from '@/components/Settings/AppFooter';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { theme } from '@/helpers/colors';
@@ -72,6 +74,10 @@ export default function Login() {
           return Linking.openURL(url);
         }
       })
+      .then(() => {
+        // should clear all previous notifications
+        toastStore.dismissAll();
+      })
       .catch(async (error) => {
         const description = await parseErrorText(error);
         noticeStore.add({
@@ -97,7 +103,7 @@ export default function Login() {
           paddingRight: insets.right,
         },
       ]}
-      style={tw`flex flex-col grow shrink dark:bg-black`}>
+      style={tw`flex flex-col grow shrink bg-gray-100 dark:bg-black`}>
       <View style={tw`flex flex-col justify-end self-center shrink grow basis-0`}>
         <WelcomeAnimation style={tw`w-full max-w-[256px] max-h-[256px]`} />
       </View>
@@ -109,17 +115,13 @@ export default function Login() {
           {t('auth.login.title')}
         </Text>
 
-        <Button
-          backgroundColor={theme.darkVanilla}
-          disabled={isLoading}
-          style={tw`mt-4 mx-2 h-14`}
-          onPress={onSubmit}>
+        <AppRoundedButton disabled={isLoading} style={tw`mt-4 mx-2 h-14`} onPress={onSubmit}>
           {isLoading ? (
             <HorizontalLoadingAnimation />
           ) : (
             <Text style={tw`text-base font-medium`}>{t('actions.login')}</Text>
           )}
-        </Button>
+        </AppRoundedButton>
         <Link asChild href="/onboarding">
           <Button
             activeBackgroundColor={

@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { BlurView } from 'expo-blur';
 import Constants from 'expo-constants';
+import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
 import * as Linking from 'expo-linking';
 import { Link, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -178,6 +179,7 @@ const Settings = () => {
     (selectedDate: string) => {
       const activityFound = activity?.find(({ date }) => selectedDate === date);
       if (activityFound) {
+        impactAsync(ImpactFeedbackStyle.Light);
         setSelectedPresence(activityFound?.date === selectedPresence?.date ? null : activityFound);
       }
     },
@@ -209,7 +211,7 @@ const Settings = () => {
               </Animated.Text>
               <Animated.Text
                 entering={FadeInLeft.duration(500).delay(150)}
-                style={tw`text-xl text-slate-500 dark:text-slate-400`}>
+                style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
                 {authStore.user?.email}
               </Animated.Text>
             </View>
@@ -248,7 +250,7 @@ const Settings = () => {
             ]}>
             <Animated.Text
               entering={FadeInLeft.duration(300)}
-              style={tw`text-sm uppercase text-slate-500 mx-6`}>
+              style={tw`text-sm font-normal uppercase text-slate-500 mx-6`}>
               {t('settings.profile.presence.title')}
             </Animated.Text>
             <PresenceGraph
@@ -262,8 +264,9 @@ const Settings = () => {
               onDateSelect={onDateSelect}
             />
             <SegmentedControl
+              fontStyle={tw`font-normal`}
               selectedIndex={shouldRenderAllPresences ? 0 : 1}
-              style={tw`mx-6`}
+              style={tw`mx-6 mt-3`}
               values={[
                 t(`settings.profile.presence.period.all`),
                 t(`settings.profile.presence.period.last6Months`),
@@ -275,7 +278,7 @@ const Settings = () => {
 
             <Animated.Text
               entering={FadeInLeft.duration(300)}
-              style={tw`text-sm uppercase text-slate-500 mx-6 mt-6`}>
+              style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.general.title')}
             </Animated.Text>
             {!IS_PROD ? (
@@ -311,7 +314,7 @@ const Settings = () => {
               prefixIcon="web"
               style={tw`px-3 mx-3`}
               onPress={() => setPickingLanguage(true)}>
-              <Text style={tw`text-base text-amber-500 grow text-right`}>
+              <Text style={tw`text-base font-normal text-amber-500 grow text-right`}>
                 {getLanguageLabel(
                   !chosenLanguage || chosenLanguage === SYSTEM_OPTION
                     ? SYSTEM_LANGUAGE
@@ -323,7 +326,7 @@ const Settings = () => {
 
             <Animated.Text
               entering={FadeInLeft.duration(300)}
-              style={tw`text-sm uppercase text-slate-500 mx-6 mt-6`}>
+              style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.support.title')}
             </Animated.Text>
             {/* <Link asChild href="/help">
@@ -366,7 +369,7 @@ const Settings = () => {
 
             <Animated.Text
               entering={FadeInLeft.duration(300)}
-              style={tw`text-sm uppercase text-slate-500 mx-6 mt-6`}>
+              style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.support.contact.label')}
             </Animated.Text>
             <Link
@@ -385,7 +388,7 @@ const Settings = () => {
               loading={isContactingTeam}
               prefixIcon="email-outline"
               style={tw`px-3 mx-3`}
-              suffixIcon={null}
+              suffixIcon="open-in-new"
               onPress={onContactTeamByEmail}
             />
 

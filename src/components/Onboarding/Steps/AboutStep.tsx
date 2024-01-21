@@ -63,12 +63,12 @@ const AboutStep = ({
           </Animated.Text>
           <Animated.Text
             entering={FadeInLeft.duration(750).delay(300)}
-            style={tw`text-xl text-slate-500 dark:text-slate-400`}>
+            style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
             {t('onboarding.about.headline')}
           </Animated.Text>
           <Animated.Text
             entering={FadeInDown.duration(750).delay(500)}
-            style={tw`mt-4 text-base text-gray-500`}>
+            style={tw`mt-4 text-base font-normal text-gray-500`}>
             {t('onboarding.about.description')}
           </Animated.Text>
           <Animated.View entering={FadeInDown.duration(750).delay(500)} style={tw`mt-auto w-full`}>
@@ -76,7 +76,7 @@ const AboutStep = ({
               label={t('settings.general.language.label')}
               prefixIcon="web"
               onPress={onPickingLanguage}>
-              <Text style={tw`text-base text-amber-500 ml-auto`}>
+              <Text style={tw`text-base font-normal text-amber-500 ml-auto`}>
                 {getLanguageLabel(
                   !settingsStore.language || settingsStore.language === SYSTEM_OPTION
                     ? SYSTEM_LANGUAGE

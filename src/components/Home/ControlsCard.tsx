@@ -19,7 +19,7 @@ const UnlockCard: ForwardRefRenderFunction<
   return (
     <Animated.View
       style={[
-        tw`flex flex-row items-center gap-3 px-3 rounded-2xl min-h-18 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
+        tw`flex flex-row items-center gap-4 px-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
         style,
       ]}>
       <Animated.View style={tw`bg-gray-300 dark:bg-gray-700 rounded-full p-2 z-20`}>
@@ -41,15 +41,6 @@ const UnlockCard: ForwardRefRenderFunction<
           ]}>
           {t('controls.title')}
         </Text>
-        {/* <View style={[tw`flex flex-row items-center gap-1`]}>
-          <Text
-            style={[
-              tw`flex flex-row items-center text-base text-slate-500 dark:text-slate-400 grow`,
-              disabled && tw`opacity-30`,
-            ]}>
-            {t('controls.description')}
-          </Text>
-        </View> */}
       </Animated.View>
       <MaterialCommunityIcons
         color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}

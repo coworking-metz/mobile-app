@@ -23,7 +23,7 @@ const AppBottomSheetBackdrop = ({
     [style, containerAnimatedStyle],
   );
 
-  return <Animated.View style={[tw`z-10`, containerStyle]} onTouchEnd={onTouch} />;
+  return <Animated.View style={[tw`absolute z-10`, containerStyle]} onTouchEnd={onTouch} />;
 };
 
 export default AppBottomSheetBackdrop;

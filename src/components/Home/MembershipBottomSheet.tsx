@@ -1,18 +1,17 @@
-import MedalAnimation from '../Animations/MedalAnimation';
-import MedalTickedAnimation from '../Animations/MedalTickedAnimation';
+import MembershipFormAnimation from '../Animations/MembershipFormAnimation';
+import MembershipFormTickedAnimation from '../Animations/MembershipFormTickedAnimation';
 import AppBottomSheet from '../AppBottomSheet';
+import AppRoundedButton from '../AppRoundedButton';
 import ServiceRow from '../Settings/ServiceRow';
-import { Button } from '@ddx0510/react-native-ui-lib';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
-import { theme } from '@/helpers/colors';
 
 const MembershipBottomSheet = ({
   lastMembershipYear,
@@ -30,16 +29,23 @@ const MembershipBottomSheet = ({
   const { t } = useTranslation();
 
   return (
-    <AppBottomSheet style={style} onClose={onClose}>
+    <AppBottomSheet
+      style={style}
+      onClose={onClose}
+      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <View style={tw`flex flex-col w-full justify-between p-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-          {valid ? <MedalTickedAnimation /> : <MedalAnimation />}
+          {valid ? (
+            <MembershipFormTickedAnimation style={tw`h-56`} />
+          ) : (
+            <MembershipFormAnimation style={tw`h-56`} />
+          )}
         </View>
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
           {t('home.profile.membership.label')}
         </Text>
-        <Text style={tw`text-left text-base text-slate-500 dark:text-slate-400 w-full mt-4`}>
+        <Text style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
           {t('home.profile.membership.description')}
         </Text>
 
@@ -52,7 +58,8 @@ const MembershipBottomSheet = ({
               width={128}
             />
           ) : (
-            <Text style={tw`text-base text-slate-500 dark:text-slate-400 grow text-right`}>
+            <Text
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
               {valid
                 ? t('home.profile.membership.status.valid', { year: lastMembershipYear })
                 : lastMembershipYear
@@ -71,7 +78,8 @@ const MembershipBottomSheet = ({
               size={24}
               style={tw`shrink-0 grow-0`}
             />
-            <Text style={tw`text-base text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
+            <Text
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
               {t('home.profile.membership.required')}
             </Text>
           </View>
@@ -84,11 +92,20 @@ const MembershipBottomSheet = ({
             asChild
             href="https://www.coworking-metz.fr/boutique/carte-adherent/"
             style={tw`mt-2`}>
-            <Button backgroundColor={theme.darkVanilla} style={tw`h-14 self-stretch`}>
-              <Text style={tw`text-base font-medium`}>
-                {t('home.profile.membership.renew', { year: dayjs().year() })}
+            <AppRoundedButton style={tw`h-14 self-stretch`}>
+              <Text style={tw`text-base font-medium text-black`}>
+                {lastMembershipYear
+                  ? t('home.profile.membership.renew', { year: dayjs().year() })
+                  : t('home.profile.membership.get', { year: dayjs().year() })}
               </Text>
-            </Button>
+              <MaterialCommunityIcons
+                color={tw.color('black')}
+                iconStyle={tw`h-6 w-6`}
+                name="open-in-new"
+                size={24}
+                style={tw`ml-1`}
+              />
+            </AppRoundedButton>
           </Link>
         )}
       </View>

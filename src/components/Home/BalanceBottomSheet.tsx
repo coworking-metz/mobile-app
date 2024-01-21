@@ -1,16 +1,15 @@
 import CouponsAnimation from '../Animations/CouponsAnimation';
 import AppBottomSheet from '../AppBottomSheet';
+import AppRoundedButton from '../AppRoundedButton';
 import ServiceRow from '../Settings/ServiceRow';
-import { Button } from '@ddx0510/react-native-ui-lib';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
-import { theme } from '@/helpers/colors';
 
 const BalanceBottomSheet = ({
   balance,
@@ -26,7 +25,10 @@ const BalanceBottomSheet = ({
   const { t } = useTranslation();
 
   return (
-    <AppBottomSheet style={style} onClose={onClose}>
+    <AppBottomSheet
+      style={style}
+      onClose={onClose}
+      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <View style={tw`flex flex-col w-full justify-between p-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <CouponsAnimation style={tw`h-56`} />
@@ -35,7 +37,7 @@ const BalanceBottomSheet = ({
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
           {t('home.profile.tickets.label')}
         </Text>
-        <Text style={tw`text-left text-base text-slate-500 dark:text-slate-400 w-full mt-4`}>
+        <Text style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
           {t('home.profile.tickets.description')}
         </Text>
         <ServiceRow label={t('home.profile.tickets.balance.label')} style={tw`w-full px-0`}>
@@ -47,15 +49,26 @@ const BalanceBottomSheet = ({
               width={96}
             />
           ) : (
-            <Text style={tw`text-base text-slate-500 dark:text-slate-400 grow text-right`}>
-              {balance >= 0
-                ? t('home.profile.tickets.available', {
-                    count: balance,
-                  })
-                : t('home.profile.tickets.depleted', {
-                    count: -balance,
-                  })}
-            </Text>
+            <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
+              {balance != 0 && (
+                <Text
+                  numberOfLines={1}
+                  style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
+                  {Math.abs(balance)}
+                </Text>
+              )}
+              <Text
+                numberOfLines={1}
+                style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+                {balance >= 0
+                  ? t('home.profile.tickets.available', {
+                      count: balance,
+                    })
+                  : t('home.profile.tickets.depleted', {
+                      count: -balance,
+                    })}
+              </Text>
+            </View>
           )}
         </ServiceRow>
         {balance < 0 ? (
@@ -67,7 +80,7 @@ const BalanceBottomSheet = ({
               size={24}
               style={tw`shrink-0 grow-0`}
             />
-            <Text style={tw`text-base text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
+            <Text style={tw`text-left text-base font-normal text-slate-500 shrink grow basis-0`}>
               {t('home.profile.tickets.balance.onDepleted')}
             </Text>
           </View>
@@ -78,9 +91,18 @@ const BalanceBottomSheet = ({
           asChild
           href="https://www.coworking-metz.fr/boutique/carnet-10-journees/"
           style={tw`mt-2`}>
-          <Button backgroundColor={theme.darkVanilla} style={tw`h-14 self-stretch`}>
-            <Text style={tw`text-base font-medium`}>{t('home.profile.tickets.add')}</Text>
-          </Button>
+          <AppRoundedButton style={tw`h-14 self-stretch`}>
+            <Text style={tw`text-base text-black font-medium`}>
+              {t('home.profile.tickets.add')}
+            </Text>
+            <MaterialCommunityIcons
+              color={tw.color('black')}
+              iconStyle={tw`h-6 w-6`}
+              name="open-in-new"
+              size={24}
+              style={tw`ml-1`}
+            />
+          </AppRoundedButton>
         </Link>
       </View>
     </AppBottomSheet>

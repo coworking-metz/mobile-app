@@ -3,7 +3,6 @@ import { Stack, useRouter } from 'expo-router';
 import { Platform, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
-
 import { theme } from '@/helpers/colors';
 
 export default function EventsLayout() {
@@ -12,7 +11,7 @@ export default function EventsLayout() {
   const router = useRouter();
 
   return (
-    <View style={tw`relative h-full w-full dark:bg-black`}>
+    <View style={tw`relative h-full w-full bg-gray-100 dark:bg-black`}>
       <View
         style={[
           tw`px-4 mt-3 absolute z-10 top-0`,
@@ -42,14 +41,17 @@ export default function EventsLayout() {
           name="calendar"
           options={{
             animationTypeForReplace: 'pop',
+            contentStyle: {
+              backgroundColor: 'transparent',
+            },
           }}
         />
         <Stack.Screen
           name="[id]"
           options={{
-            ...(Platform.OS === 'android' && {
-              animation: 'slide_from_right',
-            }),
+            contentStyle: {
+              backgroundColor: 'transparent',
+            },
           }}
         />
       </Stack>

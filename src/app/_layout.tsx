@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SplashScreen, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { Platform, View } from 'react-native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
@@ -33,18 +34,30 @@ const RootLayout = () => {
         <I18nProvider>
           <AuthProvider>
             <SafeAreaProvider>
-              <Stack screenOptions={{ headerShown: false }}>
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                  // contentStyle: {
+                  //   backgroundColor: 'transparent',
+                  // },
+                }}>
                 <Stack.Screen
                   name="index"
                   options={{
                     headerShown: false,
                     animationTypeForReplace: 'pop',
+                    contentStyle: {
+                      backgroundColor: 'transparent',
+                    },
                   }}
                 />
                 <Stack.Screen
                   name="[...missing]"
                   options={{
                     headerShown: false,
+                    contentStyle: {
+                      backgroundColor: 'transparent',
+                    },
                   }}
                 />
                 <Stack.Screen
@@ -53,31 +66,37 @@ const RootLayout = () => {
                     headerShown: false,
                     animation: 'fade',
                     animationTypeForReplace: 'pop',
+                    contentStyle: {
+                      backgroundColor: 'transparent',
+                    },
                   }}
                 />
                 <Stack.Screen
                   name="(public)/advanced"
                   options={{
                     headerShown: false,
-                    ...(Platform.OS === 'android' && {
-                      animation: 'slide_from_right',
-                    }),
+                    contentStyle: {
+                      backgroundColor: 'transparent',
+                    },
                   }}
                 />
                 <Stack.Screen
                   name="(public)/about"
                   options={{
                     headerShown: false,
-                    ...(Platform.OS === 'android' && {
-                      animation: 'slide_from_right',
-                    }),
+                    contentStyle: {
+                      backgroundColor: 'transparent',
+                    },
                   }}
                 />
                 <Stack.Screen
                   name="(public)/onboarding"
                   options={{
-                    presentation: 'modal',
                     headerShown: false,
+                    presentation: 'modal',
+                    contentStyle: {
+                      backgroundColor: 'transparent',
+                    },
                     ...(Platform.OS === 'android' && {
                       animation: 'slide_from_bottom',
                     }),
@@ -89,12 +108,18 @@ const RootLayout = () => {
                   options={{
                     animation: 'fade',
                     headerShown: false,
+                    contentStyle: {
+                      backgroundColor: 'transparent',
+                    },
                   }}
                 />
                 <Stack.Screen
                   name="(private)/settings"
                   options={{
                     headerShown: false,
+                    contentStyle: {
+                      backgroundColor: 'transparent',
+                    },
                     ...(Platform.OS === 'android' && {
                       animation: 'slide_from_right',
                     }),
@@ -104,8 +129,11 @@ const RootLayout = () => {
                 <Stack.Screen
                   name="(private)/presence"
                   options={{
-                    presentation: 'modal',
                     headerShown: false,
+                    presentation: 'modal',
+                    contentStyle: {
+                      backgroundColor: 'transparent',
+                    },
                     ...(Platform.OS === 'android' && {
                       animation: 'slide_from_bottom',
                     }),
@@ -115,8 +143,11 @@ const RootLayout = () => {
                 <Stack.Screen
                   name="(private)/events"
                   options={{
-                    presentation: 'modal',
                     headerShown: false,
+                    presentation: 'modal',
+                    contentStyle: {
+                      backgroundColor: 'transparent',
+                    },
                     ...(Platform.OS === 'android' && {
                       animation: 'slide_from_bottom',
                     }),

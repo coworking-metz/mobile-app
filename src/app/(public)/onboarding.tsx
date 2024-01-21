@@ -14,6 +14,7 @@ import Animated, {
 import Carousel, { type ICarouselInstance } from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
+import AppTouchableScale from '@/components/AppTouchableScale';
 import PaginationDot from '@/components/Onboarding/PaginationDot';
 import Step from '@/components/Onboarding/Step';
 import AboutStep from '@/components/Onboarding/Steps/AboutStep';
@@ -162,7 +163,7 @@ const Onboarding = () => {
       <View
         pointerEvents={isPickingLanguage ? 'none' : 'auto'}
         style={[
-          tw`overflow-hidden dark:bg-black`,
+          tw`overflow-hidden bg-gray-100 dark:bg-black`,
           { paddingLeft: insets.left, paddingBottom: insets.bottom, paddingRight: insets.right },
         ]}
         onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>
@@ -225,7 +226,7 @@ const Onboarding = () => {
             <Animated.View
               entering={FadeInDown.duration(500).delay(1000)}
               style={tw`shrink-0 flex flex-row items-center justify-between pt-1 pb-8 px-8`}>
-              <TouchableOpacity
+              <AppTouchableScale
                 style={tw`flex flex-row h-14 w-full rounded-full overflow-hidden`}
                 onPress={onNext}>
                 <Animated.View style={[tw`h-full w-full relative`, buttonBackgroundStyle]}>
@@ -248,7 +249,7 @@ const Onboarding = () => {
                     </Animated.Text>
                   </Animated.View>
                 </Animated.View>
-              </TouchableOpacity>
+              </AppTouchableScale>
             </Animated.View>
           </View>
         ) : null}

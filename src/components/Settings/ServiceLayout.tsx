@@ -82,7 +82,7 @@ const ServiceLayout = ({
   }, [verticalScrollProgress, headerHeight]);
 
   return (
-    <View style={[{ flex: 1 }, tw`dark:bg-black`]}>
+    <View style={[{ flex: 1 }, tw`bg-gray-100 dark:bg-black`]}>
       <View style={tw`flex flex-col grow relative`}>
         <Animated.View
           style={[
@@ -111,7 +111,7 @@ const ServiceLayout = ({
                 <Animated.Text
                   entering={FadeInLeft.duration(500).delay(150)}
                   numberOfLines={1}
-                  style={tw`text-xl text-slate-500 dark:text-slate-400`}>
+                  style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
                   {description}
                 </Animated.Text>
               ) : null}

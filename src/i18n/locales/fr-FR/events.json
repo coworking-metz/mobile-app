@@ -1,9 +1,38 @@
 {
   "calendar": {
-    "title": "Tous les évènements"
+    "title": "Évènements"
   },
   "detail": {
     "date": "Ce {{date, datetime}}",
     "time": "de {{startTime}} à {{endTime}}"
+  },
+  "period": {
+    "label": "Période",
+    "options": {
+      "day": {
+        "description": "ce {{date}}",
+        "empty": "Aucun évènement trouvé aujourd'hui",
+        "label": "Aujourd'hui"
+      },
+      "month": {
+        "description": "du {{from}} au {{to}}",
+        "empty": "Aucun évènement trouvé ce mois-ci",
+        "label": "Ce mois-ci"
+      },
+      "none": {
+        "empty": "Aucun évènement trouvé",
+        "fromToday": "à partir d'aujourd'hui",
+        "label": "Tous",
+        "since": "depuis le {{date}}"
+      },
+      "week": {
+        "description": "du {{from}} au {{to}}",
+        "empty": "Aucun évènement trouvé cette semaine",
+        "label": "Cette semaine"
+      }
+    }
+  },
+  "previous": {
+    "label": "Antérieurs"
   }
 }
