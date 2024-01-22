@@ -1,4 +1,3 @@
-import { ToastPresets } from '@ddx0510/react-native-ui-lib';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { useQuery } from '@tanstack/react-query';
@@ -8,6 +7,7 @@ import Constants from 'expo-constants';
 import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
 import * as Linking from 'expo-linking';
 import { Link, useRouter } from 'expo-router';
+import { dismissAuthSession } from 'expo-web-browser';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableNativeFeedback, View, type LayoutChangeEvent } from 'react-native';
@@ -19,10 +19,12 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ToastPresets } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import AppFooter from '@/components/Settings/AppFooter';
 import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
+import LogoutBottomSheet from '@/components/Settings/LogoutBottomSheet';
 import PresenceBottomSheet from '@/components/Settings/PresenceBottomSheet';
 import PresenceGraph from '@/components/Settings/PresenceGraph';
 import ServiceRow from '@/components/Settings/ServiceRow';
@@ -63,6 +65,7 @@ const Settings = () => {
   const [isPickingLanguage, setPickingLanguage] = useState(false);
   const [isPickingTheme, setPickingTheme] = useState(false);
   const [isContactingTeam, setContactingTeam] = useState(false);
+  const [wantsToLogout, setWantsToLogout] = useState(false);
 
   const {
     data: activity,
@@ -396,15 +399,7 @@ const Settings = () => {
               label={t('actions.logout')}
               prefixIcon="logout"
               style={tw`px-3 mx-3 mt-6`}
-              onPress={() =>
-                authStore.logout().then(() => {
-                  toastStore.add({
-                    message: t('auth.logout.onSuccess.message'),
-                    type: ToastPresets.SUCCESS,
-                    timeout: 3000,
-                  });
-                })
-              }
+              onPress={() => setWantsToLogout(true)}
             />
           </View>
 
@@ -461,6 +456,7 @@ const Settings = () => {
           onClose={() => setSelectedPresence(null)}
         />
       )}
+      {wantsToLogout && <LogoutBottomSheet onClose={() => setWantsToLogout(false)} />}
     </View>
   );
 };

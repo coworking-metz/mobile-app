@@ -1,4 +1,3 @@
-import { ToastPresets } from '@ddx0510/react-native-ui-lib';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Image } from 'expo-image';
@@ -15,6 +14,7 @@ import Animated, {
   Easing,
   withSequence,
 } from 'react-native-reanimated';
+import { ToastPresets } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';

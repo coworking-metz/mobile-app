@@ -1,5 +1,5 @@
-import { Incubator, type ToastProps } from '@ddx0510/react-native-ui-lib';
 import React, { useCallback, useEffect, useState } from 'react';
+import { Incubator, type ToastProps } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import useToastStore from '@/stores/toast';
 
