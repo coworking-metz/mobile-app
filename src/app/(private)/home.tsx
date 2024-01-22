@@ -148,17 +148,19 @@ export default function HomeScreen({}) {
   }, [calendarEventsError]);
 
   const nextCalendarEvents = useMemo(() => {
+    const now = dayjs();
+    const tomorrow = now.add(1, 'day').endOf('day');
+    console.log('nextCalendarEvents');
     return (
       calendarEvents?.filter(
         ({ start, end }) =>
-          dayjs(start).isBetween(dayjs(), dayjs().add(1, 'day').endOf('day')) ||
-          dayjs(end).isBetween(dayjs(), dayjs().add(1, 'day').endOf('day')),
+          dayjs(start).isBetween(now, tomorrow) || dayjs(end).isBetween(now, tomorrow),
       ) ?? []
     );
-  }, [calendarEvents]);
+  }, [calendarEvents, appState.current]);
 
   const firstPeriodWithEvents: PeriodType = useMemo(() => {
-    const [nextEvent] = calendarEvents?.filter(({ start }) => dayjs().isBefore(start)) || [];
+    const [nextEvent] = calendarEvents?.filter(({ end }) => dayjs().isBefore(end)) || [];
     if (nextEvent) {
       if (dayjs(nextEvent.start).isSame(dayjs(), 'week')) {
         return 'week';
@@ -322,11 +324,16 @@ export default function HomeScreen({}) {
               </Animated.View>
             ) : nextCalendarEvents.length ? (
               nextCalendarEvents.map((event) => (
-                <Link asChild href={`/events/${event.id}`} key={`calendar-event-card-${event.id}`}>
-                  <AppTouchableScale style={tw`w-80`}>
-                    <CalendarEventCard event={event} />
-                  </AppTouchableScale>
-                </Link>
+                <Animated.View
+                  entering={FadeIn.duration(300)}
+                  exiting={FadeOut.duration(300)}
+                  key={`calendar-event-card-${event.id}`}>
+                  <Link asChild href={`/events/${event.id}`}>
+                    <AppTouchableScale style={tw`w-80`}>
+                      <CalendarEventCard event={event} />
+                    </AppTouchableScale>
+                  </Link>
+                </Animated.View>
               ))
             ) : (
               <CalendarEmptyState
