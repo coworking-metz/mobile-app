@@ -147,7 +147,7 @@ const Calendar = () => {
             return true;
         }
       })
-      .filter((group) => withPastEvents || now.startOf('day').isBefore(group.date, 'day'));
+      .filter((group) => withPastEvents || group.events.some(({ end }) => now.isBefore(end)));
   }, [eventsGroupedByDate, selectedPeriod, withPastEvents]);
 
   return (

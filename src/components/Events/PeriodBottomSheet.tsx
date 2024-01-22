@@ -72,23 +72,18 @@ const PeriodOptions = ({ selected, withPastEvents, events, onSelect }: PeriodOpt
   const getPeriodCount = useCallback(
     (periodType: PeriodType) => {
       const now = dayjs();
+      const includingPastEvents = events.filter(
+        (event) => withPastEvents || now.isBefore(event.end),
+      );
       switch (periodType) {
         case 'day':
-          return events.filter((event) => now.isSame(event.start, 'day')).length;
+          return includingPastEvents.filter((event) => now.isSame(event.start, 'day')).length;
         case 'week':
-          return events
-            .filter((event) => now.isSame(event.start, 'week'))
-            .filter((event) => withPastEvents || now.startOf('day').isBefore(event.start, 'day'))
-            .length;
+          return includingPastEvents.filter((event) => now.isSame(event.start, 'week')).length;
         case 'month':
-          return events
-            .filter((event) => now.isSame(event.start, 'month'))
-            .filter((event) => withPastEvents || now.startOf('day').isBefore(event.start, 'day'))
-            .length;
+          return includingPastEvents.filter((event) => now.isSame(event.start, 'month')).length;
         case null:
-          return events.filter(
-            (event) => withPastEvents || now.startOf('day').isBefore(event.start, 'day'),
-          ).length;
+          return includingPastEvents.length;
       }
     },
     [events, withPastEvents],
