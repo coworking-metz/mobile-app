@@ -1,4 +1,3 @@
-import { Fader } from '@ddx0510/react-native-ui-lib';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
@@ -23,6 +22,7 @@ import Animated, {
   FadeOutUp,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppTouchableScale from '@/components/AppTouchableScale';
 import { type PeriodType } from '@/components/Events/PeriodBottomSheet';

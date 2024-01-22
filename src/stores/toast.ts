@@ -1,4 +1,4 @@
-import { type ToastPresets } from '@ddx0510/react-native-ui-lib';
+import { type ToastPresets } from 'react-native-ui-lib';
 import uuid from 'react-native-uuid';
 import { create } from 'zustand';
 

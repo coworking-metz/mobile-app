@@ -1,7 +1,8 @@
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
+import { WebBrowserPresentationStyle, openBrowserAsync } from 'expo-web-browser';
 import { Skeleton } from 'moti/skeleton';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View, type ViewProps } from 'react-native';
 import AnimatedNumber from 'react-native-animated-number';
@@ -11,6 +12,8 @@ import tw from 'twrnc';
 import { buildMemberPictureUrl, type ApiMemberProfile } from '@/services/api/members';
 
 const MAX_MEMBERS_PICTURES = 4;
+
+const PHOTO_BOARD_URL = process.env.EXPO_PUBLIC_PHOTO_BOARD_URL || '';
 
 const PresentMembers = ({
   members = [],
@@ -31,27 +34,15 @@ const PresentMembers = ({
       .map((member) => buildMemberPictureUrl(member.wpUserId));
   }, [members]);
 
-  // if (!loading) {
-  //   return (
-  //     <View style={[tw`flex flex-col gap-2 justify-end h-32 overflow-hidden`, style]}>
-  //       <View style={tw`flex flex-row items-end gap-3`}>
-  //         <Skeleton
-  //           backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
-  //           colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-  //           height={96}
-  //           radius={16}
-  //           width={96}
-  //         />
-  //         <Skeleton
-  //           backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
-  //           colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-  //           height={40}
-  //           width={128}
-  //         />
-  //       </View>
-  //     </View>
-  //   );
-  // }
+  const onSelectMembersPictures = useCallback(() => {
+    if (PHOTO_BOARD_URL) {
+      openBrowserAsync(PHOTO_BOARD_URL, {
+        presentationStyle: WebBrowserPresentationStyle.POPOVER,
+        showTitle: false,
+        enableDefaultShareMenuItem: false,
+      });
+    }
+  }, []);
 
   return (
     <View style={[tw`flex flex-col justify-end h-32 w-full`, style]}>
@@ -99,30 +90,28 @@ const PresentMembers = ({
             entering={FadeInRight.duration(750).delay(150)}
             exiting={FadeOutRight.duration(500)}
             style={tw`grow basis-0 shrink`}>
-            <Link asChild href={process.env.EXPO_PUBLIC_PHOTO_BOARD_URL || ''}>
-              <TouchableOpacity>
-                <View style={tw`flex flex-row-reverse items-center grow h-8 overflow-hidden`}>
-                  {members.length > MAX_MEMBERS_PICTURES ? (
-                    <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 ml-1`}>
-                      +{members.length - MAX_MEMBERS_PICTURES}
-                    </Text>
-                  ) : null}
-                  {memberPictures.slice(0, MAX_MEMBERS_PICTURES).map((picture) => (
-                    <View
-                      key={`member-${picture}`}
-                      style={tw`flex items-center justify-center flex-shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden ml-[-1rem]`}>
-                      <Image
-                        contentFit="cover"
-                        contentPosition={'top center'}
-                        source={picture}
-                        style={tw`h-8 w-8 rounded-full bg-gray-200`}
-                        transition={1000}
-                      />
-                    </View>
-                  ))}
-                </View>
-              </TouchableOpacity>
-            </Link>
+            <TouchableOpacity onPress={onSelectMembersPictures}>
+              <View style={tw`flex flex-row-reverse items-center grow h-8 overflow-hidden`}>
+                {members.length > MAX_MEMBERS_PICTURES ? (
+                  <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 ml-1`}>
+                    +{members.length - MAX_MEMBERS_PICTURES}
+                  </Text>
+                ) : null}
+                {memberPictures.slice(0, MAX_MEMBERS_PICTURES).map((picture) => (
+                  <View
+                    key={`member-${picture}`}
+                    style={tw`flex items-center justify-center flex-shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden ml-[-1rem]`}>
+                    <Image
+                      contentFit="cover"
+                      contentPosition={'top center'}
+                      source={picture}
+                      style={tw`h-8 w-8 rounded-full bg-gray-200`}
+                      transition={1000}
+                    />
+                  </View>
+                ))}
+              </View>
+            </TouchableOpacity>
           </Animated.View>
         ) : null}
       </View>

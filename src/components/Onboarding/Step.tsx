@@ -1,4 +1,3 @@
-import { Fader } from '@ddx0510/react-native-ui-lib';
 import { Children, cloneElement, type ReactNode, useState } from 'react';
 import { type LayoutChangeEvent, View } from 'react-native';
 import Animated, {
@@ -8,6 +7,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 
 const Step = ({

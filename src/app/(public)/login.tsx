@@ -1,5 +1,3 @@
-import { Button } from '@ddx0510/react-native-ui-lib';
-import TouchableScale from '@jonny/touchable-scale';
 import { makeRedirectUri } from 'expo-auth-session';
 import Constants from 'expo-constants';
 import { Link } from 'expo-router';
@@ -7,20 +5,19 @@ import {
   coolDownAsync,
   openAuthSessionAsync,
   warmUpAsync,
-  WebBrowserPresentationStyle,
   type WebBrowserRedirectResult,
 } from 'expo-web-browser';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Button } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import WelcomeAnimation from '@/components/Animations/WelcomeAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppFooter from '@/components/Settings/AppFooter';
 import ServiceRow from '@/components/Settings/ServiceRow';
-import { theme } from '@/helpers/colors';
 import { parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import { HTTP } from '@/services/http';
@@ -119,7 +116,7 @@ export default function Login() {
           {isLoading ? (
             <HorizontalLoadingAnimation />
           ) : (
-            <Text style={tw`text-base font-medium`}>{t('actions.login')}</Text>
+            <Text style={tw`text-base text-black font-medium`}>{t('actions.login')}</Text>
           )}
         </AppRoundedButton>
         <Link asChild href="/onboarding">
