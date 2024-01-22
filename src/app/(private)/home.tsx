@@ -95,7 +95,7 @@ export default function HomeScreen({}) {
       throw new Error('Missing user id');
     },
     retry: false,
-    enabled: !!user,
+    enabled: !!user?.id,
   });
 
   useEffect(() => {
@@ -150,7 +150,6 @@ export default function HomeScreen({}) {
   const nextCalendarEvents = useMemo(() => {
     const now = dayjs();
     const tomorrow = now.add(1, 'day').endOf('day');
-    console.log('nextCalendarEvents');
     return (
       calendarEvents?.filter(
         ({ start, end }) =>
@@ -411,11 +410,11 @@ export default function HomeScreen({}) {
         />
       ) : null}
 
-      {hasSelectMembership && profile ? (
+      {hasSelectMembership ? (
         <MembershipBottomSheet
-          lastMembershipYear={profile.lastMembership}
+          lastMembershipYear={profile?.lastMembership}
           loading={isFetchingProfile}
-          valid={profile.membershipOk}
+          valid={profile?.membershipOk}
           onClose={() => selectMembership(false)}
         />
       ) : null}

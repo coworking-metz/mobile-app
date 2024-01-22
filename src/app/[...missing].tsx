@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
@@ -57,7 +56,7 @@ const MissingScreen = () => {
           {t('notFound.description')}
         </Animated.Text>
 
-        <Link asChild href="/help">
+        <Link asChild href="/">
           <AppRoundedButton style={tw`mt-4 mx-2 h-14 self-stretch`}>
             <Text style={tw`text-base font-medium`}>{t('notFound.help')}</Text>
           </AppRoundedButton>

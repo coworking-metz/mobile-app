@@ -33,27 +33,14 @@ export default function EventsLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
-          contentStyle: {
-            backgroundColor: 'transparent',
-          },
         }}>
         <Stack.Screen
           name="calendar"
           options={{
             animationTypeForReplace: 'pop',
-            contentStyle: {
-              backgroundColor: 'transparent',
-            },
           }}
         />
-        <Stack.Screen
-          name="[id]"
-          options={{
-            contentStyle: {
-              backgroundColor: 'transparent',
-            },
-          }}
-        />
+        <Stack.Screen name="[id]" />
       </Stack>
     </View>
   );

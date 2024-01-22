@@ -7,7 +7,6 @@ import Constants from 'expo-constants';
 import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
 import * as Linking from 'expo-linking';
 import { Link, useRouter } from 'expo-router';
-import { dismissAuthSession } from 'expo-web-browser';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableNativeFeedback, View, type LayoutChangeEvent } from 'react-native';
@@ -19,7 +18,6 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ToastPresets } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import AppFooter from '@/components/Settings/AppFooter';
@@ -34,14 +32,13 @@ import { theme } from '@/helpers/colors';
 import { isSilentError, parseErrorText, useErrorNotification } from '@/helpers/error';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
 import {
-  type ApiMemberActivity,
   getMemberActivity,
   getMemberProfile,
+  type ApiMemberActivity,
 } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
-import useToastStore from '@/stores/toast';
 
 const NAVIGATION_HEIGHT = 48;
 const HEADER_HEIGHT = 192;
@@ -50,7 +47,6 @@ const IS_PROD = Constants.releaseChannel === 'production';
 
 const Settings = () => {
   useDeviceContext(tw);
-  const toastStore = useToastStore();
   const noticeStore = useNoticeStore();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
@@ -81,7 +77,7 @@ const Settings = () => {
     },
     retry: false,
     refetchOnMount: false,
-    enabled: !!authStore.user,
+    enabled: !!authStore.user?.id,
   });
 
   const {
@@ -98,7 +94,7 @@ const Settings = () => {
     },
     retry: false,
     refetchOnMount: false,
-    enabled: !!authStore.user,
+    enabled: !!authStore.user?.id,
   });
 
   useEffect(() => {

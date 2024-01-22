@@ -10,7 +10,8 @@ export type ApiUserRole = 'admin' | 'coworker' | 'guest' | 'external';
 export type ApiUserCapability = 'UNLOCK_GATE' | 'PARKING_ACCESS';
 
 export type ApiUser = {
-  id: string;
+  id?: string;
+  wpUserId: number;
   name: string;
   email: string;
   roles: ApiUserRole[];

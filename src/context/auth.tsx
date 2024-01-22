@@ -1,14 +1,11 @@
 import { useGlobalSearchParams, useRootNavigation, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ToastPresets } from 'react-native-ui-lib';
-import { parseErrorText, useErrorNotification } from '@/helpers/error';
+import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import useAuthStore from '@/stores/auth';
-import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
-import useToastStore from '@/stores/toast';
 
 const authLogger = log.extend(`[${__filename.split('/').pop()}]`);
 
@@ -62,9 +59,9 @@ const useProtectedRoute = (
     }
 
     return Promise.resolve(true);
-  }, [segments, refreshToken]);
+  }, [authStore, segments, refreshToken]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!rootNavigation?.isReady()) return;
 
     authLogger.debug('Path or tokens have changed', {
@@ -110,7 +107,7 @@ const useProtectedRoute = (
       });
   }, [refreshToken, rootNavigation, segments, queryRefreshToken, queryAccessToken]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (ready) {
       authLogger.debug('Hiding splash screen');
       SplashScreen.hideAsync();
