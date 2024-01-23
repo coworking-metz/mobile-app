@@ -8,6 +8,7 @@ import { Text } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
+import { APP_ENVIRONMENT } from '@/services/updates';
 
 const About = () => {
   useDeviceContext(tw);
@@ -47,6 +48,14 @@ const About = () => {
       <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
         {t('about.technical.title')}
       </Text>
+      <ServiceRow
+        withBottomDivider
+        label={t('about.technical.environment.label')}
+        style={tw`px-3 mx-3`}>
+        <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+          {APP_ENVIRONMENT}
+        </Text>
+      </ServiceRow>
       <ServiceRow
         withBottomDivider
         label={t('about.technical.version.label')}
