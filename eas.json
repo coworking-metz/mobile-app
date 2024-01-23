@@ -21,10 +21,12 @@
       }
     },
     "production": {
+      "autoIncrement": true,
       "channel": "production"
     }
   },
   "cli": {
+    "appVersionSource": "remote",
     "promptToConfigurePushNotifications": false,
     "version": ">= 3.16.0"
   },
