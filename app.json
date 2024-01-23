@@ -7,7 +7,9 @@
       },
       "package": "fr.coworking_metz.mobile"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "experiments": {
       "tsconfigPaths": true
     },
@@ -25,13 +27,16 @@
       "infoPlist": {
         "UIViewControllerBasedStatusBarAppearance": true
       },
-      "supportsTablet": false
+      "supportsTablet": false,
+      "buildNumber": "2"
     },
     "name": "Le Poulailler",
     "orientation": "portrait",
     "owner": "coworking-metz",
     "packagerOpts": {
-      "assetExts": ["md"]
+      "assetExts": [
+        "md"
+      ]
     },
     "plugins": [
       "@vonovak/react-native-theme-control",
