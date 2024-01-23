@@ -11,9 +11,16 @@ import { I18nProvider } from '@/context/i18n';
 import '@/i18n';
 import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
+import * as NavigationBar from 'expo-navigation-bar';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
+
+if (Platform.OS === 'android') {
+  // https://stackoverflow.com/a/76988309
+  NavigationBar.setPositionAsync('absolute');
+  NavigationBar.setBackgroundColorAsync('#ffffff01');
+}
 
 createHttpInterceptors(HTTP);
 
@@ -30,34 +37,28 @@ const RootLayout = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
         <I18nProvider>
           <AuthProvider>
-            <SafeAreaProvider>
+            <QueryClientProvider client={queryClient}>
               <Stack
                 screenOptions={{
                   headerShown: false,
-                  // contentStyle: {
-                  //   backgroundColor: 'transparent',
-                  // },
+                  contentStyle: {
+                    backgroundColor: 'transparent',
+                  },
                 }}>
                 <Stack.Screen
                   name="index"
                   options={{
                     headerShown: false,
                     animationTypeForReplace: 'pop',
-                    contentStyle: {
-                      backgroundColor: 'transparent',
-                    },
                   }}
                 />
                 <Stack.Screen
                   name="[...missing]"
                   options={{
                     headerShown: false,
-                    contentStyle: {
-                      backgroundColor: 'transparent',
-                    },
                   }}
                 />
                 <Stack.Screen
@@ -66,27 +67,18 @@ const RootLayout = () => {
                     headerShown: false,
                     animation: 'fade',
                     animationTypeForReplace: 'pop',
-                    contentStyle: {
-                      backgroundColor: 'transparent',
-                    },
                   }}
                 />
                 <Stack.Screen
                   name="(public)/advanced"
                   options={{
                     headerShown: false,
-                    contentStyle: {
-                      backgroundColor: 'transparent',
-                    },
                   }}
                 />
                 <Stack.Screen
                   name="(public)/about"
                   options={{
                     headerShown: false,
-                    contentStyle: {
-                      backgroundColor: 'transparent',
-                    },
                   }}
                 />
                 <Stack.Screen
@@ -94,11 +86,8 @@ const RootLayout = () => {
                   options={{
                     headerShown: false,
                     presentation: 'modal',
-                    contentStyle: {
-                      backgroundColor: 'transparent',
-                    },
                     ...(Platform.OS === 'android' && {
-                      animation: 'slide_from_bottom',
+                      animation: 'fade_from_bottom',
                     }),
                   }}
                 />
@@ -108,35 +97,12 @@ const RootLayout = () => {
                   options={{
                     animation: 'fade',
                     headerShown: false,
-                    contentStyle: {
-                      backgroundColor: 'transparent',
-                    },
                   }}
                 />
                 <Stack.Screen
                   name="(private)/settings"
                   options={{
                     headerShown: false,
-                    contentStyle: {
-                      backgroundColor: 'transparent',
-                    },
-                    ...(Platform.OS === 'android' && {
-                      animation: 'slide_from_right',
-                    }),
-                  }}
-                />
-
-                <Stack.Screen
-                  name="(private)/presence"
-                  options={{
-                    headerShown: false,
-                    presentation: 'modal',
-                    contentStyle: {
-                      backgroundColor: 'transparent',
-                    },
-                    ...(Platform.OS === 'android' && {
-                      animation: 'slide_from_bottom',
-                    }),
                   }}
                 />
 
@@ -145,11 +111,8 @@ const RootLayout = () => {
                   options={{
                     headerShown: false,
                     presentation: 'modal',
-                    contentStyle: {
-                      backgroundColor: 'transparent',
-                    },
                     ...(Platform.OS === 'android' && {
-                      animation: 'slide_from_bottom',
+                      animation: 'fade_from_bottom',
                     }),
                   }}
                 />
@@ -159,7 +122,7 @@ const RootLayout = () => {
                 style={[
                   ...(Platform.OS === 'android'
                     ? [
-                        !!insets.top && { marginTop: insets.top },
+                        { marginTop: (insets.top || 0) + 8 },
                         !!insets.left && { marginLeft: insets.left },
                         !!insets.bottom && { marginBottom: insets.bottom },
                         !!insets.right && { marginRight: insets.right },
@@ -168,10 +131,10 @@ const RootLayout = () => {
                 ]}
               />
               <NoticeBottomSheet />
-            </SafeAreaProvider>
+            </QueryClientProvider>
           </AuthProvider>
         </I18nProvider>
-      </QueryClientProvider>
+      </SafeAreaProvider>
     </View>
   );
 };

@@ -65,7 +65,7 @@
       "status": {
         "invalid": "Last membership in {{year}}",
         "label": "Status",
-        "none": "No membership",
+        "none": "None",
         "toRenew": "To renew for {{year}}",
         "valid": "Valid during {{year}}"
       }

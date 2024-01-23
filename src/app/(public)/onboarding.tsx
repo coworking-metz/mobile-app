@@ -80,19 +80,19 @@ const Onboarding = () => {
     },
   ];
 
-  const onNext = useCallback(() => {
-    if (currentIndex !== screens.length - 1) {
-      if (carouselRef.current) {
-        carouselRef.current.next();
-      }
-    } else {
-      onClose();
-    }
-  }, [carouselRef, currentIndex]);
-
-  const onClose = () => {
+  const onClose = useCallback(() => {
     router.back();
-  };
+  }, [router]);
+
+  const onNext = useCallback(() => {
+    if (carouselRef.current) {
+      if (carouselRef.current.getCurrentIndex() !== screens.length - 1) {
+        carouselRef.current.next();
+      } else {
+        onClose();
+      }
+    }
+  }, [carouselRef, onClose]);
 
   const animationStyle = useCallback(
     (value: number) => {
