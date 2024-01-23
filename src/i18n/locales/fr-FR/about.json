@@ -37,6 +37,9 @@
     "buildNumber": {
       "label": "Référence de publication"
     },
+    "environment": {
+      "label": "Environnement"
+    },
     "title": "Informations techniques",
     "version": {
       "label": "Version"

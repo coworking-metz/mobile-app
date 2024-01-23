@@ -37,6 +37,9 @@
     "buildNumber": {
       "label": "Build number"
     },
+    "environment": {
+      "label": "Environment"
+    },
     "title": "Technical",
     "version": {
       "label": "Version"

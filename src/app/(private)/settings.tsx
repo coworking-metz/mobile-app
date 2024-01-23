@@ -2,7 +2,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import Constants from 'expo-constants';
 import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
 import * as Linking from 'expo-linking';
 import { Link, useRouter } from 'expo-router';
@@ -30,13 +29,14 @@ import ServiceRow from '@/components/Settings/ServiceRow';
 import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 import ThemePicker from '@/components/Settings/ThemePicker';
 import { theme } from '@/helpers/colors';
-import { isSilentError, parseErrorText, useErrorNotification } from '@/helpers/error';
+import { isSilentError, parseErrorText } from '@/helpers/error';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
 import {
   getMemberActivity,
   getMemberProfile,
   type ApiMemberActivity,
 } from '@/services/api/members';
+import { IS_DEV } from '@/services/updates';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
@@ -44,14 +44,12 @@ import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 const NAVIGATION_HEIGHT = 48;
 const HEADER_HEIGHT = 192;
 const INTERPOLATE_INPUT = [-1, 0, HEADER_HEIGHT, HEADER_HEIGHT];
-const IS_PROD = Constants.releaseChannel === 'production';
 
 const Settings = () => {
   useDeviceContext(tw);
   const noticeStore = useNoticeStore();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
-  const notifyError = useErrorNotification();
   const router = useRouter();
   const authStore = useAuthStore();
   const chosenLanguage = useSettingsStore((state) => state.language);
@@ -280,7 +278,7 @@ const Settings = () => {
               style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.general.title')}
             </Animated.Text>
-            {!IS_PROD ? (
+            {IS_DEV ? (
               <Link asChild href="/advanced/">
                 <ServiceRow
                   withBottomDivider

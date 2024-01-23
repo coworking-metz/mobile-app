@@ -1,5 +1,4 @@
 import { makeRedirectUri } from 'expo-auth-session';
-import Constants from 'expo-constants';
 import { Link } from 'expo-router';
 import {
   coolDownAsync,
@@ -21,13 +20,12 @@ import ServiceRow from '@/components/Settings/ServiceRow';
 import { parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import { HTTP } from '@/services/http';
+import { IS_DEV } from '@/services/updates';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
 
 const loginLogger = log.extend(`[${__filename.split('/').pop()}]`);
-
-const IS_PROD = Constants.releaseChannel === 'production';
 
 export default function Login() {
   useDeviceContext(tw);
@@ -135,7 +133,7 @@ export default function Login() {
       </View>
 
       <View style={tw`flex flex-col gap-3 mt-auto`}>
-        {!IS_PROD ? (
+        {IS_DEV ? (
           <Link asChild href="/advanced/">
             <ServiceRow
               withBottomDivider
