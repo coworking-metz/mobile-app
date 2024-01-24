@@ -32,6 +32,9 @@
     "onboarding": {
       "label": "Onboarding dismissed or completed"
     },
+    "pullToRefresh": {
+      "label": "Hide pull to refresh hint"
+    },
     "refreshToken": {
       "label": "Refresh token",
       "onCopy": {
