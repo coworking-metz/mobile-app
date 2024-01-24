@@ -8,17 +8,16 @@ import tw from 'twrnc';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { type CalendarEvent } from '@/services/api/calendar';
 
-const PERIODS = ['day', 'week', 'month', null] as const;
+const PERIODS = ['past', 'day', 'week', 'month', null] as const;
 export type PeriodType = (typeof PERIODS)[number];
 
 type PeriodOptionsProps = {
   selected?: PeriodType;
-  withPastEvents?: boolean;
   events: CalendarEvent[];
   onSelect?: (selected: PeriodType) => void;
 };
 
-const PeriodOptions = ({ selected, withPastEvents, events, onSelect }: PeriodOptionsProps) => {
+const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
   const { t } = useTranslation();
   const { close } = useBottomSheet();
 
@@ -34,59 +33,53 @@ const PeriodOptions = ({ selected, withPastEvents, events, onSelect }: PeriodOpt
     (periodType: PeriodType) => {
       const now = dayjs();
       switch (periodType) {
+        case 'past':
+          const [firstEvent] = events;
+          return t('events.period.options.past.description', {
+            date: dayjs(firstEvent.start).format('ll'),
+          });
         case 'day':
           return t('events.period.options.day.description', {
             date: now.format('dddd'),
           });
         case 'week':
-          const weekFrom = withPastEvents ? now.startOf('week') : now;
           return t('events.period.options.week.description', {
-            from: weekFrom.format('dddd DD'),
+            from: now.format('dddd DD'),
             to: now.endOf('week').format('dddd DD'),
           });
         case 'month':
-          const monthFrom = withPastEvents ? now.startOf('month') : now;
           return t('events.period.options.month.description', {
-            from: monthFrom.format('ll').split(' ').slice(0, 3).join(' '),
+            from: now.format('ll').split(' ').slice(0, 3).join(' '),
             to: now.endOf('month').format('ll').split(' ').slice(0, 3).join(' '),
           });
         case null:
-          if (withPastEvents) {
-            const [firstEvent] = events;
-            if (firstEvent) {
-              return t('events.period.options.none.since', {
-                date: dayjs(firstEvent.start).format('LL'),
-              });
-            }
-          } else {
-            return t('events.period.options.none.fromToday');
-          }
-
+          return t('events.period.options.none.fromToday');
+        default:
           break;
       }
       return '';
     },
-    [events, withPastEvents],
+    [events],
   );
 
   const getPeriodCount = useCallback(
     (periodType: PeriodType) => {
       const now = dayjs();
-      const includingPastEvents = events.filter(
-        (event) => withPastEvents || now.isBefore(event.end),
-      );
+      const futureEvents = events.filter((event) => now.isBefore(event.end));
       switch (periodType) {
+        case 'past':
+          return events.filter((event) => now.isAfter(event.end)).length;
         case 'day':
-          return includingPastEvents.filter((event) => now.isSame(event.start, 'day')).length;
+          return futureEvents.filter((event) => now.isSame(event.start, 'day')).length;
         case 'week':
-          return includingPastEvents.filter((event) => now.isSame(event.start, 'week')).length;
+          return futureEvents.filter((event) => now.isSame(event.start, 'week')).length;
         case 'month':
-          return includingPastEvents.filter((event) => now.isSame(event.start, 'month')).length;
+          return futureEvents.filter((event) => now.isSame(event.start, 'month')).length;
         case null:
-          return includingPastEvents.length;
+          return futureEvents.length;
       }
     },
-    [events, withPastEvents],
+    [events],
   );
 
   return (
@@ -94,7 +87,26 @@ const PeriodOptions = ({ selected, withPastEvents, events, onSelect }: PeriodOpt
       <Text style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
         {t('events.period.label')}
       </Text>
-      {PERIODS.map((period) => (
+      <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
+        {t('events.period.previous.label')}
+      </Text>
+      <ServiceRow
+        description={getPeriodDescription('past')}
+        label={t(`events.period.options.past.label`)}
+        selected={selected === 'past'}
+        style={[tw`px-3 mx-3`]}
+        onPress={() => onPeriodPicked('past')}>
+        <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
+          <Animated.Text style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
+            {getPeriodCount('past')}
+          </Animated.Text>
+        </View>
+      </ServiceRow>
+
+      <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
+        {t('events.period.next.label')}
+      </Text>
+      {PERIODS.filter((p) => p !== 'past').map((period) => (
         <ServiceRow
           description={getPeriodDescription(period)}
           key={`period-option-${period}`}
@@ -115,19 +127,13 @@ const PeriodOptions = ({ selected, withPastEvents, events, onSelect }: PeriodOpt
 
 const PeriodBottomSheet = ({
   selected,
-  withPastEvents,
   events,
   onSelect,
   ...props
 }: Omit<AppBottomSheetProps & PeriodOptionsProps, 'children'>) => {
   return (
     <AppBottomSheet {...props}>
-      <PeriodOptions
-        events={events}
-        selected={selected}
-        withPastEvents={withPastEvents}
-        onSelect={onSelect}
-      />
+      <PeriodOptions events={events} selected={selected} onSelect={onSelect} />
     </AppBottomSheet>
   );
 };

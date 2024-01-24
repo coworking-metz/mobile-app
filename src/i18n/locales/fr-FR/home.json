@@ -93,12 +93,12 @@
         "expiresToday": "Touchant à sa fin",
         "none": "Aucun",
         "ongoingUntil": "Valide jusqu'au",
-        "startedOn": "Débutant le"
+        "startedOn": "Débute le"
       }
     },
     "tickets": {
       "add": "Ajouter",
-      "available_one": "seul",
+      "available_one": "restant",
       "available_other": "disponibles",
       "available_zero": "Aucun",
       "balance": {
