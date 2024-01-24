@@ -9,6 +9,8 @@ export type StoreLanguage = string | typeof SYSTEM_OPTION;
 interface SettingsState {
   hasOnboard: boolean;
   setOnboard: (hasOnboard: boolean) => Promise<void>;
+  hasLearnPullToRefresh: boolean;
+  setLearnPullToRefresh: (hasPullToRefresh: boolean) => Promise<void>;
   language: StoreLanguage;
   setLanguange: (language: StoreLanguage) => Promise<void>;
   apiBaseUrl: string | null;
@@ -23,6 +25,10 @@ const useSettingsStore = create<SettingsState>()(
       setOnboard: async (hasOnboard: boolean): Promise<void> => {
         await set({ hasOnboard });
       },
+      hasLearnPullToRefresh: false,
+      setLearnPullToRefresh: async (hasPullToRefresh: boolean): Promise<void> => {
+        await set({ hasLearnPullToRefresh: hasPullToRefresh });
+      },
       language: SYSTEM_OPTION,
       setLanguange: async (language: StoreLanguage): Promise<void> => {
         await set({ language });
@@ -34,6 +40,7 @@ const useSettingsStore = create<SettingsState>()(
       clear: async (): Promise<void> => {
         await set({
           hasOnboard: false,
+          hasLearnPullToRefresh: false,
           language: SYSTEM_OPTION,
         });
       },

@@ -35,6 +35,7 @@ import MembershipCard from '@/components/Home/MembershipCard';
 import OpenParkingCard from '@/components/Home/OpenParkingCard';
 import PresentMembers from '@/components/Home/PresentMembers';
 import ProfilePicture from '@/components/Home/ProfilePicture';
+import PullToRefreshHint from '@/components/Home/PullToRefreshHint';
 import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
@@ -43,6 +44,7 @@ import { log } from '@/helpers/logger';
 import { getCalendarEvents } from '@/services/api/calendar';
 import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
+import useSettingsStore from '@/stores/settings';
 
 const homeLogger = log.extend(`[${__filename.split('/').pop()}]`);
 
@@ -52,6 +54,7 @@ export default function HomeScreen({}) {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const user = useAuthStore((state) => state.user);
+  const settingsStore = useSettingsStore();
   const insets = useSafeAreaInsets();
   const notifyError = useErrorNotification();
 
@@ -173,6 +176,7 @@ export default function HomeScreen({}) {
   const onRefresh = useCallback(() => {
     if (user?.id) {
       setRefreshing(true);
+      settingsStore.setLearnPullToRefresh(true);
       Promise.all([refetchProfile(), refetchCurrentMembers(), refreshCalendarEvents()]).finally(
         () => {
           setRefreshing(false);
@@ -202,14 +206,19 @@ export default function HomeScreen({}) {
         <View style={tw`flex flex-row items-center w-full px-4`}>
           {currentMembersUpdatedAt &&
           dayjs().diff(currentMembersUpdatedAt, 'second') > AGE_PERIOD_IN_SECONDS ? (
-            <Animated.Text
-              entering={FadeInUp.duration(300)}
-              exiting={FadeOutUp.duration(300)}
-              style={tw`ml-3 text-sm font-normal text-slate-500 dark:text-slate-400 shrink grow`}>
-              {capitalize(dayjs(currentMembersUpdatedAt).fromNow())}
-            </Animated.Text>
+            <>
+              <Animated.Text
+                entering={FadeInUp.duration(300)}
+                exiting={FadeOutUp.duration(300)}
+                style={tw`ml-3 text-sm font-normal text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
+                {capitalize(dayjs(currentMembersUpdatedAt).fromNow())}
+              </Animated.Text>
+              {/* mr-3 to be perflectly center aligned */}
+              <PullToRefreshHint style={tw`mr-3 grow`} />
+            </>
           ) : null}
-          <View style={tw`ml-auto`}>
+
+          <View style={tw`flex flex-col items-end shrink grow basis-0`}>
             <Link asChild href="/settings">
               <AppTouchableScale>
                 <ProfilePicture />
@@ -228,39 +237,6 @@ export default function HomeScreen({}) {
             total={28}
           />
         </Animated.View>
-
-        {/* <Animated.View
-          entering={FadeInRight.duration(750).delay(300)}
-          style={tw`flex flex-row flex-wrap w-full items-center gap-4 h-24 px-4 mt-2`}>
-          <Link asChild href="/presence/by-week">
-            <TouchableOpacity style={tw`grow basis-0 max-w-1/2`}>
-              <PresenceCard
-                disabled
-                color="blue"
-                history={dailyPresence?.current.timeline.map(({ date, value }) => ({
-                  date: new Date(date),
-                  value,
-                }))}
-                loading={!dailyPresence && isFetchingDailyPresence}
-                type="day"
-              />
-            </TouchableOpacity>
-          </Link>
-          <Link asChild href="/presence/by-day">
-            <TouchableOpacity style={tw`grow basis-0`}>
-              <PresenceCard
-                disabled
-                color="amber"
-                history={hourlyPresence?.current.timeline.map(({ date, value }) => ({
-                  date: new Date(date),
-                  value,
-                }))}
-                loading={!hourlyPresence && isFetchingHourlyPresence}
-                type="hour"
-              />
-            </TouchableOpacity>
-          </Link>
-        </Animated.View> */}
 
         <Animated.View entering={FadeInLeft.duration(750).delay(400)} style={tw`flex self-stretch`}>
           <View style={tw`flex flex-row mt-12 mb-3 px-4`}>

@@ -107,6 +107,9 @@
       "label": "Individual tickets"
     }
   },
+  "refresh": {
+    "hint": "Pull to refresh"
+  },
   "services": {
     "label": "Services"
   }

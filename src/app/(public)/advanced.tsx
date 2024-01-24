@@ -129,6 +129,16 @@ const Advanced = () => {
       </ServiceRow>
       <ServiceRow
         withBottomDivider
+        label={t('advanced.store.pullToRefresh.label')}
+        style={tw`px-3 mx-3`}>
+        <Switch
+          value={settingsStore.hasLearnPullToRefresh}
+          onColor={theme.meatBrown}
+          onValueChange={(value) => settingsStore.setLearnPullToRefresh(value)}
+        />
+      </ServiceRow>
+      <ServiceRow
+        withBottomDivider
         description={`${authStore.accessToken}`}
         label={t('advanced.store.accessToken.label')}
         style={tw`px-3 mx-3`}
