@@ -8,6 +8,9 @@
   },
   "period": {
     "label": "Période",
+    "next": {
+      "label": "À venir"
+    },
     "options": {
       "day": {
         "description": "ce {{date}}",
@@ -22,17 +25,32 @@
       "none": {
         "empty": "Aucun évènement trouvé",
         "fromToday": "à partir d'aujourd'hui",
-        "label": "Tous",
-        "since": "depuis le {{date}}"
+        "label": "Prochainement"
+      },
+      "past": {
+        "description": "depuis le {{date}}",
+        "empty": "Aucun évènement antérieur trouvé",
+        "label": "Évènements terminés"
       },
       "week": {
         "description": "du {{from}} au {{to}}",
         "empty": "Aucun évènement trouvé cette semaine",
         "label": "Cette semaine"
       }
+    },
+    "previous": {
+      "label": "Précédemment"
     }
   },
-  "previous": {
-    "label": "Antérieurs"
+  "sort": {
+    "label": "Trier",
+    "options": {
+      "ascending": {
+        "label": "Du plus ancien"
+      },
+      "descending": {
+        "label": "Du plus récent"
+      }
+    }
   }
 }

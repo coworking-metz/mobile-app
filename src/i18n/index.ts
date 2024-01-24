@@ -2,6 +2,7 @@ import * as british from './locales/en-GB';
 import * as french from './locales/fr-FR';
 import dayjs from 'dayjs';
 import calendar from 'dayjs/plugin/calendar';
+import duration from 'dayjs/plugin/duration';
 import isBetween from 'dayjs/plugin/isBetween';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
@@ -22,6 +23,7 @@ dayjs.extend(localizedFormat);
 dayjs.extend(calendar);
 dayjs.extend(isBetween);
 dayjs.extend(isoWeek);
+dayjs.extend(duration);
 
 dayjs.updateLocale('fr', {
   calendar: {
@@ -39,6 +41,15 @@ dayjs.updateLocale('en', {
     sameElse: '[on] dddd MMMM D',
   },
 });
+
+export const formatDuration = (milliseconds: number): string => {
+  const dayJSduration = dayjs.duration(milliseconds, 'milliseconds');
+  const nbDays = dayJSduration.get('day');
+  const nbMinutes = dayJSduration.get('minute');
+  const dynamicFormats = [!!nbDays && 'H[h]', !!nbMinutes && 'm[m]'].filter(Boolean).join(' ');
+
+  return dayJSduration.format(dynamicFormats);
+};
 
 export const SYSTEM_LANGUAGE = Localisation.locale.substring(0, 2);
 

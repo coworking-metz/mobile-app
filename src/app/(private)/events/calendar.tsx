@@ -20,6 +20,9 @@ interface EventsGroupedByDate {
   events: CalendarEvent[];
 }
 
+const SORTS = ['descending', 'ascending'] as const;
+export type SortType = (typeof SORTS)[number];
+
 const PeriodChip = ({ selected, onPress }: { selected: PeriodType; onPress?: () => void }) => {
   const { t } = useTranslation();
 
@@ -41,7 +44,7 @@ const PeriodChip = ({ selected, onPress }: { selected: PeriodType; onPress?: () 
   );
 };
 
-const PastEventsChip = ({ selected, onPress }: { selected: boolean; onPress?: () => void }) => {
+const SortChip = ({ selected, onPress }: { selected?: SortType; onPress?: () => void }) => {
   const { t } = useTranslation();
 
   return (
@@ -60,16 +63,29 @@ const PastEventsChip = ({ selected, onPress }: { selected: boolean; onPress?: ()
               ? tw`text-amber-700 dark:text-amber-500`
               : tw`text-slate-900 dark:text-gray-200`,
           ]}>
-          {t(`events.previous.label`)}
+          {selected ? t(`events.sort.options.${selected}.label`) : t('events.sort.label')}
         </Text>
-        {selected && (
-          <MaterialCommunityIcons
-            color={tw.prefixMatch('dark') ? tw.color('amber-500') : tw.color('amber-700')}
-            name="check"
-            size={20}
-            style={tw`ml-1`}
-          />
-        )}
+
+        <MaterialCommunityIcons
+          color={
+            selected
+              ? tw.prefixMatch('dark')
+                ? tw.color('amber-500')
+                : tw.color('amber-700')
+              : tw.prefixMatch('dark')
+                ? tw.color('gray-400')
+                : tw.color('gray-700')
+          }
+          name={
+            selected === 'ascending'
+              ? 'sort-calendar-ascending'
+              : selected === 'descending'
+                ? 'sort-calendar-descending'
+                : 'sort'
+          }
+          size={20}
+          style={tw`ml-1`}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -80,9 +96,9 @@ const Calendar = () => {
   const { t } = useTranslation();
   const { period } = useLocalSearchParams<{ period?: string }>();
   const notifyError = useErrorNotification();
-  const [selectedPeriod, setSelectedPeriod] = useState<PeriodType | null>(null);
+  const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>(null);
   const [hasSelectedPeriodFilter, setSelectedPeriodFilter] = useState<boolean>(false);
-  const [withPastEvents, setPastEvents] = useState<boolean>(false);
+  const [selectedSort, setSelectedSort] = useState<SortType>('ascending');
 
   useEffect(() => {
     if (period) {
@@ -137,18 +153,35 @@ const Calendar = () => {
     return eventsGroupedByDate
       ?.filter((group) => {
         switch (selectedPeriod) {
+          case 'past':
+            return group.events.some(({ end }) => now.isAfter(end));
           case 'day':
-            return now.isSame(group.date, 'day');
+            return (
+              group.events.some(({ end }) => now.isBefore(end)) && now.isSame(group.date, 'day')
+            );
           case 'week':
-            return now.isSame(group.date, 'week');
+            return (
+              group.events.some(({ end }) => now.isBefore(end)) && now.isSame(group.date, 'week')
+            );
           case 'month':
-            return now.isSame(group.date, 'month');
+            return (
+              group.events.some(({ end }) => now.isBefore(end)) && now.isSame(group.date, 'month')
+            );
           default:
-            return true;
+            return group.events.some(({ end }) => now.isBefore(end));
         }
       })
-      .filter((group) => withPastEvents || group.events.some(({ end }) => now.isBefore(end)));
-  }, [eventsGroupedByDate, selectedPeriod, withPastEvents]);
+      .sort((a, b) => {
+        switch (selectedSort) {
+          case 'ascending':
+            return dayjs(a.date).isAfter(b.date) ? 1 : -1;
+          case 'descending':
+            return dayjs(a.date).isAfter(b.date) ? -1 : 1;
+          default:
+            return 0;
+        }
+      });
+  }, [eventsGroupedByDate, selectedPeriod, selectedSort]);
 
   return (
     <>
@@ -161,9 +194,16 @@ const Calendar = () => {
             showsHorizontalScrollIndicator={false}
             style={tw`w-full `}>
             <PeriodChip selected={selectedPeriod} onPress={() => setSelectedPeriodFilter(true)} />
-            <PastEventsChip
-              selected={withPastEvents}
-              onPress={() => setPastEvents(!withPastEvents)}
+            <SortChip
+              selected={selectedSort}
+              onPress={() => {
+                const nextSortIndex = SORTS.indexOf(selectedSort) + 1;
+                if (nextSortIndex < SORTS.length) {
+                  setSelectedSort(SORTS[nextSortIndex]);
+                } else {
+                  setSelectedSort(SORTS[0]);
+                }
+              }}
             />
           </ScrollView>
         </View>
@@ -208,9 +248,11 @@ const Calendar = () => {
           enableContentPanningGesture={Platform.OS !== 'ios'}
           events={calendarEvents}
           selected={selectedPeriod}
-          withPastEvents={withPastEvents}
           onClose={() => setSelectedPeriodFilter(false)}
-          onSelect={setSelectedPeriod}
+          onSelect={(p) => {
+            setSelectedSort(p === 'past' ? 'descending' : 'ascending');
+            setSelectedPeriod(p);
+          }}
         />
       )}
     </>

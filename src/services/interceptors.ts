@@ -8,11 +8,14 @@ import {
   type InternalAxiosRequestConfig,
 } from 'axios';
 import axiosRetry from 'axios-retry';
-import { type AppError, AppErrorCode, ApiErrorCode, useErrorNotification } from '@/helpers/error';
+import { ToastPresets } from 'react-native-ui-lib';
+import { type AppError, AppErrorCode, ApiErrorCode, parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
-import i18n from '@/i18n';
+import i18n, { formatDuration } from '@/i18n';
 import useAuthStore from '@/stores/auth';
+import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
+import useToastStore from '@/stores/toast';
 
 const httpLogger = log.extend(`[http]`);
 
@@ -148,9 +151,27 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
 
         // the user should be properly logged out
         await authStore.logout();
+
         // explain what happened to the user
-        const notifyError = useErrorNotification();
-        notifyError(i18n.t('auth.login.onRefreshTokenFail.message'), error);
+        const toastStore = useToastStore();
+        const noticeStore = useNoticeStore();
+        const errorMessage = await parseErrorText(error);
+        const errorLabel = i18n.t('auth.login.onRefreshTokenFail.message');
+        const toast = toastStore.add({
+          message: errorLabel,
+          type: ToastPresets.FAILURE,
+          action: {
+            label: i18n.t('actions.more'),
+            onPress: () => {
+              noticeStore.add({
+                message: errorLabel,
+                description: errorMessage,
+                type: 'error',
+              });
+              toastStore.dismiss(toast.id);
+            },
+          },
+        });
 
         return Promise.reject(disconnectedError);
       }
@@ -158,7 +179,20 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
       // handle timeout error by translating with a proper message
       if (error.code === 'ECONNABORTED' && error.message?.includes('timeout')) {
         const timeoutDuration = (error as AxiosError).config?.timeout;
-        return Promise.reject(new Error(i18n.t('errors.timeout.message')));
+        return Promise.reject(
+          new Error(
+            i18n.t(
+              'errors.timeout.message',
+              timeoutDuration
+                ? {
+                    withDuration: i18n.t('errors.timeout.message', {
+                      duration: formatDuration(timeoutDuration),
+                    }),
+                  }
+                : {},
+            ),
+          ),
+        );
       }
 
       return Promise.reject(error);

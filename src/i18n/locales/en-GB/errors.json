@@ -3,6 +3,7 @@
     "message": "Oops 🫢"
   },
   "timeout": {
-    "message": "Sorry for the wait. This may be due to an interrupted or poor quality connection.\nBut all is not lost! You can try again now 🤞"
+    "message": "No response{{withDuration}}. This may be due to an interrupted or poor quality connection.",
+    "withDuration": " after {{duration}} of waiting"
   }
 }
