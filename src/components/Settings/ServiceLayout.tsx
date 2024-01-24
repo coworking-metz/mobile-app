@@ -1,16 +1,16 @@
+import AppBlurView from '../AppBlurView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { BlurView } from 'expo-blur';
 import { useRouter } from 'expo-router';
 import React, { useState, type ReactNode } from 'react';
 import { View } from 'react-native';
 import { type LayoutChangeEvent } from 'react-native/types';
 import Animated, {
   FadeInLeft,
-  type StyleProps,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
+  type StyleProps,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-ui-lib';
@@ -158,7 +158,7 @@ const ServiceLayout = ({
             tw`absolute top-0 left-0 bottom-0 right-0 border-b-gray-300 dark:border-b-gray-700 border-b-[0.5px]`,
             navigationBackgroundStyle,
           ]}>
-          <BlurView
+          <AppBlurView
             intensity={64}
             style={tw`h-full w-full`}
             tint={tw.prefixMatch('dark') ? 'dark' : 'default'}

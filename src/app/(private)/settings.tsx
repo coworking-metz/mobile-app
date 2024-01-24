@@ -19,6 +19,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
+import AppBlurView from '@/components/AppBlurView';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import AppFooter from '@/components/Settings/AppFooter';
 import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
@@ -421,7 +422,7 @@ const Settings = () => {
               tw`absolute top-0 left-0 bottom-0 right-0 border-b-gray-300 dark:border-b-gray-700 border-b-[0.5px]`,
               navigationBackgroundStyle,
             ]}>
-            <BlurView
+            <AppBlurView
               intensity={64}
               style={tw`h-full w-full`}
               tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
