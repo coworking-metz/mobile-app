@@ -1,5 +1,5 @@
+import AppBlurView from './AppBlurView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { BlurView } from 'expo-blur';
 import { useNavigation, useRouter } from 'expo-router';
 import React, { useMemo, type ReactNode } from 'react';
 import { Platform, View } from 'react-native';
@@ -26,6 +26,7 @@ const INTERPOLATE_INPUT_RANGE = [
 
 const TITLE_LEFT_ORIGIN = 24;
 const TITLE_LEFT_DESTINATION = 64;
+const TITLE_RIGHT_ORIGIN = 24;
 const TITLE_RIGHT_DESTINATION = 56;
 
 const ModalLayout = ({
@@ -97,8 +98,8 @@ const ModalLayout = ({
     ]);
 
     const marginRight = interpolate(verticalScrollProgress.value, INTERPOLATE_INPUT_RANGE, [
-      0,
-      0,
+      TITLE_RIGHT_ORIGIN,
+      TITLE_RIGHT_ORIGIN,
       TITLE_RIGHT_DESTINATION,
       TITLE_RIGHT_DESTINATION,
     ]);
@@ -151,7 +152,7 @@ const ModalLayout = ({
             tw`absolute top-0 left-0 bottom-0 right-0 border-b-gray-300 dark:border-b-gray-700 border-b-[0.5px]`,
             headerBackgroundStyle,
           ]}>
-          <BlurView
+          <AppBlurView
             intensity={64}
             style={tw`h-full w-full`}
             tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
@@ -184,7 +185,7 @@ const ModalLayout = ({
           entering={FadeInDown.duration(300).delay(150)}
           numberOfLines={1}
           style={[
-            tw`text-2xl font-semibold tracking-tight mb-4 text-slate-900 dark:text-gray-200 self-end`,
+            tw`text-2xl grow basis-0 font-semibold tracking-tight mb-4 text-slate-900 dark:text-gray-200 self-end`,
             !from && tw`ml-6`,
             headerTextStyle,
           ]}>

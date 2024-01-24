@@ -1,3 +1,4 @@
+import AppBlurView from '../AppBlurView';
 import dayjs from 'dayjs';
 import { BlurView } from 'expo-blur';
 import { Image, ImageBackground } from 'expo-image';
@@ -42,7 +43,7 @@ const CalendarEventCard = ({
             width={'100%'}
           />
         ) : event ? (
-          <BlurView
+          <AppBlurView
             intensity={64}
             style={tw`w-full flex flex-row items-center px-3 py-2 mt-auto`}
             tint={tw.prefixMatch('dark') ? 'dark' : 'light'}>
@@ -51,7 +52,7 @@ const CalendarEventCard = ({
                 <Image source={categorySource} style={[tw`h-full w-full`]} />
               </View>
             )}
-            <View style={tw`flex flex-col items-start shrink-1 ml-3`}>
+            <View style={tw`flex flex-col items-stretch grow shrink basis-0 ml-3`}>
               <Text
                 numberOfLines={1}
                 style={tw`text-base font-light text-slate-800 dark:text-slate-300`}>
@@ -63,7 +64,7 @@ const CalendarEventCard = ({
                 {event.label}
               </Text>
             </View>
-          </BlurView>
+          </AppBlurView>
         ) : null}
       </ImageBackground>
     </View>

@@ -38,7 +38,7 @@ export default function CalendarEventPage() {
   }, [calendarEvents]);
 
   return (
-    <ModalLayout contentStyle={tw`gap-3`} from="/events/calendar" title={event?.label || ''}>
+    <ModalLayout from="/events/calendar" title={event?.label || ''}>
       {event ? (
         <>
           <ZoombableImage
@@ -60,7 +60,7 @@ export default function CalendarEventPage() {
               },
             })}
             prefixIcon="calendar-outline"
-            style={tw`mt-3 mx-3 px-3`}
+            style={tw`mt-6 mx-3 px-3`}
           />
           {event.location ? (
             <ServiceRow
@@ -73,7 +73,7 @@ export default function CalendarEventPage() {
             />
           ) : null}
           {event.description ? (
-            <Text style={tw`text-base font-normal text-gray-500 mx-6 mt-2`}>
+            <Text style={tw`text-base font-normal text-gray-500 mx-6 mt-6`}>
               {event.description}
             </Text>
           ) : null}
