@@ -1,10 +1,12 @@
 {
   "close": "Fermer",
   "help": "J'ai besoin d'aide",
+  "hide": "Masquer",
   "login": "M'identifier",
   "logout": "Me déconnecter",
   "more": "En savoir plus",
   "next": "Continuer",
+  "readMore": "Lire la suite",
   "skip": "Passer",
   "start": "Allons-y !",
   "takeALook": "Consulter"
