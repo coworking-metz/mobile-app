@@ -2,7 +2,7 @@ import VerticalLoadingAnimation from '../Animations/VerticalLoadingAnimation';
 import dayjs from 'dayjs';
 import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { ContributionGraph } from 'react-native-chart-kit';
 import Animated, { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -12,6 +12,7 @@ import { type ApiMemberActivity } from '@/services/api/members';
 const SQUARE_SIZE = 20;
 const SQUARE_GAP = 1;
 const MINIMUM_SQUARES = 180;
+const HEIGHT_IN_PIXELS = 210;
 
 const PresenceGraph = ({
   startDate,
@@ -30,7 +31,7 @@ const PresenceGraph = ({
   style?: StyleProps;
   onDateSelect?: (date: string) => void;
 }) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const animatedScrollViewRef = useRef<Animated.ScrollView>(null);
   const earliestDate = useMemo(() => {
     const [first] = activity
@@ -109,7 +110,7 @@ const PresenceGraph = ({
   }, [activity, selectedDate, nonCompliantDates]);
 
   return loading ? (
-    <View style={tw`flex flex-row items-center justify-center h-[210px]`}>
+    <View style={tw`flex flex-row items-center justify-center min-h-[${HEIGHT_IN_PIXELS}px]`}>
       <VerticalLoadingAnimation
         color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
         style={tw`h-16`}
@@ -151,7 +152,7 @@ const PresenceGraph = ({
               timeZone: 'UTC',
             }).format(new Date(`2023-${month < 9 ? `0${month + 1}` : month + 1}-01`))
           }
-          height={210}
+          height={HEIGHT_IN_PIXELS}
           numDays={squaresCount}
           tooltipDataAttrs={({ date }) => ({
             // onPress: (evt) => {

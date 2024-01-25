@@ -13,7 +13,6 @@ const CalendarEmptyState = ({
   ...props
 }: AnimateProps<ViewProps> & {
   description: string;
-  loading?: boolean;
   style?: StyleProps | false;
   children?: ReactNode;
 }) => {
@@ -22,7 +21,7 @@ const CalendarEmptyState = ({
   return (
     <Animated.View style={[tw`flex flex-col items-center`, style]} {...props}>
       <LoveCalendarAnimation style={tw`h-32`} />
-      <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+      <Text style={tw`text-base text-center font-normal text-slate-500 dark:text-slate-400`}>
         {description}
       </Text>
       {children}

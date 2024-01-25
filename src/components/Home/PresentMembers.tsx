@@ -1,14 +1,16 @@
+import ErrorChip from '../ErrorChip';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import { WebBrowserPresentationStyle, openBrowserAsync } from 'expo-web-browser';
 import { Skeleton } from 'moti/skeleton';
-import React, { useCallback, useMemo } from 'react';
+import React, { Children, type ReactNode, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View, type ViewProps } from 'react-native';
 import AnimatedNumber from 'react-native-animated-number';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { FadeInRight, FadeOutRight } from 'react-native-reanimated';
 import tw from 'twrnc';
+import { isSilentError } from '@/helpers/error';
 import { buildMemberPictureUrl, type ApiMemberProfile } from '@/services/api/members';
 
 const MAX_MEMBERS_PICTURES = 4;
@@ -20,11 +22,15 @@ const PresentMembers = ({
   total = 0,
   loading = false,
   style,
+  error,
+  children,
 }: {
   members?: ApiMemberProfile[];
   total?: number;
   loading?: boolean;
   style?: ViewProps;
+  error?: Error | null;
+  children?: ReactNode;
 }) => {
   const { t } = useTranslation();
 
@@ -71,7 +77,7 @@ const PresentMembers = ({
         </Text>
       </View>
 
-      <View style={tw`flex flex-row justify-between items-center`}>
+      <View style={tw`flex flex-row justify-between items-center min-h-8`}>
         {loading ? (
           <Skeleton
             backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
@@ -85,7 +91,9 @@ const PresentMembers = ({
           </Text>
         )}
 
-        {memberPictures.length ? (
+        {error && !isSilentError(error) ? (
+          <ErrorChip error={error} label={t('home.people.onFetch.fail')} style={tw`ml-2`} />
+        ) : memberPictures.length ? (
           <Animated.View
             entering={FadeInRight.duration(750).delay(150)}
             exiting={FadeOutRight.duration(500)}
@@ -114,6 +122,8 @@ const PresentMembers = ({
             </TouchableOpacity>
           </Animated.View>
         ) : null}
+
+        {children}
       </View>
     </View>
   );

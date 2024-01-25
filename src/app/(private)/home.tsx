@@ -23,6 +23,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppTouchableScale from '@/components/AppTouchableScale';
+import ErrorChip from '@/components/ErrorChip';
 import { type PeriodType } from '@/components/Events/PeriodBottomSheet';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
@@ -73,12 +74,6 @@ export default function HomeScreen({}) {
     enabled: !!user,
   });
 
-  useEffect(() => {
-    if (currentMembersError && !isSilentError(currentMembersError)) {
-      notifyError(t('home.people.onFetch.fail'), currentMembersError);
-    }
-  }, [currentMembersError]);
-
   const {
     data: profile,
     isLoading: isLoadingProfile,
@@ -96,12 +91,6 @@ export default function HomeScreen({}) {
     retry: false,
     enabled: !!user?.id,
   });
-
-  useEffect(() => {
-    if (profileError && !isSilentError(profileError)) {
-      notifyError(t('home.profile.onFetch.fail'), profileError);
-    }
-  }, [profileError]);
 
   const handleAppStateChange = useCallback(
     (nextAppState: AppStateStatus) => {
@@ -139,12 +128,6 @@ export default function HomeScreen({}) {
     retry: false,
     enabled: !!user,
   });
-
-  useEffect(() => {
-    if (calendarEventsError && !isSilentError(calendarEventsError)) {
-      notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
-    }
-  }, [calendarEventsError]);
 
   const nextCalendarEvents = useMemo(() => {
     const now = dayjs();
@@ -215,6 +198,7 @@ export default function HomeScreen({}) {
           entering={FadeInLeft.duration(750).delay(150)}
           style={tw`flex self-stretch ml-6 mr-4`}>
           <PresentMembers
+            error={currentMembersError}
             loading={isLoadingCurrentMembers}
             members={currentMembers}
             style={tw`mt-4`}
@@ -223,10 +207,13 @@ export default function HomeScreen({}) {
         </Animated.View>
 
         <Animated.View entering={FadeInLeft.duration(750).delay(400)} style={tw`flex self-stretch`}>
-          <View style={tw`flex flex-row mt-12 mb-3 px-4`}>
-            <Text style={tw`text-sm font-normal uppercase text-slate-500 grow`}>
+          <View style={tw`flex flex-row gap-2 min-h-6 mt-12 mb-2 px-4`}>
+            <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
               {t('home.profile.label')}
             </Text>
+            {profileError && !isSilentError(profileError) ? (
+              <ErrorChip error={profileError} label={t('home.profile.onFetch.fail')} />
+            ) : null}
           </View>
 
           <ScrollView
@@ -262,6 +249,9 @@ export default function HomeScreen({}) {
           <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
             {t('home.calendar.label')}
           </Text>
+          {calendarEventsError && !isSilentError(calendarEventsError) ? (
+            <ErrorChip error={calendarEventsError} label={t('home.calendar.onFetch.fail')} />
+          ) : null}
           <Link asChild href="/events/calendar">
             <Text style={tw`text-base font-normal text-right text-amber-500 min-w-[16]`}>
               {t('home.calendar.browse')}
