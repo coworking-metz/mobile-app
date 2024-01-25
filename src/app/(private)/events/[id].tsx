@@ -81,15 +81,8 @@ export default function CalendarEventPage() {
           {event.url ? (
             <View style={tw`mx-6 mt-auto pt-6 pb-2`}>
               <Link asChild href={event.url}>
-                <AppRoundedButton style={tw`min-h-14 self-stretch`}>
+                <AppRoundedButton style={tw`min-h-14 self-stretch`} suffixIcon="open-in-new">
                   <Text style={tw`text-base font-medium text-black`}>{t('actions.takeALook')}</Text>
-                  <MaterialCommunityIcons
-                    color={tw.color('black')}
-                    iconStyle={tw`h-6 w-6`}
-                    name="open-in-new"
-                    size={24}
-                    style={tw`ml-1`}
-                  />
                 </AppRoundedButton>
               </Link>
             </View>

@@ -28,6 +28,7 @@ const useProtectedRoute = (
   const segments = useSegments();
   const rootNavigation = useRootNavigation();
   const router = useRouter();
+
   const authStore = useAuthStore();
   const hasOnboard = useSettingsStore((state) => state.hasOnboard);
   const notifyError = useErrorNotification();
@@ -90,7 +91,12 @@ const useProtectedRoute = (
             index: 0,
             routes: [{ name: '(public)/login' }],
           });
-        } else if (!segments.length) {
+        } else if (
+          !segments.length ||
+          // hack to prevent redirecting to login view once user is logged in
+          (segments.includes('home') &&
+            rootNavigation.getState().routes.some(({ name }) => name === '(public)/login'))
+        ) {
           authLogger.debug('redirecting to home');
           return rootNavigation.reset({
             index: 0,

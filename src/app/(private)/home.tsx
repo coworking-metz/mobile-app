@@ -38,7 +38,7 @@ import StaleDataText from '@/components/Home/StaleDataText';
 import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
-import { isSilentError, useErrorNotification } from '@/helpers/error';
+import { isSilentError } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import { getCalendarEvents } from '@/services/api/calendar';
 import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
@@ -53,7 +53,6 @@ export default function HomeScreen({}) {
   const user = useAuthStore((state) => state.user);
   const settingsStore = useSettingsStore();
   const insets = useSafeAreaInsets();
-  const notifyError = useErrorNotification();
 
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);

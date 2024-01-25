@@ -1,11 +1,10 @@
 import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
 import Divider from '../Divider';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import React, { forwardRef, type ReactNode, type ForwardRefRenderFunction } from 'react';
 import { View, Text, TouchableHighlight, type TouchableHighlightProps } from 'react-native';
 import tw from 'twrnc';
+import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 
 export type ServiceRowProps = TouchableHighlightProps & {
   label: string;

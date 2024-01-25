@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import * as Clipboard from 'expo-clipboard';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TextInput } from 'react-native';
@@ -184,7 +184,8 @@ const Advanced = () => {
             onChangeText={settingsStore.setApiBaseUrl}
           />
         )}
-        style={tw`px-3 mx-3`}></ServiceRow>
+        style={tw`px-3 mx-3`}
+      />
     </ServiceLayout>
   );
 };
