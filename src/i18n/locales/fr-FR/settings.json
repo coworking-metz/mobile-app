@@ -30,10 +30,15 @@
         "last6Months": "6 derniers mois"
       },
       "selected": {
-        "description": "La consommation est automatiquement calculée en fonction des abonnements et de la présence.\nUne présence de moins de 5 heures correspond à une demi-journée, et une demi-journée consomme un demi-ticket.",
+        "description": "La couverture est automatiquement déterminée en fonction des abonnements et de la présence.\n\nUne présence :\n- entre 2h et 5h correspond à une demi-journée,\n- au-delà de 5h correspond à une journée entière.\n\nUn ticket équivaut à 2 demi-journées.",
+        "overconsumed": {
+          "value": {
+            "ticketFull": "1 ticket surconsommé",
+            "ticketHalf": "0.5 ticket surconsommé"
+          }
+        },
         "type": {
-          "label": "Consommation",
-          "overconsummed": "Surconsommation",
+          "label": "Couverture",
           "value": {
             "subscription": "Abonnement",
             "ticketFull": "1 ticket",

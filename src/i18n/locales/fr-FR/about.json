@@ -10,8 +10,14 @@
   },
   "description": "de l'application",
   "legal": {
+    "author": {
+      "label": "Réalisée par Coworking Metz"
+    },
     "license": {
       "label": "Licence"
+    },
+    "privacyPolicy": {
+      "label": "Politique de confidentialité"
     },
     "title": "Mentions légales"
   },

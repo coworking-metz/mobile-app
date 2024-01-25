@@ -65,19 +65,23 @@ const PresenceBottomSheet = ({
         </View>
 
         <ServiceRow
-          label={
-            nonCompliant
-              ? t('settings.profile.presence.selected.type.overconsummed')
-              : t('settings.profile.presence.selected.type.label')
-          }
+          label={t('settings.profile.presence.selected.type.label')}
           style={tw`w-full px-0 mt-2`}>
           <Text
             style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
             {activity.type === 'subscription'
               ? t(`settings.profile.presence.selected.type.value.subscription`)
               : activity.value > 0.5
-                ? t(`settings.profile.presence.selected.type.value.ticketFull`)
-                : t(`settings.profile.presence.selected.type.value.ticketHalf`)}
+                ? t(
+                    `settings.profile.presence.selected.${
+                      nonCompliant ? 'overconsumed' : 'type'
+                    }.value.ticketFull`,
+                  )
+                : t(
+                    `settings.profile.presence.selected.${
+                      nonCompliant ? 'overconsumed' : 'type'
+                    }.value.ticketHalf`,
+                  )}
           </Text>
         </ServiceRow>
 

@@ -28,12 +28,14 @@ const ServiceLayout = ({
   renderHeader,
   children,
   style,
+  contentStyle,
 }: {
   title: string;
   description?: string;
   renderHeader?: () => ReactNode;
   children: ReactNode;
   style?: StyleProps;
+  contentStyle?: StyleProps;
 }) => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
@@ -82,7 +84,7 @@ const ServiceLayout = ({
   }, [verticalScrollProgress, headerHeight]);
 
   return (
-    <View style={[{ flex: 1 }, tw`bg-gray-100 dark:bg-black`]}>
+    <View style={[{ flex: 1 }, tw`bg-gray-100 dark:bg-black`, style]}>
       <View style={tw`flex flex-col grow relative`}>
         <Animated.View
           style={[
@@ -137,7 +139,7 @@ const ServiceLayout = ({
                 paddingLeft: insets.left,
                 paddingRight: insets.right,
               },
-              style,
+              contentStyle,
             ]}>
             {children}
           </View>
