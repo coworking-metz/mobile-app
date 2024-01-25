@@ -2,12 +2,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { BlurView } from 'expo-blur';
 import Constants from 'expo-constants';
 import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
 import * as Linking from 'expo-linking';
 import { Link, useRouter } from 'expo-router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableNativeFeedback, View, type LayoutChangeEvent } from 'react-native';
 import Animated, {
@@ -20,6 +19,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import AppBlurView from '@/components/AppBlurView';
+import ErrorChip from '@/components/ErrorChip';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import AppFooter from '@/components/Settings/AppFooter';
 import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
@@ -97,18 +97,6 @@ const Settings = () => {
     refetchOnMount: false,
     enabled: !!authStore.user?.id,
   });
-
-  useEffect(() => {
-    if (activityError && !isSilentError(activityError)) {
-      notifyError(t('settings.profile.presence.onFetch.fail'), activityError);
-    }
-  }, [activityError]);
-
-  useEffect(() => {
-    if (profileError && !isSilentError(profileError)) {
-      notifyError(t('home.profile.onFetch.fail'), profileError);
-    }
-  }, [profileError]);
 
   /* this is a hell of a hack */
   const [footerHeight, setFooterHeight] = useState(0);
@@ -248,11 +236,22 @@ const Settings = () => {
                 paddingRight: insets.right,
               },
             ]}>
-            <Animated.Text
-              entering={FadeInLeft.duration(300)}
-              style={tw`text-sm font-normal uppercase text-slate-500 mx-6`}>
-              {t('settings.profile.presence.title')}
-            </Animated.Text>
+            <View style={tw`flex flex-row gap-2 min-h-6 mx-6`}>
+              <Animated.Text
+                entering={FadeInLeft.duration(300)}
+                style={tw`text-sm font-normal uppercase text-slate-500`}>
+                {t('settings.profile.presence.title')}
+              </Animated.Text>
+              {activityError && !isSilentError(activityError) ? (
+                <ErrorChip
+                  error={activityError}
+                  label={t('settings.profile.presence.onFetch.fail')}
+                />
+              ) : profileError && !isSilentError(profileError) ? (
+                <ErrorChip error={profileError} label={t('home.profile.onFetch.fail')} />
+              ) : null}
+            </View>
+
             <PresenceGraph
               activity={activity}
               loading={isFetchingActivity || isFetchingProfile}
