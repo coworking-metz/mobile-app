@@ -271,7 +271,7 @@ const Controls = () => {
 
   return (
     <>
-      <ServiceLayout style={tw`bg-transparent`} title={t('controls.title')}>
+      <ServiceLayout contentStyle={tw`bg-transparent`} title={t('controls.title')}>
         <View style={[tw`flex flex-col grow items-center justify-center w-full relative`]}>
           <Image
             blurRadius={!hasFloorplanLoaded ? 16 : 0}

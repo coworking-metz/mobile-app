@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
-import { capitalize } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -19,7 +18,6 @@ import Animated, {
   FadeInRight,
   FadeInUp,
   FadeOut,
-  FadeOutUp,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
@@ -35,7 +33,7 @@ import MembershipCard from '@/components/Home/MembershipCard';
 import OpenParkingCard from '@/components/Home/OpenParkingCard';
 import PresentMembers from '@/components/Home/PresentMembers';
 import ProfilePicture from '@/components/Home/ProfilePicture';
-import PullToRefreshHint from '@/components/Home/PullToRefreshHint';
+import StaleDataText from '@/components/Home/StaleDataText';
 import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
@@ -47,8 +45,6 @@ import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 
 const homeLogger = log.extend(`[${__filename.split('/').pop()}]`);
-
-const AGE_PERIOD_IN_SECONDS = 300; // 5 minutes
 
 export default function HomeScreen({}) {
   useDeviceContext(tw);
@@ -162,7 +158,7 @@ export default function HomeScreen({}) {
   }, [calendarEvents, appState.current]);
 
   const firstPeriodWithEvents: PeriodType = useMemo(() => {
-    const [nextEvent] = calendarEvents?.filter(({ end }) => dayjs().isBefore(end)) || [];
+    const [nextEvent] = nextCalendarEvents?.filter(({ end }) => dayjs().isBefore(end)) || [];
     if (nextEvent) {
       if (dayjs(nextEvent.start).isSame(dayjs(), 'week')) {
         return 'week';
@@ -171,7 +167,7 @@ export default function HomeScreen({}) {
       }
     }
     return null;
-  }, [calendarEvents]);
+  }, [nextCalendarEvents]);
 
   const onRefresh = useCallback(() => {
     if (user?.id) {
@@ -183,13 +179,13 @@ export default function HomeScreen({}) {
         },
       );
     }
-  }, [user]);
+  }, [user, settingsStore]);
 
   return (
     <Animated.View style={[tw`flex w-full flex-col items-stretch bg-gray-100 dark:bg-black`]}>
       <Animated.ScrollView
         contentContainerStyle={[
-          tw`relative grow flex flex-col items-start justify-start pt-2`,
+          tw`relative grow flex flex-col items-start justify-start`,
           { paddingTop: insets.top, paddingBottom: insets.bottom + 32 },
         ]}
         entering={FadeIn.duration(750)}
@@ -204,19 +200,7 @@ export default function HomeScreen({}) {
         showsVerticalScrollIndicator={false}
         style={[tw`h-full w-full`]}>
         <View style={tw`flex flex-row items-center w-full px-4`}>
-          {currentMembersUpdatedAt &&
-          dayjs().diff(currentMembersUpdatedAt, 'second') > AGE_PERIOD_IN_SECONDS ? (
-            <>
-              <Animated.Text
-                entering={FadeInUp.duration(300)}
-                exiting={FadeOutUp.duration(300)}
-                style={tw`ml-3 text-sm font-normal text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
-                {capitalize(dayjs(currentMembersUpdatedAt).fromNow())}
-              </Animated.Text>
-              {/* mr-3 to be perflectly center aligned */}
-              <PullToRefreshHint style={tw`mr-3 grow`} />
-            </>
-          ) : null}
+          <StaleDataText lastFetch={currentMembersUpdatedAt} />
 
           <View style={tw`flex flex-col items-end shrink grow basis-0`}>
             <Link asChild href="/settings">

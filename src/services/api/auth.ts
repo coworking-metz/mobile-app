@@ -20,7 +20,9 @@ export type ApiUser = {
 };
 
 export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiTokens> => {
-  return HTTP.post('/api/auth/tokens', { refreshToken }).then(({ data }) => data);
+  return HTTP.post('/api/auth/tokens', { refreshToken }, { timeout: 30_000 }).then(
+    ({ data }) => data,
+  );
 };
 
 /**

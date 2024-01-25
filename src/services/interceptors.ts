@@ -153,10 +153,10 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
         await authStore.logout();
 
         // explain what happened to the user
-        const toastStore = useToastStore();
-        const noticeStore = useNoticeStore();
         const errorMessage = await parseErrorText(error);
         const errorLabel = i18n.t('auth.login.onRefreshTokenFail.message');
+        const toastStore = useToastStore.getState();
+        const noticeStore = useNoticeStore.getState();
         const toast = toastStore.add({
           message: errorLabel,
           type: ToastPresets.FAILURE,

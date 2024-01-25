@@ -30,10 +30,15 @@
         "last6Months": "Last 6 months"
       },
       "selected": {
-        "description": "Consumption is automatically calculated based on subscriptions and attendance.\nPresence of less than 5 hours corresponds to half a day, and half a day consumes half a ticket.",
+        "description": "Coverage is automatically computed based on subscriptions and attendance.\nPresence of less than 5 hours corresponds to half a day, and half a day consumes half a ticket.",
+        "overconsumed": {
+          "value": {
+            "ticketFull": "1 ticket overconsummed",
+            "ticketHalf": "0.5 tickets overconsummed"
+          }
+        },
         "type": {
-          "label": "Consumption",
-          "overconsummed": "Overconsumption",
+          "label": "Coverage",
           "value": {
             "subscription": "Subscription",
             "ticketFull": "1 ticket",

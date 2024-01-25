@@ -10,8 +10,14 @@
   },
   "description": "this application",
   "legal": {
+    "author": {
+      "label": "Made by Coworking Metz"
+    },
     "license": {
       "label": "License"
+    },
+    "privacyPolicy": {
+      "label": "Privacy policy"
     },
     "title": "Legal"
   },

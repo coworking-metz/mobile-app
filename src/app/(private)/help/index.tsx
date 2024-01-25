@@ -147,7 +147,7 @@ const Help = () => {
   return (
     <ServiceLayout description={t('help.description')} title={t('help.title')}>
       <TextField
-        containerStyle={tw`flex flex-row items-center bg-gray-200 dark:bg-neutral-800 mx-3 mb-3 rounded-lg px-3 min-h-10`}
+        containerStyle={tw`flex flex-row items-center bg-gray-200 dark:bg-neutral-800 mx-3 my-3 rounded-lg px-3 min-h-10`}
         enterKeyHint="search"
         floatingPlaceholderStyle={tw`text-gray-700`}
         leadingAccessory={

@@ -108,8 +108,8 @@ const Advanced = () => {
 
   return (
     <ServiceLayout
+      contentStyle={tw`py-6`}
       description={t('advanced.description')}
-      style={tw`py-6`}
       title={t('advanced.title')}>
       <Animated.Text
         entering={FadeInLeft.duration(300)}
