@@ -5,6 +5,7 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, View } from 'react-native';
 import AnimatedProgressWheel from 'react-native-progress-wheel';
+import ReadMore from 'react-native-read-more-text';
 import { Easing, type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
@@ -85,10 +86,27 @@ const PresenceBottomSheet = ({
           </Text>
         </ServiceRow>
 
-        <Text
-          style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400 w-full mb-2`}>
-          {t('settings.profile.presence.selected.description')}
-        </Text>
+        <ReadMore
+          numberOfLines={3}
+          renderRevealedFooter={(handlePress) => (
+            <Text
+              style={tw`text-base font-normal text-amber-500 grow text-left`}
+              onPress={handlePress}>
+              {t('actions.hide')}
+            </Text>
+          )}
+          renderTruncatedFooter={(handlePress) => (
+            <Text
+              style={tw`text-base font-normal text-amber-500 grow text-left`}
+              onPress={handlePress}>
+              {t('actions.readMore')}
+            </Text>
+          )}>
+          <Text
+            style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400 w-full mb-2`}>
+            {t('settings.profile.presence.selected.description')}
+          </Text>
+        </ReadMore>
       </View>
     </AppBottomSheet>
   );
