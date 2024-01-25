@@ -112,12 +112,12 @@ export default function Login() {
           {t('auth.login.title')}
         </Text>
 
-        <AppRoundedButton disabled={isLoading} style={tw`mt-4 mx-2 h-14`} onPress={onSubmit}>
-          {isLoading ? (
-            <HorizontalLoadingAnimation />
-          ) : (
-            <Text style={tw`text-base text-black font-medium`}>{t('actions.login')}</Text>
-          )}
+        <AppRoundedButton
+          disabled={isLoading}
+          loading={isLoading}
+          style={tw`mt-4 mx-2 h-14`}
+          onPress={onSubmit}>
+          <Text style={tw`text-base text-black font-medium`}>{t('actions.login')}</Text>
         </AppRoundedButton>
         <Link asChild href="/onboarding">
           <Button

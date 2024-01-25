@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import * as NavigationBar from 'expo-navigation-bar';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { Platform, View } from 'react-native';
@@ -11,7 +12,6 @@ import { I18nProvider } from '@/context/i18n';
 import '@/i18n';
 import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
-import * as NavigationBar from 'expo-navigation-bar';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
