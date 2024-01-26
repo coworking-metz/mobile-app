@@ -1,11 +1,10 @@
 import ErrorChip from '../ErrorChip';
 import { Image } from 'expo-image';
-import { Link } from 'expo-router';
 import { WebBrowserPresentationStyle, openBrowserAsync } from 'expo-web-browser';
 import { Skeleton } from 'moti/skeleton';
-import React, { Children, type ReactNode, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View, type ViewProps } from 'react-native';
+import { Platform, Text, View, type ViewProps } from 'react-native';
 import AnimatedNumber from 'react-native-animated-number';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { FadeInRight, FadeOutRight } from 'react-native-reanimated';
@@ -66,13 +65,20 @@ const PresentMembers = ({
         ) : (
           <View style={tw`flex flex-col h-24`}>
             <AnimatedNumber
-              style={tw`text-8xl leading-[6.5rem] font-bold text-slate-900 dark:text-gray-200 min-w-[3rem]`}
+              style={[
+                tw`text-8xl leading-[6.5rem] font-bold text-slate-900 dark:text-gray-200 min-w-[3rem]`,
+                Platform.OS === 'android' && tw`text-8xl tracking-tighter`,
+              ]}
               time={64} // milliseconds between each step
               value={members.length}
             />
           </View>
         )}
-        <Text style={tw`text-5xl font-normal text-slate-500 dark:text-slate-400 h-12 mb-3`}>
+        <Text
+          style={[
+            tw`text-5xl font-normal text-slate-500 dark:text-slate-400 h-12 mb-3`,
+            Platform.OS === 'android' && tw`text-5xl tracking-tight`,
+          ]}>
           {t('home.people.capacity', { total: total })}
         </Text>
       </View>

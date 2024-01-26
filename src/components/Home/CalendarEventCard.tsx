@@ -1,6 +1,5 @@
 import AppBlurView from '../AppBlurView';
 import dayjs from 'dayjs';
-import { BlurView } from 'expo-blur';
 import { Image, ImageBackground } from 'expo-image';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';

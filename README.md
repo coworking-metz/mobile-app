@@ -1,5 +1,7 @@
 # Le Poulailler - Coworking Metz Mobile
 
+![Coworking Mobile Banner](./docs/coworking-mobile-banner.gif)
+
 This project holds the Coworking Metz mobile application source code.
 
 ## Getting Started

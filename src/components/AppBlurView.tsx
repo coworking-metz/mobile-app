@@ -6,7 +6,7 @@ const AppBlurView = ({ children, style, tint, intensity, ...props }: BlurViewPro
   if (Platform.OS === 'android') {
     return (
       <View
-        // eslint-disable-next-line tailwindcss/classnames-order
+        // eslint-disable-next-line tailwindcss/classnames-order, tailwindcss/no-custom-classname
         style={[
           {
             backgroundColor:

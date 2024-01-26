@@ -1,4 +1,3 @@
-import ErrorAnimation from './Animations/ErrorAnimation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Text, TouchableOpacity, type ViewProps } from 'react-native';

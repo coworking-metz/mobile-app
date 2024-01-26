@@ -11,7 +11,6 @@ const CouponsAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
   ref,
 ) => {
   const colorizedSource = useMemo(() => {
-    const colorApplied = color || (tw.color('gray-600') as string);
     return colouriseLottie(BuyCoupons, {
       // // Coupon.Star.Fill 1
       // "layers.0.shapes.0.it.1.c.k": "#ffffff",
