@@ -1,7 +1,5 @@
 import LoveCalendarAnimation from '../Animations/LoveCalendarAnimation';
-import { Link } from 'expo-router';
-import React, { Children, type ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { type ReactNode } from 'react';
 import { Text, type ViewProps } from 'react-native';
 import Animated, { type AnimateProps, type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -16,8 +14,6 @@ const CalendarEmptyState = ({
   style?: StyleProps | false;
   children?: ReactNode;
 }) => {
-  const { t } = useTranslation();
-
   return (
     <Animated.View style={[tw`flex flex-col items-center`, style]} {...props}>
       <LoveCalendarAnimation style={tw`h-32`} />

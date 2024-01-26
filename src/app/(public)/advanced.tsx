@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import * as Clipboard from 'expo-clipboard';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TextInput } from 'react-native';

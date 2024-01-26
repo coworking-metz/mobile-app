@@ -25,7 +25,6 @@ const CalendarAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = 
     const cityBackgroundColor = (
       tw.prefixMatch('dark') ? tw.color('zinc-800') : '#f5f5f5'
     ) as string;
-    const colorApplied = color || (tw.color('gray-600') as string);
     return colouriseLottie(CalendarSubscription, {
       // estrellas/Loading-ilustracion contornos 4.Grupo 1.Trazo 1
       'assets.0.layers.0.shapes.0.it.1.c.k': '#ffc107',

@@ -185,7 +185,7 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
               'errors.timeout.message',
               timeoutDuration
                 ? {
-                    withDuration: i18n.t('errors.timeout.message', {
+                    withDuration: i18n.t('errors.timeout.withDuration', {
                       duration: formatDuration(timeoutDuration),
                     }),
                   }

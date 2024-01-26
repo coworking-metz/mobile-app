@@ -3,7 +3,6 @@ import { useNavigation, useRouter } from 'expo-router';
 import { useCallback, useRef, useState, type ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, View, type LayoutChangeEvent } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, {
   FadeInDown,
   interpolate,

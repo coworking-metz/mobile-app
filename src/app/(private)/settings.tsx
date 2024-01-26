@@ -293,9 +293,7 @@ const Settings = () => {
                   </View>
                 </ServiceRow>
               </Link>
-            ) : (
-              <></>
-            )}
+            ) : null}
             <Link asChild href="/onboarding">
               <ServiceRow
                 withBottomDivider

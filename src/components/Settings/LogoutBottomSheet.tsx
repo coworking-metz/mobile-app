@@ -1,14 +1,8 @@
-import CouponsAnimation from '../Animations/CouponsAnimation';
 import ExitDoorAnimation from '../Animations/ExitDoorAnimation';
-import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
-import ServiceRow from '../Settings/ServiceRow';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { makeRedirectUri } from 'expo-auth-session';
-import { Link } from 'expo-router';
-import { type WebBrowserRedirectResult, openAuthSessionAsync } from 'expo-web-browser';
-import { Skeleton } from 'moti/skeleton';
+import { openAuthSessionAsync, type WebBrowserRedirectResult } from 'expo-web-browser';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, Text, View } from 'react-native';
@@ -22,15 +16,7 @@ import useToastStore from '@/stores/toast';
 
 const logoutLogger = log.extend(`[${__filename.split('/').pop()}]`);
 
-const LogoutBottomSheet = ({
-  loading = false,
-  style,
-  onClose,
-}: {
-  loading?: boolean;
-  style?: StyleProps;
-  onClose?: () => void;
-}) => {
+const LogoutBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: () => void }) => {
   const { t } = useTranslation();
   const [isLoading, setLoading] = useState<boolean>(false);
   const toastStore = useToastStore();
@@ -91,13 +77,10 @@ const LogoutBottomSheet = ({
         </Text>
         <AppRoundedButton
           disabled={isLoading}
+          loading={isLoading}
           style={tw`h-14 self-stretch mt-6`}
           onPress={onLogout}>
-          {isLoading ? (
-            <HorizontalLoadingAnimation />
-          ) : (
-            <Text style={tw`text-base text-black font-medium`}>{t('actions.logout')}</Text>
-          )}
+          <Text style={tw`text-base text-black font-medium`}>{t('actions.logout')}</Text>
         </AppRoundedButton>
         <Button
           activeBackgroundColor={

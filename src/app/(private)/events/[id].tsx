@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link, useLocalSearchParams } from 'expo-router';

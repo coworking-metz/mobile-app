@@ -6,6 +6,7 @@ const AppTouchableScale: ForwardRefRenderFunction<typeof TouchableScale, Touchab
   ref,
 ) => {
   return (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     <TouchableScale innerRef={ref} onPress={onPress} {...props}>
       {children}

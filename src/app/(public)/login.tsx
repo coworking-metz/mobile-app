@@ -12,7 +12,6 @@ import { Linking, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
-import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import WelcomeAnimation from '@/components/Animations/WelcomeAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppFooter from '@/components/Settings/AppFooter';

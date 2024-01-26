@@ -31,6 +31,7 @@ export const parseErrorText = async (error: AxiosError | Error): Promise<string>
   const hasContent = !contentLength || parseInt(contentLength, 10) > 0;
   const isBodyJson = hasContent && contentType?.includes('json');
   if (hasContent) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const content = (error as AxiosError).response?.data as any;
     const isParseable = typeof content?.text === 'function';
     if (isParseable && isBodyJson) {

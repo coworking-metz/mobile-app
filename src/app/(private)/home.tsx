@@ -222,12 +222,16 @@ export default function HomeScreen({}) {
             showsHorizontalScrollIndicator={false}
             style={tw`w-full`}>
             <AppTouchableScale key={`balance-card`} onPress={() => selectBalance(true)}>
-              <BalanceCard count={profile?.balance} loading={isLoadingProfile} style={tw`h-38`} />
+              <BalanceCard
+                count={profile?.balance}
+                loading={isLoadingProfile}
+                style={tw`min-h-38`}
+              />
             </AppTouchableScale>
             <AppTouchableScale key={`subscription-card`} onPress={() => selectSubscription(true)}>
               <SubscriptionCard
                 loading={isLoadingProfile}
-                style={tw`h-38`}
+                style={tw`min-h-38`}
                 subscription={currentSubscription}
               />
             </AppTouchableScale>
@@ -235,7 +239,7 @@ export default function HomeScreen({}) {
               <MembershipCard
                 lastMembershipYear={profile?.lastMembership}
                 loading={isLoadingProfile}
-                style={tw`h-38`}
+                style={tw`min-h-38`}
                 valid={profile?.membershipOk}
               />
             </AppTouchableScale>
