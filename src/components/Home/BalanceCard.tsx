@@ -79,7 +79,7 @@ const BalanceCard = ({
       ) : (
         count > 0 && (
           <MaterialCommunityIcons
-            color={tw.color('emerald-600')}
+            color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
             name="check-circle"
             size={20}
             style={tw`absolute top-3 right-3`}
