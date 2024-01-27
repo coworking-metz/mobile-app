@@ -1,7 +1,5 @@
 import LottieView, { type AnimatedLottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
-import { useColorScheme } from 'react-native';
-import tw from 'twrnc';
 import MobileApp from '@/assets/animations/mobile-app.json';
 import { colouriseLottie } from '@/helpers/colors';
 
@@ -11,7 +9,6 @@ const MobileAppAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> =
   { ...props },
   ref,
 ) => {
-  const colorScheme = useColorScheme();
   const colorizedSource = useMemo(
     () =>
       colouriseLottie(MobileApp, {
@@ -78,7 +75,7 @@ const MobileAppAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> =
         // // Line + Shadow.Stroke 1
         // 'layers.15.shapes.1.c.k.1.s': '#eaeaea',
       }),
-    [colorScheme],
+    [],
   );
 
   return <LottieView ref={ref} autoPlay loop {...props} source={colorizedSource} />;

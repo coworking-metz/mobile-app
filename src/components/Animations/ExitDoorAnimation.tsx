@@ -13,13 +13,10 @@ const ExitDoorAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = 
 ) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
+    const isDark = colorScheme === 'dark';
     const primaryColor = theme.meatBrown; // '#6ee2ff'
-    const backgroundColor = (
-      tw.prefixMatch('dark') ? tw.color('gray-700') : tw.color('gray-300')
-    ) as string; // '#e5e5e5'
-    const frameColor = (
-      tw.prefixMatch('dark') ? tw.color('zinc-700') : tw.color('zinc-800')
-    ) as string; // '#0f2b4a'
+    const backgroundColor = (isDark ? tw.color('gray-700') : tw.color('gray-300')) as string; // '#e5e5e5'
+    const frameColor = (isDark ? tw.color('zinc-700') : tw.color('zinc-800')) as string; // '#0f2b4a'
     const reflectionColor = theme.papayaWhip; // '#e9f4f7'
     const insideColor = theme.charlestonGreen; // '#0d4f80'
     return colouriseLottie(ExitDoor, {

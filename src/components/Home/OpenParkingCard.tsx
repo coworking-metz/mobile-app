@@ -4,17 +4,9 @@ import ReanimatedText from '../ReanimatedText';
 import TouchableScale from '@jonny/touchable-scale';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
-import React, {
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-  type ForwardRefRenderFunction,
-  type ReactNode,
-} from 'react';
+import React, { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View, type LayoutChangeEvent } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, {
   Easing,
   interpolate,

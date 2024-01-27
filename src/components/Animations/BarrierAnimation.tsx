@@ -13,15 +13,10 @@ const BarrierAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
 ) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const lighterColor = (
-      tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-300')
-    ) as string;
-    const plotOutlineColor = (
-      tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')
-    ) as string;
-    const darkerColor = (
-      tw.prefixMatch('dark') ? tw.color('gray-300') : tw.color('gray-600')
-    ) as string;
+    const isDark = colorScheme === 'dark';
+    const lighterColor = (isDark ? tw.color('gray-200') : tw.color('gray-300')) as string;
+    const plotOutlineColor = (isDark ? tw.color('gray-400') : tw.color('gray-700')) as string;
+    const darkerColor = (isDark ? tw.color('gray-300') : tw.color('gray-600')) as string;
     return colouriseLottie(LiftBarrier, {
       // 404-barrier Outlines.right-barrier.Group 1.Fill 1
       // 'layers.0.shapes.0.it.0.it.1.c.k': '#f05151',

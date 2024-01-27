@@ -13,7 +13,7 @@ const LockUnlockAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> 
 ) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const iconColor = tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700');
+    const iconColor = colorScheme === 'dark' ? tw.color('gray-400') : tw.color('gray-700');
     const colorApplied = color || (iconColor as string);
     return colouriseLottie(LockUnlock, {
       // accent.Shape 3.Stroke 1
