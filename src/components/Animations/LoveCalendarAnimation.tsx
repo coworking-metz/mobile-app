@@ -13,24 +13,13 @@ const LoveCalendarAnimation: ForwardRefRenderFunction<LottieView, AnimationProps
 ) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const backgroundColor = (
-      tw.prefixMatch('dark') ? tw.color('black') : tw.color('white')
-    ) as string;
-    const borderColor = (
-      tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('black')
-    ) as string;
-    const tearoutBackgroundColor = (
-      tw.prefixMatch('dark') ? tw.color('gray-700') : tw.color('gray-300')
-    ) as string; // '#eaeaea'
-    const tearoutBorderColor = (
-      tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('zinc-800')
-    ) as string; // '#231f20'
-    const heartColor = (
-      tw.prefixMatch('dark') ? tw.color('pink-800') : tw.color('red-600')
-    ) as string;
-    const bindingColor = (
-      tw.prefixMatch('dark') ? tw.color('red-800') : tw.color('red-600')
-    ) as string;
+    const isDark = colorScheme === 'dark';
+    const backgroundColor = (isDark ? tw.color('black') : tw.color('white')) as string;
+    const borderColor = (isDark ? tw.color('zinc-800') : tw.color('black')) as string;
+    const tearoutBackgroundColor = (isDark ? tw.color('gray-700') : tw.color('gray-300')) as string; // '#eaeaea'
+    const tearoutBorderColor = (isDark ? tw.color('zinc-800') : tw.color('zinc-800')) as string; // '#231f20'
+    const heartColor = (isDark ? tw.color('pink-800') : tw.color('red-600')) as string;
+    const bindingColor = (isDark ? tw.color('red-800') : tw.color('red-600')) as string;
     return colouriseLottie(LoveCalendar, {
       // tearout.Group 1.Stroke 1
       'layers.0.shapes.0.it.1.c.k': tearoutBorderColor,

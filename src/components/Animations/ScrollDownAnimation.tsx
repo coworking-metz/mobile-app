@@ -10,7 +10,7 @@ type AnimationProps = Omit<AnimatedLottieViewProps, 'source'>;
 const ScrollDownAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (props, ref) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const color = (tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-500')) as string;
+    const color = (colorScheme === 'dark' ? tw.color('gray-400') : tw.color('gray-500')) as string;
     return colouriseLottie(ScrollDownEasey, {
       // top 2.arrow.Stroke 1
       'layers.0.shapes.0.it.1.c.k': color,

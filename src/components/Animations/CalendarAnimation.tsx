@@ -13,18 +13,11 @@ const CalendarAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = 
 ) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const calendarBackgroundColor = (
-      tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')
-    ) as string;
-    const calendarHeaderColor = (
-      tw.prefixMatch('dark') ? tw.color('zinc-400') : '#e8e8e8'
-    ) as string;
-    const calendarBorderColor = (
-      tw.prefixMatch('dark') ? tw.color('gray-200') : '#484848'
-    ) as string;
-    const cityBackgroundColor = (
-      tw.prefixMatch('dark') ? tw.color('zinc-800') : '#f5f5f5'
-    ) as string;
+    const isDark = colorScheme === 'dark';
+    const calendarBackgroundColor = (isDark ? tw.color('zinc-900') : tw.color('white')) as string;
+    const calendarHeaderColor = (isDark ? tw.color('zinc-400') : '#e8e8e8') as string;
+    const calendarBorderColor = (isDark ? tw.color('gray-200') : '#484848') as string;
+    const cityBackgroundColor = (isDark ? tw.color('zinc-800') : '#f5f5f5') as string;
     return colouriseLottie(CalendarSubscription, {
       // estrellas/Loading-ilustracion contornos 4.Grupo 1.Trazo 1
       'assets.0.layers.0.shapes.0.it.1.c.k': '#ffc107',

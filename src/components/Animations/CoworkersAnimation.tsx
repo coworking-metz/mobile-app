@@ -1,6 +1,5 @@
 import LottieView, { type AnimatedLottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
-import { useColorScheme } from 'react-native';
 import CooperatingCoworkers from '@/assets/animations/cooperating-coworkers.json';
 import { colouriseLottie } from '@/helpers/colors';
 
@@ -10,7 +9,6 @@ const CoworkersAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> =
   { ...props },
   ref,
 ) => {
-  const colorScheme = useColorScheme();
   const colorizedSource = useMemo(
     () =>
       colouriseLottie(CooperatingCoworkers, {
@@ -304,7 +302,7 @@ const CoworkersAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> =
         // // Table.Group 5.Fill 1
         // "layers.8.shapes.4.it.1.c.k": "#ffffff",
       }),
-    [colorScheme],
+    [],
   );
 
   return <LottieView ref={ref} autoPlay loop {...props} source={colorizedSource} />;
