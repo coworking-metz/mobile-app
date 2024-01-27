@@ -11,7 +11,7 @@ const ProfilePicture = ({ style }: { picture?: string; style?: StyleProps }) => 
   return (
     <Animated.View
       sharedTransitionTag="profilePicture"
-      style={[tw`relative bg-gray-200 rounded-full h-12 w-12 overflow-hidden`, style]}>
+      style={[tw`flex flex-col bg-gray-200 rounded-full h-12 w-12 overflow-hidden`, style]}>
       {user?.picture ? (
         <Image
           contentFit="cover"
