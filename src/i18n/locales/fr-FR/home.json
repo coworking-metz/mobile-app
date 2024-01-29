@@ -61,14 +61,35 @@
   "profile": {
     "label": "Situation",
     "membership": {
+      "activity": {
+        "days_one": "{{count}} journée",
+        "days_other": "{{count}} journées",
+        "days_zero": "Aucune",
+        "description": "sur les 6 derniers mois",
+        "label": "Activité"
+      },
       "description": "Afin d'assurer une couverture totale de ses membres et de leurs biens, la carte adhérent est obligatoire pour tout usager de l'espace de Coworking.\n\nC'est une prérogative de notre assureur.",
       "get": "Adhérer pour {{year}}",
+      "grade": {
+        "active": {
+          "description": "Être membre actif vous permet de voter lors de l'assemblée générale.\n\nCe statut est obtenu après 20 journées d'activité au cours des 6 derniers mois.",
+          "label": "Membre actif"
+        },
+        "label": "Statut",
+        "none": {
+          "label": "Aucun"
+        },
+        "standard": {
+          "description": "Vous n'avez pas encore le statut de membre actif. Ce statut vous permet de voter lors de l'assemblée générale.\n\nIl est obtenu après 20 journées d'activité au cours des 6 derniers mois.",
+          "label": "Membre adhérent"
+        }
+      },
       "label": "Carte adhérent",
       "renew": "Renouveler pour {{year}}",
       "required": "Sans cette cotisation, vous ne serez pas en mesure de pouvoir accéder à l'espace de Coworking.",
       "status": {
         "invalid": "Dernière adhésion en {{year}}",
-        "label": "Statut",
+        "label": "Adhésion",
         "none": "Aucune",
         "toRenew": "À renouveler",
         "valid": "Valide pour {{year}}"
@@ -82,7 +103,9 @@
       "description": "L'abonnement permet d'accéder au Coworking sur 30 jours glissants à compter de la date de début choisie.",
       "get": "S'abonner",
       "label": {
-        "active": "Abonnement actuel",
+        "activeUntil": "Abonnement valide jusqu'au",
+        "current": "Abonnement actuel",
+        "expireSoon": "Abonnement valide jusqu'à",
         "expired": "Abonnement expiré",
         "next": "Prochain abonnement",
         "none": "Abonnement"

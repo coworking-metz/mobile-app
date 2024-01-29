@@ -44,9 +44,12 @@ dayjs.updateLocale('en', {
 
 export const formatDuration = (milliseconds: number): string => {
   const dayJSduration = dayjs.duration(milliseconds, 'milliseconds');
-  const nbDays = dayJSduration.get('day');
-  const nbMinutes = dayJSduration.get('minute');
-  const dynamicFormats = [!!nbDays && 'H[h]', !!nbMinutes && 'm[m]'].filter(Boolean).join(' ');
+  const days = dayJSduration.get('day');
+  const minutes = dayJSduration.get('minute');
+  const seconds = dayJSduration.get('second');
+  const dynamicFormats = [!!days && 'H[h]', !!minutes && 'm[m]', !!seconds && 's[s]']
+    .filter(Boolean)
+    .join(' ');
 
   return dayJSduration.format(dynamicFormats);
 };

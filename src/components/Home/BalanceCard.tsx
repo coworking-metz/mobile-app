@@ -55,7 +55,7 @@ const BalanceCard = ({
             style={[
               tw`font-normal`,
               count != 0
-                ? tw`leading-6 text-xs text-slate-500 dark:text-slate-400`
+                ? tw`leading-6 text-sm text-slate-500 dark:text-slate-400`
                 : tw`text-2xl text-gray-400 dark:text-slate-600`,
             ]}>
             {count < 0
