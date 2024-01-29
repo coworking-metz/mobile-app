@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- (iOS only) Haptic feedback on Touchable elements.
+- Render activity and status on the Membership bottom sheet.
+
 ### Fixed
 
 - Animations properly change color when switching between light and dark theme.
