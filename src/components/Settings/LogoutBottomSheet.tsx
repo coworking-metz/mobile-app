@@ -40,7 +40,7 @@ const LogoutBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: (
       path: '/login',
     });
 
-    const logoutUrl = `https://www.coworking-metz.fr/mon-compte/deconnexion/?redirect=${redirectUriOnSuccess}`;
+    const logoutUrl = `https://www.coworking-metz.fr/mon-compte/deconnexion?redirect_to=${redirectUriOnSuccess}`;
 
     openAuthSessionAsync(logoutUrl)
       .then((result) => {
@@ -51,7 +51,7 @@ const LogoutBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: (
         }
       })
 
-      .catch(async (error) => {
+      .catch((error) => {
         notifyError(t('errors.default.message'), error);
       })
       .finally(() => {

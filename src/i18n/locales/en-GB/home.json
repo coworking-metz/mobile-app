@@ -30,8 +30,8 @@
     }
   },
   "parking": {
-    "description": "by opening the gate",
-    "label": "Access parking spots",
+    "description": "to access parking spots",
+    "label": "Open parking barrier",
     "loading": "requesting...",
     "onFail": {
       "message": "Unable to open"
