@@ -9,11 +9,13 @@ import tw from 'twrnc';
 const MembershipCard = ({
   lastMembershipYear,
   valid,
+  active,
   loading = false,
   style,
 }: {
   lastMembershipYear?: number;
   valid?: boolean;
+  active?: boolean;
   loading?: boolean;
   style?: StyleProps;
 }) => {
@@ -27,7 +29,7 @@ const MembershipCard = ({
       ]}>
       <MaterialCommunityIcons
         color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-        name="badge-account-horizontal-outline"
+        name={active ? 'card-account-details-star-outline' : 'badge-account-horizontal-outline'}
         size={40}
       />
 

@@ -25,7 +25,9 @@ const SubscriptionCard = ({
     if (now.startOf('day').isAfter(subscription.aboEnd))
       return t('home.profile.subscription.label.expired');
     if (now.isBefore(subscription.aboStart)) return t('home.profile.subscription.label.next');
-    return t('home.profile.subscription.label.active');
+    if (dayjs().isSame(subscription.aboEnd, 'week'))
+      return t('home.profile.subscription.label.expireSoon');
+    return t('home.profile.subscription.label.activeUntil');
   }, [subscription, t]);
 
   const value = useMemo(() => {

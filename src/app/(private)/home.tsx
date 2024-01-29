@@ -221,22 +221,29 @@ export default function HomeScreen({}) {
             scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
             style={tw`w-full`}>
-            <AppTouchableScale key={`balance-card`} onPress={() => selectBalance(true)}>
+            <AppTouchableScale
+              style={tw`flex flex-row items-stretch`}
+              onPress={() => selectBalance(true)}>
               <BalanceCard
                 count={profile?.balance}
                 loading={isLoadingProfile}
                 style={tw`min-h-38`}
               />
             </AppTouchableScale>
-            <AppTouchableScale key={`subscription-card`} onPress={() => selectSubscription(true)}>
+            <AppTouchableScale
+              style={tw`flex flex-row items-stretch`}
+              onPress={() => selectSubscription(true)}>
               <SubscriptionCard
                 loading={isLoadingProfile}
                 style={tw`min-h-38`}
                 subscription={currentSubscription}
               />
             </AppTouchableScale>
-            <AppTouchableScale key={`membership-card`} onPress={() => selectMembership(true)}>
+            <AppTouchableScale
+              style={tw`flex flex-row items-stretch`}
+              onPress={() => selectMembership(true)}>
               <MembershipCard
+                active={profile?.activeUser}
                 lastMembershipYear={profile?.lastMembership}
                 loading={isLoadingProfile}
                 style={tw`min-h-38`}
@@ -365,6 +372,8 @@ export default function HomeScreen({}) {
 
       {hasSelectMembership ? (
         <MembershipBottomSheet
+          active={profile?.activeUser}
+          activityOverLast6Months={profile?.activity}
           lastMembershipYear={profile?.lastMembership}
           loading={isFetchingProfile}
           valid={profile?.membershipOk}

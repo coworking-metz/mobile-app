@@ -55,19 +55,40 @@
     "present_zero": "Nobody there"
   },
   "profile": {
-    "label": "Membership",
+    "label": "Profile",
     "membership": {
-      "description": "In order to ensure complete coverage for its members and their belongings, the membership card is mandatory for all Coworking members.\n\nThis is a requirement from our insurer.",
+      "activity": {
+        "days_one": "{{count}} day",
+        "days_other": "{{count}} days",
+        "days_zero": "None",
+        "description": "over the last 6 months",
+        "label": "Activity"
+      },
+      "description": "To ensure complete coverage for its members and their belongings, the membership card is mandatory for all users of the shared office.\n\nThis is a requirement from our insurer.",
       "get": "Join for {{year}}",
-      "label": "Membership card",
+      "grade": {
+        "active": {
+          "description": "Being an active member allows you to vote during the general assembly.\n\nThis status is obtained after 20 days of activity over the last 6 months.",
+          "label": "Active member"
+        },
+        "label": "Status",
+        "none": {
+          "label": "None"
+        },
+        "standard": {
+          "description": "You do not yet have the status of an active member. This status allows you to vote during the general assembly.\n\nIt is obtained after 20 days of activity over the last 6 months.",
+          "label": "Member"
+        }
+      },
+      "label": "Membership Card",
       "renew": "Renew for {{year}}",
-      "required": "Without this subscription, you will not be able to access the Coworking location.",
+      "required": "Without this subscription, you will not be able to access the shared office location.",
       "status": {
         "invalid": "Last membership in {{year}}",
-        "label": "Status",
+        "label": "Membership",
         "none": "None",
-        "toRenew": "To renew for {{year}}",
-        "valid": "Valid during {{year}}"
+        "toRenew": "To renew",
+        "valid": "Valid for {{year}}"
       }
     },
     "onFetch": {
@@ -78,7 +99,9 @@
       "description": "Subscription allows access to the Coworking location for 30 rolling days starting from the chosen start date.",
       "get": "Get one",
       "label": {
-        "active": "Active subscription",
+        "activeUntil": "Subscription valid until",
+        "current": "Active subscription",
+        "expireSoon": "Subscription valid until",
         "expired": "Expired subscription",
         "next": "Next subscription",
         "none": "Subscription"

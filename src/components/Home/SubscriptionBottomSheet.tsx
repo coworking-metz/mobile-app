@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
+import { formatDuration } from '@/i18n';
 import { type ApiMemberSubscription } from '@/services/api/members';
 
 const SubscriptionBottomSheet = ({
@@ -31,7 +32,7 @@ const SubscriptionBottomSheet = ({
     if (now.startOf('day').isAfter(subscription.aboEnd))
       return t('home.profile.subscription.label.expired');
     if (now.isBefore(subscription.aboStart)) return t('home.profile.subscription.label.next');
-    return t('home.profile.subscription.label.active');
+    return t('home.profile.subscription.label.current');
   }, [subscription, t]);
 
   return (
