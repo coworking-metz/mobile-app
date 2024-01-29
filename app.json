@@ -21,7 +21,6 @@
     },
     "icon": "./src/assets/images/icon.png",
     "ios": {
-      "buildNumber": "2",
       "bundleIdentifier": "fr.coworking-metz.mobile",
       "infoPlist": {
         "UIViewControllerBasedStatusBarAppearance": true
