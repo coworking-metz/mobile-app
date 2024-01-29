@@ -12,10 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - (iOS only) Haptic feedback on Touchable elements.
 - Render activity and status on the Membership bottom sheet.
 
+### Changed
+
+- Change controls label to be more explicit.
+
 ### Fixed
 
 - Animations properly change color when switching between light and dark theme.
 - Decrease success icon color on the tickets card in dark theme.
+- Bottom sheet content should slide below the handle.
 
 ## 1.0.0 - 2024-01-26
 

@@ -1,8 +1,9 @@
 import AppBottomSheetBackdrop from './AppBottomSheetBackdrop';
 import BottomSheet, { BottomSheetScrollView, type BottomSheetProps } from '@gorhom/bottom-sheet';
 import React, { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 
 const HANDLE_HEIGHT = 8;
@@ -50,15 +51,23 @@ const AppBottomSheet = ({ children, style, ...props }: AppBottomSheetProps) => {
       containerStyle={tw`z-10`}
       detached={true}
       handleIndicatorStyle={tw`bg-gray-500 rounded-full`}
+      handleStyle={tw`bg-transparent absolute right-0 left-0`}
       {...props}
       snapPoints={snapPoints}
       style={[tw`mx-4 rounded-[2rem] overflow-hidden relative`, style]}>
+      <View style={tw`absolute top-0 left-0 right-0 z-10`}>
+        <Fader
+          position={Fader.position.TOP}
+          size={16}
+          tintColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
+        />
+      </View>
       {children && (
         <BottomSheetScrollView
           bounces={
             contentHeight > windowHeight - MIN_MARGIN_BOTTOM * 2 - insets.bottom - insets.top
           }
-          style={tw``}
+          style={tw`pt-2`}
           onContentSizeChange={(_width, height) => setContentHeight(height)}>
           {children}
         </BottomSheetScrollView>
