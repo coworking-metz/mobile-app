@@ -76,6 +76,15 @@ eas build --profile preview --platform ios # only for iOS
 eas build --profile preview --platform android # only for Android
 ```
 
+### Versioning
+
+Change `expo.version` to whatever you feel like.
+Change the `CHANGELOG.md` accordingly.
+Commit & tag it
+```bash
+git add app.json CHANGELOG.md && git commit -m "chore(version): update to 1.1.0" && git tag -a 1.1.0
+```
+
 ### Build for production
 
 ```bash
