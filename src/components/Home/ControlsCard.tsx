@@ -1,27 +1,31 @@
+import AppTouchableScale from '../AppTouchableScale';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
-import { type TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 
-const UnlockCard: ForwardRefRenderFunction<
-  TouchableOpacity,
+const ControlsCard: ForwardRefRenderFunction<
+  typeof AppTouchableScale,
   {
     children?: ReactNode;
     disabled?: boolean;
     style?: StyleProps;
+    onPress?: () => void;
   }
-> = ({ children, disabled = false, style }, ref) => {
+> = ({ onPress, disabled = false, style }, ref) => {
   const { t } = useTranslation();
 
   return (
-    <Animated.View
+    <AppTouchableScale
+      ref={ref}
+      disabled={disabled}
       style={[
         tw`flex flex-row items-center gap-4 px-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
         style,
-      ]}>
+      ]}
+      onPress={onPress}>
       <Animated.View style={tw`bg-gray-300 dark:bg-gray-700 rounded-full p-2 z-20`}>
         <View style={[tw`relative h-8 w-8 shrink-0`]}>
           <MaterialCommunityIcons
@@ -49,8 +53,8 @@ const UnlockCard: ForwardRefRenderFunction<
         size={32}
         style={[tw`shrink-0`, disabled && tw`opacity-40`]}
       />
-    </Animated.View>
+    </AppTouchableScale>
   );
 };
 
-export default forwardRef(UnlockCard);
+export default forwardRef(ControlsCard);

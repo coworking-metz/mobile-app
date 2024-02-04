@@ -1,16 +1,13 @@
 {
   "door": {
+    "description": "This door directly leads to the deck, and can be opened from the exterior to enter the workspace.",
+    "label": "Unlock\nthe deck door",
+    "loading": "Requesting...",
     "onFail": {
       "message": "Unable to open\nthe door 😔"
     },
-    "onSuccessiveTaps": {
-      "action": "Yes",
-      "message": "Is there something wrong?"
-    },
-    "onUnlocked": {
-      "description": "You can push the door\nand enter into the Open Space.",
-      "label": "Door is open!"
-    }
+    "slideToUnlock": "Slide to unlock",
+    "unlocked": "Door is open!"
   },
   "title": "Space management"
 }

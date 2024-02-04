@@ -231,31 +231,32 @@ const ActionableDeckDoor = ({
   const [isLoading, setLoading] = useState(false);
 
   const unlock = useCallback(() => {
-    setLoading(true);
-    toastStore.dismissAll();
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    unlockDeckDoor()
-      .then(() => {
-        setUnlocked(true);
-        onUnlock?.();
-      })
-      .catch(handleSilentError)
-      .catch(async (error) => {
-        const errorMessage = await parseErrorText(error);
-        toastStore.add({
-          message: errorMessage,
-          type: ToastPresets.FAILURE,
-        });
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      })
-      .finally(() => setLoading(false));
+    onUnlock?.();
+    // setLoading(true);
+    // toastStore.dismissAll();
+    // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    // unlockDeckDoor()
+    //   .then(() => {
+    //     setUnlocked(true);
+    //     onUnlock?.();
+    //   })
+    //   .catch(handleSilentError)
+    //   .catch(async (error) => {
+    //     const errorMessage = await parseErrorText(error);
+    //     toastStore.add({
+    //       message: errorMessage,
+    //       type: ToastPresets.FAILURE,
+    //     });
+    //     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    //   })
+    //   .finally(() => setLoading(false));
   }, []);
 
   return (
     <ActionableIcon
       active={isUnlocked}
-      activeIcon="door-open"
-      inactiveIcon="door-closed"
+      activeIcon="lock-open"
+      inactiveIcon="lock"
       loading={isLoading}
       style={style}
       onPress={unlock}

@@ -1,16 +1,13 @@
 {
   "door": {
+    "description": "La porte de la terrasse vous permet d'accéder directement à l'open space depuis l'extérieur.",
+    "label": "Déverouiller\nla porte de la terrasse",
+    "loading": "Demande en cours...",
     "onFail": {
       "message": "Impossible d'ouvrir\nla porte 😔"
     },
-    "onSuccessiveTaps": {
-      "action": "Oui",
-      "message": "Quelque chose ne va pas ?"
-    },
-    "onUnlocked": {
-      "description": "Vous pouvez ouvrir la porte\net entrer dans l'Open Space.",
-      "label": "C'est ouvert !"
-    }
+    "slideToUnlock": "Glisser pour déverouiller",
+    "unlocked": "C'est ouvert !"
   },
   "title": "Gérer l'espace"
 }
