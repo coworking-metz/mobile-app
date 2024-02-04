@@ -31,7 +31,7 @@ const PresenceGraph = ({
   style?: StyleProps;
   onDateSelect?: (date: string) => void;
 }) => {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const animatedScrollViewRef = useRef<Animated.ScrollView>(null);
   const earliestDate = useMemo(() => {
     const [first] = activity

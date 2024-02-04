@@ -2,6 +2,7 @@ import AppBottomSheetBackdrop from './AppBottomSheetBackdrop';
 import BottomSheet, { BottomSheetScrollView, type BottomSheetProps } from '@gorhom/bottom-sheet';
 import React, { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Dimensions, View } from 'react-native';
+import { type StyleProps } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
@@ -11,11 +12,17 @@ const MIN_MARGIN_BOTTOM = 16;
 
 export type AppBottomSheetProps = Omit<BottomSheetProps, 'snapPoints'> & {
   children?: ReactNode;
+  contentContainerStyle?: StyleProps;
 };
 
 const { height: windowHeight } = Dimensions.get('window');
 
-const AppBottomSheet = ({ children, style, ...props }: AppBottomSheetProps) => {
+const AppBottomSheet = ({
+  children,
+  contentContainerStyle,
+  style,
+  ...props
+}: AppBottomSheetProps) => {
   const insets = useSafeAreaInsets();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [contentHeight, setContentHeight] = useState(0);
@@ -67,6 +74,7 @@ const AppBottomSheet = ({ children, style, ...props }: AppBottomSheetProps) => {
           bounces={
             contentHeight > windowHeight - MIN_MARGIN_BOTTOM * 2 - insets.bottom - insets.top
           }
+          contentContainerStyle={contentContainerStyle}
           style={tw`pt-2`}
           onContentSizeChange={(_width, height) => setContentHeight(height)}>
           {children}
