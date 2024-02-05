@@ -19,17 +19,11 @@ import tw, { useDeviceContext } from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
-import UnlockDeckDoorBottomSheet from '@/components/Home/UnlockDeckDoorBottomSheet';
+import UnlockDeckDoorBottomSheet from '@/components/Controls/UnlockDeckDoorBottomSheet';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import { theme } from '@/helpers/colors';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
-import {
-  turnOffFan,
-  turnOffLight,
-  turnOnFan,
-  turnOnLight,
-  unlockDeckDoor,
-} from '@/services/api/services';
+import { turnOffFan, turnOffLight, turnOnFan, turnOnLight } from '@/services/api/services';
 import useToastStore from '@/stores/toast';
 
 const ActionableIcon = ({
@@ -305,10 +299,12 @@ const Controls = () => {
               <ActionableLight id="10" style={tw`top-[70%] left-[25%]`} />
 
               {/* Door */}
-              <ActionableDeckDoor
+              <ActionableIcon
                 active={false}
+                activeIcon="lock-open"
+                inactiveIcon="lock"
                 style={tw`top-[46%] left-[78%]`}
-                onUnlock={() => setUnlockInsideDoor(true)}
+                onPress={() => setUnlockInsideDoor(true)}
               />
 
               {/* Fans */}
