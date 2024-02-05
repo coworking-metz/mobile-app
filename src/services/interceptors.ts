@@ -42,7 +42,6 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
       `>> ${[
         config.method?.toUpperCase(),
         config.url,
-        // config.headers && `headers: ${JSON.stringify(config.headers)}`,
         config.data && `\n${JSON.stringify(config.data, null, 2)}`,
       ]
         .filter(Boolean)
@@ -50,31 +49,6 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
     );
 
     return config;
-  });
-
-  httpInstance.interceptors.request.use((config: AppAxiosRequestConfig) => {
-    // do not add it to the store if it already has a cancelToken
-    // meaning: it doesn't want to be managed by the store
-    // example: for requests like /entities/me or /auth/token
-    if (config.cancelToken) return config;
-
-    //TODO
-    // dispatch a new request in the store with the cancelToken source
-    // const cancelTokenSource = axios.CancelToken.source();
-    // const uuid = uuidv4();
-
-    // const httpStore = useHttpStore();
-
-    // httpStore.addRequest({
-    //   id: uuid,
-    //   cancelTokenSource,
-    // });
-
-    return {
-      ...config,
-      // id: uuid,
-      // cancelToken: cancelTokenSource.token,
-    };
   });
 
   httpInstance.interceptors.request.use((config: AppAxiosRequestConfig) => {
@@ -113,8 +87,10 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
       );
       if (!isResponseContentJson) return false;
 
-      // if the expected response type was blob, the data won't be parsed as JSON by axios
+      // if the expected response type was blob,
+      // the data won't be automatically parsed as JSON by axios
       // we need to do it ourselves
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const content = axiosError.response?.data as any;
       const parsedError =
         typeof content?.text === 'function' ? JSON.parse(await content.text()) : content;
@@ -138,14 +114,10 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
       const authStore = useAuthStore.getState();
       // disconnect the user on 401
       if (error.response && error.response.status === 401 && authStore.accessToken) {
-        // TODO
-        // cancel all requests
         const disconnectedError = new Error('User has been logged out', {
           cause: error,
         }) as AppError;
         disconnectedError.code = AppErrorCode.DISCONNECTED;
-        // const httpStore = useHttpStore();
-        // httpStore.cancelAllRequests(disconnectedError.message);
 
         httpLogger.debug(`Login out user`, error.message);
 
@@ -202,23 +174,12 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
   httpInstance.interceptors.response.use(
     (response: AxiosResponse) => {
       httpLogger.trace(
-        `<< ${[
-          response.config.method?.toUpperCase(),
-          response.config.url,
-          // config.headers && `headers: ${JSON.stringify(config.headers)}`,
-        ]
+        `<< ${[response.config.method?.toUpperCase(), response.config.url]
           .filter(Boolean)
           .join(' ')}`,
         response.data,
       );
 
-      // remove request from the store once it has ended
-      const { id } = response.config as AppAxiosRequestConfig;
-      if (id) {
-        // TODO
-        // const httpStore = useHttpStore();
-        // httpStore.removeRequest(id);
-      }
       return Promise.resolve(response);
     },
     (error: AxiosError & { config: AppAxiosRequestConfig }) => {
@@ -231,14 +192,6 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
         httpLogger.error(error);
       }
 
-      // remove request from the store once it has ended
-      // unless it has been aborted: therefore it won't have a config
-
-      if (error.config?.id) {
-        // TODO
-        // const httpStore = useHttpStore();
-        // httpStore.removeRequest(error.config.id);
-      }
       return Promise.reject(error);
     },
   );

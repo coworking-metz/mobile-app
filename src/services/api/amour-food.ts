@@ -7,7 +7,7 @@ import { log } from '@/helpers/logger';
 const amourFoodHttpLogger = log.extend(`[http]`);
 
 const amourFoodHttpInstance = axios.create({
-  baseURL: 'https://lamourfood.fr/wp-json/',
+  baseURL: process.env.EXPO_PUBLIC_AMOUR_FOOD_API_BASE_URL,
   timeout: Number.parseInt(process.env.EXPO_PUBLIC_TIMEOUT_IN_MS || '0', 10) || 10000,
   headers: {
     'X-Client': 'COWORKING_MOBILE',
@@ -19,7 +19,6 @@ amourFoodHttpInstance.interceptors.request.use((config: AppAxiosRequestConfig) =
     `>> ${[
       config.method?.toUpperCase(),
       config.url,
-      // config.headers && `headers: ${JSON.stringify(config.headers)}`,
       config.data && `\n${JSON.stringify(config.data, null, 2)}`,
     ]
       .filter(Boolean)
@@ -32,23 +31,12 @@ amourFoodHttpInstance.interceptors.request.use((config: AppAxiosRequestConfig) =
 amourFoodHttpInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     amourFoodHttpLogger.trace(
-      `<< ${[
-        response.config.method?.toUpperCase(),
-        response.config.url,
-        // config.headers && `headers: ${JSON.stringify(config.headers)}`,
-      ]
+      `<< ${[response.config.method?.toUpperCase(), response.config.url]
         .filter(Boolean)
         .join(' ')}`,
       response.data,
     );
 
-    // remove request from the store once it has ended
-    const { id } = response.config as AppAxiosRequestConfig;
-    if (id) {
-      // TODO
-      // const httpStore = useHttpStore();
-      // httpStore.removeRequest(id);
-    }
     return Promise.resolve(response);
   },
   (error: AxiosError & { config: AppAxiosRequestConfig }) => {
@@ -61,14 +49,6 @@ amourFoodHttpInstance.interceptors.response.use(
       amourFoodHttpLogger.error(error);
     }
 
-    // remove request from the store once it has ended
-    // unless it has been aborted: therefore it won't have a config
-
-    if (error.config?.id) {
-      // TODO
-      // const httpStore = useHttpStore();
-      // httpStore.removeRequest(error.config.id);
-    }
     return Promise.reject(error);
   },
 );
