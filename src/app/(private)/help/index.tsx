@@ -40,7 +40,7 @@ const fuzzy = new uFuzzy({
 
 const markdownHighlighter = (part: string, matched: boolean) => (matched ? `**${part}**` : part);
 
-const helpLogger = log.extend(`[${__filename.split('/').pop()}]`);
+const helpLogger = log.extend(`[help]`);
 
 const Help = () => {
   useDeviceContext(tw);
