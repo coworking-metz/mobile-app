@@ -356,7 +356,7 @@ export default function HomeScreen({}) {
       {hasSelectSubscription ? (
         <SubscriptionBottomSheet
           loading={isFetchingProfile}
-          subscription={currentSubscription}
+          subscriptions={profile?.abos || []}
           onClose={() => selectSubscription(false)}
         />
       ) : null}

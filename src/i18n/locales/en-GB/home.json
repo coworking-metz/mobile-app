@@ -104,7 +104,8 @@
         "expireSoon": "Subscription valid until",
         "expired": "Expired subscription",
         "next": "Next subscription",
-        "none": "Subscription"
+        "none": "Subscription",
+        "previous": "{{month}} subscription"
       },
       "renew": "Renew",
       "status": {
