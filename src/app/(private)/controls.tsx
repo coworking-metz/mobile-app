@@ -49,7 +49,9 @@ const ActionableIcon = ({
     <Animated.View
       style={[
         tw`absolute z-10 h-12 w-12 rounded-full p-2`,
-        active ? { backgroundColor: theme.meatBrown } : tw`bg-gray-200 dark:bg-gray-800`,
+        active
+          ? { backgroundColor: theme.meatBrown }
+          : tw`bg-gray-200 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-85`,
         style,
       ]}>
       <TouchableOpacity disabled={disabled} onPress={onPress}>
@@ -318,6 +320,22 @@ const Controls = () => {
                 activeIcon="volume-high"
                 inactiveIcon="volume-off"
                 style={tw`top-[72%] left-[68%]`}
+              />
+
+              {/* Phone booths */}
+              <ActionableIcon
+                active={false}
+                activeIcon="door-closed"
+                inactiveIcon="door-open"
+                style={tw`top-[82%] left-[14%]`}
+                onPress={() => setUnlockInsideDoor(true)}
+              />
+              <ActionableIcon
+                active
+                activeIcon="door-closed"
+                inactiveIcon="door-open"
+                style={tw`top-[82%] left-[29%]`}
+                onPress={() => setUnlockInsideDoor(true)}
               />
             </>
           )}

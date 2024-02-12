@@ -24,7 +24,7 @@ import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
 
-const loginLogger = log.extend(`[${__filename.split('/').pop()}]`);
+const loginLogger = log.extend(`[login.tsx]`);
 
 export default function Login() {
   useDeviceContext(tw);

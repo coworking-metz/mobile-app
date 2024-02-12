@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as NavigationBar from 'expo-navigation-bar';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { useLayoutEffect } from 'react';
 import { Platform, View } from 'react-native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
@@ -22,8 +23,6 @@ if (Platform.OS === 'android') {
   NavigationBar.setBackgroundColorAsync('#ffffff01');
 }
 
-createHttpInterceptors(HTTP);
-
 const queryClient = new QueryClient();
 
 export const unstable_settings = {
@@ -34,6 +33,10 @@ export const unstable_settings = {
 const RootLayout = () => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
+
+  useLayoutEffect(() => {
+    createHttpInterceptors(HTTP);
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>

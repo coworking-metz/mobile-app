@@ -1,4 +1,5 @@
 import { type CalendarEvent } from './calendar';
+import { version as appVersion } from '../../../package.json';
 import { type AppAxiosRequestConfig } from '../interceptors';
 import axios, { type AxiosError, type AxiosResponse } from 'axios';
 import dayjs from 'dayjs';
@@ -10,7 +11,8 @@ const amourFoodHttpInstance = axios.create({
   baseURL: process.env.EXPO_PUBLIC_AMOUR_FOOD_API_BASE_URL,
   timeout: Number.parseInt(process.env.EXPO_PUBLIC_TIMEOUT_IN_MS || '0', 10) || 10000,
   headers: {
-    'X-Client': 'COWORKING_MOBILE',
+    'X-CLIENT': 'COWORKING_MOBILE',
+    'X-APP-VERSION': appVersion,
   },
 });
 
