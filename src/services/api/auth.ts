@@ -1,5 +1,7 @@
-import { HTTP } from '../http';
+import { version as appVersion } from '../../../package.json';
+import axios from 'axios';
 import { Buffer } from 'buffer';
+import useSettingsStore from '@/stores/settings';
 
 interface ApiTokens {
   accessToken: string;
@@ -17,12 +19,28 @@ export type ApiUser = {
   roles: ApiUserRole[];
   picture?: string;
   capabilities: ApiUserCapability[];
+  iat: number;
+  exp: number;
 };
 
 export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiTokens> => {
-  return HTTP.post('/api/auth/tokens', { refreshToken }, { timeout: 30_000 }).then(
-    ({ data }) => data,
-  );
+  const apiBaseUrl = useSettingsStore.getState().apiBaseUrl || process.env.EXPO_PUBLIC_API_BASE_URL;
+  // refreshing tokens should have its own axios config
+  // and should not be cancelled
+  return axios
+    .post(
+      '/api/auth/tokens',
+      { refreshToken },
+      {
+        baseURL: apiBaseUrl,
+        timeout: 30_000,
+        headers: {
+          'X-APP-NAME': 'COWORKING_MOBILE',
+          'X-APP-VERSION': appVersion,
+        },
+      },
+    )
+    .then(({ data }) => data);
 };
 
 /**

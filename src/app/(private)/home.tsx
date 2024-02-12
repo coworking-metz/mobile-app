@@ -46,7 +46,7 @@ import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 
-const homeLogger = log.extend(`[${__filename.split('/').pop()}]`);
+const homeLogger = log.extend(`[home.tsx]`);
 
 export default function HomeScreen({}) {
   useDeviceContext(tw);

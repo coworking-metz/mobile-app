@@ -10,7 +10,7 @@ import tw from 'twrnc';
 import { useAppAuth } from '@/context/auth';
 import { log } from '@/helpers/logger';
 
-const indexLogger = log.extend(`[${__filename.split('/').pop()}]`);
+const indexLogger = log.extend(`[index.tsx]`);
 
 // @see https://www.youtube.com/watch?v=hTmkjdKO3_M
 const WAVES_COUNT = 3;

@@ -1,4 +1,3 @@
-import { version as appVersion } from '../../package.json';
 import {
   type AxiosError,
   type AxiosHeaders,
@@ -29,7 +28,7 @@ const MAX_REQUEST_RETRIES = 1;
 // to avoid dependency cycle @see https://stackoverflow.com/a/51048400/15183871
 const createHttpInterceptors = (httpInstance: AxiosInstance) => {
   httpInstance.interceptors.request.use(async (config: AppAxiosRequestConfig) => {
-    const { apiBaseUrl } = useSettingsStore.getState();
+    const apiBaseUrl = useSettingsStore.getState().apiBaseUrl;
     if (apiBaseUrl) {
       config.baseURL = apiBaseUrl;
     }
@@ -51,12 +50,11 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
     return config;
   });
 
-  httpInstance.interceptors.request.use((config: AppAxiosRequestConfig) => {
-    const { accessToken } = useAuthStore.getState();
+  httpInstance.interceptors.request.use(async (config: AppAxiosRequestConfig) => {
+    const accessToken = await useAuthStore.getState().getOrRefreshAccessToken();
     const headers = {
       ...config.headers,
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-      ...(appVersion ? { 'X-APP-VERSION': appVersion } : {}),
       ...(i18n.language ? { 'Accept-Language': i18n.language } : {}),
     } as AxiosHeaders;
 

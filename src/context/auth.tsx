@@ -7,7 +7,7 @@ import { log } from '@/helpers/logger';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 
-const authLogger = log.extend(`[${__filename.split('/').pop()}]`);
+const authLogger = log.extend(`[auth.tsx]`);
 
 const AuthContext = createContext<{
   isFetchingToken: boolean;
@@ -45,7 +45,6 @@ const useProtectedRoute = (
     if (isScreenPrivate) {
       if (refreshToken) {
         if (!authStore.accessToken) {
-          authLogger.debug('Refreshing access token');
           return authStore
             .refreshAccessToken()
             .then(() => Promise.resolve(true))

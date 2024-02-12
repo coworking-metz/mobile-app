@@ -1,7 +1,10 @@
 import createSecureStorage from './SecureStorage';
+import dayjs from 'dayjs';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { log } from '@/helpers/logger';
 import { type ApiUser, decodeToken, getAccessAndRefreshTokens } from '@/services/api/auth';
+
 /**
  * In order to avoid asking for multiple refresh tokens at the same time when it has expired,
  * this singleton holds the http request Promise until a new token is fetched.
@@ -14,10 +17,13 @@ interface AuthState {
   refreshToken: string | null;
   isFetchingToken: boolean;
   refreshAccessToken: () => Promise<void>;
+  getOrRefreshAccessToken: () => Promise<string | null>;
   setTokens: (accessToken: string | null, refreshToken: string | null) => Promise<void>;
   logout: () => Promise<void>;
   clear: () => Promise<void>;
 }
+
+const authLogger = log.extend(`[auth]`);
 
 const useAuthStore = create<AuthState>()(
   persist(
@@ -32,6 +38,7 @@ const useAuthStore = create<AuthState>()(
       },
       refreshAccessToken: (): Promise<void> => {
         if (!refreshTokenPromise) {
+          authLogger.debug('Refreshing access token');
           set({ isFetchingToken: true });
           refreshTokenPromise = getAccessAndRefreshTokens(get().refreshToken as string)
             .then(async ({ accessToken, refreshToken }) => {
@@ -44,6 +51,17 @@ const useAuthStore = create<AuthState>()(
             });
         }
         return refreshTokenPromise;
+      },
+      async getOrRefreshAccessToken() {
+        const accessToken = get().accessToken;
+        if (accessToken) {
+          const { exp } = decodeToken(accessToken);
+          if (exp && dayjs().isAfter(dayjs.unix(exp))) {
+            await get().refreshAccessToken();
+          }
+        }
+
+        return get().accessToken;
       },
       logout: async (): Promise<void> => {
         await set({ user: null, accessToken: null, refreshToken: null });
