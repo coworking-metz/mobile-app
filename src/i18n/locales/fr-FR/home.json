@@ -108,7 +108,8 @@
         "expireSoon": "Abonnement valide jusqu'à",
         "expired": "Abonnement expiré",
         "next": "Prochain abonnement",
-        "none": "Abonnement"
+        "none": "Abonnement",
+        "previous": "Abonnement de {{month}}"
       },
       "renew": "Renouveler",
       "status": {
