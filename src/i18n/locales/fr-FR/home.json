@@ -86,7 +86,7 @@
       },
       "label": "Carte adhérent",
       "renew": "Renouveler pour {{year}}",
-      "required": "Sans cette cotisation, vous ne serez pas en mesure de pouvoir accéder à l'espace de Coworking.",
+      "required": "Sans cette adhésion, vous ne serez pas en mesure de pouvoir accéder à l'espace de Coworking.",
       "status": {
         "invalid": "Dernière adhésion en {{year}}",
         "label": "Adhésion",

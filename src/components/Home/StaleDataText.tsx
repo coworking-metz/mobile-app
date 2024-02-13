@@ -54,7 +54,11 @@ const StaleDataText = ({ lastFetch }: { lastFetch?: number }) => {
         exiting={FadeOutUp.duration(300)}
         numberOfLines={2}
         style={tw`ml-3 text-sm font-normal text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
-        {capitalize(dayjs(lastFetch).fromNow())}
+        {capitalize(
+          dayjs().diff(lastFetch, 'hour') > 2
+            ? dayjs(lastFetch).calendar()
+            : dayjs(lastFetch).fromNow(),
+        )}
       </Animated.Text>
       {/* mr-3 to be perflectly center aligned */}
       <PullToRefreshHint style={tw`mr-3 grow`} />
