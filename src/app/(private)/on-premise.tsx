@@ -2,16 +2,18 @@ import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image as RNImage, View, useColorScheme } from 'react-native';
+import { Text, Image as RNImage, View, useColorScheme } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import floorPlanDay from '@/assets/images/floorplan-day.png';
 import floorPlanNight from '@/assets/images/floorplan-night.png';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
+import ErrorChip from '@/components/ErrorChip';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
 import ActionableIcon from '@/components/OnPremise/ActionbleIcon';
 import PhoneBoothBottomSheet from '@/components/OnPremise/PhoneBoothBottomSheet';
 import UnlockDeckDoorBottomSheet from '@/components/OnPremise/UnlockDeckDoorBottomSheet';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
+import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 
@@ -64,6 +66,15 @@ const OnPremise = () => {
               onLoadEnd={() => setFloorplanLoaded(true)}
             />
           ) : null}
+
+          {onPremiseStateError && !isSilentError(onPremiseStateError) ? (
+            <ErrorChip
+              error={onPremiseStateError}
+              label={t('onPremise.onFetch.fail')}
+              style={tw`absolute z-10 top-0 left-0 mx-6 my-4`}
+            />
+          ) : null}
+
           {!hasFloorplanLoaded ? (
             <VerticalLoadingAnimation
               color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
@@ -109,12 +120,13 @@ const OnPremise = () => {
               <ActionablePhoneBooths
                 activeIcon="door-closed"
                 actives={[
-                  Boolean(onPremiseState?.phoneBooths.orange.occupied),
-                  Boolean(onPremiseState?.phoneBooths.blue.occupied),
+                  onPremiseState?.phoneBooths.orange.occupied ?? null,
+                  onPremiseState?.phoneBooths.blue.occupied ?? null,
                 ]}
                 inactiveIcon="door-open"
                 loading={isFetchingOnPremiseState}
                 style={tw`top-[82%] left-[12%] w-[25%] min-w-26`}
+                unknownIcon="door"
                 onPress={() => setBluePhoneBoothSelected(true)}
               />
             </>
@@ -128,9 +140,9 @@ const OnPremise = () => {
 
       {isBluePhoneBoothSelected ? (
         <PhoneBoothBottomSheet
-          blueOccupied={Boolean(onPremiseState?.phoneBooths.blue.occupied)}
+          blueOccupied={onPremiseState?.phoneBooths.blue.occupied}
           loading={isFetchingOnPremiseState}
-          orangeOccupied={Boolean(onPremiseState?.phoneBooths.orange.occupied)}
+          orangeOccupied={onPremiseState?.phoneBooths.orange.occupied}
           onClose={() => setBluePhoneBoothSelected(false)}
         />
       ) : null}

@@ -6,10 +6,11 @@ import ErrorChip from '../ErrorChip';
 import ServiceRow from '../Settings/ServiceRow';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
+import { isNil } from 'lodash';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View, useColorScheme, type LayoutChangeEvent } from 'react-native';
+import { Platform, Text, View, type LayoutChangeEvent } from 'react-native';
 import { BarChart, type barDataItem } from 'react-native-gifted-charts';
 import ReadMore from 'react-native-read-more-text';
 import { useSharedValue, type StyleProps } from 'react-native-reanimated';
@@ -25,14 +26,14 @@ const BAR_WIDTH = 32;
 const WEEK_DAYS_INDEXES = [...Array(7).keys()].map((index) => (index + 1) % 7);
 
 const PhoneBoothBottomSheet = ({
-  blueOccupied,
-  orangeOccupied,
+  blueOccupied = null,
+  orangeOccupied = null,
   loading,
   style,
   onClose,
 }: {
-  blueOccupied?: boolean;
-  orangeOccupied?: boolean;
+  blueOccupied?: boolean | null;
+  orangeOccupied?: boolean | null;
   loading?: boolean;
   style?: StyleProps;
   onClose?: () => void;
@@ -41,7 +42,6 @@ const PhoneBoothBottomSheet = ({
   const [selectedWeekDayIndex, setSelectedWeekDayIndex] = useState<number>(dayjs().day());
   const [carouselWidth, setCarouselWidth] = useState<number>(0);
   const offset = useSharedValue(0);
-  const colorScheme = useColorScheme();
   const user = useAuthStore((state) => state.user);
 
   const {
@@ -131,11 +131,16 @@ const PhoneBoothBottomSheet = ({
         </ReadMore>
 
         <View style={tw`flex flex-col w-full`}>
+          <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
+            {t('onPremise.phoneBooths.state.label')}
+          </Text>
           <ServiceRow
             withBottomDivider
-            label={t('onPremise.phoneBooths.blue.occupation.label')}
+            label={t('onPremise.phoneBooths.state.blue.occupation.label')}
             style={tw`w-full px-0`}
-            suffixIcon={blueOccupied ? 'door-closed' : 'door-open'}>
+            {...(!isNil(blueOccupied) && {
+              suffixIcon: blueOccupied ? 'door-closed' : 'door-open',
+            })}>
             {loading ? (
               <Skeleton
                 backgroundColor={
@@ -148,17 +153,21 @@ const PhoneBoothBottomSheet = ({
             ) : (
               <Text
                 style={tw`text-base font-normal text-blue-500 dark:text-blue-400 grow text-right`}>
-                {blueOccupied
-                  ? t('onPremise.phoneBooths.blue.occupation.occupied')
-                  : t('onPremise.phoneBooths.blue.occupation.available')}
+                {isNil(blueOccupied)
+                  ? t('onPremise.phoneBooths.state.blue.occupation.unknown')
+                  : blueOccupied
+                    ? t('onPremise.phoneBooths.state.blue.occupation.occupied')
+                    : t('onPremise.phoneBooths.state.blue.occupation.available')}
               </Text>
             )}
           </ServiceRow>
 
           <ServiceRow
-            label={t('onPremise.phoneBooths.orange.occupation.label')}
+            label={t('onPremise.phoneBooths.state.orange.occupation.label')}
             style={tw`w-full px-0`}
-            suffixIcon={orangeOccupied ? 'door-closed' : 'door-open'}>
+            {...(!isNil(orangeOccupied) && {
+              suffixIcon: orangeOccupied ? 'door-closed' : 'door-open',
+            })}>
             {loading ? (
               <Skeleton
                 backgroundColor={
@@ -171,9 +180,11 @@ const PhoneBoothBottomSheet = ({
             ) : (
               <Text
                 style={tw`text-base font-normal text-orange-500 dark:text-orange-400 grow text-right`}>
-                {orangeOccupied
-                  ? t('onPremise.phoneBooths.orange.occupation.occupied')
-                  : t('onPremise.phoneBooths.orange.occupation.available')}
+                {isNil(orangeOccupied)
+                  ? t('onPremise.phoneBooths.state.orange.occupation.unknown')
+                  : orangeOccupied
+                    ? t('onPremise.phoneBooths.state.orange.occupation.occupied')
+                    : t('onPremise.phoneBooths.state.orange.occupation.available')}
               </Text>
             )}
           </ServiceRow>

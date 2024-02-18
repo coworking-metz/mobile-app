@@ -1,4 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { isNil } from 'lodash';
 import React, { useMemo } from 'react';
 import { TouchableOpacity } from 'react-native';
 import Animated, { type StyleProps } from 'react-native-reanimated';
@@ -11,6 +12,7 @@ import { theme } from '@/helpers/colors';
 const ActionablePhoneBooths = ({
   activeIcon,
   inactiveIcon,
+  unknownIcon,
   actives = [false, false],
   disabled = false,
   loading,
@@ -19,7 +21,8 @@ const ActionablePhoneBooths = ({
 }: {
   activeIcon: keyof typeof mdiGlyphMap;
   inactiveIcon: keyof typeof mdiGlyphMap;
-  actives?: boolean[];
+  unknownIcon: keyof typeof mdiGlyphMap;
+  actives?: (boolean | null)[];
   disabled?: boolean;
   loading?: boolean;
   onPress?: () => void;
@@ -27,12 +30,12 @@ const ActionablePhoneBooths = ({
 }) => {
   const isFirstPhoneBoothSelected = useMemo(() => {
     const [firstPhoneBooth] = actives;
-    return !!firstPhoneBooth;
+    return firstPhoneBooth;
   }, [actives]);
 
   const isSecondPhoneBoothSelected = useMemo(() => {
     const [_, secondPhoneBooth] = actives;
-    return !!secondPhoneBooth;
+    return secondPhoneBooth;
   }, [actives]);
 
   return (
@@ -68,7 +71,13 @@ const ActionablePhoneBooths = ({
                 borderRadius={24}
                 color={isFirstPhoneBoothSelected ? theme.charlestonGreen : tw.color('gray-500')}
                 iconStyle={{ marginRight: 0 }}
-                name={isFirstPhoneBoothSelected ? activeIcon : inactiveIcon}
+                name={
+                  isNil(isFirstPhoneBoothSelected)
+                    ? unknownIcon
+                    : isFirstPhoneBoothSelected
+                      ? activeIcon
+                      : inactiveIcon
+                }
                 size={32}
                 style={[tw`shrink-0`, disabled && tw`opacity-70`, loading && tw`opacity-0`]}
                 underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
@@ -84,7 +93,13 @@ const ActionablePhoneBooths = ({
                 borderRadius={24}
                 color={isSecondPhoneBoothSelected ? theme.charlestonGreen : tw.color('gray-500')}
                 iconStyle={{ marginRight: 0 }}
-                name={isSecondPhoneBoothSelected ? activeIcon : inactiveIcon}
+                name={
+                  isNil(isSecondPhoneBoothSelected)
+                    ? unknownIcon
+                    : isSecondPhoneBoothSelected
+                      ? activeIcon
+                      : inactiveIcon
+                }
                 size={32}
                 style={[tw`shrink-0`, disabled && tw`opacity-70`, loading && tw`opacity-0`]}
                 underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
