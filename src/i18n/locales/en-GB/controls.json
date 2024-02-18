@@ -9,5 +9,29 @@
     "slideToUnlock": "Slide to unlock",
     "unlocked": "Door is open!"
   },
+  "phoneBooths": {
+    "blue": {
+      "occupation": {
+        "available": "Available",
+        "label": "Blue booth",
+        "occupied": "Occupied"
+      }
+    },
+    "description": "Phone booths are isolated spaces intended for short calls.\nThey are equipped with electrical outlets and ventilation.\nThey are not reservable and are accessible to all.",
+    "graph": {
+      "label": "Average occupation Rate"
+    },
+    "label": "Phone Booths",
+    "onFetch": {
+      "fail": "Unable to retrieve occupation"
+    },
+    "orange": {
+      "occupation": {
+        "available": "Available",
+        "label": "Orange booth",
+        "occupied": "Occupied"
+      }
+    }
+  },
   "title": "Space management"
 }

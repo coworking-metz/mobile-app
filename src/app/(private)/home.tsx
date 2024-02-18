@@ -32,8 +32,8 @@ import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import ControlsCard from '@/components/Home/ControlsCard';
 import MembershipBottomSheet from '@/components/Home/MembershipBottomSheet';
 import MembershipCard from '@/components/Home/MembershipCard';
+import OccupancyCount from '@/components/Home/OccupancyCount';
 import OpenParkingCard from '@/components/Home/OpenParkingCard';
-import PresentMembers from '@/components/Home/PresentMembers';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import StaleDataText from '@/components/Home/StaleDataText';
 import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
@@ -197,7 +197,7 @@ export default function HomeScreen({}) {
         <Animated.View
           entering={FadeInLeft.duration(750).delay(150)}
           style={tw`flex self-stretch ml-6 mr-4`}>
-          <PresentMembers
+          <OccupancyCount
             error={currentMembersError}
             loading={isLoadingCurrentMembers}
             members={currentMembers}

@@ -1,6 +1,7 @@
 import CalendarAnimation from '../Animations/CalendarAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
+import CarouselPaginationDots from '../CarouselPaginationDots';
 import ServiceRow from '../Settings/ServiceRow';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
@@ -19,96 +20,6 @@ import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 import { type ApiMemberSubscription } from '@/services/api/members';
-
-const DOT_SIZE = 12;
-const EXPANDED_DOT_SIZE = DOT_SIZE * 3;
-const MARGIN = (DOT_SIZE / 3) * 2;
-
-const PaginationDot = ({
-  animationValue,
-  index,
-  containerWidth,
-}: {
-  index: number;
-  animationValue: Animated.SharedValue<number>;
-  containerWidth: number;
-}) => {
-  const inputRange = [
-    (index - 1) * containerWidth,
-    index * containerWidth,
-    (index + 1) * containerWidth,
-  ];
-
-  const sizeInputRange = [
-    (index - 3) * containerWidth,
-    (index - 2) * containerWidth,
-    (index - 1) * containerWidth,
-    index * containerWidth,
-    (index + 1) * containerWidth,
-    (index + 2) * containerWidth,
-    (index + 3) * containerWidth,
-  ];
-
-  const animatedStyles = useAnimatedStyle(() => {
-    const colour = interpolateColor(
-      animationValue.value,
-      inputRange,
-      [theme.silverSand, '#C27803', theme.silverSand],
-      'RGB',
-    );
-
-    const width = interpolate(
-      animationValue.value,
-      sizeInputRange,
-      [DOT_SIZE, DOT_SIZE, DOT_SIZE, EXPANDED_DOT_SIZE, DOT_SIZE, DOT_SIZE, DOT_SIZE],
-      'clamp',
-    );
-
-    const right = interpolate(
-      animationValue.value,
-      sizeInputRange,
-      [
-        0,
-        (DOT_SIZE + MARGIN) * 1,
-        (DOT_SIZE + MARGIN) * 2,
-        (DOT_SIZE + MARGIN) * 3,
-        (DOT_SIZE + MARGIN) * 3 + EXPANDED_DOT_SIZE + MARGIN,
-        (DOT_SIZE + MARGIN) * 4 + EXPANDED_DOT_SIZE + MARGIN,
-        (DOT_SIZE + MARGIN) * 5 + EXPANDED_DOT_SIZE + MARGIN,
-      ],
-      'clamp',
-    );
-
-    const opacity = interpolate(
-      animationValue.value,
-      sizeInputRange,
-      [0, 0.5, 1, 1, 1, 0.5, 0],
-      'clamp',
-    );
-
-    return {
-      right,
-      opacity,
-      width,
-      backgroundColor: colour,
-    };
-  });
-
-  return (
-    <Animated.View
-      style={[
-        tw`absolute`,
-        {
-          right: 0,
-          width: DOT_SIZE,
-          height: DOT_SIZE,
-          borderRadius: DOT_SIZE / 2,
-        },
-        animatedStyles,
-      ]}
-    />
-  );
-};
 
 const SubscriptionBottomSheet = ({
   subscriptions = [],
@@ -175,12 +86,12 @@ const SubscriptionBottomSheet = ({
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <View style={tw`mx-6`}>
-        <CalendarAnimation style={tw`w-full`} />
+        <CalendarAnimation style={tw`w-full max-h-40 mx-auto`} />
       </View>
       {sortedSubscriptions.length ? (
         <>
           <View
-            style={tw`self-start w-full h-63`}
+            style={tw`self-start w-full h-68`}
             onLayout={({ nativeEvent }: LayoutChangeEvent) =>
               setCarouselWidth(nativeEvent.layout.width)
             }>
@@ -257,21 +168,12 @@ const SubscriptionBottomSheet = ({
             )}
           </View>
           {sortedSubscriptions.length > 1 ? (
-            <View
-              pointerEvents={'none'}
-              style={[
-                tw`relative flex flex-row self-center mt-6`,
-                { width: (DOT_SIZE + MARGIN) * 6 + EXPANDED_DOT_SIZE, height: DOT_SIZE },
-              ]}>
-              {sortedSubscriptions.map((_, index) => (
-                <PaginationDot
-                  animationValue={offset}
-                  containerWidth={carouselWidth}
-                  index={index}
-                  key={`pagination-dot-${index}`}
-                />
-              ))}
-            </View>
+            <CarouselPaginationDots
+              count={sortedSubscriptions.length}
+              offset={offset}
+              style={tw`self-center`}
+              width={carouselWidth}
+            />
           ) : (
             <></>
           )}
