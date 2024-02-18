@@ -24,6 +24,8 @@ import useAuthStore from '@/stores/auth';
 const BAR_WIDTH = 32;
 // week should start on monday
 const WEEK_DAYS_INDEXES = [...Array(7).keys()].map((index) => (index + 1) % 7);
+const DEFAULT_FIRST_HOUR_WITH_OCCUPATION = 7;
+const DEFAULT_LAST_HOUR_WITH_OCCUPATION = 20;
 
 const PhoneBoothBottomSheet = ({
   blueOccupied = null,
@@ -67,16 +69,15 @@ const PhoneBoothBottomSheet = ({
   }, [occupationPerBooth]);
 
   const firstHourWithOccupation = useMemo(
-    () => (allHours.length ? Math.min(...allHours) : 0),
+    () => (allHours.length ? Math.min(...allHours) : DEFAULT_FIRST_HOUR_WITH_OCCUPATION),
     [allHours],
   );
   const lastHourWithOccupation = useMemo(
-    () => (allHours.length ? Math.max(...allHours) : 0),
+    () => (allHours.length ? Math.max(...allHours) : DEFAULT_LAST_HOUR_WITH_OCCUPATION),
     [allHours],
   );
 
   const todayOccupation = useMemo(() => {
-    if (!occupationPerBooth) return [];
     const todayBlueOccupation = occupationPerBooth?.blue.occupation.find(
       (item) => item.weekDayIndex === selectedWeekDayIndex,
     );
@@ -130,7 +131,7 @@ const PhoneBoothBottomSheet = ({
           </Text>
         </ReadMore>
 
-        <View style={tw`flex flex-col w-full`}>
+        <View style={tw`flex flex-col w-full mt-2`}>
           <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
             {t('onPremise.phoneBooths.state.label')}
           </Text>
@@ -228,12 +229,14 @@ const PhoneBoothBottomSheet = ({
                 focusedBarConfig: {
                   color: theme.silverSand,
                 },
+                disablePress: !occupationPerBooth,
               } as barDataItem,
               {
                 value: (item.values[1] / 60) * 100,
                 frontColor: tw.color('orange-400')?.toString(),
                 barBorderTopLeftRadius: 6,
                 barBorderTopRightRadius: 6,
+                disablePress: !occupationPerBooth,
               },
             ];
           }, [])}
@@ -254,7 +257,7 @@ const PhoneBoothBottomSheet = ({
             </View>
           )}
           scrollToIndex={(dayjs().get('hour') - firstHourWithOccupation) * 2}
-          xAxisColor={'transparent'}
+          xAxisColor={tw.color('slate-400')?.toString()}
           yAxisColor={'transparent'}
           yAxisLabelWidth={0}
         />

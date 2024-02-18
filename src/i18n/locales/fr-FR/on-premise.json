@@ -30,7 +30,7 @@
           "unknown": "Inconnu"
         }
       },
-      "label": "État actuel",
+      "label": "Actuellement",
       "orange": {
         "occupation": {
           "available": "Libre",
