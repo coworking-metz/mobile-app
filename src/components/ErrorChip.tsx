@@ -37,11 +37,10 @@ const ErrorChip = ({
   }, [noticeStore, label, description]);
 
   return (
-    <TouchableOpacity style={tw`shrink`} onPress={onPress}>
+    <TouchableOpacity style={[tw`shrink`, style]} onPress={onPress}>
       <Animated.View
         style={[
           tw`flex flex-row items-center gap-0.5 px-1 py-0.5 rounded-full border-[0.5px] bg-red-50 border-red-700 dark:bg-red-950 dark:border-red-400`,
-          style,
         ]}
         {...props}>
         <MaterialCommunityIcons
