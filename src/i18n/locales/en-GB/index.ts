@@ -10,4 +10,4 @@ export { default as footer } from './footer.json';
 export { default as notFound } from './notFound.json';
 export { default as help } from './help.json';
 export { default as events } from './events.json';
-export { default as controls } from './controls.json';
+export { default as onPremise } from './on-premise.json';

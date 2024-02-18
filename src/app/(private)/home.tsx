@@ -29,10 +29,10 @@ import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
-import ControlsCard from '@/components/Home/ControlsCard';
 import MembershipBottomSheet from '@/components/Home/MembershipBottomSheet';
 import MembershipCard from '@/components/Home/MembershipCard';
 import OccupancyCount from '@/components/Home/OccupancyCount';
+import OnPremiseCard from '@/components/Home/OnPremiseCard';
 import OpenParkingCard from '@/components/Home/OpenParkingCard';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import StaleDataText from '@/components/Home/StaleDataText';
@@ -338,8 +338,8 @@ export default function HomeScreen({}) {
           <Animated.View
             entering={FadeInUp.duration(500).delay(900)}
             style={tw`flex flex-col self-stretch`}>
-            <Link asChild href="/controls">
-              <ControlsCard />
+            <Link asChild href="/on-premise">
+              <OnPremiseCard />
             </Link>
           </Animated.View>
         </View>

@@ -54,6 +54,7 @@ const ActionablePhoneBooths = ({
                 ? tw.color('gray-200')
                 : tw.color('gray-700')
             }
+            style={tw`w-10 h-10 m-auto`}
           />
         ) : (
           <>

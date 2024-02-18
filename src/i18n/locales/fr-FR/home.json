@@ -13,10 +13,6 @@
       "fail": "Impossible de récupérer les évènements"
     }
   },
-  "controls": {
-    "description": "@:controls.description",
-    "label": "@:controls.title"
-  },
   "intercom": {
     "description": "pendant un court instant",
     "label": "Déverrouiller la porte",
@@ -32,6 +28,10 @@
       "description": "verrouillage dans ",
       "label": "C'est ouvert !"
     }
+  },
+  "onPremise": {
+    "description": "@:onPremise.description",
+    "label": "@:onPremise.title"
   },
   "parking": {
     "description": "pour accéder au parking",

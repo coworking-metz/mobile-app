@@ -16,6 +16,19 @@ export const openParkingGate = (): Promise<{
   return HTTP.post('/api/parking').then(({ data }) => data);
 };
 
+export const getOnPremiseState = (): Promise<{
+  phoneBooths: {
+    blue: {
+      occupied: boolean;
+    };
+    orange: {
+      occupied: boolean;
+    };
+  };
+}> => {
+  return HTTP.get('/api/on-premise').then(({ data }) => data);
+};
+
 export type PhoneBoothDailyOccupation = {
   weekDayIndex: number;
   averageMinutesByUTCHour: {
@@ -31,7 +44,7 @@ export const getPhoneBoothsOccupation = (): Promise<{
     occupation: PhoneBoothDailyOccupation[];
   };
 }> => {
-  return HTTP.get('/api/phone-booths').then(({ data }) => data);
+  return HTTP.get('/api/on-premise/phone-booths/occupation').then(({ data }) => data);
 };
 
 export const unlockDeckDoor = (): Promise<{
