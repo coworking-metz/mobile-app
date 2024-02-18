@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -6,13 +7,15 @@ import tw, { useDeviceContext } from 'twrnc';
 import floorPlanDay from '@/assets/images/floorplan-day.png';
 import floorPlanNight from '@/assets/images/floorplan-night.png';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
-import ActionablePhoneBooths from '@/components/Controls/ActionablePhoneBooths';
-import ActionableIcon from '@/components/Controls/ActionbleIcon';
-import PhoneBoothBottomSheet from '@/components/Controls/PhoneBoothBottomSheet';
-import UnlockDeckDoorBottomSheet from '@/components/Controls/UnlockDeckDoorBottomSheet';
+import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
+import ActionableIcon from '@/components/OnPremise/ActionbleIcon';
+import PhoneBoothBottomSheet from '@/components/OnPremise/PhoneBoothBottomSheet';
+import UnlockDeckDoorBottomSheet from '@/components/OnPremise/UnlockDeckDoorBottomSheet';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
+import { getOnPremiseState } from '@/services/api/services';
+import useAuthStore from '@/stores/auth';
 
-const Controls = () => {
+const OnPremise = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const [imageWidth, setImageWidth] = useState<number | null>(null);
@@ -20,6 +23,7 @@ const Controls = () => {
   const [hasFloorplanLoaded, setFloorplanLoaded] = useState<boolean>(false);
   const [isDeckDoorSelected, setDeckDoorSelected] = useState<boolean>(false);
   const [isBluePhoneBoothSelected, setBluePhoneBoothSelected] = useState<boolean>(false);
+  const user = useAuthStore((state) => state.user);
 
   const colorScheme = useColorScheme();
 
@@ -33,9 +37,20 @@ const Controls = () => {
     setImageWidth(width);
   }, [backgroundImage]);
 
+  const {
+    data: onPremiseState,
+    isFetching: isFetchingOnPremiseState,
+    error: onPremiseStateError,
+  } = useQuery({
+    queryKey: ['on-premise-state'],
+    queryFn: () => getOnPremiseState(),
+    retry: false,
+    enabled: !!user,
+  });
+
   return (
     <>
-      <ServiceLayout contentStyle={tw`bg-transparent`} title={t('controls.title')}>
+      <ServiceLayout contentStyle={tw`bg-transparent`} title={t('onPremise.title')}>
         <View
           style={[
             tw`flex flex-col grow items-center justify-center w-full relative`,
@@ -72,6 +87,7 @@ const Controls = () => {
                 active={false}
                 activeIcon="lock-open"
                 inactiveIcon="lock"
+                loading={isFetchingOnPremiseState}
                 style={tw`top-[50%] left-[82%]`}
                 onPress={() => setDeckDoorSelected(true)}
               />
@@ -92,8 +108,12 @@ const Controls = () => {
               {/* Phone booths */}
               <ActionablePhoneBooths
                 activeIcon="door-closed"
-                actives={[false, true]}
+                actives={[
+                  Boolean(onPremiseState?.phoneBooths.orange.occupied),
+                  Boolean(onPremiseState?.phoneBooths.blue.occupied),
+                ]}
                 inactiveIcon="door-open"
+                loading={isFetchingOnPremiseState}
                 style={tw`top-[82%] left-[12%] w-[25%] min-w-26`}
                 onPress={() => setBluePhoneBoothSelected(true)}
               />
@@ -107,10 +127,15 @@ const Controls = () => {
       ) : null}
 
       {isBluePhoneBoothSelected ? (
-        <PhoneBoothBottomSheet blueOccupied onClose={() => setBluePhoneBoothSelected(false)} />
+        <PhoneBoothBottomSheet
+          blueOccupied={Boolean(onPremiseState?.phoneBooths.blue.occupied)}
+          loading={isFetchingOnPremiseState}
+          orangeOccupied={Boolean(onPremiseState?.phoneBooths.orange.occupied)}
+          onClose={() => setBluePhoneBoothSelected(false)}
+        />
       ) : null}
     </>
   );
 };
 
-export default Controls;
+export default OnPremise;

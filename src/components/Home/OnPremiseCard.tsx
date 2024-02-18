@@ -6,7 +6,7 @@ import { Text, View } from 'react-native';
 import Animated, { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 
-const ControlsCard: ForwardRefRenderFunction<
+const OnPremiseCard: ForwardRefRenderFunction<
   typeof AppTouchableScale,
   {
     children?: ReactNode;
@@ -43,7 +43,7 @@ const ControlsCard: ForwardRefRenderFunction<
             tw`text-xl font-medium text-slate-900 dark:text-gray-200`,
             disabled && tw`opacity-30`,
           ]}>
-          {t('controls.title')}
+          {t('onPremise.title')}
         </Text>
       </Animated.View>
       <MaterialCommunityIcons
@@ -57,4 +57,4 @@ const ControlsCard: ForwardRefRenderFunction<
   );
 };
 
-export default forwardRef(ControlsCard);
+export default forwardRef(OnPremiseCard);

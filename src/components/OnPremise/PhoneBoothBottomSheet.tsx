@@ -52,7 +52,6 @@ const PhoneBoothBottomSheet = ({
     queryKey: ['phone-booths-occupation'],
     queryFn: () => getPhoneBoothsOccupation(),
     retry: false,
-    refetchOnMount: false,
     enabled: !!user,
   });
 
@@ -112,7 +111,7 @@ const PhoneBoothBottomSheet = ({
         />
         <Text
           style={tw`text-center self-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-          {t('controls.phoneBooths.label')}
+          {t('onPremise.phoneBooths.label')}
         </Text>
         <ReadMore
           numberOfLines={2}
@@ -127,14 +126,14 @@ const PhoneBoothBottomSheet = ({
             </Text>
           )}>
           <Text style={tw`text-left text-base font-normal text-slate-500`}>
-            {t('controls.phoneBooths.description')}
+            {t('onPremise.phoneBooths.description')}
           </Text>
         </ReadMore>
 
         <View style={tw`flex flex-col w-full`}>
           <ServiceRow
             withBottomDivider
-            label={t('controls.phoneBooths.blue.occupation.label')}
+            label={t('onPremise.phoneBooths.blue.occupation.label')}
             style={tw`w-full px-0`}
             suffixIcon={blueOccupied ? 'door-closed' : 'door-open'}>
             {loading ? (
@@ -150,14 +149,14 @@ const PhoneBoothBottomSheet = ({
               <Text
                 style={tw`text-base font-normal text-blue-500 dark:text-blue-400 grow text-right`}>
                 {blueOccupied
-                  ? t('controls.phoneBooths.blue.occupation.occupied')
-                  : t('controls.phoneBooths.blue.occupation.available')}
+                  ? t('onPremise.phoneBooths.blue.occupation.occupied')
+                  : t('onPremise.phoneBooths.blue.occupation.available')}
               </Text>
             )}
           </ServiceRow>
 
           <ServiceRow
-            label={t('controls.phoneBooths.orange.occupation.label')}
+            label={t('onPremise.phoneBooths.orange.occupation.label')}
             style={tw`w-full px-0`}
             suffixIcon={orangeOccupied ? 'door-closed' : 'door-open'}>
             {loading ? (
@@ -173,8 +172,8 @@ const PhoneBoothBottomSheet = ({
               <Text
                 style={tw`text-base font-normal text-orange-500 dark:text-orange-400 grow text-right`}>
                 {orangeOccupied
-                  ? t('controls.phoneBooths.orange.occupation.occupied')
-                  : t('controls.phoneBooths.orange.occupation.available')}
+                  ? t('onPremise.phoneBooths.orange.occupation.occupied')
+                  : t('onPremise.phoneBooths.orange.occupation.available')}
               </Text>
             )}
           </ServiceRow>
@@ -183,11 +182,11 @@ const PhoneBoothBottomSheet = ({
 
       <View style={tw`flex flex-row gap-2 min-h-6 mx-4`}>
         <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
-          {t('controls.phoneBooths.graph.label')}
+          {t('onPremise.phoneBooths.graph.label')}
         </Text>
 
         {occupationError && !isSilentError(occupationError) ? (
-          <ErrorChip error={occupationError} label={t('controls.phoneBooths.onFetch.fail')} />
+          <ErrorChip error={occupationError} label={t('onPremise.phoneBooths.onFetch.fail')} />
         ) : null}
       </View>
       {isFetchingOccupation ? (
@@ -245,12 +244,8 @@ const PhoneBoothBottomSheet = ({
           )}
           scrollToIndex={(dayjs().get('hour') - firstHourWithOccupation) * 2}
           xAxisColor={'transparent'}
-          yAxisColor={
-            colorScheme === 'dark'
-              ? tw.color('slate-600')?.toString()
-              : tw.color('gray-200')?.toString()
-          }
-          yAxisTextStyle={tw`text-slate-500`}
+          yAxisColor={'transparent'}
+          yAxisLabelWidth={0}
         />
       )}
 

@@ -75,15 +75,15 @@ const UnlockDeckDoorBottomSheet = ({
       />
       <Text
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-        {t('controls.door.label')}
+        {t('onPremise.door.label')}
       </Text>
       <Text style={tw`text-center text-base font-normal text-slate-500 w-full`}>
-        {t('controls.door.description')}
+        {t('onPremise.door.description')}
       </Text>
       <SwipeableButton
         disabled={isLoading}
         loading={isLoading}
-        placeholder={t('controls.door.slideToUnlock')}
+        placeholder={t('onPremise.door.slideToUnlock')}
         style={tw`w-full mt-4`}
         swiped={isUnlocked}
         onReset={onReset}
@@ -94,7 +94,7 @@ const UnlockDeckDoorBottomSheet = ({
               entering={FadeInLeft.duration(300)}
               exiting={FadeOutLeft.duration(300)}
               style={[tw`absolute left-8 text-base text-left font-medium text-black`]}>
-              {t('controls.door.loading')}
+              {t('onPremise.door.loading')}
             </Animated.Text>
           ) : null}
           {isUnlocked ? (
@@ -102,7 +102,7 @@ const UnlockDeckDoorBottomSheet = ({
               entering={FadeInLeft.duration(300)}
               exiting={FadeOutLeft.duration(300)}
               style={[tw`absolute left-8 text-base text-left font-medium text-black`]}>
-              {t('controls.door.unlocked')}
+              {t('onPremise.door.unlocked')}
             </Animated.Text>
           ) : null}
         </>
