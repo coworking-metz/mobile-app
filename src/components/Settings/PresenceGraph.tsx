@@ -1,10 +1,12 @@
 import VerticalLoadingAnimation from '../Animations/VerticalLoadingAnimation';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import { ContributionGraph } from 'react-native-chart-kit';
 import Animated, { type StyleProps } from 'react-native-reanimated';
+import { Button } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 import { type ApiMemberActivity } from '@/services/api/members';
@@ -15,7 +17,6 @@ const MINIMUM_SQUARES = 180;
 const HEIGHT_IN_PIXELS = 210;
 
 const PresenceGraph = ({
-  startDate,
   selectedDate,
   loading = false,
   activity = [],
@@ -23,7 +24,6 @@ const PresenceGraph = ({
   style,
   onDateSelect,
 }: {
-  startDate?: string | null;
   selectedDate?: string;
   loading?: boolean;
   nonCompliantDates?: string[];
@@ -31,8 +31,11 @@ const PresenceGraph = ({
   style?: StyleProps;
   onDateSelect?: (date: string) => void;
 }) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const animatedScrollViewRef = useRef<Animated.ScrollView>(null);
+  const [startDate, setStartDate] = useState<string | null>(
+    dayjs().subtract(6, 'month').format('YYYY-MM-DD'),
+  );
   const earliestDate = useMemo(() => {
     const [first] = activity
       .filter(({ date }) => !startDate || dayjs(date).isAfter(startDate))
@@ -126,11 +129,29 @@ const PresenceGraph = ({
       <View
         key={`presence-graph-${startDate ? `6months` : 'all'}`}
         style={[tw`flex flex-row`, { transform: [{ scaleX: -1 }] }]}>
-        {!startDate && (
+        {!startDate ? (
           <Text
             style={tw`text-3xl font-bold tracking-tight text-slate-900 dark:text-gray-200 self-center ml-6`}>
             {dayjs(earliestDate).year()}
           </Text>
+        ) : (
+          <Button
+            activeBackgroundColor={
+              tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')
+            }
+            activeOpacity={1}
+            backgroundColor="transparent"
+            style={tw`ml-6 h-14 my-auto`}
+            onPress={() => setStartDate(null)}>
+            <MaterialCommunityIcons
+              color={tw.prefixMatch('dark') ? tw.color('gray-500') : theme.charlestonGreen}
+              name="arrow-left"
+              size={24}
+            />
+            <Text style={tw`ml-3 text-base font-medium text-slate-900 dark:text-gray-200`}>
+              {t('actions.seeMore')}
+            </Text>
+          </Button>
         )}
         <ContributionGraph
           chartConfig={{

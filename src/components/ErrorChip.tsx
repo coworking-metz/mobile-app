@@ -40,12 +40,12 @@ const ErrorChip = ({
     <TouchableOpacity style={[tw`shrink`, style]} onPress={onPress}>
       <Animated.View
         style={[
-          tw`flex flex-row items-center gap-0.5 px-1 py-0.5 rounded-full border-[0.5px] bg-red-50 border-red-700 dark:bg-red-950 dark:border-red-400`,
+          tw`flex flex-row items-center gap-0.5 p-0.5 pr-1.5 rounded-full border-[0.5px] bg-red-50 border-red-700 dark:bg-red-950 dark:border-red-400`,
         ]}
         {...props}>
         <MaterialCommunityIcons
           color={tw.prefixMatch('dark') ? tw.color('red-400') : tw.color('red-700')}
-          name={'alert-circle-outline'}
+          name={'alert-circle'}
           size={16}
         />
         <Text
