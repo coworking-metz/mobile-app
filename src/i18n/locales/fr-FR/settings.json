@@ -25,10 +25,6 @@
       "onFetch": {
         "fail": "Impossible de récupérer la présence"
       },
-      "period": {
-        "all": "Depuis mon arrivée",
-        "last6Months": "6 derniers mois"
-      },
       "selected": {
         "description": "La couverture est automatiquement déterminée en fonction des abonnements et de la présence.\n\nUne présence :\n- inférieure à 2h n'est pas comptabilisée,\n- entre 2h et 5h équivaut à une demi-journée,\n- au-delà de 5h équivaut à une journée entière.\n\nUn ticket permet de couvrir 2 demi-journées.\nUn abonnement couvre 30 jours glissants à compter d'une date de début.",
         "overconsumed": {

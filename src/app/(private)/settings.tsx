@@ -1,5 +1,4 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
@@ -55,7 +54,6 @@ const Settings = () => {
   const chosenLanguage = useSettingsStore((state) => state.language);
   const verticalScrollProgress = useSharedValue(0);
 
-  const [shouldRenderAllPresences, setRenderAllPresences] = useState<boolean>(false);
   const [selectedPresence, setSelectedPresence] = useState<ApiMemberActivity | null>(null);
   const [isPickingLanguage, setPickingLanguage] = useState(false);
   const [isPickingTheme, setPickingTheme] = useState(false);
@@ -255,22 +253,7 @@ const Settings = () => {
               loading={isFetchingActivity || isFetchingProfile}
               nonCompliantDates={nonCompliantDates}
               selectedDate={selectedPresence?.date}
-              startDate={
-                shouldRenderAllPresences ? null : dayjs().subtract(6, 'month').format('YYYY-MM-DD')
-              }
               onDateSelect={onDateSelect}
-            />
-            <SegmentedControl
-              fontStyle={tw`font-normal`}
-              selectedIndex={shouldRenderAllPresences ? 0 : 1}
-              style={tw`mx-6 mt-3`}
-              values={[
-                t(`settings.profile.presence.period.all`),
-                t(`settings.profile.presence.period.last6Months`),
-              ]}
-              onChange={(event) => {
-                setRenderAllPresences(event.nativeEvent.selectedSegmentIndex === 0);
-              }}
             />
 
             <Animated.Text

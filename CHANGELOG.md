@@ -9,11 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Manage on-premise appliances:
+  - Swipe to unlock open space door to get inside,
+  - View the occupancy rate and current status of telephone booths.
 - Swipe between your current, past and future subscriptions.
 
 ### Changed
 
 - Stale data text is absolute above 2 hours.
+- Replace presence period selection by a button.
 
 ## [1.1.0] - 2024-01-29
 
@@ -43,5 +47,5 @@ Initial release with the following features:
 - services like opening the gate,
 - user attendance history.
 
-[unreleased]: https://github.com/coworking-metz/mobile-app/compare/1.0.0...main
+[unreleased]: https://github.com/coworking-metz/mobile-app/compare/1.1.0...main
 [1.1.0]: https://github.com/coworking-metz/mobile-app/compare/1.0.0...1.1.0
