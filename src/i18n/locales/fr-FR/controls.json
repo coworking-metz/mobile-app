@@ -9,5 +9,29 @@
     "slideToUnlock": "Glisser pour déverouiller",
     "unlocked": "C'est ouvert !"
   },
+  "phoneBooths": {
+    "blue": {
+      "occupation": {
+        "available": "Libre",
+        "label": "Cabine bleue",
+        "occupied": "Occupée"
+      }
+    },
+    "description": "Les cabines téléphoniques sont des espaces isolés et destinées à prendre de courts appels.\nElles sont équipées de prises électriques et d'une ventilation.\nElles ne sont pas réservables et sont accessibles à tous.",
+    "graph": {
+      "label": "Taux d'occupation moyen"
+    },
+    "label": "Cabines téléphoniques",
+    "onFetch": {
+      "fail": "Impossible de récupérer l'occupation"
+    },
+    "orange": {
+      "occupation": {
+        "available": "Libre",
+        "label": "Cabine orange",
+        "occupied": "Occupée"
+      }
+    }
+  },
   "title": "Gérer l'espace"
 }

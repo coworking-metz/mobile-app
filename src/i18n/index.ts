@@ -8,6 +8,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
+import utc from 'dayjs/plugin/utc';
 import * as Localisation from 'expo-localization';
 // @see https://dev.to/ramonak/react-native-internationalization-with-i18next-568n
 import i18n from 'i18next';
@@ -24,6 +25,7 @@ dayjs.extend(calendar);
 dayjs.extend(isBetween);
 dayjs.extend(isoWeek);
 dayjs.extend(duration);
+dayjs.extend(utc);
 
 dayjs.updateLocale('fr', {
   calendar: {

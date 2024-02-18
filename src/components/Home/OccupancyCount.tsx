@@ -16,7 +16,7 @@ const MAX_MEMBERS_PICTURES = 4;
 
 const PHOTO_BOARD_URL = process.env.EXPO_PUBLIC_PHOTO_BOARD_URL || '';
 
-const PresentMembers = ({
+const OccupancyCount = ({
   members = [],
   total = 0,
   loading = false,
@@ -135,4 +135,4 @@ const PresentMembers = ({
   );
 };
 
-export default PresentMembers;
+export default OccupancyCount;

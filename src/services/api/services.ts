@@ -16,6 +16,24 @@ export const openParkingGate = (): Promise<{
   return HTTP.post('/api/parking').then(({ data }) => data);
 };
 
+export type PhoneBoothDailyOccupation = {
+  weekDayIndex: number;
+  averageMinutesByUTCHour: {
+    [key: string]: number;
+  };
+};
+
+export const getPhoneBoothsOccupation = (): Promise<{
+  blue: {
+    occupation: PhoneBoothDailyOccupation[];
+  };
+  orange: {
+    occupation: PhoneBoothDailyOccupation[];
+  };
+}> => {
+  return HTTP.get('/api/phone-booths').then(({ data }) => data);
+};
+
 export const unlockDeckDoor = (): Promise<{
   triggered: string;
   locked: string;
