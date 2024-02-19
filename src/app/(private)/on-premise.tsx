@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, Image as RNImage, View, useColorScheme } from 'react-native';
+import { Image as RNImage, View, useColorScheme } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import floorPlanDay from '@/assets/images/floorplan-day.png';
 import floorPlanNight from '@/assets/images/floorplan-night.png';
