@@ -42,6 +42,7 @@ const UnlockDeckDoorBottomSheet = ({
     setLoading(true);
     unlockDeckDoor()
       .then(() => {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         setUnlocked(true);
       })
       .catch(handleSilentError)

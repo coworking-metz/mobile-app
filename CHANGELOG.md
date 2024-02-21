@@ -13,11 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Swipe to unlock open space door to get inside,
   - View the occupancy rate and current status of telephone booths.
 - Swipe between your current, past and future subscriptions.
+- Week days indication on presence graph.
 
 ### Changed
 
 - Stale data text is absolute above 2 hours.
-- Replace presence period selection by a button.
+- Replace period selection by a button on presence graph.
 
 ## [1.1.0] - 2024-01-29
 

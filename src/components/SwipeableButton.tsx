@@ -3,7 +3,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { View, useColorScheme, type LayoutChangeEvent, Platform } from 'react-native';
+import { View, useColorScheme, type LayoutChangeEvent } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolate,
@@ -22,7 +22,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import { TouchableOpacity } from 'react-native-ui-lib';
 import tw from 'twrnc';
-import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import { theme } from '@/helpers/colors';
 
 const HANDLE_ENDING_POSITION = 40;
@@ -82,7 +81,6 @@ const SwipeableButton = ({
 
   const onSwipe = useCallback(() => {
     setSwiped(true);
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     onSwiped?.();
   }, [onSwiped]);
 

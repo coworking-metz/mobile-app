@@ -186,6 +186,23 @@ const PresenceGraph = ({
             if (count) onDateSelect?.(date);
           }}
         />
+
+        <View
+          style={[
+            tw`flex flex-col justify-end pb-3.5 gap-[1px] mr-6`,
+            { height: HEIGHT_IN_PIXELS },
+          ]}>
+          {[...Array(7).keys()].map((index) => (
+            <Text
+              key={`contribution-graph-week-day-${index}`}
+              style={[
+                tw`text-center font-normal uppercase text-slate-500 dark:text-slate-400`,
+                { height: SQUARE_SIZE },
+              ]}>
+              {dayjs().set('day', index).format('dddd').slice(0, 1)}
+            </Text>
+          ))}
+        </View>
       </View>
     </Animated.ScrollView>
   );
