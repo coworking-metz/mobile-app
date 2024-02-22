@@ -1,5 +1,6 @@
 import createSecureStorage from './SecureStorage';
 import dayjs from 'dayjs';
+import * as Sentry from 'sentry-expo';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { log } from '@/helpers/logger';
@@ -43,6 +44,7 @@ const useAuthStore = create<AuthState>()(
           refreshTokenPromise = getAccessAndRefreshTokens(get().refreshToken as string)
             .then(async ({ accessToken, refreshToken }) => {
               const user = accessToken ? decodeToken(accessToken) : null;
+              Sentry.Native.setUser({ email: user?.email });
               await set({ user, accessToken, refreshToken });
             })
             .finally(() => {
@@ -64,9 +66,11 @@ const useAuthStore = create<AuthState>()(
         return get().accessToken;
       },
       logout: async (): Promise<void> => {
+        Sentry.Native.setUser(null);
         await set({ user: null, accessToken: null, refreshToken: null });
       },
       clear: async (): Promise<void> => {
+        Sentry.Native.setUser(null);
         await set({
           user: null,
           accessToken: null,

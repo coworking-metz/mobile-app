@@ -55,15 +55,16 @@
     },
     "contact": {
       "conversations": {
-        "label": "Par chat"
+        "label": "Discuter en direct"
       },
-      "label": "Contacter l'équipe",
+      "description": "Pour toute question, suggestion ou problème, n'hésitez pas à nous contacter. Nous sommes là pour vous aider.",
       "mail": {
-        "label": "Par mail",
+        "label": "Envoyer un mail",
         "onOpen": {
           "fail": "Impossible de contacter par mail"
         }
-      }
+      },
+      "title": "Contacter l'équipe"
     },
     "help": {
       "label": "Aide"

@@ -1,9 +1,8 @@
-/* eslint-disable tailwindcss/no-custom-classname */
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view';
 import { Image, type ImageProps } from 'expo-image';
 import React, { useEffect, useState } from 'react';
-import { Modal, Image as RNImage, TouchableOpacity, View } from 'react-native';
+import { Modal, Platform, Image as RNImage, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw from 'twrnc';
 
@@ -37,13 +36,13 @@ const ZoombableImage = ({
           {...props}
         />
       </TouchableOpacity>
-      <Modal animationType="fade" transparent={false} visible={isSelected}>
+      <Modal transparent animationType="fade" visible={isSelected}>
         <View style={tw`flex flex-col h-full w-full bg-black`}>
           <View
             style={[
-              tw`absolute z-10 flex flex-row items-center justify-end w-full px-4`,
+              tw`absolute z-10 flex flex-row items-center justify-end w-full p-4`,
               {
-                top: insets.top,
+                top: Platform.OS === 'ios' && insets.top,
                 left: insets.left,
                 right: insets.right,
               },
@@ -71,7 +70,7 @@ const ZoombableImage = ({
             zoomStep={0.5}>
             <Image
               source={source}
-              style={{ aspectRatio: width / height, width: '100%' }}
+              style={[tw`w-full`, { aspectRatio: width / height }]}
               {...props}
             />
           </ReactNativeZoomableView>

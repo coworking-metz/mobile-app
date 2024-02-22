@@ -20,7 +20,7 @@ import Animated, {
   FadeOut,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Fader } from 'react-native-ui-lib';
+import { Fader, ToastPresets } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppTouchableScale from '@/components/AppTouchableScale';
 import ErrorChip from '@/components/ErrorChip';
@@ -39,12 +39,14 @@ import StaleDataText from '@/components/Home/StaleDataText';
 import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
+import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 import { isSilentError } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import { getCalendarEvents } from '@/services/api/calendar';
 import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
+import useToastStore from '@/stores/toast';
 
 const homeLogger = log.extend(`[home.tsx]`);
 
@@ -54,10 +56,13 @@ export default function HomeScreen({}) {
   const user = useAuthStore((state) => state.user);
   const settingsStore = useSettingsStore();
   const insets = useSafeAreaInsets();
+  const toastStore = useToastStore();
 
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
   const [hasSelectMembership, selectMembership] = useState<boolean>(false);
+
+  const [shouldRenderContactBottomSheet, setRenderContactBottomSheet] = useState<boolean>(false);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -163,6 +168,20 @@ export default function HomeScreen({}) {
       );
     }
   }, [user, settingsStore]);
+
+  const onSuccessiveTaps = useCallback(() => {
+    const toast = toastStore.add({
+      message: t('home.onSuccessiveTaps.message'),
+      type: ToastPresets.GENERAL,
+      action: {
+        label: t('home.onSuccessiveTaps.action'),
+        onPress: () => {
+          setRenderContactBottomSheet(true);
+          toastStore.dismiss(toast.id);
+        },
+      },
+    });
+  }, [toastStore, t]);
 
   return (
     <Animated.View style={[tw`flex w-full flex-col items-stretch bg-gray-100 dark:bg-black`]}>
@@ -325,13 +344,13 @@ export default function HomeScreen({}) {
 
           {user?.capabilities.includes('UNLOCK_GATE') && (
             <Animated.View entering={FadeInUp.duration(500).delay(700)}>
-              <UnlockGateCard />
+              <UnlockGateCard onSuccessiveTaps={onSuccessiveTaps} />
             </Animated.View>
           )}
 
           {user?.capabilities.includes('PARKING_ACCESS') && (
             <Animated.View entering={FadeInUp.duration(500).delay(800)}>
-              <OpenParkingCard />
+              <OpenParkingCard onSuccessiveTaps={onSuccessiveTaps} />
             </Animated.View>
           )}
 
@@ -378,6 +397,10 @@ export default function HomeScreen({}) {
           valid={profile?.membershipOk}
           onClose={() => selectMembership(false)}
         />
+      ) : null}
+
+      {shouldRenderContactBottomSheet ? (
+        <ContactBottomSheet onClose={() => setRenderContactBottomSheet(false)} />
       ) : null}
     </Animated.View>
   );

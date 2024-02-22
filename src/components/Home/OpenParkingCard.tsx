@@ -2,6 +2,7 @@ import BarrierAnimation from '../Animations/BarrierAnimation';
 import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
 import AppTouchableScale from '../AppTouchableScale';
 import ReanimatedText from '../ReanimatedText';
+import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
 import React, { useEffect, useRef, useState, type ReactNode } from 'react';
@@ -19,6 +20,7 @@ import Animated, {
   withTiming,
   type StyleProps,
 } from 'react-native-reanimated';
+import * as Sentry from 'sentry-expo';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import { theme } from '@/helpers/colors';
@@ -27,15 +29,20 @@ import { openParkingGate } from '@/services/api/services';
 import useNoticeStore from '@/stores/notice';
 
 const FILL_BACKGROUND_ANIMATION_DURATION_IN_MS = 300;
+const WARN_ON_SUCCESSIVE_TAPS_COUNT = 3;
+const WARN_ON_SUCCESSIVE_TAPS_PERIOD_IN_MS = 20_000;
+const WARN_ON_SUCCESSIVE_TAPS_INTEVAL_IN_MS = 60_000; // wait for 60 seconds before warning again
 
 const OpenParkingCard = ({
   children,
   disabled = false,
   style,
+  onSuccessiveTaps,
 }: {
   children?: ReactNode;
   disabled?: boolean;
   style?: StyleProps;
+  onSuccessiveTaps?: () => void;
 }) => {
   const { t } = useTranslation();
   const noticeStore = useNoticeStore();
@@ -45,9 +52,14 @@ const OpenParkingCard = ({
   const [isLoading, setLoading] = useState(false);
   const [isUnlocked, setUnlocked] = useState<boolean | null>(null);
   const [timeLeft, setTimeLeft] = useState<number>(0);
+  const [tapHistory, setTapHistory] = useState<string[]>([]);
+  const [lastWarning, setLastWarning] = useState<string | null>(null);
 
   const onOpen = () => {
     if (isLoading) return;
+    if (!lastWarning || dayjs().diff(lastWarning) > WARN_ON_SUCCESSIVE_TAPS_INTEVAL_IN_MS) {
+      setTapHistory([...tapHistory, new Date().toISOString()]);
+    }
     setLoading(true);
     openParkingGate()
       .then(({ closed }) => {
@@ -80,6 +92,27 @@ const OpenParkingCard = ({
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    const recentTaps = [...tapHistory]
+      .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
+      .slice(0, WARN_ON_SUCCESSIVE_TAPS_COUNT);
+    if (recentTaps.length === WARN_ON_SUCCESSIVE_TAPS_COUNT) {
+      const [mostRecentTap] = recentTaps;
+      const oldestTap = recentTaps.pop() || mostRecentTap;
+      const isTappingSuccessively =
+        new Date(mostRecentTap).getTime() - new Date(oldestTap).getTime() <
+        WARN_ON_SUCCESSIVE_TAPS_PERIOD_IN_MS;
+
+      if (isTappingSuccessively) {
+        Sentry.Native.captureMessage('Tapping successively on parking card', {
+          level: 'warning',
+        });
+        setLastWarning(new Date().toISOString());
+        onSuccessiveTaps?.();
+      }
+    }
+  }, [tapHistory]);
 
   useEffect(() => {
     if (animation.current && !isNil(isUnlocked)) {
