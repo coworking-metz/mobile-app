@@ -2,9 +2,8 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view';
 import { Image, type ImageProps } from 'expo-image';
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { Modal, Platform, Image as RNImage, TouchableOpacity, View } from 'react-native';
+import { Modal, Image as RNImage, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw from 'twrnc';
 
@@ -38,8 +37,7 @@ const ZoombableImage = ({
           {...props}
         />
       </TouchableOpacity>
-      <Modal transparent animationType="fade" visible={isSelected}>
-        {Platform.OS === 'ios' && <StatusBar style="light" />}
+      <Modal animationType="fade" transparent={false} visible={isSelected}>
         <View style={tw`flex flex-col h-full w-full bg-black`}>
           <View
             style={[

@@ -11,8 +11,7 @@
     "eas": "eas",
     "ios": "npm run start -- --ios",
     "start": "expo start --port 19001",
-    "test": "jest --watchAll",
-    "web": "npm run start -- --web"
+    "test": "jest --watchAll"
   },
   "jest": {
     "preset": "jest-expo"
@@ -48,7 +47,6 @@
     "expo-router": "~2.0.5",
     "expo-secure-store": "~12.3.1",
     "expo-splash-screen": "~0.20.5",
-    "expo-status-bar": "~1.6.0",
     "expo-updates": "~0.18.19",
     "expo-web-browser": "~12.3.2",
     "i18next": "^23.7.16",

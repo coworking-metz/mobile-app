@@ -22,9 +22,6 @@
     "icon": "./src/assets/images/icon.png",
     "ios": {
       "bundleIdentifier": "fr.coworking-metz.mobile",
-      "infoPlist": {
-        "UIViewControllerBasedStatusBarAppearance": true
-      },
       "supportsTablet": false
     },
     "name": "Le Poulailler",
