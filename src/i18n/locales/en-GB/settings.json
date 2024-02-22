@@ -55,15 +55,16 @@
     },
     "contact": {
       "conversations": {
-        "label": "By direct message"
+        "label": "Discuss with someone"
       },
-      "label": "Contact the team",
+      "description": "For any question, suggestion or issue, feel free to contact us. We are here to help.",
       "mail": {
-        "label": "By email",
+        "label": "Send an email",
         "onOpen": {
           "fail": "Unable to contact by email"
         }
-      }
+      },
+      "title": "Contact the team"
     },
     "help": {
       "label": "Help"

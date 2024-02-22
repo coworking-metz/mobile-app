@@ -2,7 +2,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
-import * as Linking from 'expo-linking';
 import { Link, useRouter } from 'expo-router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +19,7 @@ import AppBlurView from '@/components/AppBlurView';
 import ErrorChip from '@/components/ErrorChip';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import AppFooter from '@/components/Settings/AppFooter';
+import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
 import LogoutBottomSheet from '@/components/Settings/LogoutBottomSheet';
 import PresenceBottomSheet from '@/components/Settings/PresenceBottomSheet';
@@ -28,7 +28,7 @@ import ServiceRow from '@/components/Settings/ServiceRow';
 import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 import ThemePicker from '@/components/Settings/ThemePicker';
 import { theme } from '@/helpers/colors';
-import { isSilentError, parseErrorText } from '@/helpers/error';
+import { isSilentError } from '@/helpers/error';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
 import {
   getMemberActivity,
@@ -37,7 +37,6 @@ import {
 } from '@/services/api/members';
 import { IS_DEV } from '@/services/updates';
 import useAuthStore from '@/stores/auth';
-import useNoticeStore from '@/stores/notice';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 
 const NAVIGATION_HEIGHT = 48;
@@ -46,7 +45,6 @@ const INTERPOLATE_INPUT = [-1, 0, HEADER_HEIGHT, HEADER_HEIGHT];
 
 const Settings = () => {
   useDeviceContext(tw);
-  const noticeStore = useNoticeStore();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const router = useRouter();
@@ -57,8 +55,8 @@ const Settings = () => {
   const [selectedPresence, setSelectedPresence] = useState<ApiMemberActivity | null>(null);
   const [isPickingLanguage, setPickingLanguage] = useState(false);
   const [isPickingTheme, setPickingTheme] = useState(false);
-  const [isContactingTeam, setContactingTeam] = useState(false);
   const [wantsToLogout, setWantsToLogout] = useState(false);
+  const [wantsToContact, setWantsToContact] = useState(false);
 
   const {
     data: activity,
@@ -97,20 +95,6 @@ const Settings = () => {
   /* this is a hell of a hack */
   const [footerHeight, setFooterHeight] = useState(0);
   const [footerWidth, setFooterWidth] = useState(0);
-
-  const onContactTeamByEmail = useCallback(() => {
-    setContactingTeam(true);
-    Linking.openURL('mailto:contact@coworking-metz.fr')
-      .catch(async (error) => {
-        const description = await parseErrorText(error);
-        noticeStore.add({
-          message: t('settings.support.contact.mail.onOpen.fail'),
-          description,
-          type: 'error',
-        });
-      })
-      .finally(() => setContactingTeam(false));
-  }, []);
 
   const onVerticalScroll = useAnimatedScrollHandler({
     onScroll: ({ contentOffset }) => {
@@ -344,30 +328,12 @@ const Settings = () => {
                 suffixIcon="open-in-new"
               />
             </Link>
-
-            <Animated.Text
-              entering={FadeInLeft.duration(300)}
-              style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
-              {t('settings.support.contact.label')}
-            </Animated.Text>
-            <Link
-              asChild
-              href="https://conversations-widget.brevo.com/?hostId=65324d6bf96d92531b4091f8">
-              <ServiceRow
-                withBottomDivider
-                label={t('settings.support.contact.conversations.label')}
-                prefixIcon="chat-question-outline"
-                style={tw`px-3 mx-3`}
-                suffixIcon="open-in-new"
-              />
-            </Link>
             <ServiceRow
-              label={t('settings.support.contact.mail.label')}
-              loading={isContactingTeam}
-              prefixIcon="email-outline"
+              label={t('settings.support.contact.title')}
+              prefixIcon="help-circle-outline"
               style={tw`px-3 mx-3`}
-              suffixIcon="open-in-new"
-              onPress={onContactTeamByEmail}
+              suffixIcon="chevron-right"
+              onPress={() => setWantsToContact(true)}
             />
 
             <ServiceRow
@@ -432,6 +398,7 @@ const Settings = () => {
         />
       )}
       {wantsToLogout && <LogoutBottomSheet onClose={() => setWantsToLogout(false)} />}
+      {wantsToContact ? <ContactBottomSheet onClose={() => setWantsToContact(false)} /> : null}
     </View>
   );
 };

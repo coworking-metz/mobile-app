@@ -1,13 +1,14 @@
 import ExitDoorAnimation from '../Animations/ExitDoorAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
+import AppTextButton from '../AppTextButton';
 import { makeRedirectUri } from 'expo-auth-session';
 import { openAuthSessionAsync, type WebBrowserRedirectResult } from 'expo-web-browser';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
-import { Button, ToastPresets } from 'react-native-ui-lib';
+import { ToastPresets } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
@@ -78,22 +79,15 @@ const LogoutBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: (
         <AppRoundedButton
           disabled={isLoading}
           loading={isLoading}
-          style={tw`h-14 self-stretch mt-6`}
+          style={tw`self-stretch mt-6`}
           onPress={onLogout}>
           <Text style={tw`text-base text-black font-medium`}>{t('actions.logout')}</Text>
         </AppRoundedButton>
-        <Button
-          activeBackgroundColor={
-            tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')
-          }
-          activeOpacity={1}
-          backgroundColor="transparent"
-          style={tw`mt-4 h-14`}
-          onPress={onLoggedOut}>
+        <AppTextButton style={tw`mt-4`} onPress={onLoggedOut}>
           <Text style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
             {t('auth.logout.forceLogout')}
           </Text>
-        </Button>
+        </AppTextButton>
       </View>
     </AppBottomSheet>
   );

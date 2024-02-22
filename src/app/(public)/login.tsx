@@ -10,11 +10,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Button } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import WelcomeAnimation from '@/components/Animations/WelcomeAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
+import AppTextButton from '@/components/AppTextButton';
 import AppFooter from '@/components/Settings/AppFooter';
+import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
@@ -34,6 +35,7 @@ export default function Login() {
   const toastStore = useToastStore();
   const settingsStore = useSettingsStore();
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [shouldRenderContactBottomSheet, setRenderContactBottomSheet] = useState<boolean>(false);
 
   useEffect(() => {
     warmUpAsync();
@@ -86,70 +88,79 @@ export default function Login() {
   }, [settingsStore]);
 
   return (
-    <ScrollView
-      bounces={false}
-      contentContainerStyle={[
-        tw`grow`,
-        {
-          paddingTop: insets.top,
-          paddingLeft: insets.left,
-          paddingBottom: insets.bottom,
-          paddingRight: insets.right,
-        },
-      ]}
-      style={tw`flex flex-col grow shrink bg-gray-100 dark:bg-black`}>
-      <View style={tw`flex flex-col justify-end self-center shrink grow basis-0`}>
-        <WelcomeAnimation style={tw`w-full max-w-[256px] max-h-[256px]`} />
-      </View>
-      <View style={tw`flex flex-col px-6 shrink grow basis-0`}>
-        <Text style={tw`text-lg font-semibold text-slate-500 dark:text-slate-400`}>
-          {t('auth.login.headline')}
-        </Text>
-        <Text style={tw`mb-4 text-3xl tracking-tight text-slate-900 dark:text-gray-200 font-bold`}>
-          {t('auth.login.title')}
-        </Text>
+    <>
+      <ScrollView
+        bounces={false}
+        contentContainerStyle={[
+          tw`grow`,
+          {
+            paddingTop: insets.top,
+            paddingLeft: insets.left,
+            paddingBottom: insets.bottom,
+            paddingRight: insets.right,
+          },
+        ]}
+        style={tw`flex flex-col grow shrink bg-gray-100 dark:bg-black`}>
+        <View style={tw`flex flex-col justify-end self-center shrink grow basis-0`}>
+          <WelcomeAnimation style={tw`w-full max-w-[256px] max-h-[256px]`} />
+        </View>
+        <View style={tw`flex flex-col px-6 shrink grow basis-0`}>
+          <Text style={tw`text-lg font-semibold text-slate-500 dark:text-slate-400`}>
+            {t('auth.login.headline')}
+          </Text>
+          <Text
+            style={tw`mb-4 text-3xl tracking-tight text-slate-900 dark:text-gray-200 font-bold`}>
+            {t('auth.login.title')}
+          </Text>
 
-        <AppRoundedButton
-          disabled={isLoading}
-          loading={isLoading}
-          style={tw`mt-4 mx-2 h-14`}
-          onPress={onSubmit}>
-          <Text style={tw`text-base text-black font-medium`}>{t('actions.login')}</Text>
-        </AppRoundedButton>
-        <Link asChild href="/onboarding">
-          <Button
-            activeBackgroundColor={
-              tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')
-            }
-            activeOpacity={1}
-            backgroundColor="transparent"
-            style={tw`mt-4 mx-2 h-14`}>
-            <Text style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
-              {t('auth.login.onboarding')}
-            </Text>
-          </Button>
-        </Link>
-      </View>
-
-      <View style={tw`flex flex-col gap-3 mt-auto`}>
-        {IS_DEV ? (
-          <Link asChild href="/advanced/">
-            <ServiceRow
-              withBottomDivider
-              label={t('advanced.title')}
-              prefixIcon="cog-outline"
-              style={tw`px-3 mx-3`}
-              suffixIcon="chevron-right">
-              <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
-                <Text style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>DEV</Text>
-              </View>
-            </ServiceRow>
+          <AppRoundedButton
+            disabled={isLoading}
+            loading={isLoading}
+            style={tw`mt-4 mx-2`}
+            onPress={onSubmit}>
+            <Text style={tw`text-base text-black font-medium`}>{t('actions.login')}</Text>
+          </AppRoundedButton>
+          <Link asChild href="/onboarding">
+            <AppTextButton style={tw`mt-4 mx-2`}>
+              <Text style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
+                {t('auth.login.onboarding')}
+              </Text>
+            </AppTextButton>
           </Link>
-        ) : (
-          <></>
-        )}
-        <AppFooter style={[tw`mx-auto self-center px-3 pb-4`]} />
-      </View>
-    </ScrollView>
+        </View>
+
+        <View style={tw`flex flex-col mt-auto pt-3`}>
+          <ServiceRow
+            withBottomDivider
+            label={t('settings.support.contact.title')}
+            prefixIcon="help-circle-outline"
+            style={tw`px-3 mx-3`}
+            suffixIcon="chevron-right"
+            onPress={() => setRenderContactBottomSheet(true)}
+          />
+          {IS_DEV ? (
+            <Link asChild href="/advanced/">
+              <ServiceRow
+                withBottomDivider
+                label={t('advanced.title')}
+                prefixIcon="cog-outline"
+                style={tw`px-3 mx-3`}
+                suffixIcon="chevron-right">
+                <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
+                  <Text style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>DEV</Text>
+                </View>
+              </ServiceRow>
+            </Link>
+          ) : (
+            <></>
+          )}
+          <AppFooter style={[tw`mx-auto self-center px-3 pb-4 mt-3`]} />
+        </View>
+      </ScrollView>
+
+      {shouldRenderContactBottomSheet ? (
+        <ContactBottomSheet onClose={() => setRenderContactBottomSheet(false)} />
+      ) : null}
+    </>
   );
 }

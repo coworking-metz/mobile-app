@@ -20,10 +20,6 @@
     "onFail": {
       "message": "Impossible de déverrouiller"
     },
-    "onSuccessiveTaps": {
-      "action": "Oui",
-      "message": "Quelque chose ne va pas ?"
-    },
     "onUnlocked": {
       "description": "verrouillage dans ",
       "label": "C'est ouvert !"
@@ -33,16 +29,16 @@
     "description": "@:onPremise.description",
     "label": "@:onPremise.title"
   },
+  "onSuccessiveTaps": {
+    "action": "Oui",
+    "message": "Quelque chose ne va pas ?"
+  },
   "parking": {
     "description": "pour accéder au parking",
     "label": "Ouvrir la barrière",
     "loading": "demande en cours...",
     "onFail": {
       "message": "Impossible d'ouvrir"
-    },
-    "onSuccessiveTaps": {
-      "action": "Oui",
-      "message": "Quelque chose ne va pas ?"
     },
     "onUnlocked": {
       "description": "fermeture dans ",

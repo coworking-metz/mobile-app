@@ -2,6 +2,7 @@ import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation
 import LockUnlockAnimation from '../Animations/LockUnlockAnimation';
 import AppTouchableScale from '../AppTouchableScale';
 import ReanimatedText from '../ReanimatedText';
+import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
 import React, { useEffect, useRef, useState, type ReactNode } from 'react';
@@ -19,6 +20,7 @@ import Animated, {
   withTiming,
   type StyleProps,
 } from 'react-native-reanimated';
+import * as Sentry from 'sentry-expo';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import { theme } from '@/helpers/colors';
@@ -36,14 +38,15 @@ const UnlockCard = ({
   children,
   disabled = false,
   style,
+  onSuccessiveTaps,
 }: {
   children?: ReactNode;
   disabled?: boolean;
   style?: StyleProps;
+  onSuccessiveTaps?: () => void;
 }) => {
   const { t } = useTranslation();
   const noticeStore = useNoticeStore();
-  const toastStore = useToastStore();
   const animation = useRef<LottieView>(null);
   const unlocking = useSharedValue(0);
   const [cardWidth, setCardWidth] = useState(0);
@@ -55,10 +58,7 @@ const UnlockCard = ({
 
   const onUnlock = () => {
     if (isLoading) return;
-    if (
-      !lastWarning ||
-      Date.now() - Date.parse(lastWarning) > WARN_ON_SUCCESSIVE_TAPS_INTEVAL_IN_MS
-    ) {
+    if (!lastWarning || dayjs().diff(lastWarning) > WARN_ON_SUCCESSIVE_TAPS_INTEVAL_IN_MS) {
       setTapHistory([...tapHistory, new Date().toISOString()]);
     }
     setLoading(true);
@@ -94,8 +94,6 @@ const UnlockCard = ({
       });
   };
 
-  // TODO: enable the following code once Help section is ready
-  /*
   useEffect(() => {
     const recentTaps = [...tapHistory]
       .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
@@ -108,22 +106,14 @@ const UnlockCard = ({
         WARN_ON_SUCCESSIVE_TAPS_PERIOD_IN_MS;
 
       if (isTappingSuccessively) {
-        const toast = toastStore.add({
-          message: t('home.intercom.onSuccessiveTaps.message'),
-          type: ToastPresets.GENERAL,
-          action: {
-            label: t('home.intercom.onSuccessiveTaps.action'),
-            onPress: () => {
-              router.push('/help/gate');
-              toastStore.dismiss(toast.id);
-            },
-          },
+        Sentry.Native.captureMessage('Tapping successively on parking card', {
+          level: 'warning',
         });
         setLastWarning(new Date().toISOString());
+        onSuccessiveTaps?.();
       }
     }
   }, [tapHistory]);
-  */
 
   useEffect(() => {
     if (animation.current && !isNil(isUnlocked)) {
