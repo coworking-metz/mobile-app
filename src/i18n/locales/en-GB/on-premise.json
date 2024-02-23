@@ -3,11 +3,11 @@
     "description": "This door directly leads to the deck, and can be opened from the exterior to enter the workspace.",
     "label": "Unlock\nthe deck door",
     "loading": "Requesting...",
-    "onFail": {
-      "message": "Unable to open\nthe door 😔"
+    "onUnlock": {
+      "fail": "Unable to unlock the door",
+      "success": "Door is open!"
     },
-    "slideToUnlock": "Slide to unlock",
-    "unlocked": "Door is open!"
+    "slideToUnlock": "Slide to unlock"
   },
   "onFetch": {
     "fail": "Unable to retrieve on premise state"

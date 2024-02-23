@@ -17,6 +17,9 @@ export const openParkingGate = (): Promise<{
 };
 
 export const getOnPremiseState = (): Promise<{
+  deckDoor: {
+    unlocked: boolean;
+  };
   phoneBooths: {
     blue: {
       occupied: boolean;
@@ -52,9 +55,7 @@ export const unlockDeckDoor = (): Promise<{
   locked: string;
   timeout: string;
 }> => {
-  return HTTP.post('https://mock.matthieupetit.dev/api/mobile/v1/doors/deck/unlock').then(
-    ({ data }) => data,
-  );
+  return HTTP.post('/api/on-premise/deck-door/unlock').then(({ data }) => data);
 };
 
 export const turnOnLight = (

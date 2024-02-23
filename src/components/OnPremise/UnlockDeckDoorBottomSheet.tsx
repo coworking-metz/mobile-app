@@ -6,12 +6,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text } from 'react-native';
 import Animated, { FadeInLeft, FadeOutLeft, type StyleProps } from 'react-native-reanimated';
-import { ToastPresets } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
 import { unlockDeckDoor } from '@/services/api/services';
-import useToastStore from '@/stores/toast';
+import useNoticeStore from '@/stores/notice';
 
 const UnlockDeckDoorBottomSheet = ({
   style,
@@ -23,7 +22,7 @@ const UnlockDeckDoorBottomSheet = ({
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
-  const toastStore = useToastStore();
+  const noticeStore = useNoticeStore();
   const animation = useRef<LottieView>(null);
   const [isUnlocked, setUnlocked] = useState(unlocked);
   const [isLoading, setLoading] = useState(false);
@@ -47,18 +46,18 @@ const UnlockDeckDoorBottomSheet = ({
       })
       .catch(handleSilentError)
       .catch(async (error) => {
-        const errorMessage = await parseErrorText(error);
-        toastStore.add({
-          message: errorMessage,
-          type: ToastPresets.FAILURE,
+        const description = await parseErrorText(error);
+        noticeStore.add({
+          message: t('onPremise.door.onUnlock.fail'),
+          description,
+          type: 'error',
         });
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       })
       .finally(() => setLoading(false));
-  }, [toastStore]);
+  }, [noticeStore]);
 
   const onReset = useCallback(() => {
-    toastStore.dismissAll();
     setUnlocked(false);
   }, []);
 
@@ -103,7 +102,7 @@ const UnlockDeckDoorBottomSheet = ({
               entering={FadeInLeft.duration(300)}
               exiting={FadeOutLeft.duration(300)}
               style={[tw`absolute left-8 text-base text-left font-medium text-black`]}>
-              {t('onPremise.door.unlocked')}
+              {t('onPremise.door.onUnlock.success')}
             </Animated.Text>
           ) : null}
         </>
