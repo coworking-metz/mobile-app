@@ -55,8 +55,8 @@ const Settings = () => {
   const [selectedPresence, setSelectedPresence] = useState<ApiMemberActivity | null>(null);
   const [isPickingLanguage, setPickingLanguage] = useState(false);
   const [isPickingTheme, setPickingTheme] = useState(false);
-  const [wantsToLogout, setWantsToLogout] = useState(false);
-  const [wantsToContact, setWantsToContact] = useState(false);
+  const [isLoggingOut, setLoggingOut] = useState(false);
+  const [isContacting, setContacting] = useState(false);
 
   const {
     data: activity,
@@ -322,6 +322,7 @@ const Settings = () => {
               asChild
               href="https://signal.group/#CjQKICGvCmD9n9SJSW6z_g5FmRg5rRUj4hWpC1X5XxOexGwrEhDxUfX0r6UQ_blpMGz938M9">
               <ServiceRow
+                withBottomDivider
                 label={t('settings.support.signal.label')}
                 prefixIcon="chat-outline"
                 style={tw`px-3 mx-3`}
@@ -333,14 +334,15 @@ const Settings = () => {
               prefixIcon="help-circle-outline"
               style={tw`px-3 mx-3`}
               suffixIcon="chevron-right"
-              onPress={() => setWantsToContact(true)}
+              onPress={() => setContacting(true)}
             />
 
             <ServiceRow
               label={t('actions.logout')}
               prefixIcon="logout"
               style={tw`px-3 mx-3 mt-6`}
-              onPress={() => setWantsToLogout(true)}
+              suffixIcon="chevron-right"
+              onPress={() => setLoggingOut(true)}
             />
           </View>
 
@@ -397,8 +399,8 @@ const Settings = () => {
           onClose={() => setSelectedPresence(null)}
         />
       )}
-      {wantsToLogout && <LogoutBottomSheet onClose={() => setWantsToLogout(false)} />}
-      {wantsToContact ? <ContactBottomSheet onClose={() => setWantsToContact(false)} /> : null}
+      {isLoggingOut && <LogoutBottomSheet onClose={() => setLoggingOut(false)} />}
+      {isContacting && <ContactBottomSheet onClose={() => setContacting(false)} />}
     </View>
   );
 };

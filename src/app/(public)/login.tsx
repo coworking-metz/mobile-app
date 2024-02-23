@@ -35,7 +35,7 @@ export default function Login() {
   const toastStore = useToastStore();
   const settingsStore = useSettingsStore();
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [shouldRenderContactBottomSheet, setRenderContactBottomSheet] = useState<boolean>(false);
+  const [isContacting, setContacting] = useState<boolean>(false);
 
   useEffect(() => {
     warmUpAsync();
@@ -130,14 +130,6 @@ export default function Login() {
         </View>
 
         <View style={tw`flex flex-col mt-auto pt-3`}>
-          <ServiceRow
-            withBottomDivider
-            label={t('settings.support.contact.title')}
-            prefixIcon="help-circle-outline"
-            style={tw`px-3 mx-3`}
-            suffixIcon="chevron-right"
-            onPress={() => setRenderContactBottomSheet(true)}
-          />
           {IS_DEV ? (
             <Link asChild href="/advanced/">
               <ServiceRow
@@ -154,13 +146,20 @@ export default function Login() {
           ) : (
             <></>
           )}
+          <ServiceRow
+            withBottomDivider
+            label={t('settings.support.contact.title')}
+            prefixIcon="help-circle-outline"
+            style={tw`px-3 mx-3`}
+            suffixIcon="chevron-right"
+            onPress={() => setContacting(true)}
+          />
+
           <AppFooter style={[tw`mx-auto self-center px-3 pb-4 mt-3`]} />
         </View>
       </ScrollView>
 
-      {shouldRenderContactBottomSheet ? (
-        <ContactBottomSheet onClose={() => setRenderContactBottomSheet(false)} />
-      ) : null}
+      {isContacting ? <ContactBottomSheet onClose={() => setContacting(false)} /> : null}
     </>
   );
 }
