@@ -1,7 +1,7 @@
 import HorizontalLoadingAnimation from './Animations/HorizontalLoadingAnimation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
-import { View } from 'react-native';
+import { useColorScheme, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import { Button } from 'react-native-ui-lib';
 import tw from 'twrnc';
@@ -39,7 +39,7 @@ const AppTextButton: ForwardRefRenderFunction<typeof AppTouchableScale, AppTextB
           <View style={tw`flex flex-row items-center justify-start h-full grow shrink basis-0`}>
             {prefixIcon ? (
               <MaterialCommunityIcons
-                color={theme.charlestonGreen}
+                color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
                 iconStyle={tw`h-6 w-6`}
                 name={prefixIcon}
                 size={24}
@@ -50,7 +50,7 @@ const AppTextButton: ForwardRefRenderFunction<typeof AppTouchableScale, AppTextB
           <View style={tw`flex flex-row items-center justify-end h-full grow shrink basis-0`}>
             {suffixIcon ? (
               <MaterialCommunityIcons
-                color={theme.charlestonGreen}
+                color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
                 iconStyle={tw`h-6 w-6`}
                 name={suffixIcon}
                 size={24}
