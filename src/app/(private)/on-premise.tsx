@@ -95,7 +95,7 @@ const OnPremise = () => {
 
               {/* Door */}
               <ActionableIcon
-                active={onPremiseState?.deckDoor.unlocked}
+                active={onPremiseState?.deckDoor?.unlocked}
                 activeIcon="lock-open"
                 inactiveIcon="lock"
                 loading={isFetchingOnPremiseState}
@@ -120,8 +120,8 @@ const OnPremise = () => {
               <ActionablePhoneBooths
                 activeIcon="door-closed"
                 actives={[
-                  onPremiseState?.phoneBooths.orange.occupied ?? null,
-                  onPremiseState?.phoneBooths.blue.occupied ?? null,
+                  onPremiseState?.phoneBooths?.orange.occupied ?? null,
+                  onPremiseState?.phoneBooths?.blue.occupied ?? null,
                 ]}
                 inactiveIcon="door-open"
                 loading={isFetchingOnPremiseState}
