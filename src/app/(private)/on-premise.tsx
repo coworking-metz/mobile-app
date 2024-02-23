@@ -94,14 +94,14 @@ const OnPremise = () => {
               <ActionableLight id="9" style={tw`top-[70%] left-[25%]`} /> */}
 
               {/* Door */}
-              {/* <ActionableIcon
-                active={false}
+              <ActionableIcon
+                active={onPremiseState?.deckDoor.unlocked}
                 activeIcon="lock-open"
                 inactiveIcon="lock"
                 loading={isFetchingOnPremiseState}
                 style={tw`top-[50%] left-[82%]`}
                 onPress={() => setDeckDoorSelected(true)}
-              /> */}
+              />
 
               {/* Fans */}
               {/* <ActionableFan active id="1" style={tw`top-[16%] left-[5%]`} />
@@ -134,18 +134,18 @@ const OnPremise = () => {
         </View>
       </ServiceLayout>
 
-      {isDeckDoorSelected ? (
+      {isDeckDoorSelected && (
         <UnlockDeckDoorBottomSheet onClose={() => setDeckDoorSelected(false)} />
-      ) : null}
+      )}
 
-      {isBluePhoneBoothSelected ? (
+      {isBluePhoneBoothSelected && (
         <PhoneBoothBottomSheet
           blueOccupied={onPremiseState?.phoneBooths.blue.occupied}
           loading={isFetchingOnPremiseState}
           orangeOccupied={onPremiseState?.phoneBooths.orange.occupied}
           onClose={() => setBluePhoneBoothSelected(false)}
         />
-      ) : null}
+      )}
     </>
   );
 };
