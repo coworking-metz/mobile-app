@@ -1,13 +1,12 @@
 import HorizontalLoadingAnimation from './Animations/HorizontalLoadingAnimation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
-import { useColorScheme, View } from 'react-native';
+import { View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import { Button } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import type AppTouchableScale from './AppTouchableScale';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
-import { theme } from '@/helpers/colors';
 
 type AppTextButtonProps = {
   disabled?: boolean;

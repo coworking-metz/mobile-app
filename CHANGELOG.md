@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - View the occupancy rate and current status of telephone booths.
 - Swipe between your current, past and future subscriptions.
 - Week days indication on presence graph.
+- Prompt a contact sheet when having a problem.
 
 ### Changed
 
