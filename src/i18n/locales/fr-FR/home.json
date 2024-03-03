@@ -42,7 +42,7 @@
     },
     "onUnlocked": {
       "description": "fermeture dans ",
-      "label": "La barrière est ouverte !"
+      "label": "La barrière s'ouvre !"
     }
   },
   "people": {

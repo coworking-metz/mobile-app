@@ -106,7 +106,7 @@ const UnlockCard = ({
         WARN_ON_SUCCESSIVE_TAPS_PERIOD_IN_MS;
 
       if (isTappingSuccessively) {
-        Sentry.Native.captureMessage('Tapping successively on parking card', {
+        Sentry.Native.captureMessage('Tapping successively on unlock gate card', {
           level: 'warning',
         });
         setLastWarning(new Date().toISOString());

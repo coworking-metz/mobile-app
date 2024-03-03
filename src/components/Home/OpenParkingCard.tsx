@@ -152,84 +152,88 @@ const OpenParkingCard = ({
     <AppTouchableScale
       disabled={disabled}
       style={[
-        tw`flex flex-row items-center gap-4 px-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
+        tw`flex flex-row items-center px-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
         style,
       ]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setCardWidth(nativeEvent.layout.width)}
       onPress={onOpen}>
-      <>
-        <Animated.View
-          style={[
-            tw`absolute top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-800 w-full`,
-            backgroundStyle,
-          ]}
-        />
-        <Animated.View
-          style={[
-            tw`bg-gray-300 dark:bg-gray-700 rounded-full p-2 z-20`,
-            isUnlocked && {
-              backgroundColor: tw.prefixMatch('dark') ? tw.color('yellow-600') : theme.meatBrown,
-            },
-          ]}>
-          <View style={[tw`relative h-8 w-8 shrink-0`]}>
-            {isLoading && (
-              <HorizontalLoadingAnimation
-                color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-              />
-            )}
-            <BarrierAnimation
-              ref={animation}
-              autoPlay={false}
-              loop={false}
-              progress={0.133}
-              style={isLoading && { opacity: 0 }}
+      <Animated.View
+        style={[
+          tw`absolute top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-800 w-full`,
+          backgroundStyle,
+        ]}
+      />
+      <Animated.View
+        style={[
+          tw`bg-gray-300 dark:bg-gray-700 rounded-full p-2 z-20`,
+          isUnlocked && {
+            backgroundColor: tw.prefixMatch('dark') ? tw.color('yellow-600') : theme.meatBrown,
+          },
+        ]}>
+        <View style={[tw`relative h-8 w-8 shrink-0`]}>
+          {isLoading && (
+            <HorizontalLoadingAnimation
+              color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
             />
-          </View>
-        </Animated.View>
-        <Animated.View style={tw`flex flex-col z-20 w-full`}>
-          <Text
-            style={[
-              tw`text-xl font-medium text-slate-900 dark:text-gray-200`,
-              disabled && tw`opacity-30`,
-            ]}>
-            {isUnlocked ? t('home.parking.onUnlocked.label') : t('home.parking.label')}
-          </Text>
-          <View style={[tw`flex flex-row items-center gap-1`]}>
-            {isLoading ? (
+          )}
+          <BarrierAnimation
+            ref={animation}
+            autoPlay={false}
+            loop={false}
+            progress={0.133}
+            style={isLoading && { opacity: 0 }}
+          />
+        </View>
+      </Animated.View>
+      <Animated.View style={tw`flex flex-col z-20 w-full grow shrink ml-4`}>
+        <Text
+          numberOfLines={1}
+          style={[
+            tw`text-xl font-medium text-slate-900 dark:text-gray-200`,
+            disabled && tw`opacity-30`,
+          ]}>
+          {isUnlocked ? t('home.parking.onUnlocked.label') : t('home.parking.label')}
+        </Text>
+        <View style={[tw`flex flex-row items-center gap-1`]}>
+          {isLoading ? (
+            <Text
+              numberOfLines={1}
+              style={[
+                tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400 grow`,
+                disabled && tw`opacity-30`,
+              ]}>
+              {t('home.parking.loading')}
+            </Text>
+          ) : isUnlocked ? (
+            <>
               <Text
+                numberOfLines={1}
                 style={[
-                  tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400 grow`,
+                  tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400`,
                   disabled && tw`opacity-30`,
                 ]}>
-                {t('home.parking.loading')}
+                {t('home.parking.onUnlocked.description')}
               </Text>
-            ) : isUnlocked ? (
-              <>
-                <Text
-                  style={[
-                    tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400`,
-                    disabled && tw`opacity-30`,
-                  ]}>
-                  {t('home.parking.onUnlocked.description')}
-                </Text>
-                <ReanimatedText
-                  style={[tw`font-semibold text-slate-900 dark:text-gray-200`]}
-                  text={timeLeftInSeconds}
-                />
-              </>
-            ) : (
-              <Text
-                style={[
-                  tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400 grow`,
-                  disabled && tw`opacity-30`,
-                ]}>
-                {t('home.parking.description')}
-              </Text>
-            )}
-          </View>
-        </Animated.View>
-        {children}
-      </>
+              <ReanimatedText
+                style={[tw`font-semibold text-slate-900 dark:text-gray-200`]}
+                text={timeLeftInSeconds}
+              />
+            </>
+          ) : (
+            <Text
+              numberOfLines={1}
+              style={[
+                tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400 grow`,
+                disabled && tw`opacity-30`,
+              ]}>
+              {t('home.parking.description')}
+            </Text>
+          )}
+        </View>
+      </Animated.View>
+      <View style={[tw`shrink-0 bg-gray-300 dark:bg-gray-700 py-1 px-2 ml-auto rounded`]}>
+        <Text style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>BETA</Text>
+      </View>
     </AppTouchableScale>
   );
 };

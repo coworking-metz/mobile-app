@@ -38,7 +38,7 @@
     },
     "onUnlocked": {
       "description": "closing in ",
-      "label": "Gate is open!"
+      "label": "Barrier opens!"
     }
   },
   "people": {

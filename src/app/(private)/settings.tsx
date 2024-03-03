@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Text, TouchableNativeFeedback, View, type LayoutChangeEvent } from 'react-native';
 import Animated, {
   FadeInLeft,
+  FadeInRight,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -168,7 +169,7 @@ const Settings = () => {
             headerStyle,
           ]}>
           <View style={tw`flex flex-col items-start gap-4 px-4`}>
-            <ProfilePicture style={tw`h-24 w-24`} />
+            <ProfilePicture attending={profile?.attending} style={tw`h-24 w-24`} />
 
             <View style={tw`flex flex-col ml-2`}>
               <Animated.Text
@@ -216,9 +217,9 @@ const Settings = () => {
                 paddingRight: insets.right,
               },
             ]}>
-            <View style={tw`flex flex-row gap-2 min-h-6 mx-6`}>
+            <View style={tw`flex flex-row gap-2 justify-between items-center min-h-6 mx-6`}>
               <Animated.Text
-                entering={FadeInLeft.duration(300)}
+                entering={FadeInLeft.duration(300).delay(150)}
                 style={tw`text-sm font-normal uppercase text-slate-500`}>
                 {t('settings.profile.presence.title')}
               </Animated.Text>
@@ -229,7 +230,20 @@ const Settings = () => {
                 />
               ) : profileError && !isSilentError(profileError) ? (
                 <ErrorChip error={profileError} label={t('home.profile.onFetch.fail')} />
-              ) : null}
+              ) : (
+                <Animated.View
+                  entering={FadeInRight.duration(300).delay(300)}
+                  style={[
+                    tw`flex flex-row items-center gap-1.5 px-2 py-1 rounded-full border-[0.5px] border-gray-300 dark:border-gray-700`,
+                  ]}>
+                  <View style={tw`h-2 w-2 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
+                  <Text
+                    numberOfLines={1}
+                    style={tw`text-xs font-normal shrink text-gray-900 dark:text-gray-200`}>
+                    {t('settings.profile.presence.attending')}
+                  </Text>
+                </Animated.View>
+              )}
             </View>
 
             <PresenceGraph
@@ -241,7 +255,7 @@ const Settings = () => {
             />
 
             <Animated.Text
-              entering={FadeInLeft.duration(300)}
+              entering={FadeInLeft.duration(300).delay(150)}
               style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.general.title')}
             </Animated.Text>
@@ -287,19 +301,10 @@ const Settings = () => {
             <ThemePicker style={tw`px-3 mx-3`} onPress={() => setPickingTheme(true)} />
 
             <Animated.Text
-              entering={FadeInLeft.duration(300)}
+              entering={FadeInLeft.duration(300).delay(150)}
               style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.support.title')}
             </Animated.Text>
-            {/* <Link asChild href="/help">
-              <ServiceRow
-                withBottomDivider
-                label={t('settings.support.help.label')}
-                prefixIcon="help-circle-outline"
-                style={tw`px-3 mx-3`}
-                suffixIcon="chevron-right"
-              />
-            </Link> */}
             <Link asChild href="https://www.coworking-metz.fr/mon-compte/">
               <ServiceRow
                 withBottomDivider

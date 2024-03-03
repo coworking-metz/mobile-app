@@ -22,11 +22,12 @@
   },
   "profile": {
     "presence": {
+      "attending": "Currently attending",
       "onFetch": {
         "fail": "Unable to fetch presence"
       },
       "selected": {
-        "description": "Coverage is automatically computed based on subscriptions and attendance.\n\nFor attendance:\n- less than 2 hours does not count,\n- between 2 and 5 hours is equivalent to half a day,\n- beyond 5 hours is equivalent to a full day.\n\nOne ticket covers 2 half-days.\nA subscription covers a rolling 30-day period from a start date.",
+        "description": "Coverage is automatically computed based on subscriptions and attendance.\n\nFor attendance:\n- less than 5 hours is equivalent to half a day,\n- beyond 5 hours is equivalent to a full day.\n\nOne ticket covers 2 half-days.\nA subscription covers a rolling 30-day period from a start date.",
         "overconsumed": {
           "value": {
             "ticketFull": "1 ticket overconsummed",

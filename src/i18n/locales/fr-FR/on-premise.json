@@ -1,13 +1,13 @@
 {
   "door": {
     "description": "La porte de la terrasse vous permet d'accéder directement à l'open space depuis l'extérieur.",
-    "label": "Déverouiller\nla porte de la terrasse",
+    "label": "Déverrouiller\nla porte de la terrasse",
     "loading": "Demande en cours...",
     "onUnlock": {
-      "fail": "Impossible de déverouiller la porte",
+      "fail": "Impossible de déverrouiller la porte",
       "success": "C'est ouvert !"
     },
-    "slideToUnlock": "Glisser pour déverouiller"
+    "slideToUnlock": "Glisser pour déverrouiller"
   },
   "onFetch": {
     "fail": "Impossible de récupérer l'état actuel de l'espace"
