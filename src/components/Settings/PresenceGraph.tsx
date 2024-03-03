@@ -1,12 +1,12 @@
 import VerticalLoadingAnimation from '../Animations/VerticalLoadingAnimation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { Text, View, useColorScheme } from 'react-native';
 import { ContributionGraph } from 'react-native-chart-kit';
 import Animated, { type StyleProps } from 'react-native-reanimated';
-import { Button } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 import { type ApiMemberActivity } from '@/services/api/members';
@@ -31,8 +31,8 @@ const PresenceGraph = ({
   style?: StyleProps;
   onDateSelect?: (date: string) => void;
 }) => {
-  const { i18n, t } = useTranslation();
-  const animatedScrollViewRef = useRef<Animated.ScrollView>(null);
+  const { i18n } = useTranslation();
+  const colorScheme = useColorScheme();
   const [startDate, setStartDate] = useState<string | null>(
     dayjs().subtract(6, 'month').format('YYYY-MM-DD'),
   );
@@ -92,12 +92,12 @@ const PresenceGraph = ({
       }
 
       // for empty values
-      if (tw.prefixMatch('dark')) {
+      if (colorScheme === 'dark') {
         return `rgba(255, 255, 255, 0.1)`;
       }
       return `rgba(128, 128, 128, 0.1)`;
     },
-    [selectedDate, hasNonCompliantDates],
+    [selectedDate, hasNonCompliantDates, colorScheme],
   );
 
   const values = useMemo(() => {
@@ -121,7 +121,6 @@ const PresenceGraph = ({
     </View>
   ) : (
     <Animated.ScrollView
-      ref={animatedScrollViewRef}
       horizontal={true}
       scrollEventThrottle={16}
       showsHorizontalScrollIndicator={false}
@@ -135,23 +134,32 @@ const PresenceGraph = ({
             {dayjs(earliestDate).year()}
           </Text>
         ) : (
-          <Button
-            activeBackgroundColor={
-              tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')
+          <LinearGradient
+            colors={
+              colorScheme === 'dark'
+                ? ['#18181bff', '#18181bcc', '#18181b00']
+                : ['#f9fafbff', '#f9fafbaa', '#f9fafb00']
             }
-            activeOpacity={1}
-            backgroundColor="transparent"
-            style={tw`ml-6 h-14 my-auto`}
-            onPress={() => setStartDate(null)}>
-            <MaterialCommunityIcons
-              color={tw.prefixMatch('dark') ? tw.color('gray-500') : theme.charlestonGreen}
-              name="arrow-left"
-              size={24}
-            />
-            <Text style={tw`ml-3 text-base font-medium text-slate-900 dark:text-gray-200`}>
-              {t('actions.seeMore')}
-            </Text>
-          </Button>
+            end={{ x: 1, y: 0 }}
+            start={{ x: 0.1, y: 0 }}
+            style={[
+              tw`w-48 z-10 absolute left-0 bottom-3.5`,
+              { height: (SQUARE_SIZE + SQUARE_GAP) * 7 - SQUARE_GAP },
+            ]}>
+            <View style={tw`my-auto w-12 ml-9`}>
+              <MaterialCommunityIcons.Button
+                backgroundColor="transparent"
+                borderRadius={40}
+                color={tw.color('gray-500')}
+                iconStyle={{ marginRight: 0 }}
+                name="chevron-left-circle"
+                size={40}
+                style={tw`p-1`}
+                underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
+                onPress={() => setStartDate(null)}
+              />
+            </View>
+          </LinearGradient>
         )}
         <ContributionGraph
           chartConfig={{

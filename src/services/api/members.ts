@@ -24,6 +24,7 @@ export interface ApiMemberProfile {
   membershipOk?: boolean;
   lastMembership?: number;
   abos: ApiMemberSubscription[];
+  attending: boolean;
 }
 
 export const getCurrentMembers = (): Promise<ApiMemberProfile[]> => {

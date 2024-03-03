@@ -22,11 +22,12 @@
   },
   "profile": {
     "presence": {
+      "attending": "Actuellement présent",
       "onFetch": {
         "fail": "Impossible de récupérer la présence"
       },
       "selected": {
-        "description": "La couverture est automatiquement déterminée en fonction des abonnements et de la présence.\n\nUne présence :\n- inférieure à 2h n'est pas comptabilisée,\n- entre 2h et 5h équivaut à une demi-journée,\n- au-delà de 5h équivaut à une journée entière.\n\nUn ticket permet de couvrir 2 demi-journées.\nUn abonnement couvre 30 jours glissants à compter d'une date de début.",
+        "description": "La couverture est automatiquement déterminée en fonction des abonnements et de la présence.\n\nUne présence :\n- inférieure à 5h équivaut à une demi-journée,\n- au-delà de 5h équivaut à une journée entière.\n\nUn ticket permet de couvrir 2 demi-journées.\nUn abonnement couvre 30 jours glissants à compter d'une date de début.",
         "overconsumed": {
           "value": {
             "ticketFull": "1 ticket surconsommé",
