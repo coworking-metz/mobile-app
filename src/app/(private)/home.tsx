@@ -86,7 +86,7 @@ export default function HomeScreen({}) {
     refetch: refetchProfile,
     error: profileError,
   } = useQuery({
-    queryKey: ['profile', user?.id],
+    queryKey: ['members', user?.id],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId);

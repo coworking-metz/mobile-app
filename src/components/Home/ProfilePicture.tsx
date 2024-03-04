@@ -34,7 +34,7 @@ const ProfilePicture = ({
           style={tw`h-full w-full rounded-3xl overflow-hidden bg-gray-200`}
         />
       )}
-      {!attending && (
+      {attending && (
         <Animated.View
           entering={BounceIn.duration(1000)}
           exiting={BounceOut.duration(1000)}
