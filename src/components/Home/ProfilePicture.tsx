@@ -32,7 +32,7 @@ const ProfilePicture = ({
         </Animated.View>
       )}
 
-      {!attending && (
+      {attending && (
         <Animated.View
           entering={BounceIn.duration(1000).delay(300)}
           exiting={BounceOut.duration(1000)}
