@@ -125,10 +125,20 @@
         "label": "Solde actuel",
         "onDepleted": "Une surconsommation excessive peut entraîner une suspension de vos accès."
       },
+      "consumed": {
+        "count_one": "consommé",
+        "count_other": "consommés",
+        "count_zero": "Aucun",
+        "description": "depuis votre arrivée",
+        "label": "Consommation"
+      },
       "depleted_one": "redevable",
       "depleted_other": "redevables",
       "description": "Les tickets sont sans fin de validité et chaque ticket équivaut à deux demi-journées.\nUne présence de moins de 5 heures sur une journée correspond à une demi-journée.",
-      "label": "Tickets à la journée"
+      "label": "Tickets à la journée",
+      "onFetch": {
+        "fail": "Impossible de récupérer les commandes de tickets"
+      }
     }
   },
   "refresh": {

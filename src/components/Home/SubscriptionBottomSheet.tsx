@@ -9,16 +9,9 @@ import { Skeleton } from 'moti/skeleton';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, View, type LayoutChangeEvent } from 'react-native';
-import Animated, {
-  interpolate,
-  interpolateColor,
-  useAnimatedStyle,
-  useSharedValue,
-  type StyleProps,
-} from 'react-native-reanimated';
+import { useSharedValue, type StyleProps } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
-import { theme } from '@/helpers/colors';
 import { type ApiMemberSubscription } from '@/services/api/members';
 
 const SubscriptionBottomSheet = ({

@@ -64,7 +64,7 @@ const Settings = () => {
     isFetching: isFetchingActivity,
     error: activityError,
   } = useQuery({
-    queryKey: ['activity', authStore.user?.id],
+    queryKey: ['members', authStore.user?.id, 'activity'],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberActivity(userId);
@@ -81,7 +81,7 @@ const Settings = () => {
     isFetching: isFetchingProfile,
     error: profileError,
   } = useQuery({
-    queryKey: ['profile', authStore.user?.id],
+    queryKey: ['members', authStore.user?.id],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId);
@@ -231,18 +231,20 @@ const Settings = () => {
               ) : profileError && !isSilentError(profileError) ? (
                 <ErrorChip error={profileError} label={t('home.profile.onFetch.fail')} />
               ) : (
-                <Animated.View
-                  entering={FadeInRight.duration(300).delay(300)}
-                  style={[
-                    tw`flex flex-row items-center gap-1.5 px-2 py-1 rounded-full border-[0.5px] border-gray-300 dark:border-gray-700`,
-                  ]}>
-                  <View style={tw`h-2 w-2 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
-                  <Text
-                    numberOfLines={1}
-                    style={tw`text-xs font-normal shrink text-gray-900 dark:text-gray-200`}>
-                    {t('settings.profile.presence.attending')}
-                  </Text>
-                </Animated.View>
+                profile?.attending && (
+                  <Animated.View
+                    entering={FadeInRight.duration(300).delay(300)}
+                    style={[
+                      tw`flex flex-row items-center gap-1.5 px-2 py-1 rounded-full border-[0.5px] border-gray-300 dark:border-gray-700`,
+                    ]}>
+                    <View style={tw`h-2 w-2 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
+                    <Text
+                      numberOfLines={1}
+                      style={tw`text-xs font-normal shrink text-gray-900 dark:text-gray-200`}>
+                      {t('settings.profile.presence.attending')}
+                    </Text>
+                  </Animated.View>
+                )
               )}
             </View>
 

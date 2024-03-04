@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Show whether the user is currently attending with a green chip.
+- Show whether the user is currently attending with a green badge.
+- Add consumed tickets count to tickets sheet.
 - `BETA` tag to parking barrier card.
 
 ### Changed

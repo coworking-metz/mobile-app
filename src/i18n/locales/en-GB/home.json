@@ -121,10 +121,20 @@
         "label": "Current balance",
         "onDepleted": "Excessive overconsumption can lead to a suspension of your access."
       },
+      "consumed": {
+        "count_one": "consumed",
+        "count_other": "consumed",
+        "count_zero": "None",
+        "description": "since your arrival",
+        "label": "Overall consumption"
+      },
       "depleted_one": "indebted",
       "depleted_other": "indebted",
       "description": "Tickets have unlimited validity, and each ticket is equivalent to two half-days.\nPresence of less than 5 hours in a day corresponds to half a day.",
-      "label": "Individual tickets"
+      "label": "Individual tickets",
+      "onFetch": {
+        "fail": "Unable to fetch tickets orders"
+      }
     }
   },
   "refresh": {
