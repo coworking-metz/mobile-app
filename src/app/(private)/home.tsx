@@ -207,7 +207,7 @@ export default function HomeScreen({}) {
           <View style={tw`flex flex-col items-end shrink grow basis-0`}>
             <Link asChild href="/settings">
               <AppTouchableScale>
-                <ProfilePicture attending={profile?.attending} />
+                <ProfilePicture attending={profile?.attending} style={tw`h-12 w-12`} />
               </AppTouchableScale>
             </Link>
           </View>
