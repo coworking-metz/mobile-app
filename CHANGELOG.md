@@ -16,10 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Add a linear gradient and change the period selection button on presence graph.
+- Hide period selection if user presence is less than 6 months old.
 
 ### Fixed
 
 - Typo in `Déverrouiller` in French.
+- Half days color on presence graph when user hasn't attended a full day not even once.
 
 ## [1.2.0] - 2024-02-23
 

@@ -36,10 +36,20 @@ const PresenceGraph = ({
   const [startDate, setStartDate] = useState<string | null>(
     dayjs().subtract(6, 'month').format('YYYY-MM-DD'),
   );
+
+  const sortedActivity = useMemo(() => {
+    return [...activity].sort((a, b) => dayjs(a.date).diff(b.date));
+  }, [activity]);
+
+  const firstDate = useMemo(() => {
+    const [first] = sortedActivity;
+    return first?.date;
+  }, [sortedActivity]);
+
   const earliestDate = useMemo(() => {
-    const [first] = activity
-      .filter(({ date }) => !startDate || dayjs(date).isAfter(startDate))
-      .sort((a, b) => dayjs(a.date).diff(b.date));
+    const [first] = sortedActivity.filter(
+      ({ date }) => !startDate || dayjs(date).isAfter(startDate),
+    );
     return first?.date;
   }, [activity, startDate]);
 
@@ -48,13 +58,14 @@ const PresenceGraph = ({
   }, [earliestDate]);
 
   const hasSelectedDate = useMemo(
-    () => activity.some(({ date }) => selectedDate === date),
-    [selectedDate],
+    () => !!selectedDate && activity.some(({ date }) => selectedDate === date),
+    [activity, selectedDate],
   );
   const hasNonCompliantDates = useMemo(
     () => activity.some(({ date }) => nonCompliantDates.includes(date)),
-    [nonCompliantDates],
+    [activity, nonCompliantDates],
   );
+  const hasAtLeastOneFullDay = useMemo(() => activity.some(({ value }) => value >= 1), [activity]);
 
   /**
    * Because lib authors are some kind of shenanigans,
@@ -75,19 +86,28 @@ const PresenceGraph = ({
           }
         }
 
-        if (hasNonCompliantDates) {
-          if (opacity > 0.6) {
-            return `${tw.color('red-700')}`; // should be at least 0.6 because count is 2.5
+        if (hasAtLeastOneFullDay) {
+          if (hasNonCompliantDates) {
+            if (opacity > 0.6) {
+              return `${tw.color('red-700')}`; // should be at least 0.6 because count is 2.5
+            }
+            if (opacity > 0.4) {
+              return `${tw.color('red-300')}`; // should be at least 0.4 because count is 1.25
+            }
           }
-          if (opacity > 0.4) {
-            return `${tw.color('red-300')}`; // should be at least 0.4 because count is 1.25
+
+          if (opacity > 0.2) {
+            // if above the min, this a full day
+            return theme.meatBrown;
+          }
+        } else {
+          if (hasNonCompliantDates) {
+            if (opacity > 0.4) {
+              return `${tw.color('red-300')}`; // should be at least 0.4 because count is 1.25
+            }
           }
         }
 
-        if (opacity > 0.2) {
-          // if above the min, this a full day
-          return theme.meatBrown;
-        }
         return theme.peachYellow; // should always be equal to 0.2 because this is the min
       }
 
@@ -97,7 +117,7 @@ const PresenceGraph = ({
       }
       return `rgba(128, 128, 128, 0.1)`;
     },
-    [selectedDate, hasNonCompliantDates, colorScheme],
+    [hasSelectedDate, hasNonCompliantDates, hasAtLeastOneFullDay, colorScheme],
   );
 
   const values = useMemo(() => {
@@ -128,7 +148,7 @@ const PresenceGraph = ({
       <View
         key={`presence-graph-${startDate ? `6months` : 'all'}`}
         style={[tw`flex flex-row`, { transform: [{ scaleX: -1 }] }]}>
-        {!startDate ? (
+        {!startDate || dayjs(firstDate).isAfter(startDate, 'day') ? (
           <Text
             style={tw`text-3xl font-bold tracking-tight text-slate-900 dark:text-gray-200 self-center ml-6`}>
             {dayjs(earliestDate).year()}
@@ -189,7 +209,7 @@ const PresenceGraph = ({
             // },
           })}
           values={values}
-          width={Math.ceil(squaresCount / 7) * (SQUARE_SIZE + SQUARE_GAP) + 64} // magic formula
+          width={(Math.ceil(squaresCount / 7) + 3) * (SQUARE_SIZE + SQUARE_GAP)}
           onDayPress={({ count, date }) => {
             if (count) onDateSelect?.(date);
           }}
