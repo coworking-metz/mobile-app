@@ -37,19 +37,13 @@ const PresenceGraph = ({
     dayjs().subtract(6, 'month').format('YYYY-MM-DD'),
   );
 
-  const sortedActivity = useMemo(() => {
-    return [...activity].sort((a, b) => dayjs(a.date).diff(b.date));
+  const firstDate = useMemo(() => {
+    const [first] = activity;
+    return first?.date;
   }, [activity]);
 
-  const firstDate = useMemo(() => {
-    const [first] = sortedActivity;
-    return first?.date;
-  }, [sortedActivity]);
-
   const earliestDate = useMemo(() => {
-    const [first] = sortedActivity.filter(
-      ({ date }) => !startDate || dayjs(date).isAfter(startDate),
-    );
+    const [first] = activity.filter(({ date }) => !startDate || dayjs(date).isAfter(startDate));
     return first?.date;
   }, [activity, startDate]);
 

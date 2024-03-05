@@ -46,7 +46,9 @@ export type ApiMemberActivity = {
 };
 
 export const getMemberActivity = (memberId: string | number): Promise<ApiMemberActivity[]> => {
-  return HTTP.get(`/api/members/${memberId}/activity`).then(({ data }) => data);
+  return HTTP.get(`/api/members/${memberId}/activity`).then(
+    ({ data }) => [...data].sort((a, b) => dayjs(a.date).diff(b.date)), // sort by date
+  );
 };
 
 export interface ApiMemberSubscription {
