@@ -33,7 +33,7 @@ const ActivityStep = ({ containerHeight }: { active: boolean; containerHeight?: 
           loop
           autoPlay={false}
           progress={0}
-          style={tw`w-[375px]`}
+          style={tw`w-[375px] h-full`}
         />
       </View>
       <View style={tw`mt-4 flex flex-col self-stretch px-6 justify-start`}>

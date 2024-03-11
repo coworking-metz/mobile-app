@@ -27,7 +27,7 @@ export default function EventsLayout() {
           size={32}
           style={tw`p-1 shrink-0`}
           underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
-          onPress={() => router.push('/home')}
+          onPress={() => router.dismiss()}
         />
       </View>
       <Stack

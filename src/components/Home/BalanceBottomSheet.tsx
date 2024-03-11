@@ -57,7 +57,7 @@ const BalanceBottomSheet = ({
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <View style={tw`flex flex-col w-full justify-between p-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-          <CouponsAnimation style={tw`h-56`} />
+          <CouponsAnimation style={tw`h-56 w-full`} />
         </View>
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>

@@ -3,7 +3,8 @@ import * as NavigationBar from 'expo-navigation-bar';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useLayoutEffect } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import NoticeBottomSheet from '@/components/NoticeBottomSheet';
@@ -39,7 +40,7 @@ const RootLayout = () => {
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <I18nProvider>
           <AuthProvider>
@@ -138,7 +139,7 @@ const RootLayout = () => {
           </AuthProvider>
         </I18nProvider>
       </SafeAreaProvider>
-    </View>
+    </GestureHandlerRootView>
   );
 };
 

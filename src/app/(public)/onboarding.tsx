@@ -26,7 +26,7 @@ import { theme } from '@/helpers/colors';
 import { log } from '@/helpers/logger';
 import useSettingsStore from '@/stores/settings';
 
-const onboardingLogger = log.extend(`[${__filename.split('/').pop()}]`);
+const onboardingLogger = log.extend(`[onboarding]`);
 
 type OnboardingScreen = {
   key: string;
@@ -80,7 +80,7 @@ const Onboarding = () => {
   ];
 
   const onClose = useCallback(() => {
-    router.back();
+    router.dismiss();
   }, [router]);
 
   const onNext = useCallback(() => {

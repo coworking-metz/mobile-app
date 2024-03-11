@@ -1,11 +1,11 @@
-import LottieView, { type AnimatedLottieViewProps } from 'lottie-react-native';
+import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 import tw from 'twrnc';
 import ScrollDownEasey from '@/assets/animations/lottieflow/scroll-down-easey.json';
 import { colouriseLottie } from '@/helpers/colors';
 
-type AnimationProps = Omit<AnimatedLottieViewProps, 'source'>;
+type AnimationProps = Omit<LottieViewProps, 'source'>;
 
 const ScrollDownAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (props, ref) => {
   const colorScheme = useColorScheme();

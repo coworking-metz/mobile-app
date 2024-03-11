@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Text, TouchableOpacity, type ViewProps } from 'react-native';
-import Animated, { type AnimateProps, type StyleProps } from 'react-native-reanimated';
+import Animated, { type AnimatedProps, type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { parseErrorText } from '@/helpers/error';
 import useNoticeStore from '@/stores/notice';
@@ -11,7 +11,7 @@ const ErrorChip = ({
   error,
   style,
   ...props
-}: AnimateProps<ViewProps> & {
+}: AnimatedProps<ViewProps> & {
   label: string;
   error?: Error;
   style?: StyleProps;

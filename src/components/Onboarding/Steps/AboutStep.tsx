@@ -46,7 +46,7 @@ const AboutStep = ({
           autoPlay={false}
           loop={false}
           progress={0}
-          style={tw`w-full`}
+          style={tw`w-full h-full`}
         />
       </View>
 

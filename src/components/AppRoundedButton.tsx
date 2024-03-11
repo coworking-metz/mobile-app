@@ -36,7 +36,7 @@ const AppRoundedButton: ForwardRefRenderFunction<
           style,
         ]}>
         {loading ? (
-          <HorizontalLoadingAnimation />
+          <HorizontalLoadingAnimation style={tw`h-full w-full`} />
         ) : (
           <>
             <View style={tw`flex flex-row items-center justify-start h-full grow shrink basis-0`}>

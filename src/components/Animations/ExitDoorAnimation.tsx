@@ -1,11 +1,11 @@
-import LottieView, { type AnimatedLottieViewProps } from 'lottie-react-native';
+import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 import tw from 'twrnc';
 import ExitDoor from '@/assets/animations/exit-door.json';
 import { colouriseLottie, theme } from '@/helpers/colors';
 
-type AnimationProps = Omit<AnimatedLottieViewProps, 'source'>;
+type AnimationProps = Omit<LottieViewProps, 'source'>;
 
 const ExitDoorAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
   { ...props },

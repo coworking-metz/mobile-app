@@ -85,7 +85,7 @@ const ServiceRow: ForwardRefRenderFunction<TouchableHighlight, ServiceRowProps> 
           <>{children}</>
           {loading ? (
             <View style={tw`relative h-12 w-12 shrink-0`}>
-              <HorizontalLoadingAnimation color={iconColor} />
+              <HorizontalLoadingAnimation color={iconColor} style={tw`h-full w-full`} />
             </View>
           ) : suffixIcon ? (
             <MaterialCommunityIcons

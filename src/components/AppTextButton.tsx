@@ -32,7 +32,7 @@ const AppTextButton: ForwardRefRenderFunction<typeof AppTouchableScale, AppTextB
       style={[tw`min-h-14 px-6`, style]}
       onPress={onPress}>
       {loading ? (
-        <HorizontalLoadingAnimation />
+        <HorizontalLoadingAnimation style={tw`h-full w-full`} />
       ) : (
         <>
           <View style={tw`flex flex-row items-center justify-start h-full grow shrink basis-0`}>

@@ -42,7 +42,7 @@ const ServicesStep = ({
           loop
           autoPlay={false}
           progress={0.5}
-          style={tw`w-[320px]`}
+          style={tw`w-[320px] h-full`}
         />
       </View>
       <View

@@ -1,4 +1,4 @@
-import LottieView, { type AnimatedLottieViewProps } from 'lottie-react-native';
+import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
 import { useColorScheme } from 'react-native';
 import tw from 'twrnc';
@@ -7,7 +7,7 @@ import MembershipFormTicked from '@/assets/animations/membership-form-ticked.jso
 import MembershipForm from '@/assets/animations/membership-form.json';
 import { colouriseLottie, theme } from '@/helpers/colors';
 
-type AnimationProps = Omit<AnimatedLottieViewProps, 'source'> & {
+type AnimationProps = Omit<LottieViewProps, 'source'> & {
   valid?: boolean;
   active?: boolean;
 };
