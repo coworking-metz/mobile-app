@@ -79,7 +79,7 @@ const SubscriptionBottomSheet = ({
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <View style={tw`mx-6`}>
-        <CalendarAnimation style={tw`w-full max-h-40 mx-auto`} />
+        <CalendarAnimation style={tw`w-full h-40 mx-auto`} />
       </View>
       {sortedSubscriptions.length ? (
         <>

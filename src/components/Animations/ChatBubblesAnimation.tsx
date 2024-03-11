@@ -1,11 +1,11 @@
-import LottieView, { type AnimatedLottieViewProps } from 'lottie-react-native';
+import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 import tw from 'twrnc';
 import ChatBubbles from '@/assets/animations/chat-bubbles.json';
 import { colouriseLottie, theme } from '@/helpers/colors';
 
-type AnimationProps = Omit<AnimatedLottieViewProps, 'source'>;
+type AnimationProps = Omit<LottieViewProps, 'source'>;
 
 const ChatBubblesAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
   { ...props },

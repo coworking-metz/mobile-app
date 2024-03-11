@@ -1,10 +1,10 @@
-import LottieView, { type AnimatedLottieViewProps } from 'lottie-react-native';
+import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import tw from 'twrnc';
 import WelcomingSquare from '@/assets/animations/welcoming-square.json';
 import { colouriseLottie, theme } from '@/helpers/colors';
 
-type AnimationProps = Omit<AnimatedLottieViewProps, 'source'> & { color?: string };
+type AnimationProps = Omit<LottieViewProps, 'source'> & { color?: string };
 
 const WelcomeAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
   { color, ...props },

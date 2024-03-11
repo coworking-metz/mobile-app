@@ -1,6 +1,13 @@
 import { useGlobalSearchParams, useRootNavigation, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { createContext, useCallback, useContext, useLayoutEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
@@ -61,7 +68,7 @@ const useProtectedRoute = (
     return Promise.resolve(true);
   }, [authStore, segments, refreshToken]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!rootNavigation?.isReady()) return;
 
     authLogger.debug('Path or tokens have changed', {
@@ -104,20 +111,21 @@ const useProtectedRoute = (
         }
       })
       .finally(() => {
-        authLogger.debug('Does user has already onboard?', { hasOnboard, segments });
-        if (!hasOnboard) {
-          router.push('(public)/onboarding');
-        }
         setReady(true);
       });
   }, [refreshToken, rootNavigation, segments, queryRefreshToken, queryAccessToken]);
 
   useLayoutEffect(() => {
     if (ready) {
+      authLogger.debug('Does user has already onboard?', { hasOnboard });
+      if (!hasOnboard) {
+        router.push('(public)/onboarding');
+      }
+
       authLogger.debug('Hiding splash screen');
       SplashScreen.hideAsync();
     }
-  }, [ready]);
+  }, [ready, hasOnboard]);
 };
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {

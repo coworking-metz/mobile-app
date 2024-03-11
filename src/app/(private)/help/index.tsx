@@ -188,7 +188,7 @@ const Help = () => {
           style={tw`flex items-center justify-center grow`}>
           <VerticalLoadingAnimation
             color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-            style={tw`h-16`}
+            style={tw`h-16 w-16`}
           />
         </Animated.View>
       ) : search && !filteredHelpItems.length ? (

@@ -3,7 +3,7 @@ import React, { useState, type ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View, type ViewProps } from 'react-native';
 import ReadMore from 'react-native-read-more-text';
-import Animated, { type AnimateProps, type StyleProps } from 'react-native-reanimated';
+import Animated, { type AnimatedProps, type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { parseErrorText } from '@/helpers/error';
 
@@ -13,7 +13,7 @@ const ErrorState = ({
   style,
   children,
   ...props
-}: AnimateProps<ViewProps> & {
+}: AnimatedProps<ViewProps> & {
   title: string;
   error?: Error;
   style?: StyleProps | false;
@@ -33,7 +33,7 @@ const ErrorState = ({
 
   return (
     <Animated.View style={[tw`flex flex-row gap-3 items-start`, style]} {...props}>
-      <ErrorAnimation style={tw`h-12`} />
+      <ErrorAnimation style={tw`h-12 w-full`} />
       <View style={tw`flex flex-col items-start shrink`}>
         <Text style={tw`text-xl font-semibold tracking-tight text-slate-900 dark:text-gray-200`}>
           {title}

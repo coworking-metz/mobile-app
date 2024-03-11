@@ -101,8 +101,9 @@ export default function Login() {
           },
         ]}
         style={tw`flex flex-col grow shrink bg-gray-100 dark:bg-black`}>
-        <View style={tw`flex flex-col justify-end self-center shrink grow basis-0`}>
-          <WelcomeAnimation style={tw`w-full max-w-[256px] max-h-[256px]`} />
+        <View
+          style={tw`flex flex-col justify-end self-center shrink grow basis-0 w-full max-w-[256px] max-h-[256px]`}>
+          <WelcomeAnimation style={tw`w-full h-full`} />
         </View>
         <View style={tw`flex flex-col px-6 shrink grow basis-0`}>
           <Text style={tw`text-lg font-semibold text-slate-500 dark:text-slate-400`}>

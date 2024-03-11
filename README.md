@@ -67,6 +67,10 @@ adb install build-*.apk
 ## Deploy
 
 Everything is done through [Expo Application Services](https://docs.expo.dev/guides/overview/).
+You can install it locally by doing:
+```bash
+npm i -g eas
+```
 
 ### Build for staging
 

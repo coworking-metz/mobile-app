@@ -1,11 +1,11 @@
-import LottieView, { type AnimatedLottieViewProps } from 'lottie-react-native';
+import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 import tw from 'twrnc';
 import UnlockSuccess from '@/assets/animations/unlock-success.json';
 import { colouriseLottie } from '@/helpers/colors';
 
-type AnimationProps = Omit<AnimatedLottieViewProps, 'source'> & { color?: string };
+type AnimationProps = Omit<LottieViewProps, 'source'> & { color?: string };
 
 const UnlockAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
   { color, ...props },

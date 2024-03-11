@@ -67,12 +67,7 @@ const UnlockDeckDoorBottomSheet = ({
       style={style}
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
-      <UnlockAnimation
-        ref={animation}
-        autoPlay={false}
-        loop={false}
-        style={tw`w-full max-h-[144px]`}
-      />
+      <UnlockAnimation ref={animation} autoPlay={false} loop={false} style={tw`w-full h-[144px]`} />
       <Text
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.door.label')}

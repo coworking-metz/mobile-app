@@ -21,17 +21,17 @@ const NoticeBottomSheet = () => {
   const getAnimation = (type?: NoticeType) => {
     switch (type) {
       case 'loading':
-        return <HorizontalLoadingAnimation />;
+        return <HorizontalLoadingAnimation style={tw`h-full w-full`} />;
       case 'error':
-        return <ErrorAnimation />;
+        return <ErrorAnimation style={tw`h-full w-full`} />;
       case 'warning':
-        return <WarningAnimation />;
+        return <WarningAnimation style={tw`h-full w-full`} />;
       case 'success':
-        return <SuccessAnimation />;
+        return <SuccessAnimation style={tw`h-full w-full`} />;
       case 'info':
-        return <InfoAnimation />;
+        return <InfoAnimation style={tw`h-full w-full`} />;
       case 'unlock':
-        return <UnlockAnimation />;
+        return <UnlockAnimation style={tw`h-full w-full`} />;
       default:
         return <></>;
     }

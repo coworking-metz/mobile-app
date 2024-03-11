@@ -130,7 +130,7 @@ const PresenceGraph = ({
     <View style={tw`flex flex-row items-center justify-center min-h-[${HEIGHT_IN_PIXELS}px]`}>
       <VerticalLoadingAnimation
         color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-        style={tw`h-16`}
+        style={tw`h-16 w-16`}
       />
     </View>
   ) : (

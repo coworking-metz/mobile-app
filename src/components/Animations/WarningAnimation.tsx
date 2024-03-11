@@ -1,10 +1,10 @@
-import LottieView, { type AnimatedLottieViewProps } from 'lottie-react-native';
+import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { type ForwardRefRenderFunction, useMemo } from 'react';
 import tw from 'twrnc';
 import SystemOutlineWarningIntro from '@/assets/animations/lordicon/system-outline-warning-intro.json';
 import { colouriseLottie } from '@/helpers/colors';
 
-type AnimationProps = Omit<AnimatedLottieViewProps, 'source'> & { color?: string };
+type AnimationProps = Omit<LottieViewProps, 'source'> & { color?: string };
 
 const WarningAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
   { color, ...props },

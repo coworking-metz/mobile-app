@@ -8,6 +8,7 @@ import floorPlanDay from '@/assets/images/floorplan-day.png';
 import floorPlanNight from '@/assets/images/floorplan-night.png';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
 import ErrorChip from '@/components/ErrorChip';
+import ActionableFan from '@/components/OnPremise/ActionableFan';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
 import ActionableIcon from '@/components/OnPremise/ActionbleIcon';
 import PhoneBoothBottomSheet from '@/components/OnPremise/PhoneBoothBottomSheet';
@@ -78,7 +79,7 @@ const OnPremise = () => {
           {!hasFloorplanLoaded ? (
             <VerticalLoadingAnimation
               color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-              style={tw`absolute h-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full`}
+              style={tw`absolute h-16 w-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full`}
             />
           ) : (
             <>
@@ -104,8 +105,8 @@ const OnPremise = () => {
               />
 
               {/* Fans */}
-              {/* <ActionableFan active id="1" style={tw`top-[16%] left-[5%]`} />
-              <ActionableFan id="2" style={tw`top-[43%] left-[5%]`} /> */}
+              {/* <ActionableFan active id="1" style={tw`top-[19%] left-[11%]`} />
+              <ActionableFan id="2" style={tw`top-[46%] left-[11%]`} /> */}
 
               {/* TV */}
               {/* <ActionableIcon

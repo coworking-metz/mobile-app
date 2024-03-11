@@ -127,7 +127,7 @@ const PhoneBoothBottomSheet = ({
         <CallingWithLaptopAnimation
           autoPlay
           loop={false}
-          style={tw`w-full max-h-[224px] self-center`}
+          style={tw`w-full h-[224px] self-center`}
         />
         <Text
           style={tw`text-center self-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
@@ -219,7 +219,7 @@ const PhoneBoothBottomSheet = ({
         {occupationPerBooth && isFetchingOccupation ? (
           <HorizontalLoadingAnimation
             color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-            style={tw`ml-auto h-6`}
+            style={tw`ml-auto h-6 w-6`}
           />
         ) : occupationError && !isSilentError(occupationError) ? (
           <ErrorChip error={occupationError} label={t('onPremise.phoneBooths.onFetch.fail')} />
@@ -235,7 +235,7 @@ const PhoneBoothBottomSheet = ({
           <View style={tw`flex flex-row items-center justify-center min-h-40`}>
             <VerticalLoadingAnimation
               color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-              style={tw`h-16`}
+              style={tw`h-16 w-16`}
             />
           </View>
         ) : carouselWidth ? (

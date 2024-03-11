@@ -171,18 +171,19 @@ const OpenParkingCard = ({
           },
         ]}>
         <View style={[tw`relative h-8 w-8 shrink-0`]}>
-          {isLoading && (
-            <HorizontalLoadingAnimation
-              color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-            />
-          )}
           <BarrierAnimation
             ref={animation}
             autoPlay={false}
             loop={false}
             progress={0.133}
-            style={isLoading && { opacity: 0 }}
+            style={[tw`h-full w-full`, isLoading && { opacity: 0 }]}
           />
+          {isLoading && (
+            <HorizontalLoadingAnimation
+              color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
+              style={tw`h-full w-full`}
+            />
+          )}
         </View>
       </Animated.View>
       <Animated.View style={tw`flex flex-col z-20 w-full grow shrink ml-4`}>

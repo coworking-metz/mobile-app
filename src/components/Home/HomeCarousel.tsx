@@ -1,13 +1,13 @@
 import React, { type ReactNode } from 'react';
 import { type LayoutChangeEvent, View, type ViewProps } from 'react-native';
-import Animated, { type AnimateProps } from 'react-native-reanimated';
+import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
 
 const HomeCarousel = ({
   elements,
   ...props
-}: AnimateProps<ViewProps> & { elements: ReactNode[] }) => {
+}: AnimatedProps<ViewProps> & { elements: ReactNode[] }) => {
   const [carouselWidth, setCarouselWidth] = React.useState<number>(0);
 
   return (

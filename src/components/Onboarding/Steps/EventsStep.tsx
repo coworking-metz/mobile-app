@@ -46,10 +46,13 @@ const EventsStep = ({ active, containerHeight }: { active: boolean; containerHei
           autoPlay={false}
           loop={false}
           speed={speed}
-          style={{
-            width: 640,
-            marginBottom: -64,
-          }}
+          style={[
+            tw`h-full`,
+            {
+              width: 640,
+              marginBottom: -64,
+            },
+          ]}
           onAnimationFinish={onAnimationFinish}
         />
       </View>

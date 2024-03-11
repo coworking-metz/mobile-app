@@ -1,4 +1,5 @@
-import TouchableScale, { type TouchableScaleProps } from '@jonny/touchable-scale';
+import { type TouchableScaleProps } from '@jonny/touchable-scale';
+import TouchableScale from '@jonny/touchable-scale';
 import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
 import React, { forwardRef, useCallback, type ForwardRefRenderFunction } from 'react';
 import { Platform } from 'react-native';

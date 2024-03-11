@@ -16,7 +16,7 @@ const PullToRefreshHint = ({ style }: { style?: StyleProps }) => {
 
   return (
     <View style={[tw`flex flex-col items-center gap-1`, style]}>
-      <ScrollDownAnimation style={tw`h-6`} />
+      <ScrollDownAnimation style={tw`h-6 w-full`} />
       <Animated.Text style={tw`text-xs font-extralight text-slate-500 dark:text-slate-400`}>
         {t('home.refresh.hint')}
       </Animated.Text>

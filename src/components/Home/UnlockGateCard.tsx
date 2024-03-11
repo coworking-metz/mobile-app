@@ -176,6 +176,7 @@ const UnlockCard = ({
             {isLoading && (
               <HorizontalLoadingAnimation
                 color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
+                style={tw`h-full w-full`}
               />
             )}
             <LockUnlockAnimation
@@ -183,7 +184,7 @@ const UnlockCard = ({
               autoPlay={false}
               color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
               loop={false}
-              style={isLoading && { opacity: 0 }}
+              style={[tw`h-full w-full`, isLoading && { opacity: 0 }]}
             />
           </View>
         </Animated.View>

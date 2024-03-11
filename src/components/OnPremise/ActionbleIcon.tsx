@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import Animated, { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
@@ -31,7 +31,7 @@ const ActionableIcon = ({
     <AppBlurView
       intensity={8}
       style={[
-        tw`absolute z-10 h-12 w-12 rounded-full p-2 overflow-hidden`,
+        tw`absolute z-10 h-12 w-12 flex items-center justify-center rounded-full overflow-hidden`,
         { transform: [{ translateX: -24 }, { translateY: -24 }] }, // to properly center the button
         active
           ? { backgroundColor: theme.meatBrown }
@@ -40,11 +40,6 @@ const ActionableIcon = ({
       ]}
       tint={tw.prefixMatch('dark') ? 'dark' : 'light'}>
       <TouchableOpacity disabled={disabled} onPress={onPress}>
-        {loading && (
-          <HorizontalLoadingAnimation
-            color={!active && tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-          />
-        )}
         <Animated.View style={iconStyle}>
           <MaterialCommunityIcons
             backgroundColor="transparent"
@@ -57,6 +52,13 @@ const ActionableIcon = ({
             underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
           />
         </Animated.View>
+
+        {loading && (
+          <HorizontalLoadingAnimation
+            color={!active && tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
+            style={tw`absolute w-10 h-10 -m-1`}
+          />
+        )}
       </TouchableOpacity>
     </AppBlurView>
   );
