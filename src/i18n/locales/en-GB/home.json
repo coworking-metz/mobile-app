@@ -78,7 +78,7 @@
       },
       "label": "Membership Card",
       "renew": "Renew for {{year}}",
-      "required": "Without this subscription, you will not be able to access the shared office location.",
+      "required": "Without this membership, you will not be able to access the shared office location.",
       "status": {
         "invalid": "Last membership in {{year}}",
         "label": "Membership",
