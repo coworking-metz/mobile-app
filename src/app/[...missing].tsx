@@ -1,5 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
@@ -7,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
+import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 import { theme } from '@/helpers/colors';
 
 const MissingScreen = () => {
@@ -14,6 +16,8 @@ const MissingScreen = () => {
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const router = useRouter();
+  const [isContacting, setContacting] = useState(false);
+
   return (
     <View
       style={[
@@ -41,12 +45,11 @@ const MissingScreen = () => {
       <View style={tw`flex flex-col items-center justify-end px-4 grow basis-0`}>
         <TumbleweedRollingAnimation style={tw`h-56 w-full max-w-xs`} />
       </View>
-      <View
-        style={tw`flex flex-col items-center justify-start px-4 gap-2 grow basis-0 max-w-sm mx-auto`}>
+      <View style={tw`flex flex-col justify-start px-4 gap-2 grow basis-0 max-w-sm`}>
         <Animated.Text
           entering={FadeInLeft.duration(500)}
           numberOfLines={1}
-          style={tw`text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+          style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('notFound.title')}
         </Animated.Text>
         <Animated.Text
@@ -56,12 +59,12 @@ const MissingScreen = () => {
           {t('notFound.description')}
         </Animated.Text>
 
-        <Link asChild href="/">
-          <AppRoundedButton style={tw`mt-4 mx-2 h-14 self-stretch`}>
-            <Text style={tw`text-base font-medium`}>{t('notFound.help')}</Text>
-          </AppRoundedButton>
-        </Link>
+        <AppRoundedButton style={tw`mt-4 mx-2 h-14`} onPress={() => setContacting(true)}>
+          <Text style={tw`text-base font-medium`}>{t('notFound.help')}</Text>
+        </AppRoundedButton>
       </View>
+
+      {isContacting && <ContactBottomSheet onClose={() => setContacting(false)} />}
     </View>
   );
 };
