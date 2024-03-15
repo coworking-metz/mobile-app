@@ -39,7 +39,7 @@ const MembershipBottomSheet = ({
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <View style={tw`flex flex-col w-full justify-between p-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-          <MembershipFormAnimation active={active} style={tw`h-56 w-full`} valid={valid} />
+          <MembershipFormAnimation active={active && valid} style={tw`h-56 w-full`} valid={valid} />
         </View>
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
@@ -103,7 +103,7 @@ const MembershipBottomSheet = ({
           ) : (
             <Text
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
-              {active
+              {active && valid
                 ? t('home.profile.membership.grade.active.label')
                 : valid
                   ? t('home.profile.membership.grade.standard.label')
