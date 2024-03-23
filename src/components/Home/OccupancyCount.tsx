@@ -14,7 +14,8 @@ import { buildMemberPictureUrl, type ApiMemberProfile } from '@/services/api/mem
 
 const MAX_MEMBERS_PICTURES = 4;
 
-const PHOTO_BOARD_URL = process.env.EXPO_PUBLIC_PHOTO_BOARD_URL || '';
+const PHOTO_BOARD_URL =
+  process.env.EXPO_PUBLIC_PHOTO_BOARD_URL || 'https://trombinoscope.coworking-metz.fr/';
 
 const OccupancyCount = ({
   members = [],
@@ -83,7 +84,7 @@ const OccupancyCount = ({
         </Text>
       </View>
 
-      <View style={tw`flex flex-row justify-between items-center min-h-8`}>
+      <View style={tw`flex flex-row justify-between items-center min-h-8 gap-2`}>
         {loading ? (
           <Skeleton
             backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}

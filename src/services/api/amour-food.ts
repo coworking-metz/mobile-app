@@ -8,8 +8,8 @@ import { log } from '@/helpers/logger';
 const amourFoodHttpLogger = log.extend(`[http]`);
 
 const amourFoodHttpInstance = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_AMOUR_FOOD_API_BASE_URL,
-  timeout: Number.parseInt(process.env.EXPO_PUBLIC_TIMEOUT_IN_MS || '0', 10) || 10000,
+  baseURL: process.env.EXPO_PUBLIC_AMOUR_FOOD_API_BASE_URL || 'https://lamourfood.fr/wp-json/',
+  timeout: Number.parseInt(process.env.EXPO_PUBLIC_TIMEOUT_IN_MS || '0', 10) || 10_000,
   headers: {
     'X-CLIENT': 'COWORKING_MOBILE',
     'X-APP-VERSION': appVersion,

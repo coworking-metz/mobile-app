@@ -1,4 +1,5 @@
 import { version as appVersion } from '../../../package.json';
+import { API_BASE_URL } from '../http';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import useSettingsStore from '@/stores/settings';
@@ -24,7 +25,7 @@ export type ApiUser = {
 };
 
 export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiTokens> => {
-  const apiBaseUrl = useSettingsStore.getState().apiBaseUrl || process.env.EXPO_PUBLIC_API_BASE_URL;
+  const apiBaseUrl = useSettingsStore.getState().apiBaseUrl || API_BASE_URL;
   // refreshing tokens should have its own axios config
   // and should not be cancelled
   return axios
