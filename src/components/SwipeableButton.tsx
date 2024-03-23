@@ -247,7 +247,7 @@ const SwipeableButton = ({
               <AnimatedMaterialCommunityIcons
                 animatedProps={handleIconAnimatedProps}
                 name={hasSwiped ? 'restart' : 'chevron-right'}
-                size={28}
+                size={32}
                 style={[tw`shrink-0`]}
               />
             )}

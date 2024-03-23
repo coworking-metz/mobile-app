@@ -34,7 +34,13 @@
       "@vonovak/react-native-theme-control",
       "expo-localization",
       "expo-router",
-      "sentry-expo"
+      [
+        "@sentry/react-native/expo",
+        {
+          "organization": "coworking-metz",
+          "project": "mobile"
+        }
+      ]
     ],
     "runtimeVersion": {
       "policy": "sdkVersion"

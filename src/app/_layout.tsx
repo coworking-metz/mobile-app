@@ -1,8 +1,9 @@
+import * as Sentry from '@sentry/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as NavigationBar from 'expo-navigation-bar';
-import { Stack } from 'expo-router';
+import { Stack, useNavigationContainerRef } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -14,6 +15,7 @@ import { I18nProvider } from '@/context/i18n';
 import '@/i18n';
 import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
+import { routingInstrumentation } from '@/services/sentry';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -35,9 +37,18 @@ const RootLayout = () => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
 
+  // Capture the NavigationContainer ref and register it with the instrumentation.
+  const ref = useNavigationContainerRef();
+
   useLayoutEffect(() => {
     createHttpInterceptors(HTTP);
   }, []);
+
+  useEffect(() => {
+    if (ref) {
+      routingInstrumentation.registerNavigationContainer(ref);
+    }
+  }, [ref]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -143,4 +154,4 @@ const RootLayout = () => {
   );
 };
 
-export default RootLayout;
+export default Sentry.wrap(RootLayout);

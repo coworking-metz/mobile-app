@@ -9,12 +9,12 @@ import tw from 'twrnc';
 
 const IS_RUNNING_IN_EXPO_GO = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
 
-type ThemePreference = 'light' | 'dark' | 'auto';
+type ThemePreference = 'light' | 'dark' | 'system';
 let setThemePreference: (theme: ThemePreference) => void;
-let useThemePreference: () => 'light' | 'dark' | 'auto';
+let useThemePreference: () => 'light' | 'dark' | 'system';
 if (IS_RUNNING_IN_EXPO_GO) {
   setThemePreference = () => null;
-  useThemePreference = () => 'auto';
+  useThemePreference = () => 'system';
 } else {
   setThemePreference = require('@vonovak/react-native-theme-control').setThemePreference; // eslint-disable-line @typescript-eslint/no-var-requires
   useThemePreference = require('@vonovak/react-native-theme-control').useThemePreference; // eslint-disable-line @typescript-eslint/no-var-requires
@@ -23,9 +23,9 @@ if (IS_RUNNING_IN_EXPO_GO) {
 const ThemeOptions = () => {
   const { t } = useTranslation();
   const supportedThemes: { label: string; code: ThemePreference }[] = [
-    { label: t('settings.general.theme.value.auto'), code: 'auto' },
-    { label: t('settings.general.theme.value.light'), code: 'light' },
-    { label: t('settings.general.theme.value.dark'), code: 'dark' },
+    { label: t('settings.general.theme.options.system'), code: 'system' },
+    { label: t('settings.general.theme.options.light'), code: 'light' },
+    { label: t('settings.general.theme.options.dark'), code: 'dark' },
   ];
   const currentTheme = useColorScheme();
   const chosenTheme = useThemePreference();
@@ -47,7 +47,7 @@ const ThemeOptions = () => {
       {supportedThemes.map((theme) => (
         <ServiceRow
           description={
-            theme.code === 'auto' && chosenTheme === 'auto'
+            theme.code === 'system' && chosenTheme === 'system'
               ? t(`settings.general.theme.value.${currentTheme}`)
               : ''
           }

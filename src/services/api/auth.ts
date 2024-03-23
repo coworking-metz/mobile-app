@@ -9,7 +9,7 @@ interface ApiTokens {
 }
 
 export type ApiUserRole = 'admin' | 'coworker' | 'guest' | 'external';
-export type ApiUserCapability = 'UNLOCK_GATE' | 'PARKING_ACCESS';
+export type ApiUserCapability = 'UNLOCK_GATE' | 'PARKING_ACCESS' | 'UNLOCK_DECK_DOOR';
 
 export type ApiUser = {
   id?: string;
