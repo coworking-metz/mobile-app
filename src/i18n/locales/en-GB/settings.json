@@ -12,8 +12,12 @@
     },
     "theme": {
       "label": "Theme",
+      "options": {
+        "dark": "Always dark",
+        "light": "Always light",
+        "system": "Follow system"
+      },
       "value": {
-        "auto": "Auto",
         "dark": "Dark",
         "light": "Light"
       }

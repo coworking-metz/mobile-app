@@ -2,6 +2,7 @@ import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation
 import LockUnlockAnimation from '../Animations/LockUnlockAnimation';
 import AppTouchableScale from '../AppTouchableScale';
 import ReanimatedText from '../ReanimatedText';
+import * as Sentry from '@sentry/react-native';
 import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
@@ -20,7 +21,6 @@ import Animated, {
   withTiming,
   type StyleProps,
 } from 'react-native-reanimated';
-import * as Sentry from 'sentry-expo';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import { theme } from '@/helpers/colors';
@@ -106,7 +106,7 @@ const UnlockCard = ({
         WARN_ON_SUCCESSIVE_TAPS_PERIOD_IN_MS;
 
       if (isTappingSuccessively) {
-        Sentry.Native.captureMessage('Tapping successively on unlock gate card', {
+        Sentry.captureMessage('Tapping successively on unlock gate card', {
           level: 'warning',
         });
         setLastWarning(new Date().toISOString());

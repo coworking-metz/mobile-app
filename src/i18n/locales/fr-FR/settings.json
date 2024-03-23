@@ -12,8 +12,12 @@
     },
     "theme": {
       "label": "Thème",
+      "options": {
+        "dark": "Toujours clair",
+        "light": "Toujours sombre",
+        "system": "Suivre le système"
+      },
       "value": {
-        "auto": "Automatique",
         "dark": "Sombre",
         "light": "Clair"
       }

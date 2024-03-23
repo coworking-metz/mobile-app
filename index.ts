@@ -1,7 +1,4 @@
-import * as Sentry from 'sentry-expo';
 import 'expo-router/entry';
+import { initSentry } from '@/services/sentry';
 
-Sentry.init({
-  dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
-  enableInExpoDevelopment: false,
-});
+initSentry();
