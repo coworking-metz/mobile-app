@@ -218,11 +218,9 @@ const Settings = () => {
               },
             ]}>
             <View style={tw`flex flex-row gap-2 justify-between items-center min-h-6 mx-6`}>
-              <Animated.Text
-                entering={FadeInLeft.duration(300).delay(150)}
-                style={tw`text-sm font-normal uppercase text-slate-500`}>
+              <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
                 {t('settings.profile.presence.title')}
-              </Animated.Text>
+              </Text>
               {activityError && !isSilentError(activityError) ? (
                 <ErrorChip
                   error={activityError}
@@ -256,11 +254,9 @@ const Settings = () => {
               onDateSelect={onDateSelect}
             />
 
-            <Animated.Text
-              entering={FadeInLeft.duration(300).delay(150)}
-              style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
+            <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.general.title')}
-            </Animated.Text>
+            </Text>
             {IS_DEV ? (
               <Link asChild href="/advanced/">
                 <ServiceRow
@@ -302,11 +298,9 @@ const Settings = () => {
             </ServiceRow>
             <ThemePicker style={tw`px-3 mx-3`} onPress={() => setPickingTheme(true)} />
 
-            <Animated.Text
-              entering={FadeInLeft.duration(300).delay(150)}
-              style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
+            <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.support.title')}
-            </Animated.Text>
+            </Text>
             <Link asChild href="https://www.coworking-metz.fr/mon-compte/">
               <ServiceRow
                 withBottomDivider

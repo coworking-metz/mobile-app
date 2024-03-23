@@ -9,6 +9,8 @@ const I18nContext = createContext<{
   ready: boolean;
 }>({ language: null, ready: false });
 
+const DEFAULT_LANGUAGE = process.env.EXPO_PUBLIC_DEFAULT_LANGUAGE || 'fr';
+
 export const useAppI18n = () => {
   return useContext(I18nContext);
 };
@@ -19,9 +21,7 @@ const useChosenLanguange = (language: string | null, setReady: (ready: boolean) 
   useEffect(() => {
     const chosenLanguage = !language || language === SYSTEM_OPTION ? SYSTEM_LANGUAGE : language;
     const isLanguageSupported = Object.keys(i18n.options.resources || {}).includes(chosenLanguage);
-    const appliedLanguage = isLanguageSupported
-      ? chosenLanguage
-      : process.env.EXPO_PUBLIC_DEFAULT_LANGUAGE;
+    const appliedLanguage = isLanguageSupported ? chosenLanguage : DEFAULT_LANGUAGE;
     i18n.changeLanguage(appliedLanguage);
     dayjs.locale(appliedLanguage);
     setReady(true);

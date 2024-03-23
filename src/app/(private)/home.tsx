@@ -275,7 +275,7 @@ export default function HomeScreen({}) {
 
         <Animated.View
           entering={FadeInRight.duration(750).delay(600)}
-          style={tw`flex flex-row justify-between w-full mt-12 mb-3 px-4`}>
+          style={tw`flex flex-row justify-between w-full gap-2 mt-12 mb-3 px-4`}>
           <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
             {t('home.calendar.label')}
           </Text>
