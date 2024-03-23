@@ -101,60 +101,64 @@ export default function Login() {
           },
         ]}
         style={tw`flex flex-col grow shrink bg-gray-100 dark:bg-black`}>
-        <View
-          style={tw`flex flex-col justify-end self-center shrink grow basis-0 w-full max-w-[256px] max-h-[256px]`}>
-          <WelcomeAnimation style={tw`w-full h-full`} />
-        </View>
-        <View style={tw`flex flex-col px-6 shrink grow basis-0`}>
-          <Text style={tw`text-lg font-semibold text-slate-500 dark:text-slate-400`}>
-            {t('auth.login.headline')}
-          </Text>
-          <Text
-            style={tw`mb-4 text-3xl tracking-tight text-slate-900 dark:text-gray-200 font-bold`}>
-            {t('auth.login.title')}
-          </Text>
+        <View style={tw`flex flex-col justify-end shrink grow basis-0 w-full`}>
+          <WelcomeAnimation style={tw`self-center w-full max-w-[256px] h-256px`} />
 
+          <View style={tw`flex flex-col px-6`}>
+            <Text style={tw`text-lg font-semibold text-slate-500 dark:text-slate-400`}>
+              {t('auth.login.headline')}
+            </Text>
+            <Text
+              style={tw`mb-4 text-3xl tracking-tight text-slate-900 dark:text-gray-200 font-bold`}>
+              {t('auth.login.title')}
+            </Text>
+          </View>
+        </View>
+
+        <View style={tw`flex flex-col shrink grow basis-0 w-full`}>
           <AppRoundedButton
             disabled={isLoading}
             loading={isLoading}
-            style={tw`mt-4 mx-2`}
+            style={tw`mt-4 mx-6`}
             onPress={onSubmit}>
             <Text style={tw`text-base text-black font-medium`}>{t('actions.login')}</Text>
           </AppRoundedButton>
           <Link asChild href="/onboarding">
-            <AppTextButton style={tw`mt-4 mx-2`}>
+            <AppTextButton style={tw`mt-4 mx-6`}>
               <Text style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
                 {t('auth.login.onboarding')}
               </Text>
             </AppTextButton>
           </Link>
-        </View>
 
-        <View style={tw`flex flex-col mt-auto pt-3`}>
-          {IS_DEV ? (
-            <Link asChild href="/advanced/">
-              <ServiceRow
-                withBottomDivider
-                label={t('advanced.title')}
-                prefixIcon="cog-outline"
-                style={tw`px-3 mx-3`}
-                suffixIcon="chevron-right">
-                <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
-                  <Text style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>DEV</Text>
-                </View>
-              </ServiceRow>
-            </Link>
-          ) : (
-            <></>
-          )}
-          <ServiceRow
-            withBottomDivider
-            label={t('settings.support.contact.title')}
-            prefixIcon="help-circle-outline"
-            style={tw`px-3 mx-3`}
-            suffixIcon="chevron-right"
-            onPress={() => setContacting(true)}
-          />
+          <View style={tw`flex flex-col mt-auto pt-3`}>
+            {IS_DEV ? (
+              <Link asChild href="/advanced/">
+                <ServiceRow
+                  withBottomDivider
+                  label={t('advanced.title')}
+                  prefixIcon="cog-outline"
+                  style={tw`px-3 mx-3`}
+                  suffixIcon="chevron-right">
+                  <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
+                    <Text style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
+                      DEV
+                    </Text>
+                  </View>
+                </ServiceRow>
+              </Link>
+            ) : (
+              <></>
+            )}
+            <ServiceRow
+              withBottomDivider
+              label={t('settings.support.contact.title')}
+              prefixIcon="help-circle-outline"
+              style={tw`px-3 mx-3`}
+              suffixIcon="chevron-right"
+              onPress={() => setContacting(true)}
+            />
+          </View>
 
           <AppFooter style={[tw`mx-auto self-center px-3 pb-4 mt-3`]} />
         </View>
