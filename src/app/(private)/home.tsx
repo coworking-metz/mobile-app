@@ -342,17 +342,19 @@ export default function HomeScreen({}) {
             {t('home.services.label')}
           </Animated.Text>
 
-          {user?.capabilities.includes('UNLOCK_GATE') && (
-            <Animated.View entering={FadeInUp.duration(500).delay(700)}>
-              <UnlockGateCard onSuccessiveTaps={onSuccessiveTaps} />
-            </Animated.View>
-          )}
+          <Animated.View entering={FadeInUp.duration(500).delay(700)}>
+            <UnlockGateCard
+              disabled={!user?.capabilities.includes('UNLOCK_GATE')}
+              onSuccessiveTaps={onSuccessiveTaps}
+            />
+          </Animated.View>
 
-          {user?.capabilities.includes('PARKING_ACCESS') && (
-            <Animated.View entering={FadeInUp.duration(500).delay(800)}>
-              <OpenParkingCard onSuccessiveTaps={onSuccessiveTaps} />
-            </Animated.View>
-          )}
+          <Animated.View entering={FadeInUp.duration(500).delay(800)}>
+            <OpenParkingCard
+              disabled={!user?.capabilities.includes('PARKING_ACCESS')}
+              onSuccessiveTaps={onSuccessiveTaps}
+            />
+          </Animated.View>
 
           <Animated.View
             entering={FadeInUp.duration(500).delay(900)}
