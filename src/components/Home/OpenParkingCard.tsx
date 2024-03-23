@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/react-native';
 import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
-import React, { useEffect, useRef, useState, type ReactNode } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View, type LayoutChangeEvent } from 'react-native';
 import Animated, {
@@ -34,12 +34,10 @@ const WARN_ON_SUCCESSIVE_TAPS_PERIOD_IN_MS = 20_000;
 const WARN_ON_SUCCESSIVE_TAPS_INTEVAL_IN_MS = 60_000; // wait for 60 seconds before warning again
 
 const OpenParkingCard = ({
-  children,
   disabled = false,
   style,
   onSuccessiveTaps,
 }: {
-  children?: ReactNode;
   disabled?: boolean;
   style?: StyleProps;
   onSuccessiveTaps?: () => void;
@@ -153,6 +151,7 @@ const OpenParkingCard = ({
       disabled={disabled}
       style={[
         tw`flex flex-row items-center px-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
+        disabled && tw`opacity-60`,
         style,
       ]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setCardWidth(nativeEvent.layout.width)}
@@ -187,12 +186,7 @@ const OpenParkingCard = ({
         </View>
       </Animated.View>
       <Animated.View style={tw`flex flex-col z-20 w-full grow shrink ml-4`}>
-        <Text
-          numberOfLines={1}
-          style={[
-            tw`text-xl font-medium text-slate-900 dark:text-gray-200`,
-            disabled && tw`opacity-30`,
-          ]}>
+        <Text numberOfLines={1} style={[tw`text-xl font-medium text-slate-900 dark:text-gray-200`]}>
           {isUnlocked ? t('home.parking.onUnlocked.label') : t('home.parking.label')}
         </Text>
         <View style={[tw`flex flex-row items-center gap-1`]}>
@@ -201,7 +195,6 @@ const OpenParkingCard = ({
               numberOfLines={1}
               style={[
                 tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400 grow`,
-                disabled && tw`opacity-30`,
               ]}>
               {t('home.parking.loading')}
             </Text>
@@ -211,7 +204,6 @@ const OpenParkingCard = ({
                 numberOfLines={1}
                 style={[
                   tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400`,
-                  disabled && tw`opacity-30`,
                 ]}>
                 {t('home.parking.onUnlocked.description')}
               </Text>
@@ -225,7 +217,6 @@ const OpenParkingCard = ({
               numberOfLines={1}
               style={[
                 tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400 grow`,
-                disabled && tw`opacity-30`,
               ]}>
               {t('home.parking.description')}
             </Text>

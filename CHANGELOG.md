@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Disable slide to unlock deck door when user hasn't the capability.
+- Disable slide to unlock deck door when missing capability.
+- Disable instead of hide front gate card when missing capability.
+- Disable instead of hide parking access card when missing capability.
 
 ### Fixed
 
