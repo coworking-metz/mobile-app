@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Changed
+
+- Disable slide to unlock deck door when user hasn't the capability.
 
 
 ## [1.3.0] - 2024-03-05

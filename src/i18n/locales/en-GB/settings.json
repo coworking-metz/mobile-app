@@ -15,7 +15,7 @@
       "options": {
         "dark": "Always dark",
         "light": "Always light",
-        "system": "Follow system"
+        "system": "Same as system"
       },
       "value": {
         "dark": "Dark",

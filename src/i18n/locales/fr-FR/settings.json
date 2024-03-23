@@ -15,7 +15,7 @@
       "options": {
         "dark": "Toujours clair",
         "light": "Toujours sombre",
-        "system": "Suivre le système"
+        "system": "Même que le système"
       },
       "value": {
         "dark": "Sombre",
