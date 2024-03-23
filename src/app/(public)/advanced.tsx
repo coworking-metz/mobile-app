@@ -114,9 +114,27 @@ const Advanced = () => {
       <Animated.Text
         entering={FadeInLeft.duration(300)}
         style={[tw`text-sm uppercase text-slate-500 mx-6`]}>
+        {t('advanced.services.title')}
+      </Animated.Text>
+      <ServiceRow
+        label={t('advanced.services.apiBaseUrl.label')}
+        renderDescription={() => (
+          <TextInput
+            autoCapitalize="none"
+            placeholder={HTTP.defaults.baseURL}
+            style={tw`text-slate-500 dark:text-slate-400`}
+            value={settingsStore.apiBaseUrl || ''}
+            onChangeText={settingsStore.setApiBaseUrl}
+          />
+        )}
+        style={tw`px-3 mx-3`}
+      />
+
+      <Animated.Text
+        entering={FadeInLeft.duration(300)}
+        style={[tw`text-sm uppercase text-slate-500 mx-6 mt-6`]}>
         {t('advanced.store.title')}
       </Animated.Text>
-
       <ServiceRow
         withBottomDivider
         label={t('advanced.store.onboarding.label')}
@@ -166,25 +184,6 @@ const Advanced = () => {
         style={tw`px-3 mx-3`}
         suffixIcon="nuke"
         onPress={clearEverything}
-      />
-
-      <Animated.Text
-        entering={FadeInLeft.duration(300)}
-        style={[tw`text-sm uppercase text-slate-500 mx-6 mt-6`]}>
-        {t('advanced.services.title')}
-      </Animated.Text>
-      <ServiceRow
-        label={t('advanced.services.apiBaseUrl.label')}
-        renderDescription={() => (
-          <TextInput
-            autoCapitalize="none"
-            placeholder={HTTP.defaults.baseURL}
-            style={tw`text-slate-500 dark:text-slate-400`}
-            value={settingsStore.apiBaseUrl || ''}
-            onChangeText={settingsStore.setApiBaseUrl}
-          />
-        )}
-        style={tw`px-3 mx-3`}
       />
     </ServiceLayout>
   );
