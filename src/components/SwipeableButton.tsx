@@ -160,7 +160,7 @@ const SwipeableButton = ({
         ]),
       ),
     ];
-  }, [sliding.value, swipingRange]);
+  }, [sliding.value, swipingRange, colorScheme]);
 
   const handleAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -214,6 +214,7 @@ const SwipeableButton = ({
     <View
       style={[
         tw`flex flex-row justify-center items-center min-h-18 rounded-[4rem] border-4 border-[${theme.darkVanilla}] bg-gray-200 dark:bg-neutral-800 overflow-hidden`,
+        disabled && tw`opacity-50`,
         style,
       ]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => {

@@ -1,8 +1,9 @@
 {
-  "door": {
+  "deckDoor": {
     "description": "La porte de la terrasse vous permet d'accéder directement à l'open space depuis l'extérieur.",
     "label": "Déverrouiller\nla porte de la terrasse",
     "loading": "Demande en cours...",
+    "missingCapability": "Déverrouiller la porte requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10 jours de présence.",
     "onUnlock": {
       "fail": "Impossible de déverrouiller la porte",
       "success": "C'est ouvert !"

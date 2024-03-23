@@ -1,8 +1,9 @@
 {
-  "door": {
+  "deckDoor": {
     "description": "This door directly leads to the deck, and can be opened from the exterior to enter the workspace.",
     "label": "Unlock\nthe deck door",
     "loading": "Requesting...",
+    "missingCapability": "Unlocking the door requires a little bit of seniority.\nYou will be able to do so once you have acquired 10 days of presence.",
     "onUnlock": {
       "fail": "Unable to unlock the door",
       "success": "Door is open!"
