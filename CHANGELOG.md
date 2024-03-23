@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Disable slide to unlock deck door when user hasn't the capability.
 
+### Fixed
+
+- Ability to refresh home screen even when not a member.
 
 ## [1.3.0] - 2024-03-05
 

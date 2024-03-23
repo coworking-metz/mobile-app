@@ -158,15 +158,15 @@ export default function HomeScreen({}) {
   }, [nextCalendarEvents]);
 
   const onRefresh = useCallback(() => {
-    if (user?.id) {
-      setRefreshing(true);
-      settingsStore.setLearnPullToRefresh(true);
-      Promise.all([refetchProfile(), refetchCurrentMembers(), refreshCalendarEvents()]).finally(
-        () => {
-          setRefreshing(false);
-        },
-      );
-    }
+    setRefreshing(true);
+    settingsStore.setLearnPullToRefresh(true);
+    Promise.all([
+      user?.id && refetchProfile(),
+      refetchCurrentMembers(),
+      refreshCalendarEvents(),
+    ]).finally(() => {
+      setRefreshing(false);
+    });
   }, [user, settingsStore]);
 
   const onSuccessiveTaps = useCallback(() => {

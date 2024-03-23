@@ -87,7 +87,7 @@ const MembershipBottomSheet = ({
           ) : (
             <Text
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
-              {t('home.profile.membership.activity.days', { count: activityOverLast6Months })}
+              {t('home.profile.membership.activity.days', { count: activityOverLast6Months || 0 })}
             </Text>
           )}
         </ServiceRow>
