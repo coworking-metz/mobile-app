@@ -170,12 +170,6 @@ const UnlockCard = ({
           },
         ]}>
         <View style={[tw`relative h-8 w-8 shrink-0`]}>
-          {isLoading && (
-            <HorizontalLoadingAnimation
-              color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-              style={tw`h-full w-full`}
-            />
-          )}
           <LockUnlockAnimation
             ref={animation}
             autoPlay={false}
@@ -183,6 +177,12 @@ const UnlockCard = ({
             loop={false}
             style={[tw`h-full w-full`, isLoading && { opacity: 0 }]}
           />
+          {isLoading && (
+            <HorizontalLoadingAnimation
+              color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
+              style={tw`absolute h-full w-full`}
+            />
+          )}
         </View>
       </Animated.View>
       <Animated.View style={tw`flex flex-col z-20 w-full`}>

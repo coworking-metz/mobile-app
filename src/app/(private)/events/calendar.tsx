@@ -109,6 +109,7 @@ const Calendar = () => {
   const {
     data: calendarEvents,
     isLoading: isLoadingCalendarEvents,
+    isFetching: isFetchingCalendarEvents,
     error: calendarEventsError,
   } = useQuery({
     queryKey: ['calendarEvents'],
@@ -192,7 +193,7 @@ const Calendar = () => {
             horizontal={true}
             scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
-            style={tw`w-full `}>
+            style={tw`w-full`}>
             <PeriodChip selected={selectedPeriod} onPress={() => setSelectedPeriodFilter(true)} />
             <SortChip
               selected={selectedSort}
@@ -228,7 +229,7 @@ const Calendar = () => {
                     href={`/events/${event.id}`}
                     key={`calendar-event-card-${event.id}`}>
                     <AppTouchableScale style={tw`w-full h-44`}>
-                      <CalendarEventCard event={event} />
+                      <CalendarEventCard event={event} loading={isFetchingCalendarEvents} />
                     </AppTouchableScale>
                   </Link>
                 ))}

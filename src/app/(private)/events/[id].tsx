@@ -31,18 +31,27 @@ export default function CalendarEventPage() {
   });
 
   const event = useMemo<CalendarEvent | null>(() => {
-    return (
-      (!isNil(id) && (calendarEvents || []).find((event) => `${event.id}` === `${id}`)) || null
-    );
-  }, [calendarEvents]);
+    console.log(id);
+    return (!isNil(id) && (calendarEvents || []).find((e) => `${e.id}` === `${id}`)) || null;
+  }, [calendarEvents, id]);
+
+  const firstPicture = useMemo(() => {
+    const [first] = event?.pictures || [];
+    return first;
+  }, [event]);
+
+  const firstUrl = useMemo(() => {
+    const [first] = event?.urls || [];
+    return first;
+  }, [event]);
 
   return (
-    <ModalLayout from="/events/calendar" title={event?.label || ''}>
+    <ModalLayout from="/events/calendar" title={event?.title || ''}>
       {event ? (
         <>
           <ZoombableImage
             contentFit="cover"
-            source={event.picture}
+            source={firstPicture}
             style={tw`h-44 mx-4 rounded-2xl bg-gray-200 dark:bg-gray-900`}
             transition={300}
           />
@@ -77,9 +86,9 @@ export default function CalendarEventPage() {
             </Text>
           ) : null}
 
-          {event.url ? (
+          {firstUrl ? (
             <View style={tw`mx-6 mt-auto pt-6 pb-2`}>
-              <Link asChild href={event.url}>
+              <Link asChild href={firstUrl}>
                 <AppRoundedButton style={tw`min-h-14 self-stretch`} suffixIcon="open-in-new">
                   <Text style={tw`text-base font-medium text-black`}>{t('actions.takeALook')}</Text>
                 </AppRoundedButton>

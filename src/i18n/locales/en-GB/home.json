@@ -6,7 +6,7 @@
       "label": "There's nothing planned in the near future."
     },
     "event": {
-      "date": "{{date, datetime}}"
+      "ends": "Ends {{duration}}"
     },
     "label": "Events",
     "onFetch": {

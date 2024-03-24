@@ -57,6 +57,7 @@ export default function HomeScreen({}) {
   const settingsStore = useSettingsStore();
   const insets = useSafeAreaInsets();
   const toastStore = useToastStore();
+  const [activeSince, setActiveSince] = useState(dayjs().toISOString());
 
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
@@ -101,6 +102,7 @@ export default function HomeScreen({}) {
     (nextAppState: AppStateStatus) => {
       if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
         homeLogger.debug('App has come to the foreground!');
+        setActiveSince(dayjs().toISOString());
         if (hasSelectBalance || hasSelectSubscription || hasSelectMembership) {
           refetchProfile();
         }
@@ -143,7 +145,7 @@ export default function HomeScreen({}) {
           dayjs(start).isBetween(now, tomorrow) || dayjs(end).isBetween(now, tomorrow),
       ) ?? []
     );
-  }, [calendarEvents, appState.current]);
+  }, [calendarEvents, activeSince]);
 
   const firstPeriodWithEvents: PeriodType = useMemo(() => {
     const [nextEvent] = nextCalendarEvents?.filter(({ end }) => dayjs().isBefore(end)) || [];
