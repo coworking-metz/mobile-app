@@ -84,7 +84,7 @@ const OccupancyCount = ({
         </Text>
       </View>
 
-      <View style={tw`flex flex-row justify-between items-center min-h-8 gap-2`}>
+      <View style={tw`flex flex-row items-center min-h-8 gap-2`}>
         {loading ? (
           <Skeleton
             backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
@@ -104,7 +104,7 @@ const OccupancyCount = ({
           <Animated.View
             entering={FadeInRight.duration(750).delay(150)}
             exiting={FadeOutRight.duration(500)}
-            style={tw`grow basis-0 shrink`}>
+            style={tw`grow basis-0 shrink ml-auto`}>
             <TouchableOpacity onPress={onSelectMembersPictures}>
               <View style={tw`flex flex-row-reverse items-center grow h-8 overflow-hidden`}>
                 {members.length > MAX_MEMBERS_PICTURES ? (

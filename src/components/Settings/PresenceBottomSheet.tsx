@@ -34,7 +34,7 @@ const PresenceBottomSheet = ({
       style={style}
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
-      <View style={tw`flex flex-col w-full justify-between p-6`}>
+      <View style={tw`flex flex-col w-full p-6`}>
         <Text
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {dayjs(activity.date).format('dddd LL')}
