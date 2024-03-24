@@ -55,7 +55,7 @@ const NoticeBottomSheet = () => {
     <AppBottomSheet
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
-      <View style={tw`flex flex-col items-center justify-between gap-4 p-6`}>
+      <View style={tw`flex flex-col items-center gap-4 p-6`}>
         <View style={tw`flex flex-col h-32 w-32 items-center justify-center`}>
           {getAnimation(mostRecentUndismissedNotice.type)}
         </View>

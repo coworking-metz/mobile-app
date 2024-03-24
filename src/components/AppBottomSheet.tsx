@@ -29,7 +29,7 @@ const AppBottomSheet = ({
   const snapPoints = useMemo(
     () => [
       Math.min(
-        Math.max(contentHeight + HANDLE_HEIGHT + MIN_MARGIN_BOTTOM, 320),
+        Math.max(contentHeight + HANDLE_HEIGHT + MIN_MARGIN_BOTTOM, 256),
         windowHeight - MIN_MARGIN_BOTTOM * 2 - insets.bottom - insets.top,
       ),
     ],

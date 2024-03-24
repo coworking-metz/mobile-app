@@ -74,7 +74,7 @@ const SubscriptionBottomSheet = ({
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col w-full justify-between py-4`}
+      contentContainerStyle={tw`flex flex-col w-full py-4`}
       style={style}
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>

@@ -37,7 +37,7 @@ const MembershipBottomSheet = ({
       style={style}
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
-      <View style={tw`flex flex-col w-full justify-between p-6`}>
+      <View style={tw`flex flex-col w-full p-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <MembershipFormAnimation active={active && valid} style={tw`h-56 w-full`} valid={valid} />
         </View>

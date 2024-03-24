@@ -217,7 +217,7 @@ const Settings = () => {
                 paddingRight: insets.right,
               },
             ]}>
-            <View style={tw`flex flex-row gap-2 justify-between items-center min-h-6 mx-6`}>
+            <View style={tw`flex flex-row gap-2 items-center min-h-6 mx-6`}>
               <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
                 {t('settings.profile.presence.title')}
               </Text>
@@ -233,7 +233,7 @@ const Settings = () => {
                   <Animated.View
                     entering={FadeInRight.duration(300).delay(300)}
                     style={[
-                      tw`flex flex-row items-center gap-1.5 px-2 py-1 rounded-full border-[0.5px] border-gray-300 dark:border-gray-700`,
+                      tw`ml-auto flex flex-row items-center gap-1.5 px-2 py-1 rounded-full border-[0.5px] border-gray-300 dark:border-gray-700`,
                     ]}>
                     <View style={tw`h-2 w-2 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
                     <Text

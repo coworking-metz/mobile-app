@@ -35,7 +35,7 @@ const ContactBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: 
       style={style}
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
-      <View style={tw`flex flex-col w-full justify-between pt-6 px-6 pb-4`}>
+      <View style={tw`flex flex-col w-full pt-6 px-6 pb-4`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <ChatBubblesAnimation style={tw`h-56 w-full`} />
         </View>
