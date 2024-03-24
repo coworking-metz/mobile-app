@@ -40,7 +40,12 @@ dayjs.updateLocale('fr', {
 
 dayjs.updateLocale('en', {
   calendar: {
-    sameElse: '[on] dddd MMMM D',
+    // lastDay: '[Yesterday at] LT',
+    // sameDay: '[Today at] LT',
+    // nextDay: '[Tomorrow at] LT',
+    // lastWeek: '[last] dddd [at] LT',
+    // nextWeek: '[next] dddd [at] LT',
+    sameElse: '[on] dddd MMMM D [at] LT',
   },
 });
 

@@ -1,18 +1,17 @@
-import { getAmourFoodEvents } from './amour-food';
 import { HTTP } from '../http';
 
 export interface CalendarEvent {
-  id: number;
+  id: string;
   start: string;
   end: string;
-  label: string;
+  title: string;
   description: string;
   location?: string;
-  url: string;
-  picture: string;
+  urls: string[];
+  pictures: string[];
   category: 'COWORKING' | 'AMOUR_FOOD' | 'BLIIIDA';
 }
 
 export const getCalendarEvents = (): Promise<CalendarEvent[]> => {
-  return getAmourFoodEvents();
+  return HTTP.get('/api/calendar/events').then(({ data }) => data);
 };

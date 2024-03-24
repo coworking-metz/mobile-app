@@ -173,14 +173,13 @@ const OpenParkingCard = ({
           <BarrierAnimation
             ref={animation}
             autoPlay={false}
-            loop={false}
             progress={0.133}
             style={[tw`h-full w-full`, isLoading && { opacity: 0 }]}
           />
           {isLoading && (
             <HorizontalLoadingAnimation
               color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-              style={tw`h-full w-full`}
+              style={tw`absolute h-full w-full`}
             />
           )}
         </View>
