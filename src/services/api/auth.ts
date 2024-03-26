@@ -20,6 +20,9 @@ export type ApiUser = {
   roles: ApiUserRole[];
   picture?: string;
   capabilities: ApiUserCapability[];
+  onboarding?: {
+    date: string;
+  };
   iat: number;
   exp: number;
 };
