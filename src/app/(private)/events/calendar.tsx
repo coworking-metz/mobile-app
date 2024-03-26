@@ -8,11 +8,12 @@ import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native
 import Animated, { FadeInLeft, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import AppTouchableScale from '@/components/AppTouchableScale';
+import ErrorState from '@/components/ErrorState';
 import PeriodBottomSheet, { type PeriodType } from '@/components/Events/PeriodBottomSheet';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import ModalLayout from '@/components/ModalLayout';
-import { isSilentError, useErrorNotification } from '@/helpers/error';
+import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
 interface EventsGroupedByDate {
@@ -95,7 +96,6 @@ const Calendar = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const { period } = useLocalSearchParams<{ period?: string }>();
-  const notifyError = useErrorNotification();
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>(null);
   const [hasSelectedPeriodFilter, setSelectedPeriodFilter] = useState<boolean>(false);
   const [selectedSort, setSelectedSort] = useState<SortType>('ascending');
@@ -114,14 +114,10 @@ const Calendar = () => {
   } = useQuery({
     queryKey: ['calendarEvents'],
     queryFn: getCalendarEvents,
-    initialData: [],
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchInterval: false,
   });
-
-  useEffect(() => {
-    if (calendarEventsError && !isSilentError(calendarEventsError)) {
-      notifyError(t('home.calendar.onFetch.fail'), calendarEventsError);
-    }
-  }, [calendarEventsError]);
 
   const eventsGroupedByDate = useMemo(() => {
     return (
@@ -187,7 +183,7 @@ const Calendar = () => {
   return (
     <>
       <ModalLayout title={t('events.calendar.title')}>
-        <View style={tw`mb-8`}>
+        <View style={tw`mb-4`}>
           <ScrollView
             contentContainerStyle={tw`flex flex-row items-center gap-4 px-4`}
             horizontal={true}
@@ -208,7 +204,7 @@ const Calendar = () => {
             />
           </ScrollView>
         </View>
-        <Animated.View exiting={FadeOut.duration(500)} style={tw`mx-4 flex flex-col gap-8`}>
+        <Animated.View exiting={FadeOut.duration(500)} style={tw`mt-4 mx-4 flex flex-col gap-8`}>
           {isLoadingCalendarEvents ? (
             <>
               <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`h-44`} />
@@ -235,6 +231,8 @@ const Calendar = () => {
                 ))}
               </View>
             ))
+          ) : calendarEventsError && !isSilentError(calendarEventsError) ? (
+            <ErrorState error={calendarEventsError} title={t('home.calendar.onFetch.fail')} />
           ) : (
             <CalendarEmptyState
               description={t(`events.period.options.${selectedPeriod ?? 'none'}.empty`)}
@@ -247,7 +245,7 @@ const Calendar = () => {
       {hasSelectedPeriodFilter && (
         <PeriodBottomSheet
           enableContentPanningGesture={Platform.OS !== 'ios'}
-          events={calendarEvents}
+          events={calendarEvents || []}
           selected={selectedPeriod}
           onClose={() => setSelectedPeriodFilter(false)}
           onSelect={(p) => {

@@ -35,9 +35,12 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
       switch (periodType) {
         case 'past':
           const [firstEvent] = events;
-          return t('events.period.options.past.description', {
-            date: dayjs(firstEvent.start).format('ll'),
-          });
+          if (firstEvent) {
+            return t('events.period.options.past.description', {
+              date: dayjs(firstEvent.start).format('ll'),
+            });
+          }
+          break;
         case 'day':
           return t('events.period.options.day.description', {
             date: now.format('dddd'),

@@ -285,7 +285,8 @@ export default function HomeScreen({}) {
             <ErrorChip error={calendarEventsError} label={t('home.calendar.onFetch.fail')} />
           ) : null}
           <Link asChild href="/events/calendar">
-            <Text style={tw`ml-auto text-base font-normal text-right text-amber-500 min-w-[16]`}>
+            <Text
+              style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-[16]`}>
               {t('home.calendar.browse')}
             </Text>
           </Link>

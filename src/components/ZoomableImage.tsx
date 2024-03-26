@@ -18,24 +18,27 @@ const ZoombableImage = ({
   const [height, setHeight] = useState<number | null>(null);
 
   useEffect(() => {
+    if (!source) return;
     Image.prefetch(source as string);
     RNImage.getSize(source as string, (imageWidth, imageHeight) => {
       setWidth(imageWidth);
       setHeight(imageHeight);
     });
-  }, []);
+  }, [source]);
 
   if (!width || !height) return <View style={[tw`bg-gray-200 dark:bg-gray-900`, style]} />;
 
   return (
     <>
-      <TouchableOpacity onPress={() => setSelected(true)}>
-        <Image
-          source={source}
-          style={[withAspectRatio && { aspectRatio: width / height }, style]}
-          {...props}
-        />
-      </TouchableOpacity>
+      {source && (
+        <TouchableOpacity onPress={() => setSelected(true)}>
+          <Image
+            source={source}
+            style={[withAspectRatio && { aspectRatio: width / height }, style]}
+            {...props}
+          />
+        </TouchableOpacity>
+      )}
       <Modal transparent animationType="fade" visible={isSelected}>
         <View style={tw`flex flex-col h-full w-full bg-black`}>
           <View
