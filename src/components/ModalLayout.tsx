@@ -191,11 +191,7 @@ const ModalLayout = ({
         </View>
         <Animated.View
           entering={FadeInDown.duration(300).delay(150)}
-          style={[
-            tw`grow basis-0 mb-4 text-slate-900 dark:text-gray-200 self-end`,
-            !from && tw`ml-6`,
-            titleStyle,
-          ]}>
+          style={[tw`grow basis-0 mb-4 self-end`, !from && tw`ml-6`, titleStyle]}>
           {loading ? (
             <Skeleton
               backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
@@ -206,7 +202,10 @@ const ModalLayout = ({
           ) : (
             <Animated.Text
               numberOfLines={1}
-              style={[tw`text-2xl font-semibold tracking-tight`, titleTextStyle]}>
+              style={[
+                tw`text-2xl font-semibold tracking-tight text-slate-900 dark:text-gray-200 `,
+                titleTextStyle,
+              ]}>
               {title}
             </Animated.Text>
           )}

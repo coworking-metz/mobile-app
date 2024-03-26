@@ -13,11 +13,15 @@ import {
   type AppStateStatus,
 } from 'react-native';
 import Animated, {
+  BounceIn,
   FadeIn,
   FadeInLeft,
   FadeInRight,
   FadeInUp,
   FadeOut,
+  StretchInY,
+  StretchOutY,
+  ZoomIn,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader, ToastPresets } from 'react-native-ui-lib';
@@ -25,6 +29,7 @@ import tw, { useDeviceContext } from 'twrnc';
 import AppTouchableScale from '@/components/AppTouchableScale';
 import ErrorChip from '@/components/ErrorChip';
 import { type PeriodType } from '@/components/Events/PeriodBottomSheet';
+import AppointmentCard from '@/components/Home/AppointmentCard';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
@@ -217,7 +222,7 @@ export default function HomeScreen({}) {
 
         <Animated.View
           entering={FadeInLeft.duration(750).delay(150)}
-          style={tw`flex self-stretch ml-6 mr-4`}>
+          style={tw`flex self-stretch ml-6 mr-4 mb-6`}>
           <OccupancyCount
             error={currentMembersError}
             loading={isLoadingCurrentMembers}
@@ -227,8 +232,14 @@ export default function HomeScreen({}) {
           />
         </Animated.View>
 
+        {user?.onboarding && (
+          <Animated.View entering={StretchInY.delay(750)} style={tw`flex self-stretch mx-4`}>
+            <AppointmentCard date={user.onboarding.date} style={tw`w-full`} />
+          </Animated.View>
+        )}
+
         <Animated.View entering={FadeInLeft.duration(750).delay(400)} style={tw`flex self-stretch`}>
-          <View style={tw`flex flex-row gap-2 min-h-6 mt-12 mb-2 px-4`}>
+          <View style={tw`flex flex-row gap-2 min-h-6 mt-6 mb-2 px-4`}>
             <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
               {t('home.profile.label')}
             </Text>

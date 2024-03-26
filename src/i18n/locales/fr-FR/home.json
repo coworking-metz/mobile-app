@@ -1,4 +1,10 @@
 {
+  "appointment": {
+    "date": "{{date, datetime }}",
+    "description": "Découverte du Coworking",
+    "time": "{{start, datetime }} - {{end, datetime }}",
+    "title": "Premiers pas"
+  },
   "calendar": {
     "browse": "Tous",
     "empty": {
