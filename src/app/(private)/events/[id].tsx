@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { isNil } from 'lodash';
+import { Skeleton } from 'moti/skeleton';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
@@ -10,9 +11,11 @@ import Animated, { FadeInLeft } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
+import ErrorState from '@/components/ErrorState';
 import ModalLayout from '@/components/ModalLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import ZoombableImage from '@/components/ZoomableImage';
+import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
 export default function CalendarEventPage() {
@@ -23,15 +26,14 @@ export default function CalendarEventPage() {
   const {
     data: calendarEvents,
     isFetching: isFetchingCalendarEvents,
-    refetch: refreshCalendarEvents,
     error: calendarEventsError,
   } = useQuery({
     queryKey: ['calendarEvents'],
     queryFn: getCalendarEvents,
+    refetchOnMount: false,
   });
 
   const event = useMemo<CalendarEvent | null>(() => {
-    console.log(id);
     return (!isNil(id) && (calendarEvents || []).find((e) => `${e.id}` === `${id}`)) || null;
   }, [calendarEvents, id]);
 
@@ -46,7 +48,10 @@ export default function CalendarEventPage() {
   }, [event]);
 
   return (
-    <ModalLayout from="/events/calendar" title={event?.title || ''}>
+    <ModalLayout
+      from="/events/calendar"
+      loading={!event?.title && isFetchingCalendarEvents}
+      title={event?.title || ''}>
       {event ? (
         <>
           <ZoombableImage
@@ -96,6 +101,17 @@ export default function CalendarEventPage() {
             </View>
           ) : null}
         </>
+      ) : isFetchingCalendarEvents ? (
+        <View style={tw`h-44 mx-4  overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
+          <Skeleton
+            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
+            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+            height={`100%`}
+            width={`100%`}
+          />
+        </View>
+      ) : calendarEventsError && !isSilentError(calendarEventsError) ? (
+        <ErrorState error={calendarEventsError} title={t('home.calendar.onFetch.fail')} />
       ) : (
         <>
           <View style={tw`flex flex-col items-center justify-end px-4 grow basis-0`}>

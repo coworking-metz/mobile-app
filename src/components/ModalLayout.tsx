@@ -1,8 +1,9 @@
 import AppBlurView from './AppBlurView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
+import { Skeleton } from 'moti/skeleton';
 import React, { useMemo, type ReactNode } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import Animated, {
   FadeInDown,
   type StyleProps,
@@ -32,11 +33,13 @@ const TITLE_RIGHT_DESTINATION = 56;
 const ModalLayout = ({
   title,
   from,
+  loading = false,
   children,
   contentStyle,
 }: {
   title?: string;
   from?: string;
+  loading?: boolean;
   children?: ReactNode;
   contentStyle?: StyleProps;
 }) => {
@@ -89,7 +92,7 @@ const ModalLayout = ({
     };
   }, [verticalScrollProgress, insets]);
 
-  const headerTextStyle = useAnimatedStyle(() => {
+  const titleStyle = useAnimatedStyle(() => {
     const marginLeft = interpolate(verticalScrollProgress.value, INTERPOLATE_INPUT_RANGE, [
       TITLE_LEFT_ORIGIN,
       TITLE_LEFT_ORIGIN,
@@ -104,6 +107,13 @@ const ModalLayout = ({
       TITLE_RIGHT_DESTINATION,
     ]);
 
+    return {
+      marginLeft,
+      marginRight,
+    };
+  }, [verticalScrollProgress, insets, from]);
+
+  const titleTextStyle = useAnimatedStyle(() => {
     const fontSize = interpolate(
       verticalScrollProgress.value,
       INTERPOLATE_INPUT_RANGE,
@@ -111,8 +121,6 @@ const ModalLayout = ({
     );
 
     return {
-      marginLeft,
-      marginRight,
       fontSize,
     };
   }, [verticalScrollProgress, insets, from]);
@@ -181,16 +189,28 @@ const ModalLayout = ({
             <></>
           )}
         </View>
-        <Animated.Text
+        <Animated.View
           entering={FadeInDown.duration(300).delay(150)}
-          numberOfLines={1}
           style={[
-            tw`text-2xl grow basis-0 font-semibold tracking-tight mb-4 text-slate-900 dark:text-gray-200 self-end`,
+            tw`grow basis-0 mb-4 text-slate-900 dark:text-gray-200 self-end`,
             !from && tw`ml-6`,
-            headerTextStyle,
+            titleStyle,
           ]}>
-          {title}
-        </Animated.Text>
+          {loading ? (
+            <Skeleton
+              backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
+              colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+              height={28}
+              width={144}
+            />
+          ) : (
+            <Animated.Text
+              numberOfLines={1}
+              style={[tw`text-2xl font-semibold tracking-tight`, titleTextStyle]}>
+              {title}
+            </Animated.Text>
+          )}
+        </Animated.View>
       </Animated.View>
     </Animated.View>
   );

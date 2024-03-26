@@ -39,8 +39,8 @@ const CalendarEventCard = ({
   loading?: boolean;
   style?: StyleProps | false;
 }) => {
-  const categoryIcon = useMemo(() => {
-    switch (event?.category) {
+  const eventIcon = useMemo(() => {
+    switch (event?.calendar) {
       case 'AMOUR_FOOD':
         return <AmourFoodIcon />;
       case 'COWORKING':
@@ -108,7 +108,7 @@ const CalendarEventCard = ({
             intensity={64}
             style={tw`w-full flex flex-row items-center px-3 py-2 mt-auto`}
             tint={tw.prefixMatch('dark') ? 'dark' : 'light'}>
-            {categoryIcon}
+            {eventIcon}
             <View style={tw`flex flex-col items-stretch grow shrink basis-0 ml-3`}>
               {date && (
                 <Text
