@@ -1,27 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  AppState,
-  Platform,
-  RefreshControl,
-  ScrollView,
-  Text,
-  View,
-  type AppStateStatus,
-} from 'react-native';
+import { Platform, RefreshControl, ScrollView, Text, View } from 'react-native';
 import Animated, {
-  BounceIn,
   FadeIn,
   FadeInLeft,
   FadeInRight,
   FadeInUp,
   FadeOut,
   StretchInY,
-  StretchOutY,
-  ZoomIn,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader, ToastPresets } from 'react-native-ui-lib';
@@ -45,15 +34,13 @@ import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
 import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
+import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
-import { log } from '@/helpers/logger';
 import { getCalendarEvents } from '@/services/api/calendar';
 import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
-
-const homeLogger = log.extend(`[home.tsx]`);
 
 export default function HomeScreen({}) {
   useDeviceContext(tw);
@@ -62,7 +49,7 @@ export default function HomeScreen({}) {
   const settingsStore = useSettingsStore();
   const insets = useSafeAreaInsets();
   const toastStore = useToastStore();
-  const [activeSince, setActiveSince] = useState(dayjs().toISOString());
+  const activeSince = useAppState();
 
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
@@ -103,26 +90,11 @@ export default function HomeScreen({}) {
     enabled: !!user?.id,
   });
 
-  const handleAppStateChange = useCallback(
-    (nextAppState: AppStateStatus) => {
-      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-        homeLogger.debug('App has come to the foreground!');
-        setActiveSince(dayjs().toISOString());
-        if (hasSelectBalance || hasSelectSubscription || hasSelectMembership) {
-          refetchProfile();
-        }
-      }
-
-      appState.current = nextAppState;
-    },
-    [hasSelectBalance, hasSelectSubscription, hasSelectMembership, refetchProfile],
-  );
-
-  const appState = useRef(AppState.currentState);
   useEffect(() => {
-    const appChangeSubscription = AppState.addEventListener('change', handleAppStateChange);
-    return () => appChangeSubscription.remove();
-  }, [handleAppStateChange]);
+    if (hasSelectBalance || hasSelectSubscription || hasSelectMembership) {
+      refetchProfile();
+    }
+  }, [activeSince, hasSelectBalance, hasSelectSubscription, hasSelectMembership, refetchProfile]);
 
   const currentSubscription = useMemo(() => {
     // retrieve ongoing subscription or the most recent one
@@ -209,7 +181,7 @@ export default function HomeScreen({}) {
         showsVerticalScrollIndicator={false}
         style={[tw`h-full w-full`]}>
         <View style={tw`flex flex-row items-center w-full px-4`}>
-          <StaleDataText lastFetch={currentMembersUpdatedAt} />
+          <StaleDataText activeSince={activeSince} lastFetch={currentMembersUpdatedAt} />
 
           <View style={tw`flex flex-col items-end shrink grow basis-0`}>
             <Link asChild href="/settings">
@@ -267,6 +239,7 @@ export default function HomeScreen({}) {
               style={tw`flex flex-row items-stretch`}
               onPress={() => selectSubscription(true)}>
               <SubscriptionCard
+                activeSince={activeSince}
                 loading={isLoadingProfile}
                 style={tw`min-h-38`}
                 subscription={currentSubscription}
@@ -313,7 +286,11 @@ export default function HomeScreen({}) {
             style={tw`w-full`}>
             {isLoadingCalendarEvents ? (
               <Animated.View exiting={FadeOut.duration(500)}>
-                <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`w-80`} />
+                <CalendarEventCard
+                  activeSince={activeSince}
+                  loading={isLoadingCalendarEvents}
+                  style={tw`w-80`}
+                />
               </Animated.View>
             ) : nextCalendarEvents.length ? (
               nextCalendarEvents.map((event) => (

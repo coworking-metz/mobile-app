@@ -4,9 +4,9 @@ import dayjs from 'dayjs';
 import { Image, ImageBackground } from 'expo-image';
 import { capitalize } from 'lodash';
 import { Skeleton } from 'moti/skeleton';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppState, type AppStateStatus, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AmourFoodSquareLogo from '@/assets/images/amour-food-square.png';
@@ -34,10 +34,12 @@ const CalendarEventCard = ({
   event = null,
   loading = false,
   style,
+  activeSince,
 }: {
   event?: CalendarEvent | null;
   loading?: boolean;
   style?: StyleProps | false;
+  activeSince?: string;
 }) => {
   const eventIcon = useMemo(() => {
     switch (event?.calendar) {
@@ -53,25 +55,8 @@ const CalendarEventCard = ({
     const [first] = event?.pictures || [];
     return first;
   }, [event]);
-
-  const [activeSince, setActiveSince] = useState(dayjs().toISOString());
   const { t } = useTranslation();
   const isFocus = useIsFocused();
-  const handleAppStateChange = useCallback(
-    (nextAppState: AppStateStatus) => {
-      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-        setActiveSince(dayjs().toISOString());
-      }
-      appState.current = nextAppState;
-    },
-    [event],
-  );
-
-  const appState = useRef(AppState.currentState);
-  useEffect(() => {
-    const appChangeSubscription = AppState.addEventListener('change', handleAppStateChange);
-    return () => appChangeSubscription.remove();
-  }, [handleAppStateChange]);
 
   const date = useMemo(() => {
     if (!event) return null;
