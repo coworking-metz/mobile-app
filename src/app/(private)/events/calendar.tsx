@@ -13,6 +13,7 @@ import PeriodBottomSheet, { type PeriodType } from '@/components/Events/PeriodBo
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import ModalLayout from '@/components/ModalLayout';
+import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
@@ -99,6 +100,7 @@ const Calendar = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>(null);
   const [hasSelectedPeriodFilter, setSelectedPeriodFilter] = useState<boolean>(false);
   const [selectedSort, setSelectedSort] = useState<SortType>('ascending');
+  const activeSince = useAppState();
 
   useEffect(() => {
     if (period) {
@@ -225,7 +227,11 @@ const Calendar = () => {
                     href={`/events/${event.id}`}
                     key={`calendar-event-card-${event.id}`}>
                     <AppTouchableScale style={tw`w-full h-44`}>
-                      <CalendarEventCard event={event} loading={isFetchingCalendarEvents} />
+                      <CalendarEventCard
+                        activeSince={activeSince}
+                        event={event}
+                        loading={isFetchingCalendarEvents}
+                      />
                     </AppTouchableScale>
                   </Link>
                 ))}

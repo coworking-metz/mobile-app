@@ -3,35 +3,27 @@ import AppTouchableScale from '../AppTouchableScale';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppState, type AppStateStatus, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import Animated, { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import { theme } from '@/helpers/colors';
 
-const AppointmentCard = ({ date, style }: { date: string; style?: StyleProps }) => {
+const AppointmentCard = ({
+  date,
+  style,
+  activeSince,
+}: {
+  date: string;
+  style?: StyleProps;
+  activeSince?: string;
+}) => {
   const { t } = useTranslation();
   const animation = useRef<LottieView>(null);
 
-  const [activeSince, setActiveSince] = useState(dayjs().toISOString());
   const isFocus = useIsFocused();
-  const handleAppStateChange = useCallback(
-    (nextAppState: AppStateStatus) => {
-      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-        setActiveSince(dayjs().toISOString());
-      }
-      appState.current = nextAppState;
-    },
-    [date],
-  );
-
-  const appState = useRef(AppState.currentState);
-  useEffect(() => {
-    const appChangeSubscription = AppState.addEventListener('change', handleAppStateChange);
-    return () => appChangeSubscription.remove();
-  }, [handleAppStateChange]);
 
   const appointmentDate = useMemo(() => {
     if (dayjs().startOf('day').isAfter(date)) {

@@ -1,4 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
@@ -11,13 +12,16 @@ import { type ApiMemberSubscription } from '@/services/api/members';
 const SubscriptionCard = ({
   subscription,
   loading,
+  activeSince,
   style,
 }: {
   subscription?: ApiMemberSubscription | null;
   loading?: boolean;
+  activeSince?: string;
   style?: StyleProps;
 }) => {
   const { t } = useTranslation();
+  const isFocus = useIsFocused();
 
   const label = useMemo(() => {
     if (!subscription) return t('home.profile.subscription.label.none');
@@ -28,7 +32,7 @@ const SubscriptionCard = ({
     if (dayjs().isSame(subscription.aboEnd, 'week'))
       return t('home.profile.subscription.label.expireSoon');
     return t('home.profile.subscription.label.activeUntil');
-  }, [subscription, t]);
+  }, [subscription, t, isFocus, activeSince]);
 
   const value = useMemo(() => {
     if (!subscription) return t('home.profile.subscription.status.none');
@@ -52,7 +56,7 @@ const SubscriptionCard = ({
         date: { month: 'short', day: 'numeric' },
       },
     });
-  }, [subscription, t]);
+  }, [subscription, t, isFocus, activeSince]);
 
   return (
     <View
