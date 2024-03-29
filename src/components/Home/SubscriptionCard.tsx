@@ -36,20 +36,28 @@ const SubscriptionCard = ({
 
   const value = useMemo(() => {
     if (!subscription) return t('home.profile.subscription.status.none');
-    if (dayjs().startOf('day').isBefore(subscription.aboStart))
+
+    const today = dayjs().startOf('day');
+    if (today.isBefore(subscription.aboStart)) {
       return t('home.profile.subscription.date', {
         date: new Date(subscription.aboStart),
         formatParams: {
           date: { month: 'short', day: 'numeric' },
         },
       });
-    if (
-      dayjs().isSame(subscription.aboEnd, 'day') ||
-      dayjs().add(1, 'day').isSame(subscription.aboEnd, 'day')
-    )
-      return dayjs(subscription.aboEnd).calendar().split(' ')[0];
-    if (dayjs().isSame(subscription.aboEnd, 'week'))
+    }
+
+    const yesterday = today.subtract(1, 'day');
+    const tomorrow = today.add(1, 'day');
+    if (dayjs(subscription.aboEnd).isBetween(yesterday, tomorrow, 'minute', '[]')) {
+      const [firstWord] = dayjs(subscription.aboEnd).calendar().split(' ');
+      if (firstWord) return firstWord;
+    }
+
+    if (today.isSame(subscription.aboEnd, 'week')) {
       return dayjs(subscription.aboEnd).format('dddd');
+    }
+
     return t('home.profile.subscription.date', {
       date: new Date(subscription.aboEnd),
       formatParams: {
