@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Appointment card on home screen.
+
 ### Changed
 
 - Disable slide to unlock deck door when missing capability.
