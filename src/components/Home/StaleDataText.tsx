@@ -1,10 +1,8 @@
 import PullToRefreshHint from './PullToRefreshHint';
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
-import { useFocusEffect } from 'expo-router';
 import { capitalize } from 'lodash';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AppState, type AppStateStatus } from 'react-native';
+import React, { useMemo } from 'react';
 import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
 import tw from 'twrnc';
 
