@@ -2,7 +2,6 @@ import AppBlurView from '../AppBlurView';
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { Image, ImageBackground } from 'expo-image';
-import { capitalize } from 'lodash';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -99,7 +98,7 @@ const CalendarEventCard = ({
                 <Text
                   numberOfLines={1}
                   style={tw`text-base font-light text-slate-800 dark:text-slate-300`}>
-                  {capitalize(date)}
+                  {`${date.slice(0, 1).toUpperCase()}${date.slice(1)}`}
                 </Text>
               )}
               <Text
