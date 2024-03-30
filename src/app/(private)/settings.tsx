@@ -265,7 +265,7 @@ const Settings = () => {
                   prefixIcon="cog-outline"
                   style={tw`px-3 mx-3`}
                   suffixIcon="chevron-right">
-                  <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
+                  <View style={tw`bg-gray-400/25 dark:bg-gray-700/50 py-1 px-2 rounded`}>
                     <Text style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
                       DEV
                     </Text>

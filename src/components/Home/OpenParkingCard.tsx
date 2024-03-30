@@ -222,7 +222,7 @@ const OpenParkingCard = ({
           )}
         </View>
       </Animated.View>
-      <View style={[tw`shrink-0 bg-gray-300 dark:bg-gray-700 py-1 px-2 ml-auto rounded`]}>
+      <View style={[tw`shrink-0 bg-gray-400/25 dark:bg-gray-700/50 py-1 px-2 ml-auto rounded`]}>
         <Text style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>BETA</Text>
       </View>
     </AppTouchableScale>
