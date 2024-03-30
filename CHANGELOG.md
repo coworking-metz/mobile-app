@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Ability to refresh home screen even when not a member.
+- Keep parking barrier card icon visible on theme change.
 
 ## [1.3.0] - 2024-03-05
 
