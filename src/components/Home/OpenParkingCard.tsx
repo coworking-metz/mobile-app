@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/react-native';
 import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View, type LayoutChangeEvent } from 'react-native';
 import Animated, {
@@ -173,7 +173,7 @@ const OpenParkingCard = ({
           <BarrierAnimation
             ref={animation}
             autoPlay={false}
-            progress={0.133}
+            progress={tw.prefixMatch('dark') ? 0.133 : 0.132} // hack to keep the progress in sync with the color scheme
             style={[tw`h-full w-full`, isLoading && { opacity: 0 }]}
           />
           {isLoading && (
