@@ -40,6 +40,9 @@
     "environment": {
       "label": "Environment"
     },
+    "executionEnvironment": {
+      "label": "Execution environment"
+    },
     "title": "Technical",
     "version": {
       "label": "Version"

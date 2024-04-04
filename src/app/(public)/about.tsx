@@ -64,9 +64,17 @@ const About = () => {
           {version}
         </Text>
       </ServiceRow>
-      <ServiceRow label={t('about.technical.buildDate.label')} style={tw`px-3 mx-3`}>
+      <ServiceRow
+        withBottomDivider
+        label={t('about.technical.buildDate.label')}
+        style={tw`px-3 mx-3`}>
         <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
           {dayjs(Constants.expoConfig?.extra?.buildDate).format('L LT')}
+        </Text>
+      </ServiceRow>
+      <ServiceRow label={t('about.technical.executionEnvironment.label')} style={tw`px-3 mx-3`}>
+        <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+          {Constants.executionEnvironment}
         </Text>
       </ServiceRow>
 

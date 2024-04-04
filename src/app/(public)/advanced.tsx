@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react-native';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Clipboard from 'expo-clipboard';
 import { useRouter } from 'expo-router';
@@ -117,6 +118,7 @@ const Advanced = () => {
         {t('advanced.services.title')}
       </Animated.Text>
       <ServiceRow
+        withBottomDivider
         label={t('advanced.services.apiBaseUrl.label')}
         renderDescription={() => (
           <TextInput
@@ -128,6 +130,15 @@ const Advanced = () => {
           />
         )}
         style={tw`px-3 mx-3`}
+      />
+      <ServiceRow
+        description={t('advanced.services.crash.description')}
+        label={t('advanced.services.crash.label')}
+        style={tw`px-3 mx-3`}
+        suffixIcon="bomb"
+        onPress={() => {
+          throw new Error("Don't worry, this is a test crash!");
+        }}
       />
 
       <Animated.Text
