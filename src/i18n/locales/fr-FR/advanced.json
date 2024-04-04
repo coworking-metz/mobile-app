@@ -4,6 +4,10 @@
     "apiBaseUrl": {
       "label": "URL de base pour l'API"
     },
+    "crash": {
+      "description": "Pour vérifier que les erreurs remontent",
+      "label": "Planter l'application"
+    },
     "title": "Services"
   },
   "store": {

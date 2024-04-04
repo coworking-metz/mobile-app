@@ -4,6 +4,10 @@
     "apiBaseUrl": {
       "label": "API base url"
     },
+    "crash": {
+      "description": "To verify error reporting",
+      "label": "Crash the app"
+    },
     "title": "Services"
   },
   "store": {

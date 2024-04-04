@@ -33,7 +33,7 @@ dayjs.updateLocale('fr', {
     sameDay: "[Aujourd'hui à] LT",
     nextDay: '[Demain à] LT',
     lastWeek: 'dddd [dernier à] LT',
-    nextWeek: 'dddd [prochain à] LT',
+    nextWeek: 'dddd [à] LT',
     sameElse: '[Le] dddd D MMMM à LT',
   },
 });
@@ -44,7 +44,7 @@ dayjs.updateLocale('en', {
     sameDay: '[Today at] LT',
     nextDay: '[Tomorrow at] LT',
     lastWeek: '[Last] dddd [at] LT',
-    nextWeek: '[Next] dddd [at] LT',
+    nextWeek: 'dddd [at] LT',
     sameElse: 'dddd MMMM D [at] LT',
   },
 });
