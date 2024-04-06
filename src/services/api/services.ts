@@ -58,6 +58,10 @@ export const unlockDeckDoor = (): Promise<{
   return HTTP.post('/api/on-premise/deck-door/unlock').then(({ data }) => data);
 };
 
+export const getKeyBoxCode = (): Promise<{ code: number }> => {
+  return HTTP.get('/api/on-premise/key-box/code').then(({ data }) => data);
+};
+
 export const turnOnLight = (
   lightId: string | number,
 ): Promise<{

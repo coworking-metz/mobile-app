@@ -3,7 +3,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { View, useColorScheme, type LayoutChangeEvent } from 'react-native';
+import { View, useColorScheme, type LayoutChangeEvent, TouchableOpacity } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolate,
@@ -20,7 +20,6 @@ import Animated, {
   type StyleProps,
   convertToRGBA,
 } from 'react-native-reanimated';
-import { TouchableOpacity } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 

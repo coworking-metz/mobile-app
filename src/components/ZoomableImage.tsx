@@ -1,8 +1,8 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view';
 import { Image, type ImageProps } from 'expo-image';
 import React, { useEffect, useState } from 'react';
 import { Modal, Platform, Image as RNImage, TouchableOpacity, View } from 'react-native';
+import Gallery from 'react-native-awesome-gallery';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw from 'twrnc';
 
@@ -62,21 +62,13 @@ const ZoombableImage = ({
               onPress={() => setSelected(false)}
             />
           </View>
-          <ReactNativeZoomableView
-            bindToBorders
-            contentHeight={height}
-            contentWidth={width}
-            initialZoom={1}
-            maxZoom={3}
-            minZoom={1}
-            style={tw`grow-0`}
-            zoomStep={0.5}>
-            <Image
-              source={source}
-              style={[tw`w-full`, { aspectRatio: width / height }]}
-              {...props}
-            />
-          </ReactNativeZoomableView>
+          <Gallery
+            data={[source]}
+            onIndexChange={(newIndex) => {
+              console.log(newIndex);
+            }}
+            onSwipeToClose={() => setSelected(false)}
+          />
         </View>
       </Modal>
     </>

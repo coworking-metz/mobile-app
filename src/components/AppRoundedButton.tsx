@@ -26,7 +26,7 @@ const AppRoundedButton: ForwardRefRenderFunction<
   ref,
 ) => {
   return (
-    <AppTouchableScale ref={ref} {...(!disabled && { onPress })}>
+    <AppTouchableScale ref={ref} disabled={disabled} {...(!disabled && { onPress })}>
       <View
         style={[
           tw`flex flex-row justify-center items-center min-h-14 px-6 rounded-[4rem]`,
