@@ -74,7 +74,7 @@ const KeyBoxBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: (
       {code ? (
         <Animated.Text
           entering={FadeIn.delay(100)}
-          style={tw`h-14 mt-2 text-center font-mono text-5xl font-bold tracking-widest leading-[3.5rem]`}>
+          style={tw`h-14 mt-2 text-center text-slate-900 dark:text-gray-200 text-5xl font-bold tracking-widest leading-[3.5rem]`}>
           <RandomReveal
             isPlaying
             characters={`${code}`}
