@@ -91,10 +91,17 @@ export default function HomeScreen({}) {
   });
 
   useEffect(() => {
-    if (hasSelectBalance || hasSelectSubscription || hasSelectMembership) {
+    if (user?.id && (hasSelectBalance || hasSelectSubscription || hasSelectMembership)) {
       refetchProfile();
     }
-  }, [activeSince, hasSelectBalance, hasSelectSubscription, hasSelectMembership, refetchProfile]);
+  }, [
+    user,
+    activeSince,
+    hasSelectBalance,
+    hasSelectSubscription,
+    hasSelectMembership,
+    refetchProfile,
+  ]);
 
   const currentSubscription = useMemo(() => {
     // retrieve ongoing subscription or the most recent one

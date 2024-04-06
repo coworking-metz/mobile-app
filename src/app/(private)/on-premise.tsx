@@ -11,6 +11,7 @@ import ErrorChip from '@/components/ErrorChip';
 import ActionableFan from '@/components/OnPremise/ActionableFan';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
 import ActionableIcon from '@/components/OnPremise/ActionbleIcon';
+import KeyBoxBottomSheet from '@/components/OnPremise/KeyBoxBottomSheet';
 import PhoneBoothBottomSheet from '@/components/OnPremise/PhoneBoothBottomSheet';
 import UnlockDeckDoorBottomSheet from '@/components/OnPremise/UnlockDeckDoorBottomSheet';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
@@ -26,6 +27,7 @@ const OnPremise = () => {
   const [hasFloorplanLoaded, setFloorplanLoaded] = useState<boolean>(false);
   const [isDeckDoorSelected, setDeckDoorSelected] = useState<boolean>(false);
   const [isBluePhoneBoothSelected, setBluePhoneBoothSelected] = useState<boolean>(false);
+  const [isKeyBoxSelected, setKeyBoxSelected] = useState<boolean>(false);
   const user = useAuthStore((state) => state.user);
 
   const colorScheme = useColorScheme();
@@ -130,6 +132,15 @@ const OnPremise = () => {
                 unknownIcon="door"
                 onPress={() => setBluePhoneBoothSelected(true)}
               />
+
+              {/* Key box */}
+              <ActionableIcon
+                active={onPremiseState?.deckDoor?.unlocked}
+                activeIcon="key-chain-variant"
+                inactiveIcon="key-chain-variant"
+                style={tw`top-[84%] left-[56%]`}
+                onPress={() => setKeyBoxSelected(true)}
+              />
             </>
           )}
         </View>
@@ -147,6 +158,8 @@ const OnPremise = () => {
           onClose={() => setBluePhoneBoothSelected(false)}
         />
       )}
+
+      {isKeyBoxSelected && <KeyBoxBottomSheet onClose={() => setKeyBoxSelected(false)} />}
     </>
   );
 };

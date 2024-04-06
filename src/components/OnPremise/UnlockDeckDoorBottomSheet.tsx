@@ -75,7 +75,7 @@ const UnlockDeckDoorBottomSheet = ({
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.deckDoor.label')}
       </Text>
-      <Text style={tw`text-center text-base font-normal text-slate-500 w-full`}>
+      <Text style={tw`text-left text-base font-normal text-slate-500 w-full`}>
         {t('onPremise.deckDoor.description')}
       </Text>
       <SwipeableButton
