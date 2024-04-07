@@ -145,7 +145,7 @@ const PresenceGraph = ({
         {!startDate || dayjs(firstDate).isAfter(startDate, 'day') ? (
           <Text
             style={tw`text-3xl font-bold tracking-tight text-slate-900 dark:text-gray-200 self-center ml-6`}>
-            {dayjs(earliestDate).year()}
+            {dayjs(startDate).year()}
           </Text>
         ) : (
           <LinearGradient
