@@ -1,4 +1,15 @@
 {
+  "carbonDioxide": {
+    "description": "Le taux de CO2 est un indicateur de la qualité de l'air. Un taux élevé peut entraîner des maux de tête, de la fatigue et une diminution de la concentration.\n\nIl est recommandé de ventiler l'espace pendant une quizaine de minutes lorsque le taux de CO2 dépasse 1000 ppm.",
+    "label": "Taux de CO2",
+    "level": {
+      "excessive": "Plus le choix : il faut ouvrir les fenêtres 🥴",
+      "high": "Il est préférable d'aérer 😵‍💫",
+      "low": "Tout va bien 😌",
+      "normal": "C'est encore acceptable 🙂",
+      "unknown": "Le taux n'a pas pu être relevé 🤷‍♀️"
+    }
+  },
   "deckDoor": {
     "description": "La porte de la terrasse vous permet d'accéder directement à l'open space depuis l'extérieur.",
     "label": "Déverrouiller\nla porte de la terrasse",

@@ -28,6 +28,11 @@ export const getOnPremiseState = (): Promise<{
       occupied: boolean;
     };
   };
+  sensors: {
+    carbonDioxide: {
+      level: number;
+    };
+  };
 }> => {
   return HTTP.get('/api/on-premise').then(({ data }) => data);
 };

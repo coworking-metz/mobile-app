@@ -11,6 +11,7 @@ import ErrorChip from '@/components/ErrorChip';
 import ActionableFan from '@/components/OnPremise/ActionableFan';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
 import ActionableIcon from '@/components/OnPremise/ActionbleIcon';
+import CarbonDioxideBottomSheet from '@/components/OnPremise/CarbonDioxideBottomSheet';
 import KeyBoxBottomSheet from '@/components/OnPremise/KeyBoxBottomSheet';
 import PhoneBoothBottomSheet from '@/components/OnPremise/PhoneBoothBottomSheet';
 import UnlockDeckDoorBottomSheet from '@/components/OnPremise/UnlockDeckDoorBottomSheet';
@@ -28,6 +29,7 @@ const OnPremise = () => {
   const [isDeckDoorSelected, setDeckDoorSelected] = useState<boolean>(false);
   const [isBluePhoneBoothSelected, setBluePhoneBoothSelected] = useState<boolean>(false);
   const [isKeyBoxSelected, setKeyBoxSelected] = useState<boolean>(false);
+  const [isCarbonDioxideSelected, setCarbonDioxideSelected] = useState<boolean>(false);
   const user = useAuthStore((state) => state.user);
 
   const colorScheme = useColorScheme();
@@ -48,7 +50,7 @@ const OnPremise = () => {
     error: onPremiseStateError,
   } = useQuery({
     queryKey: ['on-premise-state'],
-    queryFn: () => getOnPremiseState(),
+    queryFn: getOnPremiseState,
     retry: false,
     enabled: !!user,
   });
@@ -135,11 +137,19 @@ const OnPremise = () => {
 
               {/* Key box */}
               <ActionableIcon
-                active={onPremiseState?.deckDoor?.unlocked}
                 activeIcon="key-chain-variant"
                 inactiveIcon="key-chain-variant"
                 style={tw`top-[84%] left-[56%]`}
                 onPress={() => setKeyBoxSelected(true)}
+              />
+
+              {/* Carbon Dioxide level */}
+              <ActionableIcon
+                activeIcon="leaf"
+                inactiveIcon="leaf"
+                loading={isFetchingOnPremiseState}
+                style={tw`top-[32%] left-[56%]`}
+                onPress={() => setCarbonDioxideSelected(true)}
               />
             </>
           )}
@@ -160,6 +170,14 @@ const OnPremise = () => {
       )}
 
       {isKeyBoxSelected && <KeyBoxBottomSheet onClose={() => setKeyBoxSelected(false)} />}
+
+      {isCarbonDioxideSelected && (
+        <CarbonDioxideBottomSheet
+          level={onPremiseState?.sensors?.carbonDioxide.level || 0}
+          loading={isFetchingOnPremiseState}
+          onClose={() => setCarbonDioxideSelected(false)}
+        />
+      )}
     </>
   );
 };
