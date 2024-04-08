@@ -9,8 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Get the key box code on the shared office plan screen.
+- Get the key box code on the workspace plan.
+- Render the carbon dioxide level on the workspace plan.
 - Swipe bottom to dismiss fullscreen image view.
+
+### Fixed
+
+- Properly compute year on presence graph.
+- Reverse theme french translations.
 
 ## [1.4.1] - 2024-04-04
 
@@ -99,7 +105,7 @@ Initial release with the following features:
 - user attendance history.
 
 [unreleased]: https://github.com/coworking-metz/mobile-app/compare/1.4.1...main
-[1.4.0]: https://github.com/coworking-metz/mobile-app/compare/1.4.0...1.4.1
+[1.4.1]: https://github.com/coworking-metz/mobile-app/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/coworking-metz/mobile-app/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/coworking-metz/mobile-app/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/coworking-metz/mobile-app/compare/1.1.0...1.2.0
