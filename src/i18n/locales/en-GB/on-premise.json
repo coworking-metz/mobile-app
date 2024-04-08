@@ -1,6 +1,6 @@
 {
   "carbonDioxide": {
-    "description": "The CO2 level is an indicator of air quality. A high level can cause headaches, fatigue and a decrease in concentration.\n\nIt is recommended to ventilate the space for about fifteen minutes when the CO2 level exceeds 1000 ppm.",
+    "description": "The CO2 level is an indicator of air quality. A high level can cause headaches, fatigue and a decrease in concentration.\n\nIt is recommended to ventilate the workspace when the CO2 level exceeds 1000 ppm.",
     "label": "CO2 level",
     "level": {
       "excessive": "No choice: the windows need to be opened 🥴",
@@ -62,5 +62,5 @@
       }
     }
   },
-  "title": "Space management"
+  "title": "Manage workspace"
 }

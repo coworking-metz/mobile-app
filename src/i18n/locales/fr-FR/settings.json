@@ -13,8 +13,8 @@
     "theme": {
       "label": "Thème",
       "options": {
-        "dark": "Toujours clair",
-        "light": "Toujours sombre",
+        "dark": "Toujours sombre",
+        "light": "Toujours clair",
         "system": "Même que le système"
       },
       "value": {
