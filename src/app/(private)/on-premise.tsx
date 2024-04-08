@@ -23,6 +23,7 @@ import useAuthStore from '@/stores/auth';
 const OnPremise = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
+  const user = useAuthStore((state) => state.user);
   const [imageWidth, setImageWidth] = useState<number | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
   const [hasFloorplanLoaded, setFloorplanLoaded] = useState<boolean>(false);
@@ -30,7 +31,6 @@ const OnPremise = () => {
   const [isBluePhoneBoothSelected, setBluePhoneBoothSelected] = useState<boolean>(false);
   const [isKeyBoxSelected, setKeyBoxSelected] = useState<boolean>(false);
   const [isCarbonDioxideSelected, setCarbonDioxideSelected] = useState<boolean>(false);
-  const user = useAuthStore((state) => state.user);
 
   const colorScheme = useColorScheme();
 
@@ -48,6 +48,7 @@ const OnPremise = () => {
     data: onPremiseState,
     isFetching: isFetchingOnPremiseState,
     error: onPremiseStateError,
+    refetch: refetchOnPremiseState,
   } = useQuery({
     queryKey: ['on-premise-state'],
     queryFn: getOnPremiseState,
@@ -57,7 +58,10 @@ const OnPremise = () => {
 
   return (
     <>
-      <ServiceLayout contentStyle={tw`bg-transparent`} title={t('onPremise.title')}>
+      <ServiceLayout
+        contentStyle={tw`bg-transparent`}
+        title={t('onPremise.title')}
+        onRefresh={refetchOnPremiseState}>
         <View
           style={[
             tw`flex flex-col grow items-center justify-center w-full relative`,

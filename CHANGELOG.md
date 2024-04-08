@@ -5,13 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [unrealeased]
+## [unreleased]
 
 ### Added
 
 - Get the key box code on the workspace plan.
 - Render the carbon dioxide level on the workspace plan.
-- Swipe bottom to dismiss fullscreen image view.
+- Swipe down to refresh on the workspace plan.
+- Swipe down to dismiss fullscreen image view.
 
 ### Fixed
 

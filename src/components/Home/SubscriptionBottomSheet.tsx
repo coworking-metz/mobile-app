@@ -3,29 +3,52 @@ import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
 import CarouselPaginationDots from '../CarouselPaginationDots';
 import ServiceRow from '../Settings/ServiceRow';
+import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, View, type LayoutChangeEvent } from 'react-native';
 import { useSharedValue, type StyleProps } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
 import { type ApiMemberSubscription } from '@/services/api/members';
+import useAuthStore from '@/stores/auth';
 
 const SubscriptionBottomSheet = ({
   subscriptions = [],
   loading = false,
+  activeSince,
   style,
   onClose,
 }: {
   subscriptions?: ApiMemberSubscription[];
   loading?: boolean;
+  activeSince?: string;
   style?: StyleProps;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
+
+  const user = useAuthStore((state) => state.user);
+  const hasBeenActive = useRef(false);
+
+  const { refetch: refetchProfile } = useQuery({
+    queryKey: ['members', user?.id],
+    enabled: false,
+  });
+
+  useEffect(() => {
+    if (!!user?.id && hasBeenActive.current) {
+      refetchProfile();
+    }
+  }, [user, activeSince, refetchProfile]);
+
+  useEffect(() => {
+    hasBeenActive.current = true;
+  }, []);
+
   const [carouselWidth, setCarouselWidth] = useState<number>(0);
   const offset = useSharedValue(0);
 

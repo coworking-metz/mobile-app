@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
@@ -19,20 +19,30 @@ import useAuthStore from '@/stores/auth';
 const BalanceBottomSheet = ({
   balance,
   loading = false,
+  activeSince,
   style,
   onClose,
 }: {
   balance: number;
   loading?: boolean;
+  activeSince?: string;
   style?: StyleProps;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
   const user = useAuthStore((state) => state.user);
+  const hasBeenActive = useRef(false);
+
+  const { refetch: refetchProfile } = useQuery({
+    queryKey: ['members', user?.id],
+    enabled: false,
+  });
+
   const {
     data: ticketsOrders,
     isFetching: isFetchingTicketsOrders,
     error: ticketsOrdersError,
+    refetch: refetchTicketsOrders,
   } = useQuery({
     queryKey: ['members', user?.id, 'tickets'],
     queryFn: ({ queryKey: [_, userId] }) => {
@@ -45,6 +55,17 @@ const BalanceBottomSheet = ({
     refetchOnMount: false,
     enabled: !!user?.id,
   });
+
+  useEffect(() => {
+    if (!!user?.id && hasBeenActive.current) {
+      refetchProfile();
+      refetchTicketsOrders();
+    }
+  }, [user, activeSince, refetchProfile]);
+
+  useEffect(() => {
+    hasBeenActive.current = true;
+  }, []);
 
   const consumedCount = useMemo(() => {
     return (ticketsOrders || []).reduce((acc, order) => acc + order.count, -balance) || 0;

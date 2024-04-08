@@ -1,8 +1,8 @@
 import AppBlurView from '../AppBlurView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useState, type ReactNode } from 'react';
-import { View } from 'react-native';
+import React, { useState, type ReactNode, useCallback } from 'react';
+import { RefreshControl, View } from 'react-native';
 import { type LayoutChangeEvent } from 'react-native/types';
 import Animated, {
   FadeInLeft,
@@ -29,6 +29,7 @@ const ServiceLayout = ({
   children,
   style,
   contentStyle,
+  onRefresh,
 }: {
   title: string;
   description?: string;
@@ -36,12 +37,14 @@ const ServiceLayout = ({
   children: ReactNode;
   style?: StyleProps;
   contentStyle?: StyleProps;
+  onRefresh?: () => Promise<unknown>;
 }) => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const verticalScrollProgress = useSharedValue(0);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
+  const [refreshing, setRefreshing] = useState(false);
 
   const onVerticalScroll = useAnimatedScrollHandler({
     onScroll: ({ contentOffset }) => {
@@ -82,6 +85,13 @@ const ServiceLayout = ({
       opacity,
     };
   }, [verticalScrollProgress, headerHeight]);
+
+  const onShouldRefresh = useCallback(() => {
+    setRefreshing(true);
+    onRefresh?.().finally(() => {
+      setRefreshing(false);
+    });
+  }, [onRefresh]);
 
   return (
     <View style={[{ flex: 1 }, tw`bg-gray-100 dark:bg-black`, style]}>
@@ -131,7 +141,16 @@ const ServiceLayout = ({
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
           style={{ flex: 1 }}
-          onScroll={onVerticalScroll}>
+          onScroll={onVerticalScroll}
+          {...(onRefresh && {
+            refreshControl: (
+              <RefreshControl
+                progressViewOffset={NAVIGATION_HEIGHT + headerHeight + insets.top}
+                refreshing={refreshing}
+                onRefresh={onShouldRefresh}
+              />
+            ),
+          })}>
           <View
             style={[
               tw`flex flex-col w-full grow bg-gray-50 dark:bg-zinc-900`,

@@ -1,6 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Image, type ImageProps } from 'expo-image';
-import { Skeleton } from 'moti/skeleton';
 import React, { useEffect, useState } from 'react';
 import { Modal, Platform, Image as RNImage, TouchableOpacity, View } from 'react-native';
 import Gallery from 'react-native-awesome-gallery';
@@ -15,35 +14,17 @@ const ZoombableImage = ({
 }: ImageProps & { withAspectRatio?: boolean }) => {
   const insets = useSafeAreaInsets();
   const [isSelected, setSelected] = useState<boolean>(false);
-  const [isLoading, setLoading] = useState<boolean>(true);
   const [width, setWidth] = useState<number | null>(null);
   const [height, setHeight] = useState<number | null>(null);
 
   useEffect(() => {
     if (!source) return;
-    Image.prefetch(source as string)
-      .then(() => {
-        RNImage.getSize(source as string, (imageWidth, imageHeight) => {
-          setWidth(imageWidth);
-          setHeight(imageHeight);
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    Image.prefetch(source as string);
+    RNImage.getSize(source as string, (imageWidth, imageHeight) => {
+      setWidth(imageWidth);
+      setHeight(imageHeight);
+    });
   }, [source]);
-
-  if (isLoading)
-    return (
-      <View style={[tw`overflow-hidden`, style]}>
-        <Skeleton
-          backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
-          colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-          height={`100%`}
-          width={`100%`}
-        />
-      </View>
-    );
 
   if (!width || !height) return <View style={[tw`bg-gray-200 dark:bg-gray-900`, style]} />;
 
@@ -54,8 +35,7 @@ const ZoombableImage = ({
           <Image
             source={source}
             style={[withAspectRatio && { aspectRatio: width / height }, style]}
-            {...props}
-          />
+            {...props}></Image>
         </TouchableOpacity>
       )}
       <Modal transparent animationType="fade" visible={isSelected}>

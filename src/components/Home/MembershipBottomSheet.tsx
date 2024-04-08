@@ -3,15 +3,17 @@ import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
 import ServiceRow from '../Settings/ServiceRow';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
+import useAuthStore from '@/stores/auth';
 
 const MembershipBottomSheet = ({
   lastMembershipYear,
@@ -19,6 +21,7 @@ const MembershipBottomSheet = ({
   active,
   activityOverLast6Months,
   loading = false,
+  activeSince,
   style,
   onClose,
 }: {
@@ -27,10 +30,23 @@ const MembershipBottomSheet = ({
   active?: boolean;
   loading?: boolean;
   activityOverLast6Months?: number;
+  activeSince?: string;
   style?: StyleProps;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
+  const user = useAuthStore((state) => state.user);
+
+  const { refetch: refetchProfile } = useQuery({
+    queryKey: ['members', user?.id],
+    enabled: false,
+  });
+
+  useEffect(() => {
+    if (!!user?.id && valid) {
+      refetchProfile();
+    }
+  }, [user, activeSince, valid, refetchProfile]);
 
   return (
     <AppBottomSheet

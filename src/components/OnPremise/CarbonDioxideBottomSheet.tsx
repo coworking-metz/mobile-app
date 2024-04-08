@@ -1,4 +1,3 @@
-import VerticalLoadingAnimation from '../Animations/VerticalLoadingAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import { SegmentedArc } from '@shipt/segmented-arc-for-react-native';
 import { Skeleton } from 'moti/skeleton';
@@ -6,7 +5,7 @@ import React, { useLayoutEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, View, useColorScheme } from 'react-native';
 import AnimatedNumber from 'react-native-animated-number';
-import Animated, { FadeInLeft, FadeInUp, type StyleProps } from 'react-native-reanimated';
+import Animated, { FadeInUp, type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 
 const ANIMATION_DURATION = 1_000;
@@ -116,27 +115,34 @@ const CarbonDioxideBottomSheet = ({
           segments={segments}></SegmentedArc>
         <View
           style={tw`absolute bottom-0 left-0 right-0 w-full flex flex-col items-center justify-center`}>
-          {loading && !currentLevel ? (
-            <VerticalLoadingAnimation
-              color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-              style={tw`h-16 w-16 z-10 mx-auto rounded-full`}
-            />
-          ) : (
-            <View style={tw`flex flex-row items-end gap-1`}>
+          <View style={tw`flex flex-row items-end gap-1.5 justify-end w-full mx-auto max-w-40`}>
+            {loading ? (
+              <View
+                style={tw`h-8 mb-0.5 w-24 overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
+                <Skeleton
+                  backgroundColor={
+                    tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
+                  }
+                  colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+                  height={`100%`}
+                  width={`100%`}
+                />
+              </View>
+            ) : (
               <AnimatedNumber
                 steps={ANIMATION_DURATION / 16}
                 style={[
-                  tw`text-4xl font-semibold text-slate-900 dark:text-gray-200 -mb-0.5`,
-                  Platform.OS === 'android' && tw`-mb-1.5`,
+                  tw`text-4xl font-semibold text-slate-900 dark:text-gray-200 -mb-1`,
+                  Platform.OS === 'android' && tw`-mb-2`,
                 ]}
                 time={16} // milliseconds between each steps
                 value={currentLevel}
               />
-              <Text numberOfLines={1} style={tw`text-base text-slate-500 dark:text-slate-400`}>
-                ppm
-              </Text>
-            </View>
-          )}
+            )}
+            <Text numberOfLines={1} style={tw`text-base text-slate-500 dark:text-slate-400`}>
+              ppm
+            </Text>
+          </View>
         </View>
       </View>
       <Animated.View

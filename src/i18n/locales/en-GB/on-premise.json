@@ -3,7 +3,7 @@
     "description": "The CO2 level is an indicator of air quality. A high level can cause headaches, fatigue and a decrease in concentration.\n\nIt is recommended to ventilate the workspace when the CO2 level exceeds 1000 ppm.",
     "label": "CO2 level",
     "level": {
-      "excessive": "No choice: the windows need to be opened 🥴",
+      "excessive": "No choice: windows need to be opened 🥴",
       "high": "It's better to ventilate 😵‍💫",
       "low": "Everything is fine 😌",
       "normal": "Still acceptable 🙂",

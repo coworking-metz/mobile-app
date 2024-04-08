@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, RefreshControl, ScrollView, Text, View } from 'react-native';
 import Animated, {
@@ -89,19 +89,6 @@ export default function HomeScreen({}) {
     retry: false,
     enabled: !!user?.id,
   });
-
-  useEffect(() => {
-    if (user?.id && (hasSelectBalance || hasSelectSubscription || hasSelectMembership)) {
-      refetchProfile();
-    }
-  }, [
-    user,
-    activeSince,
-    hasSelectBalance,
-    hasSelectSubscription,
-    hasSelectMembership,
-    refetchProfile,
-  ]);
 
   const currentSubscription = useMemo(() => {
     // retrieve ongoing subscription or the most recent one
@@ -374,6 +361,7 @@ export default function HomeScreen({}) {
 
       {hasSelectSubscription ? (
         <SubscriptionBottomSheet
+          activeSince={activeSince}
           loading={isFetchingProfile}
           subscriptions={profile?.abos || []}
           onClose={() => selectSubscription(false)}
@@ -382,6 +370,7 @@ export default function HomeScreen({}) {
 
       {hasSelectBalance ? (
         <BalanceBottomSheet
+          activeSince={activeSince}
           balance={profile?.balance || 0}
           loading={isFetchingProfile}
           onClose={() => selectBalance(false)}
@@ -391,6 +380,7 @@ export default function HomeScreen({}) {
       {hasSelectMembership ? (
         <MembershipBottomSheet
           active={profile?.activeUser}
+          activeSince={activeSince}
           activityOverLast6Months={profile?.activity}
           lastMembershipYear={profile?.lastMembership}
           loading={isFetchingProfile}
