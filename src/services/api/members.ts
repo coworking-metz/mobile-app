@@ -18,8 +18,10 @@ export interface ApiMemberProfile {
   birthdate?: string;
   created: string;
   lastSeen?: string;
-  activity: number;
-  activeUser: boolean;
+  totalActivity: number;
+  activity: number; // in the last 6 months
+  activeUser: boolean; // whether member has earned at least 20 days of activity in the last 6 months
+  trustedUser: boolean; // whether member has earned at least 10 days of activity
   balance: number;
   membershipOk?: boolean;
   lastMembership?: number;

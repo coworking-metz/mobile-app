@@ -43,7 +43,7 @@ const MembershipBottomSheet = ({
   });
 
   useEffect(() => {
-    if (!!user?.id && valid) {
+    if (!!user?.id && !valid) {
       refetchProfile();
     }
   }, [user, activeSince, valid, refetchProfile]);

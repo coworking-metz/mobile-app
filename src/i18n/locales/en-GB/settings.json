@@ -26,6 +26,9 @@
   },
   "profile": {
     "presence": {
+      "activity_one": "day",
+      "activity_other": "days",
+      "activity_zero": "None",
       "attending": "Currently attending",
       "onFetch": {
         "fail": "Unable to fetch presence"
@@ -51,6 +54,7 @@
           "half": "half day"
         }
       },
+      "since": "since {{date}}",
       "title": "My presence"
     }
   },

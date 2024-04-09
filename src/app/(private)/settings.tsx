@@ -248,6 +248,7 @@ const Settings = () => {
 
             <PresenceGraph
               activity={activity}
+              activityCount={profile?.totalActivity}
               loading={isFetchingActivity || isFetchingProfile}
               nonCompliantDates={nonCompliantDates}
               selectedDate={selectedPresence?.date}

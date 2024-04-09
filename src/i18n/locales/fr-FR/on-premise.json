@@ -14,7 +14,7 @@
     "description": "La porte de la terrasse vous permet d'accéder directement à l'open space depuis l'extérieur.",
     "label": "Déverrouiller\nla porte de la terrasse",
     "loading": "Demande en cours...",
-    "missingCapability": "Déverrouiller la porte requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10 jours de présence.",
+    "missingCapability": "Déverrouiller la porte requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10 journées d'activité.",
     "onUnlock": {
       "fail": "Impossible de déverrouiller la porte",
       "success": "C'est ouvert !"
@@ -25,7 +25,7 @@
     "description": "La boîte à clés vous permet de récupérer les clés de l'espace et :\n- d'ouvrir celui-ci lorsque vous êtes le premier arrivé,\n- de le fermer lorsque vous êtes le dernier à partir.\n\nElle est située à coté de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
     "fetch": "Obtenir le code",
     "label": "Ouvrir la boîte à clés",
-    "missingCapability": "Ouvrir la boîte à clés requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10 jours de présence.",
+    "missingCapability": "Ouvrir la boîte à clés requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10 journées d'activité.",
     "onFetch": {
       "fail": "Impossible d'obtenir le code"
     }

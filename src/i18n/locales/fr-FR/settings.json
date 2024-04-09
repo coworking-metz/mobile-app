@@ -26,6 +26,9 @@
   },
   "profile": {
     "presence": {
+      "activity_one": "journée",
+      "activity_other": "journées",
+      "activity_zero": "Absent",
       "attending": "Actuellement présent",
       "onFetch": {
         "fail": "Impossible de récupérer la présence"
@@ -51,6 +54,7 @@
           "half": "demi-journée"
         }
       },
+      "since": "depuis le {{date}}",
       "title": "Ma présence"
     }
   },

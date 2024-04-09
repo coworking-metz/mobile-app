@@ -21,6 +21,7 @@ const PresenceGraph = ({
   loading = false,
   activity = [],
   nonCompliantDates = [],
+  activityCount = 0,
   style,
   onDateSelect,
 }: {
@@ -28,27 +29,30 @@ const PresenceGraph = ({
   loading?: boolean;
   nonCompliantDates?: string[];
   activity?: ApiMemberActivity[];
+  activityCount?: number;
   style?: StyleProps;
   onDateSelect?: (date: string) => void;
 }) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const colorScheme = useColorScheme();
   const [startDate, setStartDate] = useState<string | null>(
     dayjs().subtract(6, 'month').format('YYYY-MM-DD'),
   );
 
-  const firstDate = useMemo(() => {
+  const firstActivityDate = useMemo(() => {
     const [first] = activity;
     return first?.date;
   }, [activity]);
 
   const earliestDate = useMemo(() => {
-    const [first] = activity.filter(({ date }) => !startDate || dayjs(date).isAfter(startDate));
+    const [first] = activity.filter(
+      ({ date }) => !startDate || dayjs(date).isAfter(startDate, 'day'),
+    );
     return first?.date;
   }, [activity, startDate]);
 
   const squaresCount = useMemo(() => {
-    return Math.max(dayjs().diff(earliestDate, 'day'), MINIMUM_SQUARES);
+    return Math.max(dayjs().add(1, 'day').diff(earliestDate, 'day'), MINIMUM_SQUARES);
   }, [earliestDate]);
 
   const hasSelectedDate = useMemo(
@@ -142,12 +146,7 @@ const PresenceGraph = ({
       <View
         key={`presence-graph-${startDate ? `6months` : 'all'}`}
         style={[tw`flex flex-row`, { transform: [{ scaleX: -1 }] }]}>
-        {!startDate || dayjs(firstDate).isAfter(startDate, 'day') ? (
-          <Text
-            style={tw`text-3xl font-bold tracking-tight text-slate-900 dark:text-gray-200 self-center ml-6`}>
-            {dayjs(firstDate || startDate).year()}
-          </Text>
-        ) : (
+        {startDate && firstActivityDate ? (
           <LinearGradient
             colors={
               colorScheme === 'dark'
@@ -174,7 +173,31 @@ const PresenceGraph = ({
               />
             </View>
           </LinearGradient>
-        )}
+        ) : firstActivityDate ? (
+          <View style={tw`flex flex-col self-center ml-6`}>
+            <View style={tw`flex flex-row items-end gap-1`}>
+              <Text style={tw`text-3xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                {activityCount ||
+                  t('settings.profile.presence.activity', {
+                    count: activityCount,
+                  })}
+              </Text>
+              {activityCount && (
+                <Text
+                  style={[tw`font-normal text-sm leading-6 text-slate-500 dark:text-slate-400`]}>
+                  {t('settings.profile.presence.activity', {
+                    count: activityCount,
+                  })}
+                </Text>
+              )}
+            </View>
+            <Text style={[tw`font-normal text-sm text-slate-500 dark:text-slate-400`]}>
+              {t('settings.profile.presence.since', {
+                date: dayjs(firstActivityDate).format('ll'),
+              })}
+            </Text>
+          </View>
+        ) : null}
         <ContributionGraph
           chartConfig={{
             backgroundGradientTo: 'transparent',
