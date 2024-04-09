@@ -14,9 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Swipe down to refresh on the workspace plan.
 - Swipe down to dismiss fullscreen image view.
 
+### Changed
+
+- Render total activity count and first activity date instead of year when scrolling presence graph.
+
 ### Fixed
 
-- Properly compute year on presence graph.
 - Reverse theme french translations.
 
 ## [1.4.1] - 2024-04-04
