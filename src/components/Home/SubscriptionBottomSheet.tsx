@@ -97,7 +97,6 @@ const SubscriptionBottomSheet = ({
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col w-full py-4`}
       style={style}
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
@@ -107,7 +106,7 @@ const SubscriptionBottomSheet = ({
       {sortedSubscriptions.length ? (
         <>
           <View
-            style={tw`self-start w-full h-68`}
+            style={[tw`self-start w-full`, sortedSubscriptions.length > 1 ? tw`h-68` : tw`h-64`]}
             onLayout={({ nativeEvent }: LayoutChangeEvent) =>
               setCarouselWidth(nativeEvent.layout.width)
             }>
@@ -209,7 +208,7 @@ const SubscriptionBottomSheet = ({
       <Link
         asChild
         href="https://www.coworking-metz.fr/boutique/pass-resident/"
-        style={tw`mt-6 mx-6`}>
+        style={tw`mx-6 ${sortedSubscriptions.length > 1 ? 'mt-6' : 'mt-2'}`}>
         <AppRoundedButton style={tw`h-14 self-stretch`} suffixIcon="open-in-new">
           <Text style={tw`text-base font-medium text-black`}>
             {sortedSubscriptions.length

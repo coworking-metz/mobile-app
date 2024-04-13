@@ -128,20 +128,29 @@ const Settings = () => {
     };
   }, [verticalScrollProgress]);
 
-  const nonCompliantDates = useMemo(() => {
+  const nonCompliantActivity = useMemo(() => {
     const balance = profile?.balance || 0;
-    if (balance < 0 && activity) {
-      return activity
+    if (balance < 0 && activity?.length) {
+      const ticketActivities = activity
         .filter(({ type }) => type === 'ticket')
-        .sort((a, b) => dayjs(b.date).diff(a.date))
-        .reduce((acc, item) => {
-          const sum = acc.reduce((s, { value }) => s + value, 0);
-          if (sum < Math.abs(balance)) {
-            return [...acc, item];
-          }
-          return acc;
-        }, [] as ApiMemberActivity[])
-        .map(({ date }) => date);
+        .sort((a, b) => dayjs(b.date).diff(a.date));
+
+      let remainingDebt = Math.abs(balance);
+      const nonCompliantAttendance = [];
+      for (const { date, value, type } of ticketActivities) {
+        if (remainingDebt <= 0) {
+          break;
+        }
+
+        const debt = value > remainingDebt ? remainingDebt : value;
+        nonCompliantAttendance.push({
+          date,
+          value: debt,
+          type,
+        });
+        remainingDebt -= debt;
+      }
+      return nonCompliantAttendance;
     }
 
     return [];
@@ -253,7 +262,7 @@ const Settings = () => {
               activity={activity}
               activityCount={profile?.totalActivity}
               loading={isFetchingActivity || isFetchingProfile}
-              nonCompliantDates={nonCompliantDates}
+              nonCompliantActivity={nonCompliantActivity}
               selectedDate={selectedPresence?.date}
               onDateSelect={onDateSelect}
             />
@@ -400,7 +409,9 @@ const Settings = () => {
       {selectedPresence && (
         <PresenceBottomSheet
           activity={selectedPresence}
-          nonCompliant={nonCompliantDates.includes(selectedPresence.date)}
+          nonCompliant={nonCompliantActivity.find(({ date }) =>
+            dayjs(date).isSame(selectedPresence.date),
+          )}
           onClose={() => setSelectedPresence(null)}
         />
       )}

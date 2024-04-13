@@ -45,7 +45,7 @@ const KeyBoxBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: (
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch gap-4 px-6 py-4`}
+      contentContainerStyle={tw`flex flex-col items-stretch gap-4 px-6 pt-6`}
       style={style}
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>

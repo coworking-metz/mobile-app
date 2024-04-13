@@ -74,15 +74,15 @@
       "get": "Adhérer pour {{year}}",
       "grade": {
         "active": {
-          "description": "Être membre actif vous permet de voter lors de l'assemblée générale.\n\nCe statut est obtenu après 20 journées d'activité au cours des 6 derniers mois.",
-          "label": "Membre actif"
+          "description": "Être membre électeur vous permet de voter lors de l'assemblée générale.\n\nCe statut est obtenu après 20 journées d'activité au cours des 6 derniers mois.",
+          "label": "Membre électeur"
         },
         "label": "Statut",
         "none": {
           "label": "Aucun"
         },
         "standard": {
-          "description": "Vous n'avez pas encore le statut de membre actif. Ce statut vous permet de voter lors de l'assemblée générale.\n\nIl est obtenu après 20 journées d'activité au cours des 6 derniers mois.",
+          "description": "Vous n'avez pas encore le statut de membre électeur. Ce statut vous permet de voter lors de l'assemblée générale.\n\nIl est obtenu après 20 journées d'activité au cours des 6 derniers mois.",
           "label": "Membre adhérent"
         }
       },

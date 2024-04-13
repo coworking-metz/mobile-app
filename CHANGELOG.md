@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Changed
+
+- Use `voting member` term instead of `active member` for member status.
+
+### Fixed
+
+- Properly computed non compliant dates and overconsumption.
+
 ## [1.5.0] - 2024-04-09
 
 ### Added

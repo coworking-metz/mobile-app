@@ -20,14 +20,14 @@ const PresenceGraph = ({
   selectedDate,
   loading = false,
   activity = [],
-  nonCompliantDates = [],
+  nonCompliantActivity = [],
   activityCount = 0,
   style,
   onDateSelect,
 }: {
   selectedDate?: string;
   loading?: boolean;
-  nonCompliantDates?: string[];
+  nonCompliantActivity?: ApiMemberActivity[];
   activity?: ApiMemberActivity[];
   activityCount?: number;
   style?: StyleProps;
@@ -60,8 +60,8 @@ const PresenceGraph = ({
     [activity, selectedDate],
   );
   const hasNonCompliantDates = useMemo(
-    () => activity.some(({ date }) => nonCompliantDates.includes(date)),
-    [activity, nonCompliantDates],
+    () => activity.some(({ date }) => nonCompliantActivity.some(({ date: d }) => d === date)),
+    [activity, nonCompliantActivity],
   );
   const hasAtLeastOneFullDay = useMemo(() => activity.some(({ value }) => value >= 1), [activity]);
 
@@ -119,16 +119,15 @@ const PresenceGraph = ({
   );
 
   const values = useMemo(() => {
-    return activity.map((item) => ({
-      date: item.date,
-      count:
-        item.date === selectedDate
-          ? 3
-          : nonCompliantDates.includes(item.date)
-            ? 2.5 * item.value
-            : item.value,
-    }));
-  }, [activity, selectedDate, nonCompliantDates]);
+    return activity.map((item) => {
+      const nonCompliant = nonCompliantActivity.find(({ date }) => date === item.date);
+      return {
+        date: item.date,
+        count:
+          item.date === selectedDate ? 3 : nonCompliant ? 2.5 * nonCompliant.value : item.value,
+      };
+    });
+  }, [activity, selectedDate, nonCompliantActivity]);
 
   return loading ? (
     <View style={tw`flex flex-row items-center justify-center min-h-[${HEIGHT_IN_PIXELS}px]`}>

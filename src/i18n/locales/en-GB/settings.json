@@ -34,6 +34,28 @@
         "fail": "Unable to fetch presence"
       },
       "selected": {
+        "coverage": {
+          "label": "Coverage",
+          "value": {
+            "subscription": "Subscription",
+            "ticket_one": "{{count}} ticket{{suffix}}",
+            "ticket_other": "{{count}} tickets{{suffix}}",
+            "ticket_zero": "{{count}} ticket{{suffix}}"
+          }
+        },
+        "debt": {
+          "description": "Overconsumption occurs when your balance is depleted.",
+          "unit": {
+            "ticket_one": " overconsumed",
+            "ticket_other": " overconsumed",
+            "ticket_zero": " overconsumed"
+          },
+          "with": {
+            "ticket_one": " with\n{{count}} overconsumed",
+            "ticket_other": " with\n{{count}} overconsumed",
+            "ticket_zero": " with\n{{count}} overconsumed"
+          }
+        },
         "description": "Coverage is automatically computed based on subscriptions and attendance.\n\nFor attendance:\n- less than 5 hours is equivalent to half a day,\n- beyond 5 hours is equivalent to a full day.\n\nOne ticket covers 2 half-days.\nA subscription covers a rolling 30-day period from a start date.",
         "overconsumed": {
           "value": {

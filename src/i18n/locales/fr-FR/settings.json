@@ -34,21 +34,29 @@
         "fail": "Impossible de récupérer la présence"
       },
       "selected": {
-        "description": "La couverture est automatiquement déterminée en fonction des abonnements et de la présence.\n\nUne présence :\n- inférieure à 5h équivaut à une demi-journée,\n- au-delà de 5h équivaut à une journée entière.\n\nUn ticket permet de couvrir 2 demi-journées.\nUn abonnement couvre 30 jours glissants à compter d'une date de début.",
-        "overconsumed": {
-          "value": {
-            "ticketFull": "1 ticket surconsommé",
-            "ticketHalf": "0.5 ticket surconsommé"
-          }
-        },
-        "type": {
+        "coverage": {
           "label": "Couverture",
           "value": {
             "subscription": "Abonnement",
-            "ticketFull": "1 ticket",
-            "ticketHalf": "0.5 ticket"
+            "ticket_one": "{{count}} ticket{{suffix}}",
+            "ticket_other": "{{count}} tickets{{suffix}}",
+            "ticket_zero": "{{count}} ticket{{suffix}}"
           }
         },
+        "debt": {
+          "description": "Une surconsommation est engendrée lorsque votre solde est épuisé.",
+          "unit": {
+            "ticket_one": " surconsommé",
+            "ticket_other": " surconsommés",
+            "ticket_zero": " surconsommé"
+          },
+          "with": {
+            "ticket_one": " dont\n{{count}} surconsommé",
+            "ticket_other": " dont\n{{count}} surconsommés",
+            "ticket_zero": " dont\n{{count}} surconsommé"
+          }
+        },
+        "description": "La couverture est automatiquement déterminée en fonction des abonnements et de la présence.\n\nUne présence :\n- inférieure à 5h équivaut à une demi-journée,\n- au-delà de 5h équivaut à une journée entière.\n\nUn ticket permet de couvrir 2 demi-journées.\nUn abonnement couvre 30 jours glissants à compter d'une date de début.",
         "unit": {
           "full": "journée entière",
           "half": "demi-journée"
