@@ -3,14 +3,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo, type ReactNode } from 'react';
-import { Platform, Text, View } from 'react-native';
+import { Platform, View } from 'react-native';
 import Animated, {
+  Extrapolation,
   FadeInDown,
-  type StyleProps,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
+  type StyleProps,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
@@ -118,6 +119,7 @@ const ModalLayout = ({
       verticalScrollProgress.value,
       INTERPOLATE_INPUT_RANGE,
       [24, 24, 16, 16],
+      Extrapolation.CLAMP,
     );
 
     return {

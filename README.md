@@ -49,7 +49,7 @@ docker-compose -f mock/docker-compose.yml up -d
 ### iOS
 
 ```bash
-eas build --profile preview --platform ios --local
+SENTRY_DISABLE_AUTO_UPLOAD=true eas build --profile preview --platform ios --local
 ```
 Then:
 - launch `Xcode`
@@ -60,7 +60,7 @@ Then:
 ### Android
 
 ```bash
-eas build --profile preview --platform android --local
+SENTRY_DISABLE_AUTO_UPLOAD=true eas build --profile preview --platform android --local
 adb install build-*.apk
 ```
 

@@ -12,6 +12,7 @@ export interface ApiMemberProfile {
   _id: string;
   wpUserId: number;
   picture?: string;
+  thumbnail?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -75,11 +76,4 @@ export interface ApiMemberTicket {
 
 export const getMemberTickets = (memberId: string): Promise<ApiMemberTicket[]> => {
   return HTTP.get(`/api/members/${memberId}/tickets`).then(({ data }) => data);
-};
-
-const WORDPRESS_BASE_URL =
-  process.env.EXPO_PUBLIC_WORDPRESS_BASE_URL || 'https://coworking-metz.fr/';
-
-export const buildMemberPictureUrl = (wordpressUserId: number) => {
-  return `${WORDPRESS_BASE_URL}/polaroid/${wordpressUserId}-raw-small.jpg`;
 };

@@ -40,6 +40,9 @@ import { IS_DEV } from '@/services/updates';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 
+const WORDPRESS_BASE_URL =
+  process.env.EXPO_PUBLIC_WORDPRESS_BASE_URL || 'https://coworking-metz.fr/';
+
 const NAVIGATION_HEIGHT = 48;
 const HEADER_HEIGHT = 192;
 const INTERPOLATE_INPUT = [-1, 0, HEADER_HEIGHT, HEADER_HEIGHT];
@@ -302,7 +305,7 @@ const Settings = () => {
             <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.support.title')}
             </Text>
-            <Link asChild href="https://www.coworking-metz.fr/mon-compte/">
+            <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/`}>
               <ServiceRow
                 withBottomDivider
                 label={t('settings.support.account.label')}
@@ -311,7 +314,7 @@ const Settings = () => {
                 suffixIcon="open-in-new"
               />
             </Link>
-            <Link asChild href="https://www.coworking-metz.fr/la-boutique/">
+            <Link asChild href={`${WORDPRESS_BASE_URL}/la-boutique/`}>
               <ServiceRow
                 withBottomDivider
                 label={t('settings.support.store.label')}
