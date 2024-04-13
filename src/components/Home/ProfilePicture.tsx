@@ -22,7 +22,7 @@ const ProfilePicture = ({
           resizeMode="cover"
           sharedTransitionTag="profilePicture"
           source={{ uri: user?.picture }}
-          style={tw`h-full w-full rounded-3xl overflow-hidden`}
+          style={tw`h-full w-full rounded-3xl bg-gray-200 overflow-hidden`}
         />
       ) : (
         <Animated.View

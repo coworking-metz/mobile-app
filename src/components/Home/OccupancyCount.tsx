@@ -10,7 +10,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { FadeInRight, FadeOutRight } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { isSilentError } from '@/helpers/error';
-import { buildMemberPictureUrl, type ApiMemberProfile } from '@/services/api/members';
+import { type ApiMemberProfile } from '@/services/api/members';
 
 const MAX_MEMBERS_PICTURES = 4;
 
@@ -35,9 +35,7 @@ const OccupancyCount = ({
   const { t } = useTranslation();
 
   const memberPictures = useMemo(() => {
-    return members
-      .filter(({ picture }) => picture)
-      .map((member) => buildMemberPictureUrl(member.wpUserId));
+    return members.map(({ thumbnail }) => thumbnail).filter(Boolean);
   }, [members]);
 
   const onSelectMembersPictures = useCallback(() => {
