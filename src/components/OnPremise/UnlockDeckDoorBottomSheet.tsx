@@ -66,7 +66,7 @@ const UnlockDeckDoorBottomSheet = ({
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-center gap-4 px-6 py-4`}
+      contentContainerStyle={tw`flex flex-col items-center gap-4 px-6 pt-6 pb-4`}
       style={style}
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>

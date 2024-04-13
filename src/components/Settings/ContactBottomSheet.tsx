@@ -35,7 +35,7 @@ const ContactBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: 
       style={style}
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
-      <View style={tw`flex flex-col w-full pt-6 px-6 pb-4`}>
+      <View style={tw`flex flex-col w-full pt-6 px-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <ChatBubblesAnimation style={tw`h-56 w-full`} />
         </View>
@@ -49,7 +49,7 @@ const ContactBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: 
         <Link
           asChild
           href="https://conversations-widget.brevo.com/?hostId=65324d6bf96d92531b4091f8">
-          <AppRoundedButton prefixIcon="chat-processing-outline" style={tw`h-14 self-stretch mt-6`}>
+          <AppRoundedButton style={tw`h-14 self-stretch mt-6`} suffixIcon="chat-processing-outline">
             <Text style={tw`text-base text-black font-medium`}>
               {t('settings.support.contact.conversations.label')}
             </Text>
@@ -57,8 +57,8 @@ const ContactBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: 
         </Link>
         <AppTextButton
           loading={isContactingTeam}
-          prefixIcon="email-outline"
           style={tw`mt-4`}
+          suffixIcon="email-outline"
           onPress={onContactTeamByEmail}>
           <Text style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
             {t('settings.support.contact.mail.label')}

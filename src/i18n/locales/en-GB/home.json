@@ -70,15 +70,15 @@
       "get": "Join for {{year}}",
       "grade": {
         "active": {
-          "description": "Being an active member allows you to vote during the general assembly.\n\nThis status is obtained after 20 days of activity over the last 6 months.",
-          "label": "Active member"
+          "description": "Being a voting member allows you to vote during the general assembly.\n\nThis status is obtained after 20 days of activity over the last 6 months.",
+          "label": "Voting member"
         },
         "label": "Status",
         "none": {
           "label": "None"
         },
         "standard": {
-          "description": "You do not yet have the status of an active member. This status allows you to vote during the general assembly.\n\nIt is obtained after 20 days of activity over the last 6 months.",
+          "description": "You do not yet have the status of a voting member. This status allows you to vote during the general assembly.\n\nIt is obtained after 20 days of activity over the last 6 months.",
           "label": "Member"
         }
       },
