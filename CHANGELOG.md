@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [1.5.1] - 2024-04-14
+
 ### Added
 
 - User roles on settings screen.
@@ -122,7 +124,8 @@ Initial release with the following features:
 - services like opening the gate,
 - user attendance history.
 
-[unreleased]: https://github.com/coworking-metz/mobile-app/compare/1.5.0...main
+[unreleased]: https://github.com/coworking-metz/mobile-app/compare/1.5.1...main
+[1.5.1]: https://github.com/coworking-metz/mobile-app/compare/1.5.0...1.5.1
 [1.5.0]: https://github.com/coworking-metz/mobile-app/compare/1.4.1...1.5.0
 [1.4.1]: https://github.com/coworking-metz/mobile-app/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/coworking-metz/mobile-app/compare/1.3.0...1.4.0
