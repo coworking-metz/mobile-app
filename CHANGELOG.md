@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- User roles on settings screen.
+
 ### Changed
 
 - Use `voting member` term instead of `active member` for member status.

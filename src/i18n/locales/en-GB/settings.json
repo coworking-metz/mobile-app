@@ -29,7 +29,6 @@
       "activity_one": "day",
       "activity_other": "days",
       "activity_zero": "None",
-      "attending": "Currently attending",
       "onFetch": {
         "fail": "Unable to fetch presence"
       },
@@ -78,6 +77,15 @@
       },
       "since": "since {{date}}",
       "title": "My presence"
+    }
+  },
+  "roles": {
+    "label": "Roles",
+    "value": {
+      "admin": "Administrator",
+      "coworker": "Coworker",
+      "external": "External",
+      "guest": "Guest"
     }
   },
   "support": {
