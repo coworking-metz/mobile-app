@@ -44,7 +44,7 @@ const WORDPRESS_BASE_URL =
   process.env.EXPO_PUBLIC_WORDPRESS_BASE_URL || 'https://coworking-metz.fr/';
 
 const NAVIGATION_HEIGHT = 48;
-const HEADER_HEIGHT = 192;
+const HEADER_HEIGHT = 224;
 const INTERPOLATE_INPUT = [-1, 0, HEADER_HEIGHT, HEADER_HEIGHT];
 
 const Settings = () => {
@@ -195,6 +195,18 @@ const Settings = () => {
                 style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
                 {authStore.user?.email}
               </Animated.Text>
+
+              <Animated.View
+                entering={FadeInLeft.duration(500).delay(300)}
+                style={tw`flex flex-row gap-2 mt-2`}>
+                {authStore.user?.roles.map((role) => (
+                  <Text
+                    key={`role-${role}`}
+                    style={tw`flex items-center rounded-md overflow-hidden bg-amber-200/50 dark:bg-amber-100/80 px-2.5 py-0.5 text-sm font-medium text-amber-800 dark:text-amber-900`}>
+                    {t(`settings.roles.value.${role}`)}
+                  </Text>
+                ))}
+              </Animated.View>
             </View>
           </View>
         </Animated.View>
@@ -240,22 +252,20 @@ const Settings = () => {
                 />
               ) : profileError && !isSilentError(profileError) ? (
                 <ErrorChip error={profileError} label={t('home.profile.onFetch.fail')} />
-              ) : (
-                profile?.attending && (
-                  <Animated.View
-                    entering={FadeInRight.duration(300).delay(300)}
-                    style={[
-                      tw`ml-auto flex flex-row items-center gap-1.5 px-2 py-1 rounded-full border-[0.5px] border-gray-300 dark:border-gray-700`,
-                    ]}>
-                    <View style={tw`h-2 w-2 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
-                    <Text
-                      numberOfLines={1}
-                      style={tw`text-xs font-normal shrink text-gray-900 dark:text-gray-200`}>
-                      {t('settings.profile.presence.attending')}
-                    </Text>
-                  </Animated.View>
-                )
-              )}
+              ) : profile?.balance && profile.balance < 0 ? (
+                <Animated.View
+                  entering={FadeInRight.duration(300).delay(300)}
+                  style={tw`ml-auto flex shrink flex-row items-center rounded-md overflow-hidden bg-red-100 dark:bg-red-200/75 gap-1.5 px-2.5 py-0.5`}>
+                  <Text numberOfLines={1} style={tw`text-sm font-medium text-red-800`}>
+                    {t('settings.profile.presence.selected.coverage.value.ticket', {
+                      count: Math.abs(profile.balance),
+                      suffix: t(`settings.profile.presence.selected.debt.unit.ticket`, {
+                        count: Math.abs(profile.balance),
+                      }),
+                    })}
+                  </Text>
+                </Animated.View>
+              ) : null}
             </View>
 
             <PresenceGraph

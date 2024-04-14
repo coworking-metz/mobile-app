@@ -29,7 +29,6 @@
       "activity_one": "journée",
       "activity_other": "journées",
       "activity_zero": "Absent",
-      "attending": "Actuellement présent",
       "onFetch": {
         "fail": "Impossible de récupérer la présence"
       },
@@ -64,6 +63,14 @@
       },
       "since": "depuis le {{date}}",
       "title": "Ma présence"
+    }
+  },
+  "roles": {
+    "value": {
+      "admin": "Administrateur⸱rice",
+      "coworker": "Coworkeur⸱se",
+      "external": "Externe",
+      "guest": "Visiteur⸱se"
     }
   },
   "support": {
