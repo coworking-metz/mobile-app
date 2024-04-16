@@ -1,4 +1,4 @@
-import createSecureStorage from './SecureStorage';
+import createSecureStorage from './secure-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
@@ -20,7 +20,7 @@ interface SettingsState {
 
 const useSettingsStore = create<SettingsState>()(
   persist(
-    (set, get) => ({
+    (set, _get) => ({
       hasOnboard: false,
       setOnboard: async (hasOnboard: boolean): Promise<void> => {
         await set({ hasOnboard });

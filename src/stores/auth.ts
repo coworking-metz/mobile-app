@@ -1,4 +1,4 @@
-import createSecureStorage from './SecureStorage';
+import createSecureStorage from './secure-storage';
 import * as Sentry from '@sentry/react-native';
 import dayjs from 'dayjs';
 import { create } from 'zustand';
@@ -54,7 +54,7 @@ const useAuthStore = create<AuthState>()(
         }
         return refreshTokenPromise;
       },
-      async getOrRefreshAccessToken() {
+      getOrRefreshAccessToken: async (): Promise<string | null> => {
         const accessToken = get().accessToken;
         if (accessToken) {
           const { exp } = decodeToken(accessToken);

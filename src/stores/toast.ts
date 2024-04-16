@@ -31,7 +31,7 @@ interface ToastState {
   dismissAll: () => void;
 }
 
-const useToastStore = create<ToastState>((set, get) => ({
+const useToastStore = create<ToastState>((set, _get) => ({
   history: [],
   add: (toast: Toast) => {
     const newToast = {

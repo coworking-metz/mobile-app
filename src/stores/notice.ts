@@ -27,7 +27,7 @@ interface NoticeState {
   dismissAll: () => void;
 }
 
-const useNoticeStore = create<NoticeState>((set, get) => ({
+const useNoticeStore = create<NoticeState>((set, _get) => ({
   history: [],
   add: (notice: Notice): void => {
     set((state) => ({
