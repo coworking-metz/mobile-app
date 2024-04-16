@@ -1,3 +1,4 @@
+import { createAsyncStorage } from './async-storage';
 import createSecureStorage from './secure-storage';
 import * as Sentry from '@sentry/react-native';
 import dayjs from 'dayjs';
@@ -80,7 +81,7 @@ const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'auth-storage',
-      storage: createJSONStorage(createSecureStorage),
+      storage: createJSONStorage(createAsyncStorage),
       partialize: (state) =>
         Object.fromEntries(Object.entries(state).filter(([key]) => ['refreshToken'].includes(key))),
     },

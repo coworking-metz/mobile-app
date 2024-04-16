@@ -1,3 +1,4 @@
+import { createAsyncStorage } from './async-storage';
 import createSecureStorage from './secure-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
@@ -47,7 +48,7 @@ const useSettingsStore = create<SettingsState>()(
     }),
     {
       name: 'settings-storage',
-      storage: createJSONStorage(createSecureStorage),
+      storage: createJSONStorage(createAsyncStorage),
     },
   ),
 );
