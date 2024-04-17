@@ -85,7 +85,7 @@ const KeyBoxBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: (
       ) : (
         <Animated.View exiting={FadeOutDown} style={tw`w-full`}>
           <AppRoundedButton
-            disabled={!user?.capabilities.includes('KEYS_ACCESS')}
+            disabled={!user?.capabilities?.includes('KEYS_ACCESS')}
             loading={isLoading}
             style={tw`mt-2`}
             onPress={onFetchCode}>
@@ -93,7 +93,7 @@ const KeyBoxBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: (
           </AppRoundedButton>
         </Animated.View>
       )}
-      {!user?.capabilities.includes('KEYS_ACCESS') && (
+      {!user?.capabilities?.includes('KEYS_ACCESS') && (
         <View style={tw`flex flex-row items-start flex-gap-2 mt-3 overflow-hidden`}>
           <MaterialCommunityIcons
             color={tw.color('yellow-500')}

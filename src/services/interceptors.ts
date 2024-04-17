@@ -96,8 +96,9 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
       if (isTokenExpired) {
         // should fetch another access token and retry
         httpLogger.warn(
-          `Retrying to get an access token for ${error.config?.method?.toUpperCase()} ${error.config
-            ?.url}`,
+          `Retrying to get an access token for ${error.config?.method?.toUpperCase()} ${
+            error.config?.url
+          }`,
         );
         await useAuthStore.getState().refreshAccessToken();
         return true;

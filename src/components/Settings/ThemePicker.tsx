@@ -4,8 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text } from 'react-native';
 import tw from 'twrnc';
-
-const IS_RUNNING_IN_EXPO_GO = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
 
 let useThemePreference: () => 'light' | 'dark' | 'system';
 if (IS_RUNNING_IN_EXPO_GO) {

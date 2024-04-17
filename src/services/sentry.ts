@@ -1,4 +1,4 @@
-import { IS_DEV } from './updates';
+import { IS_DEV } from './environment';
 import * as Sentry from '@sentry/react-native';
 import Constants, { ExecutionEnvironment } from 'expo-constants';
 
