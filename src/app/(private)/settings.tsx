@@ -36,7 +36,7 @@ import {
   getMemberProfile,
   type ApiMemberActivity,
 } from '@/services/api/members';
-import { IS_DEV } from '@/services/updates';
+import { IS_DEV } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 

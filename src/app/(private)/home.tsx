@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, RefreshControl, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import Animated, {
   FadeIn,
   FadeInLeft,
@@ -12,8 +12,7 @@ import Animated, {
   FadeOut,
   StretchInY,
 } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Fader, ToastPresets } from 'react-native-ui-lib';
+import { ToastPresets } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppTouchableScale from '@/components/AppTouchableScale';
 import ErrorChip from '@/components/ErrorChip';
@@ -23,6 +22,7 @@ import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
+import HomeLayout from '@/components/Home/HomeLayout';
 import MembershipBottomSheet from '@/components/Home/MembershipBottomSheet';
 import MembershipCard from '@/components/Home/MembershipCard';
 import OccupancyCount from '@/components/Home/OccupancyCount';
@@ -47,7 +47,6 @@ export default function HomeScreen({}) {
   const { t } = useTranslation();
   const user = useAuthStore((state) => state.user);
   const settingsStore = useSettingsStore();
-  const insets = useSafeAreaInsets();
   const toastStore = useToastStore();
   const activeSince = useAppState();
 
@@ -56,8 +55,6 @@ export default function HomeScreen({}) {
   const [hasSelectMembership, selectMembership] = useState<boolean>(false);
 
   const [shouldRenderContactBottomSheet, setRenderContactBottomSheet] = useState<boolean>(false);
-
-  const [refreshing, setRefreshing] = useState(false);
 
   const {
     data: currentMembers,
@@ -131,16 +128,16 @@ export default function HomeScreen({}) {
   }, [nextCalendarEvents]);
 
   const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    settingsStore.setLearnPullToRefresh(true);
-    Promise.all([
+    return Promise.all([
       user?.id && refetchProfile(),
       refetchCurrentMembers(),
       refreshCalendarEvents(),
-    ]).finally(() => {
-      setRefreshing(false);
-    });
+    ]);
   }, [user, settingsStore]);
+
+  useEffect(() => {
+    onRefresh();
+  }, [user]);
 
   const onSuccessiveTaps = useCallback(() => {
     const toast = toastStore.add({
@@ -157,241 +154,219 @@ export default function HomeScreen({}) {
   }, [toastStore, t]);
 
   return (
-    <Animated.View style={[tw`flex w-full flex-col items-stretch bg-gray-100 dark:bg-black`]}>
-      <Animated.ScrollView
-        contentContainerStyle={[
-          tw`relative grow flex flex-col items-start justify-start`,
-          { paddingTop: insets.top, paddingBottom: insets.bottom + 32 },
-        ]}
-        entering={FadeIn.duration(750)}
-        horizontal={false}
-        refreshControl={
-          <RefreshControl
-            progressViewOffset={insets.top}
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
-        showsVerticalScrollIndicator={false}
-        style={[tw`h-full w-full`]}>
-        <View style={tw`flex flex-row items-center w-full px-4`}>
-          <StaleDataText activeSince={activeSince} lastFetch={currentMembersUpdatedAt} />
-
-          <View style={tw`flex flex-col items-end shrink grow basis-0`}>
-            <Link asChild href="/settings">
-              <AppTouchableScale>
-                <ProfilePicture attending={profile?.attending} style={tw`h-12 w-12`} />
-              </AppTouchableScale>
-            </Link>
-          </View>
-        </View>
-
-        <Animated.View
-          entering={FadeInLeft.duration(750).delay(150)}
-          style={tw`flex self-stretch ml-6 mr-4 mb-6`}>
-          <OccupancyCount
-            error={currentMembersError}
-            loading={isLoadingCurrentMembers}
-            members={currentMembers}
-            style={tw`mt-4`}
-            total={28}
-          />
-        </Animated.View>
-
-        {user?.onboarding && (
-          <Animated.View entering={StretchInY.delay(750)} style={tw`flex self-stretch mx-4`}>
-            <AppointmentCard date={user.onboarding.date} style={tw`w-full`} />
-          </Animated.View>
-        )}
-
-        <Animated.View entering={FadeInLeft.duration(750).delay(400)} style={tw`flex self-stretch`}>
-          <View style={tw`flex flex-row gap-2 min-h-6 mt-6 mb-2 px-4`}>
-            <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
-              {t('home.profile.label')}
-            </Text>
-            {profileError && !isSilentError(profileError) ? (
-              <ErrorChip error={profileError} label={t('home.profile.onFetch.fail')} />
-            ) : null}
-          </View>
-
-          <ScrollView
-            contentContainerStyle={tw`flex flex-row items-stretch gap-4 px-4`}
-            horizontal={true}
-            scrollEventThrottle={16}
-            showsHorizontalScrollIndicator={false}
-            style={tw`w-full`}>
-            <AppTouchableScale
-              style={tw`flex flex-row items-stretch`}
-              onPress={() => selectBalance(true)}>
-              <BalanceCard
-                count={profile?.balance}
-                loading={isLoadingProfile}
-                style={tw`min-h-38`}
-              />
-            </AppTouchableScale>
-            <AppTouchableScale
-              style={tw`flex flex-row items-stretch`}
-              onPress={() => selectSubscription(true)}>
-              <SubscriptionCard
-                activeSince={activeSince}
-                loading={isLoadingProfile}
-                style={tw`min-h-38`}
-                subscription={currentSubscription}
-              />
-            </AppTouchableScale>
-            <AppTouchableScale
-              style={tw`flex flex-row items-stretch`}
-              onPress={() => selectMembership(true)}>
-              <MembershipCard
-                active={profile?.activeUser}
-                lastMembershipYear={profile?.lastMembership}
-                loading={isLoadingProfile}
-                style={tw`min-h-38`}
-                valid={profile?.membershipOk}
-              />
-            </AppTouchableScale>
-          </ScrollView>
-        </Animated.View>
-
-        <Animated.View
-          entering={FadeInRight.duration(750).delay(600)}
-          style={tw`flex flex-row w-full gap-2 mt-12 mb-3 px-4`}>
-          <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
-            {t('home.calendar.label')}
-          </Text>
-          {calendarEventsError && !isSilentError(calendarEventsError) ? (
-            <ErrorChip error={calendarEventsError} label={t('home.calendar.onFetch.fail')} />
+    <HomeLayout
+      outerChildren={
+        <>
+          {hasSelectSubscription ? (
+            <SubscriptionBottomSheet
+              activeSince={activeSince}
+              loading={isFetchingProfile}
+              subscriptions={profile?.abos || []}
+              onClose={() => selectSubscription(false)}
+            />
           ) : null}
-          <Link asChild href="/events/calendar">
-            <Text
-              style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-[16]`}>
-              {t('home.calendar.browse')}
-            </Text>
+
+          {hasSelectBalance ? (
+            <BalanceBottomSheet
+              activeSince={activeSince}
+              balance={profile?.balance || 0}
+              loading={isFetchingProfile}
+              onClose={() => selectBalance(false)}
+            />
+          ) : null}
+
+          {hasSelectMembership ? (
+            <MembershipBottomSheet
+              active={profile?.activeUser}
+              activeSince={activeSince}
+              activityOverLast6Months={profile?.activity}
+              lastMembershipYear={profile?.lastMembership}
+              loading={isFetchingProfile}
+              valid={profile?.membershipOk}
+              onClose={() => selectMembership(false)}
+            />
+          ) : null}
+
+          {shouldRenderContactBottomSheet ? (
+            <ContactBottomSheet onClose={() => setRenderContactBottomSheet(false)} />
+          ) : null}
+        </>
+      }
+      onRefresh={() => {
+        settingsStore.setLearnPullToRefresh(true);
+        return onRefresh();
+      }}>
+      <View style={tw`flex flex-row items-center w-full px-4`}>
+        <StaleDataText activeSince={activeSince} lastFetch={currentMembersUpdatedAt} />
+
+        <View style={tw`flex flex-col items-end shrink grow basis-0`}>
+          <Link asChild href="/settings">
+            <AppTouchableScale>
+              <ProfilePicture attending={profile?.attending} style={tw`h-12 w-12`} />
+            </AppTouchableScale>
           </Link>
-        </Animated.View>
-
-        <Animated.View entering={FadeInRight.duration(750).delay(600)} style={tw`flex w-full`}>
-          <ScrollView
-            contentContainerStyle={tw`flex flex-row gap-4 px-4 h-56 min-w-full`}
-            horizontal={true}
-            scrollEnabled={nextCalendarEvents.length > 0}
-            scrollEventThrottle={16}
-            showsHorizontalScrollIndicator={false}
-            style={tw`w-full`}>
-            {isLoadingCalendarEvents ? (
-              <Animated.View exiting={FadeOut.duration(500)}>
-                <CalendarEventCard
-                  activeSince={activeSince}
-                  loading={isLoadingCalendarEvents}
-                  style={tw`w-80`}
-                />
-              </Animated.View>
-            ) : nextCalendarEvents.length ? (
-              nextCalendarEvents.map((event) => (
-                <Animated.View
-                  entering={FadeIn.duration(300)}
-                  exiting={FadeOut.duration(300)}
-                  key={`calendar-event-card-${event.id}`}>
-                  <Link asChild href={`/events/${event.id}`}>
-                    <AppTouchableScale style={tw`w-80`}>
-                      <CalendarEventCard event={event} />
-                    </AppTouchableScale>
-                  </Link>
-                </Animated.View>
-              ))
-            ) : (
-              <CalendarEmptyState
-                description={t('home.calendar.empty.label')}
-                style={tw`w-full h-full mt-4`}>
-                <Link
-                  asChild
-                  href={[
-                    '/events/calendar',
-                    firstPeriodWithEvents && `period=${firstPeriodWithEvents}`,
-                  ]
-                    .filter(Boolean)
-                    .join('?')}>
-                  <Text style={tw`text-base font-normal text-amber-500 text-center mt-4`}>
-                    {t('home.calendar.empty.action')}
-                  </Text>
-                </Link>
-              </CalendarEmptyState>
-            )}
-          </ScrollView>
-        </Animated.View>
-
-        <View style={tw`flex flex-col w-full px-4 gap-4 mt-12 mb-3`}>
-          <Animated.Text
-            entering={FadeInUp.duration(500).delay(600)}
-            style={tw`text-sm font-normal uppercase text-slate-500`}>
-            {t('home.services.label')}
-          </Animated.Text>
-
-          <Animated.View entering={FadeInUp.duration(500).delay(700)}>
-            <UnlockGateCard
-              disabled={!user?.capabilities.includes('UNLOCK_GATE')}
-              onSuccessiveTaps={onSuccessiveTaps}
-            />
-          </Animated.View>
-
-          <Animated.View entering={FadeInUp.duration(500).delay(800)}>
-            <OpenParkingCard
-              disabled={!user?.capabilities.includes('PARKING_ACCESS')}
-              onSuccessiveTaps={onSuccessiveTaps}
-            />
-          </Animated.View>
-
-          <Animated.View
-            entering={FadeInUp.duration(500).delay(900)}
-            style={tw`flex flex-col self-stretch`}>
-            <Link asChild href="/on-premise">
-              <OnPremiseCard />
-            </Link>
-          </Animated.View>
         </View>
-      </Animated.ScrollView>
-
-      <View style={[tw`absolute top-0 left-0 right-0`]}>
-        <Fader
-          position={Fader.position.TOP}
-          size={insets.top || (Platform.OS === 'android' ? 16 : 0)}
-          tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
-        />
       </View>
 
-      {hasSelectSubscription ? (
-        <SubscriptionBottomSheet
-          activeSince={activeSince}
-          loading={isFetchingProfile}
-          subscriptions={profile?.abos || []}
-          onClose={() => selectSubscription(false)}
+      <Animated.View
+        entering={FadeInLeft.duration(750).delay(150)}
+        style={tw`flex self-stretch ml-6 mr-4 mb-6`}>
+        <OccupancyCount
+          error={currentMembersError}
+          loading={isLoadingCurrentMembers}
+          members={currentMembers}
+          style={tw`mt-4`}
+          total={28}
         />
-      ) : null}
+      </Animated.View>
 
-      {hasSelectBalance ? (
-        <BalanceBottomSheet
-          activeSince={activeSince}
-          balance={profile?.balance || 0}
-          loading={isFetchingProfile}
-          onClose={() => selectBalance(false)}
-        />
-      ) : null}
+      {user?.onboarding && (
+        <Animated.View entering={StretchInY.delay(750)} style={tw`flex self-stretch mx-4`}>
+          <AppointmentCard date={user.onboarding.date} style={tw`w-full`} />
+        </Animated.View>
+      )}
 
-      {hasSelectMembership ? (
-        <MembershipBottomSheet
-          active={profile?.activeUser}
-          activeSince={activeSince}
-          activityOverLast6Months={profile?.activity}
-          lastMembershipYear={profile?.lastMembership}
-          loading={isFetchingProfile}
-          valid={profile?.membershipOk}
-          onClose={() => selectMembership(false)}
-        />
-      ) : null}
+      <Animated.View entering={FadeInLeft.duration(750).delay(400)} style={tw`flex self-stretch`}>
+        <View style={tw`flex flex-row gap-2 min-h-6 mt-6 mb-2 px-4`}>
+          <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
+            {t('home.profile.label')}
+          </Text>
+          {profileError && !isSilentError(profileError) ? (
+            <ErrorChip error={profileError} label={t('home.profile.onFetch.fail')} />
+          ) : null}
+        </View>
 
-      {shouldRenderContactBottomSheet ? (
-        <ContactBottomSheet onClose={() => setRenderContactBottomSheet(false)} />
-      ) : null}
-    </Animated.View>
+        <ScrollView
+          contentContainerStyle={tw`flex flex-row items-stretch gap-4 px-4`}
+          horizontal={true}
+          scrollEventThrottle={16}
+          showsHorizontalScrollIndicator={false}
+          style={tw`w-full`}>
+          <AppTouchableScale
+            style={tw`flex flex-row items-stretch`}
+            onPress={() => selectBalance(true)}>
+            <BalanceCard count={profile?.balance} loading={isLoadingProfile} style={tw`min-h-38`} />
+          </AppTouchableScale>
+          <AppTouchableScale
+            style={tw`flex flex-row items-stretch`}
+            onPress={() => selectSubscription(true)}>
+            <SubscriptionCard
+              activeSince={activeSince}
+              loading={isLoadingProfile}
+              style={tw`min-h-38`}
+              subscription={currentSubscription}
+            />
+          </AppTouchableScale>
+          <AppTouchableScale
+            style={tw`flex flex-row items-stretch`}
+            onPress={() => selectMembership(true)}>
+            <MembershipCard
+              active={profile?.activeUser}
+              lastMembershipYear={profile?.lastMembership}
+              loading={isLoadingProfile}
+              style={tw`min-h-38`}
+              valid={profile?.membershipOk}
+            />
+          </AppTouchableScale>
+        </ScrollView>
+      </Animated.View>
+
+      <Animated.View
+        entering={FadeInRight.duration(750).delay(600)}
+        style={tw`flex flex-row w-full gap-2 mt-12 mb-3 px-4`}>
+        <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
+          {t('home.calendar.label')}
+        </Text>
+        {calendarEventsError && !isSilentError(calendarEventsError) ? (
+          <ErrorChip error={calendarEventsError} label={t('home.calendar.onFetch.fail')} />
+        ) : null}
+        <Link asChild href="/events/calendar">
+          <Text
+            style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-[16]`}>
+            {t('home.calendar.browse')}
+          </Text>
+        </Link>
+      </Animated.View>
+
+      <Animated.View entering={FadeInRight.duration(750).delay(600)} style={tw`flex w-full`}>
+        <ScrollView
+          contentContainerStyle={tw`flex flex-row gap-4 px-4 h-56 min-w-full`}
+          horizontal={true}
+          scrollEnabled={nextCalendarEvents.length > 0}
+          scrollEventThrottle={16}
+          showsHorizontalScrollIndicator={false}
+          style={tw`w-full`}>
+          {isLoadingCalendarEvents ? (
+            <Animated.View exiting={FadeOut.duration(500)}>
+              <CalendarEventCard
+                activeSince={activeSince}
+                loading={isLoadingCalendarEvents}
+                style={tw`w-80`}
+              />
+            </Animated.View>
+          ) : nextCalendarEvents.length ? (
+            nextCalendarEvents.map((event) => (
+              <Animated.View
+                entering={FadeIn.duration(300)}
+                exiting={FadeOut.duration(300)}
+                key={`calendar-event-card-${event.id}`}>
+                <Link asChild href={`/events/${event.id}`}>
+                  <AppTouchableScale style={tw`w-80`}>
+                    <CalendarEventCard event={event} />
+                  </AppTouchableScale>
+                </Link>
+              </Animated.View>
+            ))
+          ) : (
+            <CalendarEmptyState
+              description={t('home.calendar.empty.label')}
+              style={tw`w-full h-full mt-4`}>
+              <Link
+                asChild
+                href={[
+                  '/events/calendar',
+                  firstPeriodWithEvents && `period=${firstPeriodWithEvents}`,
+                ]
+                  .filter(Boolean)
+                  .join('?')}>
+                <Text style={tw`text-base font-normal text-amber-500 text-center mt-4`}>
+                  {t('home.calendar.empty.action')}
+                </Text>
+              </Link>
+            </CalendarEmptyState>
+          )}
+        </ScrollView>
+      </Animated.View>
+
+      <View style={tw`flex flex-col w-full px-4 gap-4 mt-12 mb-3`}>
+        <Animated.Text
+          entering={FadeInUp.duration(500).delay(600)}
+          style={tw`text-sm font-normal uppercase text-slate-500`}>
+          {t('home.services.label')}
+        </Animated.Text>
+
+        <Animated.View entering={FadeInUp.duration(500).delay(700)}>
+          <UnlockGateCard
+            disabled={!user?.capabilities?.includes('UNLOCK_GATE')}
+            onSuccessiveTaps={onSuccessiveTaps}
+          />
+        </Animated.View>
+
+        <Animated.View entering={FadeInUp.duration(500).delay(800)}>
+          <OpenParkingCard
+            disabled={!user?.capabilities?.includes('PARKING_ACCESS')}
+            onSuccessiveTaps={onSuccessiveTaps}
+          />
+        </Animated.View>
+
+        <Animated.View
+          entering={FadeInUp.duration(500).delay(900)}
+          style={tw`flex flex-col self-stretch`}>
+          <Link asChild href="/on-premise">
+            <OnPremiseCard />
+          </Link>
+        </Animated.View>
+      </View>
+    </HomeLayout>
   );
 }

@@ -102,7 +102,7 @@ export default function CalendarEventPage() {
           ) : null}
         </>
       ) : isFetchingCalendarEvents ? (
-        <View style={tw`h-44 mx-4  overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
+        <View style={tw`h-44 mx-4 overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
           <Skeleton
             backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
             colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}

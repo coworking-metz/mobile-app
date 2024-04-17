@@ -11,6 +11,7 @@ import Animated, { FadeInRight, FadeOutRight } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { isSilentError } from '@/helpers/error';
 import { type ApiMemberProfile } from '@/services/api/members';
+import useAuthStore from '@/stores/auth';
 
 const MAX_MEMBERS_PICTURES = 4;
 
@@ -33,10 +34,14 @@ const OccupancyCount = ({
   children?: ReactNode;
 }) => {
   const { t } = useTranslation();
+  const user = useAuthStore((state) => state.user);
 
   const memberPictures = useMemo(() => {
-    return members.map(({ thumbnail }) => thumbnail).filter(Boolean);
-  }, [members]);
+    return members
+      .filter(({ _id }) => _id !== user?.id)
+      .map(({ thumbnail }) => thumbnail)
+      .filter(Boolean);
+  }, [members, user]);
 
   const onSelectMembersPictures = useCallback(() => {
     if (PHOTO_BOARD_URL) {

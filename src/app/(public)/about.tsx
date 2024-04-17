@@ -8,7 +8,7 @@ import { Text } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
-import { APP_ENVIRONMENT } from '@/services/updates';
+import { APP_ENVIRONMENT } from '@/services/environment';
 
 const About = () => {
   useDeviceContext(tw);

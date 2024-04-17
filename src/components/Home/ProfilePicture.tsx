@@ -1,23 +1,27 @@
 import AccountAnimation from '../Animations/AccountAnimation';
+import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { View } from 'react-native';
 import Animated, { BounceIn, BounceOut, type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import useAuthStore from '@/stores/auth';
 
-const ProfilePicture = ({
-  style,
-  attending,
-}: {
-  picture?: string;
-  attending?: boolean;
-  style?: StyleProps;
-}) => {
+const ProfilePicture = ({ style, attending }: { attending?: boolean; style?: StyleProps }) => {
   const user = useAuthStore((state) => state.user);
+  const loading = useAuthStore((state) => !state.user && state.isFetchingToken);
 
   return (
     <View style={[tw`relative`, style]}>
-      {user?.picture ? (
+      {loading ? (
+        <View style={tw`h-full w-full rounded-3xl bg-gray-200 overflow-hidden`}>
+          <Skeleton
+            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
+            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+            height={`100%`}
+            width={`100%`}
+          />
+        </View>
+      ) : user?.picture ? (
         <Animated.Image
           resizeMode="cover"
           sharedTransitionTag="profilePicture"
@@ -26,7 +30,7 @@ const ProfilePicture = ({
         />
       ) : (
         <Animated.View
-          sharedTransitionTag="profilePicture"
+          sharedTransitionTag="defaultProfilePicture"
           style={tw`h-full w-full bg-gray-200 rounded-3xl overflow-hidden`}>
           <AccountAnimation autoPlay style={tw`h-full w-full bg-gray-200`} />
         </Animated.View>

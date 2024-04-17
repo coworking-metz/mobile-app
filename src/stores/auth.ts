@@ -56,19 +56,12 @@ const useAuthStore = create<AuthState>()(
         return refreshTokenPromise;
       },
       getOrRefreshAccessToken: async (): Promise<string | null> => {
-        const accessToken = get().accessToken;
-        if (accessToken) {
-          const { exp } = decodeToken(accessToken);
-          if (exp && dayjs().isAfter(dayjs.unix(exp))) {
-            await get().refreshAccessToken();
-          }
+        const exp = get().user?.exp;
+        if (!exp || dayjs().isAfter(dayjs.unix(exp))) {
+          await get().refreshAccessToken();
         }
 
         return get().accessToken;
-      },
-      logout: async (): Promise<void> => {
-        Sentry.setUser(null);
-        await set({ user: null, accessToken: null, refreshToken: null });
       },
       clear: async (): Promise<void> => {
         Sentry.setUser(null);
@@ -77,6 +70,9 @@ const useAuthStore = create<AuthState>()(
           accessToken: null,
           refreshToken: null,
         });
+      },
+      logout: async (): Promise<void> => {
+        await get().clear();
       },
     }),
     {

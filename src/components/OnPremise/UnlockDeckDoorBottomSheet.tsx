@@ -105,7 +105,7 @@ const UnlockDeckDoorBottomSheet = ({
           ) : null}
         </>
       </SwipeableButton>
-      {!user?.capabilities.includes('UNLOCK_DECK_DOOR') && (
+      {!user?.capabilities?.includes('UNLOCK_DECK_DOOR') && (
         <View style={tw`flex flex-row items-start flex-gap-2 mt-3 w-full overflow-hidden`}>
           <MaterialCommunityIcons
             color={tw.color('yellow-500')}

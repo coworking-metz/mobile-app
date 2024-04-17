@@ -1,13 +1,11 @@
 import ServiceRow from './ServiceRow';
 import AppBottomSheet, { type AppBottomSheetProps } from '../AppBottomSheet';
 import { useBottomSheet } from '@gorhom/bottom-sheet';
-import Constants, { ExecutionEnvironment } from 'expo-constants';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, useColorScheme, View } from 'react-native';
 import tw from 'twrnc';
-
-const IS_RUNNING_IN_EXPO_GO = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
 
 type ThemePreference = 'light' | 'dark' | 'system';
 let setThemePreference: (theme: ThemePreference) => void;

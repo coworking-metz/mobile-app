@@ -17,11 +17,6 @@ import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
-interface EventsGroupedByDate {
-  date: string;
-  events: CalendarEvent[];
-}
-
 const SORTS = ['descending', 'ascending'] as const;
 export type SortType = (typeof SORTS)[number];
 
@@ -122,60 +117,42 @@ const Calendar = () => {
   });
 
   const eventsGroupedByDate = useMemo(() => {
-    return (
-      calendarEvents?.reduce((groups, event) => {
-        const groupFound = groups.find((group) => dayjs(group.date).isSame(event.start, 'day'));
+    const groups = {} as { [k: string]: CalendarEvent[] };
+    calendarEvents?.forEach((calendarEvent) => {
+      const startingDate = dayjs(calendarEvent.start).format('YYYY-MM-DD');
+      if (groups[startingDate]) {
+        groups[startingDate].push(calendarEvent);
+      } else {
+        groups[startingDate] = [calendarEvent];
+      }
+    });
 
-        if (groupFound) {
-          return [
-            ...groups.filter((group) => group.date !== groupFound.date),
-            {
-              ...groupFound,
-              events: [...groupFound.events, event],
-            },
-          ];
-        }
-
-        return [
-          ...groups,
-          {
-            date: dayjs(event.start).format('YYYY-MM-DD'),
-            events: [event],
-          },
-        ];
-      }, [] as EventsGroupedByDate[]) ?? []
-    );
+    return groups;
   }, [calendarEvents]);
 
   const filteredEventsGroups = useMemo(() => {
     const now = dayjs();
-    return eventsGroupedByDate
-      ?.filter((group) => {
+    return Object.entries(eventsGroupedByDate)
+      ?.filter(([date, events]) => {
         switch (selectedPeriod) {
           case 'past':
-            return group.events.some(({ end }) => now.isAfter(end));
+            return events.some(({ end }) => now.isAfter(end));
           case 'day':
-            return (
-              group.events.some(({ end }) => now.isBefore(end)) && now.isSame(group.date, 'day')
-            );
+            return events.some(({ end }) => now.isBefore(end)) && now.isSame(date, 'day');
           case 'week':
-            return (
-              group.events.some(({ end }) => now.isBefore(end)) && now.isSame(group.date, 'week')
-            );
+            return events.some(({ end }) => now.isBefore(end)) && now.isSame(date, 'week');
           case 'month':
-            return (
-              group.events.some(({ end }) => now.isBefore(end)) && now.isSame(group.date, 'month')
-            );
+            return events.some(({ end }) => now.isBefore(end)) && now.isSame(date, 'month');
           default:
-            return group.events.some(({ end }) => now.isBefore(end));
+            return events.some(({ end }) => now.isBefore(end));
         }
       })
-      .sort((a, b) => {
+      .sort(([firstDate], [secondDate]) => {
         switch (selectedSort) {
           case 'ascending':
-            return dayjs(a.date).isAfter(b.date) ? 1 : -1;
+            return dayjs(firstDate).isAfter(secondDate) ? 1 : -1;
           case 'descending':
-            return dayjs(a.date).isAfter(b.date) ? -1 : 1;
+            return dayjs(firstDate).isAfter(secondDate) ? -1 : 1;
           default:
             return 0;
         }
@@ -213,15 +190,15 @@ const Calendar = () => {
               <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`h-44 mt-8`} />
             </>
           ) : filteredEventsGroups?.length ? (
-            filteredEventsGroups.map((group) => (
-              <View key={`calendar-group-${group.date}`} style={tw`flex flex-col gap-4`}>
+            filteredEventsGroups.map(([date, events]) => (
+              <View key={`calendar-group-${date}`} style={tw`flex flex-col gap-4`}>
                 <Animated.Text
                   entering={FadeInLeft.duration(300)}
                   exiting={FadeOut.duration(300)}
                   style={tw`text-sm font-normal uppercase text-slate-500 mx-2`}>
-                  {dayjs(group.date).format('dddd LL')}
+                  {dayjs(date).format('dddd LL')}
                 </Animated.Text>
-                {group.events.map((event) => (
+                {events.map((event) => (
                   <Link
                     asChild
                     href={`/events/${event.id}`}
