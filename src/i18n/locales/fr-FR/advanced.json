@@ -11,6 +11,14 @@
     "title": "Services"
   },
   "store": {
+    "tokensStorage": {
+      "label": "Réduire la sécurité des jetons",
+      "description": "En cas de problème avec l'authentification",
+      "alert": {
+        "title": "Utiliser le stockage non sécurisé",
+        "message": "Cela exposera les jetons à d'autres processus et peut entraîner une fuite potentielle de données sensibles. Vous ne devriez activer cette option que si vous êtes conscient des risques et savez ce que vous faites.\nVous êtes prévenu.\n\nL'application va redémarré pour que les modifications prennent effet."
+      }
+    },
     "accessToken": {
       "label": "Jeton d'accès",
       "onCopy": {

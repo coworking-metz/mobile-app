@@ -1,54 +1,72 @@
 import { createAsyncStorage } from './async-storage';
+import * as Sentry from '@sentry/react-native';
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { persist, createJSONStorage, subscribeWithSelector } from 'zustand/middleware';
+import { log } from '@/helpers/logger';
 
 export const SYSTEM_OPTION = 'system';
 
 export type StoreLanguage = string | typeof SYSTEM_OPTION;
 
 interface SettingsState {
+  hydrated: boolean; // whether the store has been loaded from the storage
   hasOnboard: boolean;
-  setOnboard: (hasOnboard: boolean) => Promise<void>;
   hasLearnPullToRefresh: boolean;
-  setLearnPullToRefresh: (hasPullToRefresh: boolean) => Promise<void>;
   language: StoreLanguage;
-  setLanguange: (language: StoreLanguage) => Promise<void>;
   apiBaseUrl: string | null;
-  setApiBaseUrl: (apiBaseUrl: string) => Promise<void>;
+  areTokensInAsyncStorage: boolean;
   clear: () => Promise<void>;
 }
 
+const settingsLogger = log.extend(`[settings]`);
+
 const useSettingsStore = create<SettingsState>()(
-  persist(
-    (set, _get) => ({
-      hasOnboard: false,
-      setOnboard: async (hasOnboard: boolean): Promise<void> => {
-        await set({ hasOnboard });
+  subscribeWithSelector(
+    persist(
+      (set, _get) => ({
+        hydrated: false,
+        hasOnboard: false,
+        hasLearnPullToRefresh: false,
+        language: SYSTEM_OPTION,
+        apiBaseUrl: null,
+        areTokensInAsyncStorage: false,
+        clear: async (): Promise<void> => {
+          await set({
+            hasOnboard: false,
+            hasLearnPullToRefresh: false,
+            language: SYSTEM_OPTION,
+          });
+        },
+      }),
+      {
+        name: 'settings-storage',
+        storage: createJSONStorage(createAsyncStorage),
+        partialize: (state) =>
+          Object.fromEntries(
+            Object.entries(state).filter(([key]) =>
+              [
+                'hasOnboard',
+                'hasLearnPullToRefresh',
+                'language',
+                'apiBaseUrl',
+                'areTokensInAsyncStorage',
+              ].includes(key),
+            ),
+          ),
+        onRehydrateStorage: (state) => {
+          settingsLogger.info(`Hydrating`);
+          return (state, error) => {
+            if (error) {
+              settingsLogger.error(`Unable to hydrate settings storage`, error);
+              Sentry.captureException(error);
+            } else {
+              settingsLogger.info(`Settings storage hydrated`);
+              useSettingsStore.setState({ hydrated: true });
+            }
+          };
+        },
       },
-      hasLearnPullToRefresh: false,
-      setLearnPullToRefresh: async (hasPullToRefresh: boolean): Promise<void> => {
-        await set({ hasLearnPullToRefresh: hasPullToRefresh });
-      },
-      language: SYSTEM_OPTION,
-      setLanguange: async (language: StoreLanguage): Promise<void> => {
-        await set({ language });
-      },
-      apiBaseUrl: null,
-      setApiBaseUrl: async (apiBaseUrl: string | null): Promise<void> => {
-        await set({ apiBaseUrl: apiBaseUrl || null });
-      },
-      clear: async (): Promise<void> => {
-        await set({
-          hasOnboard: false,
-          hasLearnPullToRefresh: false,
-          language: SYSTEM_OPTION,
-        });
-      },
-    }),
-    {
-      name: 'settings-storage',
-      storage: createJSONStorage(createAsyncStorage),
-    },
+    ),
   ),
 );
 

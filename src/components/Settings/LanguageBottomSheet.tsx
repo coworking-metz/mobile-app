@@ -20,7 +20,7 @@ const LanguageOptions = () => {
 
   const onLanguagePicked = useCallback(
     (newLanguage: string) => {
-      settingsStore.setLanguange(newLanguage);
+      useSettingsStore.setState({ language: newLanguage });
       close();
     },
     [settingsStore, close],

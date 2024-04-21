@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Refresh animations on home page.
+
 ## [1.5.1] - 2024-04-14
 
 ### Added

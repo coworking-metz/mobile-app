@@ -1,6 +1,8 @@
 {
   "close": "Close",
   "help": "I need help",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
   "hide": "Hide",
   "login": "Log in",
   "logout": "Log out",

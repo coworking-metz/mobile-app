@@ -6,7 +6,7 @@ import { log } from '@/helpers/logger';
 // if fetchKeychain fails, try again couple times
 const RETRIEVE_ATTEMPTS_LIMIT = 3;
 
-const setStoreItem = async (name: string, value: string): Promise<void> => {
+const setSecureItem = async (name: string, value: string): Promise<void> => {
   try {
     await SecureStore.setItemAsync(name, value);
   } catch (error) {
@@ -14,7 +14,7 @@ const setStoreItem = async (name: string, value: string): Promise<void> => {
   }
 };
 
-const deleteStoreItem = async (name: string): Promise<void> => {
+const deleteSecureItem = async (name: string): Promise<void> => {
   try {
     await SecureStore.deleteItemAsync(name);
   } catch (error) {
@@ -22,7 +22,7 @@ const deleteStoreItem = async (name: string): Promise<void> => {
   }
 };
 
-const retrieveStoreItem = async (name: string): Promise<string | null> => {
+const retrieveSecureItem = async (name: string): Promise<string | null> => {
   let attempts = 0;
   while (attempts < RETRIEVE_ATTEMPTS_LIMIT) {
     try {
@@ -40,16 +40,16 @@ const retrieveStoreItem = async (name: string): Promise<string | null> => {
   Sentry.captureMessage(`Unable to retrieve ${name} from secure storage`, {
     level: 'error',
   });
-  await deleteStoreItem(name);
+  await deleteSecureItem(name);
   return null;
 };
 
 // Custom storage object
 // https://github.com/pmndrs/zustand/blob/main/docs/integrations/persisting-store-data.md#how-can-i-use-a-custom-storage-engine
 const createSecureStorage = (): StateStorage => ({
-  getItem: retrieveStoreItem,
-  setItem: setStoreItem,
-  removeItem: deleteStoreItem,
+  getItem: retrieveSecureItem,
+  setItem: setSecureItem,
+  removeItem: deleteSecureItem,
 });
 
 export default createSecureStorage;

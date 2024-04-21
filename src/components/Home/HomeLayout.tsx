@@ -1,6 +1,6 @@
 import SpaceshipRefreshAnimation from './SpaceshipRefreshAnimation';
 import * as Haptics from 'expo-haptics';
-import React, { type ReactNode, useRef, useCallback, useMemo } from 'react';
+import React, { type ReactNode, useRef, useCallback, useMemo, useState } from 'react';
 import { PanResponder, Platform, RefreshControl, View, useColorScheme } from 'react-native';
 import Animated, {
   FadeIn,
@@ -37,6 +37,7 @@ export default function HomeLayout({
 
   const refreshing = useSharedValue(false);
   const completed = useSharedValue(false);
+  const [isRefresing, setRefreshing] = useState(false);
 
   const scrollPosition = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler({
@@ -175,8 +176,13 @@ export default function HomeLayout({
             refreshControl: (
               <RefreshControl
                 progressViewOffset={insets.top}
-                refreshing={refreshing.value}
-                onRefresh={onShouldRefresh}
+                refreshing={isRefresing}
+                onRefresh={() => {
+                  setRefreshing(true);
+                  onRefresh?.().finally(() => {
+                    setRefreshing(false);
+                  });
+                }}
               />
             ),
           })}

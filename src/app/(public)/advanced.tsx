@@ -1,9 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 import * as Clipboard from 'expo-clipboard';
-import { useRouter } from 'expo-router';
+import { useRouter, useSegments } from 'expo-router';
+import * as Updates from 'expo-updates';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TextInput } from 'react-native';
+import { Alert, TextInput } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
 import { Switch, ToastPresets } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
@@ -11,11 +12,14 @@ import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { theme } from '@/helpers/colors';
 import { parseErrorText } from '@/helpers/error';
+import { log } from '@/helpers/logger';
 import { HTTP } from '@/services/http';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
+
+const advancedLogger = log.extend(`[advanced]`);
 
 const Advanced = () => {
   useDeviceContext(tw);
@@ -64,6 +68,43 @@ const Advanced = () => {
         });
       });
   }, [authStore.refreshToken, toastStore, noticeStore]);
+
+  const onSwitchAuthStorage = useCallback(
+    async (value: boolean) => {
+      if (value) {
+        Alert.alert(
+          t('advanced.store.tokensStorage.alert.title'),
+          t('advanced.store.tokensStorage.alert.message'),
+          [
+            {
+              text: t('actions.cancel'),
+              style: 'cancel',
+              isPreferred: true,
+            },
+            {
+              text: t('actions.confirm'),
+              style: 'destructive',
+              onPress: async () => {
+                advancedLogger.warn(`Clear refresh token before switching storage`);
+                await useAuthStore.getState().clear();
+                advancedLogger.warn(`Switching tokens storage to AsyncStorage`);
+                await useSettingsStore.setState({ areTokensInAsyncStorage: value });
+                Updates.reloadAsync();
+              },
+            },
+          ],
+          { cancelable: true },
+        );
+      } else {
+        advancedLogger.warn(`Clear refresh token before switching storage`);
+        await useAuthStore.getState().clear();
+        advancedLogger.warn(`Switching tokens storage to SecureStorage}`);
+        await useSettingsStore.setState({ areTokensInAsyncStorage: value });
+        Updates.reloadAsync();
+      }
+    },
+    [t],
+  );
 
   const invalidateCache = useCallback(() => {
     queryClient
@@ -125,7 +166,7 @@ const Advanced = () => {
             placeholder={HTTP.defaults.baseURL}
             style={tw`text-slate-500 dark:text-slate-400`}
             value={settingsStore.apiBaseUrl || ''}
-            onChangeText={settingsStore.setApiBaseUrl}
+            onChangeText={(apiBaseUrl) => useSettingsStore.setState({ apiBaseUrl })}
           />
         )}
         style={tw`px-3 mx-3`}
@@ -152,7 +193,7 @@ const Advanced = () => {
         <Switch
           value={settingsStore.hasOnboard}
           onColor={theme.meatBrown}
-          onValueChange={(value) => settingsStore.setOnboard(value)}
+          onValueChange={(value) => useSettingsStore.setState({ hasOnboard: value })}
         />
       </ServiceRow>
       <ServiceRow
@@ -162,7 +203,7 @@ const Advanced = () => {
         <Switch
           value={settingsStore.hasLearnPullToRefresh}
           onColor={theme.meatBrown}
-          onValueChange={(value) => settingsStore.setLearnPullToRefresh(value)}
+          onValueChange={(value) => useSettingsStore.setState({ hasLearnPullToRefresh: value })}
         />
       </ServiceRow>
       <ServiceRow
@@ -181,6 +222,17 @@ const Advanced = () => {
         suffixIcon="content-copy"
         onPress={copyRefreshToken}
       />
+      <ServiceRow
+        withBottomDivider
+        description={t('advanced.store.tokensStorage.description')}
+        label={t('advanced.store.tokensStorage.label')}
+        style={tw`px-3 mx-3`}>
+        <Switch
+          value={settingsStore.areTokensInAsyncStorage}
+          onColor={theme.meatBrown}
+          onValueChange={onSwitchAuthStorage}
+        />
+      </ServiceRow>
       <ServiceRow
         withBottomDivider
         description={t('advanced.store.invalidate.description')}
