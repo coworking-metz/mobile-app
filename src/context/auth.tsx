@@ -26,18 +26,18 @@ export const useAppAuth = () => {
 };
 
 // This hook will protect the route access based on user authentication.
-const useProtectedRoute = (
-  refreshToken: string | null,
-  ready: boolean,
-  setReady: (ready: boolean) => void,
-) => {
+const useProtectedRoute = (ready: boolean, setReady: (ready: boolean) => void) => {
   const { t } = useTranslation();
   const segments = useSegments();
   const rootNavigation = useRootNavigation();
   const router = useRouter();
 
   const authStore = useAuthStore();
+  const refreshToken = useAuthStore((state) => state.refreshToken);
+  const accessToken = useAuthStore((state) => state.accessToken);
   const hasOnboard = useSettingsStore((state) => state.hasOnboard);
+  const isAuthStoreHydrated = useAuthStore((state) => state.hydrated);
+  const isSettingsStoreHydrated = useSettingsStore((state) => state.hydrated);
   const notifyError = useErrorNotification();
 
   const { accessToken: queryAccessToken, refreshToken: queryRefreshToken } = useGlobalSearchParams<{
@@ -45,31 +45,39 @@ const useProtectedRoute = (
     refreshToken: string;
   }>();
 
-  const checkAuthorization = useCallback(async () => {
-    const [firstSegment] = segments;
-    const isScreenPrivate = !firstSegment || '(private)' === firstSegment;
+  const checkAuthorization = useCallback(
+    async (seg: string[], rt: string | null, at: string | null) => {
+      const [firstSegment] = seg;
+      const isScreenPrivate = !firstSegment || '(private)' === firstSegment;
 
-    if (isScreenPrivate) {
-      if (refreshToken) {
-        if (!authStore.accessToken) {
-          return authStore
-            .refreshAccessToken()
-            .then(() => Promise.resolve(true))
-            .catch((error) => {
-              notifyError(t('auth.login.onRefreshTokenFail.message'), error);
-              return Promise.resolve(false);
-            });
+      if (isScreenPrivate) {
+        if (rt) {
+          if (!at) {
+            return authStore
+              .refreshAccessToken()
+              .then(() => Promise.resolve(true))
+              .catch((error) => {
+                notifyError(t('auth.login.onRefreshTokenFail.message'), error);
+                return Promise.resolve(false);
+              });
+          }
+        } else {
+          return Promise.resolve(false);
         }
-      } else {
-        return Promise.resolve(false);
       }
-    }
 
-    return Promise.resolve(true);
-  }, [authStore, segments, refreshToken]);
+      return Promise.resolve(true);
+    },
+    [],
+  );
 
   useEffect(() => {
+    console.log(
+      { isAuthStoreHydrated, isSettingsStoreHydrated, refreshToken },
+      rootNavigation?.isReady(),
+    );
     if (!rootNavigation?.isReady()) return;
+    if (!isAuthStoreHydrated || !isSettingsStoreHydrated) return;
 
     authLogger.debug('Path or tokens have changed', {
       queryRefreshToken,
@@ -88,9 +96,9 @@ const useProtectedRoute = (
       return;
     }
 
-    checkAuthorization()
+    checkAuthorization(segments, refreshToken, accessToken)
       .then((isAuthorized) => {
-        authLogger.debug(`isAuthorized for ${segments.join('/')}: ${isAuthorized}`);
+        authLogger.debug(`isAuthorized for "/${segments.join('/') || 'index'}": ${isAuthorized}`);
         if (!isAuthorized) {
           authLogger.debug('redirecting to login');
           return rootNavigation.reset({
@@ -103,7 +111,7 @@ const useProtectedRoute = (
           (segments.includes('home') &&
             rootNavigation.getState().routes.some(({ name }) => name === '(public)/login'))
         ) {
-          authLogger.debug('redirecting to home');
+          authLogger.debug('redirecting to /home');
           return rootNavigation.reset({
             index: 0,
             routes: [{ name: '(private)/home' }],
@@ -113,26 +121,38 @@ const useProtectedRoute = (
       .finally(() => {
         setReady(true);
       });
-  }, [refreshToken, rootNavigation, segments, queryRefreshToken, queryAccessToken]);
+  }, [
+    rootNavigation,
+    segments,
+    queryRefreshToken,
+    queryAccessToken,
+    isAuthStoreHydrated,
+    isSettingsStoreHydrated,
+    refreshToken,
+  ]);
 
   useLayoutEffect(() => {
     if (ready) {
-      authLogger.debug('Does user has already onboard?', { hasOnboard });
-      if (!hasOnboard) {
+      authLogger.debug('Does user has already onboard?', hasOnboard);
+      if (!hasOnboard && !refreshToken) {
         router.push('(public)/onboarding');
       }
 
       authLogger.debug('Hiding splash screen');
       SplashScreen.hideAsync();
     }
-  }, [ready, hasOnboard]);
+  }, [ready, hasOnboard, refreshToken]);
 };
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [ready, setReady] = useState<boolean>(false);
-  const { refreshToken, isFetchingToken } = useAuthStore();
+  const authStore = useAuthStore();
 
-  useProtectedRoute(refreshToken, ready, setReady);
+  useProtectedRoute(ready, setReady);
 
-  return <AuthContext.Provider value={{ isFetchingToken, ready }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ isFetchingToken: authStore.isFetchingToken, ready }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

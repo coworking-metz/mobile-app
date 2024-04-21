@@ -12,29 +12,24 @@ const ProfilePicture = ({ style, attending }: { attending?: boolean; style?: Sty
 
   return (
     <View style={[tw`relative`, style]}>
-      {loading ? (
-        <View style={tw`h-full w-full rounded-3xl bg-gray-200 overflow-hidden`}>
+      <View style={tw`h-full w-full rounded-3xl bg-gray-200 overflow-hidden`}>
+        {loading ? (
           <Skeleton
             backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
             colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
             height={`100%`}
             width={`100%`}
           />
-        </View>
-      ) : user?.picture ? (
-        <Animated.Image
-          resizeMode="cover"
-          sharedTransitionTag="profilePicture"
-          source={{ uri: user?.picture }}
-          style={tw`h-full w-full rounded-3xl bg-gray-200 overflow-hidden`}
-        />
-      ) : (
-        <Animated.View
-          sharedTransitionTag="defaultProfilePicture"
-          style={tw`h-full w-full bg-gray-200 rounded-3xl overflow-hidden`}>
+        ) : user?.picture ? (
+          <Animated.Image
+            resizeMode="cover"
+            source={{ uri: user?.picture }}
+            style={tw`h-full w-full rounded-3xl bg-gray-200 overflow-hidden`}
+          />
+        ) : (
           <AccountAnimation autoPlay style={tw`h-full w-full bg-gray-200`} />
-        </Animated.View>
-      )}
+        )}
+      </View>
 
       {attending && (
         <Animated.View

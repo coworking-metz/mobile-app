@@ -74,6 +74,9 @@ const RootLayout = () => {
                   name="[...missing]"
                   options={{
                     headerShown: false,
+                    ...(Platform.OS === 'android' && {
+                      animation: 'ios',
+                    }),
                   }}
                 />
                 <Stack.Screen
@@ -88,12 +91,18 @@ const RootLayout = () => {
                   name="(public)/advanced"
                   options={{
                     headerShown: false,
+                    ...(Platform.OS === 'android' && {
+                      animation: 'ios',
+                    }),
                   }}
                 />
                 <Stack.Screen
                   name="(public)/about"
                   options={{
                     headerShown: false,
+                    ...(Platform.OS === 'android' && {
+                      animation: 'ios',
+                    }),
                   }}
                 />
                 <Stack.Screen
@@ -102,7 +111,7 @@ const RootLayout = () => {
                     headerShown: false,
                     presentation: 'modal',
                     ...(Platform.OS === 'android' && {
-                      animation: 'fade_from_bottom',
+                      animation: 'slide_from_bottom',
                     }),
                   }}
                 />
@@ -110,14 +119,17 @@ const RootLayout = () => {
                 <Stack.Screen
                   name="(private)/home"
                   options={{
-                    animation: 'fade',
                     headerShown: false,
+                    animation: 'fade',
                   }}
                 />
                 <Stack.Screen
                   name="(private)/settings"
                   options={{
                     headerShown: false,
+                    ...(Platform.OS === 'android' && {
+                      animation: 'ios',
+                    }),
                   }}
                 />
 
@@ -127,7 +139,7 @@ const RootLayout = () => {
                     headerShown: false,
                     presentation: 'modal',
                     ...(Platform.OS === 'android' && {
-                      animation: 'fade_from_bottom',
+                      animation: 'slide_from_bottom',
                     }),
                   }}
                 />

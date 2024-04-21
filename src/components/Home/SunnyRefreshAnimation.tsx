@@ -30,12 +30,19 @@ const SunnyRefreshAnimation = ({
 
   const setPullProgress = useCallback(
     (progress: number) => {
-      riveRef.current?.setInputState(STATE_MACHINE_NAME, 'Pull_Progress', progress);
+      if (!released?.value) {
+        riveRef.current?.setInputState(
+          STATE_MACHINE_NAME,
+          'Pull_Progress',
+          Math.max(progress - 60, 0) * 2,
+        );
+      }
     },
-    [riveRef.current],
+    [riveRef.current, released],
   );
 
   const onRelease = useCallback(() => {
+    riveRef.current?.setInputState(STATE_MACHINE_NAME, 'Pull_Progress', 101);
     riveRef.current?.fireState(STATE_MACHINE_NAME, 'Release_Pull');
   }, [riveRef.current]);
 
@@ -49,7 +56,7 @@ const SunnyRefreshAnimation = ({
     } else {
       runOnJS(onReset)();
     }
-  }, [pullProgress]);
+  }, [pullProgress, released]);
 
   useDerivedValue(() => {
     if (released?.value) {

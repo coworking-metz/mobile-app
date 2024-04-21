@@ -1,5 +1,6 @@
 import { createAsyncStorage } from './async-storage';
 import createSecureStorage from './secure-storage';
+import useSettingsStore from './settings';
 import * as Sentry from '@sentry/react-native';
 import dayjs from 'dayjs';
 import { create } from 'zustand';
@@ -14,6 +15,7 @@ import { type ApiUser, decodeToken, getAccessAndRefreshTokens } from '@/services
 let refreshTokenPromise: Promise<void> | null = null;
 
 interface AuthState {
+  hydrated: boolean; // whether the store has been loaded from the storage
   user: ApiUser | null;
   accessToken: string | null;
   refreshToken: string | null;
@@ -30,6 +32,7 @@ const authLogger = log.extend(`[auth]`);
 const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
+      hydrated: false,
       user: null,
       accessToken: null,
       refreshToken: null,
@@ -77,11 +80,47 @@ const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'auth-storage',
-      storage: createJSONStorage(createAsyncStorage),
+      storage: createJSONStorage(createSecureStorage),
       partialize: (state) =>
         Object.fromEntries(Object.entries(state).filter(([key]) => ['refreshToken'].includes(key))),
+      skipHydration: true,
     },
   ),
+);
+
+/**
+ * Some users don't have access to the SecureStorage (don't ask why 🤷‍♀️).
+ * This will give them the option to switch to AsyncStorage instead.
+ */
+useSettingsStore.subscribe(
+  (state) => [state.hydrated, state.areTokensInAsyncStorage],
+  async ([hydrated, areTokensInAsyncStorage]) => {
+    if (hydrated) {
+      authLogger.info(
+        `Hydrate auth storage from ${areTokensInAsyncStorage ? 'AsyncStorage' : 'SecureStorage'}`,
+      );
+      useAuthStore.persist.setOptions({
+        storage: createJSONStorage(
+          areTokensInAsyncStorage ? createAsyncStorage : createSecureStorage,
+        ),
+        onRehydrateStorage: (state) => {
+          authLogger.info(`Hydrating`);
+          return (state, error) => {
+            if (error) {
+              authLogger.error(`Unable to hydrate auth storage`, error);
+              Sentry.captureException(error);
+            } else {
+              authLogger.info(`Auth storage hydrated`);
+              useAuthStore.setState({ hydrated: true });
+            }
+          };
+        },
+      });
+
+      await useAuthStore.persist.rehydrate();
+    }
+  },
+  { fireImmediately: true },
 );
 
 export default useAuthStore;

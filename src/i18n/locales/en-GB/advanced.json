@@ -11,6 +11,14 @@
     "title": "Services"
   },
   "store": {
+    "tokensStorage": {
+      "label": "Decrease tokens security",
+      "description": "In case of authentication issues",
+      "alert": {
+        "title": "Switching to insecure storage",
+        "message": "This will expose tokens to other processes and can lead to potential leak of sensitive data. You should only enable this option if you are aware of the risks and know what you are doing.\nYou've been warned.\n\nThe application will be restart after switching this option."
+      }
+    },
     "accessToken": {
       "label": "Access token",
       "onCopy": {

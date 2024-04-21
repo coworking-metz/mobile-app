@@ -39,7 +39,6 @@ const Onboarding = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const navigation = useNavigation();
-  const settingsStore = useSettingsStore();
   const [layoutWidth, setLayoutWidth] = useState(0);
 
   const carouselRef = useRef<ICarouselInstance>(null);
@@ -51,7 +50,7 @@ const Onboarding = () => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', () => {
       onboardingLogger.debug('User has dismiss onboarding');
-      settingsStore.setOnboard(true);
+      useSettingsStore.setState({ hasOnboard: true });
     });
     return unsubscribe;
   }, []);

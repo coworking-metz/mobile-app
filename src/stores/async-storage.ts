@@ -5,7 +5,7 @@ import { log } from '@/helpers/logger';
 
 const RETRIEVE_ATTEMPTS_LIMIT = 3;
 
-const setStoreItem = async (name: string, value: string): Promise<void> => {
+const setAsyncItem = async (name: string, value: string): Promise<void> => {
   try {
     await AsyncStorage.setItem(name, value);
   } catch (error) {
@@ -13,7 +13,7 @@ const setStoreItem = async (name: string, value: string): Promise<void> => {
   }
 };
 
-const deleteStoreItem = async (name: string): Promise<void> => {
+const deleteAsyncItem = async (name: string): Promise<void> => {
   try {
     await AsyncStorage.removeItem(name);
   } catch (error) {
@@ -21,7 +21,7 @@ const deleteStoreItem = async (name: string): Promise<void> => {
   }
 };
 
-const retrieveStoreItem = async (name: string): Promise<string | null> => {
+const retrieveAsyncItem = async (name: string): Promise<string | null> => {
   let attempts = 0;
   while (attempts < RETRIEVE_ATTEMPTS_LIMIT) {
     try {
@@ -39,13 +39,13 @@ const retrieveStoreItem = async (name: string): Promise<string | null> => {
   Sentry.captureMessage(`Unable to retrieve ${name} from async storage`, {
     level: 'error',
   });
-  await deleteStoreItem(name);
+  await deleteAsyncItem(name);
   return null;
 };
 
 // https://github.com/pmndrs/zustand/blob/main/docs/integrations/persisting-store-data.md#how-can-i-use-a-custom-storage-engine
 export const createAsyncStorage = (): StateStorage => ({
-  getItem: retrieveStoreItem,
-  setItem: setStoreItem,
-  removeItem: deleteStoreItem,
+  getItem: retrieveAsyncItem,
+  setItem: setAsyncItem,
+  removeItem: deleteAsyncItem,
 });
