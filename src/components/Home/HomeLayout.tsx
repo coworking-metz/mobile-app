@@ -81,16 +81,12 @@ export default function HomeLayout({
     PanResponder.create({
       onMoveShouldSetPanResponder: (_event, gestureState) => {
         const isDraggingDownFromTop = scrollPosition.value <= 0 && gestureState.dy >= 0;
+        const wantsToRefresh = isDraggingDownFromTop && !completed.value && !refreshing.value;
         if (Platform.OS === 'android') {
-          return isDraggingDownFromTop;
+          return wantsToRefresh && gestureState.dy >= 1;
         }
 
-        return (
-          isDraggingDownFromTop &&
-          Math.abs(gestureState.dx) < 10 &&
-          !completed.value &&
-          !refreshing.value
-        );
+        return wantsToRefresh && Math.abs(gestureState.dx) < 10;
       },
       onPanResponderMove: (_event, gestureState) => {
         pullDownPosition.value = Math.max(Math.min(refreshHeight, gestureState.dy), 0);
