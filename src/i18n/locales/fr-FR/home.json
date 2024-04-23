@@ -70,7 +70,7 @@
         "description": "sur les 6 derniers mois",
         "label": "Activité"
       },
-      "description": "Afin d'assurer une couverture totale de ses membres et de leurs biens, la carte adhérent est obligatoire pour tout usager de l'espace de Coworking.\n\nC'est une prérogative de notre assureur.",
+      "description": "Afin d'assurer une couverture totale de ses membres et de leurs biens, la carte adhérent est obligatoire pour tout usager de l'espace de coworking.\n\nC'est une prérogative de notre assureur.",
       "get": "Adhérer pour {{year}}",
       "grade": {
         "active": {
@@ -88,7 +88,7 @@
       },
       "label": "Carte adhérent",
       "renew": "Renouveler pour {{year}}",
-      "required": "Sans cette adhésion, vous ne serez pas en mesure de pouvoir accéder à l'espace de Coworking.",
+      "required": "Sans cette adhésion, vous ne serez pas en mesure de pouvoir accéder à l'espace de coworking.",
       "status": {
         "invalid": "Dernière adhésion en {{year}}",
         "label": "Adhésion",
