@@ -132,6 +132,15 @@ const RootLayout = () => {
                     }),
                   }}
                 />
+                <Stack.Screen
+                  name="(private)/on-premise"
+                  options={{
+                    headerShown: false,
+                    ...(Platform.OS === 'android' && {
+                      animation: 'ios',
+                    }),
+                  }}
+                />
 
                 <Stack.Screen
                   name="(private)/events"
