@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/react-native';
 import { create } from 'zustand';
 import { persist, createJSONStorage, subscribeWithSelector } from 'zustand/middleware';
 import { log } from '@/helpers/logger';
+import { setAppThemePreference, type AppThemePreference } from '@/services/theme';
 
 export const SYSTEM_OPTION = 'system';
 
@@ -13,6 +14,7 @@ interface SettingsState {
   hasOnboard: boolean;
   hasLearnPullToRefresh: boolean;
   language: StoreLanguage;
+  theme: AppThemePreference;
   apiBaseUrl: string | null;
   areTokensInAsyncStorage: boolean;
   clear: () => Promise<void>;
@@ -28,6 +30,7 @@ const useSettingsStore = create<SettingsState>()(
         hasOnboard: false,
         hasLearnPullToRefresh: false,
         language: SYSTEM_OPTION,
+        theme: SYSTEM_OPTION,
         apiBaseUrl: null,
         areTokensInAsyncStorage: false,
         clear: async (): Promise<void> => {
@@ -35,6 +38,8 @@ const useSettingsStore = create<SettingsState>()(
             hasOnboard: false,
             hasLearnPullToRefresh: false,
             language: SYSTEM_OPTION,
+            theme: SYSTEM_OPTION,
+            areTokensInAsyncStorage: false,
           });
         },
       }),
@@ -48,14 +53,15 @@ const useSettingsStore = create<SettingsState>()(
                 'hasOnboard',
                 'hasLearnPullToRefresh',
                 'language',
+                'theme',
                 'apiBaseUrl',
                 'areTokensInAsyncStorage',
               ].includes(key),
             ),
           ),
-        onRehydrateStorage: (state) => {
-          settingsLogger.info(`Hydrating`);
-          return (state, error) => {
+        onRehydrateStorage: (_state) => {
+          settingsLogger.info(`Hydrating settings storage`);
+          return (_state, error) => {
             if (error) {
               settingsLogger.error(`Unable to hydrate settings storage`, error);
               Sentry.captureException(error);
@@ -68,6 +74,14 @@ const useSettingsStore = create<SettingsState>()(
       },
     ),
   ),
+);
+
+useSettingsStore.subscribe(
+  (state) => state.theme,
+  (newTheme) => {
+    setAppThemePreference(newTheme);
+  },
+  { fireImmediately: true },
 );
 
 export default useSettingsStore;

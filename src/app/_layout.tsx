@@ -16,6 +16,7 @@ import '@/i18n';
 import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
 import { routingInstrumentation } from '@/services/sentry';
+import { AppThemeBackground } from '@/services/theme';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -74,9 +75,6 @@ const RootLayout = () => {
                   name="[...missing]"
                   options={{
                     headerShown: false,
-                    ...(Platform.OS === 'android' && {
-                      animation: 'ios',
-                    }),
                   }}
                 />
                 <Stack.Screen
@@ -91,18 +89,12 @@ const RootLayout = () => {
                   name="(public)/advanced"
                   options={{
                     headerShown: false,
-                    ...(Platform.OS === 'android' && {
-                      animation: 'ios',
-                    }),
                   }}
                 />
                 <Stack.Screen
                   name="(public)/about"
                   options={{
                     headerShown: false,
-                    ...(Platform.OS === 'android' && {
-                      animation: 'ios',
-                    }),
                   }}
                 />
                 <Stack.Screen
@@ -127,18 +119,12 @@ const RootLayout = () => {
                   name="(private)/settings"
                   options={{
                     headerShown: false,
-                    ...(Platform.OS === 'android' && {
-                      animation: 'ios',
-                    }),
                   }}
                 />
                 <Stack.Screen
                   name="(private)/on-premise"
                   options={{
                     headerShown: false,
-                    ...(Platform.OS === 'android' && {
-                      animation: 'ios',
-                    }),
                   }}
                 />
 
@@ -148,7 +134,7 @@ const RootLayout = () => {
                     headerShown: false,
                     presentation: 'modal',
                     ...(Platform.OS === 'android' && {
-                      animation: 'slide_from_bottom',
+                      animation: 'fade_from_bottom',
                     }),
                   }}
                 />
@@ -167,6 +153,12 @@ const RootLayout = () => {
                 ]}
               />
               <NoticeBottomSheet />
+              {Platform.OS === 'android' ? (
+                <AppThemeBackground
+                  dark={tw.color('black') as string}
+                  light={tw.color('transparent') as string}
+                />
+              ) : null}
             </QueryClientProvider>
           </AuthProvider>
         </I18nProvider>

@@ -6,32 +6,28 @@ import { useTranslation } from 'react-i18next';
 import { Text, useColorScheme, View } from 'react-native';
 import tw from 'twrnc';
 import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
-
-type ThemePreference = 'light' | 'dark' | 'system';
-let setThemePreference: (theme: ThemePreference) => void;
-let useThemePreference: () => 'light' | 'dark' | 'system';
-if (IS_RUNNING_IN_EXPO_GO) {
-  setThemePreference = () => null;
-  useThemePreference = () => 'system';
-} else {
-  setThemePreference = require('@vonovak/react-native-theme-control').setThemePreference; // eslint-disable-line @typescript-eslint/no-var-requires
-  useThemePreference = require('@vonovak/react-native-theme-control').useThemePreference; // eslint-disable-line @typescript-eslint/no-var-requires
-}
+import {
+  type AppThemePreference,
+  setAppThemePreference,
+  useAppThemePreference,
+} from '@/services/theme';
+import useSettingsStore from '@/stores/settings';
 
 const ThemeOptions = () => {
   const { t } = useTranslation();
-  const supportedThemes: { label: string; code: ThemePreference }[] = [
+  const supportedThemes: { label: string; code: AppThemePreference }[] = [
     { label: t('settings.general.theme.options.system'), code: 'system' },
     { label: t('settings.general.theme.options.light'), code: 'light' },
     { label: t('settings.general.theme.options.dark'), code: 'dark' },
   ];
   const currentTheme = useColorScheme();
-  const chosenTheme = useThemePreference();
+  const chosenTheme = useAppThemePreference();
   const { close } = useBottomSheet();
 
   const onThemePicked = useCallback(
-    (newTheme: ThemePreference) => {
-      setThemePreference(newTheme);
+    (newTheme: AppThemePreference) => {
+      setAppThemePreference(newTheme);
+      useSettingsStore.setState({ theme: newTheme });
       close();
     },
     [close],

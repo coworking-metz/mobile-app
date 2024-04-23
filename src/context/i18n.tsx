@@ -30,7 +30,7 @@ const useChosenLanguange = (language: string | null, setReady: (ready: boolean) 
 
 export const I18nProvider = ({ children }: { children: React.ReactNode }) => {
   const [ready, setReady] = useState<boolean>(false);
-  const { language } = useSettingsStore();
+  const language = useSettingsStore((state) => state.language);
 
   useChosenLanguange(language, setReady);
 
