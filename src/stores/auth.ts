@@ -92,7 +92,7 @@ const useAuthStore = create<AuthState>()(
  * Some users don't have access to the SecureStorage (don't ask why 🤷‍♀️).
  * This will give them the option to switch to AsyncStorage instead.
  */
-useSettingsStore.subscribe(
+const unsubscribe = useSettingsStore.subscribe(
   (state) => [state.hydrated, state.areTokensInAsyncStorage],
   async ([hydrated, areTokensInAsyncStorage]) => {
     if (hydrated) {
@@ -103,21 +103,24 @@ useSettingsStore.subscribe(
         storage: createJSONStorage(
           areTokensInAsyncStorage ? createAsyncStorage : createSecureStorage,
         ),
-        onRehydrateStorage: (state) => {
-          authLogger.info(`Hydrating`);
-          return (state, error) => {
-            if (error) {
-              authLogger.error(`Unable to hydrate auth storage`, error);
-              Sentry.captureException(error);
-            } else {
-              authLogger.info(`Auth storage hydrated`);
-              useAuthStore.setState({ hydrated: true });
-            }
-          };
+        onRehydrateStorage: (prehydrationState) => {
+          if (!prehydrationState.hydrated) {
+            authLogger.info(`Hydrating auth storage`);
+            return (_hydratedState, error) => {
+              if (error) {
+                authLogger.error(`Unable to hydrate auth storage`, error);
+                Sentry.captureException(error);
+              } else {
+                authLogger.info(`Auth storage hydrated`);
+                useAuthStore.setState({ hydrated: true });
+              }
+            };
+          }
         },
       });
 
       await useAuthStore.persist.rehydrate();
+      unsubscribe();
     }
   },
   { fireImmediately: true },
