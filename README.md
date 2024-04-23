@@ -82,10 +82,10 @@ eas build --profile preview --platform android # only for Android
 
 ### Versioning
 
-Change `expo.version` in `app.json` to whatever you feel like.
-Reflect the change on `version` in `package.json`.
-Change the `CHANGELOG.md` accordingly.
-Commit & tag it
+- Change `expo.version` in [`app.json`](./app.json) to whatever you feel like.
+- Reflect the change on `version` in [`package.json`](./package.json).
+- Change [`CHANGELOG.md`](./CHANGELOG.md) accordingly.
+- Commit & tag it
 ```bash
 (TAG=1.1.0; git add app.json package.json CHANGELOG.md && git commit -m "chore(version): update to $TAG" && git tag -a $TAG -m "$TAG")
 git push origin --tags
@@ -97,7 +97,7 @@ git push origin --tags
 eas build --profile production --platform all
 ```
 
-### Submit
+### Submit to the App Store and Play Store
 
 ```bash
 eas submit
