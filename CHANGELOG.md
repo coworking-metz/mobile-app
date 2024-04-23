@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Increase font size on carbon dioxide level description.
 - Animation color on phone booths bottom sheet.
+- Prefer onboarding label `présentation` over `introduction` in French.
 
 ### Fixed
 
