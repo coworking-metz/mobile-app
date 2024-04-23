@@ -111,7 +111,7 @@ const CarbonDioxideBottomSheet = ({
           key={`segmented-arc-${level}`}
           ranges={ranges}
           rangesTextColor={tw.prefixMatch('dark') ? tw.color('slate-400') : tw.color('slate-500')}
-          rangesTextStyle={tw`text-xs`}
+          rangesTextStyle={tw`text-xs font-normal`}
           segments={segments}></SegmentedArc>
         <View
           style={tw`absolute bottom-0 left-0 right-0 w-full flex flex-col items-center justify-center`}>
@@ -139,7 +139,9 @@ const CarbonDioxideBottomSheet = ({
                 value={currentLevel}
               />
             )}
-            <Text numberOfLines={1} style={tw`text-base text-slate-500 dark:text-slate-400`}>
+            <Text
+              numberOfLines={1}
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
               ppm
             </Text>
           </View>
@@ -153,7 +155,7 @@ const CarbonDioxideBottomSheet = ({
         <View style={[tw`h-2 w-2 rounded-full`, { backgroundColor: levelColor }]} />
         {loading ? (
           <View
-            style={tw`h-3 my-0.5 w-32 overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
+            style={tw`h-4 my-0.5 w-32 overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
             <Skeleton
               backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
               colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
@@ -164,7 +166,7 @@ const CarbonDioxideBottomSheet = ({
         ) : (
           <Text
             numberOfLines={1}
-            style={tw`text-xs font-normal shrink text-gray-900 dark:text-gray-200`}>
+            style={tw`text-sm font-normal shrink text-gray-900 dark:text-gray-200`}>
             {levelDescription}
           </Text>
         )}
