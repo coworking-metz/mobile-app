@@ -164,6 +164,9 @@ const Advanced = () => {
           <TextInput
             autoCapitalize="none"
             placeholder={HTTP.defaults.baseURL}
+            placeholderTextColor={
+              tw.prefixMatch('dark') ? tw.color('slate-400/50') : tw.color('slate-500/50')
+            }
             style={tw`text-slate-500 dark:text-slate-400`}
             value={settingsStore.apiBaseUrl || ''}
             onChangeText={(apiBaseUrl) => useSettingsStore.setState({ apiBaseUrl })}

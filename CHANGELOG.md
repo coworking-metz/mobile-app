@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - (Android only) Ease home screen pull to refresh.
 - (Android only) Remove white flash when navigating.
+- Persist the chosen theme option.
 
 ## [1.6.0] - 2024-04-21
 

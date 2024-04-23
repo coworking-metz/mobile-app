@@ -1,21 +1,13 @@
 import ServiceRow, { type ServiceRowProps } from './ServiceRow';
-import Constants, { ExecutionEnvironment } from 'expo-constants';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text } from 'react-native';
 import tw from 'twrnc';
-import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
-
-let useThemePreference: () => 'light' | 'dark' | 'system';
-if (IS_RUNNING_IN_EXPO_GO) {
-  useThemePreference = () => 'system';
-} else {
-  useThemePreference = require('@vonovak/react-native-theme-control').useThemePreference; // eslint-disable-line @typescript-eslint/no-var-requires
-}
+import { useAppThemePreference } from '@/services/theme';
 
 const ThemePicker = (props: Omit<ServiceRowProps, 'label' | 'prefixIcon'>) => {
   const { t } = useTranslation();
-  const chosenTheme = useThemePreference();
+  const chosenTheme = useAppThemePreference();
 
   return (
     <ServiceRow {...props} label={t('settings.general.theme.label')} prefixIcon="circle-half-full">

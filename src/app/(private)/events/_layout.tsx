@@ -33,9 +33,6 @@ export default function EventsLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
-          ...(Platform.OS === 'android' && {
-            animation: 'ios',
-          }),
         }}>
         <Stack.Screen
           name="calendar"
