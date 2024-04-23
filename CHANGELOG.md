@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Changed
+
+- Increase font size on carbon dioxide level description.
+- Animation color on phone booths bottom sheet.
+
+### Fixed
+
+- (Android only) Ease home screen pull to refresh.
+- (Android only) Remove white flash when navigating.
+
 ## [1.6.0] - 2024-04-21
 
 ### Added
