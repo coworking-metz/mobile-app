@@ -2,6 +2,7 @@ import CalendarAnimation from '../Animations/CalendarAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
 import CarouselPaginationDots from '../CarouselPaginationDots';
+import ErrorChip from '../ErrorChip';
 import ServiceRow from '../Settings/ServiceRow';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
@@ -13,17 +14,20 @@ import { Platform, Text, View, type LayoutChangeEvent } from 'react-native';
 import { useSharedValue, type StyleProps } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
+import { isSilentError } from '@/helpers/error';
 import { type ApiMemberSubscription } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
 const SubscriptionBottomSheet = ({
   subscriptions = [],
+  currentSubscription, // the one that should be displayed first
   loading = false,
   activeSince,
   style,
   onClose,
 }: {
   subscriptions?: ApiMemberSubscription[];
+  currentSubscription?: ApiMemberSubscription;
   loading?: boolean;
   activeSince?: string;
   style?: StyleProps;
@@ -34,16 +38,16 @@ const SubscriptionBottomSheet = ({
   const user = useAuthStore((state) => state.user);
   const hasBeenActive = useRef(false);
 
-  const { refetch: refetchProfile } = useQuery({
-    queryKey: ['members', user?.id],
+  const { refetch: refetchSubscriptions, error: subscriptionsError } = useQuery({
+    queryKey: ['members', user?.id, 'subscriptions'],
     enabled: false,
   });
 
   useEffect(() => {
     if (!!user?.id && hasBeenActive.current) {
-      refetchProfile();
+      refetchSubscriptions();
     }
-  }, [user, activeSince, refetchProfile]);
+  }, [user, activeSince, refetchSubscriptions]);
 
   useEffect(() => {
     hasBeenActive.current = true;
@@ -55,27 +59,32 @@ const SubscriptionBottomSheet = ({
   const getLabel = useCallback(
     (s: ApiMemberSubscription) => {
       const now = dayjs();
-      if (now.startOf('day').isAfter(s.aboEnd)) {
-        const start = dayjs(s.aboStart);
-        const end = dayjs(s.aboEnd);
+      if (now.startOf('day').isAfter(s.ended)) {
+        const start = dayjs(s.started);
+        const end = dayjs(s.ended);
         const startMonthDaysCount = start.endOf('month').diff(start, 'day');
         const endMonthDaysCount = end.diff(end.startOf('month'), 'day');
         if (startMonthDaysCount >= 20) {
           return t('home.profile.subscription.label.previous', {
-            month: start.format('MMMM'),
+            month: now.isSame(start, 'year') ? start.format('MMMM') : start.format('MMMM YYYY'),
           });
         } else if (endMonthDaysCount >= 20) {
           return t('home.profile.subscription.label.previous', {
-            month: end.format('MMMM'),
+            month: now.isSame(end, 'year') ? end.format('MMMM') : end.format('MMMM YYYY'),
           });
         } else {
           return t('home.profile.subscription.label.previous', {
-            month: `${start.format('MMMM')} - ${end.format('MMMM')}`,
+            month: [
+              `${start.format('MMMM')} - ${end.format('MMMM')}`,
+              !now.isSame(end, 'year') && end.format('YYYY'),
+            ]
+              .filter(Boolean)
+              .join(' '),
           });
         }
       }
 
-      if (now.isBefore(s.aboStart)) return t('home.profile.subscription.label.next');
+      if (now.isBefore(s.started)) return t('home.profile.subscription.label.next');
       return t('home.profile.subscription.label.current');
     },
     [t],
@@ -83,17 +92,20 @@ const SubscriptionBottomSheet = ({
 
   const sortedSubscriptions = useMemo(() => {
     return [...subscriptions].sort((a, b) => {
-      return dayjs(a.aboStart).diff(b.aboStart);
+      return dayjs(a.started).diff(b.started);
     });
   }, [subscriptions]);
 
   const defaultIndex = useMemo(() => {
-    const currentSubscriptionIndex = sortedSubscriptions.findIndex((s) => s.current);
+    const currentSubscriptionIndex = sortedSubscriptions.findIndex(
+      (s) => s._id === currentSubscription?._id,
+    );
+    console.log(currentSubscriptionIndex, sortedSubscriptions, currentSubscription);
     if (currentSubscriptionIndex >= 0) return currentSubscriptionIndex;
     const lastSubscriptionIndex = sortedSubscriptions.length - 1;
     if (lastSubscriptionIndex >= 0) return lastSubscriptionIndex;
     return 0;
-  }, [sortedSubscriptions]);
+  }, [sortedSubscriptions, currentSubscription]);
 
   return (
     <AppBottomSheet
@@ -118,9 +130,10 @@ const SubscriptionBottomSheet = ({
                 enabled={sortedSubscriptions.length > 1}
                 loop={false}
                 renderItem={({ item }) => (
-                  <View style={[tw`flex flex-col px-6`, { width: carouselWidth }]}>
+                  <View style={[tw`flex flex-col px-6 grow pb-3`, { width: carouselWidth }]}>
                     <Text
-                      style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
+                      numberOfLines={2}
+                      style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 my-auto`}>
                       {getLabel(item)}
                     </Text>
                     <Text
@@ -143,13 +156,13 @@ const SubscriptionBottomSheet = ({
                       ) : (
                         <Text
                           style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
-                          {dayjs(item.aboStart).format('dddd ll')}
+                          {dayjs(item.started).format('dddd ll')}
                         </Text>
                       )}
                     </ServiceRow>
                     <ServiceRow
                       label={
-                        dayjs().startOf('day').isAfter(item.aboEnd)
+                        dayjs().startOf('day').isAfter(item.ended)
                           ? t('home.profile.subscription.status.expiredSince')
                           : t('home.profile.subscription.status.ongoingUntil')
                       }
@@ -166,7 +179,7 @@ const SubscriptionBottomSheet = ({
                       ) : (
                         <Text
                           style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
-                          {dayjs(item.aboEnd).format('dddd ll')}
+                          {dayjs(item.ended).format('dddd ll')}
                         </Text>
                       )}
                     </ServiceRow>
@@ -204,6 +217,13 @@ const SubscriptionBottomSheet = ({
           </Text>
         </View>
       )}
+      {subscriptionsError && !isSilentError(subscriptionsError) ? (
+        <ErrorChip
+          error={subscriptionsError}
+          label={t('home.profile.subscription.onFetch.fail')}
+          style={[tw`self-start mx-6`, sortedSubscriptions.length > 1 ? tw`mt-6` : tw`mt-2 mb-4`]}
+        />
+      ) : null}
 
       <Link
         asChild

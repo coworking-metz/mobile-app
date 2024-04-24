@@ -107,7 +107,10 @@
         "expired": "Expired subscription",
         "next": "Next subscription",
         "none": "Subscription",
-        "previous": "{{month}} subscription"
+        "previous": "{{month}}\nsubscription"
+      },
+      "onFetch": {
+        "fail": "Unable to fetch subscriptions"
       },
       "renew": "Renew",
       "status": {

@@ -26,10 +26,10 @@ const SubscriptionCard = ({
   const label = useMemo(() => {
     if (!subscription) return t('home.profile.subscription.label.none');
     const now = dayjs();
-    if (now.startOf('day').isAfter(subscription.aboEnd))
+    if (now.startOf('day').isAfter(subscription.ended))
       return t('home.profile.subscription.label.expired');
-    if (now.isBefore(subscription.aboStart)) return t('home.profile.subscription.label.next');
-    if (dayjs().isSame(subscription.aboEnd, 'week'))
+    if (now.isBefore(subscription.started)) return t('home.profile.subscription.label.next');
+    if (dayjs().isSame(subscription.ended, 'week'))
       return t('home.profile.subscription.label.expireSoon');
     return t('home.profile.subscription.label.activeUntil');
   }, [subscription, t, isFocus, activeSince]);
@@ -38,9 +38,9 @@ const SubscriptionCard = ({
     if (!subscription) return t('home.profile.subscription.status.none');
 
     const today = dayjs().startOf('day');
-    if (today.isBefore(subscription.aboStart)) {
+    if (today.isBefore(subscription.started)) {
       return t('home.profile.subscription.date', {
-        date: new Date(subscription.aboStart),
+        date: new Date(subscription.started),
         formatParams: {
           date: { month: 'short', day: 'numeric' },
         },
@@ -49,17 +49,17 @@ const SubscriptionCard = ({
 
     const yesterday = today.subtract(1, 'day');
     const tomorrow = today.add(1, 'day');
-    if (dayjs(subscription.aboEnd).isBetween(yesterday, tomorrow, 'minute', '[]')) {
-      const [firstWord] = dayjs(subscription.aboEnd).calendar().split(' ');
+    if (dayjs(subscription.ended).isBetween(yesterday, tomorrow, 'minute', '[]')) {
+      const [firstWord] = dayjs(subscription.ended).calendar().split(' ');
       if (firstWord) return firstWord;
     }
 
-    if (today.isSame(subscription.aboEnd, 'week')) {
-      return dayjs(subscription.aboEnd).format('dddd');
+    if (today.isSame(subscription.ended, 'week')) {
+      return dayjs(subscription.ended).format('dddd');
     }
 
     return t('home.profile.subscription.date', {
-      date: new Date(subscription.aboEnd),
+      date: new Date(subscription.ended),
       formatParams: {
         date: { month: 'short', day: 'numeric' },
       },
@@ -75,7 +75,7 @@ const SubscriptionCard = ({
       <MaterialCommunityIcons
         color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
         name={
-          subscription && !dayjs().startOf('day').isAfter(subscription.aboEnd)
+          subscription && !dayjs().startOf('day').isAfter(subscription.ended)
             ? 'calendar-month'
             : 'calendar-blank'
         }
@@ -104,15 +104,14 @@ const SubscriptionCard = ({
         </Text>
       )}
 
-      {subscription &&
-        dayjs().isBetween(subscription.aboStart, subscription.aboEnd, 'day', '[]') && (
-          <MaterialCommunityIcons
-            color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
-            name="check-circle"
-            size={20}
-            style={tw`absolute top-3 right-3`}
-          />
-        )}
+      {subscription && dayjs().isBetween(subscription.started, subscription.ended, 'day', '[]') && (
+        <MaterialCommunityIcons
+          color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
+          name="check-circle"
+          size={20}
+          style={tw`absolute top-3 right-3`}
+        />
+      )}
     </View>
   );
 };

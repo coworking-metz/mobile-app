@@ -111,7 +111,10 @@
         "expired": "Abonnement expiré",
         "next": "Prochain abonnement",
         "none": "Abonnement",
-        "previous": "Abonnement de {{month}}"
+        "previous": "Abonnement de\n{{month}}"
+      },
+      "onFetch": {
+        "fail": "Impossible de récupérer les abonnements"
       },
       "renew": "Renouveler",
       "status": {

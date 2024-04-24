@@ -37,7 +37,11 @@ import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents } from '@/services/api/calendar';
-import { getCurrentMembers, getMemberProfile } from '@/services/api/members';
+import {
+  getCurrentMembers,
+  getMemberProfile,
+  getMemberSubscriptions,
+} from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
@@ -87,10 +91,36 @@ export default function HomeScreen({}) {
     enabled: !!user?.id,
   });
 
+  const {
+    data: subscriptions,
+    isLoading: isLoadingSubscriptions,
+    isFetching: isFetchingSubscriptions,
+    refetch: refetchSubscriptions,
+  } = useQuery({
+    queryKey: ['members', user?.id, 'subscriptions'],
+    queryFn: ({ queryKey: [_, userId] }) => {
+      if (userId) {
+        return getMemberSubscriptions(userId);
+      }
+      throw new Error('Missing user id');
+    },
+    retry: false,
+    enabled: !!user?.id,
+  });
+
   const currentSubscription = useMemo(() => {
-    // retrieve ongoing subscription or the most recent one
-    return profile?.abos.find(({ current }) => current) ?? profile?.abos.find(() => true) ?? null;
-  }, [profile]);
+    // retrieve ongoing subscription
+    const ongoingSubscription = subscriptions?.find(({ current }) => current);
+    if (ongoingSubscription) return ongoingSubscription;
+
+    // or the next one
+    const nextSubscription = subscriptions?.findLast(({ started }) => dayjs().isBefore(started));
+    if (nextSubscription) return nextSubscription;
+
+    // or the most recent one
+    const [lastSubscription] = subscriptions || [];
+    return lastSubscription ?? null;
+  }, [subscriptions]);
 
   const {
     data: calendarEvents,
@@ -130,6 +160,7 @@ export default function HomeScreen({}) {
   const onRefresh = useCallback(() => {
     return Promise.all([
       user?.id && refetchProfile(),
+      user?.id && refetchSubscriptions(),
       refetchCurrentMembers(),
       refreshCalendarEvents(),
     ]);
@@ -160,8 +191,9 @@ export default function HomeScreen({}) {
           {hasSelectSubscription ? (
             <SubscriptionBottomSheet
               activeSince={activeSince}
-              loading={isFetchingProfile}
-              subscriptions={profile?.abos || []}
+              currentSubscription={currentSubscription}
+              loading={isFetchingSubscriptions}
+              subscriptions={subscriptions}
               onClose={() => selectSubscription(false)}
             />
           ) : null}
@@ -252,7 +284,7 @@ export default function HomeScreen({}) {
             onPress={() => selectSubscription(true)}>
             <SubscriptionCard
               activeSince={activeSince}
-              loading={isLoadingProfile}
+              loading={isLoadingSubscriptions}
               style={tw`min-h-38`}
               subscription={currentSubscription}
             />

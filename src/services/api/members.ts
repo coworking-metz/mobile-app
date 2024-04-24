@@ -1,7 +1,7 @@
 import { HTTP } from '../http';
 import dayjs from 'dayjs';
 
-export interface ApiMemberSubscription {
+export interface ApiMemberProfileSubscription {
   aboEnd: string;
   aboStart: string;
   current: boolean;
@@ -26,7 +26,7 @@ export interface ApiMemberProfile {
   balance: number;
   membershipOk?: boolean;
   lastMembership?: number;
-  abos: ApiMemberSubscription[];
+  abos: ApiMemberProfileSubscription[] /* deprecated */;
   attending: boolean;
 }
 
@@ -60,18 +60,28 @@ export interface ApiMemberSubscription {
   ended: string;
   purchased: string;
   amount: number;
+  orderReference?: string;
+  current: boolean;
 }
 
 export const getMemberSubscriptions = (memberId: string): Promise<ApiMemberSubscription[]> => {
-  return HTTP.get(`/api/members/${memberId}/subscriptions`).then(({ data }) => data);
+  return HTTP.get(`/api/members/${memberId}/subscriptions`).then(
+    ({ data }: { data: Omit<ApiMemberSubscription, 'current'>[] }) => {
+      const sortedSubscriptions = data.sort((a, b) => dayjs(b.started).diff(a.started));
+      return sortedSubscriptions.map((s) => ({
+        ...s,
+        current: dayjs().isBetween(s.started, s.ended),
+      }));
+    },
+  );
 };
 
 export interface ApiMemberTicket {
   _id: string;
   purchased: string;
   amount: number;
-  currency: 'EUR';
   count: number;
+  orderReference?: string;
 }
 
 export const getMemberTickets = (memberId: string): Promise<ApiMemberTicket[]> => {
