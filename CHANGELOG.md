@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [1.6.2] - 2024-04-24
+
 ### Fixed
 
 - Properly select current subscription when opening bottom sheet.
@@ -149,7 +151,8 @@ Initial release with the following features:
 - services like opening the gate,
 - user attendance history.
 
-[unreleased]: https://github.com/coworking-metz/mobile-app/compare/1.6.1...main
+[unreleased]: https://github.com/coworking-metz/mobile-app/compare/1.6.2...main
+[1.6.2]: https://github.com/coworking-metz/mobile-app/compare/1.6.1...1.6.2
 [1.6.1]: https://github.com/coworking-metz/mobile-app/compare/1.6.0...1.6.1
 [1.6.0]: https://github.com/coworking-metz/mobile-app/compare/1.5.1...1.6.0
 [1.5.1]: https://github.com/coworking-metz/mobile-app/compare/1.5.0...1.5.1
