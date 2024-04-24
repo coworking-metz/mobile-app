@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Properly select current subscription when opening bottom sheet.
+- Carbon dioxide segmented level on the segmented arc.
 
 ## [1.6.1] - 2024-04-23
 

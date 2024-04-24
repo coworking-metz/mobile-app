@@ -39,13 +39,13 @@ const CarbonDioxideBottomSheet = ({
         data: { label: t('onPremise.carbonDioxide.level.normal') },
       },
       {
-        scale: 0.2,
+        scale: 0.25,
         filledColor: colorScheme === 'dark' ? tw.color('yellow-600/80') : tw.color('yellow-500'),
         emptyColor: tw.color('gray-400/25'),
         data: { label: t('onPremise.carbonDioxide.level.high') },
       },
       {
-        scale: 0.15,
+        scale: 0.25,
         filledColor: colorScheme === 'dark' ? tw.color('red-600/80') : tw.color('red-500'),
         emptyColor: tw.color('gray-400/25'),
         data: { label: t('onPremise.carbonDioxide.level.excessive') },

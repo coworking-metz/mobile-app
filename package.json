@@ -26,7 +26,7 @@
     "@react-navigation/native": "^6.1.7",
     "@ronradtke/react-native-markdown-display": "^8.0.0",
     "@sentry/react-native": "~5.20.0",
-    "@shipt/segmented-arc-for-react-native": "^1.1.0",
+    "@shipt/segmented-arc-for-react-native": "^1.1.1",
     "@shopify/react-native-skia": "0.1.221",
     "@tanstack/react-query": "^5.29.2",
     "@vonovak/react-native-theme-control": "^5.1.0",
