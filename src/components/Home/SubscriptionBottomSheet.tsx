@@ -100,7 +100,6 @@ const SubscriptionBottomSheet = ({
     const currentSubscriptionIndex = sortedSubscriptions.findIndex(
       (s) => s._id === currentSubscription?._id,
     );
-    console.log(currentSubscriptionIndex, sortedSubscriptions, currentSubscription);
     if (currentSubscriptionIndex >= 0) return currentSubscriptionIndex;
     const lastSubscriptionIndex = sortedSubscriptions.length - 1;
     if (lastSubscriptionIndex >= 0) return lastSubscriptionIndex;

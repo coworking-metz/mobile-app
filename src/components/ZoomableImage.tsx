@@ -61,13 +61,7 @@ const ZoombableImage = ({
               onPress={() => setSelected(false)}
             />
           </View>
-          <Gallery
-            data={[source]}
-            onIndexChange={(newIndex) => {
-              console.log(newIndex);
-            }}
-            onSwipeToClose={() => setSelected(false)}
-          />
+          <Gallery data={[source]} onSwipeToClose={() => setSelected(false)} />
         </View>
       </Modal>
     </>

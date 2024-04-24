@@ -72,10 +72,6 @@ const useProtectedRoute = (ready: boolean, setReady: (ready: boolean) => void) =
   );
 
   useEffect(() => {
-    console.log(
-      { isAuthStoreHydrated, isSettingsStoreHydrated, refreshToken },
-      rootNavigation?.isReady(),
-    );
     if (!rootNavigation?.isReady()) return;
     if (!isAuthStoreHydrated || !isSettingsStoreHydrated) return;
 
