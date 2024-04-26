@@ -192,6 +192,7 @@ const Settings = () => {
               </Animated.Text>
               <Animated.Text
                 entering={FadeInLeft.duration(500).delay(150)}
+                numberOfLines={1}
                 style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
                 {authStore.user?.email}
               </Animated.Text>
