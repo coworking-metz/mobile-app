@@ -23,7 +23,7 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
         image: (node) => {
           return (
             <View key={node.key}>
-              <ZoombableImage withAspectRatio source={node.attributes.src} style={tw`w-full`} />
+              <ZoombableImage source={node.attributes.src} style={tw`w-full`} />
             </View>
           );
         },

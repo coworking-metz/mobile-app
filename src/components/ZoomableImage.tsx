@@ -6,38 +6,15 @@ import Gallery from 'react-native-awesome-gallery';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw from 'twrnc';
 
-const ZoombableImage = ({
-  source,
-  withAspectRatio = false,
-  style,
-  ...props
-}: ImageProps & { withAspectRatio?: boolean }) => {
+const ZoombableImage = ({ source, style, ...props }: ImageProps) => {
   const insets = useSafeAreaInsets();
   const [isSelected, setSelected] = useState<boolean>(false);
-  const [width, setWidth] = useState<number | null>(null);
-  const [height, setHeight] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (!source) return;
-    Image.prefetch(source as string);
-    RNImage.getSize(source as string, (imageWidth, imageHeight) => {
-      setWidth(imageWidth);
-      setHeight(imageHeight);
-    });
-  }, [source]);
-
-  if (!width || !height) return <View style={[tw`bg-gray-200 dark:bg-gray-900`, style]} />;
 
   return (
     <>
-      {source && (
-        <TouchableOpacity onPress={() => setSelected(true)}>
-          <Image
-            source={source}
-            style={[withAspectRatio && { aspectRatio: width / height }, style]}
-            {...props}></Image>
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity onPress={() => setSelected(true)}>
+        <Image cachePolicy="memory-disk" source={source} style={[style]} {...props}></Image>
+      </TouchableOpacity>
       <Modal transparent animationType="fade" visible={isSelected}>
         <View style={tw`flex flex-col h-full w-full bg-black`}>
           <View
