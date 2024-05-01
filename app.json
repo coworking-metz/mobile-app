@@ -2,7 +2,7 @@
   "expo": {
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E9B142",
+        "backgroundColor": "#EAB234",
         "foregroundImage": "./src/assets/images/adaptive-icon.png"
       },
       "package": "fr.coworking_metz.mobile"
@@ -76,7 +76,7 @@
     "scheme": "poulailler",
     "slug": "coworking-mobile",
     "splash": {
-      "backgroundColor": "#E9B142",
+      "backgroundColor": "#EAB234",
       "image": "./src/assets/images/splash.png",
       "resizeMode": "contain"
     },
