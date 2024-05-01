@@ -68,6 +68,27 @@
           "organization": "coworking-metz",
           "project": "mobile"
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 23,
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0",
+            "kotlinVersion": "1.8.10"
+          },
+          "ios": {
+            "deploymentTarget": "14.0"
+          }
+        }
+      ],
+      [
+        "expo-custom-assets",
+        {
+          "assetsPaths": ["./src/assets/rive"]
+        }
       ]
     ],
     "runtimeVersion": {
