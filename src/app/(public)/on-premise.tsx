@@ -23,7 +23,7 @@ import useAuthStore from '@/stores/auth';
 const OnPremise = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
-  const user = useAuthStore((state) => state.user);
+  const user = useAuthStore((s) => s.user);
   const [imageWidth, setImageWidth] = useState<number | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
   const [hasFloorplanLoaded, setFloorplanLoaded] = useState<boolean>(false);

@@ -1,15 +1,14 @@
 import SpaceshipRefreshAnimation from './SpaceshipRefreshAnimation';
 import * as Haptics from 'expo-haptics';
-import React, { type ReactNode, useRef, useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState, type ReactNode } from 'react';
 import { PanResponder, Platform, RefreshControl, View, useColorScheme } from 'react-native';
 import Animated, {
-  FadeIn,
   useAnimatedScrollHandler,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withTiming,
   type StyleProps,
-  useDerivedValue,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
@@ -32,6 +31,7 @@ export default function HomeLayout({
   style?: StyleProps;
 }) {
   useDeviceContext(tw);
+
   const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
 
@@ -166,7 +166,6 @@ export default function HomeLayout({
         {...(!IS_RUNNING_IN_EXPO_GO && panResponderRef.current.panHandlers)}
         style={[tw`w-full grow flex flex-col relative`]}>
         <Animated.ScrollView
-          entering={FadeIn.duration(750)}
           horizontal={false}
           {...(IS_RUNNING_IN_EXPO_GO && {
             refreshControl: (

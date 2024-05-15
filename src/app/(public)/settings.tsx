@@ -28,6 +28,7 @@ import PresenceGraph from '@/components/Settings/PresenceGraph';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 import ThemePicker from '@/components/Settings/ThemePicker';
+import { useAppAuth } from '@/context/auth';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
@@ -44,15 +45,17 @@ const WORDPRESS_BASE_URL =
   process.env.EXPO_PUBLIC_WORDPRESS_BASE_URL || 'https://coworking-metz.fr/';
 
 const NAVIGATION_HEIGHT = 48;
-const HEADER_HEIGHT = 224;
+const PICTURE_SIZE = 96;
+const HEADER_HEIGHT = 240;
 const INTERPOLATE_INPUT = [-1, 0, HEADER_HEIGHT, HEADER_HEIGHT];
 
 const Settings = () => {
   useDeviceContext(tw);
+  const { login } = useAppAuth();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const router = useRouter();
-  const authStore = useAuthStore();
+  const user = useAuthStore((s) => s.user);
   const chosenLanguage = useSettingsStore((state) => state.language);
   const verticalScrollProgress = useSharedValue(0);
 
@@ -67,7 +70,7 @@ const Settings = () => {
     isFetching: isFetchingActivity,
     error: activityError,
   } = useQuery({
-    queryKey: ['members', authStore.user?.id, 'activity'],
+    queryKey: ['members', user?.id, 'activity'],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberActivity(userId);
@@ -76,7 +79,7 @@ const Settings = () => {
     },
     retry: false,
     refetchOnMount: false,
-    enabled: !!authStore.user?.id,
+    enabled: !!user?.id,
   });
 
   const {
@@ -84,7 +87,7 @@ const Settings = () => {
     isFetching: isFetchingProfile,
     error: profileError,
   } = useQuery({
-    queryKey: ['members', authStore.user?.id],
+    queryKey: ['members', user?.id],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId);
@@ -93,7 +96,7 @@ const Settings = () => {
     },
     retry: false,
     refetchOnMount: false,
-    enabled: !!authStore.user?.id,
+    enabled: !!user?.id,
   });
 
   /* this is a hell of a hack */
@@ -125,6 +128,18 @@ const Settings = () => {
     return {
       opacity,
       transform: [{ scale }],
+    };
+  }, [verticalScrollProgress]);
+
+  const headerTouchableStyle = useAnimatedStyle(() => {
+    const pointerEvents = interpolate(
+      verticalScrollProgress.value,
+      [-1, 0, (HEADER_HEIGHT - PICTURE_SIZE) / 2, (HEADER_HEIGHT - PICTURE_SIZE) / 2],
+      [1, 1, 0, 0],
+    );
+
+    return {
+      pointerEvents: pointerEvents > 0 ? 'auto' : 'none',
     };
   }, [verticalScrollProgress]);
 
@@ -181,33 +196,47 @@ const Settings = () => {
             headerStyle,
           ]}>
           <View style={tw`flex flex-col items-start gap-4 px-4`}>
-            <ProfilePicture attending={profile?.attending} style={tw`h-24 w-24`} />
+            <ProfilePicture
+              attending={profile?.attending}
+              style={{ width: PICTURE_SIZE, height: PICTURE_SIZE }}
+            />
+            <View style={tw`flex flex-row justify-between w-full`}>
+              <View style={tw`flex flex-col ml-2`}>
+                <Animated.Text
+                  entering={FadeInLeft.duration(500)}
+                  numberOfLines={1}
+                  style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                  {user ? user.name : t('account.title')}
+                </Animated.Text>
+                <Animated.Text
+                  entering={FadeInLeft.duration(500).delay(150)}
+                  numberOfLines={2}
+                  style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                  {user ? user.email : t('auth.login.headline')}
+                </Animated.Text>
 
-            <View style={tw`flex flex-col ml-2`}>
-              <Animated.Text
-                entering={FadeInLeft.duration(500)}
-                numberOfLines={1}
-                style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-                {authStore.user?.name}
-              </Animated.Text>
-              <Animated.Text
-                entering={FadeInLeft.duration(500).delay(150)}
-                numberOfLines={1}
-                style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
-                {authStore.user?.email}
-              </Animated.Text>
+                <Animated.View
+                  entering={FadeInLeft.duration(500).delay(300)}
+                  style={tw`flex flex-row gap-2 mt-2`}>
+                  {user?.roles.map((role) => (
+                    <Text
+                      key={`role-${role}`}
+                      style={tw`flex items-center rounded-md overflow-hidden bg-amber-200/50 dark:bg-amber-100/80 px-2.5 py-0.5 text-sm font-medium text-amber-800 dark:text-amber-900`}>
+                      {t(`settings.roles.value.${role}`)}
+                    </Text>
+                  ))}
+                </Animated.View>
+              </View>
 
-              <Animated.View
-                entering={FadeInLeft.duration(500).delay(300)}
-                style={tw`flex flex-row gap-2 mt-2`}>
-                {authStore.user?.roles.map((role) => (
-                  <Text
-                    key={`role-${role}`}
-                    style={tw`flex items-center rounded-md overflow-hidden bg-amber-200/50 dark:bg-amber-100/80 px-2.5 py-0.5 text-sm font-medium text-amber-800 dark:text-amber-900`}>
-                    {t(`settings.roles.value.${role}`)}
-                  </Text>
-                ))}
-              </Animated.View>
+              {!user && (
+                <MaterialCommunityIcons
+                  color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
+                  iconStyle={{ height: 32, width: 32, marginRight: 0 }}
+                  name="chevron-right"
+                  size={32}
+                  style={[tw`shrink-0 mt-6`]}
+                />
+              )}
             </View>
           </View>
         </Animated.View>
@@ -225,7 +254,7 @@ const Settings = () => {
           contentContainerStyle={[
             tw`flex flex-col relative`,
             {
-              paddingTop: NAVIGATION_HEIGHT + HEADER_HEIGHT + insets.top,
+              paddingTop: NAVIGATION_HEIGHT + PICTURE_SIZE + insets.top,
               paddingBottom: insets.bottom,
             },
           ]}
@@ -234,6 +263,21 @@ const Settings = () => {
           showsVerticalScrollIndicator={false}
           style={[{ flex: 1 }, tw`z-10 grow shrink`]}
           onScroll={onVerticalScroll}>
+          {
+            /* transparent view to fake a touch on the header link, should mimic as much as possible the header */
+            <TouchableNativeFeedback
+              disabled={!!user}
+              onPress={() => (user ? router.push('/account') : login?.())}>
+              <Animated.View
+                style={[
+                  tw`self-center w-full`,
+                  { height: HEADER_HEIGHT - PICTURE_SIZE },
+                  headerTouchableStyle,
+                ]}
+              />
+            </TouchableNativeFeedback>
+          }
+
           <View
             style={[
               tw`flex flex-col w-full grow py-6 bg-gray-50 dark:bg-zinc-900`,
@@ -325,35 +369,39 @@ const Settings = () => {
             <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.support.title')}
             </Text>
-            <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/`}>
-              <ServiceRow
-                withBottomDivider
-                label={t('settings.support.account.label')}
-                prefixIcon="account-outline"
-                style={tw`px-3 mx-3`}
-                suffixIcon="open-in-new"
-              />
-            </Link>
-            <Link asChild href={`${WORDPRESS_BASE_URL}/la-boutique/`}>
-              <ServiceRow
-                withBottomDivider
-                label={t('settings.support.store.label')}
-                prefixIcon="cart-outline"
-                style={tw`px-3 mx-3`}
-                suffixIcon="open-in-new"
-              />
-            </Link>
-            <Link
-              asChild
-              href="https://signal.group/#CjQKICGvCmD9n9SJSW6z_g5FmRg5rRUj4hWpC1X5XxOexGwrEhDxUfX0r6UQ_blpMGz938M9">
-              <ServiceRow
-                withBottomDivider
-                label={t('settings.support.signal.label')}
-                prefixIcon="chat-outline"
-                style={tw`px-3 mx-3`}
-                suffixIcon="open-in-new"
-              />
-            </Link>
+            {user && (
+              <>
+                <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/`}>
+                  <ServiceRow
+                    withBottomDivider
+                    label={t('settings.support.account.label')}
+                    prefixIcon="account-outline"
+                    style={tw`px-3 mx-3`}
+                    suffixIcon="open-in-new"
+                  />
+                </Link>
+                <Link asChild href={`${WORDPRESS_BASE_URL}/la-boutique/`}>
+                  <ServiceRow
+                    withBottomDivider
+                    label={t('settings.support.store.label')}
+                    prefixIcon="cart-outline"
+                    style={tw`px-3 mx-3`}
+                    suffixIcon="open-in-new"
+                  />
+                </Link>
+                <Link
+                  asChild
+                  href="https://signal.group/#CjQKICGvCmD9n9SJSW6z_g5FmRg5rRUj4hWpC1X5XxOexGwrEhDxUfX0r6UQ_blpMGz938M9">
+                  <ServiceRow
+                    withBottomDivider
+                    label={t('settings.support.signal.label')}
+                    prefixIcon="chat-outline"
+                    style={tw`px-3 mx-3`}
+                    suffixIcon="open-in-new"
+                  />
+                </Link>
+              </>
+            )}
             <ServiceRow
               label={t('settings.support.contact.title')}
               prefixIcon="help-circle-outline"
@@ -362,13 +410,15 @@ const Settings = () => {
               onPress={() => setContacting(true)}
             />
 
-            <ServiceRow
-              label={t('actions.logout')}
-              prefixIcon="logout"
-              style={tw`px-3 mx-3 mt-6`}
-              suffixIcon="chevron-right"
-              onPress={() => setLoggingOut(true)}
-            />
+            {user && (
+              <ServiceRow
+                label={t('actions.logout')}
+                prefixIcon="logout"
+                style={tw`px-3 mx-3 mt-6`}
+                suffixIcon="chevron-right"
+                onPress={() => setLoggingOut(true)}
+              />
+            )}
           </View>
 
           {/* transparent view to fake a touch on the footer link, should mimic as much as possible the footer */}

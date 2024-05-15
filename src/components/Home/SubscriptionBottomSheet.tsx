@@ -15,6 +15,7 @@ import { useSharedValue, type StyleProps } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
 import { isSilentError } from '@/helpers/error';
+
 import { type ApiMemberSubscription } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
@@ -35,7 +36,7 @@ const SubscriptionBottomSheet = ({
 }) => {
   const { t } = useTranslation();
 
-  const user = useAuthStore((state) => state.user);
+  const user = useAuthStore((s) => s.user);
   const hasBeenActive = useRef(false);
 
   const { refetch: refetchSubscriptions, error: subscriptionsError } = useQuery({
@@ -228,7 +229,7 @@ const SubscriptionBottomSheet = ({
         asChild
         href="https://www.coworking-metz.fr/boutique/pass-resident/"
         style={tw`mx-6 ${sortedSubscriptions.length > 1 ? 'mt-6' : 'mt-2'}`}>
-        <AppRoundedButton style={tw`h-14 self-stretch`} suffixIcon="open-in-new">
+        <AppRoundedButton disabled={!user} style={tw`h-14 self-stretch`} suffixIcon="open-in-new">
           <Text style={tw`text-base font-medium text-black`}>
             {sortedSubscriptions.length
               ? t('home.profile.subscription.renew')

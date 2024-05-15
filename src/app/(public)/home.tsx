@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { Link } from 'expo-router';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link, useRouter } from 'expo-router';
+import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, View } from 'react-native';
 import Animated, {
@@ -10,6 +10,7 @@ import Animated, {
   FadeInRight,
   FadeInUp,
   FadeOut,
+  FadeOutDown,
   StretchInY,
 } from 'react-native-reanimated';
 import { ToastPresets } from 'react-native-ui-lib';
@@ -32,10 +33,13 @@ import ProfilePicture from '@/components/Home/ProfilePicture';
 import StaleDataText from '@/components/Home/StaleDataText';
 import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
+import UnauthenticatedState from '@/components/Home/UnauthenticatedState';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
 import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
+
+import { log } from '@/helpers/logger';
 import { getCalendarEvents } from '@/services/api/calendar';
 import {
   getCurrentMembers,
@@ -46,13 +50,17 @@ import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
 
-export default function HomeScreen({}) {
+const logger = log.extend(`[home]`);
+
+export default function HomeScreen() {
   useDeviceContext(tw);
   const { t } = useTranslation();
-  const user = useAuthStore((state) => state.user);
+  const user = useAuthStore((s) => s.user);
   const settingsStore = useSettingsStore();
   const toastStore = useToastStore();
   const activeSince = useAppState();
+  const hasOnboard = useSettingsStore((state) => state.hasOnboard);
+  const router = useRouter();
 
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
@@ -70,7 +78,6 @@ export default function HomeScreen({}) {
     queryKey: ['currentMembers'],
     queryFn: getCurrentMembers,
     retry: false,
-    enabled: !!user,
   });
 
   const {
@@ -131,7 +138,6 @@ export default function HomeScreen({}) {
     queryKey: ['calendarEvents'],
     queryFn: getCalendarEvents,
     retry: false,
-    enabled: !!user,
   });
 
   const nextCalendarEvents = useMemo(() => {
@@ -166,10 +172,6 @@ export default function HomeScreen({}) {
     ]);
   }, [user, settingsStore]);
 
-  useEffect(() => {
-    onRefresh();
-  }, [user]);
-
   const onSuccessiveTaps = useCallback(() => {
     const toast = toastStore.add({
       message: t('home.onSuccessiveTaps.message'),
@@ -183,6 +185,13 @@ export default function HomeScreen({}) {
       },
     });
   }, [toastStore, t]);
+
+  useLayoutEffect(() => {
+    logger.debug(`Does user has already onboard? ${hasOnboard}`);
+    if (!hasOnboard && !user) {
+      router.push('/onboarding');
+    }
+  }, [hasOnboard, user]);
 
   return (
     <HomeLayout
@@ -241,7 +250,7 @@ export default function HomeScreen({}) {
       </View>
 
       <Animated.View
-        entering={FadeInLeft.duration(750).delay(150)}
+        entering={FadeInLeft.duration(750)}
         style={tw`flex self-stretch ml-6 mr-4 mb-6`}>
         <OccupancyCount
           error={currentMembersError}
@@ -398,6 +407,13 @@ export default function HomeScreen({}) {
             <OnPremiseCard />
           </Link>
         </Animated.View>
+
+        {!user && (
+          <UnauthenticatedState
+            exiting={FadeOutDown.duration(500).delay(900)}
+            style={tw`mt-12 mb-6`}
+          />
+        )}
       </View>
     </HomeLayout>
   );

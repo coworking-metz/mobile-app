@@ -11,3 +11,4 @@ export { default as notFound } from './notFound.json';
 export { default as help } from './help.json';
 export { default as events } from './events.json';
 export { default as onPremise } from './on-premise.json';
+export { default as account } from './account.json';

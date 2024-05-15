@@ -55,8 +55,8 @@ const RootLayout = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <I18nProvider>
-          <AuthProvider>
-            <QueryClientProvider client={queryClient}>
+          <QueryClientProvider client={queryClient}>
+            <AuthProvider>
               <Stack
                 screenOptions={{
                   headerShown: false,
@@ -75,14 +75,6 @@ const RootLayout = () => {
                   name="[...missing]"
                   options={{
                     headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="(public)/login"
-                  options={{
-                    headerShown: false,
-                    animation: 'fade',
-                    animationTypeForReplace: 'pop',
                   }}
                 />
                 <Stack.Screen
@@ -109,27 +101,27 @@ const RootLayout = () => {
                 />
 
                 <Stack.Screen
-                  name="(private)/home"
+                  name="(public)/home"
                   options={{
                     headerShown: false,
-                    animation: 'fade',
+                    animationTypeForReplace: 'pop',
                   }}
                 />
                 <Stack.Screen
-                  name="(private)/settings"
+                  name="(public)/settings"
                   options={{
                     headerShown: false,
                   }}
                 />
                 <Stack.Screen
-                  name="(private)/on-premise"
+                  name="(public)/on-premise"
                   options={{
                     headerShown: false,
                   }}
                 />
 
                 <Stack.Screen
-                  name="(private)/events"
+                  name="(public)/events"
                   options={{
                     headerShown: false,
                     presentation: 'modal',
@@ -144,11 +136,11 @@ const RootLayout = () => {
                 style={[
                   ...(Platform.OS === 'android'
                     ? [
-                        { marginTop: (insets.top || 0) + 8 },
-                        !!insets.left && { marginLeft: insets.left },
-                        !!insets.bottom && { marginBottom: insets.bottom },
-                        !!insets.right && { marginRight: insets.right },
-                      ]
+                      { marginTop: (insets.top || 0) + 8 },
+                      !!insets.left && { marginLeft: insets.left },
+                      !!insets.bottom && { marginBottom: insets.bottom },
+                      !!insets.right && { marginRight: insets.right },
+                    ]
                     : []),
                 ]}
               />
@@ -159,8 +151,8 @@ const RootLayout = () => {
                   light={tw.color('transparent') as string}
                 />
               ) : null}
-            </QueryClientProvider>
-          </AuthProvider>
+            </AuthProvider>
+          </QueryClientProvider>
         </I18nProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

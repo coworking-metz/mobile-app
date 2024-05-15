@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Guest mode: unauthenticated user are now able to navigate inside the app with restrictions.
+They will be reminded that an account is needed to unlock all features.
+
+### Changed
+
+- Remove login wall.
+- Improve initial launch performances.
+
 ## [1.6.3] - 2024-04-26
 
 ### Fixed
