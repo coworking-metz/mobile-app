@@ -1,6 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
 import * as Clipboard from 'expo-clipboard';
-import { useRouter, useSegments } from 'expo-router';
 import * as Updates from 'expo-updates';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +12,7 @@ import ServiceRow from '@/components/Settings/ServiceRow';
 import { theme } from '@/helpers/colors';
 import { parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
+import useResetNavigation from '@/helpers/navigation';
 import { HTTP } from '@/services/http';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -24,12 +24,12 @@ const advancedLogger = log.extend(`[advanced]`);
 const Advanced = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
-  const router = useRouter();
   const toastStore = useToastStore();
   const noticeStore = useNoticeStore();
   const authStore = useAuthStore();
   const settingsStore = useSettingsStore();
   const queryClient = useQueryClient();
+  const resetNavigation = useResetNavigation();
 
   const copyAccessToken = useCallback(() => {
     Clipboard.setStringAsync(authStore.accessToken as string)
@@ -135,7 +135,7 @@ const Advanced = () => {
           type: ToastPresets.SUCCESS,
           timeout: 3000,
         });
-        router.push('/login');
+        resetNavigation('/');
       })
       .catch(async (error: Error) => {
         const description = await parseErrorText(error);
@@ -169,6 +169,7 @@ const Advanced = () => {
             }
             style={tw`text-slate-500 dark:text-slate-400`}
             value={settingsStore.apiBaseUrl || ''}
+            onBlur={() => queryClient.invalidateQueries()}
             onChangeText={(apiBaseUrl) => useSettingsStore.setState({ apiBaseUrl })}
           />
         )}
@@ -212,6 +213,7 @@ const Advanced = () => {
       <ServiceRow
         withBottomDivider
         description={`${authStore.accessToken}`}
+        disabled={!authStore.accessToken}
         label={t('advanced.store.accessToken.label')}
         style={tw`px-3 mx-3`}
         suffixIcon="content-copy"
@@ -220,6 +222,7 @@ const Advanced = () => {
       <ServiceRow
         withBottomDivider
         description={`${authStore.refreshToken}`}
+        disabled={!authStore.refreshToken}
         label={t('advanced.store.refreshToken.label')}
         style={tw`px-3 mx-3`}
         suffixIcon="content-copy"

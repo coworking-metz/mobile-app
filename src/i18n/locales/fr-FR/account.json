@@ -1,0 +1,17 @@
+{
+  "profile": {
+    "firstname": {
+      "label": "Prénom"
+    },
+    "lastname": {
+      "label": "Nom"
+    },
+    "email": {
+      "label": "Email"
+    },
+    "birthdate": {
+      "label": "Date de naissance"
+    }
+  },
+  "title": "Mon profil"
+}

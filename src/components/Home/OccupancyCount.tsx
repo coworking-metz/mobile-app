@@ -10,6 +10,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { FadeInRight, FadeOutRight } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { isSilentError } from '@/helpers/error';
+
 import { type ApiMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
@@ -34,7 +35,7 @@ const OccupancyCount = ({
   children?: ReactNode;
 }) => {
   const { t } = useTranslation();
-  const user = useAuthStore((state) => state.user);
+  const user = useAuthStore((s) => s.user);
 
   const memberPictures = useMemo(() => {
     return members

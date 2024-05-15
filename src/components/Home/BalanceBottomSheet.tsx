@@ -13,6 +13,7 @@ import { Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { isSilentError } from '@/helpers/error';
+
 import { getMemberTickets } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
@@ -30,7 +31,7 @@ const BalanceBottomSheet = ({
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
-  const user = useAuthStore((state) => state.user);
+  const user = useAuthStore((s) => s.user);
   const hasBeenActive = useRef(false);
 
   const { refetch: refetchProfile } = useQuery({
@@ -92,7 +93,7 @@ const BalanceBottomSheet = ({
         withBottomDivider
         description={t('home.profile.tickets.consumed.description')}
         label={t('home.profile.tickets.consumed.label')}
-        style={tw`w-full px-0`}>
+        style={tw`w-full px-0 mt-2`}>
         {isFetchingTicketsOrders ? (
           <Skeleton
             backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
@@ -139,11 +140,11 @@ const BalanceBottomSheet = ({
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
               {balance >= 0
                 ? t('home.profile.tickets.available', {
-                    count: balance,
-                  })
+                  count: balance,
+                })
                 : t('home.profile.tickets.depleted', {
-                    count: -balance,
-                  })}
+                  count: -balance,
+                })}
             </Text>
           </View>
         )}
@@ -173,7 +174,7 @@ const BalanceBottomSheet = ({
         asChild
         href="https://www.coworking-metz.fr/boutique/carnet-10-journees/"
         style={tw`mt-2`}>
-        <AppRoundedButton style={tw`h-14 self-stretch`} suffixIcon="open-in-new">
+        <AppRoundedButton disabled={!user} style={tw`h-14 self-stretch`} suffixIcon="open-in-new">
           <Text style={tw`text-base text-black font-medium`}>{t('home.profile.tickets.add')}</Text>
         </AppRoundedButton>
       </Link>

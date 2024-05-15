@@ -25,48 +25,48 @@ const AppRoundedButton: ForwardRefRenderFunction<
   { prefixIcon, suffixIcon, style, children, disabled = false, loading = false, onPress },
   ref,
 ) => {
-  return (
-    <AppTouchableScale ref={ref} disabled={disabled} {...(!disabled && { onPress })}>
-      <View
-        style={[
-          tw`flex flex-row justify-center items-center min-h-14 px-6 rounded-[4rem]`,
-          disabled
-            ? tw`bg-neutral-200 dark:bg-neutral-400 opacity-50`
-            : { backgroundColor: theme.darkVanilla },
-          style,
-        ]}>
-        {loading ? (
-          <HorizontalLoadingAnimation style={tw`h-full w-full`} />
-        ) : (
-          <>
-            <View style={tw`flex flex-row items-center justify-start h-full grow shrink basis-0`}>
-              {prefixIcon ? (
-                <MaterialCommunityIcons
-                  color={theme.charlestonGreen}
-                  iconStyle={tw`h-6 w-6`}
-                  name={prefixIcon}
-                  size={24}
-                />
-              ) : null}
-            </View>
-            <View style={tw`flex flex-row items-center justify-center h-full grow`}>
-              {children}
-            </View>
-            <View style={tw`flex flex-row items-center justify-end h-full grow shrink basis-0`}>
-              {suffixIcon ? (
-                <MaterialCommunityIcons
-                  color={theme.charlestonGreen}
-                  iconStyle={tw`h-6 w-6`}
-                  name={suffixIcon}
-                  size={24}
-                />
-              ) : null}
-            </View>
-          </>
-        )}
-      </View>
-    </AppTouchableScale>
-  );
-};
+    return (
+      <AppTouchableScale ref={ref} disabled={disabled} {...(!disabled && { onPress })}>
+        <View
+          style={[
+            tw`flex flex-row justify-center items-center min-h-14 px-6 rounded-[4rem]`,
+            disabled
+              ? tw`bg-neutral-200 dark:bg-neutral-400 opacity-50`
+              : { backgroundColor: theme.darkVanilla },
+            style,
+          ]}>
+          {loading ? (
+            <HorizontalLoadingAnimation style={tw`h-full w-full`} />
+          ) : (
+            <>
+              <View style={tw`flex flex-row items-center justify-start h-full grow shrink basis-0`}>
+                {prefixIcon ? (
+                  <MaterialCommunityIcons
+                    color={theme.charlestonGreen}
+                    iconStyle={tw`h-6 w-6`}
+                    name={prefixIcon}
+                    size={24}
+                  />
+                ) : null}
+              </View>
+              <View style={tw`flex flex-row items-center justify-center h-full grow`}>
+                {children}
+              </View>
+              <View style={tw`flex flex-row items-center justify-end h-full grow shrink basis-0`}>
+                {suffixIcon ? (
+                  <MaterialCommunityIcons
+                    color={theme.charlestonGreen}
+                    iconStyle={tw`h-6 w-6`}
+                    name={suffixIcon}
+                    size={24}
+                  />
+                ) : null}
+              </View>
+            </>
+          )}
+        </View>
+      </AppTouchableScale>
+    );
+  };
 
 export default forwardRef(AppRoundedButton);

@@ -11,7 +11,7 @@ import { isNil, uniq } from 'lodash';
 import { Skeleton } from 'moti/skeleton';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View, type LayoutChangeEvent, useColorScheme } from 'react-native';
+import { Platform, Text, View, useColorScheme, type LayoutChangeEvent } from 'react-native';
 import { BarChart, type stackDataItem } from 'react-native-gifted-charts';
 import ReadMore from 'react-native-read-more-text';
 import { useSharedValue, type StyleProps } from 'react-native-reanimated';
@@ -19,6 +19,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
+
 import { getPhoneBoothsOccupation } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 
@@ -45,7 +46,7 @@ const PhoneBoothBottomSheet = ({
   const { t } = useTranslation();
   const [carouselWidth, setCarouselWidth] = useState<number>(0);
   const offset = useSharedValue(0);
-  const user = useAuthStore((state) => state.user);
+  const user = useAuthStore((s) => s.user);
   const colorScheme = useColorScheme();
 
   const {

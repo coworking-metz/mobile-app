@@ -45,32 +45,34 @@ const MembershipCard = ({
           width={96}
         />
       ) : (
-        <Text
-          numberOfLines={1}
-          style={[
-            tw`text-2xl font-normal`,
-            lastMembershipYear
-              ? tw`text-slate-900 dark:text-gray-200`
-              : tw`text-gray-400 dark:text-slate-600`,
-          ]}>
-          {lastMembershipYear || t('home.profile.membership.status.none')}
-        </Text>
-      )}
+        <>
+          <Text
+            numberOfLines={1}
+            style={[
+              tw`text-2xl font-normal`,
+              lastMembershipYear
+                ? tw`text-slate-900 dark:text-gray-200`
+                : tw`text-gray-400 dark:text-slate-600`,
+            ]}>
+            {lastMembershipYear || t('home.profile.membership.status.none')}
+          </Text>
 
-      {!valid ? (
-        <MaterialCommunityIcons
-          color={tw.prefixMatch('dark') ? tw.color('yellow-600') : tw.color('yellow-500')}
-          name="alert"
-          size={20}
-          style={tw`absolute top-3 right-3`}
-        />
-      ) : (
-        <MaterialCommunityIcons
-          color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
-          name="check-circle"
-          size={20}
-          style={tw`absolute top-3 right-3`}
-        />
+          {!valid ? (
+            <MaterialCommunityIcons
+              color={tw.prefixMatch('dark') ? tw.color('yellow-600') : tw.color('yellow-500')}
+              name="alert"
+              size={20}
+              style={tw`absolute top-3 right-3`}
+            />
+          ) : (
+            <MaterialCommunityIcons
+              color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
+              name="check-circle"
+              size={20}
+              style={tw`absolute top-3 right-3`}
+            />
+          )}
+        </>
       )}
     </View>
   );

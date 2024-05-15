@@ -10,6 +10,7 @@ import Animated, { FadeInLeft, FadeOutLeft, type StyleProps } from 'react-native
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
+
 import { unlockDeckDoor } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -24,7 +25,7 @@ const UnlockDeckDoorBottomSheet = ({
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
-  const user = useAuthStore((state) => state.user);
+  const user = useAuthStore((s) => s.user);
   const noticeStore = useNoticeStore();
   const animation = useRef<LottieView>(null);
   const [isUnlocked, setUnlocked] = useState(unlocked);
