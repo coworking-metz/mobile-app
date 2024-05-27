@@ -2,7 +2,7 @@
   "expo": {
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#EAB234",
+        "backgroundColor": "#F9B000",
         "foregroundImage": "./src/assets/images/adaptive-icon.png"
       },
       "package": "fr.coworking_metz.mobile"
@@ -105,6 +105,6 @@
       "url": "https://u.expo.dev/d4548eb7-404d-4a34-a484-8c0a1f01e0d6"
     },
     "userInterfaceStyle": "automatic",
-    "version": "2024.5.1"
+    "version": "2024.5.2"
   }
 }

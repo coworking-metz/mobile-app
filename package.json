@@ -1,6 +1,6 @@
 {
   "name": "coworking-mobile",
-  "version": "2024.5.1",
+  "version": "2024.5.2",
   "private": true,
   "scripts": {
     "android": "npm run start -- --android",
@@ -80,7 +80,7 @@
     "react-native-ui-lib": "^7.21.2",
     "react-native-uuid": "^2.0.2",
     "react-random-reveal": "^2.0.0",
-    "rive-react-native": "^7.0.1",
+    "rive-react-native": "7.0.1",
     "twrnc": "^4.2.0",
     "zustand": "^4.5.2"
   },
