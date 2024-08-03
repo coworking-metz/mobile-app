@@ -87,3 +87,32 @@ export interface ApiMemberTicket {
 export const getMemberTickets = (memberId: string): Promise<ApiMemberTicket[]> => {
   return HTTP.get(`/api/members/${memberId}/tickets`).then(({ data }) => data);
 };
+
+// https://vincent-van-git.netlify.app/
+/* eslint-disable prettier/prettier */
+const HELLO_ACTIVITY_MATRIX = [
+  1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, // h
+  0, 0, 0, 0, 0, 0, 0, // blank line
+  0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, // e
+  0, 0, 0, 0, 0, 0, 0, // blank line
+  1, 1, 1, 1, 1, 1, 1, // l
+  0, 0, 0, 0, 0, 0, 0, // blank line
+  1, 1, 1, 1, 1, 1, 1, // l
+  0, 0, 0, 0, 0, 0, 0, // blank line
+  0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, // o
+];
+/* eslint-enable prettier/prettier */
+const helloStartDate = dayjs()
+  .subtract(1, 'week')
+  .endOf('week')
+  .subtract(HELLO_ACTIVITY_MATRIX.length, 'day');
+
+export const getHelloActivity = () =>
+  HELLO_ACTIVITY_MATRIX.map(
+    (value, index) =>
+      ({
+        date: helloStartDate.add(index, 'days').format('YYYY-MM-DD'),
+        value: value ? (Math.random() > 0.5 ? 1 : 0.5) : 0,
+        type: Math.random() > 0.5 ? 'subscription' : 'ticket',
+      }) as ApiMemberActivity,
+  );

@@ -6,9 +6,9 @@
     "title": "First steps"
   },
   "calendar": {
-    "browse": "All",
+    "browse": "More",
     "empty": {
-      "action": "Discover other events",
+      "action": "Discover more events",
       "label": "There's nothing planned in the near future."
     },
     "event": {

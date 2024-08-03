@@ -33,6 +33,7 @@ import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
 import {
+  getHelloActivity,
   getMemberActivity,
   getMemberProfile,
   type ApiMemberActivity,
@@ -75,11 +76,10 @@ const Settings = () => {
       if (userId) {
         return getMemberActivity(userId);
       }
-      throw new Error('Missing user id');
+      return getHelloActivity();
     },
     retry: false,
     refetchOnMount: false,
-    enabled: !!user?.id,
   });
 
   const {

@@ -119,14 +119,16 @@ const PresenceGraph = ({
   );
 
   const values = useMemo(() => {
-    return activity.map((item) => {
-      const nonCompliant = nonCompliantActivity.find(({ date }) => date === item.date);
-      return {
-        date: item.date,
-        count:
-          item.date === selectedDate ? 3 : nonCompliant ? 2.5 * nonCompliant.value : item.value,
-      };
-    });
+    return activity
+      .filter(({ value }) => !!value)
+      .map((item) => {
+        const nonCompliant = nonCompliantActivity.find(({ date }) => date === item.date);
+        return {
+          date: item.date,
+          count:
+            item.date === selectedDate ? 3 : nonCompliant ? 2.5 * nonCompliant.value : item.value,
+        };
+      });
   }, [activity, selectedDate, nonCompliantActivity]);
 
   return loading ? (
@@ -145,7 +147,7 @@ const PresenceGraph = ({
       <View
         key={`presence-graph-${startDate ? `6months` : 'all'}`}
         style={[tw`flex flex-row`, { transform: [{ scaleX: -1 }] }]}>
-        {startDate && firstActivityDate ? (
+        {activityCount && startDate && dayjs(firstActivityDate).isBefore(startDate) ? (
           <LinearGradient
             colors={
               colorScheme === 'dark'
@@ -172,7 +174,7 @@ const PresenceGraph = ({
               />
             </View>
           </LinearGradient>
-        ) : firstActivityDate ? (
+        ) : activityCount && firstActivityDate ? (
           <View style={tw`flex flex-col self-center ml-6`}>
             <View style={tw`flex flex-row items-end gap-1`}>
               <Text style={tw`text-3xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
@@ -181,7 +183,7 @@ const PresenceGraph = ({
                     count: activityCount,
                   })}
               </Text>
-              {activityCount && (
+              {!!activityCount && (
                 <Text
                   style={[tw`font-normal text-sm leading-6 text-slate-500 dark:text-slate-400`]}>
                   {t('settings.profile.presence.activity', {
