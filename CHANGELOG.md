@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Remove `beta` tag from parking button.
 - Touch title on unauthenticated empty state to login.
+- Prefer render a member face instead of `+1` on occupancy count.
 
 ## [2024.5.2] - 2024-05-27
 

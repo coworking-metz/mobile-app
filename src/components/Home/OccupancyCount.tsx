@@ -14,7 +14,7 @@ import { isSilentError } from '@/helpers/error';
 import { type ApiMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
-const MAX_MEMBERS_PICTURES = 4;
+const MAX_MEMBERS_PICTURES = 5;
 
 const PHOTO_BOARD_URL =
   process.env.EXPO_PUBLIC_PHOTO_BOARD_URL || 'https://trombinoscope.coworking-metz.fr/';
@@ -113,22 +113,29 @@ const OccupancyCount = ({
               <View style={tw`flex flex-row-reverse items-center grow h-8 overflow-hidden`}>
                 {members.length > MAX_MEMBERS_PICTURES ? (
                   <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 ml-1`}>
-                    +{members.length - MAX_MEMBERS_PICTURES}
+                    +{members.length - (MAX_MEMBERS_PICTURES - 1)}
                   </Text>
                 ) : null}
-                {memberPictures.slice(0, MAX_MEMBERS_PICTURES).map((picture) => (
-                  <View
-                    key={`member-${picture}`}
-                    style={tw`flex items-center justify-center flex-shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden ml-[-1rem]`}>
-                    <Image
-                      contentFit="cover"
-                      contentPosition={'top center'}
-                      source={picture}
-                      style={tw`h-8 w-8 rounded-full bg-gray-200`}
-                      transition={1000}
-                    />
-                  </View>
-                ))}
+                {memberPictures
+                  .slice(
+                    0,
+                    members.length > MAX_MEMBERS_PICTURES
+                      ? MAX_MEMBERS_PICTURES - 1
+                      : MAX_MEMBERS_PICTURES,
+                  )
+                  .map((picture) => (
+                    <View
+                      key={`member-${picture}`}
+                      style={tw`flex items-center justify-center flex-shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden ml-[-1rem]`}>
+                      <Image
+                        contentFit="cover"
+                        contentPosition={'top center'}
+                        source={picture}
+                        style={tw`h-8 w-8 rounded-full bg-gray-200`}
+                        transition={1000}
+                      />
+                    </View>
+                  ))}
               </View>
             </TouchableOpacity>
           </Animated.View>
