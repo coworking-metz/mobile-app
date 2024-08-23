@@ -1,8 +1,10 @@
 import PullToRefreshHint from './PullToRefreshHint';
 import { useIsFocused } from '@react-navigation/native';
+import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { capitalize } from 'lodash';
 import React, { useMemo } from 'react';
+import { TouchableOpacity } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
 import tw from 'twrnc';
 
@@ -16,6 +18,7 @@ const StaleDataText = ({
   activeSince?: string;
 }) => {
   const isFocus = useIsFocused();
+  const queryClient = useQueryClient();
 
   // count duration since last fetch to redraw stale data text
   // every time the screen gets focused or the app gets back to foreground
@@ -29,17 +32,23 @@ const StaleDataText = ({
 
   return (
     <>
-      <Animated.Text
-        entering={FadeInUp.duration(300)}
-        exiting={FadeOutUp.duration(300)}
-        numberOfLines={2}
-        style={tw`ml-3 text-sm font-normal text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
-        {capitalize(
-          dayjs().diff(lastFetch, 'hour') > 2
-            ? dayjs(lastFetch).calendar()
-            : dayjs(lastFetch).fromNow(),
-        )}
-      </Animated.Text>
+      <TouchableOpacity
+        style={tw`ml-3 shrink grow basis-0`}
+        onPress={() => {
+          queryClient.resetQueries();
+        }}>
+        <Animated.Text
+          entering={FadeInUp.duration(300)}
+          exiting={FadeOutUp.duration(300)}
+          numberOfLines={2}
+          style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
+          {capitalize(
+            dayjs().diff(lastFetch, 'hour') > 2
+              ? dayjs(lastFetch).calendar()
+              : dayjs(lastFetch).fromNow(),
+          )}
+        </Animated.Text>
+      </TouchableOpacity>
       {/* mr-3 to be perflectly center aligned */}
       <PullToRefreshHint style={tw`mr-3 grow`} />
     </>

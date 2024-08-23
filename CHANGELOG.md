@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Render `hello` on presence graph when unauthenticated.
 - Color carbon dioxide level around its icon on workspace plan.
+- Touch stale data text to refresh on home screen.
 
 ### Changed
 

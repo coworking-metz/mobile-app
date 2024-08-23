@@ -38,7 +38,6 @@ import UnlockGateCard from '@/components/Home/UnlockGateCard';
 import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
-
 import { log } from '@/helpers/logger';
 import { getCalendarEvents } from '@/services/api/calendar';
 import {
