@@ -36,18 +36,15 @@ const UnauthenticatedState = ({
         style={[tw`w-full h-32`]}
       />
       <View style={tw`flex flex-col w-full gap-3 grow shrink`}>
-        <Text style={tw`text-xl text-left font-medium text-slate-900 dark:text-gray-200`}>
-          {t('auth.onUnauthenticated.title')}
-        </Text>
+        <TouchableNativeFeedback onPress={login}>
+          <Text style={tw`text-xl text-left font-medium text-amber-500`}>
+            {t('auth.onUnauthenticated.title')}
+          </Text>
+        </TouchableNativeFeedback>
         <Text
           style={tw`text-base text-left max-w-80 font-normal text-slate-500 dark:text-slate-400`}>
           {t('auth.onUnauthenticated.description')}
         </Text>
-        <TouchableNativeFeedback onPress={login}>
-          <Text style={tw`text-base font-normal leading-5 text-left text-amber-500 min-w-[16]`}>
-            {t('auth.onUnauthenticated.login')}
-          </Text>
-        </TouchableNativeFeedback>
       </View>
     </Animated.View>
   );

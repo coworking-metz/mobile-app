@@ -2,7 +2,6 @@ import { createAsyncStorage } from './async-storage';
 import createSecureStorage from './secure-storage';
 import useSettingsStore from './settings';
 import * as Sentry from '@sentry/react-native';
-import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { create } from 'zustand';
 import { persist, createJSONStorage, subscribeWithSelector } from 'zustand/middleware';

@@ -16,7 +16,7 @@ const About = () => {
 
   return (
     <ServiceLayout
-      contentStyle={tw`py-6`}
+      contentStyle={tw`pt-6 pb-12`}
       description={t('about.description')}
       title={t('about.title')}>
       <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6`}>

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Remove `beta` tag from parking button.
+- Touch title on unauthenticated empty state to login.
 
 ## [2024.5.2] - 2024-05-27
 
