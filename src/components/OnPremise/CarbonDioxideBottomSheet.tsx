@@ -7,6 +7,7 @@ import { Platform, Text, View, useColorScheme } from 'react-native';
 import AnimatedNumber from 'react-native-animated-number';
 import Animated, { FadeInUp, type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
+import { CARBON_DIOXIDE_RANGES } from '@/services/api/services';
 
 const ANIMATION_DURATION = 1_000;
 
@@ -54,7 +55,7 @@ const CarbonDioxideBottomSheet = ({
     [],
   );
 
-  const ranges = ['400', '800', '1200', '1600', ''];
+  const ranges = [...CARBON_DIOXIDE_RANGES.map((rangeAsNumber) => `${rangeAsNumber}`), ''];
 
   useLayoutEffect(() => {
     setCurrentLevel(level);

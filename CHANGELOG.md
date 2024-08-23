@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Render `hello` on presence graph when unauthenticated.
+- Color carbon dioxide level around its icon on workspace plan.
 
 ### Changed
 

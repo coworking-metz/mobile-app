@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import Animated, { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -7,6 +7,18 @@ import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vecto
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import AppBlurView from '@/components/AppBlurView';
 import { theme } from '@/helpers/colors';
+
+export type ActionableIconProps = {
+  activeIcon: keyof typeof mdiGlyphMap;
+  inactiveIcon: keyof typeof mdiGlyphMap;
+  active?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
+  onPress?: () => void;
+  style?: StyleProps;
+  iconStyle?: StyleProps;
+  children?: ReactNode;
+};
 
 const ActionableIcon = ({
   activeIcon,
@@ -17,16 +29,8 @@ const ActionableIcon = ({
   onPress,
   style,
   iconStyle,
-}: {
-  activeIcon: keyof typeof mdiGlyphMap;
-  inactiveIcon: keyof typeof mdiGlyphMap;
-  active?: boolean;
-  disabled?: boolean;
-  loading?: boolean;
-  onPress?: () => void;
-  style?: StyleProps;
-  iconStyle?: StyleProps;
-}) => {
+  children,
+}: ActionableIconProps) => {
   return (
     <AppBlurView
       intensity={8}
@@ -59,6 +63,8 @@ const ActionableIcon = ({
             style={tw`absolute w-10 h-10 -m-1`}
           />
         )}
+
+        {children}
       </TouchableOpacity>
     </AppBlurView>
   );

@@ -8,9 +8,10 @@ import floorPlanDay from '@/assets/images/floorplan-day.png';
 import floorPlanNight from '@/assets/images/floorplan-night.png';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
 import ErrorChip from '@/components/ErrorChip';
+import ActionableCarbonDioxide from '@/components/OnPremise/ActionableCarbonDioxide';
 import ActionableFan from '@/components/OnPremise/ActionableFan';
+import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
-import ActionableIcon from '@/components/OnPremise/ActionbleIcon';
 import CarbonDioxideBottomSheet from '@/components/OnPremise/CarbonDioxideBottomSheet';
 import KeyBoxBottomSheet from '@/components/OnPremise/KeyBoxBottomSheet';
 import PhoneBoothBottomSheet from '@/components/OnPremise/PhoneBoothBottomSheet';
@@ -148,9 +149,10 @@ const OnPremise = () => {
               />
 
               {/* Carbon Dioxide level */}
-              <ActionableIcon
+              <ActionableCarbonDioxide
                 activeIcon="leaf"
                 inactiveIcon="leaf"
+                level={onPremiseState?.sensors?.carbonDioxide.level || 0}
                 loading={isFetchingOnPremiseState}
                 style={tw`top-[32%] left-[56%]`}
                 onPress={() => setCarbonDioxideSelected(true)}

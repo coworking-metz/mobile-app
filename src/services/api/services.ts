@@ -16,6 +16,8 @@ export const openParkingGate = (): Promise<{
   return HTTP.post('/api/parking').then(({ data }) => data);
 };
 
+export const CARBON_DIOXIDE_RANGES = [400, 800, 1200, 1600];
+
 export const getOnPremiseState = (): Promise<{
   deckDoor: {
     unlocked: boolean;

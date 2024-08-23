@@ -1,4 +1,4 @@
-import ActionableIcon from './ActionbleIcon';
+import ActionableIcon from './ActionableIcon';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useState } from 'react';
 import {
