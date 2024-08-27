@@ -93,10 +93,7 @@ const RootLayout = () => {
                   name="(public)/onboarding"
                   options={{
                     headerShown: false,
-                    presentation: 'modal',
-                    ...(Platform.OS === 'android' && {
-                      animation: 'slide_from_bottom',
-                    }),
+                    animation: 'slide_from_bottom',
                   }}
                 />
 

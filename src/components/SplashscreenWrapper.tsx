@@ -26,17 +26,17 @@ export default function SplashscreenWrapper({
   const [isImageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
-    if (ready && isImageLoaded) {
+    if (isImageLoaded) {
       logger.debug('Hiding splash screen');
       SplashScreen.hideAsync();
     }
-  }, [ready, isImageLoaded]);
+  }, [isImageLoaded]);
 
   return (
     <>
       {children}
 
-      {(!isImageLoaded || !ready) && (
+      {!(ready && isImageLoaded) && (
         <Animated.View
           exiting={FadeOut.duration(500).delay(300)}
           style={[

@@ -79,7 +79,7 @@ const Onboarding = () => {
   ];
 
   const onClose = useCallback(() => {
-    router.dismiss();
+    router.canDismiss() ? router.dismiss() : router.replace('/home');
   }, [router]);
 
   const onNext = useCallback(() => {
@@ -170,7 +170,7 @@ const Onboarding = () => {
             <View
               style={[
                 tw`absolute z-10 flex flex-row items-center w-full justify-between px-4 pt-3`,
-                Platform.OS === 'android' && { paddingTop: insets.top },
+                { paddingTop: insets.top },
               ]}>
               <View pointerEvents={'none'} style={tw`flex flex-row ml-2`}>
                 {screens.map((_, index) => (

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { Link, useRouter } from 'expo-router';
-import React, { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import { Link } from 'expo-router';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, View } from 'react-native';
 import Animated, {
@@ -38,7 +38,6 @@ import UnlockGateCard from '@/components/Home/UnlockGateCard';
 import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
-import { log } from '@/helpers/logger';
 import { getCalendarEvents } from '@/services/api/calendar';
 import {
   getCurrentMembers,
@@ -49,8 +48,6 @@ import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
 
-const logger = log.extend(`[home]`);
-
 export default function HomeScreen() {
   useDeviceContext(tw);
   const { t } = useTranslation();
@@ -58,8 +55,6 @@ export default function HomeScreen() {
   const settingsStore = useSettingsStore();
   const toastStore = useToastStore();
   const activeSince = useAppState();
-  const hasOnboard = useSettingsStore((state) => state.hasOnboard);
-  const router = useRouter();
 
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
@@ -184,13 +179,6 @@ export default function HomeScreen() {
       },
     });
   }, [toastStore, t]);
-
-  useLayoutEffect(() => {
-    logger.debug(`Does user has already onboard? ${hasOnboard}`);
-    if (!hasOnboard && !user) {
-      router.push('/onboarding');
-    }
-  }, [hasOnboard, user]);
 
   return (
     <HomeLayout

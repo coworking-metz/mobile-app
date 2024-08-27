@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Touch title on unauthenticated empty state to login.
 - Prefer render a member face instead of `+1` on occupancy count.
 
+### Fixed
+
+- Onboarding does not freeze home screen on first launch.
+
 ## [2024.5.2] - 2024-05-27
 
 ### Fixed
