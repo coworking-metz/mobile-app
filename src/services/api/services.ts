@@ -18,7 +18,7 @@ export const openParkingGate = (): Promise<{
 
 export const CARBON_DIOXIDE_RANGES = [400, 800, 1200, 1600];
 
-export const getOnPremiseState = (): Promise<{
+export type OnPremiseState = {
   deckDoor: {
     unlocked: boolean;
   };
@@ -35,7 +35,9 @@ export const getOnPremiseState = (): Promise<{
       level: number;
     };
   };
-}> => {
+};
+
+export const getOnPremiseState = (): Promise<OnPremiseState> => {
   return HTTP.get('/api/on-premise').then(({ data }) => data);
 };
 

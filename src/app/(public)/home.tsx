@@ -244,7 +244,7 @@ export default function HomeScreen() {
           loading={isLoadingCurrentMembers}
           members={currentMembers}
           style={tw`mt-4`}
-          total={28}
+          total={40}
         />
       </Animated.View>
 
@@ -373,25 +373,33 @@ export default function HomeScreen() {
           {t('home.services.label')}
         </Animated.Text>
 
-        <Animated.View entering={FadeInUp.duration(500).delay(700)}>
-          <UnlockGateCard
-            disabled={!user?.capabilities?.includes('UNLOCK_GATE')}
-            onSuccessiveTaps={onSuccessiveTaps}
-          />
-        </Animated.View>
+        <View style={tw`flex flex-row items-stretch gap-4 min-h-40`}>
+          <Animated.View
+            entering={FadeInUp.duration(500).delay(700)}
+            style={tw`flex flex-col grow shrink basis-0`}>
+            <UnlockGateCard
+              disabled={!user?.capabilities?.includes('UNLOCK_GATE')}
+              style={tw`grow`}
+              onSuccessiveTaps={onSuccessiveTaps}
+            />
+          </Animated.View>
 
-        <Animated.View entering={FadeInUp.duration(500).delay(800)}>
-          <OpenParkingCard
-            disabled={!user?.capabilities?.includes('PARKING_ACCESS')}
-            onSuccessiveTaps={onSuccessiveTaps}
-          />
-        </Animated.View>
+          <Animated.View
+            entering={FadeInUp.duration(500).delay(800)}
+            style={tw`flex flex-col grow shrink basis-0`}>
+            <OpenParkingCard
+              disabled={!user?.capabilities?.includes('PARKING_ACCESS')}
+              style={tw`grow`}
+              onSuccessiveTaps={onSuccessiveTaps}
+            />
+          </Animated.View>
+        </View>
 
         <Animated.View
           entering={FadeInUp.duration(500).delay(900)}
           style={tw`flex flex-col self-stretch`}>
-          <Link asChild href="/on-premise">
-            <OnPremiseCard />
+          <Link asChild href={`/on-premise${user?.location ? `location=${user.location}` : ''}`}>
+            <OnPremiseCard location={user?.location && t(`onPremise.location.${user?.location}`)} />
           </Link>
         </Animated.View>
 

@@ -20,15 +20,13 @@
     }
   },
   "intercom": {
-    "description": "for a brief moment",
-    "label": "Unlock front gate",
-    "loading": "requesting...",
+    "label": "Unlock\nfront gate",
     "onFail": {
       "message": "Unable to unlock"
     },
     "onUnlocked": {
-      "description": "locking in ",
-      "label": "Gate is unlocked!"
+      "firstLine": "Locking",
+      "secondLine": "in "
     }
   },
   "onSuccessiveTaps": {
@@ -36,15 +34,13 @@
     "message": "Is there something wrong?"
   },
   "parking": {
-    "description": "to access parking spots",
     "label": "Open parking barrier",
-    "loading": "requesting...",
     "onFail": {
       "message": "Unable to open"
     },
     "onUnlocked": {
-      "description": "closing in ",
-      "label": "Barrier opens!"
+      "firstLine": "Closing",
+      "secondLine": "in "
     }
   },
   "people": {

@@ -62,5 +62,9 @@
       }
     }
   },
+  "location": {
+    "poulailler": "Le Poulailler",
+    "pti-poulailler": "Le P'ti Poulailler"
+  },
   "title": "Gérer l'espace"
 }

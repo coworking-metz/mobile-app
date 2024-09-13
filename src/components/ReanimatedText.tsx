@@ -1,3 +1,4 @@
+import { Canvas, Text, matchFont, Fill, Skia } from '@shopify/react-native-skia';
 import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import Animated, { useAnimatedProps } from 'react-native-reanimated';
@@ -26,6 +27,11 @@ const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 const ReanimatedText = (props: TextProps) => {
   const { style, text, ...rest } = props;
+  const font = matchFont({
+    fontSize: 14,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+  });
   const animatedProps = useAnimatedProps(() => {
     return {
       text: text.value,

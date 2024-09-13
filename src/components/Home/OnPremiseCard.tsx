@@ -11,10 +11,11 @@ const OnPremiseCard: ForwardRefRenderFunction<
   {
     children?: ReactNode;
     disabled?: boolean;
+    location?: string;
     style?: StyleProps;
     onPress?: () => void;
   }
-> = ({ onPress, disabled = false, style }, ref) => {
+> = ({ onPress, disabled = false, location, style }, ref) => {
   const { t } = useTranslation();
 
   return (
@@ -31,13 +32,13 @@ const OnPremiseCard: ForwardRefRenderFunction<
           <MaterialCommunityIcons
             color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
             iconStyle={{ height: 32, width: 32, marginRight: 0 }}
-            name="lightbulb-group-outline"
+            name="floor-plan"
             size={32}
             style={[tw`shrink-0`, disabled && tw`opacity-40`]}
           />
         </View>
       </Animated.View>
-      <Animated.View style={tw`flex flex-col z-20 w-full shrink`}>
+      <Animated.View style={tw`flex flex-col z-20 w-full shrink grow`}>
         <Text
           style={[
             tw`text-xl font-medium text-slate-900 dark:text-gray-200`,
@@ -45,6 +46,15 @@ const OnPremiseCard: ForwardRefRenderFunction<
           ]}>
           {t('onPremise.title')}
         </Text>
+        {location && (
+          <Text
+            numberOfLines={1}
+            style={[
+              tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400`,
+            ]}>
+            {location}
+          </Text>
+        )}
       </Animated.View>
       <MaterialCommunityIcons
         color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}

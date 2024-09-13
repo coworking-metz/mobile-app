@@ -20,15 +20,13 @@
     }
   },
   "intercom": {
-    "description": "pendant un court instant",
     "label": "Déverrouiller la porte",
-    "loading": "demande en cours...",
     "onFail": {
       "message": "Impossible de déverrouiller"
     },
     "onUnlocked": {
-      "description": "verrouillage dans ",
-      "label": "C'est ouvert !"
+      "firstLine": "Verrouillage",
+      "secondLine": "dans "
     }
   },
   "onPremise": {
@@ -40,15 +38,13 @@
     "message": "Quelque chose ne va pas ?"
   },
   "parking": {
-    "description": "pour accéder au parking",
-    "label": "Ouvrir la barrière",
-    "loading": "demande en cours...",
+    "label": "Ouvrir la grille du parking",
     "onFail": {
       "message": "Impossible d'ouvrir"
     },
     "onUnlocked": {
-      "description": "fermeture dans ",
-      "label": "La barrière s'ouvre !"
+      "firstLine": "Fermeture",
+      "secondLine": "dans "
     }
   },
   "people": {

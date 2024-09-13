@@ -43,7 +43,7 @@ const StaleDataText = ({
           numberOfLines={2}
           style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
           {capitalize(
-            dayjs().diff(lastFetch, 'hour') > 2
+            dayjs().diff(lastFetch, 'minutes') > 60
               ? dayjs(lastFetch).calendar()
               : dayjs(lastFetch).fromNow(),
           )}

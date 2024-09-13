@@ -15,6 +15,7 @@ export type ApiUserCapability =
   | 'PARKING_ACCESS'
   | 'UNLOCK_DECK_DOOR'
   | 'KEYS_ACCESS';
+export type ApiLocation = 'poulailler' | 'pti-poulailler';
 
 export type ApiUser = {
   id?: string;
@@ -29,6 +30,7 @@ export type ApiUser = {
   };
   iat: number;
   exp: number;
+  location?: ApiLocation;
 };
 
 export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiTokens> => {

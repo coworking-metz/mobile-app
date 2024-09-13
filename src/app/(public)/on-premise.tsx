@@ -1,21 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
-import { Image } from 'expo-image';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useLocalSearchParams } from 'expo-router';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image as RNImage, View, useColorScheme } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import Animated, {
+  FadeInLeft,
+  FadeInRight,
+  FadeOutLeft,
+  FadeOutRight,
+} from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
-import floorPlanDay from '@/assets/images/floorplan-day.png';
-import floorPlanNight from '@/assets/images/floorplan-night.png';
-import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
 import ErrorChip from '@/components/ErrorChip';
-import ActionableCarbonDioxide from '@/components/OnPremise/ActionableCarbonDioxide';
-import ActionableFan from '@/components/OnPremise/ActionableFan';
-import ActionableIcon from '@/components/OnPremise/ActionableIcon';
-import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
 import CarbonDioxideBottomSheet from '@/components/OnPremise/CarbonDioxideBottomSheet';
 import KeyBoxBottomSheet from '@/components/OnPremise/KeyBoxBottomSheet';
 import PhoneBoothBottomSheet from '@/components/OnPremise/PhoneBoothBottomSheet';
+import PoulaillerPlan from '@/components/OnPremise/PoulaillerPlan';
+import PtiPoulaillerPlan from '@/components/OnPremise/PtiPoulaillerPlan';
 import UnlockDeckDoorBottomSheet from '@/components/OnPremise/UnlockDeckDoorBottomSheet';
+import { SelectableChip } from '@/components/SelectableChip';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState } from '@/services/api/services';
@@ -25,25 +27,14 @@ const OnPremise = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
-  const [imageWidth, setImageWidth] = useState<number | null>(null);
-  const [imageHeight, setImageHeight] = useState<number | null>(null);
-  const [hasFloorplanLoaded, setFloorplanLoaded] = useState<boolean>(false);
+  const { location } = useLocalSearchParams<{ location: string }>();
   const [isDeckDoorSelected, setDeckDoorSelected] = useState<boolean>(false);
-  const [isBluePhoneBoothSelected, setBluePhoneBoothSelected] = useState<boolean>(false);
+  const [isPhoneBoothSelected, setPhoneBoothSelected] = useState<boolean>(false);
   const [isKeyBoxSelected, setKeyBoxSelected] = useState<boolean>(false);
   const [isCarbonDioxideSelected, setCarbonDioxideSelected] = useState<boolean>(false);
-
-  const colorScheme = useColorScheme();
-
-  const backgroundImage = useMemo(() => {
-    return colorScheme === 'dark' ? floorPlanNight : floorPlanDay;
-  }, [colorScheme]);
-
-  useEffect(() => {
-    const { width, height } = RNImage.resolveAssetSource(backgroundImage);
-    setImageHeight(height);
-    setImageWidth(width);
-  }, [backgroundImage]);
+  const [selectedLocation, setSelectedLocation] = useState<'poulailler' | 'pti-poulailler'>(
+    (location || 'poulailler') as never,
+  );
 
   const {
     data: onPremiseState,
@@ -63,115 +54,65 @@ const OnPremise = () => {
         contentStyle={tw`bg-transparent`}
         title={t('onPremise.title')}
         onRefresh={refetchOnPremiseState}>
-        <View
-          style={[
-            tw`flex flex-col grow items-center justify-center w-full relative`,
-            !!imageWidth && !!imageHeight && { aspectRatio: imageWidth / imageHeight },
-          ]}>
-          {imageHeight && imageWidth ? (
-            <Image
-              blurRadius={!hasFloorplanLoaded ? 16 : 0}
-              source={backgroundImage}
-              style={[tw`w-full relative`, { aspectRatio: imageWidth / imageHeight }]}
-              onLoadEnd={() => setFloorplanLoaded(true)}
+        <View>
+          <ScrollView
+            contentContainerStyle={tw`flex flex-row items-center gap-4 px-4`}
+            horizontal={true}
+            scrollEventThrottle={16}
+            showsHorizontalScrollIndicator={false}
+            style={tw`w-full`}>
+            <SelectableChip
+              label={t('onPremise.location.poulailler')}
+              selected={selectedLocation === 'poulailler'}
+              onPress={() => setSelectedLocation('poulailler')}
             />
-          ) : null}
+            <SelectableChip
+              label={t('onPremise.location.pti-poulailler')}
+              selected={selectedLocation === 'pti-poulailler'}
+              onPress={() => setSelectedLocation('pti-poulailler')}
+            />
+          </ScrollView>
+        </View>
 
+        <View style={tw`flex flex-row items-center mx-4 min-h-8`}>
           {onPremiseStateError && !isSilentError(onPremiseStateError) ? (
             <ErrorChip
               error={onPremiseStateError}
               label={t('onPremise.onFetch.fail')}
-              style={tw`absolute z-10 top-0 left-0 mx-6 my-4`}
+              style={tw``}
             />
           ) : null}
-
-          {!hasFloorplanLoaded ? (
-            <VerticalLoadingAnimation
-              color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-              style={tw`absolute h-16 w-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full`}
-            />
-          ) : (
-            <>
-              {/* Lights */}
-              {/* <ActionableLight id="1" style={tw`top-[19%] left-[21%]`} />
-              <ActionableLight active id="2" style={tw`top-[19%] left-[49%]`} />
-              <ActionableLight id="3" style={tw`top-[19%] left-[67%]`} />
-              <ActionableLight id="4" style={tw`top-[36%] left-[49%]`} />
-              <ActionableLight id="5" style={tw`top-[36%] left-[67%]`} />
-              <ActionableLight id="6" style={tw`top-[31%] left-[21%]`} />
-              <ActionableLight active id="7" style={tw`top-[42%] left-[21%]`} />
-              <ActionableLight id="8" style={tw`top-[58%] left-[25%]`} />
-              <ActionableLight id="9" style={tw`top-[70%] left-[25%]`} /> */}
-
-              {/* Door */}
-              <ActionableIcon
-                active={onPremiseState?.deckDoor?.unlocked}
-                activeIcon="lock-open"
-                inactiveIcon="lock"
-                loading={isFetchingOnPremiseState}
-                style={tw`top-[50%] left-[82%]`}
-                onPress={() => setDeckDoorSelected(true)}
-              />
-
-              {/* Fans */}
-              {/* <ActionableFan active id="1" style={tw`top-[19%] left-[11%]`} />
-              <ActionableFan id="2" style={tw`top-[46%] left-[11%]`} /> */}
-
-              {/* TV */}
-              {/* <ActionableIcon
-                disabled
-                active={false}
-                activeIcon="volume-high"
-                inactiveIcon="volume-off"
-                style={tw`top-[72%] left-[68%]`}
-              /> */}
-
-              {/* Phone booths */}
-              <ActionablePhoneBooths
-                activeIcon="door-closed"
-                actives={[
-                  onPremiseState?.phoneBooths?.orange.occupied ?? null,
-                  onPremiseState?.phoneBooths?.blue.occupied ?? null,
-                ]}
-                inactiveIcon="door-open"
-                loading={isFetchingOnPremiseState}
-                style={tw`top-[82%] left-[12%] w-[25%] min-w-26`}
-                unknownIcon="door"
-                onPress={() => setBluePhoneBoothSelected(true)}
-              />
-
-              {/* Key box */}
-              <ActionableIcon
-                activeIcon="key-chain-variant"
-                inactiveIcon="key-chain-variant"
-                style={tw`top-[84%] left-[56%]`}
-                onPress={() => setKeyBoxSelected(true)}
-              />
-
-              {/* Carbon Dioxide level */}
-              <ActionableCarbonDioxide
-                activeIcon="leaf"
-                inactiveIcon="leaf"
-                level={onPremiseState?.sensors?.carbonDioxide.level || 0}
-                loading={isFetchingOnPremiseState}
-                style={tw`top-[32%] left-[56%]`}
-                onPress={() => setCarbonDioxideSelected(true)}
-              />
-            </>
-          )}
         </View>
+
+        {selectedLocation === 'poulailler' && (
+          <Animated.View entering={FadeInLeft.duration(350)} exiting={FadeOutLeft.duration(350)}>
+            <PoulaillerPlan
+              loading={isFetchingOnPremiseState}
+              onCarbonDioxideSelected={() => setCarbonDioxideSelected(true)}
+              onDeckDoorSelected={() => setDeckDoorSelected(true)}
+              onKeyBoxSelected={() => setKeyBoxSelected(true)}
+              onPhoneBoothSelected={() => setPhoneBoothSelected(true)}
+            />
+          </Animated.View>
+        )}
+
+        {selectedLocation === 'pti-poulailler' && (
+          <Animated.View entering={FadeInRight.duration(350)} exiting={FadeOutRight.duration(350)}>
+            <PtiPoulaillerPlan onKeyBoxSelected={() => setKeyBoxSelected(true)} />
+          </Animated.View>
+        )}
       </ServiceLayout>
 
       {isDeckDoorSelected && (
         <UnlockDeckDoorBottomSheet onClose={() => setDeckDoorSelected(false)} />
       )}
 
-      {isBluePhoneBoothSelected && (
+      {isPhoneBoothSelected && (
         <PhoneBoothBottomSheet
           blueOccupied={onPremiseState?.phoneBooths.blue.occupied}
           loading={isFetchingOnPremiseState}
           orangeOccupied={onPremiseState?.phoneBooths.orange.occupied}
-          onClose={() => setBluePhoneBoothSelected(false)}
+          onClose={() => setPhoneBoothSelected(false)}
         />
       )}
 

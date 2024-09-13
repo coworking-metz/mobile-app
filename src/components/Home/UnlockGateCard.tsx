@@ -8,7 +8,7 @@ import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View, type LayoutChangeEvent } from 'react-native';
+import { Platform, Text, View, type LayoutChangeEvent } from 'react-native';
 import Animated, {
   Easing,
   interpolate,
@@ -150,7 +150,7 @@ const UnlockCard = ({
     <AppTouchableScale
       disabled={disabled}
       style={[
-        tw`flex flex-row items-center gap-4 px-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
+        tw`flex flex-col items-start gap-4 p-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
         disabled && tw`opacity-60`,
         style,
       ]}
@@ -185,41 +185,34 @@ const UnlockCard = ({
           )}
         </View>
       </Animated.View>
-      <Animated.View style={tw`flex flex-col z-20 w-full`}>
-        <Text style={[tw`text-xl font-medium text-slate-900 dark:text-gray-200`]}>
-          {isUnlocked ? t('home.intercom.onUnlocked.label') : t('home.intercom.label')}
-        </Text>
-        <View style={[tw`flex flex-row items-center gap-1`]}>
-          {isLoading ? (
+
+      {isUnlocked ? (
+        <View style={tw`flex flex-col z-20`}>
+          <Text
+            numberOfLines={1}
+            style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+            {t('home.intercom.onUnlocked.firstLine')}
+          </Text>
+          <View style={tw`flex flex-row items-end gap-1`}>
             <Text
-              style={[
-                tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400 grow`,
-              ]}>
-              {t('home.intercom.loading')}
+              numberOfLines={1}
+              style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+              {t('home.intercom.onUnlocked.secondLine')}
             </Text>
-          ) : isUnlocked ? (
-            <>
-              <Text
-                style={[
-                  tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400`,
-                ]}>
-                {t('home.intercom.onUnlocked.description')}
-              </Text>
-              <ReanimatedText
-                style={[tw`font-semibold text-slate-900 dark:text-gray-200`]}
-                text={timeLeftInSeconds}
-              />
-            </>
-          ) : (
-            <Text
+            <ReanimatedText
               style={[
-                tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400 grow`,
-              ]}>
-              {t('home.intercom.description')}
-            </Text>
-          )}
+                tw`text-xl font-semibold text-slate-900 dark:text-gray-200`,
+                Platform.OS === 'ios' && tw`mb-0.5`,
+              ]}
+              text={timeLeftInSeconds}
+            />
+          </View>
         </View>
-      </Animated.View>
+      ) : (
+        <Text numberOfLines={2} style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
+          {t('home.intercom.label')}
+        </Text>
+      )}
     </AppTouchableScale>
   );
 };

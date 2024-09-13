@@ -1,10 +1,9 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, ScrollView, View } from 'react-native';
 import Animated, { FadeInLeft, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import AppTouchableScale from '@/components/AppTouchableScale';
@@ -13,80 +12,13 @@ import PeriodBottomSheet, { type PeriodType } from '@/components/Events/PeriodBo
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import ModalLayout from '@/components/ModalLayout';
+import { SelectableChip } from '@/components/SelectableChip';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
 const SORTS = ['descending', 'ascending'] as const;
 export type SortType = (typeof SORTS)[number];
-
-const PeriodChip = ({ selected, onPress }: { selected: PeriodType; onPress?: () => void }) => {
-  const { t } = useTranslation();
-
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View
-        style={tw`flex flex-row items-center justify-center px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-900`}>
-        <Text style={tw`text-base font-normal text-slate-900 dark:text-gray-200`}>
-          {t(`events.period.options.${selected ?? 'none'}.label`)}
-        </Text>
-        <MaterialCommunityIcons
-          color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-          name="chevron-down"
-          size={20}
-          style={tw`ml-1`}
-        />
-      </View>
-    </TouchableOpacity>
-  );
-};
-
-const SortChip = ({ selected, onPress }: { selected?: SortType; onPress?: () => void }) => {
-  const { t } = useTranslation();
-
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View
-        style={[
-          tw`flex flex-row items-center justify-center px-4 py-2 rounded-full border-[1px]`,
-          selected
-            ? tw`bg-amber-50 border-amber-700 dark:bg-amber-950 dark:border-amber-500`
-            : tw`bg-gray-200 dark:bg-gray-900 border-transparent`,
-        ]}>
-        <Text
-          style={[
-            tw`text-base font-normal `,
-            selected
-              ? tw`text-amber-700 dark:text-amber-500`
-              : tw`text-slate-900 dark:text-gray-200`,
-          ]}>
-          {selected ? t(`events.sort.options.${selected}.label`) : t('events.sort.label')}
-        </Text>
-
-        <MaterialCommunityIcons
-          color={
-            selected
-              ? tw.prefixMatch('dark')
-                ? tw.color('amber-500')
-                : tw.color('amber-700')
-              : tw.prefixMatch('dark')
-                ? tw.color('gray-400')
-                : tw.color('gray-700')
-          }
-          name={
-            selected === 'ascending'
-              ? 'sort-calendar-ascending'
-              : selected === 'descending'
-                ? 'sort-calendar-descending'
-                : 'sort'
-          }
-          size={20}
-          style={tw`ml-1`}
-        />
-      </View>
-    </TouchableOpacity>
-  );
-};
 
 const Calendar = () => {
   useDeviceContext(tw);
@@ -169,9 +101,25 @@ const Calendar = () => {
             scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
             style={tw`w-full`}>
-            <PeriodChip selected={selectedPeriod} onPress={() => setSelectedPeriodFilter(true)} />
-            <SortChip
-              selected={selectedSort}
+            <SelectableChip
+              icon="chevron-down"
+              label={t(`events.period.options.${selectedPeriod ?? 'none'}.label`)}
+              onPress={() => setSelectedPeriodFilter(true)}
+            />
+            <SelectableChip
+              icon={
+                selectedSort === 'ascending'
+                  ? 'sort-calendar-ascending'
+                  : selectedSort === 'descending'
+                    ? 'sort-calendar-descending'
+                    : 'sort'
+              }
+              label={
+                selectedSort
+                  ? t(`events.sort.options.${selectedSort}.label`)
+                  : t('events.sort.label')
+              }
+              selected={!!selectedSort}
               onPress={() => {
                 const nextSortIndex = SORTS.indexOf(selectedSort) + 1;
                 if (nextSortIndex < SORTS.length) {
