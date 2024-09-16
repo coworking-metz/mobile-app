@@ -10,6 +10,10 @@ const ZoombableImage = ({ source, style, ...props }: ImageProps) => {
   const insets = useSafeAreaInsets();
   const [isSelected, setSelected] = useState<boolean>(false);
 
+  if (!source) {
+    return <View style={style} />;
+  }
+
   return (
     <>
       <TouchableOpacity onPress={() => setSelected(true)}>
