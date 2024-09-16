@@ -6,7 +6,7 @@ import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
-import { type StyleProps } from 'react-native-reanimated';
+import Animated, { BounceIn, BounceOut, type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AmourFoodSquareLogo from '@/assets/images/amour-food-square.png';
 import CoworkingLogo from '@/assets/images/icon.png';
@@ -73,7 +73,7 @@ const CalendarEventCard = ({
   }, [event?.start, event?.end, isFocus, activeSince]);
 
   return (
-    <View style={[tw`rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-900`, style]}>
+    <View style={[tw`relative rounded-2xl  bg-gray-200 dark:bg-gray-900`, style]}>
       <ImageBackground
         contentFit="cover"
         contentPosition="center"
@@ -110,6 +110,14 @@ const CalendarEventCard = ({
           </AppBlurView>
         ) : null}
       </ImageBackground>
+      {dayjs().isBetween(event?.start, event?.end) && (
+        <Animated.View
+          entering={BounceIn.duration(1000).delay(300)}
+          exiting={BounceOut.duration(1000)}
+          style={tw`z-10 h-7 w-7 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -bottom-2 -right-2`}>
+          <View style={tw`h-4 w-4 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
+        </Animated.View>
+      )}
     </View>
   );
 };

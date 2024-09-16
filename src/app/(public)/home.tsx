@@ -322,7 +322,7 @@ export default function HomeScreen() {
           scrollEnabled={nextCalendarEvents.length > 0}
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
-          style={tw`w-full`}>
+          style={tw`w-full overflow-visible`}>
           {isLoadingCalendarEvents ? (
             <Animated.View exiting={FadeOut.duration(500)}>
               <CalendarEventCard
