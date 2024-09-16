@@ -54,7 +54,7 @@ const OnPremise = () => {
         contentStyle={tw`bg-transparent`}
         title={t('onPremise.title')}
         onRefresh={refetchOnPremiseState}>
-        <View>
+        <View style={tw`mb-4`}>
           <ScrollView
             contentContainerStyle={tw`flex flex-row items-center gap-4 px-4`}
             horizontal={true}
@@ -74,15 +74,13 @@ const OnPremise = () => {
           </ScrollView>
         </View>
 
-        <View style={tw`flex flex-row items-center mx-4 min-h-8`}>
-          {onPremiseStateError && !isSilentError(onPremiseStateError) ? (
-            <ErrorChip
-              error={onPremiseStateError}
-              label={t('onPremise.onFetch.fail')}
-              style={tw``}
-            />
-          ) : null}
-        </View>
+        {onPremiseStateError && !isSilentError(onPremiseStateError) ? (
+          <ErrorChip
+            error={onPremiseStateError}
+            label={t('onPremise.onFetch.fail')}
+            style={tw`mx-4 mb-4 self-start`}
+          />
+        ) : null}
 
         {selectedLocation === 'poulailler' && (
           <Animated.View entering={FadeInLeft.duration(350)} exiting={FadeOutLeft.duration(350)}>

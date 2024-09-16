@@ -13,7 +13,6 @@ import Animated, {
   FadeOutDown,
   StretchInY,
 } from 'react-native-reanimated';
-import { ToastPresets } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppTouchableScale from '@/components/AppTouchableScale';
 import ErrorChip from '@/components/ErrorChip';
@@ -169,7 +168,7 @@ export default function HomeScreen() {
   const onSuccessiveTaps = useCallback(() => {
     const toast = toastStore.add({
       message: t('home.onSuccessiveTaps.message'),
-      type: ToastPresets.GENERAL,
+      type: 'info',
       action: {
         label: t('home.onSuccessiveTaps.action'),
         onPress: () => {

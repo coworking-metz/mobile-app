@@ -1,60 +1,76 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Incubator, type ToastProps } from 'react-native-ui-lib';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useEffect } from 'react';
+import { type ColorSchemeName, useColorScheme } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Toaster, toast } from 'sonner-native';
 import tw from 'twrnc';
-import useToastStore from '@/stores/toast';
+import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
+import useToastStore, { type ToastType } from '@/stores/toast';
 
-const ToastMessage = ({ style, messageStyle, ...props }: ToastProps) => {
+const getToastIcon = (type?: ToastType): keyof typeof mdiGlyphMap => {
+  switch (type) {
+    case 'success':
+      return 'check-circle';
+    case 'warning':
+      return 'alert';
+    case 'error':
+      return 'alert-box';
+    case 'info':
+    default:
+      return 'information-outline';
+  }
+};
+
+const getToastIconColor = (type?: ToastType, currentTheme?: ColorSchemeName) => {
+  switch (type) {
+    case 'success':
+      return currentTheme === 'dark' ? `${tw.color('emerald-500')}` : `${tw.color('emerald-600')}`;
+    case 'warning':
+      return currentTheme === 'dark' ? `${tw.color('yellow-500')}` : `${tw.color('yellow-600')}`;
+    case 'error':
+      return currentTheme === 'dark' ? `${tw.color('red-500')}` : `${tw.color('red-600')}`;
+    case 'info':
+    default:
+      return currentTheme === 'dark' ? `${tw.color('indigo-500')}` : `${tw.color('indigo-600')}`;
+  }
+};
+
+const ToastMessage = () => {
+  const insets = useSafeAreaInsets();
   const toastStore = useToastStore();
-  const mostRecentUndismissedToast = useToastStore((state) =>
-    state.history.find((n) => !n.dismissed),
-  );
-  const [isToastVisible, setToastVisible] = useState<boolean>(true);
-
-  const onDismiss = useCallback(() => {
-    setToastVisible(false);
-  }, [toastStore]);
-
-  const onAnimationEnd = useCallback(() => {
-    if (!isToastVisible) {
-      if (mostRecentUndismissedToast?.id) {
-        toastStore.dismiss(mostRecentUndismissedToast.id);
-      }
-    }
-  }, [toastStore, isToastVisible]);
+  const colorScheme = useColorScheme();
+  const notificationsCount = useToastStore((state) => state.history.length);
 
   useEffect(() => {
-    if (mostRecentUndismissedToast) {
-      setToastVisible(true);
-    }
-  }, [mostRecentUndismissedToast]);
-
-  if (!mostRecentUndismissedToast) return null;
-
-  return (
-    <Incubator.Toast
-      enableHapticFeedback
-      swipeable
-      action={
-        mostRecentUndismissedToast.action && {
-          labelProps: {
-            style: tw`dark:text-gray-200`,
+    const history = toastStore.history;
+    const allNotificationsNotDismissed = history.filter(({ dismissed }) => !dismissed);
+    const allNotificationsNotDismissedSorted = allNotificationsNotDismissed.sort(
+      (first, second) => new Date(second.created).getTime() - new Date(first.created).getTime(),
+    );
+    const [notification] = allNotificationsNotDismissedSorted;
+    if (notification) {
+      toast(notification.message, {
+        icon: (
+          <MaterialCommunityIcons
+            color={getToastIconColor(notification.type, colorScheme)}
+            name={getToastIcon(notification.type)}
+            size={24}
+          />
+        ),
+        duration: notification.timeout ?? Infinity,
+        onAutoClose: () => toastStore.dismiss(notification.id),
+        onDismiss: () => toastStore.dismiss(notification.id),
+        ...(notification.action && {
+          action: {
+            label: notification.action.label,
+            onClick: notification.action.onPress,
           },
-          style: tw`border-l-[0.5px] border-l-gray-300 dark:border-l-gray-700 rounded-r-lg px-4 h-full`,
-          ...mostRecentUndismissedToast.action,
-        }
-      }
-      autoDismiss={mostRecentUndismissedToast.timeout}
-      message={mostRecentUndismissedToast.message}
-      messageStyle={[tw`dark:text-gray-200`, messageStyle]}
-      position="top"
-      preset={mostRecentUndismissedToast.type}
-      style={[tw`dark:bg-zinc-900`, style]}
-      visible={isToastVisible}
-      onAnimationEnd={onAnimationEnd}
-      onDismiss={onDismiss}
-      {...props}
-    />
-  );
+        }),
+      });
+    }
+  }, [notificationsCount]);
+
+  return <Toaster invert offset={(insets.top || 0) + 8} position="top-center" />;
 };
 
 export default ToastMessage;

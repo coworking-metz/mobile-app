@@ -2,15 +2,12 @@ import ExitDoorAnimation from '../Animations/ExitDoorAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
 import AppTextButton from '../AppTextButton';
-import { useQueryClient } from '@tanstack/react-query';
 import { makeRedirectUri } from 'expo-auth-session';
-import { useNavigationContainerRef } from 'expo-router';
 import { openAuthSessionAsync } from 'expo-web-browser';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
-import { ToastPresets } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
@@ -34,7 +31,7 @@ const LogoutBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: (
       .then(() =>
         toastStore.add({
           message: t('auth.logout.onSuccess.message'),
-          type: ToastPresets.SUCCESS,
+          type: 'success',
           timeout: 3000,
         }),
       )

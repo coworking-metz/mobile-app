@@ -7,8 +7,7 @@ import {
   type InternalAxiosRequestConfig,
 } from 'axios';
 import axiosRetry from 'axios-retry';
-import { ToastPresets } from 'react-native-ui-lib';
-import { type AppError, AppErrorCode, ApiErrorCode, parseErrorText } from '@/helpers/error';
+import { ApiErrorCode, AppErrorCode, parseErrorText, type AppError } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import i18n, { formatDuration } from '@/i18n';
 import useAuthStore from '@/stores/auth';
@@ -131,7 +130,7 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
         const noticeStore = useNoticeStore.getState();
         const toast = toastStore.add({
           message: errorLabel,
-          type: ToastPresets.FAILURE,
+          type: 'error',
           action: {
             label: i18n.t('actions.more'),
             onPress: () => {

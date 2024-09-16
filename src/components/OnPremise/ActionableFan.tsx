@@ -11,7 +11,6 @@ import {
   withTiming,
   type StyleProps,
 } from 'react-native-reanimated';
-import { ToastPresets } from 'react-native-ui-lib';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
 import { turnOffFan, turnOnFan } from '@/services/api/services';
 import useToastStore from '@/stores/toast';
@@ -76,7 +75,7 @@ const ActionableFan = ({
         const errorMessage = await parseErrorText(error);
         toastStore.add({
           message: errorMessage,
-          type: ToastPresets.FAILURE,
+          type: 'error',
         });
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       })

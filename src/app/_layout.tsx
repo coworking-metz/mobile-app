@@ -129,18 +129,7 @@ const RootLayout = () => {
                 />
               </Stack>
 
-              <ToastMessage
-                style={[
-                  ...(Platform.OS === 'android'
-                    ? [
-                      { marginTop: (insets.top || 0) + 8 },
-                      !!insets.left && { marginLeft: insets.left },
-                      !!insets.bottom && { marginBottom: insets.bottom },
-                      !!insets.right && { marginRight: insets.right },
-                    ]
-                    : []),
-                ]}
-              />
+              <ToastMessage />
               <NoticeBottomSheet />
               {Platform.OS === 'android' ? (
                 <AppThemeBackground

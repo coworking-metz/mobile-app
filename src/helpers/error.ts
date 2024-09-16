@@ -1,7 +1,6 @@
 import { type AxiosError } from 'axios';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ToastPresets } from 'react-native-ui-lib';
 import useNoticeStore from '@/stores/notice';
 import useToastStore from '@/stores/toast';
 
@@ -77,7 +76,7 @@ export const useErrorNotification = () => {
       const errorMessage = await parseErrorText(error);
       const toast = toastStore.add({
         message: label,
-        type: ToastPresets.FAILURE,
+        type: 'error',
         action: {
           label: t('actions.more'),
           onPress: () => {

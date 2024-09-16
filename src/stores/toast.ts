@@ -1,4 +1,3 @@
-import { type ToastPresets } from 'react-native-ui-lib';
 import uuid from 'react-native-uuid';
 import { create } from 'zustand';
 
@@ -9,7 +8,7 @@ export type ToastType = 'info' | 'success' | 'warning' | 'error';
  */
 export interface Toast {
   message: string;
-  type?: ToastPresets;
+  type?: ToastType;
   timeout?: number;
   action?: {
     label: string;

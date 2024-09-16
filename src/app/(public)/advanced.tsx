@@ -5,7 +5,7 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, TextInput } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
-import { Switch, ToastPresets } from 'react-native-ui-lib';
+import { Switch } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
@@ -36,7 +36,7 @@ const Advanced = () => {
       .then(() => {
         toastStore.add({
           message: t('advanced.store.accessToken.onCopy.success'),
-          type: ToastPresets.SUCCESS,
+          type: 'success',
           timeout: 3000,
         });
       })
@@ -55,7 +55,7 @@ const Advanced = () => {
       .then(() => {
         toastStore.add({
           message: t('advanced.store.refreshToken.onCopy.success'),
-          type: ToastPresets.SUCCESS,
+          type: 'success',
           timeout: 3000,
         });
       })
@@ -112,7 +112,7 @@ const Advanced = () => {
       .then(() => {
         toastStore.add({
           message: t('advanced.store.invalidate.onInvalidate.success'),
-          type: ToastPresets.SUCCESS,
+          type: 'success',
           timeout: 3000,
         });
       })
@@ -132,7 +132,7 @@ const Advanced = () => {
       .then(() => {
         toastStore.add({
           message: t('advanced.store.clear.onClear.success'),
-          type: ToastPresets.SUCCESS,
+          type: 'success',
           timeout: 3000,
         });
         resetNavigation('/');

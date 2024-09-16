@@ -81,6 +81,7 @@
     "react-native-uuid": "^2.0.2",
     "react-random-reveal": "^2.0.1",
     "rive-react-native": "^7.0.1",
+    "sonner-native": "^0.12.1",
     "twrnc": "^4.5.1",
     "zustand": "^4.5.5"
   },
