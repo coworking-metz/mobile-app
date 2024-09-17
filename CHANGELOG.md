@@ -9,12 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- New `P'ti Poulailler` floor plan.
 - Render `hello` on presence graph when unauthenticated.
 - Color carbon dioxide level around its icon on workspace plan.
 - Touch stale data text to refresh on home screen.
+- Badge on ongoing event card.
+- Events count on home screen.
 
 ### Changed
 
+- Increase intercom and parking buttons size.
 - Remove `beta` tag from parking button.
 - Touch title on unauthenticated empty state to login.
 - Prefer render a member face instead of `+1` on occupancy count.

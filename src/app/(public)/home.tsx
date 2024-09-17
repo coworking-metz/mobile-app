@@ -300,10 +300,17 @@ export default function HomeScreen() {
 
       <Animated.View
         entering={FadeInRight.duration(750).delay(600)}
-        style={tw`flex flex-row w-full gap-2 mt-12 mb-3 px-4`}>
+        style={tw`flex flex-row items-center w-full gap-2 mt-12 mb-3 px-4`}>
         <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
           {t('home.calendar.label')}
         </Text>
+        {nextCalendarEvents.length > 2 && (
+          <View style={tw`bg-gray-400/25 dark:bg-gray-700/50 py-1 px-2 rounded-full`}>
+            <Text style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
+              {nextCalendarEvents.length}
+            </Text>
+          </View>
+        )}
         {calendarEventsError && !isSilentError(calendarEventsError) ? (
           <ErrorChip error={calendarEventsError} label={t('home.calendar.onFetch.fail')} />
         ) : null}

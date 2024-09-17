@@ -46,10 +46,10 @@
     "label": "Trier",
     "options": {
       "ascending": {
-        "label": "Du plus ancien"
+        "label": "Du plus récent"
       },
       "descending": {
-        "label": "Du plus récent"
+        "label": "Du plus lointain"
       }
     }
   }
