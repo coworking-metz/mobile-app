@@ -2,13 +2,7 @@ import LoginAnimation from '../Animations/LoginAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
 import { makeRedirectUri } from 'expo-auth-session';
-import {
-  coolDownAsync,
-  openAuthSessionAsync,
-  warmUpAsync,
-  type WebBrowserRedirectResult,
-} from 'expo-web-browser';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
@@ -29,14 +23,6 @@ const LoginBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: ()
   const settingsStore = useSettingsStore();
   const [isLoading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    warmUpAsync();
-
-    return () => {
-      coolDownAsync();
-    };
-  }, []);
-
   const onSubmit = useCallback(() => {
     setLoading(true);
     toastStore.dismissAll();
@@ -52,20 +38,9 @@ const LoginBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: ()
         follow: redirectUriOnSuccess,
       },
     });
-    loginLogger.debug('openAuthSessionAsync', loginUri);
+    loginLogger.debug('Opening login uri', loginUri);
 
-    openAuthSessionAsync(loginUri.toString())
-      .then((result) => {
-        loginLogger.debug('openAuthSessionAsync result', result);
-        if (result.type === 'success') {
-          const url = (result as WebBrowserRedirectResult).url || redirectUriOnSuccess;
-          return Linking.openURL(url);
-        }
-      })
-      .then(() => {
-        // should clear all previous notifications
-        toastStore.dismissAll();
-      })
+    Linking.openURL(loginUri.toString())
       .catch(async (error) => {
         const description = await parseErrorText(error);
         noticeStore.add({

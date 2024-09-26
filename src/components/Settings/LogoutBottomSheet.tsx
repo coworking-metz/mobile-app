@@ -3,69 +3,41 @@ import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
 import AppTextButton from '../AppTextButton';
 import { makeRedirectUri } from 'expo-auth-session';
-import { openAuthSessionAsync } from 'expo-web-browser';
+import { Link } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View } from 'react-native';
+import { Linking, Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
-import useResetNavigation from '@/helpers/navigation';
-import useAuthStore from '@/stores/auth';
-import useToastStore from '@/stores/toast';
 
 const logoutLogger = log.extend(`[logout]`);
 
 const LogoutBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: () => void }) => {
   const { t } = useTranslation();
   const [isLoading, setLoading] = useState<boolean>(false);
-  const toastStore = useToastStore();
-  const authStore = useAuthStore();
-  const notifyError = useErrorNotification();
-  const resetNavigation = useResetNavigation();
 
-  const onLoggedOut = useCallback(() => {
-    return authStore
-      .logout()
-      .then(() =>
-        toastStore.add({
-          message: t('auth.logout.onSuccess.message'),
-          type: 'success',
-          timeout: 3000,
-        }),
-      )
-      .then(onClose)
-      .then(() => {
-        // navigate to first screen
-        resetNavigation('/');
-      });
-  }, [authStore, toastStore, t]);
+  const notifyError = useErrorNotification();
 
   const onLogout = useCallback(() => {
     setLoading(true);
 
     const redirectUriOnSuccess = makeRedirectUri({
-      path: '/settings',
+      path: '/settings?loggedOut=true',
     });
 
     const logoutUrl = `https://www.coworking-metz.fr/mon-compte/deconnexion?redirect_to=${redirectUriOnSuccess}`;
+    logoutLogger.debug('Opening logout uri', logoutUrl);
 
-    openAuthSessionAsync(logoutUrl)
-      .then((result) => {
-        logoutLogger.debug('openAuthSessionAsync result', result);
-        if (result.type === 'success') {
-          return onLoggedOut();
-        }
-      })
-
+    Linking.openURL(logoutUrl.toString())
       .catch((error) => {
         notifyError(t('errors.default.message'), error);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [onLoggedOut, notifyError, t]);
+  }, [notifyError, t]);
 
   return (
     <AppBottomSheet
@@ -90,17 +62,13 @@ const LogoutBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: (
           onPress={onLogout}>
           <Text style={tw`text-base text-black font-medium`}>{t('actions.logout')}</Text>
         </AppRoundedButton>
-        <AppTextButton
-          style={tw`mt-4`}
-          onPress={() =>
-            onLoggedOut().catch((error) => {
-              notifyError(t('errors.default.message'), error);
-            })
-          }>
-          <Text style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
-            {t('auth.logout.forceLogout')}
-          </Text>
-        </AppTextButton>
+        <Link asChild href={`/settings?loggedOut=true}`}>
+          <AppTextButton style={tw`mt-4`}>
+            <Text style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
+              {t('auth.logout.forceLogout')}
+            </Text>
+          </AppTextButton>
+        </Link>
       </View>
     </AppBottomSheet>
   );

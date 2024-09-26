@@ -1,11 +1,15 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useGlobalSearchParams, useNavigationContainerRef, useRouter } from 'expo-router';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import LoginBottomSheet from '@/components/Settings/LoginBottomSheet';
 import SplashscreenWrapper from '@/components/SplashscreenWrapper';
+import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
+import useResetNavigation from '@/helpers/navigation';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
+import useToastStore from '@/stores/toast';
 
 const authLogger = log.extend(`[auth.tsx]`);
 
@@ -23,16 +27,25 @@ export const useAppAuth = () => {
 const useProtectedRoute = (ready: boolean, setReady: (ready: boolean) => void) => {
   const rootNavigation = useNavigationContainerRef();
   const router = useRouter();
+  const resetNavigation = useResetNavigation();
 
+  const { t } = useTranslation();
   const authStore = useAuthStore();
+  const toastStore = useToastStore();
   const refreshToken = useAuthStore((state) => state.refreshToken);
   const isAuthStoreHydrated = useAuthStore((state) => state.hydrated);
   const isSettingsStoreHydrated = useSettingsStore((state) => state.hydrated);
   const queryClient = useQueryClient();
+  const notifyError = useErrorNotification();
 
-  const { accessToken: queryAccessToken, refreshToken: queryRefreshToken } = useGlobalSearchParams<{
+  const {
+    accessToken: queryAccessToken,
+    refreshToken: queryRefreshToken,
+    loggedOut,
+  } = useGlobalSearchParams<{
     accessToken: string;
     refreshToken: string;
+    loggedOut: string;
   }>();
 
   useEffect(() => {
@@ -63,6 +76,31 @@ const useProtectedRoute = (ready: boolean, setReady: (ready: boolean) => void) =
     isSettingsStoreHydrated,
     refreshToken,
   ]);
+
+  const onLoggedOut = useCallback(async () => {
+    return authStore
+      .logout()
+      .then(() =>
+        toastStore.add({
+          message: t('auth.logout.onSuccess.message'),
+          type: 'success',
+          timeout: 3000,
+        }),
+      )
+      .then(() => {
+        // navigate to first screen
+        resetNavigation('/');
+      })
+      .catch((error) => {
+        notifyError(t('errors.default.message'), error);
+      });
+  }, [authStore, toastStore, t]);
+
+  useEffect(() => {
+    if (loggedOut) {
+      onLoggedOut();
+    }
+  }, [loggedOut]);
 };
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {

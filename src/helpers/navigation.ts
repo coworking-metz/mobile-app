@@ -5,7 +5,9 @@ export default function useResetNavigation() {
   const navigation = useNavigationContainerRef();
 
   return (route: string) => {
-    navigation.dispatch(StackActions.popToTop());
+    if (navigation.canGoBack()) {
+      navigation.dispatch(StackActions.popToTop());
+    }
     router.replace(route);
   };
 }
