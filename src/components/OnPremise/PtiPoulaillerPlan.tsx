@@ -1,29 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Image as RNImage, View, useColorScheme } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
-import floorPlanDay from '@/assets/images/floorplan-day.png';
-import floorPlanNight from '@/assets/images/floorplan-night.png';
+import floorPlanPtiPoulaillerDay from '@/assets/images/floorplan-pti-poulailler-day.png';
+import floorPlanPtiPoulaillerNight from '@/assets/images/floorplan-pti-poulailler-night.png';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
-import ErrorChip from '@/components/ErrorChip';
-import ActionableCarbonDioxide from '@/components/OnPremise/ActionableCarbonDioxide';
-import ActionableFan from '@/components/OnPremise/ActionableFan';
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
-import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
-import CarbonDioxideBottomSheet from '@/components/OnPremise/CarbonDioxideBottomSheet';
-import KeyBoxBottomSheet from '@/components/OnPremise/KeyBoxBottomSheet';
-import PhoneBoothBottomSheet from '@/components/OnPremise/PhoneBoothBottomSheet';
-import UnlockDeckDoorBottomSheet from '@/components/OnPremise/UnlockDeckDoorBottomSheet';
-import ServiceLayout from '@/components/Settings/ServiceLayout';
-import { isSilentError } from '@/helpers/error';
-import { type OnPremiseState, getOnPremiseState } from '@/services/api/services';
-import useAuthStore from '@/stores/auth';
+import { type OnPremiseState } from '@/services/api/services';
 
 const PtiPoulaillerPlan = ({
-  onPremiseState,
-  loading,
   onKeyBoxSelected,
 }: {
   onPremiseState?: OnPremiseState;
@@ -38,7 +23,7 @@ const PtiPoulaillerPlan = ({
   const colorScheme = useColorScheme();
 
   const backgroundImage = useMemo(() => {
-    return colorScheme === 'dark' ? floorPlanNight : floorPlanDay;
+    return colorScheme === 'dark' ? floorPlanPtiPoulaillerNight : floorPlanPtiPoulaillerDay;
   }, [colorScheme]);
 
   useEffect(() => {
@@ -69,35 +54,11 @@ const PtiPoulaillerPlan = ({
         />
       ) : (
         <>
-          {/* Lights */}
-          {/* <ActionableLight id="1" style={tw`top-[19%] left-[21%]`} />
-              <ActionableLight active id="2" style={tw`top-[19%] left-[49%]`} />
-              <ActionableLight id="3" style={tw`top-[19%] left-[67%]`} />
-              <ActionableLight id="4" style={tw`top-[36%] left-[49%]`} />
-              <ActionableLight id="5" style={tw`top-[36%] left-[67%]`} />
-              <ActionableLight id="6" style={tw`top-[31%] left-[21%]`} />
-              <ActionableLight active id="7" style={tw`top-[42%] left-[21%]`} />
-              <ActionableLight id="8" style={tw`top-[58%] left-[25%]`} />
-              <ActionableLight id="9" style={tw`top-[70%] left-[25%]`} /> */}
-
-          {/* Fans */}
-          {/* <ActionableFan active id="1" style={tw`top-[19%] left-[11%]`} />
-              <ActionableFan id="2" style={tw`top-[46%] left-[11%]`} /> */}
-
-          {/* TV */}
-          {/* <ActionableIcon
-                disabled
-                active={false}
-                activeIcon="volume-high"
-                inactiveIcon="volume-off"
-                style={tw`top-[72%] left-[68%]`}
-              /> */}
-
           {/* Key box */}
           <ActionableIcon
             activeIcon="key-chain-variant"
             inactiveIcon="key-chain-variant"
-            style={tw`top-[84%] left-[56%]`}
+            style={tw`top-[82%] left-[22%]`}
             onPress={onKeyBoxSelected}
           />
         </>

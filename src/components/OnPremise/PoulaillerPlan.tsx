@@ -1,25 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Image as RNImage, View, useColorScheme } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import floorPlanDay from '@/assets/images/floorplan-day.png';
 import floorPlanNight from '@/assets/images/floorplan-night.png';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
-import ErrorChip from '@/components/ErrorChip';
 import ActionableCarbonDioxide from '@/components/OnPremise/ActionableCarbonDioxide';
-import ActionableFan from '@/components/OnPremise/ActionableFan';
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
-import CarbonDioxideBottomSheet from '@/components/OnPremise/CarbonDioxideBottomSheet';
-import KeyBoxBottomSheet from '@/components/OnPremise/KeyBoxBottomSheet';
-import PhoneBoothBottomSheet from '@/components/OnPremise/PhoneBoothBottomSheet';
-import UnlockDeckDoorBottomSheet from '@/components/OnPremise/UnlockDeckDoorBottomSheet';
-import ServiceLayout from '@/components/Settings/ServiceLayout';
-import { isSilentError } from '@/helpers/error';
-import { type OnPremiseState, getOnPremiseState } from '@/services/api/services';
-import useAuthStore from '@/stores/auth';
+import { type OnPremiseState } from '@/services/api/services';
 
 const PoulaillerPlan = ({
   onPremiseState,
