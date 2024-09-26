@@ -1,6 +1,8 @@
 import { HTTP } from '../http';
 import dayjs from 'dayjs';
 
+export type ApiLocation = 'poulailler' | 'pti-poulailler';
+
 export interface ApiMemberProfileSubscription {
   aboEnd: string;
   aboStart: string;
@@ -19,6 +21,7 @@ export interface ApiMemberProfile {
   birthdate?: string;
   created: string;
   lastSeen?: string;
+  location?: ApiLocation;
   totalActivity: number;
   activity: number; // in the last 6 months
   activeUser: boolean; // whether member has earned at least 20 days of activity in the last 6 months

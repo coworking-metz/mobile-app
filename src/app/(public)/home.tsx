@@ -404,8 +404,12 @@ export default function HomeScreen() {
         <Animated.View
           entering={FadeInUp.duration(500).delay(900)}
           style={tw`flex flex-col self-stretch`}>
-          <Link asChild href={`/on-premise${user?.location ? `location=${user.location}` : ''}`}>
-            <OnPremiseCard location={user?.location && t(`onPremise.location.${user?.location}`)} />
+          <Link
+            asChild
+            href={`/on-premise${profile?.location ? `?location=${profile.location}` : ''}`}>
+            <OnPremiseCard
+              location={profile?.location && t(`onPremise.location.${profile?.location}`)}
+            />
           </Link>
         </Animated.View>
 

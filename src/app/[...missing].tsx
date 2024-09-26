@@ -36,16 +36,16 @@ const MissingScreen = () => {
           color={tw.prefixMatch('dark') ? tw.color('gray-500') : theme.charlestonGreen}
           iconStyle={{ marginRight: 0 }}
           name="arrow-left"
-          size={40}
+          size={32}
           style={tw`p-1`}
-          underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
+          underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
         />
       </View>
       <View style={tw`flex flex-col items-center justify-end px-4 grow basis-0`}>
         <TumbleweedRollingAnimation style={tw`h-56 w-full max-w-xs`} />
       </View>
-      <View style={tw`flex flex-col justify-start px-4 gap-2 grow basis-0 max-w-sm`}>
+      <View style={tw`flex flex-col px-4 gap-2 grow basis-0 justify-start mx-auto w-full max-w-sm`}>
         <Animated.Text
           entering={FadeInLeft.duration(500)}
           numberOfLines={1}
