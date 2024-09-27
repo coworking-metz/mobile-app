@@ -90,13 +90,18 @@ const OnPremise = () => {
               onDeckDoorSelected={() => setDeckDoorSelected(true)}
               onKeyBoxSelected={() => setKeyBoxSelected(true)}
               onPhoneBoothSelected={() => setPhoneBoothSelected(true)}
+              onPremiseState={onPremiseState}
             />
           </Animated.View>
         )}
 
         {selectedLocation === 'pti-poulailler' && (
           <Animated.View entering={FadeInRight.duration(350)} exiting={FadeOutRight.duration(350)}>
-            <PtiPoulaillerPlan onKeyBoxSelected={() => setKeyBoxSelected(true)} />
+            <PtiPoulaillerPlan
+              loading={isFetchingOnPremiseState}
+              onKeyBoxSelected={() => setKeyBoxSelected(true)}
+              onPremiseState={onPremiseState}
+            />
           </Animated.View>
         )}
       </ServiceLayout>
