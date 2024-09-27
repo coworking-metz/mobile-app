@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+## [2024.9.2] - 2024-09-27
+
 ### Fixed
 
 - Render on premise state on both floor plans.
@@ -202,7 +204,8 @@ Initial release with the following features:
 - services like opening the gate,
 - user attendance history.
 
-[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2024.9.1...main
+[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2024.9.2...main
+[2024.9.2]: https://github.com/coworking-metz/mobile-app/compare/2024.9.1...2024.9.2
 [2024.9.1]: https://github.com/coworking-metz/mobile-app/compare/2024.5.2...2024.9.1
 [2024.5.2]: https://github.com/coworking-metz/mobile-app/compare/2024.5.1...2024.5.2
 [2024.5.1]: https://github.com/coworking-metz/mobile-app/compare/1.6.3...2024.5.1
