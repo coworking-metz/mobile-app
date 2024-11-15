@@ -114,7 +114,7 @@ const CalendarEventCard = ({
         <Animated.View
           entering={BounceIn.duration(1000).delay(300)}
           exiting={BounceOut.duration(1000)}
-          style={tw`z-10 h-7 w-7 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -bottom-2 -right-2`}>
+          style={tw`z-10 h-7 w-7 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -bottom-1.5 -right-1.5`}>
           <View style={tw`h-4 w-4 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
         </Animated.View>
       )}

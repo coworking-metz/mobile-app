@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Image, type ImageProps } from 'expo-image';
-import React, { useEffect, useState } from 'react';
-import { Modal, Platform, Image as RNImage, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { Modal, Platform, TouchableOpacity, View } from 'react-native';
 import Gallery from 'react-native-awesome-gallery';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw from 'twrnc';
