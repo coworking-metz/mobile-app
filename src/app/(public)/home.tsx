@@ -300,7 +300,7 @@ export default function HomeScreen() {
 
       <Animated.View
         entering={FadeInRight.duration(750).delay(600)}
-        style={tw`flex flex-row items-center w-full gap-2 mt-12 mb-3 px-4`}>
+        style={tw`flex flex-row items-center w-full gap-2 mt-12 px-4`}>
         <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
           {t('home.calendar.label')}
         </Text>
@@ -324,7 +324,7 @@ export default function HomeScreen() {
 
       <Animated.View entering={FadeInRight.duration(750).delay(600)} style={tw`flex w-full`}>
         <ScrollView
-          contentContainerStyle={tw`flex flex-row gap-4 px-4 h-56 min-w-full`}
+          contentContainerStyle={tw`flex flex-row gap-4 px-4 h-56 min-w-full py-3`}
           horizontal={true}
           scrollEnabled={nextCalendarEvents.length > 0}
           scrollEventThrottle={16}
@@ -372,7 +372,7 @@ export default function HomeScreen() {
         </ScrollView>
       </Animated.View>
 
-      <View style={tw`flex flex-col w-full px-4 gap-4 mt-12 mb-3`}>
+      <View style={tw`flex flex-col w-full px-4 gap-4 mt-9 mb-3`}>
         <Animated.Text
           entering={FadeInUp.duration(500).delay(600)}
           style={tw`text-sm font-normal uppercase text-slate-500`}>
