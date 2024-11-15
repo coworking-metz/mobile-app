@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+### Changed
+
+- Increase bottom sheets width.
+
+### Fixed
+
+- Logout should not require additional user interactions.
+- Contact through direct message identify user.
+
 ## [2024.9.2] - 2024-09-27
 
 ### Fixed
