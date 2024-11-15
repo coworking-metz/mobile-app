@@ -11,6 +11,9 @@ import tw from 'twrnc';
 import { parseErrorText } from '@/helpers/error';
 import useNoticeStore from '@/stores/notice';
 
+const WORDPRESS_BASE_URL =
+  process.env.EXPO_PUBLIC_WORDPRESS_BASE_URL || 'https://coworking-metz.fr/';
+
 const ContactBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: () => void }) => {
   const { t } = useTranslation();
   const [isContactingTeam, setContactingTeam] = useState(false);
@@ -46,9 +49,7 @@ const ContactBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: 
         <Text style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
           {t('settings.support.contact.description')}
         </Text>
-        <Link
-          asChild
-          href="https://conversations-widget.brevo.com/?hostId=65324d6bf96d92531b4091f8">
+        <Link asChild href={`${WORDPRESS_BASE_URL}#ouvrir-brevo`}>
           <AppRoundedButton style={tw`h-14 self-stretch mt-6`} suffixIcon="chat-processing-outline">
             <Text style={tw`text-base text-black font-medium`}>
               {t('settings.support.contact.conversations.label')}
