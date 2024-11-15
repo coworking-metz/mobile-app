@@ -87,7 +87,7 @@ const useAuthStore = create<AuthState>()(
         storage: createJSONStorage(createSecureStorage),
         partialize: (state) =>
           Object.fromEntries(
-            Object.entries(state).filter(([key]) => ['accessToken', 'refreshToken'].includes(key)),
+            Object.entries(state).filter(([key]) => ['refreshToken'].includes(key)),
           ),
         skipHydration: true,
       },
