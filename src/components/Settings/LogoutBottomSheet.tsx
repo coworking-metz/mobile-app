@@ -27,7 +27,7 @@ const LogoutBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: (
       path: '/settings?loggedOut=true',
     });
 
-    const logoutUrl = `https://www.coworking-metz.fr/mon-compte/deconnexion?redirect_to=${redirectUriOnSuccess}`;
+    const logoutUrl = `https://www.coworking-metz.fr/mon-compte/?logout=true&redirect_to=${redirectUriOnSuccess}`;
     logoutLogger.debug('Opening logout uri', logoutUrl);
 
     Linking.openURL(logoutUrl.toString())
