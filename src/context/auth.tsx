@@ -1,9 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useGlobalSearchParams, useNavigationContainerRef, useRouter } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LoginBottomSheet from '@/components/Settings/LoginBottomSheet';
-import SplashscreenWrapper from '@/components/SplashscreenWrapper';
 import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import useResetNavigation from '@/helpers/navigation';
@@ -18,6 +18,11 @@ const AuthContext = createContext<{
   ready: boolean;
   login?: () => void;
 }>({ isFetchingToken: false, ready: false });
+
+SplashScreen.setOptions({
+  duration: 400,
+  fade: true,
+});
 
 export const useAppAuth = () => {
   return useContext(AuthContext);
@@ -114,6 +119,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [authStore.accessToken, isLoggingIn]);
 
+  useEffect(() => {
+    if (ready) {
+      authLogger.debug('Hiding splash screen');
+      SplashScreen.hideAsync();
+    }
+  }, [ready]);
+
   useProtectedRoute(ready, setReady);
 
   return (
@@ -123,7 +135,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         ready,
         login: () => setLoggingIn(true),
       }}>
-      <SplashscreenWrapper ready={ready}>{children}</SplashscreenWrapper>
+      {children}
 
       {isLoggingIn && <LoginBottomSheet onClose={() => setLoggingIn(false)} />}
     </AuthContext.Provider>

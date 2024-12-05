@@ -21,11 +21,14 @@ import Animated, {
   withTiming,
   type StyleProps,
 } from 'react-native-reanimated';
+import { colorsPalette } from 'react-native-ui-lib/src/style/colorsPalette';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
+import { useAppAuth } from '@/context/auth';
 import { theme } from '@/helpers/colors';
 import { parseErrorText } from '@/helpers/error';
 import { unlockSteelGate } from '@/services/api/services';
+import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 
 const FILL_BACKGROUND_ANIMATION_DURATION_IN_MS = 300;
@@ -44,6 +47,8 @@ const UnlockCard = ({
 }) => {
   const { t } = useTranslation();
   const noticeStore = useNoticeStore();
+  const authStore = useAuthStore();
+  const { login } = useAppAuth();
   const animation = useRef<LottieView>(null);
   const unlocking = useSharedValue(0);
   const [cardWidth, setCardWidth] = useState(0);
@@ -55,9 +60,11 @@ const UnlockCard = ({
 
   const onUnlock = () => {
     if (isLoading) return;
+
     if (!lastWarning || dayjs().diff(lastWarning) > WARN_ON_SUCCESSIVE_TAPS_INTEVAL_IN_MS) {
       setTapHistory([...tapHistory, new Date().toISOString()]);
     }
+
     setLoading(true);
     unlockSteelGate()
       .then(({ locked }) => {
@@ -155,7 +162,7 @@ const UnlockCard = ({
         style,
       ]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setCardWidth(nativeEvent.layout.width)}
-      onPress={onUnlock}>
+      onPress={() => (authStore.user ? onUnlock() : login?.())}>
       <Animated.View
         style={[
           tw`absolute top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-800 w-full`,

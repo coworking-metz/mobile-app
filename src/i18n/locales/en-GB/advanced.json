@@ -42,10 +42,13 @@
       }
     },
     "onboarding": {
-      "label": "Onboarding dismissed or completed"
+      "label": "Skip onboarding at launch"
     },
-    "pullToRefresh": {
+    "hasLearnPullToRefresh": {
       "label": "Hide pull to refresh hint"
+    },
+    "withNativePullToRefresh": {
+      "label": "Disable pull to refresh animations"
     },
     "refreshToken": {
       "label": "Refresh token",

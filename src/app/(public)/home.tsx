@@ -50,7 +50,7 @@ import useToastStore from '@/stores/toast';
 export default function HomeScreen() {
   useDeviceContext(tw);
   const { t } = useTranslation();
-  const user = useAuthStore((s) => s.user);
+  const authStore = useAuthStore();
   const settingsStore = useSettingsStore();
   const toastStore = useToastStore();
   const activeSince = useAppState();
@@ -80,7 +80,7 @@ export default function HomeScreen() {
     refetch: refetchProfile,
     error: profileError,
   } = useQuery({
-    queryKey: ['members', user?.id],
+    queryKey: ['members', authStore.user?.id],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId);
@@ -88,7 +88,7 @@ export default function HomeScreen() {
       throw new Error('Missing user id');
     },
     retry: false,
-    enabled: !!user?.id,
+    enabled: !!authStore.user?.id,
   });
 
   const {
@@ -97,7 +97,7 @@ export default function HomeScreen() {
     isFetching: isFetchingSubscriptions,
     refetch: refetchSubscriptions,
   } = useQuery({
-    queryKey: ['members', user?.id, 'subscriptions'],
+    queryKey: ['members', authStore.user?.id, 'subscriptions'],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberSubscriptions(userId);
@@ -105,7 +105,7 @@ export default function HomeScreen() {
       throw new Error('Missing user id');
     },
     retry: false,
-    enabled: !!user?.id,
+    enabled: !!authStore.user?.id,
   });
 
   const currentSubscription = useMemo(() => {
@@ -158,12 +158,12 @@ export default function HomeScreen() {
 
   const onRefresh = useCallback(() => {
     return Promise.all([
-      user?.id && refetchProfile(),
-      user?.id && refetchSubscriptions(),
+      authStore.user?.id && refetchProfile(),
+      authStore.user?.id && refetchSubscriptions(),
       refetchCurrentMembers(),
       refreshCalendarEvents(),
     ]);
-  }, [user, settingsStore]);
+  }, [authStore.user, settingsStore]);
 
   const onSuccessiveTaps = useCallback(() => {
     const toast = toastStore.add({
@@ -247,9 +247,9 @@ export default function HomeScreen() {
         />
       </Animated.View>
 
-      {user?.onboarding && (
+      {authStore.user?.onboarding && (
         <Animated.View entering={StretchInY.delay(750)} style={tw`flex self-stretch mx-4`}>
-          <AppointmentCard date={user.onboarding.date} style={tw`w-full`} />
+          <AppointmentCard date={authStore.user.onboarding.date} style={tw`w-full`} />
         </Animated.View>
       )}
 
@@ -272,14 +272,18 @@ export default function HomeScreen() {
           <AppTouchableScale
             style={tw`flex flex-row items-stretch`}
             onPress={() => selectBalance(true)}>
-            <BalanceCard count={profile?.balance} loading={isLoadingProfile} style={tw`min-h-38`} />
+            <BalanceCard
+              count={profile?.balance}
+              loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
+              style={tw`min-h-38`}
+            />
           </AppTouchableScale>
           <AppTouchableScale
             style={tw`flex flex-row items-stretch`}
             onPress={() => selectSubscription(true)}>
             <SubscriptionCard
               activeSince={activeSince}
-              loading={isLoadingSubscriptions}
+              loading={(!authStore.user && authStore.isFetchingToken) || isLoadingSubscriptions}
               style={tw`min-h-38`}
               subscription={currentSubscription}
             />
@@ -290,7 +294,7 @@ export default function HomeScreen() {
             <MembershipCard
               active={profile?.activeUser}
               lastMembershipYear={profile?.lastMembership}
-              loading={isLoadingProfile}
+              loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
               style={tw`min-h-38`}
               valid={profile?.membershipOk}
             />
@@ -384,7 +388,9 @@ export default function HomeScreen() {
             entering={FadeInUp.duration(500).delay(700)}
             style={tw`flex flex-col grow shrink basis-0`}>
             <UnlockGateCard
-              disabled={!user?.capabilities?.includes('UNLOCK_GATE')}
+              disabled={Boolean(
+                authStore.user && !authStore.user.capabilities?.includes('UNLOCK_GATE'),
+              )}
               style={tw`grow`}
               onSuccessiveTaps={onSuccessiveTaps}
             />
@@ -394,7 +400,9 @@ export default function HomeScreen() {
             entering={FadeInUp.duration(500).delay(800)}
             style={tw`flex flex-col grow shrink basis-0`}>
             <OpenParkingCard
-              disabled={!user?.capabilities?.includes('PARKING_ACCESS')}
+              disabled={Boolean(
+                authStore.user && !authStore.user.capabilities?.includes('PARKING_ACCESS'),
+              )}
               style={tw`grow`}
               onSuccessiveTaps={onSuccessiveTaps}
             />
@@ -413,10 +421,10 @@ export default function HomeScreen() {
           </Link>
         </Animated.View>
 
-        {!user && (
+        {!authStore.user && !authStore.isFetchingToken && (
           <UnauthenticatedState
             exiting={FadeOutDown.duration(500).delay(900)}
-            style={tw`mt-12 mb-6`}
+            style={tw`mt-12 mb-6 mx-4`}
           />
         )}
       </View>

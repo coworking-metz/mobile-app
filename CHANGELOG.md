@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+### Added
+
+- Advanced settings screen for power users.
+
 ### Changed
 
 - Increase bottom sheets width.
+- Keep services enabled in guest mode.
+- Add gradient background color to rounded buttons.
 
 ### Fixed
 

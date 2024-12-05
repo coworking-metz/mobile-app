@@ -17,6 +17,7 @@ interface SettingsState {
   theme: AppThemePreference;
   apiBaseUrl: string | null;
   areTokensInAsyncStorage: boolean;
+  withNativePullToRefresh: boolean;
   clear: () => Promise<void>;
 }
 
@@ -29,6 +30,7 @@ const useSettingsStore = create<SettingsState>()(
         hydrated: false,
         hasOnboard: false,
         hasLearnPullToRefresh: false,
+        withNativePullToRefresh: false,
         language: SYSTEM_OPTION,
         theme: SYSTEM_OPTION,
         apiBaseUrl: null,
@@ -37,8 +39,10 @@ const useSettingsStore = create<SettingsState>()(
           await set({
             hasOnboard: false,
             hasLearnPullToRefresh: false,
+            withNativePullToRefresh: false,
             language: SYSTEM_OPTION,
             theme: SYSTEM_OPTION,
+            apiBaseUrl: null,
             areTokensInAsyncStorage: false,
           });
         },
@@ -52,6 +56,7 @@ const useSettingsStore = create<SettingsState>()(
               [
                 'hasOnboard',
                 'hasLearnPullToRefresh',
+                'withNativePullToRefresh',
                 'language',
                 'theme',
                 'apiBaseUrl',

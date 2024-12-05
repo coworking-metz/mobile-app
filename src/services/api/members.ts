@@ -1,7 +1,7 @@
 import { HTTP } from '../http';
 import dayjs from 'dayjs';
 
-export type ApiLocation = 'poulailler' | 'pti-poulailler';
+export type ApiLocation = 'poulailler' | 'pti-poulailler' | 'racine' | 'cantina';
 
 export interface ApiMemberProfileSubscription {
   aboEnd: string;
@@ -105,16 +105,13 @@ const HELLO_ACTIVITY_MATRIX = [
   0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, // o
 ];
 /* eslint-enable prettier/prettier */
-const helloStartDate = dayjs()
-  .subtract(1, 'week')
-  .endOf('week')
-  .subtract(HELLO_ACTIVITY_MATRIX.length, 'day');
+const helloStartDate = dayjs().day(0).subtract(HELLO_ACTIVITY_MATRIX.length, 'day');
 
 export const getHelloActivity = () =>
   HELLO_ACTIVITY_MATRIX.map(
     (value, index) =>
       ({
-        date: helloStartDate.add(index, 'days').format('YYYY-MM-DD'),
+        date: helloStartDate.add(index - 1, 'days').format('YYYY-MM-DD'),
         value: value ? (Math.random() > 0.5 ? 1 : 0.5) : 0,
         type: Math.random() > 0.5 ? 'subscription' : 'ticket',
       }) as ApiMemberActivity,

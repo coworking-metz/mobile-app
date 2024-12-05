@@ -8,7 +8,7 @@ import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 
 const HANDLE_HEIGHT = 8;
-const MIN_PADDING_BOTTOM = 20;
+const MIN_PADDING_BOTTOM = 24;
 const MIN_BACKDROP_HEIGHT = 64;
 
 export type AppBottomSheetProps = Omit<BottomSheetProps, 'snapPoints'> & {
@@ -29,7 +29,7 @@ const AppBottomSheet = ({
   const [contentHeight, setContentHeight] = useState(0);
 
   const visibleHeight = useMemo(
-    () => Math.max(contentHeight + HANDLE_HEIGHT, 256),
+    () => Math.max(contentHeight + HANDLE_HEIGHT + 4, 256),
     [contentHeight],
   );
   const maxHeight = useMemo(
@@ -54,7 +54,7 @@ const AppBottomSheet = ({
       // @see https://github.com/Abhinandan-Kushwaha/react-native-gifted-charts/issues/368#issuecomment-1724527189
       // @see https://github.com/gorhom/react-native-bottom-sheet/issues/770#issuecomment-1072113936
       activeOffsetX={[-999, 999]}
-      activeOffsetY={[-5, 5]}
+      activeOffsetY={[-0, 0]}
       backdropComponent={(backdropProps) => (
         <AppBottomSheetBackdrop
           {...backdropProps}
@@ -67,11 +67,11 @@ const AppBottomSheet = ({
       detached={true}
       handleIndicatorStyle={tw`bg-gray-500 rounded-full`}
       handleStyle={tw`bg-transparent absolute right-0 left-0`}
+      topInset={insets.top}
       {...props}
-      snapPoints={[Math.min(visibleHeight, maxHeight)]}
       style={[
         tw`mx-1 overflow-hidden relative`,
-        Platform.OS === 'android' ? tw`rounded-[2rem]` : tw`rounded-[3rem]`,
+        Platform.OS === 'android' ? tw`rounded-[2rem]` : tw`rounded-[3.5rem]`,
         style,
       ]}>
       <View style={tw`absolute top-0 left-0 right-0 z-10`}>

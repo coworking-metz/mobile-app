@@ -42,10 +42,13 @@
       }
     },
     "onboarding": {
-      "label": "Présentation passée ou complétée"
+      "label": "Passer la présentation au démarrage"
     },
-    "pullToRefresh": {
+    "hasLearnPullToRefresh": {
       "label": "Cacher l'indice du glisser pour rafraîchir"
+    },
+    "withNativePullToRefresh": {
+      "label": "Désactiver les animations du glisser pour rafraîchir"
     },
     "refreshToken": {
       "label": "Jeton de rafraîchissement",

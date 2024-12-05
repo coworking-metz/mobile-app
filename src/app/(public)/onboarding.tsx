@@ -1,19 +1,18 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
-import { useCallback, useRef, useState, type ReactNode, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, View, type LayoutChangeEvent } from 'react-native';
+import { View, type LayoutChangeEvent } from 'react-native';
 import Animated, {
   FadeInDown,
   interpolate,
-  interpolateColor,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
 import Carousel, { type ICarouselInstance } from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
-import AppTouchableScale from '@/components/AppTouchableScale';
+import AppRoundedButton from '@/components/AppRoundedButton';
 import PaginationDot from '@/components/Onboarding/PaginationDot';
 import Step from '@/components/Onboarding/Step';
 import AboutStep from '@/components/Onboarding/Steps/AboutStep';
@@ -111,21 +110,6 @@ const Onboarding = () => {
     [layoutWidth],
   );
 
-  const buttonBackgroundStyle = useAnimatedStyle(() => {
-    const lastScreenStart = (screens.length - 2) * layoutWidth;
-    const lastScreenEnd = (screens.length - 1) * layoutWidth;
-    const inputRange = [0, lastScreenStart, lastScreenEnd];
-    const backgroundColor = interpolateColor(
-      offset.value,
-      inputRange,
-      [theme.darkVanilla, theme.darkVanilla, theme.meatBrown],
-      'RGB',
-    );
-    return {
-      backgroundColor,
-    };
-  }, [offset, screens, layoutWidth]);
-
   const buttonNextTextStyle = useAnimatedStyle(() => {
     const lastScreenStart = (screens.length - 2) * layoutWidth;
     const lastScreenEnd = (screens.length - 1) * layoutWidth;
@@ -135,7 +119,7 @@ const Onboarding = () => {
       lastScreenStart + (lastScreenEnd - lastScreenStart) / 2,
       lastScreenEnd,
     ];
-    const opacity = interpolate(offset.value, inputRange, [1, 1, 0, 0]);
+    const opacity = interpolate(offset.get(), inputRange, [1, 1, 0, 0]);
     return {
       opacity,
     };
@@ -150,7 +134,7 @@ const Onboarding = () => {
       lastScreenStart + (lastScreenEnd - lastScreenStart) / 2,
       lastScreenEnd,
     ];
-    const opacity = interpolate(offset.value, inputRange, [0, 0, 0, 1]);
+    const opacity = interpolate(offset.get(), inputRange, [0, 0, 0, 1]);
     return {
       opacity,
     };
@@ -216,38 +200,34 @@ const Onboarding = () => {
                 vertical={false}
                 width={layoutWidth}
                 onProgressChange={(progress) => {
-                  offset.value = -progress;
+                  offset.set(-progress);
                 }}
                 onSnapToItem={setCurrentIndex}
               />
             </View>
             <Animated.View
               entering={FadeInDown.duration(500).delay(1000)}
-              style={tw`shrink-0 flex flex-row items-center justify-between pt-1 pb-8 px-8`}>
-              <AppTouchableScale
-                style={tw`flex flex-row h-14 w-full rounded-full overflow-hidden`}
-                onPress={onNext}>
-                <Animated.View style={[tw`h-full w-full relative`, buttonBackgroundStyle]}>
-                  <Animated.View
-                    style={[
-                      tw`absolute h-full w-full flex flex-row items-center justify-center`,
-                      buttonNextTextStyle,
-                    ]}>
-                    <Animated.Text style={[tw`text-black text-base font-medium`]}>
-                      {t('actions.next')}
-                    </Animated.Text>
-                  </Animated.View>
-                  <Animated.View
-                    style={[
-                      tw`absolute h-full w-full flex flex-row items-center justify-center`,
-                      buttonStartTextStyle,
-                    ]}>
-                    <Animated.Text style={[tw`text-black text-base font-medium`]}>
-                      {t('actions.start')}
-                    </Animated.Text>
-                  </Animated.View>
+              style={tw`shrink-0 pt-1 pb-8 px-8`}>
+              <AppRoundedButton onPress={onNext}>
+                <Animated.View
+                  style={[
+                    tw`absolute h-full flex flex-row items-center justify-center`,
+                    buttonNextTextStyle,
+                  ]}>
+                  <Animated.Text style={[tw`text-black text-base font-medium`]}>
+                    {t('actions.next')}
+                  </Animated.Text>
                 </Animated.View>
-              </AppTouchableScale>
+                <Animated.View
+                  style={[
+                    tw`absolute h-full  flex flex-row items-center justify-center`,
+                    buttonStartTextStyle,
+                  ]}>
+                  <Animated.Text style={[tw`text-black text-base font-medium`]}>
+                    {t('actions.start')}
+                  </Animated.Text>
+                </Animated.View>
+              </AppRoundedButton>
             </Animated.View>
           </View>
         ) : null}

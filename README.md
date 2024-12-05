@@ -44,9 +44,15 @@ Any credentials will work during the login flow.
 docker-compose -f mock/docker-compose.yml up -d
 ```
 
-## Build locally
+## Deploy
 
-### iOS
+Everything is done through [Expo Application Services](https://docs.expo.dev/guides/overview/).
+You can install it locally by doing:
+```bash
+npm i -g eas
+```
+
+### Build iOS locally
 
 ```bash
 SENTRY_DISABLE_AUTO_UPLOAD=true eas build --profile preview --platform ios --local
@@ -57,19 +63,11 @@ Then:
 - select your device
 - finally drag and drop the `.ipa` file in the `Installed Apps` section
 
-### Android
+### Build Android locally
 
 ```bash
 SENTRY_DISABLE_AUTO_UPLOAD=true eas build --profile preview --platform android --local
 adb install build-*.apk
-```
-
-## Deploy
-
-Everything is done through [Expo Application Services](https://docs.expo.dev/guides/overview/).
-You can install it locally by doing:
-```bash
-npm i -g eas
 ```
 
 ### Build for staging

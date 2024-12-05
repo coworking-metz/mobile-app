@@ -202,12 +202,22 @@ const Advanced = () => {
       </ServiceRow>
       <ServiceRow
         withBottomDivider
-        label={t('advanced.store.pullToRefresh.label')}
+        label={t('advanced.store.hasLearnPullToRefresh.label')}
         style={tw`px-3 mx-3`}>
         <Switch
           value={settingsStore.hasLearnPullToRefresh}
           onColor={theme.meatBrown}
           onValueChange={(value) => useSettingsStore.setState({ hasLearnPullToRefresh: value })}
+        />
+      </ServiceRow>
+      <ServiceRow
+        withBottomDivider
+        label={t('advanced.store.withNativePullToRefresh.label')}
+        style={tw`px-3 mx-3`}>
+        <Switch
+          value={settingsStore.withNativePullToRefresh}
+          onColor={theme.meatBrown}
+          onValueChange={(value) => useSettingsStore.setState({ withNativePullToRefresh: value })}
         />
       </ServiceRow>
       <ServiceRow

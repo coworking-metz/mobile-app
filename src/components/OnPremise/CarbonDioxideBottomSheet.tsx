@@ -92,7 +92,7 @@ const CarbonDioxideBottomSheet = ({
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch gap-5 px-6 pb-4 pt-6`}
+      contentContainerStyle={tw`flex flex-col items-stretch gap-5 p-6`}
       style={style}
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
