@@ -15,6 +15,7 @@ import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import SunnyRefreshAnimation from '@/components/Home/SunnyRefreshAnimation';
 import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
+import useSettingsStore from '@/stores/settings';
 
 const REFRESH_HEIGHT_IN_PIXELS = 172;
 const REFRESH_THRESHOLD = 144;
@@ -38,6 +39,11 @@ export default function HomeLayout({
   const refreshing = useSharedValue(false);
   const completed = useSharedValue(false);
   const [isRefresing, setRefreshing] = useState(false);
+  const settingsStore = useSettingsStore();
+  const enableAnimations = useMemo(
+    () => !settingsStore.withNativePullToRefresh && !IS_RUNNING_IN_EXPO_GO,
+    [settingsStore.withNativePullToRefresh],
+  );
 
   const scrollPosition = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler({
@@ -135,7 +141,7 @@ export default function HomeLayout({
         tw`w-full grow flex flex-col items-stretch relative bg-gray-100 dark:bg-black`,
         style,
       ]}>
-      {!IS_RUNNING_IN_EXPO_GO ? (
+      {enableAnimations ? (
         <Animated.View
           style={[
             tw`absolute inset-x-0 w-full bg-gray-200 dark:bg-slate-800 overflow-hidden`,
@@ -147,7 +153,7 @@ export default function HomeLayout({
               completed={completed}
               pullProgress={refreshProgress}
               released={refreshing}
-              style={[tw`w-full h-full`]}
+              style={tw`w-full h-full`}
               onEnd={onRefreshComplete}
             />
           ) : (
@@ -155,7 +161,7 @@ export default function HomeLayout({
               completed={completed}
               pullProgress={refreshProgress}
               released={refreshing}
-              style={[tw`w-full h-full`]}
+              style={tw`w-full h-full`}
               onEnd={onRefreshComplete}
             />
           )}
@@ -163,11 +169,11 @@ export default function HomeLayout({
       ) : null}
 
       <Animated.View
-        {...(!IS_RUNNING_IN_EXPO_GO && panResponderRef.current.panHandlers)}
+        {...(enableAnimations && panResponderRef.current.panHandlers)}
         style={[tw`w-full grow flex flex-col relative`]}>
         <Animated.ScrollView
           horizontal={false}
-          {...(IS_RUNNING_IN_EXPO_GO && {
+          {...(!enableAnimations && {
             refreshControl: (
               <RefreshControl
                 progressViewOffset={insets.top}
@@ -190,7 +196,7 @@ export default function HomeLayout({
             style={[
               tw`flex flex-col items-start justify-start bg-gray-100 dark:bg-black`,
               { paddingBottom: insets.top + insets.bottom + 32 },
-              !IS_RUNNING_IN_EXPO_GO && pullDownStyles,
+              enableAnimations && pullDownStyles,
             ]}>
             {children}
           </Animated.View>

@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react-native';
-import Constants, { ExecutionEnvironment } from 'expo-constants';
 import { logger, consoleTransport, sentryTransport } from 'react-native-logs';
+import { APP_ENVIRONMENT } from '@/services/environment';
 
 export const log = logger.createLogger({
   levels: {
@@ -11,19 +11,12 @@ export const log = logger.createLogger({
     error: 4,
   },
   severity: process.env.EXPO_PUBLIC_DEFAULT_LOG_LEVEL || 'error',
-  ...(Constants.executionEnvironment === ExecutionEnvironment.Bare
+  ...(APP_ENVIRONMENT === 'local'
     ? {
-        transport: sentryTransport,
-        transportOptions: {
-          SENTRY: Sentry,
-          errorLevels: 'error',
-        },
-      }
-    : {
         transport: consoleTransport,
         transportOptions: {
           colors: {
-            trace: 'gray',
+            trace: 'grey',
             info: 'blueBright',
             warn: 'yellowBright',
             error: 'red',
@@ -33,7 +26,14 @@ export const log = logger.createLogger({
             '[http]': 'grey',
           },
         },
-      }),
+      }
+    : ({
+        transport: sentryTransport,
+        transportOptions: {
+          SENTRY: Sentry,
+          errorLevels: 'error',
+        },
+      } as never)),
   async: true,
   dateFormat: 'time',
   printLevel: false,

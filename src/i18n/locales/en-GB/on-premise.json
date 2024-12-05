@@ -64,7 +64,9 @@
   },
   "location": {
     "poulailler": "Le Poulailler",
-    "pti-poulailler": "Le P'ti Poulailler"
+    "pti-poulailler": "Le P'ti Poulailler",
+    "cantina": "La Cantina",
+    "racine": "La Racine"
   },
   "title": "Manage workspace"
 }

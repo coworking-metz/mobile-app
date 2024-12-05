@@ -30,7 +30,7 @@ const SunnyRefreshAnimation = ({
 
   const setPullProgress = useCallback(
     (progress: number) => {
-      if (!released?.value) {
+      if (!released?.get()) {
         riveRef.current?.setInputState(
           STATE_MACHINE_NAME,
           'Pull_Progress',
@@ -51,21 +51,21 @@ const SunnyRefreshAnimation = ({
   }, [onEnd]);
 
   useDerivedValue(() => {
-    if (pullProgress?.value) {
-      runOnJS(setPullProgress)(pullProgress.value);
+    if (pullProgress?.get()) {
+      runOnJS(setPullProgress)(pullProgress.get());
     } else {
       runOnJS(onReset)();
     }
   }, [pullProgress, released]);
 
   useDerivedValue(() => {
-    if (released?.value) {
+    if (released?.get()) {
       runOnJS(onRelease)();
     }
   }, [released]);
 
   useDerivedValue(() => {
-    if (completed?.value) {
+    if (completed?.get()) {
       runOnJS(onComplete)();
     }
   }, [completed]);
@@ -79,7 +79,7 @@ const SunnyRefreshAnimation = ({
       resourceName="sunny_pull_release"
       stateMachineName={STATE_MACHINE_NAME}
       style={style}
-      // url="https://public.rive.app/community/runtime-files/3838-8030-pull-release-animation.riv"
+    // url="https://public.rive.app/community/runtime-files/3838-8030-pull-release-animation.riv"
     />
   );
 };

@@ -1,5 +1,8 @@
 {
   "expo": {
+    "androidStatusBar": {
+      "translucent": true
+    },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#F9B000",
@@ -21,6 +24,11 @@
     },
     "icon": "./src/assets/images/icon.png",
     "ios": {
+      "icon": {
+        "light": "./src/assets/images/icon/icon-light-1024.png",
+        "dark": "./src/assets/images/icon/icon-dark-1024.png",
+        "tinted": "./src/assets/images/icon/icon-tinted-1024.png"
+      },
       "bundleIdentifier": "fr.coworking-metz.mobile",
       "supportsTablet": false,
       "privacyManifests": {
@@ -74,14 +82,13 @@
         "expo-build-properties",
         {
           "android": {
-            "minSdkVersion": 23,
-            "compileSdkVersion": 34,
-            "targetSdkVersion": 34,
-            "buildToolsVersion": "34.0.0",
-            "kotlinVersion": "1.8.10"
+            "minSdkVersion": 24,
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "buildToolsVersion": "35.0.0"
           },
           "ios": {
-            "deploymentTarget": "14.0"
+            "deploymentTarget": "15.1"
           }
         }
       ],
@@ -90,6 +97,14 @@
         {
           "assetsPaths": ["./src/assets/rive"]
         }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#EAB234",
+          "image": "./src/assets/images/adaptive-icon.png",
+          "imageWidth": 144
+        }
       ]
     ],
     "runtimeVersion": {
@@ -97,11 +112,6 @@
     },
     "scheme": "poulailler",
     "slug": "coworking-mobile",
-    "splash": {
-      "backgroundColor": "#EAB234",
-      "image": "./src/assets/images/splash.png",
-      "resizeMode": "contain"
-    },
     "updates": {
       "url": "https://u.expo.dev/d4548eb7-404d-4a34-a484-8c0a1f01e0d6"
     },

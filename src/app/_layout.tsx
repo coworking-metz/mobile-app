@@ -3,28 +3,33 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as NavigationBar from 'expo-navigation-bar';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
+import * as SystemUI from 'expo-system-ui';
 import { useEffect, useLayoutEffect } from 'react';
 import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import NoticeBottomSheet from '@/components/NoticeBottomSheet';
 import ToastMessage from '@/components/ToastMessage';
 import { AuthProvider } from '@/context/auth';
 import { I18nProvider } from '@/context/i18n';
-import '@/i18n';
 import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
-import { routingInstrumentation } from '@/services/sentry';
+import { navigationIntegration } from '@/services/sentry';
 import { AppThemeBackground } from '@/services/theme';
+import '@/i18n';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
 if (Platform.OS === 'android') {
-  // https://stackoverflow.com/a/76988309
+  // enables edge-to-edge mode
   NavigationBar.setPositionAsync('absolute');
+  // transparent backgrounds to see through
   NavigationBar.setBackgroundColorAsync('#ffffff01');
+  // to avoid white flash when navigating https://www.reddit.com/r/reactnative/comments/1f7eknt/comment/ll9w39k/
+  SystemUI.setBackgroundColorAsync('black');
 }
 
 const queryClient = new QueryClient();
@@ -36,7 +41,6 @@ export const unstable_settings = {
 
 const RootLayout = () => {
   useDeviceContext(tw);
-  const insets = useSafeAreaInsets();
 
   // Capture the NavigationContainer ref and register it with the instrumentation.
   const ref = useNavigationContainerRef();
@@ -47,12 +51,12 @@ const RootLayout = () => {
 
   useEffect(() => {
     if (ref) {
-      routingInstrumentation.registerNavigationContainer(ref);
+      navigationIntegration.registerNavigationContainer(ref);
     }
   }, [ref]);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={tw`h-screen w-screen flex-1`}>
       <SafeAreaProvider>
         <I18nProvider>
           <QueryClientProvider client={queryClient}>
@@ -63,6 +67,7 @@ const RootLayout = () => {
                   contentStyle: {
                     backgroundColor: 'transparent',
                   },
+                  navigationBarTranslucent: true,
                 }}>
                 <Stack.Screen
                   name="index"
@@ -137,6 +142,7 @@ const RootLayout = () => {
                   light={tw.color('transparent') as string}
                 />
               ) : null}
+              <StatusBar translucent />
             </AuthProvider>
           </QueryClientProvider>
         </I18nProvider>

@@ -16,8 +16,8 @@ import useAuthStore from '@/stores/auth';
 
 const MAX_MEMBERS_PICTURES = 5;
 
-const PHOTO_BOARD_URL =
-  process.env.EXPO_PUBLIC_PHOTO_BOARD_URL || 'https://trombinoscope.coworking-metz.fr/';
+const MANAGER_URL =
+  process.env.EXPO_PUBLIC_MANAGER_BASE_URL || 'https://manager.coworking-metz.fr/';
 
 const OccupancyCount = ({
   members = [],
@@ -45,8 +45,8 @@ const OccupancyCount = ({
   }, [members, user]);
 
   const onSelectMembersPictures = useCallback(() => {
-    if (PHOTO_BOARD_URL) {
-      openBrowserAsync(PHOTO_BOARD_URL, {
+    if (MANAGER_URL) {
+      openBrowserAsync(MANAGER_URL, {
         presentationStyle: WebBrowserPresentationStyle.POPOVER,
         showTitle: false,
         enableDefaultShareMenuItem: false,
@@ -72,7 +72,7 @@ const OccupancyCount = ({
             <AnimatedNumber
               style={[
                 tw`text-8xl leading-[6.5rem] font-bold text-slate-900 dark:text-gray-200 min-w-[3rem]`,
-                Platform.OS === 'android' && tw`text-8xl tracking-tighter`,
+                Platform.OS === 'android' && tw`text-8xl tracking-tighter -mb-6 -mt-3`,
               ]}
               time={64} // milliseconds between each step
               value={members.length}
@@ -127,13 +127,15 @@ const OccupancyCount = ({
                     <View
                       key={`member-${picture}`}
                       style={tw`flex items-center justify-center flex-shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden ml-[-1rem]`}>
-                      <Image
-                        contentFit="cover"
-                        contentPosition={'top center'}
-                        source={picture}
-                        style={tw`h-8 w-8 rounded-full bg-gray-200`}
-                        transition={1000}
-                      />
+                      <View style={tw`h-8 w-8 rounded-full overflow-hidden bg-gray-200`}>
+                        <Image
+                          contentFit="cover"
+                          contentPosition={'top center'}
+                          source={picture}
+                          style={tw`size-full`}
+                          transition={1000}
+                        />
+                      </View>
                     </View>
                   ))}
               </View>

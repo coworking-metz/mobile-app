@@ -325,22 +325,16 @@ const Settings = () => {
             <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.general.title')}
             </Text>
-            {IS_DEV ? (
-              <Link asChild href="/advanced/">
-                <ServiceRow
-                  withBottomDivider
-                  label={t('advanced.title')}
-                  prefixIcon="cog-outline"
-                  style={tw`px-3 mx-3`}
-                  suffixIcon="chevron-right">
-                  <View style={tw`bg-gray-400/25 dark:bg-gray-700/50 py-1 px-2 rounded`}>
-                    <Text style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
-                      DEV
-                    </Text>
-                  </View>
-                </ServiceRow>
-              </Link>
-            ) : null}
+
+            <Link asChild href="/advanced/">
+              <ServiceRow
+                withBottomDivider
+                label={t('advanced.title')}
+                prefixIcon="cog-outline"
+                style={tw`px-3 mx-3`}
+                suffixIcon="chevron-right"
+              />
+            </Link>
             <Link asChild href="/onboarding">
               <ServiceRow
                 withBottomDivider

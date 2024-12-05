@@ -4,7 +4,6 @@ import dayjs from 'dayjs';
 import calendar from 'dayjs/plugin/calendar';
 import duration from 'dayjs/plugin/duration';
 import isBetween from 'dayjs/plugin/isBetween';
-import isoWeek from 'dayjs/plugin/isoWeek';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
@@ -23,7 +22,6 @@ dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
 dayjs.extend(calendar);
 dayjs.extend(isBetween);
-dayjs.extend(isoWeek);
 dayjs.extend(duration);
 dayjs.extend(utc);
 
@@ -80,9 +78,11 @@ export const getLanguageLabel = (languageCode: string): string | null => {
   return APP_LANGUAGES.find(({ code }) => code === languageCode)?.label || null;
 };
 
+const [firstLocale] = Localisation.getLocales();
+
 i18n.use(initReactI18next).init({
   resources: APP_LANGUAGES.reduce((acc, language) => ({ ...acc, [language.code]: language }), {}),
-  lng: Localisation.locale.substring(0, 2),
+  lng: firstLocale.languageCode || '',
   // fallbackLng: 'en',
   interpolation: {
     escapeValue: false,

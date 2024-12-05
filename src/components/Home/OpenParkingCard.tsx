@@ -23,9 +23,11 @@ import Animated, {
 } from 'react-native-reanimated';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
+import { useAppAuth } from '@/context/auth';
 import { theme } from '@/helpers/colors';
 import { parseErrorText } from '@/helpers/error';
 import { openParkingGate } from '@/services/api/services';
+import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 
 const FILL_BACKGROUND_ANIMATION_DURATION_IN_MS = 300;
@@ -44,6 +46,8 @@ const OpenParkingCard = ({
 }) => {
   const { t } = useTranslation();
   const noticeStore = useNoticeStore();
+  const authStore = useAuthStore();
+  const { login } = useAppAuth();
   const animation = useRef<LottieView>(null);
   const opening = useSharedValue(0);
   const [cardWidth, setCardWidth] = useState(0);
@@ -155,7 +159,7 @@ const OpenParkingCard = ({
         style,
       ]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setCardWidth(nativeEvent.layout.width)}
-      onPress={onOpen}>
+      onPress={() => (authStore.user ? onOpen() : login?.())}>
       <Animated.View
         style={[
           tw`absolute top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-800 w-full`,

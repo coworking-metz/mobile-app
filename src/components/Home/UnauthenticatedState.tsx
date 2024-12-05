@@ -1,17 +1,7 @@
-import LoveCalendarAnimation from '../Animations/LoveCalendarAnimation';
 import { Image } from 'expo-image';
-import { Link } from 'expo-router';
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Pressable,
-  Text,
-  TouchableHighlight,
-  TouchableNativeFeedback,
-  TouchableOpacity,
-  View,
-  type ViewProps,
-} from 'react-native';
+import { Text, TouchableNativeFeedback, View, type ViewProps } from 'react-native';
 import Animated, { type AnimatedProps, type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import unlock from '@/assets/images/undraw/unlock.svg';
@@ -27,7 +17,7 @@ const UnauthenticatedState = ({
   const { login } = useAppAuth();
 
   return (
-    <Animated.View style={[tw`flex flex-col gap-4 px-4 items-center`, style]} {...props}>
+    <Animated.View style={[tw`flex flex-col gap-4 items-center`, style]} {...props}>
       <Image
         blurRadius={16}
         contentFit="contain"
