@@ -3,16 +3,9 @@ import { ExpoConfig, ConfigContext } from 'expo/config';
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  slug: process.env.APP_SLUG || 'coworking-mobile',
-  name: process.env.APP_NAME || 'Le Poulailler',
-  // icon: process.env.APP_ICON || './src/assets/images/icon.png',
-  // android: {
-  //   ...config.android,
-  //   adaptiveIcon: {
-  //     ...config.android?.adaptiveIcon,
-  //     foregroundImage: process.env.APP_ADAPTIVE_ICON || './src/assets/images/adaptive-icon.png',
-  //   },
-  // },
+  ...(process.env.APP_SLUG && { slug: process.env.APP_SLUG }),
+  ...(process.env.APP_NAME && { name: process.env.APP_NAME }),
+  ...(process.env.APP_ICON && { icon: process.env.APP_ICON }),
   extra: {
     ...config.extra,
     buildDate: new Date().toISOString(), // https://stackoverflow.com/a/65970202

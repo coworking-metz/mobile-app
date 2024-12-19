@@ -9,7 +9,7 @@ import { Text, View } from 'react-native';
 import Animated, { BounceIn, BounceOut, type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AmourFoodSquareLogo from '@/assets/images/amour-food-square.png';
-import CoworkingLogo from '@/assets/images/icon.png';
+import CoworkingLogo from '@/assets/images/icon/icon-light-1024.png';
 import { theme } from '@/helpers/colors';
 import { type CalendarEvent } from '@/services/api/calendar';
 

@@ -6,7 +6,7 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#F9B000",
-        "foregroundImage": "./src/assets/images/adaptive-icon.png"
+        "foregroundImage": "./src/assets/images/icon/adaptive-icon.png"
       },
       "package": "fr.coworking_metz.mobile"
     },
@@ -22,7 +22,7 @@
         "origin": false
       }
     },
-    "icon": "./src/assets/images/icon.png",
+    "icon": "./src/assets/images/icon/icon-light-1024.png",
     "ios": {
       "icon": {
         "light": "./src/assets/images/icon/icon-light-1024.png",
@@ -102,7 +102,7 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#EAB234",
-          "image": "./src/assets/images/adaptive-icon.png",
+          "image": "./src/assets/images/icon/adaptive-icon.png",
           "imageWidth": 144
         }
       ]
