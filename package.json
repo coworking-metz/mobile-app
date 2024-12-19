@@ -1,6 +1,6 @@
 {
   "name": "coworking-mobile",
-  "version": "2024.9.2",
+  "version": "2024.12.1",
   "private": true,
   "scripts": {
     "android": "npm run start -- --android",
