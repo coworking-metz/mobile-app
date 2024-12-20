@@ -2,7 +2,8 @@
   "description": "Pour ceux qui sachent",
   "services": {
     "apiBaseUrl": {
-      "label": "URL de base pour l'API"
+      "label": "URL de base pour l'API",
+      "description": "Les appels à l'API seront relatif à cette URL."
     },
     "crash": {
       "description": "Pour vérifier que les erreurs remontent",
@@ -21,10 +22,7 @@
     },
     "accessToken": {
       "label": "Jeton d'accès",
-      "onCopy": {
-        "fail": "Impossible de copier le jeton d'accès",
-        "success": "Jeton d'accès copié"
-      }
+      "description": "Utilisé pour authentifier les requêtes à l'API."
     },
     "clear": {
       "label": "Tout réinitialiser",
@@ -52,10 +50,7 @@
     },
     "refreshToken": {
       "label": "Jeton de rafraîchissement",
-      "onCopy": {
-        "fail": "Impossible de copier le jeton de rafraîchissement",
-        "success": "Jeton de rafraîchissement copié"
-      }
+      "description": "Utilisé pour obtenir un nouveau jeton d'accès."
     },
     "title": "Stockage"
   },

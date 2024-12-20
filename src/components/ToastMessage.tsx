@@ -54,7 +54,7 @@ const ToastMessage = () => {
           <MaterialCommunityIcons
             color={getToastIconColor(notification.type, colorScheme)}
             name={getToastIcon(notification.type)}
-            size={24}
+            size={20}
           />
         ),
         duration: notification.timeout ?? Infinity,

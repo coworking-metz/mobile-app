@@ -2,7 +2,8 @@
   "description": "For those who are in on it",
   "services": {
     "apiBaseUrl": {
-      "label": "API base url"
+      "label": "API base url",
+      "description": "API calls will be relative to this URL."
     },
     "crash": {
       "description": "To verify error reporting",
@@ -21,10 +22,7 @@
     },
     "accessToken": {
       "label": "Access token",
-      "onCopy": {
-        "fail": "Unable to copy access token",
-        "success": "Access token copied"
-      }
+      "description": "Used to authenticate requests to the API."
     },
     "clear": {
       "label": "Reset everything",
@@ -52,10 +50,7 @@
     },
     "refreshToken": {
       "label": "Refresh token",
-      "onCopy": {
-        "fail": "Unable to copy refresh token",
-        "success": "Refresh token copied"
-      }
+      "description": "Used to get a new access token."
     },
     "title": "Application storage"
   },

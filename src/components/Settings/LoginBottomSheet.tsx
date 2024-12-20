@@ -12,20 +12,17 @@ import { log } from '@/helpers/logger';
 import { HTTP } from '@/services/http';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
-import useToastStore from '@/stores/toast';
 
 const loginLogger = log.extend(`[login]`);
 
 const LoginBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: () => void }) => {
   const { t } = useTranslation();
   const noticeStore = useNoticeStore();
-  const toastStore = useToastStore();
   const settingsStore = useSettingsStore();
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const onSubmit = useCallback(() => {
     setLoading(true);
-    toastStore.dismissAll();
 
     const redirectUriOnSuccess = makeRedirectUri({
       path: '/home',

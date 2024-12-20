@@ -4,6 +4,10 @@ import { useRouter } from 'expo-router';
 import React, { useState, type ReactNode, useCallback } from 'react';
 import { RefreshControl, View } from 'react-native';
 import { type LayoutChangeEvent } from 'react-native/types';
+import {
+  KeyboardAwareScrollView,
+  type KeyboardAwareScrollViewProps,
+} from 'react-native-keyboard-controller';
 import Animated, {
   FadeInLeft,
   interpolate,
@@ -13,14 +17,13 @@ import Animated, {
   type StyleProps,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { KeyboardAwareScrollView } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import { theme } from '@/helpers/colors';
 
 const NAVIGATION_HEIGHT = 48;
 
 const AnimatedKeyboardAwareScrollView =
-  Animated.createAnimatedComponent<KeyboardAwareScrollView>(KeyboardAwareScrollView);
+  Animated.createAnimatedComponent<KeyboardAwareScrollViewProps>(KeyboardAwareScrollView);
 
 const ServiceLayout = ({
   title,

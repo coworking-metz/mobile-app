@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
-import * as Clipboard from 'expo-clipboard';
 import * as Updates from 'expo-updates';
+import { isNil } from 'lodash';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, TextInput } from 'react-native';
@@ -30,44 +30,6 @@ const Advanced = () => {
   const settingsStore = useSettingsStore();
   const queryClient = useQueryClient();
   const resetNavigation = useResetNavigation();
-
-  const copyAccessToken = useCallback(() => {
-    Clipboard.setStringAsync(authStore.accessToken as string)
-      .then(() => {
-        toastStore.add({
-          message: t('advanced.store.accessToken.onCopy.success'),
-          type: 'success',
-          timeout: 3000,
-        });
-      })
-      .catch(async (error: Error) => {
-        const description = await parseErrorText(error);
-        noticeStore.add({
-          message: t('advanced.store.accessToken.onCopy.fail'),
-          description,
-          type: 'error',
-        });
-      });
-  }, [authStore.accessToken, toastStore, noticeStore]);
-
-  const copyRefreshToken = useCallback(() => {
-    Clipboard.setStringAsync(authStore.refreshToken as string)
-      .then(() => {
-        toastStore.add({
-          message: t('advanced.store.refreshToken.onCopy.success'),
-          type: 'success',
-          timeout: 3000,
-        });
-      })
-      .catch(async (error: Error) => {
-        const description = await parseErrorText(error);
-        noticeStore.add({
-          message: t('advanced.store.refreshToken.onCopy.fail'),
-          description,
-          type: 'error',
-        });
-      });
-  }, [authStore.refreshToken, toastStore, noticeStore]);
 
   const onSwitchAuthStorage = useCallback(
     async (value: boolean) => {
@@ -159,17 +121,18 @@ const Advanced = () => {
       </Animated.Text>
       <ServiceRow
         withBottomDivider
+        description={HTTP.defaults.baseURL}
         label={t('advanced.services.apiBaseUrl.label')}
         renderDescription={() => (
           <TextInput
             autoCapitalize="none"
+            keyboardType="url"
             placeholder={HTTP.defaults.baseURL}
             placeholderTextColor={
               tw.prefixMatch('dark') ? tw.color('slate-400/50') : tw.color('slate-500/50')
             }
             style={tw`text-slate-500 dark:text-slate-400`}
             value={settingsStore.apiBaseUrl || ''}
-            onBlur={() => queryClient.invalidateQueries()}
             onChangeText={(apiBaseUrl) => useSettingsStore.setState({ apiBaseUrl })}
           />
         )}
@@ -223,20 +186,44 @@ const Advanced = () => {
       <ServiceRow
         withBottomDivider
         description={`${authStore.accessToken}`}
-        disabled={!authStore.accessToken}
         label={t('advanced.store.accessToken.label')}
+        renderDescription={() => (
+          <TextInput
+            autoCapitalize="none"
+            keyboardType="default"
+            placeholder={isNil(authStore.accessToken) ? `${authStore.accessToken}` : ''}
+            placeholderTextColor={
+              tw.prefixMatch('dark') ? tw.color('slate-400/50') : tw.color('slate-500/50')
+            }
+            style={tw`text-slate-500 dark:text-slate-400`}
+            value={authStore.accessToken || ''}
+            onChangeText={(accessToken) =>
+              useAuthStore.setState({ accessToken: accessToken || null })
+            }
+          />
+        )}
         style={tw`px-3 mx-3`}
-        suffixIcon="content-copy"
-        onPress={copyAccessToken}
       />
       <ServiceRow
         withBottomDivider
         description={`${authStore.refreshToken}`}
-        disabled={!authStore.refreshToken}
         label={t('advanced.store.refreshToken.label')}
+        renderDescription={() => (
+          <TextInput
+            autoCapitalize="none"
+            keyboardType="default"
+            placeholder={isNil(authStore.refreshToken) ? `${authStore.refreshToken}` : ''}
+            placeholderTextColor={
+              tw.prefixMatch('dark') ? tw.color('slate-400/50') : tw.color('slate-500/50')
+            }
+            style={tw`text-slate-500 dark:text-slate-400`}
+            value={authStore.refreshToken || ''}
+            onChangeText={(refreshToken) =>
+              useAuthStore.setState({ refreshToken: refreshToken || null })
+            }
+          />
+        )}
         style={tw`px-3 mx-3`}
-        suffixIcon="content-copy"
-        onPress={copyRefreshToken}
       />
       <ServiceRow
         withBottomDivider

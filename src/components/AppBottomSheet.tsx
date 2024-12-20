@@ -54,7 +54,7 @@ const AppBottomSheet = ({
       // @see https://github.com/Abhinandan-Kushwaha/react-native-gifted-charts/issues/368#issuecomment-1724527189
       // @see https://github.com/gorhom/react-native-bottom-sheet/issues/770#issuecomment-1072113936
       activeOffsetX={[-999, 999]}
-      activeOffsetY={[-0, 0]}
+      activeOffsetY={[-5, 5]}
       backdropComponent={(backdropProps) => (
         <AppBottomSheetBackdrop
           {...backdropProps}

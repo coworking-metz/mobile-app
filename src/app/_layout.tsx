@@ -19,6 +19,7 @@ import createHttpInterceptors from '@/services/interceptors';
 import { navigationIntegration } from '@/services/sentry';
 import { AppThemeBackground } from '@/services/theme';
 import '@/i18n';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -57,96 +58,98 @@ const RootLayout = () => {
 
   return (
     <GestureHandlerRootView style={tw`h-screen w-screen flex-1`}>
-      <SafeAreaProvider>
-        <I18nProvider>
-          <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                  contentStyle: {
-                    backgroundColor: 'transparent',
-                  },
-                  navigationBarTranslucent: true,
-                }}>
-                <Stack.Screen
-                  name="index"
-                  options={{
+      <KeyboardProvider navigationBarTranslucent statusBarTranslucent>
+        <SafeAreaProvider>
+          <I18nProvider>
+            <QueryClientProvider client={queryClient}>
+              <AuthProvider>
+                <Stack
+                  screenOptions={{
                     headerShown: false,
-                    animationTypeForReplace: 'pop',
-                  }}
-                />
-                <Stack.Screen
-                  name="[...missing]"
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="(public)/advanced"
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="(public)/about"
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="(public)/onboarding"
-                  options={{
-                    headerShown: false,
-                    animation: 'slide_from_bottom',
-                  }}
-                />
+                    contentStyle: {
+                      backgroundColor: 'transparent',
+                    },
+                    navigationBarTranslucent: true,
+                  }}>
+                  <Stack.Screen
+                    name="index"
+                    options={{
+                      headerShown: false,
+                      animationTypeForReplace: 'pop',
+                    }}
+                  />
+                  <Stack.Screen
+                    name="[...missing]"
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="(public)/advanced"
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="(public)/about"
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="(public)/onboarding"
+                    options={{
+                      headerShown: false,
+                      animation: 'slide_from_bottom',
+                    }}
+                  />
 
-                <Stack.Screen
-                  name="(public)/home"
-                  options={{
-                    headerShown: false,
-                    animationTypeForReplace: 'pop',
-                  }}
-                />
-                <Stack.Screen
-                  name="(public)/settings"
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="(public)/on-premise"
-                  options={{
-                    headerShown: false,
-                  }}
-                />
+                  <Stack.Screen
+                    name="(public)/home"
+                    options={{
+                      headerShown: false,
+                      animationTypeForReplace: 'pop',
+                    }}
+                  />
+                  <Stack.Screen
+                    name="(public)/settings"
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="(public)/on-premise"
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
 
-                <Stack.Screen
-                  name="(public)/events"
-                  options={{
-                    headerShown: false,
-                    presentation: 'modal',
-                    ...(Platform.OS === 'android' && {
-                      animation: 'fade_from_bottom',
-                    }),
-                  }}
-                />
-              </Stack>
+                  <Stack.Screen
+                    name="(public)/events"
+                    options={{
+                      headerShown: false,
+                      presentation: 'modal',
+                      ...(Platform.OS === 'android' && {
+                        animation: 'fade_from_bottom',
+                      }),
+                    }}
+                  />
+                </Stack>
 
-              <ToastMessage />
-              <NoticeBottomSheet />
-              {Platform.OS === 'android' ? (
-                <AppThemeBackground
-                  dark={tw.color('black') as string}
-                  light={tw.color('transparent') as string}
-                />
-              ) : null}
-              <StatusBar translucent />
-            </AuthProvider>
-          </QueryClientProvider>
-        </I18nProvider>
-      </SafeAreaProvider>
+                <ToastMessage />
+                <NoticeBottomSheet />
+                {Platform.OS === 'android' ? (
+                  <AppThemeBackground
+                    dark={tw.color('black') as string}
+                    light={tw.color('transparent') as string}
+                  />
+                ) : null}
+                <StatusBar translucent />
+              </AuthProvider>
+            </QueryClientProvider>
+          </I18nProvider>
+        </SafeAreaProvider>
+      </KeyboardProvider>
     </GestureHandlerRootView>
   );
 };

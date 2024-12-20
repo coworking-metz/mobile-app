@@ -2,6 +2,7 @@ import { version as appVersion } from '../../../package.json';
 import { API_BASE_URL } from '../http';
 import axios from 'axios';
 import { Buffer } from 'buffer';
+import { log } from '@/helpers/logger';
 import useSettingsStore from '@/stores/settings';
 
 interface ApiTokens {
@@ -31,6 +32,8 @@ export type ApiUser = {
   exp: number;
 };
 
+const authLogger = log.extend(`[auth]`);
+
 export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiTokens> => {
   const apiBaseUrl = useSettingsStore.getState().apiBaseUrl || API_BASE_URL;
   // refreshing tokens should have its own axios config
@@ -54,11 +57,16 @@ export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiToke
 /**
  * Retrieve payload from a JWT token.
  */
-export const decodeToken = (token: string): ApiUser => {
+export const decodeToken = (token: string): ApiUser | null => {
   const parts = token
     .split('.')
     .map((part) => Buffer.from(part.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString());
   const [_, jsonPayload] = parts;
-  const payload = JSON.parse(jsonPayload);
-  return payload;
+  try {
+    const payload = JSON.parse(jsonPayload);
+    return payload;
+  } catch (error) {
+    authLogger.warn('Failed to decode JWT token', error);
+    return null;
+  }
 };
