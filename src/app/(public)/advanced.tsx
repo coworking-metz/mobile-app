@@ -97,7 +97,7 @@ const Advanced = () => {
           type: 'success',
           timeout: 3000,
         });
-        resetNavigation('/');
+        resetNavigation('/home');
       })
       .catch(async (error: Error) => {
         const description = await parseErrorText(error);

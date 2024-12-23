@@ -25,6 +25,7 @@ import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
 import LogoutBottomSheet from '@/components/Settings/LogoutBottomSheet';
 import PresenceBottomSheet from '@/components/Settings/PresenceBottomSheet';
 import PresenceGraph from '@/components/Settings/PresenceGraph';
+import ReviewBottomSheet from '@/components/Settings/ReviewBottomSheet';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 import ThemePicker from '@/components/Settings/ThemePicker';
@@ -38,7 +39,6 @@ import {
   getMemberProfile,
   type ApiMemberActivity,
 } from '@/services/api/members';
-import { IS_DEV } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 
@@ -65,6 +65,7 @@ const Settings = () => {
   const [isPickingTheme, setPickingTheme] = useState(false);
   const [isLoggingOut, setLoggingOut] = useState(false);
   const [isContacting, setContacting] = useState(false);
+  const [isReviewing, setReviewing] = useState(false);
 
   const {
     data: activity,
@@ -397,11 +398,19 @@ const Settings = () => {
               </>
             )}
             <ServiceRow
+              withBottomDivider
               label={t('settings.support.contact.title')}
               prefixIcon="help-circle-outline"
               style={tw`px-3 mx-3`}
               suffixIcon="chevron-right"
               onPress={() => setContacting(true)}
+            />
+            <ServiceRow
+              label={t('settings.support.review.label')}
+              prefixIcon="star-outline"
+              style={tw`px-3 mx-3`}
+              suffixIcon="chevron-right"
+              onPress={() => setReviewing(true)}
             />
 
             {user && (
@@ -472,6 +481,7 @@ const Settings = () => {
       )}
       {isLoggingOut && <LogoutBottomSheet onClose={() => setLoggingOut(false)} />}
       {isContacting && <ContactBottomSheet onClose={() => setContacting(false)} />}
+      {isReviewing && <ReviewBottomSheet onClose={() => setReviewing(false)} />}
     </View>
   );
 };

@@ -108,6 +108,13 @@
     "help": {
       "label": "Help"
     },
+    "review": {
+      "description": "Do you enjoy Le Poulailler and its app?\nHelp us make them even better by sharing your feedback on their respective pages.\nThank you so much for your support! 🙏",
+      "label": "Give your feedback",
+      "rateOnGoogleMaps": "Rate on Google Maps",
+      "rateOnStore": "Rate the app",
+      "title": "Share your feedback!"
+    },
     "signal": {
       "label": "Signal community"
     },
