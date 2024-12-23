@@ -30,6 +30,12 @@
       "fail": "Impossible d'obtenir le code"
     }
   },
+  "location": {
+    "cantina": "La Cantina",
+    "poulailler": "Le Poulailler",
+    "pti-poulailler": "Le P'ti Poulailler",
+    "racine": "La Racine"
+  },
   "onFetch": {
     "fail": "Impossible de récupérer l'état actuel de l'espace"
   },
@@ -61,12 +67,6 @@
         }
       }
     }
-  },
-  "location": {
-    "poulailler": "Le Poulailler",
-    "pti-poulailler": "Le P'ti Poulailler",
-    "cantina": "La Cantina",
-    "racine": "La Racine"
   },
   "title": "Gérer l'espace"
 }

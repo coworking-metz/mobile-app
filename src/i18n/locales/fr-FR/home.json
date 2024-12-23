@@ -60,8 +60,8 @@
     "label": "Situation",
     "membership": {
       "activity": {
-        "days_one": "{{count}} journée",
-        "days_other": "{{count}} journées",
+        "days_one": "journée",
+        "days_other": "journées",
         "days_zero": "Aucune",
         "description": "sur les 6 derniers mois",
         "label": "Activité"
@@ -97,6 +97,20 @@
       "fail": "Impossible de récupérer le profil"
     },
     "subscription": {
+      "activity": {
+        "count_one": "journée",
+        "count_other": "journées",
+        "count_zero": "Aucune journée",
+        "description": "Vous êtes resté",
+        "label": "Activité"
+      },
+      "attendance": {
+        "count_one": "seule fois",
+        "count_other": "fois",
+        "count_zero": "Jamais",
+        "description": "Vous êtes venu",
+        "label": "Assiduité"
+      },
       "date": "{{date, datetime }}",
       "description": "L'abonnement permet d'accéder au Coworking sur 30 jours glissants à compter de la date de début choisie.",
       "get": "S'abonner",
@@ -113,6 +127,10 @@
         "fail": "Impossible de récupérer les abonnements"
       },
       "renew": "Renouveler",
+      "savings": {
+        "description": "Par rapport à l'achat de tickets",
+        "label": "Économies"
+      },
       "status": {
         "expiredSince": "Expiré le",
         "expiresToday": "Touchant à sa fin",

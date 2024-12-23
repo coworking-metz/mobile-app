@@ -102,10 +102,22 @@ const MembershipBottomSheet = ({
             width={128}
           />
         ) : (
-          <Text
-            style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
-            {t('home.profile.membership.activity.days', { count: activityOverLast6Months || 0 })}
-          </Text>
+          <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
+            {activityOverLast6Months != 0 && (
+              <Text
+                numberOfLines={1}
+                style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
+                {activityOverLast6Months}
+              </Text>
+            )}
+            <Text
+              numberOfLines={1}
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+              {t('home.profile.membership.activity.days', {
+                count: activityOverLast6Months ?? 0,
+              })}
+            </Text>
+          </View>
         )}
       </ServiceRow>
 

@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, View } from 'react-native';
+import { Platform, ScrollView, Text, View } from 'react-native';
 import Animated, {
   FadeIn,
   FadeInLeft,
@@ -223,7 +223,11 @@ export default function HomeScreen() {
         useSettingsStore.setState({ hasLearnPullToRefresh: true });
         return onRefresh();
       }}>
-      <View style={tw`flex flex-row items-center w-full px-4`}>
+      <View
+        style={[
+          tw`flex flex-row items-center w-full px-4 pt-1`,
+          Platform.OS === 'android' && tw``,
+        ]}>
         <StaleDataText activeSince={activeSince} lastFetch={currentMembersUpdatedAt} />
 
         <View style={tw`flex flex-col items-end shrink grow basis-0`}>

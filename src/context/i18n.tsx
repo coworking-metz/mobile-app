@@ -9,7 +9,7 @@ const I18nContext = createContext<{
   ready: boolean;
 }>({ language: null, ready: false });
 
-const DEFAULT_LANGUAGE = process.env.EXPO_PUBLIC_DEFAULT_LANGUAGE || 'fr';
+export const DEFAULT_LANGUAGE = process.env.EXPO_PUBLIC_DEFAULT_LANGUAGE || 'fr';
 
 export const useAppI18n = () => {
   return useContext(I18nContext);

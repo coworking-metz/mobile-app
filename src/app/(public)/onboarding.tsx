@@ -207,7 +207,7 @@ const Onboarding = () => {
             </View>
             <Animated.View
               entering={FadeInDown.duration(500).delay(1000)}
-              style={tw`shrink-0 pt-1 pb-8 px-8`}>
+              style={tw`shrink-0 pt-1 pb-8 px-6`}>
               <AppRoundedButton onPress={onNext}>
                 <Animated.View
                   style={[

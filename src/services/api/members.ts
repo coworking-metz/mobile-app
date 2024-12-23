@@ -65,6 +65,9 @@ export interface ApiMemberSubscription {
   amount: number;
   orderReference?: string;
   current: boolean;
+  activityCount: number; // days attended
+  attendanceCount: number; // number of attendances
+  savingsOverTickets: number; // amount saved over buying tickets
 }
 
 export const getMemberSubscriptions = (memberId: string): Promise<ApiMemberSubscription[]> => {

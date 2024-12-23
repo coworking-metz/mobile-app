@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
-import StandingWorkAnimation from '@/components/Animations/StandingWorkAnimation';
 import WorkOnTheGoAnimation from '@/components/Animations/WorkOnTheGoAnimation';
 import ThemePicker from '@/components/Settings/ThemePicker';
 

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+### Added
+
+- Render activity, attendance and savings for each subscription.
+
 ## [2024.12.2] - 2024-12-20
 
 ### Changed
