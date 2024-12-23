@@ -1,16 +1,16 @@
 {
   "profile": {
+    "birthdate": {
+      "label": "Birthdate"
+    },
+    "email": {
+      "label": "Email"
+    },
     "firstname": {
       "label": "Firstname"
     },
     "lastname": {
       "label": "Lastname"
-    },
-    "email": {
-      "label": "Email"
-    },
-    "birthdate": {
-      "label": "Birthdate"
     }
   },
   "title": "My account"

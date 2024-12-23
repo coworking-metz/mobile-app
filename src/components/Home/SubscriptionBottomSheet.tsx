@@ -14,8 +14,10 @@ import { Platform, Text, View, type LayoutChangeEvent } from 'react-native';
 import { useSharedValue, type StyleProps } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
+import { formatAmount } from '@/helpers/currency';
 import { isSilentError } from '@/helpers/error';
 
+import i18n from '@/i18n';
 import { type ApiMemberSubscription } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
@@ -118,7 +120,7 @@ const SubscriptionBottomSheet = ({
       {sortedSubscriptions.length ? (
         <>
           <View
-            style={[tw`self-start w-full`, sortedSubscriptions.length > 1 ? tw`h-68` : tw`h-64`]}
+            style={tw`self-start w-full h-[28rem]`}
             onLayout={({ nativeEvent }: LayoutChangeEvent) =>
               setCarouselWidth(nativeEvent.layout.width)
             }>
@@ -161,6 +163,7 @@ const SubscriptionBottomSheet = ({
                       )}
                     </ServiceRow>
                     <ServiceRow
+                      withBottomDivider
                       label={
                         dayjs().startOf('day').isAfter(item.ended)
                           ? t('home.profile.subscription.status.expiredSince')
@@ -181,6 +184,104 @@ const SubscriptionBottomSheet = ({
                           style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
                           {dayjs(item.ended).format('dddd ll')}
                         </Text>
+                      )}
+                    </ServiceRow>
+                    <ServiceRow
+                      withBottomDivider
+                      description={t('home.profile.subscription.attendance.description')}
+                      label={t('home.profile.subscription.attendance.label')}
+                      style={tw`w-full px-0`}>
+                      {loading ? (
+                        <Skeleton
+                          backgroundColor={
+                            tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
+                          }
+                          colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+                          height={24}
+                          width={64}
+                        />
+                      ) : (
+                        <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
+                          {item.attendanceCount != 0 && (
+                            <Text
+                              numberOfLines={1}
+                              style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
+                              {item.attendanceCount}
+                            </Text>
+                          )}
+                          <Text
+                            numberOfLines={1}
+                            style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+                            {t('home.profile.subscription.attendance.count', {
+                              count: item.attendanceCount,
+                            })}
+                          </Text>
+                        </View>
+                      )}
+                    </ServiceRow>
+                    <ServiceRow
+                      withBottomDivider
+                      description={t('home.profile.subscription.activity.description')}
+                      label={t('home.profile.subscription.activity.label')}
+                      style={tw`w-full px-0`}>
+                      {loading ? (
+                        <Skeleton
+                          backgroundColor={
+                            tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
+                          }
+                          colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+                          height={24}
+                          width={96}
+                        />
+                      ) : (
+                        <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
+                          {item.activityCount != 0 && (
+                            <Text
+                              numberOfLines={1}
+                              style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
+                              {item.activityCount}
+                            </Text>
+                          )}
+                          <Text
+                            numberOfLines={1}
+                            style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+                            {t('home.profile.subscription.activity.count', {
+                              count: item.activityCount,
+                            })}
+                          </Text>
+                        </View>
+                      )}
+                    </ServiceRow>
+                    <ServiceRow
+                      description={t('home.profile.subscription.savings.description')}
+                      label={t('home.profile.subscription.savings.label')}
+                      style={tw`w-full px-0`}>
+                      {loading ? (
+                        <Skeleton
+                          backgroundColor={
+                            tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
+                          }
+                          colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+                          height={24}
+                          width={96}
+                        />
+                      ) : (
+                        <View
+                          style={[
+                            tw`px-2.5 py-0.5 rounded-full`,
+                            item.savingsOverTickets < 0 && tw`bg-gray-100 dark:bg-gray-700`,
+                            item.savingsOverTickets > 0 && tw`bg-green-100 dark:bg-green-900`,
+                          ]}>
+                          <Text
+                            numberOfLines={1}
+                            style={[
+                              tw`text-base font-semibold text-slate-900 dark:text-gray-200`,
+                              item.savingsOverTickets < 0 && tw`text-gray-800 dark:text-gray-300`,
+                              item.savingsOverTickets > 0 && tw`text-green-800 dark:text-green-300`,
+                            ]}>
+                            {`${item.savingsOverTickets > 0 ? '+' : ''}${formatAmount(item.savingsOverTickets, {}, i18n.language)}`}
+                          </Text>
+                        </View>
                       )}
                     </ServiceRow>
                   </View>

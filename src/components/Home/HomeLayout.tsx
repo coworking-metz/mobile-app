@@ -144,8 +144,7 @@ export default function HomeLayout({
       {enableAnimations ? (
         <Animated.View
           style={[
-            tw`absolute inset-x-0 w-full bg-gray-200 dark:bg-slate-800 overflow-hidden`,
-            { top: 0 ?? insets.top },
+            tw`absolute top-0 inset-x-0 w-full bg-gray-200 dark:bg-slate-800 overflow-hidden`,
             refreshAnimationStyles,
           ]}>
           {colorScheme === 'light' ? (

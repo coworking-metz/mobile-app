@@ -2,8 +2,8 @@
   "description": "Pour ceux qui sachent",
   "services": {
     "apiBaseUrl": {
-      "label": "URL de base pour l'API",
-      "description": "Les appels à l'API seront relatif à cette URL."
+      "description": "Les appels à l'API seront relatif à cette URL.",
+      "label": "URL de base pour l'API"
     },
     "crash": {
       "description": "Pour vérifier que les erreurs remontent",
@@ -12,17 +12,9 @@
     "title": "Services"
   },
   "store": {
-    "tokensStorage": {
-      "label": "Réduire la sécurité des jetons",
-      "description": "En cas de problème avec l'authentification",
-      "alert": {
-        "title": "Utiliser le stockage non sécurisé",
-        "message": "Cela exposera les jetons à d'autres processus et peut entraîner une fuite potentielle de données sensibles. Vous ne devriez activer cette option que si vous êtes conscient des risques et savez ce que vous faites.\nVous êtes prévenu.\n\nL'application va redémarrer pour que les modifications prennent effet."
-      }
-    },
     "accessToken": {
-      "label": "Jeton d'accès",
-      "description": "Utilisé pour authentifier les requêtes à l'API."
+      "description": "Utilisé pour authentifier les requêtes à l'API.",
+      "label": "Jeton d'accès"
     },
     "clear": {
       "label": "Tout réinitialiser",
@@ -30,6 +22,9 @@
         "fail": "Impossible de réinitialiser les données",
         "success": "Toutes les données ont été réinitialisées"
       }
+    },
+    "hasLearnPullToRefresh": {
+      "label": "Cacher l'indice du glisser pour rafraîchir"
     },
     "invalidate": {
       "description": "Les requêtes seront de nouveau envoyées vers l'API",
@@ -42,17 +37,22 @@
     "onboarding": {
       "label": "Passer la présentation au démarrage"
     },
-    "hasLearnPullToRefresh": {
-      "label": "Cacher l'indice du glisser pour rafraîchir"
+    "refreshToken": {
+      "description": "Utilisé pour obtenir un nouveau jeton d'accès.",
+      "label": "Jeton de rafraîchissement"
+    },
+    "title": "Stockage",
+    "tokensStorage": {
+      "alert": {
+        "message": "Cela exposera les jetons à d'autres processus et peut entraîner une fuite potentielle de données sensibles. Vous ne devriez activer cette option que si vous êtes conscient des risques et savez ce que vous faites.\nVous êtes prévenu.\n\nL'application va redémarrer pour que les modifications prennent effet.",
+        "title": "Utiliser le stockage non sécurisé"
+      },
+      "description": "En cas de problème avec l'authentification",
+      "label": "Réduire la sécurité des jetons"
     },
     "withNativePullToRefresh": {
       "label": "Désactiver les animations du glisser pour rafraîchir"
-    },
-    "refreshToken": {
-      "label": "Jeton de rafraîchissement",
-      "description": "Utilisé pour obtenir un nouveau jeton d'accès."
-    },
-    "title": "Stockage"
+    }
   },
   "title": "Réglages avancés"
 }

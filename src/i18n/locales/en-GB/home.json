@@ -56,8 +56,8 @@
     "label": "Profile",
     "membership": {
       "activity": {
-        "days_one": "{{count}} day",
-        "days_other": "{{count}} days",
+        "days_one": "day",
+        "days_other": "days",
         "days_zero": "None",
         "description": "over the last 6 months",
         "label": "Activity"
@@ -93,6 +93,20 @@
       "fail": "Unable to fetch profile"
     },
     "subscription": {
+      "activity": {
+        "count_one": "day",
+        "count_other": "days",
+        "count_zero": "None",
+        "description": "You stayed",
+        "label": "Activity"
+      },
+      "attendance": {
+        "count_one": "single time",
+        "count_other": "times",
+        "count_zero": "Never",
+        "description": "You attended",
+        "label": "Attendance"
+      },
       "date": "{{date, datetime }}",
       "description": "Subscription allows access to the Coworking location for 30 rolling days starting from the chosen start date.",
       "get": "Get one",
@@ -109,6 +123,10 @@
         "fail": "Unable to fetch subscriptions"
       },
       "renew": "Renew",
+      "savings": {
+        "description": "Compared to tickets purchase",
+        "label": "Savings"
+      },
       "status": {
         "expiredSince": "Expired since",
         "expiresToday": "About to expire",

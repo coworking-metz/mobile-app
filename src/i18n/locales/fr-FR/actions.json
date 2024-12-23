@@ -1,9 +1,9 @@
 {
+  "cancel": "Annuler",
   "close": "Fermer",
+  "confirm": "Confirmer",
   "help": "J'ai besoin d'aide",
   "hide": "Masquer",
-  "cancel": "Annuler",
-  "confirm": "Confirmer",
   "login": "M'identifier",
   "logout": "Me déconnecter",
   "more": "En savoir plus",
