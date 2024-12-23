@@ -13,7 +13,6 @@
   },
   "store": {
     "accessToken": {
-      "description": "Utilisé pour authentifier les requêtes à l'API.",
       "label": "Jeton d'accès"
     },
     "clear": {
@@ -27,7 +26,7 @@
       "label": "Cacher l'indice du glisser pour rafraîchir"
     },
     "invalidate": {
-      "description": "Les requêtes seront de nouveau envoyées vers l'API",
+      "description": "Les requêtes seront de nouveau envoyées",
       "label": "Invalider le cache",
       "onInvalidate": {
         "fail": "Impossible d'invalider le cache",
@@ -38,7 +37,6 @@
       "label": "Passer la présentation au démarrage"
     },
     "refreshToken": {
-      "description": "Utilisé pour obtenir un nouveau jeton d'accès.",
       "label": "Jeton de rafraîchissement"
     },
     "title": "Stockage",

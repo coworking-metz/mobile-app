@@ -34,7 +34,7 @@ const ThemeOptions = () => {
   );
 
   return (
-    <View style={tw`flex flex-col w-full gap-1 py-3`}>
+    <View style={tw`flex flex-col w-full gap-1 pb-3 pt-6`}>
       <Text style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
         {t('settings.general.theme.label')}
       </Text>

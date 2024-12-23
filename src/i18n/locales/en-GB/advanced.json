@@ -13,7 +13,6 @@
   },
   "store": {
     "accessToken": {
-      "description": "Used to authenticate requests to the API.",
       "label": "Access token"
     },
     "clear": {
@@ -27,7 +26,7 @@
       "label": "Hide pull to refresh hint"
     },
     "invalidate": {
-      "description": "Requests to the API will be resent",
+      "description": "Requests will be resent",
       "label": "Invalidate cache",
       "onInvalidate": {
         "fail": "Unable to reset cache",
@@ -38,7 +37,6 @@
       "label": "Skip onboarding at launch"
     },
     "refreshToken": {
-      "description": "Used to get a new access token.",
       "label": "Refresh token"
     },
     "title": "Application storage",

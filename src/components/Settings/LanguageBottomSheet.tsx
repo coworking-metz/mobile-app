@@ -27,7 +27,7 @@ const LanguageOptions = () => {
   );
 
   return (
-    <View style={tw`flex flex-col w-full gap-1 py-3`}>
+    <View style={tw`flex flex-col w-full gap-1 pb-3 pt-6`}>
       <Text style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
         {t('settings.general.language.label')}
       </Text>
@@ -36,7 +36,7 @@ const LanguageOptions = () => {
           description={
             language.code === SYSTEM_OPTION
               ? getLanguageLabel(SYSTEM_LANGUAGE) ||
-                `${SYSTEM_LANGUAGE} - ${t('settings.general.language.system.unsupported')}`
+              `${SYSTEM_LANGUAGE} - ${t('settings.general.language.system.unsupported')}`
               : ''
           }
           key={`language-option-${language.code}`}

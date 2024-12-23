@@ -93,6 +93,13 @@
     "help": {
       "label": "Aide"
     },
+    "review": {
+      "description": "Vous aimez Le Poulailler et son application ?\nAidez-nous à les rendre encore meilleurs en partageant votre avis sur leurs pages respectives.\nUn grand merci pour votre soutien ! 🙏",
+      "label": "Donner votre avis",
+      "rateOnGoogleMaps": "Évaluer sur Google Maps",
+      "rateOnStore": "Noter l'application",
+      "title": "Partagez votre avis !"
+    },
     "signal": {
       "label": "Groupe Signal"
     },

@@ -87,7 +87,8 @@
     "rive-react-native": "^8.3.0",
     "sonner-native": "^0.16.2",
     "twrnc": "^4.6.0",
-    "zustand": "^5.0.2"
+    "zustand": "^5.0.2",
+    "expo-store-review": "~8.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.4",
