@@ -5,21 +5,25 @@ import { Stack, useNavigationContainerRef } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as SystemUI from 'expo-system-ui';
+import { PostHogProvider } from 'posthog-react-native';
 import { useEffect, useLayoutEffect } from 'react';
 import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import NoticeBottomSheet from '@/components/NoticeBottomSheet';
 import ToastMessage from '@/components/ToastMessage';
 import { AuthProvider } from '@/context/auth';
 import { I18nProvider } from '@/context/i18n';
+import { IS_DEV } from '@/services/environment';
 import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
 import { navigationIntegration } from '@/services/sentry';
 import { AppThemeBackground } from '@/services/theme';
 import '@/i18n';
-import { KeyboardProvider } from 'react-native-keyboard-controller';
+
+const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -60,94 +64,131 @@ const RootLayout = () => {
     <GestureHandlerRootView style={tw`h-screen w-screen flex-1`}>
       <KeyboardProvider navigationBarTranslucent statusBarTranslucent>
         <SafeAreaProvider>
-          <I18nProvider>
-            <QueryClientProvider client={queryClient}>
-              <AuthProvider>
-                <Stack
-                  screenOptions={{
-                    headerShown: false,
-                    contentStyle: {
-                      backgroundColor: 'transparent',
-                    },
-                    navigationBarTranslucent: true,
-                  }}>
-                  <Stack.Screen
-                    name="index"
-                    options={{
+          <PostHogProvider
+            autocapture
+            apiKey={POSTHOG_API_KEY}
+            options={{
+              host: 'https://eu.i.posthog.com',
+              // Enable session recording. Requires enabling in your project settings as well.
+              // Default is false.
+              enableSessionReplay: !IS_DEV,
+              sessionReplayConfig: {
+                // Whether text and text input fields are masked. Default is true.
+                // Password inputs are always masked regardless
+                maskAllTextInputs: false,
+                // Whether images are masked. Default is true.
+                maskAllImages: false,
+                // Enable masking of all sandboxed system views like UIImagePickerController, PHPickerViewController and CNContactPickerViewController. Default is true.
+                // iOS only
+                maskAllSandboxedViews: true,
+                // Capture logs automatically. Default is true.
+                // Android only (Native Logcat only)
+                captureLog: true,
+                // Whether network requests are captured in recordings. Default is true
+                // Only metric-like data like speed, size, and response code are captured.
+                // No data is captured from the request or response body.
+                // iOS only
+                captureNetworkTelemetry: true,
+                // Deboucer delay used to reduce the number of snapshots captured and reduce performance impact. Default is 1000ms
+                // Ps: it was 500ms (0.5s) by default until version 3.3.7
+                androidDebouncerDelayMs: 1000,
+                // Deboucer delay used to reduce the number of snapshots captured and reduce performance impact. Default is 1000ms
+                iOSdebouncerDelayMs: 1000,
+              },
+            }}>
+            <I18nProvider>
+              <QueryClientProvider client={queryClient}>
+                <AuthProvider>
+                  <Stack
+                    screenOptions={{
                       headerShown: false,
-                      animationTypeForReplace: 'pop',
-                    }}
-                  />
-                  <Stack.Screen
-                    name="[...missing]"
-                    options={{
-                      headerShown: false,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="(public)/advanced"
-                    options={{
-                      headerShown: false,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="(public)/about"
-                    options={{
-                      headerShown: false,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="(public)/onboarding"
-                    options={{
-                      headerShown: false,
-                      animation: 'slide_from_bottom',
-                    }}
-                  />
+                      contentStyle: {
+                        backgroundColor: 'transparent',
+                      },
+                      navigationBarTranslucent: true,
+                    }}>
+                    <Stack.Screen
+                      name="index"
+                      options={{
+                        headerShown: false,
+                        animationTypeForReplace: 'pop',
+                        animation: 'fade',
+                        contentStyle: {
+                          backgroundColor: 'transparent',
+                        },
+                      }}
+                    />
+                    <Stack.Screen
+                      name="[...missing]"
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="(public)/advanced"
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="(public)/about"
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="(public)/onboarding"
+                      options={{
+                        headerShown: false,
+                        animation: 'slide_from_bottom',
+                      }}
+                    />
 
-                  <Stack.Screen
-                    name="(public)/home"
-                    options={{
-                      headerShown: false,
-                      animationTypeForReplace: 'pop',
-                    }}
-                  />
-                  <Stack.Screen
-                    name="(public)/settings"
-                    options={{
-                      headerShown: false,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="(public)/on-premise"
-                    options={{
-                      headerShown: false,
-                    }}
-                  />
+                    <Stack.Screen
+                      name="(public)/home"
+                      options={{
+                        headerShown: false,
+                        animationTypeForReplace: 'pop',
+                      }}
+                    />
+                    <Stack.Screen
+                      name="(public)/settings"
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="(public)/on-premise"
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
 
-                  <Stack.Screen
-                    name="(public)/events"
-                    options={{
-                      headerShown: false,
-                      presentation: 'modal',
-                      ...(Platform.OS === 'android' && {
-                        animation: 'fade_from_bottom',
-                      }),
-                    }}
-                  />
-                </Stack>
+                    <Stack.Screen
+                      name="(public)/events"
+                      options={{
+                        headerShown: false,
+                        presentation: 'modal',
+                        ...(Platform.OS === 'android' && {
+                          animation: 'fade_from_bottom',
+                        }),
+                      }}
+                    />
+                  </Stack>
 
-                <ToastMessage />
-                <NoticeBottomSheet />
-                {Platform.OS === 'android' ? (
-                  <AppThemeBackground
-                    dark={tw.color('black') as string}
-                    light={tw.color('transparent') as string}
-                  />
-                ) : null}
-                <StatusBar translucent />
-              </AuthProvider>
-            </QueryClientProvider>
-          </I18nProvider>
+                  <ToastMessage />
+                  <NoticeBottomSheet />
+                  {Platform.OS === 'android' ? (
+                    <AppThemeBackground
+                      dark={tw.color('black') as string}
+                      light={tw.color('transparent') as string}
+                    />
+                  ) : null}
+                  <StatusBar translucent />
+                </AuthProvider>
+              </QueryClientProvider>
+            </I18nProvider>
+          </PostHogProvider>
         </SafeAreaProvider>
       </KeyboardProvider>
     </GestureHandlerRootView>
