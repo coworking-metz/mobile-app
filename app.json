@@ -1,14 +1,14 @@
 {
   "expo": {
-    "androidStatusBar": {
-      "translucent": true
-    },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#F9B000",
         "foregroundImage": "./src/assets/images/icon/adaptive-icon.png"
       },
       "package": "fr.coworking_metz.mobile"
+    },
+    "androidStatusBar": {
+      "translucent": true
     },
     "assetBundlePatterns": ["**/*"],
     "experiments": {
@@ -24,41 +24,33 @@
     },
     "icon": "./src/assets/images/icon/icon-light-1024.png",
     "ios": {
+      "bundleIdentifier": "fr.coworking-metz.mobile",
       "icon": {
-        "light": "./src/assets/images/icon/icon-light-1024.png",
         "dark": "./src/assets/images/icon/icon-dark-1024.png",
+        "light": "./src/assets/images/icon/icon-light-1024.png",
         "tinted": "./src/assets/images/icon/icon-tinted-1024.png"
       },
-      "bundleIdentifier": "fr.coworking-metz.mobile",
-      "supportsTablet": false,
       "privacyManifests": {
         "NSPrivacyAccessedAPITypes": [
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "C617.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["C617.1"]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategorySystemBootTime",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "35F9.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["35F9.1"]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryDiskSpace",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "E174.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["E174.1"]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
-            "NSPrivacyAccessedAPITypeReasons": [
-              "CA92.1"
-            ]
+            "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
           }
         ]
-      }
+      },
+      "supportsTablet": false
     },
     "name": "Le Poulailler",
     "orientation": "portrait",
@@ -82,10 +74,10 @@
         "expo-build-properties",
         {
           "android": {
-            "minSdkVersion": 24,
+            "buildToolsVersion": "35.0.0",
             "compileSdkVersion": 35,
-            "targetSdkVersion": 35,
-            "buildToolsVersion": "35.0.0"
+            "minSdkVersion": 24,
+            "targetSdkVersion": 35
           },
           "ios": {
             "deploymentTarget": "15.1"
@@ -116,6 +108,6 @@
       "url": "https://u.expo.dev/d4548eb7-404d-4a34-a484-8c0a1f01e0d6"
     },
     "userInterfaceStyle": "automatic",
-    "version": "2024.12.2"
+    "version": "2024.12.3"
   }
 }
