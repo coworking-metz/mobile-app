@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useGlobalSearchParams, useNavigationContainerRef, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { usePostHog } from 'posthog-react-native';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LoginBottomSheet from '@/components/Settings/LoginBottomSheet';
@@ -94,7 +95,7 @@ const useProtectedRoute = (ready: boolean, setReady: (ready: boolean) => void) =
       )
       .then(() => {
         // navigate to first screen
-        resetNavigation('/');
+        resetNavigation('/home');
       })
       .catch((error) => {
         notifyError(t('errors.default.message'), error);
@@ -112,6 +113,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [ready, setReady] = useState<boolean>(false);
   const authStore = useAuthStore();
   const [isLoggingIn, setLoggingIn] = useState<boolean>(false);
+  const posthog = usePostHog();
 
   useEffect(() => {
     if (isLoggingIn && authStore.accessToken) {
@@ -125,6 +127,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       SplashScreen.hideAsync();
     }
   }, [ready]);
+
+  useEffect(() => {
+    if (authStore.user) {
+      posthog.identify(authStore.user.email, {
+        email: authStore.user.email,
+        name: authStore.user.name,
+      });
+    }
+  }, [authStore.user]);
 
   useProtectedRoute(ready, setReady);
 

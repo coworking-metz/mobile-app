@@ -4,9 +4,9 @@ import useSettingsStore from './settings';
 import * as Sentry from '@sentry/react-native';
 import dayjs from 'dayjs';
 import { create } from 'zustand';
-import { persist, createJSONStorage, subscribeWithSelector } from 'zustand/middleware';
+import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware';
 import { log } from '@/helpers/logger';
-import { type ApiUser, decodeToken, getAccessAndRefreshTokens } from '@/services/api/auth';
+import { decodeToken, getAccessAndRefreshTokens, type ApiUser } from '@/services/api/auth';
 
 /**
  * In order to avoid asking for multiple refresh tokens at the same time when it has expired,
