@@ -85,7 +85,7 @@ eas build --profile preview --platform android # only for Android
 - Change [`CHANGELOG.md`](./CHANGELOG.md) accordingly.
 - Commit & tag it
 ```bash
-(TAG=1.1.0; git add app.json package.json CHANGELOG.md && git commit -m "chore(version): update to $TAG" && git tag -a $TAG -m "$TAG")
+(TAG=1.1.0; git add app.json package.json package-lock.json CHANGELOG.md && git commit -m "chore(version): update to $TAG" && git tag -a $TAG -m "$TAG")
 git push origin --tags
 ```
 
