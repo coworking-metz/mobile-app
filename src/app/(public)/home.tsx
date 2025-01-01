@@ -34,6 +34,7 @@ import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnauthenticatedState from '@/components/Home/UnauthenticatedState';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
@@ -64,6 +65,7 @@ export default function HomeScreen() {
   const {
     data: currentMembers,
     isLoading: isLoadingCurrentMembers,
+    isFetching: isFetchingCurrentMembers,
     refetch: refetchCurrentMembers,
     error: currentMembersError,
     dataUpdatedAt: currentMembersUpdatedAt,
@@ -125,6 +127,7 @@ export default function HomeScreen() {
   const {
     data: calendarEvents,
     isLoading: isLoadingCalendarEvents,
+    isFetching: isFetchingCalendarEvents,
     refetch: refreshCalendarEvents,
     error: calendarEventsError,
   } = useQuery({
@@ -179,6 +182,20 @@ export default function HomeScreen() {
     });
   }, [toastStore, t]);
 
+  const isFetching = useMemo(() => {
+    return (
+      isFetchingProfile ||
+      isFetchingSubscriptions ||
+      isFetchingCalendarEvents ||
+      isFetchingCurrentMembers
+    );
+  }, [
+    isFetchingProfile,
+    isFetchingSubscriptions,
+    isFetchingCalendarEvents,
+    isFetchingCurrentMembers,
+  ]);
+
   return (
     <HomeLayout
       outerChildren={
@@ -232,7 +249,17 @@ export default function HomeScreen() {
 
         <View style={tw`flex flex-col items-end shrink grow basis-0`}>
           <Link asChild href="/settings">
-            <AppTouchableScale>
+            <AppTouchableScale
+              style={tw`relative h-13 w-13 flex flex-col items-center justify-center`}>
+              {isFetching && (
+                <Animated.View
+                  entering={FadeIn.duration(300)}
+                  exiting={FadeOut.duration(300)}
+                  style={tw`absolute`}>
+                  <LoadingSpinner style={tw`h-13 w-13`} />
+                </Animated.View>
+              )}
+
               <ProfilePicture attending={profile?.attending} style={tw`h-12 w-12`} />
             </AppTouchableScale>
           </Link>
