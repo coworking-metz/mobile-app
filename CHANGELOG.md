@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+### Added
+
+- Loading spinner on home profile picture when fetching data.
+
 ## [2024.12.3] - 2024-12-24
 
 ### Added
