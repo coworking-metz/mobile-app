@@ -1,0 +1,13 @@
+{
+  "description": "Dans les espaces de travail",
+  "empty": {
+    "description": "Personne n'est actuellement localisé sur place.",
+    "title": "C'est vide"
+  },
+  "onFetch": {
+    "fail": "Impossible de récupérer la liste des présents"
+  },
+  "title_one": "Présents",
+  "title_other": "{{count}} présents",
+  "title_zero": "Présent"
+}

@@ -68,10 +68,11 @@ const RootLayout = () => {
             autocapture
             apiKey={POSTHOG_API_KEY}
             options={{
+              disabled: IS_DEV,
               host: 'https://eu.i.posthog.com',
               // Enable session recording. Requires enabling in your project settings as well.
               // Default is false.
-              enableSessionReplay: !IS_DEV,
+              enableSessionReplay: true,
               sessionReplayConfig: {
                 // Whether text and text input fields are masked. Default is true.
                 // Password inputs are always masked regardless
@@ -159,6 +160,12 @@ const RootLayout = () => {
                     />
                     <Stack.Screen
                       name="(public)/on-premise"
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="(public)/attendance"
                       options={{
                         headerShown: false,
                       }}

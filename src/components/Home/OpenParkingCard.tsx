@@ -212,7 +212,10 @@ const OpenParkingCard = ({
           </View>
         </View>
       ) : (
-        <Text numberOfLines={2} style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
+        <Text
+          ellipsizeMode={'clip'}
+          numberOfLines={2}
+          style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
           {t('home.parking.label')}
         </Text>
       )}

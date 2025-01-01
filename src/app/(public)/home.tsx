@@ -252,15 +252,19 @@ export default function HomeScreen() {
             <AppTouchableScale
               style={tw`relative h-13 w-13 flex flex-col items-center justify-center`}>
               {isFetching && (
-                <Animated.View
+                <LoadingSpinner
                   entering={FadeIn.duration(300)}
                   exiting={FadeOut.duration(300)}
-                  style={tw`absolute`}>
-                  <LoadingSpinner style={tw`h-13 w-13`} />
-                </Animated.View>
+                  style={tw`absolute h-13 w-13`}
+                />
               )}
 
-              <ProfilePicture attending={profile?.attending} style={tw`h-12 w-12`} />
+              <ProfilePicture
+                attending={profile?.attending}
+                loading={!authStore.user && authStore.isFetchingToken}
+                style={tw`h-12 w-12`}
+                url={authStore.user?.picture}
+              />
             </AppTouchableScale>
           </Link>
         </View>

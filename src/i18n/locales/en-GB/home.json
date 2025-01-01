@@ -34,7 +34,7 @@
     "message": "Is there something wrong?"
   },
   "parking": {
-    "label": "Open parking barrier",
+    "label": "Open parking\nbarrier",
     "onFail": {
       "message": "Unable to open"
     },

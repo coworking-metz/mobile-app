@@ -1,0 +1,13 @@
+{
+  "description": "Inside coworking spaces",
+  "empty": {
+    "description": "No one is currently located on site.",
+    "title": "It's empty"
+  },
+  "onFetch": {
+    "fail": "Unable to fetch the list of attendees"
+  },
+  "title_one": "Attending",
+  "title_other": "{{count}} attending",
+  "title_zero": "Attending"
+}

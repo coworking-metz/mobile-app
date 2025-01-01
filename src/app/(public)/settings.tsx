@@ -56,7 +56,7 @@ const Settings = () => {
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const router = useRouter();
-  const user = useAuthStore((s) => s.user);
+  const authStore = useAuthStore();
   const chosenLanguage = useSettingsStore((state) => state.language);
   const verticalScrollProgress = useSharedValue(0);
 
@@ -72,7 +72,7 @@ const Settings = () => {
     isFetching: isFetchingActivity,
     error: activityError,
   } = useQuery({
-    queryKey: ['members', user?.id, 'activity'],
+    queryKey: ['members', authStore.user?.id, 'activity'],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberActivity(userId);
@@ -88,7 +88,7 @@ const Settings = () => {
     isFetching: isFetchingProfile,
     error: profileError,
   } = useQuery({
-    queryKey: ['members', user?.id],
+    queryKey: ['members', authStore.user?.id],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId);
@@ -97,7 +97,7 @@ const Settings = () => {
     },
     retry: false,
     refetchOnMount: false,
-    enabled: !!user?.id,
+    enabled: !!authStore.user?.id,
   });
 
   /* this is a hell of a hack */
@@ -199,7 +199,9 @@ const Settings = () => {
           <View style={tw`flex flex-col items-start gap-4 px-4`}>
             <ProfilePicture
               attending={profile?.attending}
+              loading={!authStore.user && authStore.isFetchingToken}
               style={{ width: PICTURE_SIZE, height: PICTURE_SIZE }}
+              url={authStore.user?.picture}
             />
             <View style={tw`flex flex-row justify-between w-full`}>
               <View style={tw`flex flex-col ml-2`}>
@@ -207,19 +209,19 @@ const Settings = () => {
                   entering={FadeInLeft.duration(500)}
                   numberOfLines={1}
                   style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-                  {user ? user.name : t('account.title')}
+                  {authStore.user ? authStore.user.name : t('account.title')}
                 </Animated.Text>
                 <Animated.Text
                   entering={FadeInLeft.duration(500).delay(150)}
                   numberOfLines={2}
                   style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
-                  {user ? user.email : t('auth.login.headline')}
+                  {authStore.user ? authStore.user.email : t('auth.login.headline')}
                 </Animated.Text>
 
                 <Animated.View
                   entering={FadeInLeft.duration(500).delay(300)}
                   style={tw`flex flex-row gap-2 mt-2`}>
-                  {user?.roles.map((role) => (
+                  {authStore.user?.roles.map((role) => (
                     <Text
                       key={`role-${role}`}
                       style={tw`flex items-center rounded-md overflow-hidden bg-amber-200/50 dark:bg-amber-100/80 px-2.5 py-0.5 text-sm font-medium text-amber-800 dark:text-amber-900`}>
@@ -229,7 +231,7 @@ const Settings = () => {
                 </Animated.View>
               </View>
 
-              {!user && (
+              {!authStore.user && (
                 <MaterialCommunityIcons
                   color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
                   iconStyle={{ height: 32, width: 32, marginRight: 0 }}
@@ -267,8 +269,8 @@ const Settings = () => {
           {
             /* transparent view to fake a touch on the header link, should mimic as much as possible the header */
             <TouchableNativeFeedback
-              disabled={!!user}
-              onPress={() => (user ? router.push('/account') : login?.())}>
+              disabled={!!authStore.user}
+              onPress={() => (authStore.user ? router.push('/account') : login?.())}>
               <Animated.View
                 style={[
                   tw`self-center w-full`,
@@ -364,7 +366,7 @@ const Settings = () => {
             <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.support.title')}
             </Text>
-            {user && (
+            {authStore.user && (
               <>
                 <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/`}>
                   <ServiceRow
@@ -413,7 +415,7 @@ const Settings = () => {
               onPress={() => setReviewing(true)}
             />
 
-            {user && (
+            {authStore.user && (
               <ServiceRow
                 label={t('actions.logout')}
                 prefixIcon="logout"
