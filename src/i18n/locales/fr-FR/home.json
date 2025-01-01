@@ -20,7 +20,7 @@
     }
   },
   "intercom": {
-    "label": "Déverrouiller la porte",
+    "label": "Déverrouiller\nla porte",
     "onFail": {
       "message": "Impossible de déverrouiller"
     },
@@ -38,7 +38,7 @@
     "message": "Quelque chose ne va pas ?"
   },
   "parking": {
-    "label": "Ouvrir la grille du parking",
+    "label": "Ouvrir la grille\ndu parking",
     "onFail": {
       "message": "Impossible d'ouvrir"
     },

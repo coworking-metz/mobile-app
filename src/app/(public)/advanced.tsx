@@ -69,8 +69,10 @@ const Advanced = () => {
   );
 
   const invalidateCache = useCallback(() => {
-    queryClient
-      .resetQueries()
+    (async () => {
+      await authStore.refreshAccessToken();
+      await queryClient.resetQueries();
+    })()
       .then(() => {
         toastStore.add({
           message: t('advanced.store.invalidate.onInvalidate.success'),

@@ -5,30 +5,35 @@ import { View } from 'react-native';
 import Animated, { BounceIn, BounceOut, type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 
-import useAuthStore from '@/stores/auth';
-
-const ProfilePicture = ({ style, attending }: { attending?: boolean; style?: StyleProps }) => {
-  const user = useAuthStore((s) => s.user);
-  const isFetchingToken = useAuthStore((state) => state.isFetchingToken);
-
+const ProfilePicture = ({
+  url,
+  loading = false,
+  attending,
+  style,
+}: {
+  url?: string;
+  loading?: boolean;
+  attending?: boolean;
+  style?: StyleProps;
+}) => {
   return (
     <View style={[tw`relative`, style]}>
       <Animated.View style={tw`h-full w-full rounded-3xl bg-gray-200 overflow-hidden`}>
-        {!user && isFetchingToken ? (
+        {loading ? (
           <Skeleton
             backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
             colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
             height={`100%`}
             width={`100%`}
           />
-        ) : user?.picture ? (
+        ) : url ? (
           <Animated.Image
             resizeMode="cover"
-            source={{ uri: user.picture }}
-            style={tw`h-full w-full rounded-3xl bg-gray-200 overflow-hidden`}
+            source={{ uri: url }}
+            style={tw`h-full w-full rounded-3xl bg-gray-200 dark:bg-gray-400 overflow-hidden`}
           />
         ) : (
-          <AccountAnimation autoPlay style={tw`h-full w-full bg-gray-200`} />
+          <AccountAnimation autoPlay style={tw`h-full w-full bg-gray-200 dark:bg-gray-300`} />
         )}
       </Animated.View>
 

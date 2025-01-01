@@ -21,7 +21,6 @@ import Animated, {
   withTiming,
   type StyleProps,
 } from 'react-native-reanimated';
-import { colorsPalette } from 'react-native-ui-lib/src/style/colorsPalette';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import { useAppAuth } from '@/context/auth';
@@ -157,7 +156,7 @@ const UnlockCard = ({
     <AppTouchableScale
       disabled={disabled}
       style={[
-        tw`flex flex-col items-start gap-4 p-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
+        tw`flex flex-col items-start gap-4 pl-4 py-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
         disabled && tw`opacity-60`,
         style,
       ]}
@@ -194,7 +193,7 @@ const UnlockCard = ({
       </Animated.View>
 
       {isUnlocked ? (
-        <View style={tw`flex flex-col z-20`}>
+        <View style={tw`flex flex-col items-start z-20`}>
           <Text
             numberOfLines={1}
             style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
@@ -216,7 +215,10 @@ const UnlockCard = ({
           </View>
         </View>
       ) : (
-        <Text numberOfLines={2} style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
+        <Text
+          ellipsizeMode={'clip'}
+          numberOfLines={2}
+          style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
           {t('home.intercom.label')}
         </Text>
       )}

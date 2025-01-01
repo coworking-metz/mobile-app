@@ -1,0 +1,110 @@
+import { useQuery } from '@tanstack/react-query';
+import dayjs from 'dayjs';
+import { capitalize } from 'lodash';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+import Animated, { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
+import tw, { useDeviceContext } from 'twrnc';
+import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
+import MemberCard from '@/components/Attendance/MemberCard';
+import ErrorState from '@/components/ErrorState';
+import ServiceLayout from '@/components/Settings/ServiceLayout';
+import { isSilentError } from '@/helpers/error';
+import { getCurrentMembers } from '@/services/api/members';
+
+const Attendance = () => {
+  useDeviceContext(tw);
+  const { t } = useTranslation();
+
+  const {
+    data: currentMembers,
+    isLoading: isLoadingCurrentMembers,
+    refetch: refetchCurrentMembers,
+    error: currentMembersError,
+    dataUpdatedAt: currentMembersUpdatedAt,
+  } = useQuery({
+    queryKey: ['currentMembers'],
+    queryFn: getCurrentMembers,
+    retry: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
+
+  const sortedMembers = useMemo(() => {
+    return [...(currentMembers || [])]?.sort((a, b) =>
+      (a.location || '').localeCompare(b.location || ''),
+    );
+  }, [currentMembers]);
+
+  return (
+    <ServiceLayout
+      contentStyle={tw`pt-6 pb-12 gap-3`}
+      description={t('attendance.description')}
+      title={t('attendance.title', { count: currentMembers?.length })}
+      onRefresh={refetchCurrentMembers}>
+      {isLoadingCurrentMembers ? (
+        <>
+          <MemberCard
+            loading
+            entering={FadeInLeft.duration(500)}
+            exiting={FadeOutLeft.duration(300)}
+            style={tw`h-44`}
+          />
+          <MemberCard
+            loading
+            entering={FadeInLeft.duration(500).delay(150)}
+            exiting={FadeOutLeft.duration(300)}
+            style={tw`h-44`}
+          />
+        </>
+      ) : sortedMembers?.length ? (
+        <>
+          {
+            <Animated.Text
+              entering={FadeInLeft.duration(300)}
+              exiting={FadeOutLeft.duration(300)}
+              numberOfLines={1}
+              style={tw`ml-6 text-sm font-normal text-slate-500 dark:text-slate-400`}>
+              {capitalize(
+                dayjs().diff(currentMembersUpdatedAt, 'minutes') > 60
+                  ? dayjs(currentMembersUpdatedAt).calendar()
+                  : dayjs(currentMembersUpdatedAt).fromNow(),
+              )}
+            </Animated.Text>
+          }
+          {sortedMembers.map((member) => (
+            <MemberCard
+              exiting={FadeOutLeft.duration(300)}
+              key={member._id}
+              member={member}
+              style={tw`grow-0`}
+            />
+          ))}
+        </>
+      ) : currentMembersError && !isSilentError(currentMembersError) ? (
+        <ErrorState error={currentMembersError} title={t('attendance.onFetch.fail')} />
+      ) : (
+        <View
+          style={tw`flex flex-col px-4 gap-2 grow basis-0 justify-start mx-auto w-full max-w-sm`}>
+          <TumbleweedRollingAnimation style={tw`h-56 w-full max-w-xs`} />
+          <Animated.Text
+            entering={FadeInLeft.duration(500)}
+            numberOfLines={1}
+            style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+            {t('attendance.empty.title')}
+          </Animated.Text>
+          <Animated.Text
+            entering={FadeInLeft.duration(500).delay(150)}
+            numberOfLines={2}
+            style={tw`text-base text-center text-slate-500 dark:text-slate-400`}>
+            {t('attendance.empty.description')}
+          </Animated.Text>
+        </View>
+      )}
+    </ServiceLayout>
+  );
+};
+
+export default Attendance;

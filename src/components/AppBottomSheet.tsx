@@ -67,7 +67,7 @@ const AppBottomSheet = ({
       detached={true}
       handleIndicatorStyle={tw`bg-gray-500 rounded-full`}
       handleStyle={tw`bg-transparent absolute right-0 left-0`}
-      topInset={insets.top}
+      topInset={insets.top + MIN_BACKDROP_HEIGHT}
       {...props}
       style={[
         tw`mx-1 overflow-hidden relative`,

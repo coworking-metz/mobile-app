@@ -1,8 +1,8 @@
 import ErrorChip from '../ErrorChip';
 import { Image } from 'expo-image';
-import { WebBrowserPresentationStyle, openBrowserAsync } from 'expo-web-browser';
+import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
-import React, { useCallback, useMemo, type ReactNode } from 'react';
+import React, { useMemo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text, View, type ViewProps } from 'react-native';
 import AnimatedNumber from 'react-native-animated-number';
@@ -15,9 +15,6 @@ import { type ApiMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
 const MAX_MEMBERS_PICTURES = 5;
-
-const MANAGER_URL =
-  process.env.EXPO_PUBLIC_MANAGER_BASE_URL || 'https://manager.coworking-metz.fr/';
 
 const OccupancyCount = ({
   members = [],
@@ -43,16 +40,6 @@ const OccupancyCount = ({
       .map(({ thumbnail }) => thumbnail)
       .filter(Boolean);
   }, [members, user]);
-
-  const onSelectMembersPictures = useCallback(() => {
-    if (MANAGER_URL) {
-      openBrowserAsync(MANAGER_URL, {
-        presentationStyle: WebBrowserPresentationStyle.POPOVER,
-        showTitle: false,
-        enableDefaultShareMenuItem: false,
-      });
-    }
-  }, []);
 
   return (
     <View style={[tw`flex flex-col justify-end h-32 w-full`, style]}>
@@ -97,49 +84,54 @@ const OccupancyCount = ({
             width={144}
           />
         ) : (
-          <Text style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+          <Text
+            numberOfLines={1}
+            style={tw`text-xl font-normal text-slate-500 dark:text-slate-400 grow basis-0 shrink`}>
             {t('home.people.present', { count: members.length })}
           </Text>
         )}
 
         {error && !isSilentError(error) ? (
-          <ErrorChip error={error} label={t('home.people.onFetch.fail')} style={tw`ml-2`} />
+          <ErrorChip error={error} label={t('home.people.onFetch.fail')} style={tw`ml-2 `} />
         ) : memberPictures.length ? (
           <Animated.View
             entering={FadeInRight.duration(750).delay(150)}
             exiting={FadeOutRight.duration(500)}
-            style={tw`grow basis-0 shrink ml-auto`}>
-            <TouchableOpacity onPress={onSelectMembersPictures}>
-              <View style={tw`flex flex-row-reverse items-center grow h-8 overflow-hidden`}>
-                {members.length > MAX_MEMBERS_PICTURES ? (
-                  <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 ml-1`}>
-                    +{members.length - (MAX_MEMBERS_PICTURES - 1)}
-                  </Text>
-                ) : null}
-                {memberPictures
-                  .slice(
-                    0,
-                    members.length > MAX_MEMBERS_PICTURES
-                      ? MAX_MEMBERS_PICTURES - 1
-                      : MAX_MEMBERS_PICTURES,
-                  )
-                  .map((picture) => (
-                    <View
-                      key={`member-${picture}`}
-                      style={tw`flex items-center justify-center flex-shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden ml-[-1rem]`}>
-                      <View style={tw`h-8 w-8 rounded-full overflow-hidden bg-gray-200`}>
-                        <Image
-                          contentFit="cover"
-                          contentPosition={'top center'}
-                          source={picture}
-                          style={tw`size-full`}
-                          transition={1000}
-                        />
+            style={tw`shrink-0 ml-auto`}>
+            <Link asChild href="/attendance">
+              <TouchableOpacity>
+                <View
+                  style={tw`flex flex-row-reverse items-center pl-[1rem] grow h-8 overflow-hidden`}>
+                  {members.length > MAX_MEMBERS_PICTURES ? (
+                    <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 ml-1`}>
+                      +{members.length - (MAX_MEMBERS_PICTURES - 1)}
+                    </Text>
+                  ) : null}
+                  {memberPictures
+                    .slice(
+                      0,
+                      members.length > MAX_MEMBERS_PICTURES
+                        ? MAX_MEMBERS_PICTURES - 1
+                        : MAX_MEMBERS_PICTURES,
+                    )
+                    .map((picture) => (
+                      <View
+                        key={`member-${picture}`}
+                        style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden ml-[-1rem]`}>
+                        <View style={tw`h-8 w-8 rounded-full overflow-hidden bg-gray-200`}>
+                          <Image
+                            contentFit="cover"
+                            contentPosition={'top center'}
+                            source={picture}
+                            style={tw`size-full`}
+                            transition={1000}
+                          />
+                        </View>
                       </View>
-                    </View>
-                  ))}
-              </View>
-            </TouchableOpacity>
+                    ))}
+                </View>
+              </TouchableOpacity>
+            </Link>
           </Animated.View>
         ) : null}
 

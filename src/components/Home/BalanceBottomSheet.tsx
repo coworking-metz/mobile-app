@@ -69,7 +69,8 @@ const BalanceBottomSheet = ({
   }, []);
 
   const consumedCount = useMemo(() => {
-    return (ticketsOrders || []).reduce((acc, order) => acc + order.count, -balance) || 0;
+    const ordersCount = (ticketsOrders || []).reduce((acc, order) => acc + order.count, 0);
+    return Math.abs(ordersCount - balance);
   }, [ticketsOrders, balance]);
 
   return (
