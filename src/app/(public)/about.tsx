@@ -92,8 +92,17 @@ const About = () => {
       </Link>
       <Link asChild href="https://lordicon.com/license-terms#license-rights">
         <ServiceRow
+          withBottomDivider
           description="lordicon.com/license-terms#license-rights"
           label={t('about.credits.lordicon.label')}
+          style={tw`px-3 mx-3`}
+          suffixIcon="open-in-new"
+        />
+      </Link>
+      <Link asChild href="https://rive.app/community/doc/terms-of-service/docG7vv2lLg8">
+        <ServiceRow
+          description="rive.app/community/doc/terms-of-service/docG7vv2lLg8"
+          label={t('about.credits.rive.label')}
           style={tw`px-3 mx-3`}
           suffixIcon="open-in-new"
         />

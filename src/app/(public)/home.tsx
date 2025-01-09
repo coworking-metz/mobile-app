@@ -87,7 +87,7 @@ export default function HomeScreen() {
       if (userId) {
         return getMemberProfile(userId);
       }
-      throw new Error('Missing user id');
+      throw new Error(t('account.profile.onFetch.missing'));
     },
     retry: false,
     enabled: !!authStore.user?.id,
@@ -423,9 +423,10 @@ export default function HomeScreen() {
             entering={FadeInUp.duration(500).delay(700)}
             style={tw`flex flex-col grow shrink basis-0`}>
             <UnlockGateCard
-              disabled={Boolean(
-                authStore.user && !authStore.user.capabilities?.includes('UNLOCK_GATE'),
-              )}
+              disabled={
+                authStore.isFetchingToken ||
+                Boolean(authStore.user && !authStore.user.capabilities?.includes('UNLOCK_GATE'))
+              }
               style={tw`grow`}
               onSuccessiveTaps={onSuccessiveTaps}
             />
@@ -435,9 +436,10 @@ export default function HomeScreen() {
             entering={FadeInUp.duration(500).delay(800)}
             style={tw`flex flex-col grow shrink basis-0`}>
             <OpenParkingCard
-              disabled={Boolean(
-                authStore.user && !authStore.user.capabilities?.includes('PARKING_ACCESS'),
-              )}
+              disabled={
+                authStore.isFetchingToken ||
+                Boolean(authStore.user && !authStore.user.capabilities?.includes('PARKING_ACCESS'))
+              }
               style={tw`grow`}
               onSuccessiveTaps={onSuccessiveTaps}
             />

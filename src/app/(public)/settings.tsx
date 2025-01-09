@@ -93,7 +93,7 @@ const Settings = () => {
       if (userId) {
         return getMemberProfile(userId);
       }
-      throw new Error('Missing user id');
+      throw new Error(t('account.profile.onFetch.missing'));
     },
     retry: false,
     refetchOnMount: false,
@@ -204,7 +204,7 @@ const Settings = () => {
               url={authStore.user?.picture}
             />
             <View style={tw`flex flex-row justify-between w-full`}>
-              <View style={tw`flex flex-col ml-2`}>
+              <View style={tw`flex flex-col ml-2 shrink basis-0 grow`}>
                 <Animated.Text
                   entering={FadeInLeft.duration(500)}
                   numberOfLines={1}
@@ -231,15 +231,13 @@ const Settings = () => {
                 </Animated.View>
               </View>
 
-              {!authStore.user && (
-                <MaterialCommunityIcons
-                  color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-                  iconStyle={{ height: 32, width: 32, marginRight: 0 }}
-                  name="chevron-right"
-                  size={32}
-                  style={[tw`shrink-0 mt-6`]}
-                />
-              )}
+              <MaterialCommunityIcons
+                color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
+                iconStyle={{ height: 32, width: 32, marginRight: 0 }}
+                name="chevron-right"
+                size={32}
+                style={[tw`shrink-0 mt-6`]}
+              />
             </View>
           </View>
         </Animated.View>
@@ -269,7 +267,6 @@ const Settings = () => {
           {
             /* transparent view to fake a touch on the header link, should mimic as much as possible the header */
             <TouchableNativeFeedback
-              disabled={!!authStore.user}
               onPress={() => (authStore.user ? router.push('/account') : login?.())}>
               <Animated.View
                 style={[
@@ -320,6 +317,7 @@ const Settings = () => {
               activity={activity}
               activityCount={profile?.totalActivity}
               loading={isFetchingActivity || isFetchingProfile}
+              minimumSquares={!!authStore.user?.id ? 30 : 144}
               nonCompliantActivity={nonCompliantActivity}
               selectedDate={selectedPresence?.date}
               onDateSelect={onDateSelect}

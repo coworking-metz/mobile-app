@@ -4,6 +4,17 @@
     "description": "No one is currently located on site.",
     "title": "It's empty"
   },
+  "members": {
+    "debt": {
+      "ticket_one": "{{count}} overconsummed",
+      "ticket_other": "{{count}} overconsummed",
+      "ticket_zero": "Insufficient balance (0 tickets)"
+    },
+    "membership": {
+      "last": "Last membership in {{year}}"
+    },
+    "myself": "ME"
+  },
   "onFetch": {
     "fail": "Unable to fetch the list of attendees"
   },

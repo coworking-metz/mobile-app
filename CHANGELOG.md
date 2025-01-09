@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Account page to view personal data.
 - Loading spinner on home profile picture when fetching data.
+- Animation when changing theme.
 
 ## [2024.12.3] - 2024-12-24
 

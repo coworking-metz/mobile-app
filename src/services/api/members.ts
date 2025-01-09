@@ -18,7 +18,7 @@ export interface ApiMemberProfile {
   firstName?: string;
   lastName?: string;
   email?: string;
-  birthdate?: string;
+  birthDate?: string;
   created: string;
   lastSeen?: string;
   location?: ApiLocation;
@@ -119,3 +119,13 @@ export const getHelloActivity = () =>
         type: Math.random() > 0.5 ? 'subscription' : 'ticket',
       }) as ApiMemberActivity,
   );
+
+export const isMembershipNonCompliant = (member: ApiMemberProfile) => {
+  return Boolean(
+    !member.membershipOk &&
+      member.lastSeen &&
+      dayjs(member.lastSeen).isSame(dayjs(), 'year') &&
+      (!member.lastMembership ||
+        dayjs(member.lastSeen).isAfter(dayjs().year(member.lastMembership).endOf('year'), 'year')),
+  );
+};

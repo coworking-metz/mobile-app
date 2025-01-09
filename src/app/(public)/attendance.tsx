@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { capitalize } from 'lodash';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import Animated, { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
@@ -12,10 +12,12 @@ import ErrorState from '@/components/ErrorState';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import { isSilentError } from '@/helpers/error';
 import { getCurrentMembers } from '@/services/api/members';
+import useAuthStore from '@/stores/auth';
 
 const Attendance = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
+  const authStore = useAuthStore();
 
   const {
     data: currentMembers,
@@ -33,8 +35,8 @@ const Attendance = () => {
   });
 
   const sortedMembers = useMemo(() => {
-    return [...(currentMembers || [])]?.sort((a, b) =>
-      (a.location || '').localeCompare(b.location || ''),
+    return [...(currentMembers || [])].sort((a, b) =>
+      b.location === 'poulailler' ? -1 : (a.location || '').localeCompare(b.location || ''),
     );
   }, [currentMembers]);
 
@@ -79,8 +81,15 @@ const Attendance = () => {
               exiting={FadeOutLeft.duration(300)}
               key={member._id}
               member={member}
-              style={tw`grow-0`}
-            />
+              style={tw`grow-0`}>
+              {member._id === authStore.user?.id && (
+                <View style={tw`mt-3 ml-auto bg-gray-400/25 dark:bg-gray-700/50 py-1 px-2 rounded`}>
+                  <Text style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
+                    {t('attendance.members.myself').toLocaleUpperCase()}
+                  </Text>
+                </View>
+              )}
+            </MemberCard>
           ))}
         </>
       ) : currentMembersError && !isSilentError(currentMembersError) ? (

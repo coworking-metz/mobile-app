@@ -1,15 +1,15 @@
+import DarklightModeAnimation from './DarklightModeAnimation';
 import ServiceRow from './ServiceRow';
 import AppBottomSheet, { type AppBottomSheetProps } from '../AppBottomSheet';
-import { useBottomSheet } from '@gorhom/bottom-sheet';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, useColorScheme, View } from 'react-native';
 import tw from 'twrnc';
 import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
 import {
-  type AppThemePreference,
   setAppThemePreference,
   useAppThemePreference,
+  type AppThemePreference,
 } from '@/services/theme';
 import useSettingsStore from '@/stores/settings';
 
@@ -22,22 +22,18 @@ const ThemeOptions = () => {
   ];
   const currentTheme = useColorScheme();
   const chosenTheme = useAppThemePreference();
-  const { close } = useBottomSheet();
 
-  const onThemePicked = useCallback(
-    (newTheme: AppThemePreference) => {
-      setAppThemePreference(newTheme);
-      useSettingsStore.setState({ theme: newTheme });
-      close();
-    },
-    [close],
-  );
+  const onThemePicked = useCallback((newTheme: AppThemePreference) => {
+    setAppThemePreference(newTheme);
+    useSettingsStore.setState({ theme: newTheme });
+  }, []);
 
   return (
     <View style={tw`flex flex-col w-full gap-1 pb-3 pt-6`}>
       <Text style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
         {t('settings.general.theme.label')}
       </Text>
+      <DarklightModeAnimation mode={currentTheme} style={tw`w-full h-28 mb-4`} />
       {supportedThemes.map((theme) => (
         <ServiceRow
           description={

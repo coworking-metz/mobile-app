@@ -1,10 +1,13 @@
 {
   "credits": {
     "lordicon": {
-      "label": "Animé par Lordicon"
+      "label": "Animé avec Lordicon"
     },
     "lottiefiles": {
-      "label": "Animé par LottieFiles"
+      "label": "Animé avec LottieFiles"
+    },
+    "rive": {
+      "label": "Animé avec Rive"
     },
     "title": "Remerciements"
   },
