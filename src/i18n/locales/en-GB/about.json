@@ -1,10 +1,13 @@
 {
   "credits": {
     "lordicon": {
-      "label": "Animated by Lordicon"
+      "label": "Animated with Lordicon"
     },
     "lottiefiles": {
-      "label": "Animated by LottieFiles"
+      "label": "Animated with LottieFiles"
+    },
+    "rive": {
+      "label": "Animated with Rive"
     },
     "title": "Credits"
   },

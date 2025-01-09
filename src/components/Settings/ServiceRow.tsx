@@ -19,7 +19,7 @@ export type ServiceRowProps = TouchableHighlightProps & {
   withBottomDivider?: boolean;
 };
 
-const ServiceRow: ForwardRefRenderFunction<TouchableHighlight, ServiceRowProps> = (
+const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRowProps> = (
   {
     label,
     description,
@@ -43,14 +43,14 @@ const ServiceRow: ForwardRefRenderFunction<TouchableHighlight, ServiceRowProps> 
       ref={ref}
       disabled={disabled || loading || !onPress}
       style={[
-        tw`flex flex-col h-14 px-2 rounded-xl`,
+        tw`flex flex-col px-2 rounded-xl`,
         selected && tw`bg-gray-100 dark:bg-zinc-800`,
         style,
       ]}
       underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
       onPress={onPress}>
       <>
-        <View style={tw`flex flex-row items-center h-full gap-3 py-2`}>
+        <View style={tw`flex flex-row items-center min-h-14 gap-3 py-2`}>
           {prefixIcon ? (
             <MaterialCommunityIcons
               color={iconColor}
@@ -62,18 +62,17 @@ const ServiceRow: ForwardRefRenderFunction<TouchableHighlight, ServiceRowProps> 
           ) : null}
           <View style={tw`flex flex-col shrink grow overflow-hidden`}>
             <Text
-              numberOfLines={description ? 1 : 2}
               style={[
                 tw`text-base leading-5 font-normal dark:text-gray-200`,
                 disabled && tw`opacity-40`,
-              ]}>
+              ]}
+              {...(Boolean(description || renderDescription) && { numberOfLines: 1 })}>
               {label}
             </Text>
             {renderDescription ? (
               renderDescription(description, disabled)
             ) : description ? (
               <Text
-                numberOfLines={1}
                 style={[
                   tw`text-sm font-normal text-slate-500 dark:text-slate-400`,
                   disabled && tw`opacity-40`,

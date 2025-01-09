@@ -1,6 +1,6 @@
 import AccountAnimation from '../Animations/AccountAnimation';
 import { Skeleton } from 'moti/skeleton';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { View } from 'react-native';
 import Animated, { BounceIn, BounceOut, type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -10,11 +10,13 @@ const ProfilePicture = ({
   loading = false,
   attending,
   style,
+  children,
 }: {
   url?: string;
   loading?: boolean;
   attending?: boolean;
   style?: StyleProps;
+  children?: ReactNode;
 }) => {
   return (
     <View style={[tw`relative`, style]}>
@@ -45,6 +47,8 @@ const ProfilePicture = ({
           <View style={tw`h-3 w-3 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
         </Animated.View>
       )}
+
+      {children}
     </View>
   );
 };

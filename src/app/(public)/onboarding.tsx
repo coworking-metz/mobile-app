@@ -2,7 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, type LayoutChangeEvent } from 'react-native';
+import { Platform, View, type LayoutChangeEvent } from 'react-native';
 import Animated, {
   FadeInDown,
   interpolate,
@@ -11,6 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import Carousel, { type ICarouselInstance } from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import PaginationDot from '@/components/Onboarding/PaginationDot';
@@ -233,18 +234,16 @@ const Onboarding = () => {
         ) : null}
       </View>
 
-      {isPickingLanguage && (
-        <LanguageBottomSheet
-          enableContentPanningGesture={false}
-          onClose={() => setPickingLanguage(false)}
+      <Animated.View style={[tw`absolute top-0 left-0 right-0`]}>
+        <Fader
+          position={Fader.position.TOP}
+          size={insets.top || (Platform.OS === 'android' ? 16 : 0)}
+          tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
         />
-      )}
-      {isPickingTheme && (
-        <ThemeBottomSheet
-          enableContentPanningGesture={false}
-          onClose={() => setPickingTheme(false)}
-        />
-      )}
+      </Animated.View>
+
+      {isPickingLanguage && <LanguageBottomSheet onClose={() => setPickingLanguage(false)} />}
+      {isPickingTheme && <ThemeBottomSheet onClose={() => setPickingTheme(false)} />}
     </>
   );
 };

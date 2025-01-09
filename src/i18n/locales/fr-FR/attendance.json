@@ -4,6 +4,17 @@
     "description": "Personne n'est actuellement localisé sur place.",
     "title": "C'est vide"
   },
+  "members": {
+    "debt": {
+      "ticket_one": "{{count}} surconsommé",
+      "ticket_other": "{{count}} surconsommés",
+      "ticket_zero": "Solde insuffisant (0 tickets)"
+    },
+    "membership": {
+      "last": "Dernière adhésion en {{year}}"
+    },
+    "myself": "MOI"
+  },
   "onFetch": {
     "fail": "Impossible de récupérer la liste des présents"
   },

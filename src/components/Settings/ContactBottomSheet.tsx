@@ -9,10 +9,8 @@ import { Linking, Platform, Text, View } from 'react-native';
 import { type StyleProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { parseErrorText } from '@/helpers/error';
+import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useNoticeStore from '@/stores/notice';
-
-const WORDPRESS_BASE_URL =
-  process.env.EXPO_PUBLIC_WORDPRESS_BASE_URL || 'https://coworking-metz.fr/';
 
 const ContactBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: () => void }) => {
   const { t } = useTranslation();

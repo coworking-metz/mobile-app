@@ -9,8 +9,13 @@
     "firstname": {
       "label": "Prénom"
     },
+    "label": "Informations personnelles",
     "lastname": {
       "label": "Nom"
+    },
+    "onFetch": {
+      "fail": "Impossible de récupérer le profil",
+      "missing": "Le profil est pour le moment inexistant. Il sera automatiquement rattaché une fois votre première commande passée."
     }
   },
   "title": "Mon profil"

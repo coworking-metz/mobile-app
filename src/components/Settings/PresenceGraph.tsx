@@ -22,6 +22,7 @@ const PresenceGraph = ({
   activity = [],
   nonCompliantActivity = [],
   activityCount = 0,
+  minimumSquares = MINIMUM_SQUARES,
   style,
   onDateSelect,
 }: {
@@ -30,6 +31,7 @@ const PresenceGraph = ({
   nonCompliantActivity?: ApiMemberActivity[];
   activity?: ApiMemberActivity[];
   activityCount?: number;
+  minimumSquares?: number;
   style?: StyleProps;
   onDateSelect?: (date: string) => void;
 }) => {
@@ -52,8 +54,8 @@ const PresenceGraph = ({
   }, [activity, startDate]);
 
   const squaresCount = useMemo(() => {
-    return Math.max(dayjs().add(1, 'day').diff(earliestDate, 'day'), MINIMUM_SQUARES);
-  }, [earliestDate]);
+    return Math.max(dayjs().add(1, 'day').diff(earliestDate, 'day'), minimumSquares);
+  }, [earliestDate, minimumSquares]);
 
   const hasSelectedDate = useMemo(
     () => !!selectedDate && activity.some(({ date }) => selectedDate === date),
