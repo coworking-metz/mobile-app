@@ -424,7 +424,7 @@ export default function HomeScreen() {
             style={tw`flex flex-col grow shrink basis-0`}>
             <UnlockGateCard
               disabled={
-                authStore.isFetchingToken ||
+                Boolean(authStore?.user && authStore.isFetchingToken) ||
                 Boolean(authStore.user && !authStore.user.capabilities?.includes('UNLOCK_GATE'))
               }
               style={tw`grow`}
@@ -437,7 +437,7 @@ export default function HomeScreen() {
             style={tw`flex flex-col grow shrink basis-0`}>
             <OpenParkingCard
               disabled={
-                authStore.isFetchingToken ||
+                Boolean(authStore?.user && authStore.isFetchingToken) ||
                 Boolean(authStore.user && !authStore.user.capabilities?.includes('PARKING_ACCESS'))
               }
               style={tw`grow`}
