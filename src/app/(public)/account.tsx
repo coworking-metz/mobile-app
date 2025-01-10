@@ -1,25 +1,20 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { Link, useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
-import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import ErrorChip from '@/components/ErrorChip';
-import ErrorState from '@/components/ErrorState';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { isSilentError } from '@/helpers/error';
-import { log } from '@/helpers/logger';
 import { getMemberProfile } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
-
-const accountLogger = log.extend(`[account]`);
 
 const Advanced = () => {
   useDeviceContext(tw);
@@ -53,7 +48,7 @@ const Advanced = () => {
           <View
             style={tw`z-10 h-12 w-12 bg-gray-50 dark:bg-zinc-900 rounded-full absolute flex items-center justify-center -bottom-3 -right-3`}>
             <View
-              style={tw`bg-gray-400/50 dark:bg-black/50 rounded-full  flex items-center justify-center h-9 w-9`}>
+              style={tw`bg-gray-400/50 dark:bg-gray-600/50 rounded-full  flex items-center justify-center h-9 w-9`}>
               <MaterialCommunityIcons
                 color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
                 iconStyle={{ height: 12, width: 12, marginRight: 0 }}

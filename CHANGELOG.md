@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Account page to view personal data.
 - Loading spinner on home profile picture when fetching data.
 - Animation when changing theme.
+- Colorize mobile phone animation in first onboarding step.
 
 ## [2024.12.3] - 2024-12-24
 
