@@ -49,7 +49,9 @@ const MemberCard = ({
               <Text
                 numberOfLines={1}
                 style={tw`mt-2 text-sm font-medium text-gray-800 dark:text-gray-900 rounded-md overflow-hidden bg-gray-200/50 dark:bg-gray-100/80 px-2.5 py-0.5`}>
-                {t(`attendance.members.membership.last`, { year: member.lastMembership })}
+                {member.lastMembership
+                  ? t(`attendance.members.membership.last`, { year: member.lastMembership })
+                  : t(`attendance.members.membership.none`)}
               </Text>
             )}
             {member.balance < 0 && (

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+### Fixed
+
+- Presence square colors depending on the activity.
+
 ## [2025.1.1] - 2025-01-11
 
 ### Added

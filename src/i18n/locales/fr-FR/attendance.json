@@ -11,7 +11,8 @@
       "ticket_zero": "Solde insuffisant (0 tickets)"
     },
     "membership": {
-      "last": "Dernière adhésion en {{year}}"
+      "last": "Dernière adhésion en {{year}}",
+      "none": "Aucune adhésion"
     },
     "myself": "MOI"
   },

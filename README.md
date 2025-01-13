@@ -24,7 +24,7 @@ A step by step series of examples that tell you how to get a development environ
 
 ```bash
 git clone git@github.com:coworking-metz/mobile-app.git
-cd coworking-mobile
+cd mobile-app
 npm i
 ```
 

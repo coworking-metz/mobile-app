@@ -57,58 +57,53 @@ const PresenceGraph = ({
     return Math.max(dayjs().add(1, 'day').diff(earliestDate, 'day'), minimumSquares);
   }, [earliestDate, minimumSquares]);
 
-  const hasSelectedDate = useMemo(
-    () => !!selectedDate && activity.some(({ date }) => selectedDate === date),
-    [activity, selectedDate],
-  );
-  const hasNonCompliantDates = useMemo(
-    () => activity.some(({ date }) => nonCompliantActivity.some(({ date: d }) => d === date)),
-    [activity, nonCompliantActivity],
-  );
-  const hasAtLeastOneFullDay = useMemo(() => activity.some(({ value }) => value >= 1), [activity]);
+  const values = useMemo(() => {
+    return activity
+      .filter(({ value }) => !!value)
+      .map((item) => {
+        const nonCompliant = nonCompliantActivity.find(({ date }) => date === item.date);
+        return {
+          date: item.date,
+          selected: item.date === selectedDate,
+          count: item.value,
+          nonCompliantCount: nonCompliant?.value,
+        };
+      });
+  }, [activity, selectedDate, nonCompliantActivity]);
 
   /**
    * Because lib authors are some kind of shenanigans,
    * the opacity color is based on the minimum and maximum values passed to the chart.
    * To get the color we want, we need to compute the opacity based on the maximum value.
    *
-   * This is fucked up. Don't try to maintain this code.
-   *
+   * This is fucked up.
    * @see https://github.com/indiespirit/react-native-chart-kit/blob/master/src/Utils.ts
+   *
+   * So instead, we use patch-package to fix it in `ContributionGraph.js`
+   * and pass the value alongside the opacity.
    */
   const getSquareColor = useCallback(
-    (opacity: number) => {
+    (opacity: number, value?: (typeof values)[number]) => {
       // non-empty values are at least 0.15
-      if (opacity > 0.15) {
-        if (hasSelectedDate) {
-          if (opacity >= 1) {
-            return `${tw.color('amber-800')}`; // should be 1 because count is 3 (the highest)
+      if (opacity > 0.15 && value) {
+        const { count, nonCompliantCount, selected } = value;
+        if (selected) {
+          return `${tw.color('amber-800')}`;
+        }
+
+        if (nonCompliantCount) {
+          if (nonCompliantCount > 0.5) {
+            return `${tw.color('red-700')}`;
+          } else {
+            return `${tw.color('red-300')}`;
           }
         }
 
-        if (hasAtLeastOneFullDay) {
-          if (hasNonCompliantDates) {
-            if (opacity > 0.6) {
-              return `${tw.color('red-700')}`; // should be at least 0.6 because count is 2.5
-            }
-            if (opacity > 0.4) {
-              return `${tw.color('red-300')}`; // should be at least 0.4 because count is 1.25
-            }
-          }
-
-          if (opacity > 0.2) {
-            // if above the min, this a full day
-            return theme.meatBrown;
-          }
-        } else {
-          if (hasNonCompliantDates) {
-            if (opacity > 0.4) {
-              return `${tw.color('red-300')}`; // should be at least 0.4 because count is 1.25
-            }
-          }
+        if (count >= 1) {
+          return theme.meatBrown;
         }
 
-        return theme.peachYellow; // should always be equal to 0.2 because this is the min
+        return theme.peachYellow;
       }
 
       // for empty values
@@ -117,21 +112,8 @@ const PresenceGraph = ({
       }
       return `rgba(128, 128, 128, 0.1)`;
     },
-    [hasSelectedDate, hasNonCompliantDates, hasAtLeastOneFullDay, colorScheme],
+    [values, colorScheme],
   );
-
-  const values = useMemo(() => {
-    return activity
-      .filter(({ value }) => !!value)
-      .map((item) => {
-        const nonCompliant = nonCompliantActivity.find(({ date }) => date === item.date);
-        return {
-          date: item.date,
-          count:
-            item.date === selectedDate ? 3 : nonCompliant ? 2.5 * nonCompliant.value : item.value,
-        };
-      });
-  }, [activity, selectedDate, nonCompliantActivity]);
 
   return loading ? (
     <View style={tw`flex flex-row items-center justify-center min-h-[${HEIGHT_IN_PIXELS}px]`}>
@@ -207,7 +189,7 @@ const PresenceGraph = ({
             backgroundGradientFromOpacity: 0,
             backgroundGradientFrom: 'transparent',
             backgroundGradientToOpacity: 0,
-            color: getSquareColor,
+            color: getSquareColor as never,
             labelColor: (opacity = 1) =>
               tw.prefixMatch('dark')
                 ? `rgba(255, 255, 255, ${opacity})`

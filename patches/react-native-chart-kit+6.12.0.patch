@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-native-chart-kit/dist/contribution-graph/ContributionGraph.js b/node_modules/react-native-chart-kit/dist/contribution-graph/ContributionGraph.js
+index 39a5c75..710808c 100644
+--- a/node_modules/react-native-chart-kit/dist/contribution-graph/ContributionGraph.js
++++ b/node_modules/react-native-chart-kit/dist/contribution-graph/ContributionGraph.js
+@@ -133,7 +133,7 @@ var ContributionGraph = /** @class */ (function (_super) {
+                 if (count) {
+                     var opacity = mapValue(count, this.state.maxValue === this.state.minValue ? 0 : this.state.minValue, isNaN(this.state.maxValue) ? 1 : this.state.maxValue, 0.15 + 0.05, // + 0.05 to make smaller values a bit more visible
+                     1);
+-                    return this.props.chartConfig.color(opacity);
++                    return this.props.chartConfig.color(opacity, this.state.valueCache[index].value);
+                 }
+             }
+         }

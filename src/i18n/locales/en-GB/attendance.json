@@ -1,5 +1,5 @@
 {
-  "description": "Inside coworking spaces",
+  "description": "Inside shared office spaces",
   "empty": {
     "description": "No one is currently located on site.",
     "title": "It's empty"
@@ -11,7 +11,8 @@
       "ticket_zero": "Insufficient balance (0 tickets)"
     },
     "membership": {
-      "last": "Last membership in {{year}}"
+      "last": "Last membership in {{year}}",
+      "none": "No membership yet"
     },
     "myself": "ME"
   },

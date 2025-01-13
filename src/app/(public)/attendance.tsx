@@ -46,6 +46,20 @@ const Attendance = () => {
       description={t('attendance.description')}
       title={t('attendance.title', { count: currentMembers?.length })}
       onRefresh={refetchCurrentMembers}>
+      {currentMembersUpdatedAt && (
+        <Animated.Text
+          entering={FadeInLeft.duration(300)}
+          exiting={FadeOutLeft.duration(300)}
+          numberOfLines={1}
+          style={tw`ml-6 text-sm font-normal text-slate-500 dark:text-slate-400`}>
+          {capitalize(
+            dayjs().diff(currentMembersUpdatedAt, 'minutes') > 60
+              ? dayjs(currentMembersUpdatedAt).calendar()
+              : dayjs(currentMembersUpdatedAt).fromNow(),
+          )}
+        </Animated.Text>
+      )}
+
       {isLoadingCurrentMembers ? (
         <>
           <MemberCard
@@ -62,36 +76,21 @@ const Attendance = () => {
           />
         </>
       ) : sortedMembers?.length ? (
-        <>
-          {
-            <Animated.Text
-              entering={FadeInLeft.duration(300)}
-              exiting={FadeOutLeft.duration(300)}
-              numberOfLines={1}
-              style={tw`ml-6 text-sm font-normal text-slate-500 dark:text-slate-400`}>
-              {capitalize(
-                dayjs().diff(currentMembersUpdatedAt, 'minutes') > 60
-                  ? dayjs(currentMembersUpdatedAt).calendar()
-                  : dayjs(currentMembersUpdatedAt).fromNow(),
-              )}
-            </Animated.Text>
-          }
-          {sortedMembers.map((member) => (
-            <MemberCard
-              exiting={FadeOutLeft.duration(300)}
-              key={member._id}
-              member={member}
-              style={tw`grow-0`}>
-              {member._id === authStore.user?.id && (
-                <View style={tw`mt-3 ml-auto bg-gray-400/25 dark:bg-gray-700/50 py-1 px-2 rounded`}>
-                  <Text style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
-                    {t('attendance.members.myself').toLocaleUpperCase()}
-                  </Text>
-                </View>
-              )}
-            </MemberCard>
-          ))}
-        </>
+        sortedMembers.map((member) => (
+          <MemberCard
+            exiting={FadeOutLeft.duration(300)}
+            key={member._id}
+            member={member}
+            style={tw`grow-0`}>
+            {member._id === authStore.user?.id && (
+              <View style={tw`mt-3 ml-auto bg-gray-400/25 dark:bg-gray-700/50 py-1 px-2 rounded`}>
+                <Text style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
+                  {t('attendance.members.myself').toLocaleUpperCase()}
+                </Text>
+              </View>
+            )}
+          </MemberCard>
+        ))
       ) : currentMembersError && !isSilentError(currentMembersError) ? (
         <ErrorState error={currentMembersError} title={t('attendance.onFetch.fail')} />
       ) : (

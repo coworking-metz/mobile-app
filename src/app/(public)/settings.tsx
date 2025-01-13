@@ -166,6 +166,7 @@ const Settings = () => {
         });
         remainingDebt -= debt;
       }
+
       return nonCompliantAttendance;
     }
 
