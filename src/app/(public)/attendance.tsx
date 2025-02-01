@@ -11,8 +11,16 @@ import MemberCard from '@/components/Attendance/MemberCard';
 import ErrorState from '@/components/ErrorState';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import { isSilentError } from '@/helpers/error';
-import { getCurrentMembers } from '@/services/api/members';
+import { ApiLocation, getCurrentMembers } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
+
+const LOCATIONS_ORDER: (ApiLocation | '')[] = [
+  '',
+  'racine',
+  'cantina',
+  'pti-poulailler',
+  'poulailler',
+];
 
 const Attendance = () => {
   useDeviceContext(tw);
@@ -36,7 +44,9 @@ const Attendance = () => {
 
   const sortedMembers = useMemo(() => {
     return [...(currentMembers || [])].sort((a, b) =>
-      b.location === 'poulailler' ? -1 : (a.location || '').localeCompare(b.location || ''),
+      LOCATIONS_ORDER.indexOf(a.location ?? '') > LOCATIONS_ORDER.indexOf(b.location ?? '')
+        ? 1
+        : -1,
     );
   }, [currentMembers]);
 
