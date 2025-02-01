@@ -8,7 +8,6 @@ import LoginBottomSheet from '@/components/Settings/LoginBottomSheet';
 import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import useResetNavigation from '@/helpers/navigation';
-import { IS_DEV } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
