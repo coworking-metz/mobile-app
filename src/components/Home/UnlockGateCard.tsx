@@ -58,7 +58,7 @@ const UnlockCard = ({
   const [lastWarning, setLastWarning] = useState<string | null>(null);
 
   const onUnlock = () => {
-    if (isLoading) return;
+    if (isLoading || disabled) return;
 
     if (!lastWarning || dayjs().diff(lastWarning) > WARN_ON_SUCCESSIVE_TAPS_INTEVAL_IN_MS) {
       setTapHistory([...tapHistory, new Date().toISOString()]);
