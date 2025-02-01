@@ -7,12 +7,12 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import openMap from 'react-native-open-maps';
-import Animated, { BounceIn, BounceOut, FadeInLeft } from 'react-native-reanimated';
+import Animated, { FadeInLeft } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import ErrorState from '@/components/ErrorState';
-import ModalLayout from '@/components/ModalLayout';
+import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import ZoombableImage from '@/components/ZoomableImage';
 import { isSilentError } from '@/helpers/error';
@@ -48,10 +48,7 @@ export default function CalendarEventPage() {
   }, [event]);
 
   return (
-    <ModalLayout
-      from="/events/calendar"
-      loading={!event?.title && isFetchingCalendarEvents}
-      title={event?.title || ''}>
+    <ServiceLayout contentStyle={tw`py-4`} title={event?.title || ''}>
       {event ? (
         <>
           <ZoombableImage
@@ -140,6 +137,6 @@ export default function CalendarEventPage() {
           </View>
         </>
       )}
-    </ModalLayout>
+    </ServiceLayout>
   );
 }

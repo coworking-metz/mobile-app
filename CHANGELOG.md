@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Render multiple pictures in event detail screen.
+- Change events calendar layout.
 
 ## [2025.1.2] - 2025-01-13
 

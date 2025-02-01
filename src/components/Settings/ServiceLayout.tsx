@@ -118,14 +118,12 @@ const ServiceLayout = ({
             <>
               <Animated.Text
                 entering={FadeInLeft.duration(500)}
-                numberOfLines={1}
                 style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
                 {title}
               </Animated.Text>
               {description ? (
                 <Animated.Text
                   entering={FadeInLeft.duration(500).delay(150)}
-                  numberOfLines={1}
                   style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
                   {description}
                 </Animated.Text>

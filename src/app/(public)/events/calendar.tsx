@@ -11,8 +11,8 @@ import ErrorState from '@/components/ErrorState';
 import PeriodBottomSheet, { type PeriodType } from '@/components/Events/PeriodBottomSheet';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
-import ModalLayout from '@/components/ModalLayout';
 import { SelectableChip } from '@/components/SelectableChip';
+import ServiceLayout from '@/components/Settings/ServiceLayout';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
@@ -38,8 +38,8 @@ const Calendar = () => {
   const {
     data: calendarEvents,
     isLoading: isLoadingCalendarEvents,
-    isFetching: isFetchingCalendarEvents,
     error: calendarEventsError,
+    refetch: refetchCalendarEvents,
   } = useQuery({
     queryKey: ['calendarEvents'],
     queryFn: getCalendarEvents,
@@ -93,51 +93,51 @@ const Calendar = () => {
 
   return (
     <>
-      <ModalLayout title={t('events.calendar.title')}>
-        <View style={tw`mb-4`}>
-          <ScrollView
-            contentContainerStyle={tw`flex flex-row items-center gap-4 px-4`}
-            horizontal={true}
-            scrollEventThrottle={16}
-            showsHorizontalScrollIndicator={false}
-            style={tw`w-full`}>
-            <SelectableChip
-              icon="chevron-down"
-              label={t(`events.period.options.${selectedPeriod ?? 'none'}.label`)}
-              onPress={() => setSelectedPeriodFilter(true)}
-            />
-            <SelectableChip
-              icon={
-                selectedSort === 'ascending'
-                  ? 'sort-calendar-ascending'
-                  : selectedSort === 'descending'
-                    ? 'sort-calendar-descending'
-                    : 'sort'
+      <ServiceLayout
+        contentStyle={tw`py-4`}
+        title={t('events.calendar.title')}
+        onRefresh={refetchCalendarEvents}>
+        <ScrollView
+          contentContainerStyle={tw`flex flex-row items-center gap-4 px-4`}
+          horizontal={true}
+          scrollEventThrottle={16}
+          showsHorizontalScrollIndicator={false}
+          style={tw`w-full`}>
+          <SelectableChip
+            icon="chevron-down"
+            label={t(`events.period.options.${selectedPeriod ?? 'none'}.label`)}
+            onPress={() => setSelectedPeriodFilter(true)}
+          />
+          <SelectableChip
+            icon={
+              selectedSort === 'ascending'
+                ? 'sort-calendar-ascending'
+                : selectedSort === 'descending'
+                  ? 'sort-calendar-descending'
+                  : 'sort'
+            }
+            label={
+              selectedSort
+                ? selectedPeriod === 'past'
+                  ? selectedSort === 'ascending'
+                    ? t('events.sort.options.descending.label')
+                    : t('events.sort.options.ascending.label')
+                  : t(`events.sort.options.${selectedSort}.label`)
+                : t('events.sort.label')
+            }
+            selected={!!selectedSort}
+            onPress={() => {
+              const nextSortIndex = SORTS.indexOf(selectedSort) + 1;
+              if (nextSortIndex < SORTS.length) {
+                setSelectedSort(SORTS[nextSortIndex]);
+              } else {
+                setSelectedSort(SORTS[0]);
               }
-              label={
-                selectedSort
-                  ? t(`events.sort.options.${selectedSort}.label`)
-                  : t('events.sort.label')
-              }
-              selected={!!selectedSort}
-              onPress={() => {
-                const nextSortIndex = SORTS.indexOf(selectedSort) + 1;
-                if (nextSortIndex < SORTS.length) {
-                  setSelectedSort(SORTS[nextSortIndex]);
-                } else {
-                  setSelectedSort(SORTS[0]);
-                }
-              }}
-            />
-          </ScrollView>
-        </View>
+            }}
+          />
+        </ScrollView>
         <Animated.View exiting={FadeOut.duration(500)} style={tw`mt-4 mx-4 flex flex-col gap-8`}>
-          {isLoadingCalendarEvents ? (
-            <>
-              <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`h-44`} />
-              <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`h-44 mt-8`} />
-            </>
-          ) : filteredEventsGroups?.length ? (
+          {filteredEventsGroups?.length ? (
             filteredEventsGroups.map(([date, events]) => (
               <View key={`calendar-group-${date}`} style={tw`flex flex-col gap-4`}>
                 <Animated.Text
@@ -152,16 +152,17 @@ const Calendar = () => {
                     href={`/events/${event.id}`}
                     key={`calendar-event-card-${event.id}`}>
                     <AppTouchableScale style={tw`w-full h-44`}>
-                      <CalendarEventCard
-                        activeSince={activeSince}
-                        event={event}
-                        loading={isFetchingCalendarEvents}
-                      />
+                      <CalendarEventCard activeSince={activeSince} event={event} />
                     </AppTouchableScale>
                   </Link>
                 ))}
               </View>
             ))
+          ) : isLoadingCalendarEvents ? (
+            <>
+              <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`h-44`} />
+              <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`h-44 mt-8`} />
+            </>
           ) : calendarEventsError && !isSilentError(calendarEventsError) ? (
             <ErrorState error={calendarEventsError} title={t('home.calendar.onFetch.fail')} />
           ) : (
@@ -171,7 +172,7 @@ const Calendar = () => {
             />
           )}
         </Animated.View>
-      </ModalLayout>
+      </ServiceLayout>
 
       {hasSelectedPeriodFilter && (
         <PeriodBottomSheet
