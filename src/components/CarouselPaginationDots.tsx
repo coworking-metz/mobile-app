@@ -4,6 +4,7 @@ import Animated, {
   interpolate,
   interpolateColor,
   useAnimatedStyle,
+  SharedValue,
 } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
@@ -18,7 +19,7 @@ const PaginationDot = ({
   containerWidth,
 }: {
   index: number;
-  animationValue: Animated.SharedValue<number>;
+  animationValue: SharedValue<number>;
   containerWidth: number;
 }) => {
   const inputRange = [
@@ -106,7 +107,7 @@ const CarouselPaginationDots = ({
 }: {
   count: number;
   width: number;
-  offset: Animated.SharedValue<number>;
+  offset: SharedValue<number>;
   style?: StyleProps;
 }) => {
   return (

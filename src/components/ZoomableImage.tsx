@@ -1,23 +1,41 @@
+import CarouselPaginationDots from './CarouselPaginationDots';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Image, type ImageProps } from 'expo-image';
-import React, { useState } from 'react';
-import { Modal, Platform, TouchableOpacity, View } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import {
+  Modal,
+  Platform,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+  useWindowDimensions,
+} from 'react-native';
 import Gallery from 'react-native-awesome-gallery';
+import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw from 'twrnc';
 
-const ZoombableImage = ({ source, style, ...props }: ImageProps) => {
+type ZoombableImageProps = ImageProps & {
+  sources?: ImageProps['source'][];
+};
+
+const ZoombableImage = ({ source, sources, style, children, ...props }: ZoombableImageProps) => {
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
+  const offset = useSharedValue(0);
   const [isSelected, setSelected] = useState<boolean>(false);
 
+  const sourcesCount = useMemo(() => sources?.length ?? 0, [sources]);
+
   if (!source) {
-    return <View style={style} />;
+    return <View style={style as ViewStyle} />;
   }
 
   return (
     <>
       <TouchableOpacity onPress={() => setSelected(true)}>
-        <Image cachePolicy="memory-disk" source={source} style={[style]} {...props}></Image>
+        <Image cachePolicy="memory-disk" source={source} style={style} {...props} />
+        {children}
       </TouchableOpacity>
       <Modal transparent animationType="fade" visible={isSelected}>
         <View style={tw`flex flex-col h-full w-full bg-black`}>
@@ -42,7 +60,24 @@ const ZoombableImage = ({ source, style, ...props }: ImageProps) => {
               onPress={() => setSelected(false)}
             />
           </View>
-          <Gallery data={[source]} onSwipeToClose={() => setSelected(false)} />
+          <Gallery
+            data={sources ?? [source]}
+            onIndexChange={(index) => {
+              offset.value = withTiming(index * width, {
+                easing: Easing.linear,
+                duration: 300,
+              });
+            }}
+            onSwipeToClose={() => setSelected(false)}
+          />
+          {sourcesCount > 1 && (
+            <CarouselPaginationDots
+              count={sourcesCount}
+              offset={offset}
+              style={tw`self-center mb-6`}
+              width={width}
+            />
+          )}
         </View>
       </Modal>
     </>

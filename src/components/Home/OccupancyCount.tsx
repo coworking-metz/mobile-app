@@ -37,7 +37,7 @@ const OccupancyCount = ({
   const memberPictures = useMemo(() => {
     return members
       .filter(({ _id }) => _id !== user?.id)
-      .map(({ thumbnail }) => thumbnail)
+      .map(({ picture }) => picture)
       .filter(Boolean);
   }, [members, user]);
 

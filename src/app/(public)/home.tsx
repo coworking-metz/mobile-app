@@ -423,10 +423,9 @@ export default function HomeScreen() {
             entering={FadeInUp.duration(500).delay(700)}
             style={tw`flex flex-col grow shrink basis-0`}>
             <UnlockGateCard
-              disabled={
-                Boolean(authStore?.user && authStore.isFetchingToken) ||
-                Boolean(authStore.user && !authStore.user.capabilities?.includes('UNLOCK_GATE'))
-              }
+              disabled={Boolean(
+                authStore.user && !authStore.user.capabilities?.includes('UNLOCK_GATE'),
+              )}
               style={tw`grow`}
               onSuccessiveTaps={onSuccessiveTaps}
             />
@@ -436,10 +435,9 @@ export default function HomeScreen() {
             entering={FadeInUp.duration(500).delay(800)}
             style={tw`flex flex-col grow shrink basis-0`}>
             <OpenParkingCard
-              disabled={
-                Boolean(authStore?.user && authStore.isFetchingToken) ||
-                Boolean(authStore.user && !authStore.user.capabilities?.includes('PARKING_ACCESS'))
-              }
+              disabled={Boolean(
+                authStore.user && !authStore.user.capabilities?.includes('PARKING_ACCESS'),
+              )}
               style={tw`grow`}
               onSuccessiveTaps={onSuccessiveTaps}
             />

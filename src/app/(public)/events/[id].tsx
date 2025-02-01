@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import openMap from 'react-native-open-maps';
-import Animated, { FadeInLeft } from 'react-native-reanimated';
+import Animated, { BounceIn, BounceOut, FadeInLeft } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
@@ -57,9 +57,15 @@ export default function CalendarEventPage() {
           <ZoombableImage
             contentFit="cover"
             source={firstPicture}
-            style={tw`h-44 mx-4 rounded-2xl bg-gray-200 dark:bg-gray-900`}
-            transition={300}
-          />
+            sources={event.pictures}
+            style={tw`relative h-44 mx-4 rounded-2xl bg-gray-200 dark:bg-gray-900`}
+            transition={300}>
+            {event.pictures.length > 1 && (
+              <View style={tw`absolute bottom-1.5 right-5.5 bg-black/70 py-1 px-2 rounded-lg`}>
+                <Text style={tw`text-xs text-gray-200 font-medium`}>{event.pictures.length}</Text>
+              </View>
+            )}
+          </ZoombableImage>
           <ServiceRow
             withBottomDivider
             description={t('events.detail.time', {

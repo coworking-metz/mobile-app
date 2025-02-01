@@ -2,6 +2,7 @@ import VerticalLoadingAnimation from '../Animations/VerticalLoadingAnimation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { LinearGradient } from 'expo-linear-gradient';
+import { capitalize } from 'lodash';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View, useColorScheme } from 'react-native';
@@ -219,19 +220,21 @@ const PresenceGraph = ({
 
         <View
           style={[
-            tw`flex flex-col justify-end pb-3.5 gap-[1px] mr-6`,
+            tw`flex flex-col items-center justify-end pb-3.5 gap-[1px] mr-6`,
             { height: HEIGHT_IN_PIXELS },
           ]}>
-          {[...Array(7).keys()].map((index) => (
-            <Text
-              key={`contribution-graph-week-day-${index}`}
-              style={[
-                tw`text-center font-normal uppercase text-slate-500 dark:text-slate-400`,
-                { height: SQUARE_SIZE },
-              ]}>
-              {dayjs().set('day', index).format('dddd').slice(0, 1)}
-            </Text>
-          ))}
+          {Array(7)
+            .fill(0)
+            .map((_zero, index) => (
+              <Text
+                key={`contribution-graph-week-day-${index}`}
+                style={[
+                  tw`text-center font-normal text-slate-500 dark:text-slate-400`,
+                  { height: SQUARE_SIZE },
+                ]}>
+                {capitalize(dayjs().set('day', index).format('dd').slice(0, 1))}
+              </Text>
+            ))}
         </View>
       </View>
     </Animated.ScrollView>
