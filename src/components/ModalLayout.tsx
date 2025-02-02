@@ -3,7 +3,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo, type ReactNode } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, StyleProp, View, ViewStyle } from 'react-native';
 import Animated, {
   Extrapolation,
   FadeInDown,
@@ -11,7 +11,6 @@ import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
-  type StyleProps,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
@@ -42,7 +41,7 @@ const ModalLayout = ({
   from?: string;
   loading?: boolean;
   children?: ReactNode;
-  contentStyle?: StyleProps;
+  contentStyle?: StyleProp<ViewStyle>;
 }) => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();

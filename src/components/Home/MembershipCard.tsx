@@ -2,8 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
-import { type StyleProps } from 'react-native-reanimated';
+import { StyleProp, Text, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 
 const MembershipCard = ({
@@ -17,7 +16,7 @@ const MembershipCard = ({
   valid?: boolean;
   active?: boolean;
   loading?: boolean;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
 }) => {
   const { t } = useTranslation();
 

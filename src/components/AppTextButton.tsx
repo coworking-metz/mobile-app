@@ -1,8 +1,7 @@
 import HorizontalLoadingAnimation from './Animations/HorizontalLoadingAnimation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
-import { View } from 'react-native';
-import { type StyleProps } from 'react-native-reanimated';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import { Button } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import type AppTouchableScale from './AppTouchableScale';
@@ -11,7 +10,7 @@ import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vecto
 type AppTextButtonProps = {
   disabled?: boolean;
   loading?: boolean;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   prefixIcon?: keyof typeof mdiGlyphMap | null;
   suffixIcon?: keyof typeof mdiGlyphMap | null;
   children?: ReactNode;

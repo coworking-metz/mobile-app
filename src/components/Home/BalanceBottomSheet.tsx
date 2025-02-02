@@ -9,8 +9,7 @@ import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View } from 'react-native';
-import { type StyleProps } from 'react-native-reanimated';
+import { Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { isSilentError } from '@/helpers/error';
 
@@ -27,7 +26,7 @@ const BalanceBottomSheet = ({
   balance: number;
   loading?: boolean;
   activeSince?: string;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();

@@ -3,11 +3,19 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { View, useColorScheme, type LayoutChangeEvent, TouchableOpacity } from 'react-native';
+import {
+  StyleProp,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+  useColorScheme,
+  type LayoutChangeEvent,
+} from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolate,
   Extrapolation,
+  convertToRGBA,
   interpolate,
   interpolateColor,
   runOnJS,
@@ -17,8 +25,6 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
   withSpring,
-  type StyleProps,
-  convertToRGBA,
 } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
@@ -42,7 +48,7 @@ const SwipeableButton = ({
   loading?: boolean;
   disabled?: boolean;
   swiped?: boolean;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   onSwiped: () => void;
   onReset: () => void;
   children?: ReactNode;

@@ -10,8 +10,8 @@ import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View, type LayoutChangeEvent } from 'react-native';
-import { useSharedValue, type StyleProps } from 'react-native-reanimated';
+import { Platform, StyleProp, Text, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
+import { useSharedValue } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
 import { formatAmount } from '@/helpers/currency';
@@ -33,7 +33,7 @@ const SubscriptionBottomSheet = ({
   currentSubscription?: ApiMemberSubscription;
   loading?: boolean;
   activeSince?: string;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();

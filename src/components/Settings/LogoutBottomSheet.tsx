@@ -6,15 +6,20 @@ import { makeRedirectUri } from 'expo-auth-session';
 import { Link } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, Platform, Text, View } from 'react-native';
-import { type StyleProps } from 'react-native-reanimated';
+import { Linking, Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 
 const logoutLogger = log.extend(`[logout]`);
 
-const LogoutBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: () => void }) => {
+const LogoutBottomSheet = ({
+  style,
+  onClose,
+}: {
+  style?: StyleProp<ViewStyle>;
+  onClose?: () => void;
+}) => {
   const { t } = useTranslation();
   const [isLoading, setLoading] = useState<boolean>(false);
 

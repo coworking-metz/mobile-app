@@ -4,8 +4,7 @@ import dayjs from 'dayjs';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
-import { type StyleProps } from 'react-native-reanimated';
+import { StyleProp, Text, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { type ApiMemberSubscription } from '@/services/api/members';
 
@@ -18,7 +17,7 @@ const SubscriptionCard = ({
   subscription?: ApiMemberSubscription | null;
   loading?: boolean;
   activeSince?: string;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
 }) => {
   const { t } = useTranslation();
   const isFocus = useIsFocused();

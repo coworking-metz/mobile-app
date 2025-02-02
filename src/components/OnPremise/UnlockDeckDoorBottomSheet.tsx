@@ -5,8 +5,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View } from 'react-native';
-import Animated, { FadeInLeft, FadeOutLeft, type StyleProps } from 'react-native-reanimated';
+import { Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
+import Animated, { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
@@ -21,7 +21,7 @@ const UnlockDeckDoorBottomSheet = ({
   onClose,
 }: {
   unlocked?: boolean;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();

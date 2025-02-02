@@ -2,12 +2,12 @@ import AppBottomSheet from '../AppBottomSheet';
 import ServiceRow from '../Settings/ServiceRow';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View } from 'react-native';
+import { Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
 import AnimatedProgressWheel from 'react-native-progress-wheel';
 import ReadMore from 'react-native-read-more-text';
-import { Easing, type StyleProps } from 'react-native-reanimated';
+import { Easing } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 import { type ApiMemberActivity } from '@/services/api/members';
@@ -20,7 +20,7 @@ const PresenceBottomSheet = ({
 }: {
   activity: ApiMemberActivity;
   nonCompliant?: ApiMemberActivity;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
@@ -70,16 +70,16 @@ const PresenceBottomSheet = ({
             {activity.type === 'subscription'
               ? t('settings.profile.presence.selected.coverage.value.subscription')
               : t('settings.profile.presence.selected.coverage.value.ticket', {
-                  count: activity.value,
-                  suffix: nonCompliant
-                    ? t(
-                        `settings.profile.presence.selected.debt.${nonCompliant.value !== activity.value ? 'with' : 'unit'}.ticket`,
-                        {
-                          count: nonCompliant.value,
-                        },
-                      )
-                    : '',
-                })}
+                count: activity.value,
+                suffix: nonCompliant
+                  ? t(
+                    `settings.profile.presence.selected.debt.${nonCompliant.value !== activity.value ? 'with' : 'unit'}.ticket`,
+                    {
+                      count: nonCompliant.value,
+                    },
+                  )
+                  : '',
+              })}
           </Text>
         </ServiceRow>
 

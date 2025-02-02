@@ -2,7 +2,7 @@ import AppBlurView from '../AppBlurView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState, type ReactNode, useCallback } from 'react';
-import { RefreshControl, View } from 'react-native';
+import { RefreshControl, StyleProp, View, ViewStyle } from 'react-native';
 import { type LayoutChangeEvent } from 'react-native/types';
 import {
   KeyboardAwareScrollView,
@@ -14,7 +14,6 @@ import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
-  type StyleProps,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
@@ -38,8 +37,8 @@ const ServiceLayout = ({
   description?: string;
   renderHeader?: () => ReactNode;
   children: ReactNode;
-  style?: StyleProps;
-  contentStyle?: StyleProps;
+  style?: StyleProp<ViewStyle>;
+  contentStyle?: StyleProp<ViewStyle>;
   onRefresh?: () => Promise<unknown>;
 }) => {
   useDeviceContext(tw);

@@ -1,10 +1,6 @@
 import React, { useCallback, useRef } from 'react';
-import {
-  runOnJS,
-  useDerivedValue,
-  type SharedValue,
-  type StyleProps,
-} from 'react-native-reanimated';
+import { ViewStyle } from 'react-native';
+import { runOnJS, useDerivedValue, type SharedValue } from 'react-native-reanimated';
 import Rive, { Alignment, Fit, type RiveRef } from 'rive-react-native';
 
 const STATE_MACHINE_NAME = 'Motion';
@@ -20,7 +16,7 @@ const SpaceshipRefreshAnimation = ({
   released?: SharedValue<boolean>;
   completed?: SharedValue<boolean>;
   onEnd?: () => void;
-  style?: StyleProps;
+  style?: ViewStyle;
 }) => {
   const riveRef = useRef<RiveRef>(null);
 

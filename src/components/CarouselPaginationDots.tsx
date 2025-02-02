@@ -1,10 +1,9 @@
-import { View } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, {
-  type StyleProps,
+  SharedValue,
   interpolate,
   interpolateColor,
   useAnimatedStyle,
-  SharedValue,
 } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
@@ -108,7 +107,7 @@ const CarouselPaginationDots = ({
   count: number;
   width: number;
   offset: SharedValue<number>;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
 }) => {
   return (
     <View

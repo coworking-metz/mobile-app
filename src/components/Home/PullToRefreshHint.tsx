@@ -1,12 +1,12 @@
 import ScrollDownAnimation from '../Animations/ScrollDownAnimation';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
-import Animated, { type StyleProps } from 'react-native-reanimated';
+import { StyleProp, View, ViewStyle } from 'react-native';
+import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import useSettingsStore from '@/stores/settings';
 
-const PullToRefreshHint = ({ style }: { style?: StyleProps }) => {
+const PullToRefreshHint = ({ style }: { style?: StyleProp<ViewStyle> }) => {
   const { t } = useTranslation();
   const hasLearnPullToRefresh = useSettingsStore((state) => state.hasLearnPullToRefresh);
 

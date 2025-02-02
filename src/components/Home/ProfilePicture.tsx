@@ -1,8 +1,8 @@
 import AccountAnimation from '../Animations/AccountAnimation';
 import { Skeleton } from 'moti/skeleton';
 import React, { ReactNode } from 'react';
-import { View } from 'react-native';
-import Animated, { BounceIn, BounceOut, type StyleProps } from 'react-native-reanimated';
+import { StyleProp, View, ViewStyle } from 'react-native';
+import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 
 const ProfilePicture = ({
@@ -15,7 +15,7 @@ const ProfilePicture = ({
   url?: string;
   loading?: boolean;
   attending?: boolean;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   children?: ReactNode;
 }) => {
   return (

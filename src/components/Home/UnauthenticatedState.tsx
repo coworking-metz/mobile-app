@@ -1,8 +1,15 @@
 import { Image } from 'expo-image';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, TouchableNativeFeedback, View, type ViewProps } from 'react-native';
-import Animated, { type AnimatedProps, type StyleProps } from 'react-native-reanimated';
+import {
+  StyleProp,
+  Text,
+  TouchableNativeFeedback,
+  View,
+  ViewStyle,
+  type ViewProps,
+} from 'react-native';
+import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import unlock from '@/assets/images/undraw/unlock.svg';
 import { useAppAuth } from '@/context/auth';
@@ -11,7 +18,7 @@ const UnauthenticatedState = ({
   style,
   ...props
 }: AnimatedProps<ViewProps> & {
-  style?: StyleProps | false;
+  style?: StyleProp<ViewStyle>;
 }) => {
   const { t } = useTranslation();
   const { login } = useAppAuth();

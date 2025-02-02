@@ -5,9 +5,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { capitalize } from 'lodash';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View, useColorScheme } from 'react-native';
+import { StyleProp, Text, View, ViewStyle, useColorScheme } from 'react-native';
 import { ContributionGraph } from 'react-native-chart-kit';
-import Animated, { type StyleProps } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 import { type ApiMemberActivity } from '@/services/api/members';
@@ -33,7 +33,7 @@ const PresenceGraph = ({
   activity?: ApiMemberActivity[];
   activityCount?: number;
   minimumSquares?: number;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   onDateSelect?: (date: string) => void;
 }) => {
   const { i18n, t } = useTranslation();

@@ -2,8 +2,8 @@ import AppTouchableScale from '../AppTouchableScale';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
-import Animated, { type StyleProps } from 'react-native-reanimated';
+import { StyleProp, Text, View, ViewStyle } from 'react-native';
+import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 
 const OnPremiseCard: ForwardRefRenderFunction<
@@ -12,7 +12,7 @@ const OnPremiseCard: ForwardRefRenderFunction<
     children?: ReactNode;
     disabled?: boolean;
     location?: string;
-    style?: StyleProps;
+    style?: StyleProp<ViewStyle>;
     onPress?: () => void;
   }
 > = ({ onPress, disabled = false, location, style }, ref) => {

@@ -5,14 +5,19 @@ import AppTextButton from '../AppTextButton';
 import { Link } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, Platform, Text, View } from 'react-native';
-import { type StyleProps } from 'react-native-reanimated';
+import { Linking, Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { parseErrorText } from '@/helpers/error';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useNoticeStore from '@/stores/notice';
 
-const ContactBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: () => void }) => {
+const ContactBottomSheet = ({
+  style,
+  onClose,
+}: {
+  style?: StyleProp<ViewStyle>;
+  onClose?: () => void;
+}) => {
   const { t } = useTranslation();
   const [isContactingTeam, setContactingTeam] = useState(false);
   const noticeStore = useNoticeStore();

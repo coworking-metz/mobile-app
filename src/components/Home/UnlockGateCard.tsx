@@ -8,7 +8,7 @@ import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View, type LayoutChangeEvent } from 'react-native';
+import { Platform, StyleProp, Text, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import Animated, {
   Easing,
   interpolate,
@@ -19,7 +19,6 @@ import Animated, {
   useSharedValue,
   withSequence,
   withTiming,
-  type StyleProps,
 } from 'react-native-reanimated';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
@@ -41,7 +40,7 @@ const UnlockCard = ({
   onSuccessiveTaps,
 }: {
   disabled?: boolean;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   onSuccessiveTaps?: () => void;
 }) => {
   const { t } = useTranslation();

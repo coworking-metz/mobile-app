@@ -5,8 +5,8 @@ import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
-import Animated, { type StyleProps } from 'react-native-reanimated';
+import { StyleProp, Text, View, ViewStyle } from 'react-native';
+import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import { theme } from '@/helpers/colors';
@@ -17,7 +17,7 @@ const AppointmentCard = ({
   activeSince,
 }: {
   date: string;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   activeSince?: string;
 }) => {
   const { t } = useTranslation();

@@ -2,8 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text } from 'react-native';
-import { type StyleProps } from 'react-native-reanimated';
+import { StyleProp, Text, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 
 const BalanceCard = ({
@@ -14,7 +13,7 @@ const BalanceCard = ({
   count?: number;
   total?: number;
   loading?: boolean;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
 }) => {
   const { t } = useTranslation();
 
@@ -60,11 +59,11 @@ const BalanceCard = ({
             ]}>
             {count < 0
               ? t('home.profile.tickets.depleted', {
-                  count: count,
-                })
+                count: count,
+              })
               : t('home.profile.tickets.available', {
-                  count: -count,
-                })}
+                count: -count,
+              })}
           </Text>
         </View>
       )}

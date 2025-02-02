@@ -1,7 +1,7 @@
 import LoveCalendarAnimation from '../Animations/LoveCalendarAnimation';
 import React, { type ReactNode } from 'react';
-import { Text, type ViewProps } from 'react-native';
-import Animated, { type AnimatedProps, type StyleProps } from 'react-native-reanimated';
+import { StyleProp, Text, ViewStyle, type ViewProps } from 'react-native';
+import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 
 const CalendarEmptyState = ({
@@ -11,7 +11,7 @@ const CalendarEmptyState = ({
   ...props
 }: AnimatedProps<ViewProps> & {
   description: string;
-  style?: StyleProps | false;
+  style?: StyleProp<ViewStyle>;
   children?: ReactNode;
 }) => {
   return (

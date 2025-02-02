@@ -1,13 +1,13 @@
 import ActionableIcon from './ActionableIcon';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useState } from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
 import {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withSequence,
   withTiming,
-  type StyleProps,
 } from 'react-native-reanimated';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
 import { turnOffLight, turnOnLight } from '@/services/api/services';
@@ -20,7 +20,7 @@ const ActionableLight = ({
 }: {
   id: string;
   active?: boolean;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
 }) => {
   const toastStore = useToastStore();
   const [isActive, setActive] = useState(active);

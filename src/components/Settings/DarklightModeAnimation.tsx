@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { type StyleProps } from 'react-native-reanimated';
+import { ViewStyle } from 'react-native';
 import Rive, { Alignment, Fit, type RiveRef } from 'rive-react-native';
 
 const STATE_MACHINE_NAME = 'Button_Animation';
@@ -9,7 +9,7 @@ const DarklightModeAnimation = ({
   style,
 }: {
   mode?: 'light' | 'dark' | null;
-  style?: StyleProps;
+  style?: ViewStyle;
 }) => {
   const riveRef = useRef<RiveRef>(null);
 

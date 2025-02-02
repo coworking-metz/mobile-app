@@ -3,12 +3,14 @@ import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation
 import AppTouchableScale from '../AppTouchableScale';
 import ReanimatedText from '../ReanimatedText';
 import * as Sentry from '@sentry/react-native';
+import useNoticeStore from '@/stores/notice';
 import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
+import type LottieView from 'lottie-react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View, type LayoutChangeEvent } from 'react-native';
+import { Platform, StyleProp, Text, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import Animated, {
   Easing,
   interpolate,
@@ -19,16 +21,13 @@ import Animated, {
   useSharedValue,
   withSequence,
   withTiming,
-  type StyleProps,
 } from 'react-native-reanimated';
 import tw from 'twrnc';
-import type LottieView from 'lottie-react-native';
 import { useAppAuth } from '@/context/auth';
 import { theme } from '@/helpers/colors';
 import { parseErrorText } from '@/helpers/error';
 import { openParkingGate } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
-import useNoticeStore from '@/stores/notice';
 
 const FILL_BACKGROUND_ANIMATION_DURATION_IN_MS = 300;
 const WARN_ON_SUCCESSIVE_TAPS_COUNT = 3;
@@ -41,7 +40,7 @@ const OpenParkingCard = ({
   onSuccessiveTaps,
 }: {
   disabled?: boolean;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   onSuccessiveTaps?: () => void;
 }) => {
   const { t } = useTranslation();

@@ -1,8 +1,7 @@
 import AppBottomSheetBackdrop from './AppBottomSheetBackdrop';
 import BottomSheet, { BottomSheetScrollView, type BottomSheetProps } from '@gorhom/bottom-sheet';
 import React, { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Dimensions, Platform, View } from 'react-native';
-import { type StyleProps } from 'react-native-reanimated';
+import { Dimensions, Platform, StyleProp, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
@@ -13,7 +12,7 @@ const MIN_BACKDROP_HEIGHT = 64;
 
 export type AppBottomSheetProps = Omit<BottomSheetProps, 'snapPoints'> & {
   children?: ReactNode;
-  contentContainerStyle?: StyleProps;
+  contentContainerStyle?: StyleProp<ViewStyle>;
 };
 
 const { height: screenHeight } = Dimensions.get('screen');

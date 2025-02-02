@@ -3,9 +3,9 @@ import { SegmentedArc } from '@shipt/segmented-arc-for-react-native';
 import { Skeleton } from 'moti/skeleton';
 import React, { useLayoutEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View, useColorScheme } from 'react-native';
+import { Platform, StyleProp, Text, View, ViewStyle, useColorScheme } from 'react-native';
 import AnimatedNumber from 'react-native-animated-number';
-import Animated, { FadeInUp, type StyleProps } from 'react-native-reanimated';
+import Animated, { FadeInUp } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { CARBON_DIOXIDE_RANGES } from '@/services/api/services';
 
@@ -19,7 +19,7 @@ const CarbonDioxideBottomSheet = ({
 }: {
   loading?: boolean;
   level?: number;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();

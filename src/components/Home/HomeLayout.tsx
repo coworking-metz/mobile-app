@@ -1,14 +1,21 @@
 import SpaceshipRefreshAnimation from './SpaceshipRefreshAnimation';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useMemo, useRef, useState, type ReactNode } from 'react';
-import { PanResponder, Platform, RefreshControl, View, useColorScheme } from 'react-native';
+import {
+  PanResponder,
+  Platform,
+  RefreshControl,
+  StyleProp,
+  View,
+  ViewStyle,
+  useColorScheme,
+} from 'react-native';
 import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   withTiming,
-  type StyleProps,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
@@ -29,7 +36,7 @@ export default function HomeLayout({
   children?: ReactNode;
   outerChildren?: ReactNode;
   onRefresh?: () => Promise<unknown>;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
 }) {
   useDeviceContext(tw);
 
@@ -175,7 +182,7 @@ export default function HomeLayout({
           {...(!enableAnimations && {
             refreshControl: (
               <RefreshControl
-                progressViewOffset={insets.top * 2}
+                progressViewOffset={insets.top}
                 refreshing={isRefresing}
                 onRefresh={() => {
                   setRefreshing(true);

@@ -1,8 +1,8 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { isNil } from 'lodash';
 import React, { useMemo } from 'react';
-import { TouchableOpacity } from 'react-native';
-import Animated, { type StyleProps } from 'react-native-reanimated';
+import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
+import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
@@ -26,7 +26,7 @@ const ActionablePhoneBooths = ({
   disabled?: boolean;
   loading?: boolean;
   onPress?: () => void;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
 }) => {
   const isFirstPhoneBoothSelected = useMemo(() => {
     const [firstPhoneBooth] = actives;

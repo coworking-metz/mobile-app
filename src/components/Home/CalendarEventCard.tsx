@@ -5,8 +5,8 @@ import { Image, ImageBackground } from 'expo-image';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
-import Animated, { BounceIn, BounceOut, type StyleProps } from 'react-native-reanimated';
+import { StyleProp, Text, View, ViewStyle } from 'react-native';
+import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AmourFoodSquareLogo from '@/assets/images/amour-food-square.png';
 import CoworkingLogo from '@/assets/images/icon/icon-light-1024.png';
@@ -37,7 +37,7 @@ const CalendarEventCard = ({
 }: {
   event?: CalendarEvent | null;
   loading?: boolean;
-  style?: StyleProps | false;
+  style?: StyleProp<ViewStyle>;
   activeSince?: string;
 }) => {
   const eventIcon = useMemo(() => {

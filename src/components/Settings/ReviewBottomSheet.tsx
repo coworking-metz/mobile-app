@@ -6,12 +6,17 @@ import { Link } from 'expo-router';
 import * as StoreReview from 'expo-store-review';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View } from 'react-native';
-import { type StyleProps } from 'react-native-reanimated';
+import { Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { useErrorNotification } from '@/helpers/error';
 
-const ReviewBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: () => void }) => {
+const ReviewBottomSheet = ({
+  style,
+  onClose,
+}: {
+  style?: StyleProp<ViewStyle>;
+  onClose?: () => void;
+}) => {
   const { t } = useTranslation();
   const [isLoading, setLoading] = useState<boolean>(false);
 

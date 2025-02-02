@@ -1,10 +1,9 @@
 import ErrorAnimation from './Animations/ErrorAnimation';
-import TumbleweedRollingAnimation from './Animations/TumbleweedRollingAnimation';
-import React, { useState, type ReactNode, useEffect } from 'react';
+import React, { useEffect, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View, type ViewProps } from 'react-native';
+import { StyleProp, Text, ViewStyle, type ViewProps } from 'react-native';
 import ReadMore from 'react-native-read-more-text';
-import Animated, { FadeInLeft, type AnimatedProps, type StyleProps } from 'react-native-reanimated';
+import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { parseErrorText } from '@/helpers/error';
 
@@ -17,7 +16,7 @@ const ErrorState = ({
 }: AnimatedProps<ViewProps> & {
   title: string;
   error?: Error;
-  style?: StyleProps | false;
+  style?: StyleProp<ViewStyle>;
   children?: ReactNode;
 }) => {
   const { t } = useTranslation();

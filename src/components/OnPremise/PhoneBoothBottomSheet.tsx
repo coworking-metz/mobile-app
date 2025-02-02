@@ -11,10 +11,18 @@ import { isNil, uniq } from 'lodash';
 import { Skeleton } from 'moti/skeleton';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View, useColorScheme, type LayoutChangeEvent } from 'react-native';
+import {
+  Platform,
+  StyleProp,
+  Text,
+  View,
+  ViewStyle,
+  useColorScheme,
+  type LayoutChangeEvent,
+} from 'react-native';
 import { BarChart, type stackDataItem } from 'react-native-gifted-charts';
 import ReadMore from 'react-native-read-more-text';
-import { useSharedValue, type StyleProps } from 'react-native-reanimated';
+import { useSharedValue } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
@@ -40,7 +48,7 @@ const PhoneBoothBottomSheet = ({
   blueOccupied?: boolean | null;
   orangeOccupied?: boolean | null;
   loading?: boolean;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();

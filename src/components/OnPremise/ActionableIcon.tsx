@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { type ReactNode } from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import Animated, { type StyleProps } from 'react-native-reanimated';
+import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
+import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
@@ -15,8 +15,8 @@ export type ActionableIconProps = {
   disabled?: boolean;
   loading?: boolean;
   onPress?: () => void;
-  style?: StyleProps;
-  iconStyle?: StyleProps;
+  style?: StyleProp<ViewStyle>;
+  iconStyle?: StyleProp<ViewStyle>;
   children?: ReactNode;
 };
 

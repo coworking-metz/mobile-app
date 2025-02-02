@@ -5,9 +5,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View } from 'react-native';
+import { Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
 import ReadMore from 'react-native-read-more-text';
-import Animated, { FadeIn, FadeOutDown, type StyleProps } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOutDown } from 'react-native-reanimated';
 import { RandomReveal } from 'react-random-reveal';
 import tw from 'twrnc';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
@@ -16,7 +16,13 @@ import { getKeyBoxCode } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 
-const KeyBoxBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: () => void }) => {
+const KeyBoxBottomSheet = ({
+  style,
+  onClose,
+}: {
+  style?: StyleProp<ViewStyle>;
+  onClose?: () => void;
+}) => {
   const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const noticeStore = useNoticeStore();

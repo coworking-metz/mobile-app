@@ -4,8 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SquircleView } from 'expo-squircle-view';
 import { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
-import { View } from 'react-native';
-import { type StyleProps } from 'react-native-reanimated';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import { theme } from '@/helpers/colors';
@@ -13,7 +12,7 @@ import { theme } from '@/helpers/colors';
 type AppRoundedButtonProps = {
   disabled?: boolean;
   loading?: boolean;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   prefixIcon?: keyof typeof mdiGlyphMap | null;
   suffixIcon?: keyof typeof mdiGlyphMap | null;
   children?: ReactNode;

@@ -4,8 +4,7 @@ import AppRoundedButton from '../AppRoundedButton';
 import { makeRedirectUri } from 'expo-auth-session';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, Platform, Text, View } from 'react-native';
-import { type StyleProps } from 'react-native-reanimated';
+import { Linking, Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
@@ -15,7 +14,13 @@ import useSettingsStore from '@/stores/settings';
 
 const loginLogger = log.extend(`[login]`);
 
-const LoginBottomSheet = ({ style, onClose }: { style?: StyleProps; onClose?: () => void }) => {
+const LoginBottomSheet = ({
+  style,
+  onClose,
+}: {
+  style?: StyleProp<ViewStyle>;
+  onClose?: () => void;
+}) => {
   const { t } = useTranslation();
   const noticeStore = useNoticeStore();
   const settingsStore = useSettingsStore();

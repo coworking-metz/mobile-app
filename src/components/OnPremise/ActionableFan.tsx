@@ -1,6 +1,7 @@
 import ActionableIcon from './ActionableIcon';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useEffect, useState } from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
 import {
   Easing,
   cancelAnimation,
@@ -9,7 +10,6 @@ import {
   withRepeat,
   withSequence,
   withTiming,
-  type StyleProps,
 } from 'react-native-reanimated';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
 import { turnOffFan, turnOnFan } from '@/services/api/services';
@@ -22,7 +22,7 @@ const ActionableFan = ({
 }: {
   id: string;
   active?: boolean;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
 }) => {
   const toastStore = useToastStore();
   const [isActive, setActive] = useState(active);

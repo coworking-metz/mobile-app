@@ -9,8 +9,7 @@ import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View } from 'react-native';
-import { type StyleProps } from 'react-native-reanimated';
+import { Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 
@@ -32,7 +31,7 @@ const MembershipBottomSheet = ({
   loading?: boolean;
   activityOverLast6Months?: number;
   activeSince?: string;
-  style?: StyleProps;
+  style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
