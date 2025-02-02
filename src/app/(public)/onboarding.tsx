@@ -2,13 +2,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, View, type LayoutChangeEvent } from 'react-native';
-import Animated, {
-  FadeInDown,
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
+import { Platform, View, Text, type LayoutChangeEvent } from 'react-native';
+import Animated, { FadeInDown, interpolate, useSharedValue } from 'react-native-reanimated';
 import Carousel, { type ICarouselInstance } from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
@@ -98,7 +93,7 @@ const Onboarding = () => {
       const translateX = interpolate(value, [-1, 0, 1], [-layoutWidth, 0, 0]);
 
       const zIndex = interpolate(value, [-1, 0, 1], [300, 0, -300]);
-      const opacity = interpolate(value, [-1, 0, 1], [0, 1, 0], 'clamp');
+      const opacity = interpolate(value, [-1, 0, 1], [0, 1, 0]);
 
       const scale = interpolate(value, [-1, 0, 1], [1, 1, 0.8]);
 
@@ -110,36 +105,6 @@ const Onboarding = () => {
     },
     [layoutWidth],
   );
-
-  const buttonNextTextStyle = useAnimatedStyle(() => {
-    const lastScreenStart = (screens.length - 2) * layoutWidth;
-    const lastScreenEnd = (screens.length - 1) * layoutWidth;
-    const inputRange = [
-      0,
-      lastScreenStart,
-      lastScreenStart + (lastScreenEnd - lastScreenStart) / 2,
-      lastScreenEnd,
-    ];
-    const opacity = interpolate(offset.get(), inputRange, [1, 1, 0, 0]);
-    return {
-      opacity,
-    };
-  }, [offset, screens, layoutWidth]);
-
-  const buttonStartTextStyle = useAnimatedStyle(() => {
-    const lastScreenStart = (screens.length - 2) * layoutWidth;
-    const lastScreenEnd = (screens.length - 1) * layoutWidth;
-    const inputRange = [
-      0,
-      lastScreenStart,
-      lastScreenStart + (lastScreenEnd - lastScreenStart) / 2,
-      lastScreenEnd,
-    ];
-    const opacity = interpolate(offset.get(), inputRange, [0, 0, 0, 1]);
-    return {
-      opacity,
-    };
-  }, [offset, screens, layoutWidth]);
 
   return (
     <>
@@ -185,9 +150,6 @@ const Onboarding = () => {
                 customAnimation={animationStyle}
                 data={screens.map((screen, index) => ({ ...screen, index }))}
                 loop={false}
-                panGestureHandlerProps={{
-                  activeOffsetX: [-10, 10],
-                }}
                 renderItem={({ item, index, animationValue }) => (
                   <Step animationValue={animationValue} index={index} key={index}>
                     {item.component(currentIndex === index)}
@@ -196,10 +158,13 @@ const Onboarding = () => {
                 style={{
                   width: layoutWidth,
                 }}
+                vertical={false}
                 // to let the user scroll vertically inside the carousel
                 // https://github.com/dohooo/react-native-reanimated-carousel/issues/143#issuecomment-1022276126
-                vertical={false}
                 width={layoutWidth}
+                onConfigurePanGesture={(gestureChain) => {
+                  gestureChain.activeOffsetX([-10, 10]);
+                }}
                 onProgressChange={(progress) => {
                   offset.set(-progress);
                 }}
@@ -209,25 +174,8 @@ const Onboarding = () => {
             <Animated.View
               entering={FadeInDown.duration(500).delay(1000)}
               style={tw`shrink-0 pt-1 pb-8 px-6`}>
-              <AppRoundedButton onPress={onNext}>
-                <Animated.View
-                  style={[
-                    tw`absolute h-full flex flex-row items-center justify-center`,
-                    buttonNextTextStyle,
-                  ]}>
-                  <Animated.Text style={[tw`text-black text-base font-medium`]}>
-                    {t('actions.next')}
-                  </Animated.Text>
-                </Animated.View>
-                <Animated.View
-                  style={[
-                    tw`absolute h-full  flex flex-row items-center justify-center`,
-                    buttonStartTextStyle,
-                  ]}>
-                  <Animated.Text style={[tw`text-black text-base font-medium`]}>
-                    {t('actions.start')}
-                  </Animated.Text>
-                </Animated.View>
+              <AppRoundedButton style={tw`min-h-14`} onPress={onNext}>
+                <Text style={tw`text-base font-medium text-black`}>{t('actions.next')}</Text>
               </AppRoundedButton>
             </Animated.View>
           </View>
