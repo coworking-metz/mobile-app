@@ -32,6 +32,7 @@ const ContactBottomSheet = ({
           description,
           type: 'error',
         });
+        onClose?.();
       })
       .finally(() => setContactingTeam(false));
   }, []);

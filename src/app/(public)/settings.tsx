@@ -20,7 +20,6 @@ import AppBlurView from '@/components/AppBlurView';
 import ErrorChip from '@/components/ErrorChip';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import AppFooter from '@/components/Settings/AppFooter';
-import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
 import LogoutBottomSheet from '@/components/Settings/LogoutBottomSheet';
 import PresenceBottomSheet from '@/components/Settings/PresenceBottomSheet';
@@ -30,6 +29,7 @@ import ServiceRow from '@/components/Settings/ServiceRow';
 import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 import ThemePicker from '@/components/Settings/ThemePicker';
 import { useAppAuth } from '@/context/auth';
+import { useAppContact } from '@/context/contact';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
@@ -53,6 +53,7 @@ const INTERPOLATE_INPUT = [-1, 0, HEADER_HEIGHT, HEADER_HEIGHT];
 const Settings = () => {
   useDeviceContext(tw);
   const { login } = useAppAuth();
+  const contact = useAppContact();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const router = useRouter();
@@ -64,7 +65,6 @@ const Settings = () => {
   const [isPickingLanguage, setPickingLanguage] = useState(false);
   const [isPickingTheme, setPickingTheme] = useState(false);
   const [isLoggingOut, setLoggingOut] = useState(false);
-  const [isContacting, setContacting] = useState(false);
   const [isReviewing, setReviewing] = useState(false);
 
   const {
@@ -404,7 +404,7 @@ const Settings = () => {
               prefixIcon="help-circle-outline"
               style={tw`px-3 mx-3`}
               suffixIcon="chevron-right"
-              onPress={() => setContacting(true)}
+              onPress={contact}
             />
             <ServiceRow
               label={t('settings.support.review.label')}
@@ -481,7 +481,6 @@ const Settings = () => {
         />
       )}
       {isLoggingOut && <LogoutBottomSheet onClose={() => setLoggingOut(false)} />}
-      {isContacting && <ContactBottomSheet onClose={() => setContacting(false)} />}
       {isReviewing && <ReviewBottomSheet onClose={() => setReviewing(false)} />}
     </View>
   );

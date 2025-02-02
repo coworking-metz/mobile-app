@@ -60,7 +60,7 @@ const MissingScreen = () => {
         </Animated.Text>
 
         <AppRoundedButton style={tw`mt-4 mx-2 h-14`} onPress={() => setContacting(true)}>
-          <Text style={tw`text-base font-medium`}>{t('notFound.help')}</Text>
+          <Text style={tw`text-base font-medium text-black`}>{t('notFound.help')}</Text>
         </AppRoundedButton>
       </View>
 

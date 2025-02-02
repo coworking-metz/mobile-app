@@ -35,7 +35,7 @@ import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnauthenticatedState from '@/components/Home/UnauthenticatedState';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
+import { useAppContact } from '@/context/contact';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents } from '@/services/api/calendar';
@@ -60,7 +60,7 @@ export default function HomeScreen() {
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
   const [hasSelectMembership, selectMembership] = useState<boolean>(false);
 
-  const [shouldRenderContactBottomSheet, setRenderContactBottomSheet] = useState<boolean>(false);
+  const contact = useAppContact();
 
   const {
     data: currentMembers,
@@ -175,8 +175,8 @@ export default function HomeScreen() {
       action: {
         label: t('home.onSuccessiveTaps.action'),
         onPress: () => {
-          setRenderContactBottomSheet(true);
           toastStore.dismiss(toast.id);
+          contact();
         },
       },
     });
@@ -229,10 +229,6 @@ export default function HomeScreen() {
               valid={profile?.membershipOk}
               onClose={() => selectMembership(false)}
             />
-          ) : null}
-
-          {shouldRenderContactBottomSheet ? (
-            <ContactBottomSheet onClose={() => setRenderContactBottomSheet(false)} />
           ) : null}
         </>
       }

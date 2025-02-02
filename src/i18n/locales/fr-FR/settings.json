@@ -88,6 +88,10 @@
           "fail": "Impossible de contacter par mail"
         }
       },
+      "onQuickAction": {
+        "description": "Nous sommes là pour vous aider",
+        "title": "Attendez ! Ne partez pas !"
+      },
       "title": "Contacter l'équipe"
     },
     "help": {

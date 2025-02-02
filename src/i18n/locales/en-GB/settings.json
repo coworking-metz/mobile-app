@@ -103,6 +103,10 @@
           "fail": "Unable to contact by email"
         }
       },
+      "onQuickAction": {
+        "description": "We're here to help",
+        "title": "Wait! Don't delete me!"
+      },
       "title": "Contact the team"
     },
     "help": {
