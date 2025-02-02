@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+## [2025.2.2] - 2025-02-02
+
 ### Added
 
 - Quick action to contact.
@@ -268,7 +270,8 @@ Initial release with the following features:
 - services like opening the gate,
 - user attendance history.
 
-[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2025.2.1...main
+[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2025.2.2...main
+[2025.2.2]: https://github.com/coworking-metz/mobile-app/compare/2025.2.1...2025.2.2
 [2025.2.1]: https://github.com/coworking-metz/mobile-app/compare/2025.1.2...2025.2.1
 [2025.1.2]: https://github.com/coworking-metz/mobile-app/compare/2025.1.1...2025.1.2
 [2025.1.1]: https://github.com/coworking-metz/mobile-app/compare/2024.12.3...2025.1.1
