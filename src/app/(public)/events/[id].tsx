@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import openMap from 'react-native-open-maps';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
@@ -22,6 +23,7 @@ export default function CalendarEventPage() {
   useDeviceContext(tw);
   const { id } = useLocalSearchParams();
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
 
   const {
     data: calendarEvents,
@@ -48,7 +50,7 @@ export default function CalendarEventPage() {
   }, [event]);
 
   return (
-    <ServiceLayout contentStyle={tw`py-4`} title={event?.title || ''}>
+    <ServiceLayout contentStyle={firstUrl ? tw`py-4` : tw`pt-4 pb-12`} title={event?.title || ''}>
       {event ? (
         <>
           <ZoombableImage
@@ -95,7 +97,7 @@ export default function CalendarEventPage() {
           ) : null}
 
           {firstUrl ? (
-            <View style={tw`mx-6 mt-auto pt-6 pb-2`}>
+            <View style={[tw`mx-6 mt-auto pt-6 pb-2`, { marginBottom: insets.bottom }]}>
               <Link asChild href={firstUrl}>
                 <AppRoundedButton style={tw`min-h-14 self-stretch`} suffixIcon="open-in-new">
                   <Text style={tw`text-base font-medium text-black`}>{t('actions.takeALook')}</Text>

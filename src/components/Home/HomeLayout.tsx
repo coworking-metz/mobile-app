@@ -175,7 +175,7 @@ export default function HomeLayout({
           {...(!enableAnimations && {
             refreshControl: (
               <RefreshControl
-                progressViewOffset={insets.top}
+                progressViewOffset={insets.top * 2}
                 refreshing={isRefresing}
                 onRefresh={() => {
                   setRefreshing(true);
