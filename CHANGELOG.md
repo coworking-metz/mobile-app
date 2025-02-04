@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+### Changed
+
+- (iOS only) Prefer login through a webview instead of default browser.
+See https://developer.apple.com/app-store/review/guidelines/#design
+
 ## [2025.2.2] - 2025-02-02
 
 ### Added

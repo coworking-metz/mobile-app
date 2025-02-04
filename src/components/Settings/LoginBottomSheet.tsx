@@ -2,6 +2,7 @@ import LoginAnimation from '../Animations/LoginAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
 import { makeRedirectUri } from 'expo-auth-session';
+import { WebBrowserRedirectResult, openAuthSessionAsync } from 'expo-web-browser';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
@@ -42,7 +43,19 @@ const LoginBottomSheet = ({
     });
     loginLogger.debug('Opening login uri', loginUri);
 
-    Linking.openURL(loginUri.toString())
+    (async () => {
+      if (Platform.OS === 'ios') {
+        return openAuthSessionAsync(loginUri.toString()).then((result) => {
+          loginLogger.debug('openAuthSessionAsync result', result);
+          if (result.type === 'success') {
+            const url = (result as WebBrowserRedirectResult).url || redirectUriOnSuccess;
+            return Linking.openURL(url);
+          }
+        });
+      }
+
+      return Linking.openURL(loginUri.toString());
+    })()
       .catch(async (error) => {
         const description = await parseErrorText(error);
         noticeStore.add({
