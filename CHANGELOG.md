@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+### Fixed
+
+- Properly render events filter options on the list.
+
 ## [2025.2.3] - 2025-02-04
 
 ### Changed

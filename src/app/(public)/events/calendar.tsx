@@ -102,7 +102,7 @@ const Calendar = () => {
           horizontal={true}
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
-          style={tw`w-full`}>
+          style={tw`w-full grow-0 shrink-0`}>
           <SelectableChip
             icon="chevron-down"
             label={t(`events.period.options.${selectedPeriod ?? 'none'}.label`)}
