@@ -50,7 +50,7 @@ export default function CalendarEventPage() {
   }, [event]);
 
   return (
-    <ServiceLayout contentStyle={[firstUrl ? tw`pt-4` : tw`pt-4 pb-12`]} title={event?.title || ''}>
+    <ServiceLayout contentStyle={[firstUrl ? tw`py-4` : tw`pt-4 pb-12`]} title={event?.title || ''}>
       {event ? (
         <>
           <ZoombableImage

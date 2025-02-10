@@ -185,7 +185,7 @@ const ServiceLayout = ({
             tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
           />
         </Animated.View>
-        <View style={tw`flex flex-row shrink basis-0 grow ml-4`}>
+        <View style={tw`flex flex-row shrink-0 min-w-10 overflow-visible basis-0 grow ml-4`}>
           <MaterialCommunityIcons.Button
             backgroundColor="transparent"
             borderRadius={24}
@@ -198,14 +198,14 @@ const ServiceLayout = ({
             onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
           />
         </View>
-        <Animated.Text
-          style={[
-            tw`shrink-0 text-base text-slate-900 dark:text-gray-200 font-medium`,
-            titleStyle,
-          ]}>
-          {title}
-        </Animated.Text>
-        <View style={tw`shrink basis-0 grow mr-4`} />
+        <View style={tw`flex flex-row justify-center shrink grow`}>
+          <Animated.Text
+            numberOfLines={1}
+            style={[tw`text-base text-slate-900 dark:text-gray-200 font-medium`, titleStyle]}>
+            {title}
+          </Animated.Text>
+        </View>
+        <View style={tw`shrink basis-0 grow mr-4 min-w-10`} />
       </Animated.View>
     </View>
   );
