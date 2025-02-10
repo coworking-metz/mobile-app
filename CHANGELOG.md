@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+## [2025.2.4] - 2025-02-10
+
 ### Fixed
 
 - Properly render events filter options on the list.
@@ -282,7 +284,8 @@ Initial release with the following features:
 - services like opening the gate,
 - user attendance history.
 
-[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2025.2.3...main
+[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2025.2.4...main
+[2025.2.4]: https://github.com/coworking-metz/mobile-app/compare/2025.2.3...2025.2.4
 [2025.2.3]: https://github.com/coworking-metz/mobile-app/compare/2025.2.2...2025.2.3
 [2025.2.2]: https://github.com/coworking-metz/mobile-app/compare/2025.2.1...2025.2.2
 [2025.2.1]: https://github.com/coworking-metz/mobile-app/compare/2025.1.2...2025.2.1
