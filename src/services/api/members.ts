@@ -31,6 +31,7 @@ export interface ApiMemberProfile {
   lastMembership?: number;
   abos: ApiMemberProfileSubscription[] /* deprecated */;
   attending: boolean;
+  hasActiveSubscription: boolean;
 }
 
 export const getCurrentMembers = (): Promise<ApiMemberProfile[]> => {
@@ -128,4 +129,10 @@ export const isMembershipNonCompliant = (member: ApiMemberProfile) => {
       (!member.lastMembership ||
         dayjs(member.lastSeen).isAfter(dayjs().year(member.lastMembership).endOf('year'), 'year')),
   );
+};
+
+export const isMemberBalanceInsufficient = (member: ApiMemberProfile) => {
+  const isAttendingWithoutSufficientBalance =
+    member.attending && !member.balance && !member.hasActiveSubscription;
+  return member.balance < 0 || isAttendingWithoutSufficientBalance;
 };

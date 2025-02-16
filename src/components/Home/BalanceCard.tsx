@@ -6,12 +6,13 @@ import { StyleProp, Text, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 
 const BalanceCard = ({
+  valid,
   count = 0,
   loading = false,
   style,
 }: {
+  valid?: boolean;
   count?: number;
-  total?: number;
   loading?: boolean;
   style?: StyleProp<ViewStyle>;
 }) => {
@@ -68,7 +69,7 @@ const BalanceCard = ({
         </View>
       )}
 
-      {count < 0 ? (
+      {valid === false ? (
         <MaterialCommunityIcons
           color={tw.prefixMatch('dark') ? tw.color('yellow-600') : tw.color('yellow-500')}
           name="alert"

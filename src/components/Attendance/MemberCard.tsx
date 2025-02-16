@@ -5,7 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { Text, View, type StyleProp, type ViewProps, type ViewStyle } from 'react-native';
 import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
-import { ApiMemberProfile, isMembershipNonCompliant } from '@/services/api/members';
+import {
+  ApiMemberProfile,
+  isMemberBalanceInsufficient,
+  isMembershipNonCompliant,
+} from '@/services/api/members';
 
 const MemberCard = ({
   member,
@@ -54,7 +58,7 @@ const MemberCard = ({
                   : t(`attendance.members.membership.none`)}
               </Text>
             )}
-            {member.balance < 0 && (
+            {isMemberBalanceInsufficient(member) && (
               <Text
                 numberOfLines={1}
                 style={tw`mt-2 text-sm font-medium text-red-800 rounded-md overflow-hidden bg-red-100 dark:bg-red-200/75 px-2.5 py-0.5`}>
