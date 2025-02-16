@@ -100,13 +100,7 @@ const OccupancyCount = ({
             style={tw`shrink-0 ml-auto`}>
             <Link asChild href="/attendance">
               <TouchableOpacity>
-                <View
-                  style={tw`flex flex-row-reverse items-center pl-[1rem] grow h-8 overflow-hidden`}>
-                  {members.length > MAX_MEMBERS_PICTURES ? (
-                    <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 ml-1`}>
-                      +{members.length - (MAX_MEMBERS_PICTURES - 1)}
-                    </Text>
-                  ) : null}
+                <View style={tw`flex flex-row items-center pl-[1rem] grow h-8 overflow-hidden`}>
                   {memberPictures
                     .slice(
                       0,
@@ -118,7 +112,8 @@ const OccupancyCount = ({
                       <View
                         key={`member-${picture}`}
                         style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden ml-[-1rem]`}>
-                        <View style={tw`h-8 w-8 rounded-full overflow-hidden bg-gray-200`}>
+                        <View
+                          style={tw`h-8 w-8 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-900`}>
                           <Image
                             contentFit="cover"
                             contentPosition={'top center'}
@@ -129,6 +124,17 @@ const OccupancyCount = ({
                         </View>
                       </View>
                     ))}
+                  {members.length > MAX_MEMBERS_PICTURES ? (
+                    <View
+                      style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden ml-[-1rem]`}>
+                      <View
+                        style={tw`h-8 w-8 flex justify-center items-center rounded-full overflow-hidden bg-gray-200 dark:bg-gray-900`}>
+                        <Text style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
+                          +{members.length - (MAX_MEMBERS_PICTURES - 1)}
+                        </Text>
+                      </View>
+                    </View>
+                  ) : null}
                 </View>
               </TouchableOpacity>
             </Link>
