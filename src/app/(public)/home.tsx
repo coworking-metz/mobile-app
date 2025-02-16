@@ -43,6 +43,7 @@ import {
   getCurrentMembers,
   getMemberProfile,
   getMemberSubscriptions,
+  isMemberBalanceInsufficient,
 } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
@@ -307,6 +308,7 @@ export default function HomeScreen() {
               count={profile?.balance}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
               style={tw`min-h-38`}
+              valid={profile && !isMemberBalanceInsufficient(profile)}
             />
           </AppTouchableScale>
           <AppTouchableScale

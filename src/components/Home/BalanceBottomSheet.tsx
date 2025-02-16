@@ -13,7 +13,11 @@ import { Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { isSilentError } from '@/helpers/error';
 
-import { getMemberTickets } from '@/services/api/members';
+import {
+  ApiMemberProfile,
+  getMemberTickets,
+  isMemberBalanceInsufficient,
+} from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
 const BalanceBottomSheet = ({
@@ -33,7 +37,7 @@ const BalanceBottomSheet = ({
   const user = useAuthStore((s) => s.user);
   const hasBeenActive = useRef(false);
 
-  const { refetch: refetchProfile } = useQuery({
+  const { data: memberProfile, refetch: refetchProfile } = useQuery<ApiMemberProfile>({
     queryKey: ['members', user?.id],
     enabled: false,
   });
@@ -156,7 +160,7 @@ const BalanceBottomSheet = ({
           style={tw`self-start my-1`}
         />
       ) : null}
-      {balance < 0 && (
+      {memberProfile && isMemberBalanceInsufficient(memberProfile) && (
         <View style={tw`flex flex-row items-start flex-gap-2 mb-4 w-full overflow-hidden`}>
           <MaterialCommunityIcons
             color={tw.color('yellow-500')}
