@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { isNil } from 'lodash';
 import { Skeleton } from 'moti/skeleton';
-import { useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import openMap from 'react-native-open-maps';
@@ -15,7 +15,7 @@ import AppRoundedButton from '@/components/AppRoundedButton';
 import ErrorState from '@/components/ErrorState';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
-import ZoombableImage from '@/components/ZoomableImage';
+import ZoomableImage from '@/components/ZoomableImage';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
@@ -49,11 +49,28 @@ export default function CalendarEventPage() {
     return first;
   }, [event]);
 
+  const onAddToCalendar = useCallback(() => {
+    if (event) {
+      (async () => {
+        const { status } = await Calendar.requestCalendarPermissionsAsync();
+        if (status === 'granted') {
+          Calendar.createEventInCalendarAsync({
+            startDate: new Date(event.start),
+            endDate: new Date(event.end),
+            title: event.title,
+            location: event.location,
+            notes: event.description,
+          });
+        }
+      })();
+    }
+  }, [event]);
+
   return (
     <ServiceLayout contentStyle={[firstUrl ? tw`py-4` : tw`pt-4 pb-12`]} title={event?.title || ''}>
       {event ? (
         <>
-          <ZoombableImage
+          <ZoomableImage
             contentFit="cover"
             source={firstPicture}
             sources={event.pictures}
@@ -64,7 +81,7 @@ export default function CalendarEventPage() {
                 <Text style={tw`text-xs text-gray-200 font-medium`}>{event.pictures.length}</Text>
               </View>
             )}
-          </ZoombableImage>
+          </ZoomableImage>
           <ServiceRow
             withBottomDivider
             description={t('events.detail.time', {

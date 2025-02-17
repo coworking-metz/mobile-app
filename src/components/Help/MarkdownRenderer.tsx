@@ -1,4 +1,4 @@
-import ZoombableImage from '../ZoomableImage';
+import ZoomableImage from '../ZoomableImage';
 import Markdown from '@ronradtke/react-native-markdown-display';
 import * as Linking from 'expo-linking';
 import React, { useCallback } from 'react';
@@ -23,7 +23,7 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
         image: (node) => {
           return (
             <View key={node.key}>
-              <ZoombableImage source={node.attributes.src} style={tw`w-full`} />
+              <ZoomableImage source={node.attributes.src} style={tw`w-full`} />
             </View>
           );
         },
