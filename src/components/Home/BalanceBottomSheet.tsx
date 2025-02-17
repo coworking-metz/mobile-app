@@ -170,7 +170,7 @@ const BalanceBottomSheet = ({
             style={tw`shrink-0 grow-0`}
           />
           <Text style={tw`text-left text-base font-normal text-slate-500 shrink grow basis-0`}>
-            {t('home.profile.tickets.balance.onDepleted')}
+            {t('home.profile.tickets.balance.onDepleted', { count: Math.abs(balance) })}
           </Text>
         </View>
       )}

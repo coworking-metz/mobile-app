@@ -56,21 +56,21 @@ const MembershipCard = ({
             {lastMembershipYear || t('home.profile.membership.status.none')}
           </Text>
 
-          {!valid ? (
-            <MaterialCommunityIcons
-              color={tw.prefixMatch('dark') ? tw.color('yellow-600') : tw.color('yellow-500')}
-              name="alert"
-              size={20}
-              style={tw`absolute top-3 right-3`}
-            />
-          ) : (
+          {valid ? (
             <MaterialCommunityIcons
               color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
               name="check-circle"
               size={20}
               style={tw`absolute top-3 right-3`}
             />
-          )}
+          ) : valid === false ? (
+            <MaterialCommunityIcons
+              color={tw.prefixMatch('dark') ? tw.color('yellow-600') : tw.color('yellow-500')}
+              name="alert"
+              size={20}
+              style={tw`absolute top-3 right-3`}
+            />
+          ) : null}
         </>
       )}
     </View>

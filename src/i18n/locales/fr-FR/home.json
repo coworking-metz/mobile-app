@@ -146,7 +146,8 @@
       "available_zero": "Aucun",
       "balance": {
         "label": "Solde actuel",
-        "onDepleted": "Une surconsommation excessive peut entraîner une suspension de vos accès."
+        "onDepleted_other": "Une surconsommation excessive peut entraîner une suspension de vos accès.",
+        "onDepleted_zero": "Vous êtes présent mais votre solde semble insuffisant."
       },
       "consumed": {
         "count_one": "consommé",
