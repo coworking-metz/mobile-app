@@ -142,7 +142,8 @@
       "available_zero": "None",
       "balance": {
         "label": "Current balance",
-        "onDepleted": "Excessive overconsumption can lead to a suspension of your access."
+        "onDepleted_other": "Excessive overconsumption can lead to a suspension of your access.",
+        "onDepleted_zero": "You are present but your balance seems insufficient."
       },
       "consumed": {
         "count_one": "consumed",
