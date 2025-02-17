@@ -7,10 +7,11 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import AppRoundedButton from '@/components/AppRoundedButton';
+import AppTouchableScale from '@/components/AppTouchableScale';
 import ErrorChip from '@/components/ErrorChip';
-import ProfilePicture from '@/components/Home/ProfilePicture';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
+import ZoomableImage from '@/components/ZoomableImage';
 import { isSilentError } from '@/helpers/error';
 import { getMemberProfile } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
@@ -40,15 +41,18 @@ const Advanced = () => {
 
   return (
     <ServiceLayout contentStyle={tw`pt-6 pb-12`} title={t('account.title')}>
-      <Link href={`${WORDPRESS_BASE_URL}/mon-compte/polaroid/`} style={tw`flex flex-col mx-auto`}>
-        <ProfilePicture
-          loading={!authStore.user && authStore.isFetchingToken}
-          style={tw`h-40 w-40 mx-auto`}
-          url={authStore.user?.picture}>
-          <View
-            style={tw`z-10 h-12 w-12 bg-gray-50 dark:bg-zinc-900 rounded-full absolute flex items-center justify-center -bottom-3 -right-3`}>
-            <View
-              style={tw`bg-gray-400/50 dark:bg-gray-600/50 rounded-full  flex items-center justify-center h-9 w-9`}>
+      <View style={tw`flex flex-col relative h-40 w-40 mx-auto`}>
+        <ZoomableImage
+          contentFit="cover"
+          source={authStore.user?.picture}
+          style={tw`h-full w-full rounded-2xl bg-gray-200 dark:bg-gray-900`}
+        />
+
+        <View
+          style={tw`absolute -bottom-3 -right-3 z-10 h-12 w-12 bg-gray-50 dark:bg-zinc-900 rounded-full flex items-center justify-center`}>
+          <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/polaroid/`}>
+            <AppTouchableScale
+              style={tw`bg-gray-400/50 dark:bg-gray-600/50 rounded-full flex items-center justify-center h-9 w-9`}>
               <MaterialCommunityIcons
                 color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
                 iconStyle={{ height: 12, width: 12, marginRight: 0 }}
@@ -56,10 +60,10 @@ const Advanced = () => {
                 size={20}
                 style={tw``}
               />
-            </View>
-          </View>
-        </ProfilePicture>
-      </Link>
+            </AppTouchableScale>
+          </Link>
+        </View>
+      </View>
 
       <View style={tw`flex flex-row gap-2 min-h-6 mt-6 px-6`}>
         <Text style={tw`text-sm font-normal uppercase text-slate-500`}>

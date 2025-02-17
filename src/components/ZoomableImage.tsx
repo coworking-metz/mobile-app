@@ -15,11 +15,11 @@ import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw from 'twrnc';
 
-type ZoombableImageProps = ImageProps & {
+type ZoomableImageProps = ImageProps & {
   sources?: ImageProps['source'][];
 };
 
-const ZoombableImage = ({ source, sources, style, children, ...props }: ZoombableImageProps) => {
+const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableImageProps) => {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const offset = useSharedValue(0);
@@ -84,4 +84,4 @@ const ZoombableImage = ({ source, sources, style, children, ...props }: Zoombabl
   );
 };
 
-export default ZoombableImage;
+export default ZoomableImage;
