@@ -45,7 +45,6 @@ const OnPremise = () => {
     queryKey: ['on-premise-state'],
     queryFn: getOnPremiseState,
     retry: false,
-    enabled: !!user,
   });
 
   return (
