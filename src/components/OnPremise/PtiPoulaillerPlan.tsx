@@ -9,11 +9,14 @@ import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import { type OnPremiseState } from '@/services/api/services';
 
 const PtiPoulaillerPlan = ({
+  loading,
   onKeyBoxSelected,
+  onClimateSelected,
 }: {
   onPremiseState?: OnPremiseState;
   loading?: boolean;
   onKeyBoxSelected: () => void;
+  onClimateSelected: () => void;
 }) => {
   useDeviceContext(tw);
   const [imageWidth, setImageWidth] = useState<number | null>(null);
@@ -60,6 +63,14 @@ const PtiPoulaillerPlan = ({
             inactiveIcon="key-chain-variant"
             style={tw`top-[82%] left-[22%]`}
             onPress={onKeyBoxSelected}
+          />
+          {/* Climate */}
+          <ActionableIcon
+            activeIcon="leaf"
+            inactiveIcon="leaf"
+            loading={loading}
+            style={tw`top-[68%] left-[45%]`}
+            onPress={onClimateSelected}
           />
         </>
       )}

@@ -34,6 +34,20 @@ export type OnPremiseState = {
     carbonDioxide: {
       level: number;
     };
+    humidity: {
+      level: number;
+      ptiPoulaillerLevel: number;
+    };
+    noise: {
+      level: number;
+    };
+    pressure: {
+      level: number;
+    };
+    temperature: {
+      level: number;
+      ptiPoulaillerLevel: number;
+    };
   };
 };
 

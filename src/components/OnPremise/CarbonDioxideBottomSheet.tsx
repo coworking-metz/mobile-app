@@ -1,10 +1,12 @@
 import AppBottomSheet from '../AppBottomSheet';
+import ServiceRow from '../Settings/ServiceRow';
 import { SegmentedArc } from '@shipt/segmented-arc-for-react-native';
 import { Skeleton } from 'moti/skeleton';
 import React, { useLayoutEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, StyleProp, Text, View, ViewStyle, useColorScheme } from 'react-native';
 import AnimatedNumber from 'react-native-animated-number';
+import ReadMore from 'react-native-read-more-text';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { CARBON_DIOXIDE_RANGES } from '@/services/api/services';
@@ -14,11 +16,17 @@ const ANIMATION_DURATION = 1_000;
 const CarbonDioxideBottomSheet = ({
   loading = false,
   level = 0,
+  temperatureLevel = 0,
+  humidityLevel = 0,
+  noiseLevel = 0,
   style,
   onClose,
 }: {
   loading?: boolean;
   level?: number;
+  temperatureLevel?: number;
+  humidityLevel?: number;
+  noiseLevel?: number;
   style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
@@ -31,25 +39,25 @@ const CarbonDioxideBottomSheet = ({
         scale: 0.25,
         filledColor: colorScheme === 'dark' ? tw.color('emerald-700/80') : tw.color('emerald-500'),
         emptyColor: tw.color('gray-400/25'),
-        data: { label: t('onPremise.carbonDioxide.level.low') },
+        data: { label: t('onPremise.climate.carbonDioxide.level.low') },
       },
       {
         scale: 0.25,
         filledColor: colorScheme === 'dark' ? tw.color('lime-700/80') : tw.color('lime-500'),
         emptyColor: tw.color('gray-400/25'),
-        data: { label: t('onPremise.carbonDioxide.level.normal') },
+        data: { label: t('onPremise.climate.carbonDioxide.level.normal') },
       },
       {
         scale: 0.25,
         filledColor: colorScheme === 'dark' ? tw.color('yellow-600/80') : tw.color('yellow-500'),
         emptyColor: tw.color('gray-400/25'),
-        data: { label: t('onPremise.carbonDioxide.level.high') },
+        data: { label: t('onPremise.climate.carbonDioxide.level.high') },
       },
       {
         scale: 0.25,
         filledColor: colorScheme === 'dark' ? tw.color('red-600/80') : tw.color('red-500'),
         emptyColor: tw.color('gray-400/25'),
-        data: { label: t('onPremise.carbonDioxide.level.excessive') },
+        data: { label: t('onPremise.climate.carbonDioxide.level.excessive') },
       },
     ],
     [],
@@ -62,16 +70,16 @@ const CarbonDioxideBottomSheet = ({
   }, [level]);
 
   const levelDescription = useMemo(() => {
-    if (!level) return t('onPremise.carbonDioxide.level.unknown');
+    if (!level) return t('onPremise.climate.carbonDioxide.level.unknown');
     const [_, normal, high, excessive] = ranges;
     if (level < Number(normal)) {
-      return t('onPremise.carbonDioxide.level.low');
+      return t('onPremise.climate.carbonDioxide.level.low');
     } else if (level < Number(high)) {
-      return t('onPremise.carbonDioxide.level.normal');
+      return t('onPremise.climate.carbonDioxide.level.normal');
     } else if (level < Number(excessive)) {
-      return t('onPremise.carbonDioxide.level.high');
+      return t('onPremise.climate.carbonDioxide.level.high');
     } else {
-      return t('onPremise.carbonDioxide.level.excessive');
+      return t('onPremise.climate.carbonDioxide.level.excessive');
     }
   }, [t, ranges, level]);
 
@@ -98,7 +106,7 @@ const CarbonDioxideBottomSheet = ({
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <Text
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-        {t('onPremise.carbonDioxide.label')}
+        {t('onPremise.climate.carbonDioxide.label')}
       </Text>
       <View style={tw`relative`}>
         <SegmentedArc
@@ -172,9 +180,79 @@ const CarbonDioxideBottomSheet = ({
           </Text>
         )}
       </Animated.View>
-      <Text style={tw`text-left text-base font-normal text-slate-500`}>
-        {t('onPremise.carbonDioxide.description')}
-      </Text>
+      <ReadMore
+        numberOfLines={2}
+        renderRevealedFooter={(handlePress) => (
+          <Text style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
+            {t('actions.hide')}
+          </Text>
+        )}
+        renderTruncatedFooter={(handlePress) => (
+          <Text style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
+            {t('actions.readMore')}
+          </Text>
+        )}>
+        <Text style={tw`text-left text-base font-normal text-slate-500`}>
+          {t('onPremise.climate.carbonDioxide.description')}
+        </Text>
+      </ReadMore>
+
+      <View style={tw`flex flex-col w-full`}>
+        <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
+          {t('onPremise.climate.label')}
+        </Text>
+        <ServiceRow
+          withBottomDivider
+          label={t('onPremise.climate.temperature.label')}
+          style={tw`w-full px-0`}>
+          {loading ? (
+            <Skeleton
+              backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
+              colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+              height={24}
+              width={48}
+            />
+          ) : (
+            <Text
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+              {t('onPremise.climate.temperature.level', { level: temperatureLevel })}
+            </Text>
+          )}
+        </ServiceRow>
+        <ServiceRow
+          withBottomDivider
+          label={t('onPremise.climate.humidity.label')}
+          style={tw`w-full px-0`}>
+          {loading ? (
+            <Skeleton
+              backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
+              colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+              height={24}
+              width={48}
+            />
+          ) : (
+            <Text
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+              {t('onPremise.climate.humidity.level', { level: humidityLevel })}
+            </Text>
+          )}
+        </ServiceRow>
+        <ServiceRow label={t('onPremise.climate.noise.label')} style={tw`w-full px-0`}>
+          {loading ? (
+            <Skeleton
+              backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
+              colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
+              height={24}
+              width={48}
+            />
+          ) : (
+            <Text
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+              {t('onPremise.climate.noise.level', { level: noiseLevel })}
+            </Text>
+          )}
+        </ServiceRow>
+      </View>
     </AppBottomSheet>
   );
 };
