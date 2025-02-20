@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Zoom on account profile picture.
 - Warn when attending with insufficient balance.
 - Climate sensors on floor plans.
+- Add event to user calendar.
 
 ### Changed
 

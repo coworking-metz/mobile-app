@@ -85,6 +85,12 @@
       "expo-router",
       "expo-secure-store",
       [
+        "expo-calendar",
+        {
+          "calendarPermission": "The app needs to access your calendar."
+        }
+      ],
+      [
         "@sentry/react-native/expo",
         {
           "organization": "coworking-metz",
