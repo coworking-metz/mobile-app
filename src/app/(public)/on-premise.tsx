@@ -15,6 +15,7 @@ import CarbonDioxideBottomSheet from '@/components/OnPremise/CarbonDioxideBottom
 import KeyBoxBottomSheet from '@/components/OnPremise/KeyBoxBottomSheet';
 import PhoneBoothBottomSheet from '@/components/OnPremise/PhoneBoothBottomSheet';
 import PoulaillerPlan from '@/components/OnPremise/PoulaillerPlan';
+import PtiPoulaillerClimateBottomSheet from '@/components/OnPremise/PtiPoulaillerClimateBottomSheet';
 import PtiPoulaillerPlan from '@/components/OnPremise/PtiPoulaillerPlan';
 import UnlockDeckDoorBottomSheet from '@/components/OnPremise/UnlockDeckDoorBottomSheet';
 import { SelectableChip } from '@/components/SelectableChip';
@@ -32,6 +33,8 @@ const OnPremise = () => {
   const [isPhoneBoothSelected, setPhoneBoothSelected] = useState<boolean>(false);
   const [isKeyBoxSelected, setKeyBoxSelected] = useState<boolean>(false);
   const [isCarbonDioxideSelected, setCarbonDioxideSelected] = useState<boolean>(false);
+  const [isPtiPoulaillerClimateSelected, setPtiPoulaillerClimateSelected] =
+    useState<boolean>(false);
   const [selectedLocation, setSelectedLocation] = useState<'poulailler' | 'pti-poulailler'>(
     (location || 'poulailler') as never,
   );
@@ -98,6 +101,7 @@ const OnPremise = () => {
           <Animated.View entering={FadeInRight.duration(350)} exiting={FadeOutRight.duration(350)}>
             <PtiPoulaillerPlan
               loading={isFetchingOnPremiseState}
+              onClimateSelected={() => setPtiPoulaillerClimateSelected(true)}
               onKeyBoxSelected={() => setKeyBoxSelected(true)}
               onPremiseState={onPremiseState}
             />
@@ -122,9 +126,21 @@ const OnPremise = () => {
 
       {isCarbonDioxideSelected && (
         <CarbonDioxideBottomSheet
+          humidityLevel={onPremiseState?.sensors?.humidity.level || 0}
           level={onPremiseState?.sensors?.carbonDioxide.level || 0}
           loading={isFetchingOnPremiseState}
+          noiseLevel={onPremiseState?.sensors?.noise.level || 0}
+          temperatureLevel={onPremiseState?.sensors?.temperature.level || 0}
           onClose={() => setCarbonDioxideSelected(false)}
+        />
+      )}
+
+      {isPtiPoulaillerClimateSelected && (
+        <PtiPoulaillerClimateBottomSheet
+          humidityLevel={onPremiseState?.sensors?.humidity.ptiPoulaillerLevel || 0}
+          loading={isFetchingOnPremiseState}
+          temperatureLevel={onPremiseState?.sensors?.temperature.ptiPoulaillerLevel || 0}
+          onClose={() => setPtiPoulaillerClimateSelected(false)}
         />
       )}
     </>
