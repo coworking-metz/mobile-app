@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
+import * as Calendar from 'expo-calendar';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { isNil } from 'lodash';
 import { Skeleton } from 'moti/skeleton';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import openMap from 'react-native-open-maps';
@@ -96,6 +97,8 @@ export default function CalendarEventPage() {
             })}
             prefixIcon="calendar-outline"
             style={tw`mt-6 mx-3 px-3`}
+            suffixIcon="calendar-plus"
+            onPress={onAddToCalendar}
           />
           {event.location ? (
             <ServiceRow
