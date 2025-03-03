@@ -10,6 +10,7 @@ export { default as footer } from './footer.json';
 export { default as notFound } from './notFound.json';
 export { default as help } from './help.json';
 export { default as events } from './events.json';
-export { default as onPremise } from './on-premise.json';
+export { default as onPremise } from './onPremise.json';
 export { default as account } from './account.json';
 export { default as attendance } from './attendance.json';
+export { default as privacy } from './privacy.json';

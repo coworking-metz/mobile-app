@@ -51,7 +51,20 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
 
   httpInstance.interceptors.request.use(async (config: AppAxiosRequestConfig) => {
     const authState = useAuthStore.getState();
-    const accessToken = authState.refreshToken ? await authState.getOrRefreshAccessToken() : null;
+    const accessToken = authState.refreshToken
+      ? await authState.getOrRefreshAccessToken().catch(async (error) => {
+          // prefix a descriptive error message
+          // to let the user know that refreshing tokens failed
+          const errorMessage = await parseErrorText(error);
+          const prefixedError = new Error(
+            [i18n.t('auth.onRefreshToken.fail'), errorMessage].filter(Boolean).join('\n'),
+            {
+              cause: error,
+            },
+          );
+          return Promise.reject(prefixedError);
+        })
+      : null;
     const headers = {
       ...config.headers,
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
@@ -125,7 +138,7 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
 
         // explain what happened to the user
         const errorMessage = await parseErrorText(error);
-        const errorLabel = i18n.t('auth.onRefreshTokenFail.message');
+        const errorLabel = i18n.t('auth.onDisconnected.message');
         const toastStore = useToastStore.getState();
         const noticeStore = useNoticeStore.getState();
         const toast = toastStore.add({

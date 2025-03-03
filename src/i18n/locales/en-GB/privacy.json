@@ -1,0 +1,33 @@
+{
+  "description": "You and your data",
+  "permissions": {
+    "ask": {
+      "description": "To access this feature, an additional system setting is required.\nYou just need to change it in your device settings.",
+      "review": "Go to system settings",
+      "title": "We need you"
+    },
+    "bluetooth": {
+      "description": "To be located within spaces.",
+      "label": "Bluetooth"
+    },
+    "calendar": {
+      "description": "To add events to your calendar.",
+      "label": "Calendar",
+      "status": {
+        "denied": "Denied",
+        "granted": "Granted",
+        "undetermined": "Undetermined"
+      }
+    },
+    "location": {
+      "description": "To be located on-site.",
+      "label": "Location"
+    },
+    "notifications": {
+      "description": "To receive instant notifications instead of emails.",
+      "label": "Notifications"
+    },
+    "title": "Permissions"
+  },
+  "title": "Privacy"
+}

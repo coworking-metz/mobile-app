@@ -46,7 +46,7 @@
   "people": {
     "capacity": " out of {{total}}",
     "onFetch": {
-      "fail": "Unable to fetch occupancy"
+      "fail": "Unable to fetch attendance"
     },
     "present_one": "A single person is here",
     "present_other": "occupied desks",

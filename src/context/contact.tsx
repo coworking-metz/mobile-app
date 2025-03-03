@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 
-const ContactContext = createContext<() => void>(() => {});
+const ContactContext = createContext<() => void>(() => { });
 
 export const useAppContact = () => {
   return useContext(ContactContext);
@@ -35,7 +35,6 @@ export const ContactProvider = ({ children }: { children: React.ReactNode }) => 
   return (
     <ContactContext.Provider
       value={() => {
-        console.log('contact');
         setRenderContactBottomSheet(true);
       }}>
       {children}
