@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Warn when attending with insufficient balance.
 - Climate sensors on floor plans.
 - Add event to user calendar.
+- New privacy screen to review app permissions.
 
 ### Changed
 

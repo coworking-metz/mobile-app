@@ -16,7 +16,7 @@ import useAuthStore from '@/stores/auth';
 
 const MAX_MEMBERS_PICTURES = 5;
 
-const OccupancyCount = ({
+const AttendanceCount = ({
   members = [],
   total = 0,
   loading = false,
@@ -100,7 +100,7 @@ const OccupancyCount = ({
             style={tw`shrink-0 ml-auto`}>
             <Link asChild href="/attendance">
               <TouchableOpacity>
-                <View style={tw`flex flex-row items-center pl-[1rem] grow h-8 overflow-hidden`}>
+                <View style={tw`flex flex-row items-center pl-4 grow h-8 overflow-hidden`}>
                   {memberPictures
                     .slice(
                       0,
@@ -111,7 +111,7 @@ const OccupancyCount = ({
                     .map((picture) => (
                       <View
                         key={`member-${picture}`}
-                        style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden ml-[-1rem]`}>
+                        style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden -ml-4`}>
                         <View
                           style={tw`h-8 w-8 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-900`}>
                           <Image
@@ -126,7 +126,7 @@ const OccupancyCount = ({
                     ))}
                   {members.length > MAX_MEMBERS_PICTURES ? (
                     <View
-                      style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden ml-[-1rem]`}>
+                      style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden -ml-4`}>
                       <View
                         style={tw`h-8 w-8 flex justify-center items-center rounded-full overflow-hidden bg-gray-200 dark:bg-gray-900`}>
                         <Text style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
@@ -147,4 +147,4 @@ const OccupancyCount = ({
   );
 };
 
-export default OccupancyCount;
+export default AttendanceCount;

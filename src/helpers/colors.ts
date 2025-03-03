@@ -16,6 +16,7 @@ export const theme = {
   frenchSkyBlue: '#7FA1FF',
   babyBlueEyes: '#A9C0FF',
   azureishWhite: '#D4E0FF',
+  parentolishedPine: '#5BB188',
 };
 
 // https://github.com/lottie-react-native/lottie-react-native/issues/671#issuecomment-823157024

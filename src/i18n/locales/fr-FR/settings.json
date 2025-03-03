@@ -74,9 +74,6 @@
     }
   },
   "support": {
-    "account": {
-      "label": "Mon compte"
-    },
     "contact": {
       "conversations": {
         "label": "Discuter en direct"

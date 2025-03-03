@@ -1,6 +1,7 @@
 import CarouselPaginationDots from './CarouselPaginationDots';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Image, type ImageProps } from 'expo-image';
+import { StatusBar } from 'expo-status-bar';
 import React, { useMemo, useState } from 'react';
 import {
   Modal,
@@ -38,6 +39,8 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
         {children}
       </TouchableOpacity>
       <Modal transparent animationType="fade" visible={isSelected}>
+        {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
+        <StatusBar translucent style="light" />
         <View style={tw`flex flex-col h-full w-full bg-black`}>
           <View
             style={[
@@ -48,6 +51,18 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
                 right: insets.right,
               },
             ]}>
+            {sourcesCount > 1 && (
+              <>
+                {/* fake a View with the same size as the close button to properly center pagination dots */}
+                <View style={tw`size-10`} />
+                <CarouselPaginationDots
+                  count={sourcesCount}
+                  offset={offset}
+                  style={tw`mx-auto grow-0`}
+                  width={width}
+                />
+              </>
+            )}
             <MaterialCommunityIcons.Button
               backgroundColor="rgba(3,10,42,0.4)"
               borderRadius={24}
@@ -70,14 +85,6 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
             }}
             onSwipeToClose={() => setSelected(false)}
           />
-          {sourcesCount > 1 && (
-            <CarouselPaginationDots
-              count={sourcesCount}
-              offset={offset}
-              style={tw`self-center mb-6`}
-              width={width}
-            />
-          )}
         </View>
       </Modal>
     </>

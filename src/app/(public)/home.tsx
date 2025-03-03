@@ -18,6 +18,7 @@ import AppTouchableScale from '@/components/AppTouchableScale';
 import ErrorChip from '@/components/ErrorChip';
 import { type PeriodType } from '@/components/Events/PeriodBottomSheet';
 import AppointmentCard from '@/components/Home/AppointmentCard';
+import AttendanceCount from '@/components/Home/AttendanceCount';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
@@ -25,7 +26,6 @@ import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import HomeLayout from '@/components/Home/HomeLayout';
 import MembershipBottomSheet from '@/components/Home/MembershipBottomSheet';
 import MembershipCard from '@/components/Home/MembershipCard';
-import OccupancyCount from '@/components/Home/OccupancyCount';
 import OnPremiseCard from '@/components/Home/OnPremiseCard';
 import OpenParkingCard from '@/components/Home/OpenParkingCard';
 import ProfilePicture from '@/components/Home/ProfilePicture';
@@ -270,7 +270,7 @@ export default function HomeScreen() {
       <Animated.View
         entering={FadeInLeft.duration(750)}
         style={tw`flex self-stretch ml-6 mr-4 mb-6`}>
-        <OccupancyCount
+        <AttendanceCount
           error={currentMembersError}
           loading={isLoadingCurrentMembers}
           members={currentMembers}

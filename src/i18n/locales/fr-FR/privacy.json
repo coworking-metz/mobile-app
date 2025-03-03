@@ -1,0 +1,33 @@
+{
+  "description": "Vous et vos données",
+  "permissions": {
+    "ask": {
+      "description": "Pour accéder à cette fonctionnalité, un réglage système supplémentaire est nécessaire.\nIl vous suffit simplement de le modifier dans les paramètres de votre appareil.",
+      "review": "Modifier les réglages",
+      "title": "Nous avons besoin de vous"
+    },
+    "bluetooth": {
+      "description": "Pour être localisé au sein des espaces.",
+      "label": "Bluetooth"
+    },
+    "calendar": {
+      "description": "Pour ajouter des évènements dans votre calendrier.",
+      "label": "Calendrier",
+      "status": {
+        "denied": "Refusé",
+        "granted": "Autorisé",
+        "undetermined": "Indéfini"
+      }
+    },
+    "location": {
+      "description": "Pour être localisé sur site.",
+      "label": "Localisation"
+    },
+    "notifications": {
+      "description": "Pour être notifié instantanément, plutôt que par email.",
+      "label": "Notifications"
+    },
+    "title": "Autorisations"
+  },
+  "title": "Confidentialité"
+}

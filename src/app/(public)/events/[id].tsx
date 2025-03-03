@@ -17,6 +17,7 @@ import ErrorState from '@/components/ErrorState';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import ZoomableImage from '@/components/ZoomableImage';
+import { useAppPermissions } from '@/context/permissions';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
@@ -25,11 +26,13 @@ export default function CalendarEventPage() {
   const { id } = useLocalSearchParams();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  const renderPermissionsBottomSheet = useAppPermissions();
 
   const {
     data: calendarEvents,
     isFetching: isFetchingCalendarEvents,
     error: calendarEventsError,
+    refetch: refetchCalendarEvents,
   } = useQuery({
     queryKey: ['calendarEvents'],
     queryFn: getCalendarEvents,
@@ -53,8 +56,8 @@ export default function CalendarEventPage() {
   const onAddToCalendar = useCallback(() => {
     if (event) {
       (async () => {
-        const { status } = await Calendar.requestCalendarPermissionsAsync();
-        if (status === 'granted') {
+        const { granted } = await Calendar.requestCalendarPermissionsAsync();
+        if (granted) {
           Calendar.createEventInCalendarAsync({
             startDate: new Date(event.start),
             endDate: new Date(event.end),
@@ -62,13 +65,18 @@ export default function CalendarEventPage() {
             location: event.location,
             notes: event.description,
           });
+        } else {
+          renderPermissionsBottomSheet();
         }
       })();
     }
   }, [event]);
 
   return (
-    <ServiceLayout contentStyle={[firstUrl ? tw`py-4` : tw`pt-4 pb-12`]} title={event?.title || ''}>
+    <ServiceLayout
+      contentStyle={[firstUrl ? tw`py-4` : tw`pt-4 pb-12`]}
+      title={event?.title || ''}
+      onRefresh={refetchCalendarEvents}>
       {event ? (
         <>
           <ZoomableImage

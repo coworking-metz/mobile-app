@@ -337,6 +337,15 @@ const Settings = () => {
                 suffixIcon="chevron-right"
               />
             </Link>
+            <Link asChild href="/privacy/">
+              <ServiceRow
+                withBottomDivider
+                label={t('privacy.title')}
+                prefixIcon="hand-back-left-outline"
+                style={tw`px-3 mx-3`}
+                suffixIcon="chevron-right"
+              />
+            </Link>
             <Link asChild href="/onboarding">
               <ServiceRow
                 withBottomDivider
@@ -367,15 +376,6 @@ const Settings = () => {
             </Text>
             {authStore.user && (
               <>
-                <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/`}>
-                  <ServiceRow
-                    withBottomDivider
-                    label={t('settings.support.account.label')}
-                    prefixIcon="account-outline"
-                    style={tw`px-3 mx-3`}
-                    suffixIcon="open-in-new"
-                  />
-                </Link>
                 <Link asChild href={`${WORDPRESS_BASE_URL}/la-boutique/`}>
                   <ServiceRow
                     withBottomDivider

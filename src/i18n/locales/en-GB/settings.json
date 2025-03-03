@@ -89,9 +89,6 @@
     }
   },
   "support": {
-    "account": {
-      "label": "My account"
-    },
     "contact": {
       "conversations": {
         "label": "Chat with someone"
