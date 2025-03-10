@@ -22,6 +22,7 @@ import { log } from '@/helpers/logger';
 import useSettingsStore from '@/stores/settings';
 
 const onboardingLogger = log.extend(`[onboarding]`);
+const MIN_PADDING_BOTTOM = 24;
 
 type OnboardingScreen = {
   key: string;
@@ -112,7 +113,11 @@ const Onboarding = () => {
         pointerEvents={isPickingLanguage ? 'none' : 'auto'}
         style={[
           tw`overflow-hidden bg-gray-100 dark:bg-black`,
-          { paddingLeft: insets.left, paddingBottom: insets.bottom, paddingRight: insets.right },
+          {
+            paddingLeft: insets.left,
+            paddingBottom: Math.max(insets.bottom, MIN_PADDING_BOTTOM),
+            paddingRight: insets.right,
+          },
         ]}
         onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>
         {layoutWidth ? (
@@ -173,7 +178,7 @@ const Onboarding = () => {
             </View>
             <Animated.View
               entering={FadeInDown.duration(500).delay(1000)}
-              style={tw`shrink-0 pt-1 pb-8 px-6`}>
+              style={tw`shrink-0 pt-1 px-6`}>
               <AppRoundedButton style={tw`min-h-14`} onPress={onNext}>
                 <Text style={tw`text-base font-medium text-black`}>{t('actions.next')}</Text>
               </AppRoundedButton>

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Climate sensors on floor plans.
 - Add event to user calendar.
 - New privacy screen to review app permissions.
+- Explicit button to refresh home screen data.
 
 ### Changed
 
