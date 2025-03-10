@@ -70,6 +70,7 @@ export default function HomeScreen() {
     refetch: refetchCurrentMembers,
     error: currentMembersError,
     dataUpdatedAt: currentMembersUpdatedAt,
+    errorUpdatedAt: currentMembersErrorUpdatedAt,
   } = useQuery({
     queryKey: ['currentMembers'],
     queryFn: getCurrentMembers,
@@ -242,7 +243,11 @@ export default function HomeScreen() {
           tw`flex flex-row items-center w-full px-4 pt-1`,
           Platform.OS === 'android' && tw``,
         ]}>
-        <StaleDataText activeSince={activeSince} lastFetch={currentMembersUpdatedAt} />
+        <StaleDataText
+          activeSince={activeSince}
+          lastFetch={currentMembersUpdatedAt ?? currentMembersErrorUpdatedAt}
+          loading={isFetching}
+        />
 
         <View style={tw`flex flex-col items-end shrink grow basis-0`}>
           <Link asChild href="/settings">

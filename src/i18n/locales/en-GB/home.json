@@ -162,7 +162,9 @@
     }
   },
   "refresh": {
-    "hint": "Pull to refresh"
+    "hint": "Pull to refresh",
+    "label": "Refresh",
+    "loading": "Loading…"
   },
   "services": {
     "label": "Services"

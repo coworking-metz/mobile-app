@@ -1,7 +1,8 @@
 import AppBottomSheetBackdrop from './AppBottomSheetBackdrop';
 import BottomSheet, { BottomSheetScrollView, type BottomSheetProps } from '@gorhom/bottom-sheet';
+import { SquircleView } from 'expo-squircle-view';
 import React, { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Dimensions, Platform, StyleProp, View, ViewStyle } from 'react-native';
+import { Dimensions, StyleProp, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
@@ -60,7 +61,7 @@ const AppBottomSheet = ({
           onTouch={() => bottomSheetRef?.current?.close()}
         />
       )}
-      backgroundStyle={tw`bg-white dark:bg-zinc-900`}
+      backgroundStyle={tw`bg-transparent`}
       bottomInset={4}
       containerStyle={tw`z-10`}
       detached={true}
@@ -68,30 +69,31 @@ const AppBottomSheet = ({
       handleStyle={tw`bg-transparent absolute right-0 left-0`}
       topInset={insets.top + MIN_BACKDROP_HEIGHT}
       {...props}
-      style={[
-        tw`mx-1 overflow-hidden relative`,
-        Platform.OS === 'android' ? tw`rounded-[2rem]` : tw`rounded-[3.5rem]`,
-        style,
-      ]}>
-      <View style={tw`absolute top-0 left-0 right-0 z-10`}>
-        <Fader
-          position={Fader.position.TOP}
-          size={16}
-          tintColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
-        />
-      </View>
-      {children && (
-        <BottomSheetScrollView
-          bounces={isBouncing}
-          contentContainerStyle={[
-            tw`pt-2`,
-            { paddingBottom: insets.bottom || MIN_PADDING_BOTTOM },
-            contentContainerStyle,
-          ]}
-          onContentSizeChange={(_width, height) => setContentHeight(height)}>
-          {children}
-        </BottomSheetScrollView>
-      )}
+      style={[tw`mx-1 overflow-hidden`, style]}>
+      <SquircleView
+        cornerSmoothing={100} // 0-100
+        preserveSmoothing={true} // false matches figma, true has more rounding
+        style={tw`relative overflow-hidden rounded-[3.5rem] bg-white dark:bg-zinc-900`}>
+        <View style={tw`absolute top-0 left-0 right-0 z-10`}>
+          <Fader
+            position={Fader.position.TOP}
+            size={16}
+            tintColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
+          />
+        </View>
+        {children && (
+          <BottomSheetScrollView
+            bounces={isBouncing}
+            contentContainerStyle={[
+              tw`pt-2`,
+              { paddingBottom: Math.max(insets.bottom, MIN_PADDING_BOTTOM) },
+              contentContainerStyle,
+            ]}
+            onContentSizeChange={(_width, height) => setContentHeight(height)}>
+            {children}
+          </BottomSheetScrollView>
+        )}
+      </SquircleView>
     </BottomSheet>
   );
 };

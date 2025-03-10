@@ -21,6 +21,8 @@ import { useAppPermissions } from '@/context/permissions';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
+const MIN_PADDING_BOTTOM = 24;
+
 export default function CalendarEventPage() {
   useDeviceContext(tw);
   const { id } = useLocalSearchParams();
@@ -74,7 +76,12 @@ export default function CalendarEventPage() {
 
   return (
     <ServiceLayout
-      contentStyle={[firstUrl ? tw`py-4` : tw`pt-4 pb-12`]}
+      contentStyle={[
+        tw`pt-4`,
+        {
+          paddingBottom: Math.max(insets.bottom || MIN_PADDING_BOTTOM),
+        },
+      ]}
       title={event?.title || ''}
       onRefresh={refetchCalendarEvents}>
       {event ? (
@@ -125,7 +132,7 @@ export default function CalendarEventPage() {
           ) : null}
 
           {firstUrl ? (
-            <View style={[tw`mx-6 mt-auto pt-6 pb-2`, { marginBottom: insets.bottom }]}>
+            <View style={tw`mx-6 mt-auto pt-6`}>
               <Link asChild href={firstUrl}>
                 <AppRoundedButton style={tw`min-h-14 self-stretch`} suffixIcon="open-in-new">
                   <Text style={tw`text-base font-medium text-black`}>{t('actions.takeALook')}</Text>
