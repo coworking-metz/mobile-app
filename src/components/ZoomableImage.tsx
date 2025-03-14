@@ -77,6 +77,21 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
           </View>
           <Gallery
             data={sources ?? [source]}
+            renderItem={({ item, setImageDimensions }) => (
+              <Image
+                allowDownscaling={false}
+                cachePolicy="memory-disk"
+                contentFit="contain"
+                source={item}
+                style={tw`h-full w-full`}
+                onLoad={(event) => {
+                  setImageDimensions({
+                    width: event.source.width,
+                    height: event.source.height,
+                  });
+                }}
+              />
+            )}
             onIndexChange={(index) => {
               offset.value = withTiming(index * width, {
                 easing: Easing.linear,

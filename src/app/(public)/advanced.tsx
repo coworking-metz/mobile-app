@@ -1,7 +1,8 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { Image } from 'expo-image';
 import * as Updates from 'expo-updates';
 import { isNil } from 'lodash';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, TextInput } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
@@ -30,6 +31,8 @@ const Advanced = () => {
   const settingsStore = useSettingsStore();
   const queryClient = useQueryClient();
   const resetNavigation = useResetNavigation();
+  const [isClearingCache, setClearingCache] = useState(false);
+  const [isResetting, setResetting] = useState(false);
 
   const onSwitchAuthStorage = useCallback(
     async (value: boolean) => {
@@ -68,34 +71,45 @@ const Advanced = () => {
     [t],
   );
 
-  const invalidateCache = useCallback(() => {
+  const clearCache = useCallback(() => {
+    setClearingCache(true);
     (async () => {
       await authStore.refreshAccessToken();
-      await queryClient.resetQueries();
+      await Promise.all([
+        queryClient.resetQueries(),
+        Image.clearDiskCache(),
+        Image.clearMemoryCache(),
+      ]);
     })()
       .then(() => {
         toastStore.add({
-          message: t('advanced.store.invalidate.onInvalidate.success'),
+          message: t('advanced.store.clearCache.onCleared.success'),
           type: 'success',
-          timeout: 3000,
+          timeout: 3_000,
         });
       })
       .catch(async (error: Error) => {
         const description = await parseErrorText(error);
         noticeStore.add({
-          message: t('advanced.store.invalidate.onInvalidate.fail'),
+          message: t('advanced.store.clearCache.onCleared.fail'),
           description,
           type: 'error',
         });
+      })
+      .finally(() => {
+        setClearingCache(false);
       });
   }, [queryClient, toastStore, noticeStore]);
 
-  const clearEverything = useCallback(() => {
+  const reset = useCallback(() => {
+    setResetting(true);
     Promise.all([authStore.clear(), settingsStore.clear()])
-      .then(() => queryClient.clear())
+      .then(() =>
+        Promise.all([queryClient.clear(), Image.clearDiskCache(), Image.clearMemoryCache()]),
+      )
       .then(() => {
         toastStore.add({
-          message: t('advanced.store.clear.onClear.success'),
+          message: t('advanced.store.reset.onReset.success'),
           type: 'success',
           timeout: 3000,
         });
@@ -104,12 +118,35 @@ const Advanced = () => {
       .catch(async (error: Error) => {
         const description = await parseErrorText(error);
         noticeStore.add({
-          message: t('advanced.store.clear.onClear.fail'),
+          message: t('advanced.store.reset.onReset.fail'),
           description,
           type: 'error',
         });
+      })
+      .finally(() => {
+        setResetting(false);
       });
   }, [queryClient, authStore.clear, settingsStore.clear, toastStore, noticeStore]);
+
+  const confirmReset = useCallback(() => {
+    Alert.alert(
+      t('advanced.store.reset.confirm.title'),
+      t('advanced.store.reset.confirm.message'),
+      [
+        {
+          text: t('actions.cancel'),
+          style: 'cancel',
+          isPreferred: true,
+        },
+        {
+          text: t('actions.confirm'),
+          style: 'destructive',
+          onPress: reset,
+        },
+      ],
+      { cancelable: true },
+    );
+  }, [t]);
 
   return (
     <ServiceLayout
@@ -240,17 +277,19 @@ const Advanced = () => {
       </ServiceRow>
       <ServiceRow
         withBottomDivider
-        description={t('advanced.store.invalidate.description')}
-        label={t('advanced.store.invalidate.label')}
+        description={t('advanced.store.clearCache.description')}
+        label={t('advanced.store.clearCache.label')}
+        loading={isClearingCache}
         style={tw`px-3 mx-3`}
         suffixIcon="cloud-sync-outline"
-        onPress={invalidateCache}
+        onPress={clearCache}
       />
       <ServiceRow
-        label={t('advanced.store.clear.label')}
+        label={t('advanced.store.reset.label')}
+        loading={isResetting}
         style={tw`px-3 mx-3`}
         suffixIcon="nuke"
-        onPress={clearEverything}
+        onPress={confirmReset}
       />
     </ServiceLayout>
   );

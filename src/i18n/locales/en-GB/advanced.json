@@ -15,29 +15,33 @@
     "accessToken": {
       "label": "Access token"
     },
-    "clear": {
-      "label": "Reset everything",
-      "onClear": {
-        "fail": "Unable to reset data",
-        "success": "All data has been reset"
+    "clearCache": {
+      "description": "To free up storage space",
+      "label": "Clear cache",
+      "onCleared": {
+        "fail": "Unable to clear cache",
+        "success": "Cache has been cleared"
       }
     },
     "hasLearnPullToRefresh": {
       "label": "Hide pull to refresh hint"
-    },
-    "invalidate": {
-      "description": "Requests will be resent",
-      "label": "Invalidate cache",
-      "onInvalidate": {
-        "fail": "Unable to reset cache",
-        "success": "Cache has been reset"
-      }
     },
     "onboarding": {
       "label": "Skip onboarding at launch"
     },
     "refreshToken": {
       "label": "Refresh token"
+    },
+    "reset": {
+      "confirm": {
+        "message": "This will log you out and reset all application data as if it was installed for the first time.",
+        "title": "Reset data"
+      },
+      "label": "Reset everything",
+      "onReset": {
+        "fail": "Unable to reset data",
+        "success": "All data has been reset"
+      }
     },
     "title": "Application storage",
     "tokensStorage": {

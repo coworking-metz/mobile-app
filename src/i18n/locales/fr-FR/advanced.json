@@ -15,29 +15,33 @@
     "accessToken": {
       "label": "Jeton d'accès"
     },
-    "clear": {
-      "label": "Tout réinitialiser",
-      "onClear": {
-        "fail": "Impossible de réinitialiser les données",
-        "success": "Toutes les données ont été réinitialisées"
+    "clearCache": {
+      "description": "Pour libérer de l'espace de stockage",
+      "label": "Vider le cache",
+      "onCleared": {
+        "fail": "Impossible de vider le cache",
+        "success": "Le cache a été vidé"
       }
     },
     "hasLearnPullToRefresh": {
       "label": "Cacher l'indice du glisser pour rafraîchir"
-    },
-    "invalidate": {
-      "description": "Les requêtes seront de nouveau envoyées",
-      "label": "Invalider le cache",
-      "onInvalidate": {
-        "fail": "Impossible d'invalider le cache",
-        "success": "Le cache a été invalidé"
-      }
     },
     "onboarding": {
       "label": "Passer la présentation au démarrage"
     },
     "refreshToken": {
       "label": "Jeton de rafraîchissement"
+    },
+    "reset": {
+      "confirm": {
+        "message": "Cela vous déconnectera et réinitialisera toutes les données de l'application comme si elle avait été installée pour la première fois.",
+        "title": "Réinitialiser les données"
+      },
+      "label": "Tout réinitialiser",
+      "onReset": {
+        "fail": "Impossible de réinitialiser les données",
+        "success": "Toutes les données ont été réinitialisées"
+      }
     },
     "title": "Stockage",
     "tokensStorage": {

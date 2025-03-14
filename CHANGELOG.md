@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+### Changed
+
+- Load picture faster when viewing in fullscreen.
+
 ## [2025.3.1] - 2025-03-10
 
 ### Added
