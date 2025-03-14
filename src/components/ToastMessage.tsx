@@ -57,6 +57,7 @@ const ToastMessage = () => {
             size={20}
           />
         ),
+        closeButton: true,
         duration: notification.timeout ?? Infinity,
         onAutoClose: () => toastStore.dismiss(notification.id),
         onDismiss: () => toastStore.dismiss(notification.id),

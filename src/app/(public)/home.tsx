@@ -13,6 +13,7 @@ import Animated, {
   FadeOutDown,
   StretchInY,
 } from 'react-native-reanimated';
+import { toast } from 'sonner-native';
 import tw, { useDeviceContext } from 'twrnc';
 import AppTouchableScale from '@/components/AppTouchableScale';
 import ErrorChip from '@/components/ErrorChip';
@@ -171,13 +172,13 @@ export default function HomeScreen() {
   }, [authStore.user, settingsStore]);
 
   const onSuccessiveTaps = useCallback(() => {
-    const toast = toastStore.add({
+    toastStore.add({
       message: t('home.onSuccessiveTaps.message'),
       type: 'info',
       action: {
         label: t('home.onSuccessiveTaps.action'),
-        onPress: () => {
-          toastStore.dismiss(toast.id);
+        onPress: async () => {
+          toast.dismiss();
           contact();
         },
       },

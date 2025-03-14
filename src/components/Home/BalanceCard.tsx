@@ -84,7 +84,7 @@ const BalanceCard = ({
           entering={BounceIn.duration(1000).delay(300)}
           exiting={BounceOut.duration(1000)}
           style={tw`z-10 h-5 w-5 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -top-1 -right-1`}>
-          <View style={tw`h-3 w-3 bg-orange-600 dark:bg-orange-700 rounded-full`} />
+          <View style={tw`h-3 w-3 bg-red-600 dark:bg-red-700 rounded-full`} />
         </Animated.View>
       )}
     </View>

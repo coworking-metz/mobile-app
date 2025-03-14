@@ -3,6 +3,7 @@ import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, Text, View, ViewStyle } from 'react-native';
+import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 
 const MembershipCard = ({
@@ -23,7 +24,7 @@ const MembershipCard = ({
   return (
     <View
       style={[
-        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl w-32 relative overflow-hidden px-3 pt-2 pb-4`,
+        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl w-32 relative px-3 pt-2 pb-4`,
         style,
       ]}>
       <MaterialCommunityIcons
@@ -64,12 +65,12 @@ const MembershipCard = ({
               style={tw`absolute top-3 right-3`}
             />
           ) : valid === false ? (
-            <MaterialCommunityIcons
-              color={tw.prefixMatch('dark') ? tw.color('yellow-600') : tw.color('yellow-500')}
-              name="alert"
-              size={20}
-              style={tw`absolute top-3 right-3`}
-            />
+            <Animated.View
+              entering={BounceIn.duration(1000).delay(300)}
+              exiting={BounceOut.duration(1000)}
+              style={tw`z-10 h-5 w-5 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -top-1 -right-1`}>
+              <View style={tw`h-3 w-3 bg-red-600 dark:bg-red-700 rounded-full`} />
+            </Animated.View>
           ) : null}
         </>
       )}

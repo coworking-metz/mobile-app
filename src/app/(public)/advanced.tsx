@@ -281,7 +281,7 @@ const Advanced = () => {
         label={t('advanced.store.clearCache.label')}
         loading={isClearingCache}
         style={tw`px-3 mx-3`}
-        suffixIcon="cloud-sync-outline"
+        suffixIcon="trash-can-outline"
         onPress={clearCache}
       />
       <ServiceRow
