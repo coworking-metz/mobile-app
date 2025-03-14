@@ -1,4 +1,5 @@
 import AccountAnimation from '../Animations/AccountAnimation';
+import { Image } from 'expo-image';
 import { Skeleton } from 'moti/skeleton';
 import React, { ReactNode } from 'react';
 import { StyleProp, View, ViewStyle } from 'react-native';
@@ -29,8 +30,9 @@ const ProfilePicture = ({
             width={`100%`}
           />
         ) : url ? (
-          <Animated.Image
-            resizeMode="cover"
+          <Image
+            cachePolicy="memory-disk"
+            contentFit="cover"
             source={{ uri: url }}
             style={tw`h-full w-full rounded-3xl bg-gray-200 dark:bg-gray-400 overflow-hidden`}
           />

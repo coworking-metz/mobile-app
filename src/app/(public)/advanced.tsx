@@ -73,14 +73,11 @@ const Advanced = () => {
 
   const clearCache = useCallback(() => {
     setClearingCache(true);
-    (async () => {
-      await authStore.refreshAccessToken();
-      await Promise.all([
-        queryClient.resetQueries(),
-        Image.clearDiskCache(),
-        Image.clearMemoryCache(),
-      ]);
-    })()
+    Promise.all([
+      Image.clearDiskCache(),
+      Image.clearMemoryCache(),
+      authStore.refreshAccessToken().then(() => queryClient.resetQueries()),
+    ])
       .then(() => {
         toastStore.add({
           message: t('advanced.store.clearCache.onCleared.success'),
