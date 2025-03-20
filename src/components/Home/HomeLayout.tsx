@@ -1,6 +1,7 @@
 import SpaceshipRefreshAnimation from './SpaceshipRefreshAnimation';
 import * as Haptics from 'expo-haptics';
-import React, { useCallback, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useNavigation } from 'expo-router';
+import React, { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
   PanResponder,
   Platform,
@@ -47,6 +48,7 @@ export default function HomeLayout({
   const completed = useSharedValue(false);
   const [isRefresing, setRefreshing] = useState(false);
   const settingsStore = useSettingsStore();
+  const navigation = useNavigation();
   const enableAnimations = useMemo(
     () => !settingsStore.withNativePullToRefresh && !IS_RUNNING_IN_EXPO_GO,
     [settingsStore.withNativePullToRefresh],
@@ -86,9 +88,19 @@ export default function HomeLayout({
   };
 
   const onRefreshComplete = useCallback(() => {
-    pullDownPosition.value = withTiming(0, { duration: 300 });
+    pullDownPosition.value = withTiming(1, { duration: 300 });
     completed.value = false;
   }, [pullDownPosition.value, completed.value]);
+
+  // reset animation state when the screen is blurred
+  useEffect(() => {
+    if (enableAnimations) {
+      const unsubscribe = navigation.addListener('blur', () => {
+        onRefreshComplete();
+      });
+      return unsubscribe;
+    }
+  }, [enableAnimations]);
 
   const panResponderRef = useRef(
     PanResponder.create({

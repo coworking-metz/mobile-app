@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## unreleased
 
+### Changed
+
+- Improve scroll handling on home screen.
+
 ## [2025.3.2] - 2025-03-14
 
 ### Added
