@@ -49,7 +49,7 @@ const SpaceshipRefreshAnimation = ({
   useDerivedValue(() => {
     if (released?.get()) {
       runOnJS(setPullProgress)(101);
-    } else if (pullProgress?.get()) {
+    } else if (pullProgress?.get() && pullProgress.get() > 1) {
       runOnJS(setPullProgress)(Math.min(pullProgress.get() / 4, 99));
     } else {
       runOnJS(onReset)();
