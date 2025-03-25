@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Improve scroll handling on home screen.
 
+### Fixed
+
+- (iOS only) Prefer logout through a webview instead of default browser.
+
 ## [2025.3.2] - 2025-03-14
 
 ### Added

@@ -7,10 +7,9 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
-import { parseErrorText } from '@/helpers/error';
+import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import { HTTP } from '@/services/http';
-import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
 
 const loginLogger = log.extend(`[login]`);
@@ -23,9 +22,9 @@ const LoginBottomSheet = ({
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
-  const noticeStore = useNoticeStore();
   const settingsStore = useSettingsStore();
   const [isLoading, setLoading] = useState<boolean>(false);
+  const notifyError = useErrorNotification();
 
   const onSubmit = useCallback(() => {
     setLoading(true);
@@ -40,12 +39,12 @@ const LoginBottomSheet = ({
       params: {
         follow: redirectUriOnSuccess,
       },
-    });
+    }).toString();
     loginLogger.debug('Opening login uri', loginUri);
 
     (async () => {
       if (Platform.OS === 'ios') {
-        return openAuthSessionAsync(loginUri.toString()).then((result) => {
+        return openAuthSessionAsync(loginUri).then((result) => {
           loginLogger.debug('openAuthSessionAsync result', result);
           if (result.type === 'success') {
             const url = (result as WebBrowserRedirectResult).url || redirectUriOnSuccess;
@@ -54,20 +53,15 @@ const LoginBottomSheet = ({
         });
       }
 
-      return Linking.openURL(loginUri.toString());
+      return Linking.openURL(loginUri);
     })()
-      .catch(async (error) => {
-        const description = await parseErrorText(error);
-        noticeStore.add({
-          message: t('errors.default.message'),
-          description,
-          type: 'error',
-        });
+      .catch((error) => {
+        notifyError(t('errors.default.message'), error);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [settingsStore]);
+  }, [notifyError, t, settingsStore]);
 
   return (
     <AppBottomSheet

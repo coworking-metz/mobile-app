@@ -4,6 +4,7 @@ import AppRoundedButton from '../AppRoundedButton';
 import AppTextButton from '../AppTextButton';
 import { makeRedirectUri } from 'expo-auth-session';
 import { Link } from 'expo-router';
+import { openAuthSessionAsync, WebBrowserRedirectResult } from 'expo-web-browser';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
@@ -35,7 +36,19 @@ const LogoutBottomSheet = ({
     const logoutUrl = `https://www.coworking-metz.fr/mon-compte/?logout=true&redirect_to=${redirectUriOnSuccess}`;
     logoutLogger.debug('Opening logout uri', logoutUrl);
 
-    Linking.openURL(logoutUrl.toString())
+    (async () => {
+      if (Platform.OS === 'ios') {
+        return openAuthSessionAsync(logoutUrl).then((result) => {
+          logoutLogger.debug('openAuthSessionAsync result', result);
+          if (result.type === 'success') {
+            const url = (result as WebBrowserRedirectResult).url || redirectUriOnSuccess;
+            return Linking.openURL(url);
+          }
+        });
+      }
+
+      return Linking.openURL(logoutUrl);
+    })()
       .catch((error) => {
         notifyError(t('errors.default.message'), error);
       })
