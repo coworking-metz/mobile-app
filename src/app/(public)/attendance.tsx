@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import Animated, { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
+import EmptyOfficeAnimation from '@/components/Animations/EmptyOfficeAnimation';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import MemberCard from '@/components/Attendance/MemberCard';
 import ErrorState from '@/components/ErrorState';
@@ -106,7 +107,7 @@ const Attendance = () => {
       ) : (
         <View
           style={tw`flex flex-col px-4 gap-2 grow basis-0 justify-start mx-auto w-full max-w-sm`}>
-          <TumbleweedRollingAnimation style={tw`h-56 w-full max-w-xs`} />
+          <EmptyOfficeAnimation style={tw`h-80 -my-12 w-80 mx-auto`} />
           <Animated.Text
             entering={FadeInLeft.duration(500)}
             numberOfLines={1}
