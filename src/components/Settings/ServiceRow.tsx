@@ -89,9 +89,9 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
           ) : suffixIcon ? (
             <MaterialCommunityIcons
               color={iconColor}
-              iconStyle={{ height: 24, width: 24, marginRight: 0 }}
+              iconStyle={{ height: 20, width: 20, marginRight: 0 }}
               name={suffixIcon}
-              size={28}
+              size={24}
               style={[tw`shrink-0`, disabled && tw`opacity-40`]}
             />
           ) : null}

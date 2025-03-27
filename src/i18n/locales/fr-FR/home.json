@@ -57,6 +57,16 @@
     "present_zero": "Aucune personne présente"
   },
   "profile": {
+    "birthday": {
+      "claim": "Récupérer mon cadeau",
+      "description": "C'est votre anniversaire aujourd'hui et nous n'aurions manquer pour rien au monde de vous le souhaiter.\nAlors joyeux anniversaire 🎉 et à très vite au Poulailler !",
+      "label": "Joyeux anniversaire !"
+    },
+    "gift": {
+      "description": "Une surprise vous attend…",
+      "discover": "Découvrir",
+      "label": "Psst !"
+    },
     "label": "Situation",
     "membership": {
       "activity": {

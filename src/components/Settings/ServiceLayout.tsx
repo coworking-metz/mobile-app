@@ -201,7 +201,7 @@ const ServiceLayout = ({
         <View style={tw`flex flex-row justify-center shrink grow`}>
           <Animated.Text
             numberOfLines={1}
-            style={[tw`text-base text-slate-900 dark:text-gray-200 font-medium`, titleStyle]}>
+            style={[tw`text-lg text-slate-900 dark:text-gray-200 font-medium`, titleStyle]}>
             {title}
           </Animated.Text>
         </View>

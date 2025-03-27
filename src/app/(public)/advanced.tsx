@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 import { Image } from 'expo-image';
 import * as Updates from 'expo-updates';
 import { isNil } from 'lodash';
@@ -217,6 +218,20 @@ const Advanced = () => {
           value={settingsStore.withNativePullToRefresh}
           onColor={theme.meatBrown}
           onValueChange={(value) => useSettingsStore.setState({ withNativePullToRefresh: value })}
+        />
+      </ServiceRow>
+      <ServiceRow
+        withBottomDivider
+        label={t('advanced.store.hasSeenBirthdayPresentAt.label')}
+        style={tw`px-3 mx-3`}>
+        <Switch
+          value={!isNil(settingsStore.hasSeenBirthdayPresentAt)}
+          onColor={theme.meatBrown}
+          onValueChange={(value) =>
+            useSettingsStore.setState({
+              hasSeenBirthdayPresentAt: value ? dayjs().toISOString() : null,
+            })
+          }
         />
       </ServiceRow>
       <ServiceRow
