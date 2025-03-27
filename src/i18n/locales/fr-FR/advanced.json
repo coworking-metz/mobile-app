@@ -26,6 +26,9 @@
     "hasLearnPullToRefresh": {
       "label": "Cacher l'indice du glisser pour rafraîchir"
     },
+    "hasSeenBirthdayPresentAt": {
+      "label": "Cacher l'effet de surprise d'anniversaire"
+    },
     "onboarding": {
       "label": "Passer la présentation au démarrage"
     },

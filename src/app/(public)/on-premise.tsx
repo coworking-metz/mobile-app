@@ -41,6 +41,7 @@ const OnPremise = () => {
 
   const {
     data: onPremiseState,
+    isPending: isPendingOnPremiseState,
     isFetching: isFetchingOnPremiseState,
     error: onPremiseStateError,
     refetch: refetchOnPremiseState,

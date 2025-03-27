@@ -18,6 +18,7 @@ interface SettingsState {
   apiBaseUrl: string | null;
   areTokensInAsyncStorage: boolean;
   withNativePullToRefresh: boolean;
+  hasSeenBirthdayPresentAt: string | null;
   clear: () => Promise<void>;
 }
 
@@ -31,6 +32,7 @@ const useSettingsStore = create<SettingsState>()(
         hasOnboard: false,
         hasLearnPullToRefresh: false,
         withNativePullToRefresh: false,
+        hasSeenBirthdayPresentAt: null,
         language: SYSTEM_OPTION,
         theme: SYSTEM_OPTION,
         apiBaseUrl: null,
@@ -40,11 +42,12 @@ const useSettingsStore = create<SettingsState>()(
             hasOnboard: false,
             hasLearnPullToRefresh: false,
             withNativePullToRefresh: false,
+            hasSeenBirthdayPresentAt: null,
             language: SYSTEM_OPTION,
             theme: SYSTEM_OPTION,
             apiBaseUrl: null,
             areTokensInAsyncStorage: false,
-          });
+          } as Omit<SettingsState, 'clear' | 'hydrated'>);
         },
       }),
       {
@@ -56,6 +59,7 @@ const useSettingsStore = create<SettingsState>()(
               [
                 'hasOnboard',
                 'hasLearnPullToRefresh',
+                'hasSeenBirthdayPresentAt',
                 'withNativePullToRefresh',
                 'language',
                 'theme',

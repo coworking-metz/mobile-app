@@ -8,7 +8,7 @@ import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 
 const HANDLE_HEIGHT = 8;
-const MIN_PADDING_BOTTOM = 24;
+export const MIN_PADDING_BOTTOM = 24;
 const MIN_BACKDROP_HEIGHT = 64;
 
 export type AppBottomSheetProps = Omit<BottomSheetProps, 'snapPoints'> & {

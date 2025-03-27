@@ -22,6 +22,8 @@ import AppointmentCard from '@/components/Home/AppointmentCard';
 import AttendanceCount from '@/components/Home/AttendanceCount';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
+import BirthdayBottomSheet from '@/components/Home/BirthdayBottomSheet';
+import BirthdayCard from '@/components/Home/BirthdayCard';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import HomeLayout from '@/components/Home/HomeLayout';
@@ -61,6 +63,7 @@ export default function HomeScreen() {
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
   const [hasSelectMembership, selectMembership] = useState<boolean>(false);
+  const [hasSelectBirthday, selectBirthday] = useState<boolean>(false);
 
   const contact = useAppContact();
 
@@ -95,6 +98,10 @@ export default function HomeScreen() {
     retry: false,
     enabled: !!authStore.user?.id,
   });
+
+  const isTodayBirthday = useMemo(() => {
+    return profile?.birthDate && !dayjs(profile.birthDate).isSame(dayjs(), 'day');
+  }, [profile]);
 
   const {
     data: subscriptions,
@@ -203,6 +210,10 @@ export default function HomeScreen() {
     <HomeLayout
       outerChildren={
         <>
+          {hasSelectBirthday && isTodayBirthday ? (
+            <BirthdayBottomSheet onClose={() => selectBirthday(false)} />
+          ) : null}
+
           {hasSelectSubscription ? (
             <SubscriptionBottomSheet
               activeSince={activeSince}
@@ -302,18 +313,25 @@ export default function HomeScreen() {
         </View>
 
         <ScrollView
-          contentContainerStyle={tw`flex flex-row items-stretch gap-4 px-4`}
+          contentContainerStyle={tw`flex flex-row items-stretch gap-4 px-4 overflow-visible`}
           horizontal={true}
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
-          style={tw`w-full`}>
+          style={tw`w-full overflow-visible`}>
+          {isTodayBirthday && (
+            <AppTouchableScale
+              style={tw`flex flex-row items-stretch`}
+              onPress={() => selectBirthday(true)}>
+              <BirthdayCard style={tw`h-38`} />
+            </AppTouchableScale>
+          )}
           <AppTouchableScale
             style={tw`flex flex-row items-stretch`}
             onPress={() => selectBalance(true)}>
             <BalanceCard
               count={profile?.balance}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
-              style={tw`min-h-38`}
+              style={tw`h-38`}
               valid={profile && !isMemberBalanceInsufficient(profile)}
             />
           </AppTouchableScale>
@@ -323,7 +341,7 @@ export default function HomeScreen() {
             <SubscriptionCard
               activeSince={activeSince}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingSubscriptions}
-              style={tw`min-h-38`}
+              style={tw`h-38`}
               subscription={currentSubscription}
             />
           </AppTouchableScale>
@@ -334,7 +352,7 @@ export default function HomeScreen() {
               active={profile?.activeUser}
               lastMembershipYear={profile?.lastMembership}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
-              style={tw`min-h-38`}
+              style={tw`h-38`}
               valid={profile?.membershipOk}
             />
           </AppTouchableScale>
@@ -359,7 +377,7 @@ export default function HomeScreen() {
         ) : null}
         <Link asChild href="/events/calendar">
           <Text
-            style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-[16]`}>
+            style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-5`}>
             {t('home.calendar.browse')}
           </Text>
         </Link>

@@ -25,7 +25,7 @@ const MIN_PADDING_BOTTOM = 24;
 
 export default function CalendarEventPage() {
   useDeviceContext(tw);
-  const { id } = useLocalSearchParams();
+  const { eventId } = useLocalSearchParams();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const renderPermissionsBottomSheet = useAppPermissions();
@@ -42,8 +42,8 @@ export default function CalendarEventPage() {
   });
 
   const event = useMemo<CalendarEvent | null>(() => {
-    return (!isNil(id) && (calendarEvents || []).find((e) => `${e.id}` === `${id}`)) || null;
-  }, [calendarEvents, id]);
+    return (!isNil(eventId) && (calendarEvents || []).find((e) => `${e.id}` === eventId)) || null;
+  }, [calendarEvents, eventId]);
 
   const firstPicture = useMemo(() => {
     const [first] = event?.pictures || [];
