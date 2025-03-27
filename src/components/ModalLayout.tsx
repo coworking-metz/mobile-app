@@ -64,7 +64,7 @@ const ModalLayout = ({
   }, [insets]);
 
   const canGoBack = useMemo(() => {
-    return navigation.getState().index > 0;
+    return !!navigation.getState()?.index && Number(navigation.getState()?.index) > 0;
   }, [navigation]);
 
   const headerStyle = useAnimatedStyle(() => {
