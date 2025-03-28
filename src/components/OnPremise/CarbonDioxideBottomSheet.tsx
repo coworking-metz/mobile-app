@@ -1,10 +1,11 @@
 import AppBottomSheet from '../AppBottomSheet';
+import AppText from '../AppText';
 import ServiceRow from '../Settings/ServiceRow';
 import { SegmentedArc } from '@shipt/segmented-arc-for-react-native';
 import { Skeleton } from 'moti/skeleton';
 import React, { useLayoutEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, Text, View, ViewStyle, useColorScheme } from 'react-native';
+import { Platform, StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
 import AnimatedNumber from 'react-native-animated-number';
 import ReadMore from 'react-native-read-more-text';
 import Animated, { FadeInUp } from 'react-native-reanimated';
@@ -104,10 +105,10 @@ const CarbonDioxideBottomSheet = ({
       style={style}
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
-      <Text
+      <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.climate.carbonDioxide.label')}
-      </Text>
+      </AppText>
       <View style={tw`relative`}>
         <SegmentedArc
           showArcRanges
@@ -148,11 +149,11 @@ const CarbonDioxideBottomSheet = ({
                 value={currentLevel}
               />
             )}
-            <Text
+            <AppText
               numberOfLines={1}
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
               ppm
-            </Text>
+            </AppText>
           </View>
         </View>
       </View>
@@ -173,34 +174,34 @@ const CarbonDioxideBottomSheet = ({
             />
           </View>
         ) : (
-          <Text
+          <AppText
             numberOfLines={1}
             style={tw`text-sm font-normal shrink text-gray-900 dark:text-gray-200`}>
             {levelDescription}
-          </Text>
+          </AppText>
         )}
       </Animated.View>
       <ReadMore
         numberOfLines={2}
         renderRevealedFooter={(handlePress) => (
-          <Text style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
+          <AppText style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
             {t('actions.hide')}
-          </Text>
+          </AppText>
         )}
         renderTruncatedFooter={(handlePress) => (
-          <Text style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
+          <AppText style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
             {t('actions.readMore')}
-          </Text>
+          </AppText>
         )}>
-        <Text style={tw`text-left text-base font-normal text-slate-500`}>
+        <AppText style={tw`text-left text-base font-normal text-slate-500`}>
           {t('onPremise.climate.carbonDioxide.description')}
-        </Text>
+        </AppText>
       </ReadMore>
 
       <View style={tw`flex flex-col w-full`}>
-        <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
+        <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
           {t('onPremise.climate.label')}
-        </Text>
+        </AppText>
         <ServiceRow
           withBottomDivider
           label={t('onPremise.climate.temperature.label')}
@@ -213,10 +214,10 @@ const CarbonDioxideBottomSheet = ({
               width={48}
             />
           ) : (
-            <Text
+            <AppText
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
               {t('onPremise.climate.temperature.level', { level: temperatureLevel })}
-            </Text>
+            </AppText>
           )}
         </ServiceRow>
         <ServiceRow
@@ -231,10 +232,10 @@ const CarbonDioxideBottomSheet = ({
               width={48}
             />
           ) : (
-            <Text
+            <AppText
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
               {t('onPremise.climate.humidity.level', { level: humidityLevel })}
-            </Text>
+            </AppText>
           )}
         </ServiceRow>
         <ServiceRow label={t('onPremise.climate.noise.label')} style={tw`w-full px-0`}>
@@ -246,10 +247,10 @@ const CarbonDioxideBottomSheet = ({
               width={48}
             />
           ) : (
-            <Text
+            <AppText
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
               {t('onPremise.climate.noise.level', { level: noiseLevel })}
-            </Text>
+            </AppText>
           )}
         </ServiceRow>
       </View>

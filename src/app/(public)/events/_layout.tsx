@@ -15,7 +15,7 @@ export default function EventsLayout() {
           animationTypeForReplace: 'pop',
         }}
       />
-      <Stack.Screen name="[id]" />
+      <Stack.Screen name="[eventId]" />
     </Stack>
   );
 }

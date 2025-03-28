@@ -4,9 +4,10 @@ import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
 import AppTouchableScale from '@/components/AppTouchableScale';
 import ErrorChip from '@/components/ErrorChip';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
@@ -66,9 +67,9 @@ const Advanced = () => {
       </View>
 
       <View style={tw`flex flex-row gap-2 min-h-6 mt-6 px-6`}>
-        <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
+        <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
           {t('account.profile.label')}
-        </Text>
+        </AppText>
         {profileError && !isSilentError(profileError) ? (
           <ErrorChip error={profileError} label={t('account.profile.onFetch.fail')} />
         ) : null}
@@ -79,41 +80,45 @@ const Advanced = () => {
         label={t('account.profile.firstname.label')}
         loading={isFetchingProfile}
         style={tw`px-3 mx-3`}>
-        <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+        <AppText
+          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
           {profile?.firstName}
-        </Text>
+        </AppText>
       </ServiceRow>
       <ServiceRow
         withBottomDivider
         label={t('account.profile.lastname.label')}
         loading={isFetchingProfile}
         style={tw`px-3 mx-3`}>
-        <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+        <AppText
+          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
           {profile?.lastName}
-        </Text>
+        </AppText>
       </ServiceRow>
       <ServiceRow
         withBottomDivider
         label={t('account.profile.birthdate.label')}
         loading={isFetchingProfile}
         style={tw`px-3 mx-3`}>
-        <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+        <AppText
+          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
           {profile?.birthDate && dayjs(profile.birthDate).format('LL')}
-        </Text>
+        </AppText>
       </ServiceRow>
       <ServiceRow
         label={t('account.profile.email.label')}
         loading={isFetchingProfile}
         style={tw`px-3 mx-3`}>
-        <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+        <AppText
+          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
           {profile?.email}
-        </Text>
+        </AppText>
       </ServiceRow>
 
       <View style={tw`mx-6 mt-auto pt-6`}>
         <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/modifier-compte/`}>
           <AppRoundedButton style={tw`min-h-14 self-stretch`} suffixIcon="open-in-new">
-            <Text style={tw`text-base font-medium text-black`}>{t('actions.edit')}</Text>
+            <AppText style={tw`text-base font-medium text-black`}>{t('actions.edit')}</AppText>
           </AppRoundedButton>
         </Link>
       </View>

@@ -1,10 +1,11 @@
 import AppBottomSheet from '../AppBottomSheet';
+import AppText from '../AppText';
 import ServiceRow from '../Settings/ServiceRow';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
+import { Platform, StyleProp, View, ViewStyle } from 'react-native';
 import AnimatedProgressWheel from 'react-native-progress-wheel';
 import { Easing } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -30,10 +31,10 @@ const PresenceBottomSheet = ({
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <View style={tw`flex flex-col w-full p-6`}>
-        <Text
+        <AppText
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {dayjs(activity.date).format('dddd LL')}
-        </Text>
+        </AppText>
         <View style={tw`flex items-center justify-center mt-4 relative`}>
           <AnimatedProgressWheel
             rounded
@@ -61,7 +62,7 @@ const PresenceBottomSheet = ({
         <ServiceRow
           label={t('settings.profile.presence.selected.coverage.label')}
           style={tw`w-full px-0 mt-2`}>
-          <Text
+          <AppText
             style={[
               tw`font-normal text-slate-500 dark:text-slate-400 grow text-right`,
               nonCompliant && nonCompliant.value !== activity.value ? tw`text-sm` : tw`text-base`,
@@ -79,12 +80,12 @@ const PresenceBottomSheet = ({
                   )
                   : '',
               })}
-          </Text>
+          </AppText>
         </ServiceRow>
 
-        <Text style={tw`text-left text-base font-normal text-slate-500 w-full`}>
+        <AppText style={tw`text-left text-base font-normal text-slate-500 w-full`}>
           {t('settings.profile.presence.selected.description')}
-        </Text>
+        </AppText>
 
         {nonCompliant && (
           <View style={tw`flex flex-row items-start flex-gap-2 mt-4 w-full overflow-hidden`}>
@@ -95,9 +96,9 @@ const PresenceBottomSheet = ({
               size={24}
               style={tw`shrink-0 grow-0`}
             />
-            <Text style={tw`text-left text-base font-normal text-slate-500 shrink grow basis-0`}>
+            <AppText style={tw`text-left text-base font-normal text-slate-500 shrink grow basis-0`}>
               {t('settings.profile.presence.selected.debt.description')}
-            </Text>
+            </AppText>
           </View>
         )}
       </View>

@@ -1,8 +1,9 @@
 import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
+import AppText from '../AppText';
 import Divider from '../Divider';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { forwardRef, type ReactNode, type ForwardRefRenderFunction } from 'react';
-import { View, Text, TouchableHighlight, type TouchableHighlightProps } from 'react-native';
+import { View, TouchableHighlight, type TouchableHighlightProps } from 'react-native';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 
@@ -40,7 +41,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
 
   return (
     <TouchableHighlight
-      ref={ref}
+      ref={ref as never}
       disabled={disabled || loading || !onPress}
       style={[
         tw`flex flex-col px-2 rounded-xl`,
@@ -61,24 +62,24 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
             />
           ) : null}
           <View style={tw`flex flex-col shrink grow overflow-hidden`}>
-            <Text
+            <AppText
               style={[
                 tw`text-base leading-5 font-normal dark:text-gray-200`,
                 disabled && tw`opacity-40`,
               ]}
               {...(Boolean(description || renderDescription) && { numberOfLines: 1 })}>
               {label}
-            </Text>
+            </AppText>
             {renderDescription ? (
               renderDescription(description, disabled)
             ) : description ? (
-              <Text
+              <AppText
                 style={[
                   tw`text-sm font-normal text-slate-500 dark:text-slate-400`,
                   disabled && tw`opacity-40`,
                 ]}>
                 {description}
-              </Text>
+              </AppText>
             ) : null}
           </View>
           <>{children}</>

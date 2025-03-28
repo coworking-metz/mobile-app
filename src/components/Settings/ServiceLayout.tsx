@@ -1,4 +1,5 @@
 import AppBlurView from '../AppBlurView';
+import AppText from '../AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState, type ReactNode, useCallback } from 'react';
@@ -115,17 +116,17 @@ const ServiceLayout = ({
             renderHeader()
           ) : (
             <>
-              <Animated.Text
+              <AppText
                 entering={FadeInLeft.duration(500)}
                 style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
                 {title}
-              </Animated.Text>
+              </AppText>
               {description ? (
-                <Animated.Text
+                <AppText
                   entering={FadeInLeft.duration(500).delay(150)}
                   style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
                   {description}
-                </Animated.Text>
+                </AppText>
               ) : null}
             </>
           )}
@@ -199,11 +200,11 @@ const ServiceLayout = ({
           />
         </View>
         <View style={tw`flex flex-row justify-center shrink grow`}>
-          <Animated.Text
+          <AppText
             numberOfLines={1}
             style={[tw`text-lg text-slate-900 dark:text-gray-200 font-medium`, titleStyle]}>
             {title}
-          </Animated.Text>
+          </AppText>
         </View>
         <View style={tw`shrink basis-0 grow mr-4 min-w-10`} />
       </Animated.View>

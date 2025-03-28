@@ -55,8 +55,11 @@
   "profile": {
     "birthday": {
       "claim": "Claim my present",
-      "description": "C'est votre anniversaire aujourd'hui et nous n'aurions manquer pour rien au monde de vous le souhaiter.\nAlors joyeux anniversaire 🎉 et à très vite au Poulailler !",
-      "label": "Happy birthday!"
+      "description": "It's your birthday today and we wouldn't miss it for the world to wish you a happy birthday 🎉\nand see you soon at the Poulailler!",
+      "label": "Happy birthday!",
+      "onClaim": {
+        "fail": "Unable to claim present"
+      }
     },
     "gift": {
       "description": "There is a surprise for you…",

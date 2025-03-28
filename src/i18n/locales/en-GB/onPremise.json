@@ -50,7 +50,8 @@
     "cantina": "La Cantina",
     "poulailler": "Le Poulailler",
     "pti-poulailler": "Le P'ti Poulailler",
-    "racine": "La Racine"
+    "racine": "La Racine",
+    "unknown": "Somewhere"
   },
   "onFetch": {
     "fail": "Unable to retrieve on premise state"

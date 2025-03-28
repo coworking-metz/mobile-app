@@ -1,10 +1,11 @@
+import AppText from '../AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, Text, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { type ApiMemberSubscription } from '@/services/api/members';
 
@@ -81,7 +82,9 @@ const SubscriptionCard = ({
         size={40}
       />
 
-      <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>{label}</Text>
+      <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
+        {label}
+      </AppText>
       {loading ? (
         <Skeleton
           backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
@@ -91,7 +94,7 @@ const SubscriptionCard = ({
           width={96}
         />
       ) : (
-        <Text
+        <AppText
           numberOfLines={1}
           style={[
             tw`text-2xl font-normal`,
@@ -100,7 +103,7 @@ const SubscriptionCard = ({
               : tw`text-gray-400 dark:text-slate-600`,
           ]}>
           {value}
-        </Text>
+        </AppText>
       )}
 
       {subscription && dayjs().isBetween(subscription.started, subscription.ended, 'day', '[]') && (

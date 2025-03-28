@@ -1,4 +1,5 @@
 import ScrollDownAnimation from '../Animations/ScrollDownAnimation';
+import AppText from '../AppText';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
@@ -17,9 +18,9 @@ const PullToRefreshHint = ({ style }: { style?: StyleProp<ViewStyle> }) => {
   return (
     <View style={[tw`flex flex-col items-center gap-1`, style]}>
       <ScrollDownAnimation style={tw`h-6 w-full`} />
-      <Animated.Text style={tw`text-xs font-extralight text-slate-500 dark:text-slate-400`}>
+      <AppText style={tw`text-xs font-extralight text-slate-500 dark:text-slate-400`}>
         {t('home.refresh.hint')}
-      </Animated.Text>
+      </AppText>
     </View>
   );
 };

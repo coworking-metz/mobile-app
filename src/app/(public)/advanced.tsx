@@ -9,6 +9,7 @@ import { Alert, TextInput } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
 import { Switch } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
+import AppText from '@/components/AppText';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { theme } from '@/helpers/colors';
@@ -151,11 +152,11 @@ const Advanced = () => {
       contentStyle={tw`py-6`}
       description={t('advanced.description')}
       title={t('advanced.title')}>
-      <Animated.Text
+      <AppText
         entering={FadeInLeft.duration(300)}
         style={[tw`text-sm uppercase text-slate-500 mx-6`]}>
         {t('advanced.services.title')}
-      </Animated.Text>
+      </AppText>
       <ServiceRow
         withBottomDivider
         description={HTTP.defaults.baseURL}
@@ -185,11 +186,11 @@ const Advanced = () => {
         }}
       />
 
-      <Animated.Text
+      <AppText
         entering={FadeInLeft.duration(300)}
         style={[tw`text-sm uppercase text-slate-500 mx-6 mt-6`]}>
         {t('advanced.store.title')}
-      </Animated.Text>
+      </AppText>
       <ServiceRow
         withBottomDivider
         label={t('advanced.store.onboarding.label')}

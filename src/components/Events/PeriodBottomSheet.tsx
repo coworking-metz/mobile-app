@@ -1,9 +1,10 @@
 import AppBottomSheet, { type AppBottomSheetProps } from '../AppBottomSheet';
+import AppText from '../AppText';
 import { useBottomSheet } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, Text, View } from 'react-native';
+import { View } from 'react-native';
 import tw from 'twrnc';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { type CalendarEvent } from '@/services/api/calendar';
@@ -87,12 +88,12 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
 
   return (
     <View style={tw`flex flex-col w-full gap-1 py-3`}>
-      <Text style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
+      <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
         {t('events.period.label')}
-      </Text>
-      <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
+      </AppText>
+      <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
         {t('events.period.previous.label')}
-      </Text>
+      </AppText>
       <ServiceRow
         description={getPeriodDescription('past')}
         label={t(`events.period.options.past.label`)}
@@ -100,15 +101,15 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
         style={[tw`px-3 mx-3`]}
         onPress={() => onPeriodPicked('past')}>
         <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
-          <Animated.Text style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
+          <AppText style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
             {getPeriodCount('past')}
-          </Animated.Text>
+          </AppText>
         </View>
       </ServiceRow>
 
-      <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
+      <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
         {t('events.period.next.label')}
-      </Text>
+      </AppText>
       {PERIODS.filter((p) => p !== 'past').map((period) => (
         <ServiceRow
           description={getPeriodDescription(period)}
@@ -118,9 +119,9 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
           style={[tw`px-3 mx-3`]}
           onPress={() => onPeriodPicked(period)}>
           <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
-            <Animated.Text style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
+            <AppText style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
               {getPeriodCount(period)}
-            </Animated.Text>
+            </AppText>
           </View>
         </ServiceRow>
       ))}

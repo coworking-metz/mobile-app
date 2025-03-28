@@ -1,17 +1,17 @@
 import KeysPairAnimation from '../Animations/KeysPairAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
+import AppText from '../AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
+import { Platform, StyleProp, View, ViewStyle } from 'react-native';
 import ReadMore from 'react-native-read-more-text';
 import Animated, { FadeIn, FadeOutDown } from 'react-native-reanimated';
 import { RandomReveal } from 'react-random-reveal';
 import tw from 'twrnc';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
-
 import { getKeyBoxCode } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -56,29 +56,29 @@ const KeyBoxBottomSheet = ({
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <KeysPairAnimation loop={false} style={tw`w-full h-[144px]`} />
-      <Text
+      <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.keyBox.label')}
-      </Text>
+      </AppText>
       <ReadMore
         numberOfLines={2}
         renderRevealedFooter={(handlePress) => (
-          <Text style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
+          <AppText style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
             {t('actions.hide')}
-          </Text>
+          </AppText>
         )}
         renderTruncatedFooter={(handlePress) => (
-          <Text style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
+          <AppText style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
             {t('actions.readMore')}
-          </Text>
+          </AppText>
         )}>
-        <Text style={tw`text-left text-base font-normal text-slate-500`}>
+        <AppText style={tw`text-left text-base font-normal text-slate-500`}>
           {t('onPremise.keyBox.description')}
-        </Text>
+        </AppText>
       </ReadMore>
 
       {code ? (
-        <Animated.Text
+        <AppText
           entering={FadeIn.delay(100)}
           style={tw`h-14 mt-2 text-center text-slate-900 dark:text-gray-200 text-5xl font-bold tracking-widest leading-[3.5rem]`}>
           <RandomReveal
@@ -87,7 +87,7 @@ const KeyBoxBottomSheet = ({
             characterSet={Array.from({ length: 10 }, (_, index) => index.toString())}
             duration={2}
           />
-        </Animated.Text>
+        </AppText>
       ) : (
         <Animated.View exiting={FadeOutDown} style={tw`w-full`}>
           <AppRoundedButton
@@ -95,7 +95,7 @@ const KeyBoxBottomSheet = ({
             loading={isLoading}
             style={tw`mt-2`}
             onPress={onFetchCode}>
-            <Text style={tw`text-base font-medium`}>{t('onPremise.keyBox.fetch')}</Text>
+            <AppText style={tw`text-base font-medium`}>{t('onPremise.keyBox.fetch')}</AppText>
           </AppRoundedButton>
         </Animated.View>
       )}
@@ -108,9 +108,9 @@ const KeyBoxBottomSheet = ({
             size={24}
             style={tw`shrink-0 grow-0`}
           />
-          <Text style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
+          <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
             {t('onPremise.keyBox.missingCapability')}
-          </Text>
+          </AppText>
         </View>
       )}
     </AppBottomSheet>

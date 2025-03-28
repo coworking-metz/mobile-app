@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, ScrollView, Text, View } from 'react-native';
+import { Platform, ScrollView, View } from 'react-native';
 import Animated, {
   FadeIn,
   FadeInLeft,
@@ -15,6 +15,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { toast } from 'sonner-native';
 import tw, { useDeviceContext } from 'twrnc';
+import AppText from '@/components/AppText';
 import AppTouchableScale from '@/components/AppTouchableScale';
 import ErrorChip from '@/components/ErrorChip';
 import { type PeriodType } from '@/components/Events/PeriodBottomSheet';
@@ -304,9 +305,9 @@ export default function HomeScreen() {
 
       <Animated.View entering={FadeInLeft.duration(750).delay(400)} style={tw`flex self-stretch`}>
         <View style={tw`flex flex-row gap-2 min-h-6 mt-6 mb-2 px-4`}>
-          <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
+          <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
             {t('home.profile.label')}
-          </Text>
+          </AppText>
           {profileError && !isSilentError(profileError) ? (
             <ErrorChip error={profileError} label={t('home.profile.onFetch.fail')} />
           ) : null}
@@ -362,24 +363,24 @@ export default function HomeScreen() {
       <Animated.View
         entering={FadeInRight.duration(750).delay(600)}
         style={tw`flex flex-row items-center w-full gap-2 mt-12 px-4`}>
-        <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
+        <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
           {t('home.calendar.label')}
-        </Text>
+        </AppText>
         {nextCalendarEvents.length > 2 && (
           <View style={tw`bg-gray-400/25 dark:bg-gray-700/50 py-1 px-2 rounded-full`}>
-            <Text style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
+            <AppText style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
               {nextCalendarEvents.length}
-            </Text>
+            </AppText>
           </View>
         )}
         {calendarEventsError && !isSilentError(calendarEventsError) ? (
           <ErrorChip error={calendarEventsError} label={t('home.calendar.onFetch.fail')} />
         ) : null}
         <Link asChild href="/events/calendar">
-          <Text
+          <AppText
             style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-5`}>
             {t('home.calendar.browse')}
-          </Text>
+          </AppText>
         </Link>
       </Animated.View>
 
@@ -424,9 +425,9 @@ export default function HomeScreen() {
                 ]
                   .filter(Boolean)
                   .join('?')}>
-                <Text style={tw`text-base font-normal text-amber-500 text-center mt-4`}>
+                <AppText style={tw`text-base font-normal text-amber-500 text-center mt-4`}>
                   {t('home.calendar.empty.action')}
-                </Text>
+                </AppText>
               </Link>
             </CalendarEmptyState>
           )}
@@ -434,11 +435,11 @@ export default function HomeScreen() {
       </Animated.View>
 
       <View style={tw`flex flex-col w-full px-4 gap-4 mt-9 mb-3`}>
-        <Animated.Text
+        <AppText
           entering={FadeInUp.duration(500).delay(600)}
           style={tw`text-sm font-normal uppercase text-slate-500`}>
           {t('home.services.label')}
-        </Animated.Text>
+        </AppText>
 
         <View style={tw`flex flex-row items-stretch gap-4 min-h-40`}>
           <Animated.View

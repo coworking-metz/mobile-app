@@ -1,9 +1,10 @@
 import DarklightModeAnimation from './DarklightModeAnimation';
 import ServiceRow from './ServiceRow';
 import AppBottomSheet, { type AppBottomSheetProps } from '../AppBottomSheet';
+import AppText from '../AppText';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, useColorScheme, View } from 'react-native';
+import { useColorScheme, View } from 'react-native';
 import tw from 'twrnc';
 import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
 import {
@@ -30,9 +31,9 @@ const ThemeOptions = () => {
 
   return (
     <View style={tw`flex flex-col w-full gap-1 pb-3 pt-6`}>
-      <Text style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
+      <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
         {t('settings.general.theme.label')}
-      </Text>
+      </AppText>
       <DarklightModeAnimation mode={currentTheme} style={tw`w-full h-28 mb-4`} />
       {supportedThemes.map((theme) => (
         <ServiceRow

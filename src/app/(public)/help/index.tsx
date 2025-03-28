@@ -16,6 +16,7 @@ import Animated, {
 import { TextField } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
+import AppText from '@/components/AppText';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { theme } from '@/helpers/colors';
@@ -133,9 +134,8 @@ const Help = () => {
           );
           return {
             ...helpItems[itemIndex],
-            markdownDescription: `${
-              start > CHARACTERS_BEFORE_HIGHLIGHT ? '...' : ''
-            }${description.slice(Math.max(start - CHARACTERS_BEFORE_HIGHLIGHT, 0))}`,
+            markdownDescription: `${start > CHARACTERS_BEFORE_HIGHLIGHT ? '...' : ''
+              }${description.slice(Math.max(start - CHARACTERS_BEFORE_HIGHLIGHT, 0))}`,
           } as HelpItem;
         });
         return highlightedHelpItems;
@@ -192,12 +192,12 @@ const Help = () => {
           />
         </Animated.View>
       ) : search && !filteredHelpItems.length ? (
-        <Animated.Text
+        <AppText
           entering={FadeInUp.duration(300)}
           exiting={FadeOutUp.duration(300)}
           style={tw`text-base mt-3 mx-auto dark:text-gray-200`}>
           {t('help.search.empty')}
-        </Animated.Text>
+        </AppText>
       ) : (
         filteredHelpItems.map(({ label, to, markdownDescription }) => (
           <Animated.View

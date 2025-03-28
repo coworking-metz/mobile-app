@@ -58,9 +58,12 @@
   },
   "profile": {
     "birthday": {
-      "claim": "Récupérer mon cadeau",
+      "claim": "Recevoir mon cadeau",
       "description": "C'est votre anniversaire aujourd'hui et nous n'aurions manquer pour rien au monde de vous le souhaiter.\nAlors joyeux anniversaire 🎉 et à très vite au Poulailler !",
-      "label": "Joyeux anniversaire !"
+      "label": "Joyeux anniversaire !",
+      "onClaim": {
+        "fail": "Impossible de récupérer le cadeau"
+      }
     },
     "gift": {
       "description": "Une surprise vous attend…",
@@ -178,7 +181,7 @@
   "refresh": {
     "hint": "Tirer pour actualiser",
     "label": "Actualiser",
-    "loading": "Chargement…"
+    "loading": "Actualisation…"
   },
   "services": {
     "label": "Services"

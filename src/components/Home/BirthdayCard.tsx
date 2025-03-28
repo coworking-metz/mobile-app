@@ -1,10 +1,10 @@
 import GiftCard from './GiftCard';
+import AppText from '../AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Canvas } from '@shopify/react-native-skia';
 import { isNil } from 'lodash';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, Text, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import tw from 'twrnc';
 import useSettingsStore from '@/stores/settings';
@@ -30,12 +30,12 @@ const BirthdayCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
         size={40}
       />
 
-      <Text
+      <AppText
         ellipsizeMode={'clip'}
         numberOfLines={2}
         style={[tw`mt-auto text-2xl font-medium text-slate-900 dark:text-gray-200`]}>
         {t('home.profile.birthday.label')}
-      </Text>
+      </AppText>
     </Animated.View>
   );
 };

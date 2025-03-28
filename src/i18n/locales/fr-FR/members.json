@@ -1,0 +1,15 @@
+{
+  "profile": {
+    "empty": {
+      "description": "Cette personne ne semble plus être sur les lieux.",
+      "title": "Membre introuvable"
+    },
+    "location": {
+      "label": "Actuellement situé⸱e dans"
+    },
+    "since": {
+      "label": "Membre depuis"
+    },
+    "title": "À propos"
+  }
+}

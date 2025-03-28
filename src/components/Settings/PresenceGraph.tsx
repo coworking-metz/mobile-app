@@ -1,11 +1,12 @@
 import VerticalLoadingAnimation from '../Animations/VerticalLoadingAnimation';
+import AppText from '../AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { LinearGradient } from 'expo-linear-gradient';
 import { capitalize } from 'lodash';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, Text, View, ViewStyle, useColorScheme } from 'react-native';
+import { StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
 import { ContributionGraph } from 'react-native-chart-kit';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -162,26 +163,27 @@ const PresenceGraph = ({
         ) : activityCount && firstActivityDate ? (
           <View style={tw`flex flex-col self-center ml-6`}>
             <View style={tw`flex flex-row items-end gap-1`}>
-              <Text style={tw`text-3xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+              <AppText
+                style={tw`text-3xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
                 {activityCount ||
                   t('settings.profile.presence.activity', {
                     count: activityCount,
                   })}
-              </Text>
+              </AppText>
               {!!activityCount && (
-                <Text
+                <AppText
                   style={[tw`font-normal text-sm leading-6 text-slate-500 dark:text-slate-400`]}>
                   {t('settings.profile.presence.activity', {
                     count: activityCount,
                   })}
-                </Text>
+                </AppText>
               )}
             </View>
-            <Text style={[tw`font-normal text-sm text-slate-500 dark:text-slate-400`]}>
+            <AppText style={[tw`font-normal text-sm text-slate-500 dark:text-slate-400`]}>
               {t('settings.profile.presence.since', {
                 date: dayjs(firstActivityDate).format('ll'),
               })}
-            </Text>
+            </AppText>
           </View>
         ) : null}
         <ContributionGraph
@@ -226,14 +228,14 @@ const PresenceGraph = ({
           {Array(7)
             .fill(0)
             .map((_zero, index) => (
-              <Text
+              <AppText
                 key={`contribution-graph-week-day-${index}`}
                 style={[
                   tw`text-center font-normal text-slate-500 dark:text-slate-400`,
                   { height: SQUARE_SIZE },
                 ]}>
                 {capitalize(dayjs().set('day', index).format('dd').slice(0, 1))}
-              </Text>
+              </AppText>
             ))}
         </View>
       </View>

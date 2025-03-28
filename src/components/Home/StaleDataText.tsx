@@ -1,4 +1,5 @@
 import PullToRefreshHint from './PullToRefreshHint';
+import AppText from '../AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
@@ -6,7 +7,6 @@ import dayjs from 'dayjs';
 import { capitalize } from 'lodash';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -43,14 +43,14 @@ const StaleDataText = ({
         exiting={FadeOutUp.duration(300)}
         style={tw`ml-3 flex flex-col items-start gap-1 shrink grow basis-0`}>
         {loading ? (
-          <Text
+          <AppText
             numberOfLines={1}
             style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
             {t('home.refresh.loading')}
-          </Text>
+          </AppText>
         ) : (
           <>
-            <Text
+            <AppText
               numberOfLines={1}
               style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
               {capitalize(
@@ -58,18 +58,18 @@ const StaleDataText = ({
                   ? dayjs(lastFetch).calendar()
                   : dayjs(lastFetch).fromNow(),
               )}
-            </Text>
+            </AppText>
             <TouchableOpacity
               style={tw`flex flex-row items-center gap-1`}
               onPress={() => {
                 queryClient.invalidateQueries();
               }}>
-              <Animated.Text
+              <AppText
                 entering={FadeInUp.duration(300)}
                 exiting={FadeOutUp.duration(300)}
                 style={tw`text-sm font-normal leading-5 grow-0 text-amber-500`}>
                 {t('home.refresh.label')}
-              </Animated.Text>
+              </AppText>
               <MaterialCommunityIcons
                 iconStyle={{ height: 20, width: 20, marginRight: 0 }}
                 name="refresh"

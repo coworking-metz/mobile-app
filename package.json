@@ -22,6 +22,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo-google-fonts/inter-tight": "^0.2.3",
     "@expo/vector-icons": "^14.0.0",
     "@gorhom/bottom-sheet": "^5.1.1",
     "@jonny/touchable-scale": "^1.0.2",
@@ -49,6 +50,7 @@
     "expo-custom-assets": "^1.4.1",
     "expo-device": "~7.0.2",
     "expo-file-system": "~18.0.8",
+    "expo-font": "~13.0.4",
     "expo-haptics": "~14.0.1",
     "expo-image": "~2.0.7",
     "expo-linear-gradient": "~14.0.2",

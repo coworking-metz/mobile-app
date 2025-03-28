@@ -5,7 +5,7 @@ import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
 import { Link, useRouter } from 'expo-router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, TouchableNativeFeedback, View, type LayoutChangeEvent } from 'react-native';
+import { TouchableNativeFeedback, View, type LayoutChangeEvent } from 'react-native';
 import Animated, {
   FadeInLeft,
   FadeInRight,
@@ -17,6 +17,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import AppBlurView from '@/components/AppBlurView';
+import AppText from '@/components/AppText';
 import ErrorChip from '@/components/ErrorChip';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import AppFooter from '@/components/Settings/AppFooter';
@@ -206,28 +207,28 @@ const Settings = () => {
             />
             <View style={tw`flex flex-row justify-between w-full`}>
               <View style={tw`flex flex-col ml-2 shrink basis-0 grow`}>
-                <Animated.Text
+                <AppText
                   entering={FadeInLeft.duration(500)}
                   numberOfLines={1}
                   style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
                   {authStore.user ? authStore.user.name : t('account.title')}
-                </Animated.Text>
-                <Animated.Text
+                </AppText>
+                <AppText
                   entering={FadeInLeft.duration(500).delay(150)}
                   numberOfLines={2}
                   style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
                   {authStore.user ? authStore.user.email : t('auth.login.headline')}
-                </Animated.Text>
+                </AppText>
 
                 <Animated.View
                   entering={FadeInLeft.duration(500).delay(300)}
                   style={tw`flex flex-row gap-2 mt-2`}>
                   {authStore.user?.roles.map((role) => (
-                    <Text
+                    <AppText
                       key={`role-${role}`}
                       style={tw`flex items-center rounded-md overflow-hidden bg-amber-200/50 dark:bg-amber-100/80 px-2.5 py-0.5 text-sm font-medium text-amber-800 dark:text-amber-900`}>
                       {t(`settings.roles.value.${role}`)}
-                    </Text>
+                    </AppText>
                   ))}
                 </Animated.View>
               </View>
@@ -288,9 +289,9 @@ const Settings = () => {
               },
             ]}>
             <View style={tw`flex flex-row gap-2 items-center min-h-6 mx-6`}>
-              <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
+              <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
                 {t('settings.profile.presence.title')}
-              </Text>
+              </AppText>
               {activityError && !isSilentError(activityError) ? (
                 <ErrorChip
                   error={activityError}
@@ -302,14 +303,14 @@ const Settings = () => {
                 <Animated.View
                   entering={FadeInRight.duration(300).delay(300)}
                   style={tw`ml-auto flex shrink flex-row items-center rounded-md overflow-hidden bg-red-100 dark:bg-red-200/75 gap-1.5 px-2.5 py-0.5`}>
-                  <Text numberOfLines={1} style={tw`text-sm font-medium text-red-800`}>
+                  <AppText numberOfLines={1} style={tw`text-sm font-medium text-red-800`}>
                     {t('settings.profile.presence.selected.coverage.value.ticket', {
                       count: Math.abs(profile.balance),
                       suffix: t(`settings.profile.presence.selected.debt.unit.ticket`, {
                         count: Math.abs(profile.balance),
                       }),
                     })}
-                  </Text>
+                  </AppText>
                 </Animated.View>
               ) : null}
             </View>
@@ -324,9 +325,9 @@ const Settings = () => {
               onDateSelect={onDateSelect}
             />
 
-            <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
+            <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.general.title')}
-            </Text>
+            </AppText>
 
             <Link asChild href="/advanced/">
               <ServiceRow
@@ -361,19 +362,19 @@ const Settings = () => {
               prefixIcon="web"
               style={tw`px-3 mx-3`}
               onPress={() => setPickingLanguage(true)}>
-              <Text style={tw`text-base font-normal text-amber-500 grow text-right`}>
+              <AppText style={tw`text-base font-normal text-amber-500 grow text-right`}>
                 {getLanguageLabel(
                   !chosenLanguage || chosenLanguage === SYSTEM_OPTION
                     ? SYSTEM_LANGUAGE
                     : chosenLanguage,
                 )}
-              </Text>
+              </AppText>
             </ServiceRow>
             <ThemePicker style={tw`px-3 mx-3`} onPress={() => setPickingTheme(true)} />
 
-            <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
+            <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.support.title')}
-            </Text>
+            </AppText>
             {authStore.user && (
               <>
                 <Link asChild href={`${WORDPRESS_BASE_URL}/la-boutique/`}>

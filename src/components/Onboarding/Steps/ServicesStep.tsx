@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import WorkOnTheGoAnimation from '@/components/Animations/WorkOnTheGoAnimation';
+import AppText from '@/components/AppText';
 import ThemePicker from '@/components/Settings/ThemePicker';
 
 const ServicesStep = ({
@@ -49,12 +50,12 @@ const ServicesStep = ({
           tw`mt-4 flex flex-col self-stretch px-6 justify-start`,
           { ...(containerHeight && { minHeight: containerHeight / 2 - 60 }) },
         ]}>
-        <Text style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+        <AppText style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onboarding.services.title')}
-        </Text>
-        <Text style={tw`mt-4 text-base font-normal text-gray-500`}>
+        </AppText>
+        <AppText style={tw`mt-4 text-base font-normal text-gray-500`}>
           {t('onboarding.services.description')}
-        </Text>
+        </AppText>
         <View style={tw`mt-auto w-full`}>
           <ThemePicker onPress={onPickingTheme} />
         </View>

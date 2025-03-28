@@ -2,6 +2,7 @@ import CallingWithLaptopAnimation from '../Animations/CallingWithLaptopAnimation
 import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
 import VerticalLoadingAnimation from '../Animations/VerticalLoadingAnimation';
 import AppBottomSheet from '../AppBottomSheet';
+import AppText from '../AppText';
 import CarouselPaginationDots from '../CarouselPaginationDots';
 import ErrorChip from '../ErrorChip';
 import ServiceRow from '../Settings/ServiceRow';
@@ -14,7 +15,6 @@ import { useTranslation } from 'react-i18next';
 import {
   Platform,
   StyleProp,
-  Text,
   View,
   ViewStyle,
   useColorScheme,
@@ -27,7 +27,6 @@ import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
-
 import { getPhoneBoothsOccupation } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 
@@ -138,31 +137,35 @@ const PhoneBoothBottomSheet = ({
           loop={false}
           style={tw`w-full h-[224px] self-center`}
         />
-        <Text
+        <AppText
           style={tw`text-center self-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.phoneBooths.label')}
-        </Text>
+        </AppText>
         <ReadMore
           numberOfLines={2}
           renderRevealedFooter={(handlePress) => (
-            <Text style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
+            <AppText
+              style={tw`text-base font-normal text-amber-500 text-left`}
+              onPress={handlePress}>
               {t('actions.hide')}
-            </Text>
+            </AppText>
           )}
           renderTruncatedFooter={(handlePress) => (
-            <Text style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
+            <AppText
+              style={tw`text-base font-normal text-amber-500 text-left`}
+              onPress={handlePress}>
               {t('actions.readMore')}
-            </Text>
+            </AppText>
           )}>
-          <Text style={tw`text-left text-base font-normal text-slate-500`}>
+          <AppText style={tw`text-left text-base font-normal text-slate-500`}>
             {t('onPremise.phoneBooths.description')}
-          </Text>
+          </AppText>
         </ReadMore>
 
         <View style={tw`flex flex-col w-full mt-2`}>
-          <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
+          <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
             {t('onPremise.phoneBooths.state.label')}
-          </Text>
+          </AppText>
           <ServiceRow
             withBottomDivider
             label={t('onPremise.phoneBooths.state.blue.occupation.label')}
@@ -180,14 +183,14 @@ const PhoneBoothBottomSheet = ({
                 width={128}
               />
             ) : (
-              <Text
+              <AppText
                 style={tw`text-base font-normal text-blue-500 dark:text-blue-400 grow text-right`}>
                 {isNil(blueOccupied)
                   ? t('onPremise.phoneBooths.state.blue.occupation.unknown')
                   : blueOccupied
                     ? t('onPremise.phoneBooths.state.blue.occupation.occupied')
                     : t('onPremise.phoneBooths.state.blue.occupation.available')}
-              </Text>
+              </AppText>
             )}
           </ServiceRow>
 
@@ -207,23 +210,23 @@ const PhoneBoothBottomSheet = ({
                 width={128}
               />
             ) : (
-              <Text
+              <AppText
                 style={tw`text-base font-normal text-orange-500 dark:text-orange-400 grow text-right`}>
                 {isNil(orangeOccupied)
                   ? t('onPremise.phoneBooths.state.orange.occupation.unknown')
                   : orangeOccupied
                     ? t('onPremise.phoneBooths.state.orange.occupation.occupied')
                     : t('onPremise.phoneBooths.state.orange.occupation.available')}
-              </Text>
+              </AppText>
             )}
           </ServiceRow>
         </View>
       </View>
 
       <View style={tw`flex flex-row gap-2 min-h-6 mx-4`}>
-        <Text style={tw`text-sm font-normal uppercase text-slate-500`}>
+        <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
           {t('onPremise.phoneBooths.graph.label')}
-        </Text>
+        </AppText>
 
         {occupationPerBooth && isFetchingOccupation ? (
           <HorizontalLoadingAnimation
@@ -276,11 +279,11 @@ const PhoneBoothBottomSheet = ({
                   }) => (
                     <View
                       style={tw`flex flex-row justify-center bg-gray-300 dark:bg-gray-700 py-1 rounded w-10 overflow-hidden mb-1 -ml-2 z-20`}>
-                      <Text
+                      <AppText
                         numberOfLines={1}
                         style={tw`text-xs text-center text-slate-900 dark:text-gray-200 font-medium`}>
                         {Number(blue + orange).toFixed(0)}%
-                      </Text>
+                      </AppText>
                     </View>
                   )}
                   spacing={6}
@@ -322,10 +325,10 @@ const PhoneBoothBottomSheet = ({
                   yAxisExtraHeight={12}
                   yAxisLabelWidth={0}
                 />
-                <Text
+                <AppText
                   style={tw`text-center self-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-2`}>
                   {dayjs().set('day', day).format('dddd')}
-                </Text>
+                </AppText>
               </View>
             )}
             style={[tw`flex flex-row w-full h-full overflow-visible`]}

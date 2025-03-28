@@ -9,6 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
 import PaginationDot from '@/components/Onboarding/PaginationDot';
 import Step from '@/components/Onboarding/Step';
 import AboutStep from '@/components/Onboarding/Steps/AboutStep';
@@ -180,7 +181,7 @@ const Onboarding = () => {
               entering={FadeInDown.duration(500).delay(1000)}
               style={tw`shrink-0 pt-1 px-6`}>
               <AppRoundedButton style={tw`min-h-14`} onPress={onNext}>
-                <Text style={tw`text-base font-medium text-black`}>{t('actions.next')}</Text>
+                <AppText style={tw`text-base font-medium text-black`}>{t('actions.next')}</AppText>
               </AppRoundedButton>
             </Animated.View>
           </View>

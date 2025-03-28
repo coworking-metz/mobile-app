@@ -1,8 +1,8 @@
-import { Canvas, Text, matchFont, Fill, Skia } from '@shopify/react-native-skia';
+import { matchFont } from '@shopify/react-native-skia';
 import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import Animated, { useAnimatedProps } from 'react-native-reanimated';
-import type { TextInputProps, TextProps as RNTextProps } from 'react-native';
+import type { TextProps as RNTextProps, TextInputProps } from 'react-native';
 
 /**
  * Taken from https://wcandillon.gitbook.io/redash/strings#less-than-retext-greater-than

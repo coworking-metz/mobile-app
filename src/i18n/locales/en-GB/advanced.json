@@ -26,6 +26,9 @@
     "hasLearnPullToRefresh": {
       "label": "Hide pull to refresh hint"
     },
+    "hasSeenBirthdayPresentAt": {
+      "label": "Hide birthday surprise effect"
+    },
     "onboarding": {
       "label": "Skip onboarding at launch"
     },

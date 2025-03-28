@@ -1,8 +1,9 @@
+import AppText from '../AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, Text, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 
@@ -31,9 +32,9 @@ const BalanceCard = ({
         size={40}
       />
 
-      <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
+      <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
         {t('home.profile.tickets.label')}
-      </Text>
+      </AppText>
       {loading ? (
         <Skeleton
           backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
@@ -45,13 +46,13 @@ const BalanceCard = ({
       ) : (
         <View style={tw`flex flex-row items-baseline gap-1`}>
           {count != 0 && (
-            <Text
+            <AppText
               numberOfLines={1}
               style={tw`text-2xl font-normal text-slate-900 dark:text-gray-200`}>
               {Math.abs(count)}
-            </Text>
+            </AppText>
           )}
-          <Text
+          <AppText
             numberOfLines={1}
             style={[
               tw`font-normal`,
@@ -66,7 +67,7 @@ const BalanceCard = ({
               : t('home.profile.tickets.available', {
                 count: -count,
               })}
-          </Text>
+          </AppText>
         </View>
       )}
 

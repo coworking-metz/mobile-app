@@ -1,10 +1,11 @@
 import HappySunAnimation from '../Animations/HappySunAnimation';
 import AppBottomSheet from '../AppBottomSheet';
+import AppText from '../AppText';
 import ServiceRow from '../Settings/ServiceRow';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
+import { Platform, StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 
 const PtiPoulaillerClimateBottomSheet = ({
@@ -29,13 +30,13 @@ const PtiPoulaillerClimateBottomSheet = ({
       onClose={onClose}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
       <HappySunAnimation autoPlay style={tw`w-full h-[224px] -my-4`} />
-      <Text
+      <AppText
         style={tw`text-center self-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.climate.label')}
-      </Text>
-      <Text style={tw`text-left text-base font-normal text-slate-500 mt-6`}>
+      </AppText>
+      <AppText style={tw`text-left text-base font-normal text-slate-500 mt-6`}>
         {t('onPremise.climate.description')}
-      </Text>
+      </AppText>
 
       <View style={tw`flex flex-col w-full mt-2`}>
         <ServiceRow
@@ -50,10 +51,10 @@ const PtiPoulaillerClimateBottomSheet = ({
               width={48}
             />
           ) : (
-            <Text
+            <AppText
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
               {t('onPremise.climate.temperature.level', { level: temperatureLevel })}
-            </Text>
+            </AppText>
           )}
         </ServiceRow>
         <ServiceRow label={t('onPremise.climate.humidity.label')} style={tw`w-full px-0`}>
@@ -65,10 +66,10 @@ const PtiPoulaillerClimateBottomSheet = ({
               width={48}
             />
           ) : (
-            <Text
+            <AppText
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
               {t('onPremise.climate.humidity.level', { level: humidityLevel })}
-            </Text>
+            </AppText>
           )}
         </ServiceRow>
       </View>

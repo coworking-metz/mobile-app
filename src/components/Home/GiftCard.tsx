@@ -1,16 +1,13 @@
+import { AppGlowingBorder } from '../AppGlowingBorder';
+import AppText from '../AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LayoutChangeEvent, StyleProp, Text, View, ViewStyle } from 'react-native';
+import { LayoutChangeEvent, StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
 import tw from 'twrnc';
-import { AppGlowingBorder } from '../AppGlowingBorder';
 
-const GiftCard = ({
-  style,
-}: {
-  style?: StyleProp<ViewStyle>;
-}) => {
+const GiftCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
   const { t } = useTranslation();
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
@@ -41,12 +38,15 @@ const GiftCard = ({
           size={40}
         />
 
-        <Text style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
+        <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
           {t('home.profile.gift.label')}
-        </Text>
-        <Text numberOfLines={2} ellipsizeMode={'clip'} style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+        </AppText>
+        <AppText
+          ellipsizeMode={'clip'}
+          numberOfLines={2}
+          style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
           {t('home.profile.gift.description')}
-        </Text>
+        </AppText>
       </View>
     </Animated.View>
   );

@@ -1,6 +1,7 @@
 import CouponsAnimation from '../Animations/CouponsAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
+import AppText from '../AppText';
 import ErrorChip from '../ErrorChip';
 import ServiceRow from '../Settings/ServiceRow';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -9,10 +10,9 @@ import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
+import { Platform, StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { isSilentError } from '@/helpers/error';
-
 import {
   ApiMemberProfile,
   getMemberTickets,
@@ -85,13 +85,13 @@ const BalanceBottomSheet = ({
       <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
         <CouponsAnimation style={tw`h-56 w-full`} />
       </View>
-      <Text
+      <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
         {t('home.profile.tickets.label')}
-      </Text>
-      <Text style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
+      </AppText>
+      <AppText style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
         {t('home.profile.tickets.description')}
-      </Text>
+      </AppText>
 
       <ServiceRow
         withBottomDivider
@@ -108,17 +108,17 @@ const BalanceBottomSheet = ({
         ) : (
           <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
             {consumedCount != 0 && (
-              <Text
+              <AppText
                 numberOfLines={1}
                 style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
                 {consumedCount}
-              </Text>
+              </AppText>
             )}
-            <Text
+            <AppText
               numberOfLines={1}
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
               {t('home.profile.tickets.consumed.count', { count: consumedCount })}
-            </Text>
+            </AppText>
           </View>
         )}
       </ServiceRow>
@@ -133,13 +133,13 @@ const BalanceBottomSheet = ({
         ) : (
           <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
             {balance != 0 && (
-              <Text
+              <AppText
                 numberOfLines={1}
                 style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
                 {Math.abs(balance)}
-              </Text>
+              </AppText>
             )}
-            <Text
+            <AppText
               numberOfLines={1}
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
               {balance >= 0
@@ -149,7 +149,7 @@ const BalanceBottomSheet = ({
                 : t('home.profile.tickets.depleted', {
                   count: -balance,
                 })}
-            </Text>
+            </AppText>
           </View>
         )}
       </ServiceRow>
@@ -169,9 +169,9 @@ const BalanceBottomSheet = ({
             size={24}
             style={tw`shrink-0 grow-0`}
           />
-          <Text style={tw`text-left text-base font-normal text-slate-500 shrink grow basis-0`}>
+          <AppText style={tw`text-left text-base font-normal text-slate-500 shrink grow basis-0`}>
             {t('home.profile.tickets.balance.onDepleted', { count: Math.abs(balance) })}
-          </Text>
+          </AppText>
         </View>
       )}
       <Link
@@ -179,7 +179,9 @@ const BalanceBottomSheet = ({
         href="https://www.coworking-metz.fr/boutique/carnet-10-journees/"
         style={tw`mt-2`}>
         <AppRoundedButton disabled={!user} style={tw`h-14 self-stretch`} suffixIcon="open-in-new">
-          <Text style={tw`text-base text-black font-medium`}>{t('home.profile.tickets.add')}</Text>
+          <AppText style={tw`text-base text-black font-medium`}>
+            {t('home.profile.tickets.add')}
+          </AppText>
         </AppRoundedButton>
       </Link>
     </AppBottomSheet>

@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
 import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 import { theme } from '@/helpers/colors';
 
@@ -46,21 +47,21 @@ const MissingScreen = () => {
         <TumbleweedRollingAnimation style={tw`h-56 w-full max-w-xs`} />
       </View>
       <View style={tw`flex flex-col px-4 gap-2 grow basis-0 justify-start mx-auto w-full max-w-sm`}>
-        <Animated.Text
+        <AppText
           entering={FadeInLeft.duration(500)}
           numberOfLines={1}
           style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('notFound.title')}
-        </Animated.Text>
-        <Animated.Text
+        </AppText>
+        <AppText
           entering={FadeInLeft.duration(500).delay(150)}
           numberOfLines={2}
           style={tw`text-base text-center text-slate-500 dark:text-slate-400`}>
           {t('notFound.description')}
-        </Animated.Text>
+        </AppText>
 
         <AppRoundedButton style={tw`mt-4 mx-2 h-14`} onPress={() => setContacting(true)}>
-          <Text style={tw`text-base font-medium text-black`}>{t('notFound.help')}</Text>
+          <AppText style={tw`text-base font-medium text-black`}>{t('notFound.help')}</AppText>
         </AppRoundedButton>
       </View>
 
