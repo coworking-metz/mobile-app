@@ -179,10 +179,13 @@ const RootLayout = () => {
                           name="(public)/events"
                           options={{
                             headerShown: false,
-                            // presentation: 'modal',
-                            // ...(Platform.OS === 'android' && {
-                            //   animation: 'fade_from_bottom',
-                            // }),
+                          }}
+                        />
+
+                        <Stack.Screen
+                          name="(public)/members/[memberId]"
+                          options={{
+                            headerShown: false,
                           }}
                         />
                       </Stack>

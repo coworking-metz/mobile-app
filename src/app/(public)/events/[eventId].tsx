@@ -6,7 +6,7 @@ import { isNil } from 'lodash';
 import { Skeleton } from 'moti/skeleton';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import openMap from 'react-native-open-maps';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -20,6 +20,7 @@ import ZoomableImage from '@/components/ZoomableImage';
 import { useAppPermissions } from '@/context/permissions';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
+import AppText from '@/components/AppText';
 
 const MIN_PADDING_BOTTOM = 24;
 
@@ -94,7 +95,7 @@ export default function CalendarEventPage() {
             transition={300}>
             {event.pictures.length > 1 && (
               <View style={tw`absolute bottom-1.5 right-5.5 bg-black/70 py-1 px-2 rounded-lg`}>
-                <Text style={tw`text-xs text-gray-200 font-medium`}>{event.pictures.length}</Text>
+                <AppText style={tw`text-xs text-gray-200 font-medium`}>{event.pictures.length}</AppText>
               </View>
             )}
           </ZoomableImage>
@@ -126,16 +127,16 @@ export default function CalendarEventPage() {
             />
           ) : null}
           {event.description ? (
-            <Text style={tw`text-base font-normal text-gray-500 mx-6 mt-6`}>
+            <AppText style={tw`text-base font-normal text-gray-500 mx-6 mt-6`}>
               {event.description}
-            </Text>
+            </AppText>
           ) : null}
 
           {firstUrl ? (
             <View style={tw`mx-6 mt-auto pt-6`}>
               <Link asChild href={firstUrl}>
                 <AppRoundedButton style={tw`min-h-14 self-stretch`} suffixIcon="open-in-new">
-                  <Text style={tw`text-base font-medium text-black`}>{t('actions.takeALook')}</Text>
+                  <AppText style={tw`text-base font-medium text-black`}>{t('actions.takeALook')}</AppText>
                 </AppRoundedButton>
               </Link>
             </View>
@@ -159,18 +160,18 @@ export default function CalendarEventPage() {
           </View>
           <View
             style={tw`flex flex-col items-center justify-start px-4 gap-2 grow basis-0 max-w-sm mx-auto`}>
-            <Animated.Text
+            <AppText
               entering={FadeInLeft.duration(500)}
               numberOfLines={1}
               style={tw`text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
               {t('notFound.title')}
-            </Animated.Text>
-            <Animated.Text
+            </AppText>
+            <AppText
               entering={FadeInLeft.duration(500).delay(150)}
               numberOfLines={2}
               style={tw`text-base font-normal text-center text-slate-500 dark:text-slate-400`}>
               {t('notFound.description')}
-            </Animated.Text>
+            </AppText>
           </View>
         </>
       )}

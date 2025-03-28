@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import PeopleMeetingAnimation from '@/components/Animations/PeopleMeetingAnimation';
+import AppText from '@/components/AppText';
 
 const EventsStep = ({ active, containerHeight }: { active: boolean; containerHeight?: number }) => {
   const { t } = useTranslation();
@@ -57,12 +58,12 @@ const EventsStep = ({ active, containerHeight }: { active: boolean; containerHei
         />
       </View>
       <View style={tw`mt-4 flex flex-col self-stretch px-6 justify-start `}>
-        <Text style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+        <AppText style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onboarding.events.title')}
-        </Text>
-        <Text style={tw`mt-4 text-base font-normal text-gray-500`}>
+        </AppText>
+        <AppText style={tw`mt-4 text-base font-normal text-gray-500`}>
           {t('onboarding.events.description')}
-        </Text>
+        </AppText>
       </View>
     </>
   );

@@ -5,8 +5,9 @@ import SuccessAnimation from './Animations/SuccessAnimation';
 import UnlockAnimation from './Animations/UnlockAnimation';
 import WarningAnimation from './Animations/WarningAnimation';
 import AppBottomSheet from './AppBottomSheet';
+import AppText from './AppText';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { Platform, Text, View } from 'react-native';
+import { Platform, View } from 'react-native';
 import tw from 'twrnc';
 import type BottomSheet from '@gorhom/bottom-sheet';
 import useNoticeStore, { type NoticeType } from '@/stores/notice';
@@ -60,14 +61,14 @@ const NoticeBottomSheet = () => {
           {getAnimation(mostRecentUndismissedNotice.type)}
         </View>
         <View style={tw`flex flex-col items-center grow gap-2 self-stretch pb-4`}>
-          <Text
+          <AppText
             style={tw`text-center text-2xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
             {mostRecentUndismissedNotice.message}
-          </Text>
+          </AppText>
           {mostRecentUndismissedNotice.description && (
-            <Text style={tw`text-center text-xl font-normal text-slate-500 dark:text-slate-400`}>
+            <AppText style={tw`text-center text-xl font-normal text-slate-500 dark:text-slate-400`}>
               {mostRecentUndismissedNotice.description}
-            </Text>
+            </AppText>
           )}
         </View>
       </View>

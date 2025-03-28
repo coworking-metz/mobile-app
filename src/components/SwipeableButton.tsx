@@ -1,4 +1,5 @@
 import HorizontalLoadingAnimation from './Animations/HorizontalLoadingAnimation';
+import AppText from './AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia';
 import * as Haptics from 'expo-haptics';
@@ -260,13 +261,13 @@ const SwipeableButton = ({
           </TouchableOpacity>
         </Animated.View>
       </PanGestureHandler>
-      <Animated.Text
+      <AppText
         style={[
           tw`absolute right-8 text-base text-right font-normal text-slate-500 dark:text-slate-400`,
           placeholderAnimatedStyle,
         ]}>
         {placeholder}
-      </Animated.Text>
+      </AppText>
       {children}
     </View>
   );

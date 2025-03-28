@@ -1,16 +1,16 @@
+import AppText from '../AppText';
 import ErrorChip from '../ErrorChip';
 import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, Text, View, type ViewProps } from 'react-native';
+import { Platform, View, type ViewProps } from 'react-native';
 import AnimatedNumber from 'react-native-animated-number';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, { FadeInRight, FadeOutRight } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { isSilentError } from '@/helpers/error';
-
 import { type ApiMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
@@ -66,13 +66,13 @@ const AttendanceCount = ({
             />
           </View>
         )}
-        <Text
+        <AppText
           style={[
             tw`text-5xl font-normal text-slate-500 dark:text-slate-400 h-12 mb-3`,
             Platform.OS === 'android' && tw`text-5xl tracking-tight`,
           ]}>
-          {t('home.people.capacity', { total: total })}
-        </Text>
+          {t('home.people.capacity', { total: members.length })}
+        </AppText>
       </View>
 
       <View style={tw`flex flex-row items-center min-h-8 gap-2`}>
@@ -84,11 +84,11 @@ const AttendanceCount = ({
             width={144}
           />
         ) : (
-          <Text
+          <AppText
             numberOfLines={1}
             style={tw`text-xl font-normal text-slate-500 dark:text-slate-400 grow basis-0 shrink`}>
             {t('home.people.present', { count: members.length })}
-          </Text>
+          </AppText>
         )}
 
         {error && !isSilentError(error) ? (
@@ -129,9 +129,9 @@ const AttendanceCount = ({
                       style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden -ml-4`}>
                       <View
                         style={tw`h-8 w-8 flex justify-center items-center rounded-full overflow-hidden bg-gray-200 dark:bg-gray-900`}>
-                        <Text style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
+                        <AppText style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
                           +{members.length - (MAX_MEMBERS_PICTURES - 1)}
-                        </Text>
+                        </AppText>
                       </View>
                     </View>
                   ) : null}

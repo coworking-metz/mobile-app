@@ -1,12 +1,7 @@
+import AppText from './AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  type ViewStyle,
-  type ViewProps,
-  type StyleProp,
-} from 'react-native';
+import { TouchableOpacity, type ViewStyle, type ViewProps, type StyleProp } from 'react-native';
 import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { parseErrorText } from '@/helpers/error';
@@ -54,11 +49,11 @@ const ErrorChip = ({
           name={'alert-circle'}
           size={16}
         />
-        <Text
+        <AppText
           numberOfLines={1}
           style={tw`text-xs font-normal shrink leading-4 text-red-700 dark:text-red-400`}>
           {label}
-        </Text>
+        </AppText>
       </Animated.View>
     </TouchableOpacity>
   );

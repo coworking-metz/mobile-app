@@ -1,8 +1,9 @@
+import AppText from '../AppText';
 import AppTouchableScale from '../AppTouchableScale';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, Text, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 
@@ -39,21 +40,21 @@ const OnPremiseCard: ForwardRefRenderFunction<
         </View>
       </Animated.View>
       <Animated.View style={tw`flex flex-col z-20 w-full shrink grow`}>
-        <Text
+        <AppText
           style={[
             tw`text-xl font-medium text-slate-900 dark:text-gray-200`,
             disabled && tw`opacity-30`,
           ]}>
           {t('onPremise.title')}
-        </Text>
+        </AppText>
         {location && (
-          <Text
+          <AppText
             numberOfLines={1}
             style={[
               tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400`,
             ]}>
             {location}
-          </Text>
+          </AppText>
         )}
       </Animated.View>
       <MaterialCommunityIcons

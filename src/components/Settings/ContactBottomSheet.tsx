@@ -1,11 +1,12 @@
 import ChatBubblesAnimation from '../Animations/ChatBubblesAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
+import AppText from '../AppText';
 import AppTextButton from '../AppTextButton';
 import { Link } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
+import { Linking, Platform, StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { parseErrorText } from '@/helpers/error';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
@@ -46,18 +47,18 @@ const ContactBottomSheet = ({
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <ChatBubblesAnimation style={tw`h-56 w-full`} />
         </View>
-        <Text
+        <AppText
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
           {t('settings.support.contact.title')}
-        </Text>
-        <Text style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
+        </AppText>
+        <AppText style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
           {t('settings.support.contact.description')}
-        </Text>
+        </AppText>
         <Link asChild href={`${WORDPRESS_BASE_URL}#ouvrir-brevo`}>
           <AppRoundedButton style={tw`h-14 self-stretch mt-6`} suffixIcon="chat-processing-outline">
-            <Text style={tw`text-base text-black font-medium`}>
+            <AppText style={tw`text-base text-black font-medium`}>
               {t('settings.support.contact.conversations.label')}
-            </Text>
+            </AppText>
           </AppRoundedButton>
         </Link>
         <AppTextButton
@@ -65,9 +66,9 @@ const ContactBottomSheet = ({
           style={tw`mt-4`}
           suffixIcon="email-outline"
           onPress={onContactTeamByEmail}>
-          <Text style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
+          <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
             {t('settings.support.contact.mail.label')}
-          </Text>
+          </AppText>
         </AppTextButton>
       </View>
     </AppBottomSheet>

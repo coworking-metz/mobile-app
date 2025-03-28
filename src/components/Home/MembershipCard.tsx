@@ -1,8 +1,9 @@
+import AppText from '../AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, Text, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 
@@ -33,9 +34,9 @@ const MembershipCard = ({
         size={40}
       />
 
-      <Text style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
+      <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
         {t('home.profile.membership.label')}
-      </Text>
+      </AppText>
       {loading ? (
         <Skeleton
           backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
@@ -46,7 +47,7 @@ const MembershipCard = ({
         />
       ) : (
         <>
-          <Text
+          <AppText
             numberOfLines={1}
             style={[
               tw`text-2xl font-normal`,
@@ -55,7 +56,7 @@ const MembershipCard = ({
                 : tw`text-gray-400 dark:text-slate-600`,
             ]}>
             {lastMembershipYear || t('home.profile.membership.status.none')}
-          </Text>
+          </AppText>
 
           {valid ? (
             <MaterialCommunityIcons

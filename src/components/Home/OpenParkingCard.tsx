@@ -1,5 +1,6 @@
 import BarrierAnimation from '../Animations/BarrierAnimation';
 import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
+import AppText from '../AppText';
 import AppTouchableScale from '../AppTouchableScale';
 import ReanimatedText from '../ReanimatedText';
 import * as Sentry from '@sentry/react-native';
@@ -8,7 +9,7 @@ import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, Text, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
+import { Platform, StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import Animated, {
   Easing,
   interpolate,
@@ -191,17 +192,17 @@ const OpenParkingCard = ({
 
       {isUnlocked ? (
         <View style={tw`flex flex-col z-20`}>
-          <Text
+          <AppText
             numberOfLines={1}
             style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
             {t('home.parking.onUnlocked.firstLine')}
-          </Text>
+          </AppText>
           <View style={tw`flex flex-row items-end gap-1`}>
-            <Text
+            <AppText
               numberOfLines={1}
               style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
               {t('home.parking.onUnlocked.secondLine')}
-            </Text>
+            </AppText>
             <ReanimatedText
               style={[
                 tw`text-xl font-semibold text-slate-900 dark:text-gray-200`,
@@ -212,12 +213,12 @@ const OpenParkingCard = ({
           </View>
         </View>
       ) : (
-        <Text
+        <AppText
           ellipsizeMode={'clip'}
           numberOfLines={2}
           style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
           {t('home.parking.label')}
-        </Text>
+        </AppText>
       )}
     </AppTouchableScale>
   );

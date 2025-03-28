@@ -1,6 +1,7 @@
 import CalendarAnimation from '../Animations/CalendarAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
+import AppText from '../AppText';
 import CarouselPaginationDots from '../CarouselPaginationDots';
 import ErrorChip from '../ErrorChip';
 import ServiceRow from '../Settings/ServiceRow';
@@ -10,13 +11,12 @@ import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, Text, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
+import { Platform, StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
 import { formatAmount } from '@/helpers/currency';
 import { isSilentError } from '@/helpers/error';
-
 import i18n from '@/i18n';
 import { type ApiMemberSubscription } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
@@ -133,15 +133,15 @@ const SubscriptionBottomSheet = ({
                 loop={false}
                 renderItem={({ item }) => (
                   <View style={[tw`flex flex-col px-6 grow pb-3`, { width: carouselWidth }]}>
-                    <Text
+                    <AppText
                       numberOfLines={2}
                       style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 my-auto`}>
                       {getLabel(item)}
-                    </Text>
-                    <Text
+                    </AppText>
+                    <AppText
                       style={tw`text-left text-base font-normal text-slate-500 w-full mt-4 mb-2`}>
                       {t('home.profile.subscription.description')}
-                    </Text>
+                    </AppText>
                     <ServiceRow
                       withBottomDivider
                       label={t('home.profile.subscription.status.startedOn')}
@@ -156,10 +156,10 @@ const SubscriptionBottomSheet = ({
                           width={128}
                         />
                       ) : (
-                        <Text
+                        <AppText
                           style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
                           {dayjs(item.started).format('dddd ll')}
-                        </Text>
+                        </AppText>
                       )}
                     </ServiceRow>
                     <ServiceRow
@@ -180,10 +180,10 @@ const SubscriptionBottomSheet = ({
                           width={128}
                         />
                       ) : (
-                        <Text
+                        <AppText
                           style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
                           {dayjs(item.ended).format('dddd ll')}
-                        </Text>
+                        </AppText>
                       )}
                     </ServiceRow>
                     <ServiceRow
@@ -203,19 +203,19 @@ const SubscriptionBottomSheet = ({
                       ) : (
                         <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
                           {item.attendanceCount != 0 && (
-                            <Text
+                            <AppText
                               numberOfLines={1}
                               style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
                               {item.attendanceCount}
-                            </Text>
+                            </AppText>
                           )}
-                          <Text
+                          <AppText
                             numberOfLines={1}
                             style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
                             {t('home.profile.subscription.attendance.count', {
                               count: item.attendanceCount,
                             })}
-                          </Text>
+                          </AppText>
                         </View>
                       )}
                     </ServiceRow>
@@ -236,19 +236,19 @@ const SubscriptionBottomSheet = ({
                       ) : (
                         <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
                           {item.activityCount != 0 && (
-                            <Text
+                            <AppText
                               numberOfLines={1}
                               style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
                               {item.activityCount}
-                            </Text>
+                            </AppText>
                           )}
-                          <Text
+                          <AppText
                             numberOfLines={1}
                             style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
                             {t('home.profile.subscription.activity.count', {
                               count: item.activityCount,
                             })}
-                          </Text>
+                          </AppText>
                         </View>
                       )}
                     </ServiceRow>
@@ -272,7 +272,7 @@ const SubscriptionBottomSheet = ({
                             item.savingsOverTickets < 0 && tw`bg-gray-100 dark:bg-gray-700`,
                             item.savingsOverTickets > 0 && tw`bg-green-100 dark:bg-green-900`,
                           ]}>
-                          <Text
+                          <AppText
                             numberOfLines={1}
                             style={[
                               tw`text-base font-semibold text-slate-900 dark:text-gray-200`,
@@ -280,7 +280,7 @@ const SubscriptionBottomSheet = ({
                               item.savingsOverTickets > 0 && tw`text-green-800 dark:text-green-300`,
                             ]}>
                             {`${item.savingsOverTickets > 0 ? '+' : ''}${formatAmount(item.savingsOverTickets, {}, i18n.language)}`}
-                          </Text>
+                          </AppText>
                         </View>
                       )}
                     </ServiceRow>
@@ -309,13 +309,13 @@ const SubscriptionBottomSheet = ({
         </>
       ) : (
         <View style={[tw`flex flex-col px-6`]}>
-          <Text
+          <AppText
             style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
             {t('home.profile.subscription.label.none')}
-          </Text>
-          <Text style={tw`text-left text-base font-normal text-slate-500 w-full mt-4 mb-2`}>
+          </AppText>
+          <AppText style={tw`text-left text-base font-normal text-slate-500 w-full mt-4 mb-2`}>
             {t('home.profile.subscription.description')}
-          </Text>
+          </AppText>
         </View>
       )}
       {subscriptionsError && !isSilentError(subscriptionsError) ? (
@@ -331,11 +331,11 @@ const SubscriptionBottomSheet = ({
         href="https://www.coworking-metz.fr/boutique/pass-resident/"
         style={tw`mx-6 ${sortedSubscriptions.length > 1 ? 'mt-6' : 'mt-2'}`}>
         <AppRoundedButton disabled={!user} style={tw`h-14 self-stretch`} suffixIcon="open-in-new">
-          <Text style={tw`text-base font-medium text-black`}>
+          <AppText style={tw`text-base font-medium text-black`}>
             {sortedSubscriptions.length
               ? t('home.profile.subscription.renew')
               : t('home.profile.subscription.get')}
-          </Text>
+          </AppText>
         </AppRoundedButton>
       </Link>
     </AppBottomSheet>

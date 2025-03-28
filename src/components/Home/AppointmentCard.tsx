@@ -1,11 +1,12 @@
 import CalendarCheckAnimation from '../Animations/CalendarCheckAnimation';
+import AppText from '../AppText';
 import AppTouchableScale from '../AppTouchableScale';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, Text, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
@@ -77,14 +78,14 @@ const AppointmentCard = ({
         </AppTouchableScale>
 
         <View style={tw`flex flex-col justify-center min-h-20 grow shrink`}>
-          <Text numberOfLines={1} style={tw`text-3xl font-semibold text-zinc-900`}>
+          <AppText numberOfLines={1} style={tw`text-3xl font-semibold text-zinc-900`}>
             {t('home.appointment.title')}
-          </Text>
-          <Text
+          </AppText>
+          <AppText
             numberOfLines={2}
             style={tw`text-base font-normal text-zinc-600 dark:text-zinc-700`}>
             {t('home.appointment.description')}
-          </Text>
+          </AppText>
         </View>
       </View>
 
@@ -98,11 +99,11 @@ const AppointmentCard = ({
             size={24}
             style={tw`shrink-0`}
           />
-          <Text
+          <AppText
             numberOfLines={1}
             style={[tw`text-base font-normal text-gray-100 dark:text-gray-200`]}>
             {appointmentDate}
-          </Text>
+          </AppText>
         </View>
         <View style={tw`flex flex-row items-center gap-2 grow shrink`}>
           <MaterialCommunityIcons
@@ -112,11 +113,11 @@ const AppointmentCard = ({
             size={24}
             style={tw`shrink-0`}
           />
-          <Text
+          <AppText
             numberOfLines={1}
             style={[tw`text-base font-normal text-gray-100 dark:text-gray-200`]}>
             {appointmentTime}
-          </Text>
+          </AppText>
         </View>
       </View>
     </View>

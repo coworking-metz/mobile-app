@@ -1,13 +1,14 @@
 import ExitDoorAnimation from '../Animations/ExitDoorAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
+import AppText from '../AppText';
 import AppTextButton from '../AppTextButton';
 import { makeRedirectUri } from 'expo-auth-session';
 import { Link } from 'expo-router';
 import { openAuthSessionAsync, WebBrowserRedirectResult } from 'expo-web-browser';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
+import { Linking, Platform, StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
@@ -66,25 +67,25 @@ const LogoutBottomSheet = ({
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <ExitDoorAnimation style={tw`h-56 w-full`} />
         </View>
-        <Text
+        <AppText
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
           {t('auth.logout.title')}
-        </Text>
-        <Text style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
+        </AppText>
+        <AppText style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
           {t('auth.logout.description')}
-        </Text>
+        </AppText>
         <AppRoundedButton
           disabled={isLoading}
           loading={isLoading}
           style={tw`self-stretch mt-6`}
           onPress={onLogout}>
-          <Text style={tw`text-base text-black font-medium`}>{t('actions.logout')}</Text>
+          <AppText style={tw`text-base text-black font-medium`}>{t('actions.logout')}</AppText>
         </AppRoundedButton>
         <Link asChild href={`/settings?loggedOut=true}`}>
           <AppTextButton style={tw`mt-4`}>
-            <Text style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
+            <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
               {t('auth.logout.forceLogout')}
-            </Text>
+            </AppText>
           </AppTextButton>
         </Link>
       </View>

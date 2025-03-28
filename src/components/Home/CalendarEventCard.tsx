@@ -1,11 +1,12 @@
 import AppBlurView from '../AppBlurView';
+import AppText from '../AppText';
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { Image, ImageBackground } from 'expo-image';
 import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, Text, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AmourFoodSquareLogo from '@/assets/images/amour-food-square.png';
@@ -95,17 +96,17 @@ const CalendarEventCard = ({
             {eventIcon}
             <View style={tw`flex flex-col items-stretch grow shrink basis-0 ml-3`}>
               {date && (
-                <Text
+                <AppText
                   numberOfLines={1}
                   style={tw`text-base font-light text-slate-800 dark:text-slate-300`}>
                   {`${date.slice(0, 1).toUpperCase()}${date.slice(1)}`}
-                </Text>
+                </AppText>
               )}
-              <Text
+              <AppText
                 numberOfLines={1}
                 style={tw`text-xl font-medium text-gray-900 dark:text-gray-200`}>
                 {event.title}
-              </Text>
+              </AppText>
             </View>
           </AppBlurView>
         ) : null}

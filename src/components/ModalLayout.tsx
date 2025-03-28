@@ -1,4 +1,5 @@
 import AppBlurView from './AppBlurView';
+import AppText from './AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
@@ -201,14 +202,14 @@ const ModalLayout = ({
               width={144}
             />
           ) : (
-            <Animated.Text
+            <AppText
               numberOfLines={1}
               style={[
                 tw`text-2xl font-semibold tracking-tight text-slate-900 dark:text-gray-200 `,
                 titleTextStyle,
               ]}>
               {title}
-            </Animated.Text>
+            </AppText>
           )}
         </Animated.View>
       </Animated.View>

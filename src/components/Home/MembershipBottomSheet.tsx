@@ -1,6 +1,7 @@
 import MembershipFormAnimation from '../Animations/MembershipFormAnimation';
 import AppBottomSheet from '../AppBottomSheet';
 import AppRoundedButton from '../AppRoundedButton';
+import AppText from '../AppText';
 import ServiceRow from '../Settings/ServiceRow';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
@@ -9,7 +10,7 @@ import { Link } from 'expo-router';
 import { Skeleton } from 'moti/skeleton';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, Text, View, ViewStyle } from 'react-native';
+import { Platform, StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
 
@@ -57,13 +58,13 @@ const MembershipBottomSheet = ({
       <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
         <MembershipFormAnimation active={active && valid} style={tw`h-56 w-full`} valid={valid} />
       </View>
-      <Text
+      <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
         {t('home.profile.membership.label')}
-      </Text>
-      <Text style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
+      </AppText>
+      <AppText style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
         {t('home.profile.membership.description')}
-      </Text>
+      </AppText>
 
       <ServiceRow
         withBottomDivider
@@ -77,14 +78,14 @@ const MembershipBottomSheet = ({
             width={128}
           />
         ) : (
-          <Text
+          <AppText
             style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
             {valid
               ? t('home.profile.membership.status.valid', { year: lastMembershipYear })
               : lastMembershipYear
                 ? t('home.profile.membership.status.invalid', { year: lastMembershipYear })
                 : t('home.profile.membership.status.none')}
-          </Text>
+          </AppText>
         )}
       </ServiceRow>
 
@@ -103,19 +104,19 @@ const MembershipBottomSheet = ({
         ) : (
           <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
             {activityOverLast6Months != 0 && (
-              <Text
+              <AppText
                 numberOfLines={1}
                 style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
                 {activityOverLast6Months}
-              </Text>
+              </AppText>
             )}
-            <Text
+            <AppText
               numberOfLines={1}
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
               {t('home.profile.membership.activity.days', {
                 count: activityOverLast6Months ?? 0,
               })}
-            </Text>
+            </AppText>
           </View>
         )}
       </ServiceRow>
@@ -129,14 +130,14 @@ const MembershipBottomSheet = ({
             width={128}
           />
         ) : (
-          <Text
+          <AppText
             style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
             {active && valid
               ? t('home.profile.membership.grade.active.label')
               : valid
                 ? t('home.profile.membership.grade.standard.label')
                 : t('home.profile.membership.grade.none.label')}
-          </Text>
+          </AppText>
         )}
       </ServiceRow>
 
@@ -155,11 +156,11 @@ const MembershipBottomSheet = ({
             size={24}
             style={tw`shrink-0 grow-0`}
           />
-          <Text style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
+          <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
             {active
               ? t('home.profile.membership.grade.active.description')
               : t('home.profile.membership.grade.standard.description')}
-          </Text>
+          </AppText>
         </View>
       ) : (
         <View style={tw`flex flex-row items-start flex-gap-2 mb-4 w-full overflow-hidden`}>
@@ -170,9 +171,9 @@ const MembershipBottomSheet = ({
             size={24}
             style={tw`shrink-0 grow-0`}
           />
-          <Text style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
+          <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
             {t('home.profile.membership.required')}
-          </Text>
+          </AppText>
         </View>
       )}
 
@@ -182,11 +183,11 @@ const MembershipBottomSheet = ({
           href="https://www.coworking-metz.fr/boutique/carte-adherent/"
           style={tw`mt-2`}>
           <AppRoundedButton disabled={!user} style={tw`h-14 self-stretch`} suffixIcon="open-in-new">
-            <Text style={tw`text-base font-medium text-black`}>
+            <AppText style={tw`text-base font-medium text-black`}>
               {lastMembershipYear
                 ? t('home.profile.membership.renew', { year: dayjs().year() })
                 : t('home.profile.membership.get', { year: dayjs().year() })}
-            </Text>
+            </AppText>
           </AppRoundedButton>
         </Link>
       )}

@@ -13,8 +13,7 @@
     "membership": {
       "last": "Last membership in {{year}}",
       "none": "No membership yet"
-    },
-    "myself": "ME"
+    }
   },
   "onFetch": {
     "fail": "Unable to fetch the list of attendees"

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Platform, ScrollView, View } from 'react-native';
 import Animated, { FadeInLeft, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
+import AppText from '@/components/AppText';
 import AppTouchableScale from '@/components/AppTouchableScale';
 import ErrorState from '@/components/ErrorState';
 import PeriodBottomSheet, { type PeriodType } from '@/components/Events/PeriodBottomSheet';
@@ -140,12 +141,12 @@ const Calendar = () => {
           {filteredEventsGroups?.length ? (
             filteredEventsGroups.map(([date, events]) => (
               <View key={`calendar-group-${date}`} style={tw`flex flex-col gap-4`}>
-                <Animated.Text
+                <AppText
                   entering={FadeInLeft.duration(300)}
                   exiting={FadeOut.duration(300)}
                   style={tw`text-sm font-normal uppercase text-slate-500 mx-2`}>
                   {dayjs(date).format('dddd LL')}
-                </Animated.Text>
+                </AppText>
                 {events.map((event) => (
                   <Link
                     asChild

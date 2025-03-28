@@ -124,6 +124,22 @@
           "image": "./src/assets/images/icon/adaptive-icon.png",
           "imageWidth": 144
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/inter-tight/InterTight_100Thin.ttf",
+            "node_modules/@expo-google-fonts/inter-tight/InterTight_200ExtraLight.ttf",
+            "node_modules/@expo-google-fonts/inter-tight/InterTight_300Light.ttf",
+            "node_modules/@expo-google-fonts/inter-tight/InterTight_400Regular.ttf",
+            "node_modules/@expo-google-fonts/inter-tight/InterTight_500Medium.ttf",
+            "node_modules/@expo-google-fonts/inter-tight/InterTight_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/inter-tight/InterTight_700Bold.ttf",
+            "node_modules/@expo-google-fonts/inter-tight/InterTight_800ExtraBold.ttf",
+            "node_modules/@expo-google-fonts/inter-tight/InterTight_900Black.ttf"
+          ]
+        }
       ]
     ],
     "runtimeVersion": {

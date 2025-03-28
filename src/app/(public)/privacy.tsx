@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Text } from 'react-native';
 import { Switch } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
+import AppText from '@/components/AppText';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { useAppPermissions } from '@/context/permissions';
@@ -32,9 +33,9 @@ const Privacy = () => {
       contentStyle={tw`pt-6 pb-12`}
       description={t('privacy.description')}
       title={t('privacy.title')}>
-      <Text style={tw`text-sm font-normal uppercase text-slate-500 mx-6`}>
+      <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6`}>
         {t('privacy.permissions.title')}
-      </Text>
+      </AppText>
       <ServiceRow
         withBottomDivider
         description={t('privacy.permissions.calendar.description')}
