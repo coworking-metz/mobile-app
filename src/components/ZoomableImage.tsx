@@ -38,10 +38,15 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
         <Image cachePolicy="memory-disk" source={source} style={style} {...props} />
         {children}
       </TouchableOpacity>
-      <Modal transparent animationType="fade" visible={isSelected}>
+      <Modal
+        statusBarTranslucent
+        transparent
+        animationType="fade"
+        visible={isSelected}
+        {...(Platform.OS === 'android' && { navigationBarTranslucent: true })}>
         {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
         <StatusBar translucent style="light" />
-        <View style={tw`flex flex-col h-full w-full bg-black`}>
+        <View style={tw`flex flex-col h-screen w-screen bg-black`}>
           <View
             style={[
               tw`absolute z-10 flex flex-row items-center justify-end w-full p-4`,

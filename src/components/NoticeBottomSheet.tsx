@@ -6,10 +6,9 @@ import UnlockAnimation from './Animations/UnlockAnimation';
 import WarningAnimation from './Animations/WarningAnimation';
 import AppBottomSheet from './AppBottomSheet';
 import AppText from './AppText';
-import React, { useCallback, useEffect, useRef } from 'react';
-import { Platform, View } from 'react-native';
+import React, { useCallback } from 'react';
+import { View } from 'react-native';
 import tw from 'twrnc';
-import type BottomSheet from '@gorhom/bottom-sheet';
 import useNoticeStore, { type NoticeType } from '@/stores/notice';
 
 const NoticeBottomSheet = () => {
@@ -17,7 +16,6 @@ const NoticeBottomSheet = () => {
   const mostRecentUndismissedNotice = useNoticeStore((state) =>
     state.history.find((n) => !n.dismissed),
   );
-  const bottomSheetRef = useRef<BottomSheet>(null);
 
   const getAnimation = (type?: NoticeType) => {
     switch (type) {
@@ -44,18 +42,10 @@ const NoticeBottomSheet = () => {
     }
   }, [noticeStore]);
 
-  useEffect(() => {
-    if (mostRecentUndismissedNotice) {
-      bottomSheetRef.current?.expand();
-    }
-  }, [noticeStore.history]);
-
   if (!mostRecentUndismissedNotice) return null;
 
   return (
-    <AppBottomSheet
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+    <AppBottomSheet onClose={onClose}>
       <View style={tw`flex flex-col items-center gap-4 px-6 pt-6`}>
         <View style={tw`flex flex-col h-32 w-32 items-center justify-center`}>
           {getAnimation(mostRecentUndismissedNotice.type)}

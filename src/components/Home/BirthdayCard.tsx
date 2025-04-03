@@ -1,5 +1,4 @@
 import GiftCard from './GiftCard';
-import AppText from '../AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { isNil } from 'lodash';
 import React from 'react';
@@ -7,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppText from '@/components/AppText';
 import useSettingsStore from '@/stores/settings';
 
 const BirthdayCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
@@ -33,8 +33,12 @@ const BirthdayCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
       <AppText
         ellipsizeMode={'clip'}
         numberOfLines={2}
-        style={[tw`mt-auto text-2xl font-medium text-slate-900 dark:text-gray-200`]}>
+        style={[tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`]}>
         {t('home.profile.birthday.label')}
+      </AppText>
+
+      <AppText style={[tw`mt-auto text-2xl font-normal text-gray-400 dark:text-slate-600`]}>
+        🥳
       </AppText>
     </Animated.View>
   );

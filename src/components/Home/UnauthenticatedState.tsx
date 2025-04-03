@@ -1,4 +1,4 @@
-import AppText from '../AppText';
+import AppText from '@/components/AppText';
 import { Image } from 'expo-image';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

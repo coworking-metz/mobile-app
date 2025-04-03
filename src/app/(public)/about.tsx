@@ -23,8 +23,7 @@ const About = () => {
         {t('about.legal.title')}
       </AppText>
       <ServiceRow withBottomDivider label={t('about.legal.license.label')} style={tw`px-3 mx-3`}>
-        <AppText
-          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+        <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
           MIT
         </AppText>
       </ServiceRow>
@@ -37,9 +36,9 @@ const About = () => {
           suffixIcon="open-in-new"
         />
       </Link>
-      <Link asChild href="https://coworking-metz.fr/reglement-interieur">
+      <Link asChild href="https://www.coworking-metz.fr/donnees/">
         <ServiceRow
-          description="coworking-metz.fr/reglement-interieur"
+          description="coworking-metz.fr/donnees"
           label={t('about.legal.privacyPolicy.label')}
           style={tw`px-3 mx-3`}
           suffixIcon="open-in-new"
@@ -53,8 +52,7 @@ const About = () => {
         withBottomDivider
         label={t('about.technical.environment.label')}
         style={tw`px-3 mx-3`}>
-        <AppText
-          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+        <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
           {APP_ENVIRONMENT}
         </AppText>
       </ServiceRow>
@@ -62,8 +60,7 @@ const About = () => {
         withBottomDivider
         label={t('about.technical.version.label')}
         style={tw`px-3 mx-3`}>
-        <AppText
-          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+        <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
           {version}
         </AppText>
       </ServiceRow>
@@ -71,14 +68,12 @@ const About = () => {
         withBottomDivider
         label={t('about.technical.buildDate.label')}
         style={tw`px-3 mx-3`}>
-        <AppText
-          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+        <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
           {dayjs(Constants.expoConfig?.extra?.buildDate).format('L LT')}
         </AppText>
       </ServiceRow>
       <ServiceRow label={t('about.technical.executionEnvironment.label')} style={tw`px-3 mx-3`}>
-        <AppText
-          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+        <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
           {Constants.executionEnvironment}
         </AppText>
       </ServiceRow>

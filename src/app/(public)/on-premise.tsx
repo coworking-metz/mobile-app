@@ -12,6 +12,7 @@ import Animated, {
 import tw, { useDeviceContext } from 'twrnc';
 import ErrorChip from '@/components/ErrorChip';
 import CarbonDioxideBottomSheet from '@/components/OnPremise/CarbonDioxideBottomSheet';
+import FlexDeskBottomSheet from '@/components/OnPremise/FlexDeskBottomSheet';
 import KeyBoxBottomSheet from '@/components/OnPremise/KeyBoxBottomSheet';
 import PhoneBoothBottomSheet from '@/components/OnPremise/PhoneBoothBottomSheet';
 import PoulaillerPlan from '@/components/OnPremise/PoulaillerPlan';
@@ -21,13 +22,13 @@ import UnlockDeckDoorBottomSheet from '@/components/OnPremise/UnlockDeckDoorBott
 import { SelectableChip } from '@/components/SelectableChip';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import { isSilentError } from '@/helpers/error';
-import { getOnPremiseState } from '@/services/api/services';
-import useAuthStore from '@/stores/auth';
+import { getOnPremiseState, OnPremiseFlexDesk } from '@/services/api/services';
+
+const SUPPORTED_LOCATIONS = ['poulailler', 'pti-poulailler'];
 
 const OnPremise = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
-  const user = useAuthStore((s) => s.user);
   const { location } = useLocalSearchParams<{ location: string }>();
   const [isDeckDoorSelected, setDeckDoorSelected] = useState<boolean>(false);
   const [isPhoneBoothSelected, setPhoneBoothSelected] = useState<boolean>(false);
@@ -35,8 +36,9 @@ const OnPremise = () => {
   const [isCarbonDioxideSelected, setCarbonDioxideSelected] = useState<boolean>(false);
   const [isPtiPoulaillerClimateSelected, setPtiPoulaillerClimateSelected] =
     useState<boolean>(false);
+  const [selectedFlexDesk, setSelectedFlexDesk] = useState<OnPremiseFlexDesk | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<'poulailler' | 'pti-poulailler'>(
-    (location || 'poulailler') as never,
+    (SUPPORTED_LOCATIONS.includes(location) ? location : 'poulailler') as never,
   );
 
   const {
@@ -103,6 +105,7 @@ const OnPremise = () => {
             <PtiPoulaillerPlan
               loading={isFetchingOnPremiseState}
               onClimateSelected={() => setPtiPoulaillerClimateSelected(true)}
+              onFlexDeskSelected={(d) => setSelectedFlexDesk(d ?? null)}
               onKeyBoxSelected={() => setKeyBoxSelected(true)}
               onPremiseState={onPremiseState}
             />
@@ -142,6 +145,13 @@ const OnPremise = () => {
           loading={isFetchingOnPremiseState}
           temperatureLevel={onPremiseState?.sensors?.temperature.ptiPoulaillerLevel || 0}
           onClose={() => setPtiPoulaillerClimateSelected(false)}
+        />
+      )}
+
+      {!!selectedFlexDesk && (
+        <FlexDeskBottomSheet
+          occupied={selectedFlexDesk?.occupied}
+          onClose={() => setSelectedFlexDesk(null)}
         />
       )}
     </>

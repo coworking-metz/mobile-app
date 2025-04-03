@@ -28,7 +28,7 @@
     "presence": {
       "activity_one": "journée",
       "activity_other": "journées",
-      "activity_zero": "Absent",
+      "activity_zero": "Rien\nencore",
       "onFetch": {
         "fail": "Impossible de récupérer la présence"
       },
@@ -96,7 +96,7 @@
     },
     "review": {
       "description": "Vous aimez Le Poulailler et son application ?\nAidez-nous à les rendre encore meilleurs en partageant votre avis sur leurs pages respectives.\nUn grand merci pour votre soutien ! 🙏",
-      "label": "Donner votre avis",
+      "label": "Donner mon avis",
       "rateOnGoogleMaps": "Évaluer sur Google Maps",
       "rateOnStore": "Noter l'application",
       "title": "Partagez votre avis !"

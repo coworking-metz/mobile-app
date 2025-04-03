@@ -1,0 +1,86 @@
+{
+  "add": {
+    "detect": {
+      "description": "This device will query our on-site service to detect and retrieve the necessary information.\nIf you encounter a problem or want to add another device, you can enter it manually.",
+      "label": "Pair this device",
+      "reachable": "Service reachable.",
+      "start": "Detect automatically",
+      "unreachable": "You must be connected to the Poulailler Wi-Fi network to detect this device."
+    },
+    "manual": "Enter manually",
+    "onDetect": {
+      "fail": "Unable to pair\nthis device",
+      "success": "{{name}} paired"
+    },
+    "onFetchDeviceInfo": {
+      "fail": "Unable to retrieve\ndevice data",
+      "pending": "Retrieving data",
+      "tooManyAttempts": "Device not found on the network by our service after multiple attempts. (TOO_MANY_ATTEMPTS_AGAINST_PROBE)",
+      "unavailable": "Service unreachable.\nMake sure you are connected to the Poulailler Wi-Fi network."
+    },
+    "onVerifyDevice": {
+      "fail": "Unable to verify\ndevice presence",
+      "pending": "Verifying device presence",
+      "tooManyAttempts": "Device not found after multiple attempts. (TOO_MANY_ATTEMPTS_AGAINST_TICKETS)"
+    }
+  },
+  "detail": {
+    "delete": {
+      "confirm": "Delete",
+      "description": "Are you sure you want to delete this device?\nThis will not delete its related activity.",
+      "title": "Delete device"
+    },
+    "location": {
+      "label": "Located",
+      "nowhere": "Nowhere"
+    },
+    "macAddress": {
+      "label": "MAC address",
+      "locallyAdministered": "This address is virtual and may change frequently. You might need to enter it again.",
+      "placeholder": "A1:B2:C3:D4:E6:F7"
+    },
+    "name": {
+      "label": "Name"
+    },
+    "type": {
+      "label": "Type",
+      "value": {
+        "COMPUTER": "Computer",
+        "MOBILE": "Mobile",
+        "UNKNOWN": "Other",
+        "WEARABLE": "Watch"
+      }
+    }
+  },
+  "empty": {
+    "description": "To have your presence counted when you're on site, at least one device must be linked to your profile.",
+    "title": "No device linked"
+  },
+  "new": {
+    "macAddress": {
+      "label": "MAC address"
+    },
+    "name": {
+      "label": "Name"
+    },
+    "title": "New device"
+  },
+  "onAdd": {
+    "fail": "Unable to add\nthis device",
+    "pending": "Adding device in progress",
+    "success": "{{name}} added"
+  },
+  "onDelete": {
+    "fail": "Unable to delete\nthis device",
+    "success": "{{name}} deleted"
+  },
+  "onFetch": {
+    "fail": "Unable to retrieve the device list",
+    "missingId": "Unable to retrieve the device identifier"
+  },
+  "onUpdate": {
+    "fail": "Unable to update\nthis device",
+    "success": "{{name}} updated"
+  },
+  "title": "Paired devices"
+}

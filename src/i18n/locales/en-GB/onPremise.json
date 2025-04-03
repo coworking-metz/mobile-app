@@ -37,6 +37,18 @@
     },
     "slideToUnlock": "Slide to unlock"
   },
+  "flexDesk": {
+    "description": "This sit-stand desk allows you to work sitting or standing, depending on your preferences.\nIt is available without reservation, with a real-time status to check if it is occupied or free.",
+    "label": "Sit-stand desk",
+    "occupancy": {
+      "label": "Occupancy",
+      "value": {
+        "available": "Available",
+        "occupied": "Occupied",
+        "unknown": "Unknown"
+      }
+    }
+  },
   "keyBox": {
     "description": "The key box allows you to retrieve the shared office keys and:\n- open it when you are the first to arrive,\n- close it when you are the last to leave.\n\nIt is located next to the entrance door and a code is required to open it.",
     "fetch": "Get the code",

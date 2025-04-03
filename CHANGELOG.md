@@ -10,10 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Surprise 🤫
+- Devices management.
+- Flex desks on `P'ti Poulailler` floor plan.
 
 ### Changed
 
 - Improve scroll handling on home screen.
+- (Android only) Apply a new font everywhere.
 
 ### Fixed
 

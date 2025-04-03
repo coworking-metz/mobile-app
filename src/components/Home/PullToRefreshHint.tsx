@@ -1,10 +1,10 @@
-import ScrollDownAnimation from '../Animations/ScrollDownAnimation';
-import AppText from '../AppText';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
+import ScrollDownAnimation from '@/components/Animations/ScrollDownAnimation';
+import AppText from '@/components/AppText';
 import useSettingsStore from '@/stores/settings';
 
 const PullToRefreshHint = ({ style }: { style?: StyleProp<ViewStyle> }) => {

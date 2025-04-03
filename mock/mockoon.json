@@ -3,7 +3,7 @@
   "lastMigration": 32,
   "name": "Coworking Metz API",
   "endpointPrefix": "",
-  "latency": 3000,
+  "latency": 300,
   "port": 3001,
   "hostname": "",
   "routes": [
@@ -15,7 +15,7 @@
       "responses": [
         {
           "uuid": "22cb76ca-b184-4f59-b9d8-5e6f898ba66c",
-          "body": "{\n  {{setVar 'subscriptionStartDate' (date (dateTimeShift date=(now) months=-1) (now) 'yyyy-MM-dd') }}\n    \"id\": {{ faker 'number.int' min=1 max=800 }},\n    \"picture\": \"\",\n    \"email\": \"{{ faker 'internet.email' }}\",\n    \"firstname\": \"{{faker 'person.firstName'}}\",\n    \"lastname\": \"{{faker 'person.lastName'}}\",\n    \"balance\": {{ faker 'number.int' min=-10 max=20 }},\n    \"subscription\": {\n        \"startDate\": \"{{ @subscriptionStartDate }}\",\n        \"endDate\": \"{{ dateTimeShift date=@subscriptionStartDate months=1 format='yyyy-MM-dd' }}\",\n        \"purchased\": \"{{ dateTimeShift date=@subscriptionStartDate days=-3 format='yyyy-MM-dd' }}\"\n    }\n}",
+          "body": "{\n  {{setVar 'subscriptionStartDate' (date (dateTimeShift date=(now) months=-1) (now) 'yyyy-MM-dd') }}\n    \"id\": {{ faker 'number.int' min=1 max=800 }},\n    \"picture\": \"\",\n    \"email\": \"{{ faker 'internet.email' }}\",\n    \"firstname\": \"{{ faker 'person.firstName'}}\",\n    \"lastname\": \"{{ faker 'person.lastName'}}\",\n    \"balance\": {{ faker 'number.int' min=-10 max=20 }},\n    \"subscription\": {\n        \"startDate\": \"{{ @subscriptionStartDate }}\",\n        \"endDate\": \"{{ dateTimeShift date=@subscriptionStartDate months=1 format='yyyy-MM-dd' }}\",\n        \"purchased\": \"{{ dateTimeShift date=@subscriptionStartDate days=-3 format='yyyy-MM-dd' }}\"\n    }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -507,6 +507,209 @@
         }
       ],
       "responseMode": "RANDOM"
+    },
+    {
+      "uuid": "9e716a93-42f7-414f-b788-abaf0fc6c468",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "probe/info",
+      "responses": [
+        {
+          "uuid": "bab28246-6f9b-4c1d-857a-c4d2decb0a45",
+          "body": "{\n  \"device\": {\n    \"name\": \"Test\",\n    \"macAddress\": \"0A:7B:BB:D4:83:02\"\n  }\n}",
+          "latency": 5000,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "c3db2ffb-bd12-4ed7-8e56-72a11a17c6eb",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/members/:memberId/devices",
+      "responses": [
+        {
+          "uuid": "2a0cf3af-f840-482f-830d-266ab36982dc",
+          "body": "[\n  {\n    \"_id\": \"7JYIPvsjzeIjgOgfg\",\n    \"name\": \"iPhone\",\n    \"macAddress\": \"0A:7B:BB:D4:83:02\",\n    \"heartbeat\": \"{{ now }}\",\n    \"location\": \"\",\n    \"type\": \"MOBILE\",\n    \"attending\": true\n  }\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "89d5250d-5b8d-4d88-8c44-622b03f65401",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "api/members/:memberId/devices",
+      "responses": [
+        {
+          "uuid": "bac05982-45bd-4cb9-b609-b195628998bd",
+          "body": "{\n  \"_id\": \"{{ faker 'string.nanoid' }}\",\n  \"name\": \"iPhone\",\n  \"type\": \"MOBILE\",\n  \"macAddress\": \"{{ faker 'internet.mac' }}\",\n}",
+          "latency": 1500,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "5e1ec7c5-a579-4a15-aec8-61f5ed3d3c93",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "api/members/:memberId/devices/:deviceId",
+      "responses": [
+        {
+          "uuid": "28c72c33-0bab-4dbc-bf54-aa6c44ba0d30",
+          "body": "{\n  \"_id\": \"{{ faker 'string.nanoid' }}\",\n  \"name\": \"iPhone\",\n  \"type\": \"MOBILE\",\n  \"macAddress\": \"{{ faker 'internet.mac' }}\",\n  \"heartbeat\": \"{{ now }}\",\n  \"location\": \"\",\n  \"attending\": true\n}",
+          "latency": 5000,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "97b2c0ae-99e1-4f59-9cce-a95d9ca56cc0",
+      "type": "http",
+      "documentation": "",
+      "method": "options",
+      "endpoint": "probe/info",
+      "responses": [
+        {
+          "uuid": "873c4eee-c972-461a-9c12-84b1b9d16566",
+          "body": "",
+          "latency": 1,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "61281080-2d94-4a92-9663-b19c7ced5882",
+      "type": "http",
+      "documentation": "",
+      "method": "put",
+      "endpoint": "api/members/:memberId/devices/:deviceId",
+      "responses": [
+        {
+          "uuid": "76942b14-8418-4c9d-be27-19f50115eaf6",
+          "body": "{\n  \"_id\": \"{{ faker 'string.nanoid' }}\",\n  \"name\": \"iPhone\",\n  \"macAddress\": \"{{ faker 'internet.mac' }}\",\n  \"heartbeat\": \"{{ now }}\",\n  \"location\": \"\",\n  \"attending\": true\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "dc55ee9d-193a-42a8-a8f9-bfddae3ac397",
+      "type": "http",
+      "documentation": "",
+      "method": "delete",
+      "endpoint": "api/members/:memberId/devices/:deviceId",
+      "responses": [
+        {
+          "uuid": "f8b77abd-9bfc-4f35-8488-1a7a8c2caf91",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "proxyMode": true,
@@ -619,6 +822,46 @@
           "uuid": "b4c91046-d898-4b70-a641-9ba530fdfbd2"
         }
       ]
+    },
+    {
+      "uuid": "6e41f63c-1d80-4b79-abdf-a9c595938e08",
+      "name": "Probe",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "9e716a93-42f7-414f-b788-abaf0fc6c468"
+        },
+        {
+          "type": "route",
+          "uuid": "97b2c0ae-99e1-4f59-9cce-a95d9ca56cc0"
+        }
+      ]
+    },
+    {
+      "uuid": "85ff9041-6cbe-4623-9abd-5e871357d2b6",
+      "name": "Devices",
+      "children": [
+        {
+          "type": "route",
+          "uuid": "c3db2ffb-bd12-4ed7-8e56-72a11a17c6eb"
+        },
+        {
+          "type": "route",
+          "uuid": "89d5250d-5b8d-4d88-8c44-622b03f65401"
+        },
+        {
+          "type": "route",
+          "uuid": "5e1ec7c5-a579-4a15-aec8-61f5ed3d3c93"
+        },
+        {
+          "type": "route",
+          "uuid": "61281080-2d94-4a92-9663-b19c7ced5882"
+        },
+        {
+          "type": "route",
+          "uuid": "dc55ee9d-193a-42a8-a8f9-bfddae3ac397"
+        }
+      ]
     }
   ],
   "rootChildren": [
@@ -633,6 +876,14 @@
     {
       "type": "folder",
       "uuid": "de7f4255-13ec-44eb-890c-066b676776f7"
+    },
+    {
+      "type": "folder",
+      "uuid": "6e41f63c-1d80-4b79-abdf-a9c595938e08"
+    },
+    {
+      "type": "folder",
+      "uuid": "85ff9041-6cbe-4623-9abd-5e871357d2b6"
     }
   ],
   "callbacks": []

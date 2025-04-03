@@ -1,9 +1,9 @@
-import LoveCalendarAnimation from '../Animations/LoveCalendarAnimation';
-import AppText from '../AppText';
 import React, { type ReactNode } from 'react';
 import { StyleProp, ViewStyle, type ViewProps } from 'react-native';
 import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
+import LoveCalendarAnimation from '@/components/Animations/LoveCalendarAnimation';
+import AppText from '@/components/AppText';
 
 const CalendarEmptyState = ({
   style,

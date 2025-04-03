@@ -1,15 +1,22 @@
-import AppBottomSheet from '../AppBottomSheet';
-import AppText from '../AppText';
-import ServiceRow from '../Settings/ServiceRow';
+import LoadingSkeleton from '../LoadingSkeleton';
+import ReanimatedText from '../ReanimatedText';
 import { SegmentedArc } from '@shipt/segmented-arc-for-react-native';
-import { Skeleton } from 'moti/skeleton';
-import React, { useLayoutEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
-import AnimatedNumber from 'react-native-animated-number';
 import ReadMore from 'react-native-read-more-text';
-import Animated, { FadeInUp } from 'react-native-reanimated';
+import Animated, {
+  Easing,
+  FadeInUp,
+  ReduceMotion,
+  useDerivedValue,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppBottomSheet from '@/components/AppBottomSheet';
+import AppText from '@/components/AppText';
+import ServiceRow from '@/components/Settings/ServiceRow';
 import { CARBON_DIOXIDE_RANGES } from '@/services/api/services';
 
 const ANIMATION_DURATION = 1_000;
@@ -32,7 +39,7 @@ const CarbonDioxideBottomSheet = ({
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
-  const [currentLevel, setCurrentLevel] = useState<number>(0);
+  const animatedLevel = useSharedValue<number>(0);
   const colorScheme = useColorScheme();
   const segments = useMemo(
     () => [
@@ -66,9 +73,17 @@ const CarbonDioxideBottomSheet = ({
 
   const ranges = [...CARBON_DIOXIDE_RANGES.map((rangeAsNumber) => `${rangeAsNumber}`), ''];
 
-  useLayoutEffect(() => {
-    setCurrentLevel(level);
+  useEffect(() => {
+    animatedLevel.value = withTiming(level, {
+      duration: ANIMATION_DURATION,
+      easing: Easing.inOut(Easing.cubic),
+      reduceMotion: ReduceMotion.System,
+    });
   }, [level]);
+
+  const formattedAnimatedLevel = useDerivedValue(() => {
+    return `${animatedLevel.value.toFixed(0)}`;
+  }, [animatedLevel]);
 
   const levelDescription = useMemo(() => {
     if (!level) return t('onPremise.climate.carbonDioxide.level.unknown');
@@ -88,11 +103,11 @@ const CarbonDioxideBottomSheet = ({
     if (!level) return tw.color('gray-400/25');
     const [_, normal, high, excessive] = ranges;
     const [lowSegment, normalSegment, highSegment, excessiveSegment] = segments;
-    if (currentLevel < Number(normal)) {
+    if (level < Number(normal)) {
       return lowSegment.filledColor;
-    } else if (currentLevel < Number(high)) {
+    } else if (level < Number(high)) {
       return normalSegment.filledColor;
-    } else if (currentLevel < Number(excessive)) {
+    } else if (level < Number(excessive)) {
       return highSegment.filledColor;
     } else {
       return excessiveSegment.filledColor;
@@ -103,8 +118,7 @@ const CarbonDioxideBottomSheet = ({
     <AppBottomSheet
       contentContainerStyle={tw`flex flex-col items-stretch gap-5 p-6`}
       style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+      onClose={onClose}>
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.climate.carbonDioxide.label')}
@@ -122,31 +136,23 @@ const CarbonDioxideBottomSheet = ({
           ranges={ranges}
           rangesTextColor={tw.prefixMatch('dark') ? tw.color('slate-400') : tw.color('slate-500')}
           rangesTextStyle={tw`text-xs font-normal`}
-          segments={segments}></SegmentedArc>
+          segments={segments}
+        />
         <View
           style={tw`absolute bottom-0 left-0 right-0 w-full flex flex-col items-center justify-center`}>
           <View style={tw`flex flex-row items-end gap-1.5 justify-end w-full mx-auto max-w-40`}>
             {loading ? (
               <View
                 style={tw`h-8 mb-0.5 w-24 overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
-                <Skeleton
-                  backgroundColor={
-                    tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
-                  }
-                  colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-                  height={`100%`}
-                  width={`100%`}
-                />
+                <LoadingSkeleton height={`100%`} width={`100%`} />
               </View>
             ) : (
-              <AnimatedNumber
-                steps={ANIMATION_DURATION / 16}
+              <ReanimatedText
                 style={[
                   tw`text-4xl font-semibold text-slate-900 dark:text-gray-200 -mb-1`,
                   Platform.OS === 'android' && tw`-mb-2`,
                 ]}
-                time={16} // milliseconds between each steps
-                value={currentLevel}
+                text={formattedAnimatedLevel}
               />
             )}
             <AppText
@@ -166,12 +172,7 @@ const CarbonDioxideBottomSheet = ({
         {loading ? (
           <View
             style={tw`h-4 my-0.5 w-32 overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
-            <Skeleton
-              backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-              colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-              height={`100%`}
-              width={`100%`}
-            />
+            <LoadingSkeleton height={`100%`} width={`100%`} />
           </View>
         ) : (
           <AppText
@@ -207,15 +208,10 @@ const CarbonDioxideBottomSheet = ({
           label={t('onPremise.climate.temperature.label')}
           style={tw`w-full px-0`}>
           {loading ? (
-            <Skeleton
-              backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-              colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-              height={24}
-              width={48}
-            />
+            <LoadingSkeleton height={24} width={48} />
           ) : (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
               {t('onPremise.climate.temperature.level', { level: temperatureLevel })}
             </AppText>
           )}
@@ -225,30 +221,20 @@ const CarbonDioxideBottomSheet = ({
           label={t('onPremise.climate.humidity.label')}
           style={tw`w-full px-0`}>
           {loading ? (
-            <Skeleton
-              backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-              colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-              height={24}
-              width={48}
-            />
+            <LoadingSkeleton height={24} width={48} />
           ) : (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
               {t('onPremise.climate.humidity.level', { level: humidityLevel })}
             </AppText>
           )}
         </ServiceRow>
         <ServiceRow label={t('onPremise.climate.noise.label')} style={tw`w-full px-0`}>
           {loading ? (
-            <Skeleton
-              backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-              colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-              height={24}
-              width={48}
-            />
+            <LoadingSkeleton height={24} width={48} />
           ) : (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
               {t('onPremise.climate.noise.level', { level: noiseLevel })}
             </AppText>
           )}

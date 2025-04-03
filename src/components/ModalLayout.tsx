@@ -1,8 +1,8 @@
 import AppBlurView from './AppBlurView';
 import AppText from './AppText';
+import LoadingSkeleton from './LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
-import { Skeleton } from 'moti/skeleton';
 import React, { useMemo, type ReactNode } from 'react';
 import { Platform, StyleProp, View, ViewStyle } from 'react-native';
 import Animated, {
@@ -36,12 +36,14 @@ const ModalLayout = ({
   from,
   loading = false,
   children,
+  footer,
   contentStyle,
 }: {
   title?: string;
   from?: string;
   loading?: boolean;
   children?: ReactNode;
+  footer?: ReactNode;
   contentStyle?: StyleProp<ViewStyle>;
 }) => {
   useDeviceContext(tw);
@@ -195,12 +197,7 @@ const ModalLayout = ({
           entering={FadeInDown.duration(300).delay(150)}
           style={[tw`grow basis-0 mb-4 self-end`, !from && tw`ml-6`, titleStyle]}>
           {loading ? (
-            <Skeleton
-              backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-              colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-              height={28}
-              width={144}
-            />
+            <LoadingSkeleton height={28} width={144} />
           ) : (
             <AppText
               numberOfLines={1}
@@ -212,7 +209,24 @@ const ModalLayout = ({
             </AppText>
           )}
         </Animated.View>
+        <Animated.View
+          entering={FadeInDown.duration(300).delay(150)}
+          style={[tw`grow-0 shrink-0 mr-4`]}>
+          <MaterialCommunityIcons.Button
+            backgroundColor="transparent"
+            borderRadius={24}
+            color={tw.prefixMatch('dark') ? tw.color('gray-500') : theme.charlestonGreen}
+            iconStyle={{ height: 32, width: 32, marginRight: 0 }}
+            name="close"
+            size={32}
+            style={tw`p-1`}
+            underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
+            onPress={() => (router.canDismiss() ? router.dismiss() : router.navigate('/home'))}
+          />
+        </Animated.View>
       </Animated.View>
+
+      {footer}
     </Animated.View>
   );
 };

@@ -1,19 +1,18 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { Link } from 'expo-router';
 import { capitalize } from 'lodash';
-import { Skeleton } from 'moti/skeleton';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Animated, { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import EmptyOfficeAnimation from '@/components/Animations/EmptyOfficeAnimation';
 import AppText from '@/components/AppText';
+import MemberBottomSheet from '@/components/Attendance/MemberBottomSheet';
 import MemberCard from '@/components/Attendance/MemberCard';
 import ErrorChip from '@/components/ErrorChip';
-import ErrorState from '@/components/ErrorState';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import { isSilentError } from '@/helpers/error';
 import { ApiLocation, ApiMemberProfile, getCurrentMembers } from '@/services/api/members';
@@ -38,6 +37,7 @@ const Attendance = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const authStore = useAuthStore();
+  const [selectedMember, setSelectedMember] = useState<ApiMemberProfile | null>(null);
 
   const {
     data: currentMembers,
@@ -88,69 +88,73 @@ const Attendance = () => {
   }, [currentMembers]);
 
   return (
-    <ServiceLayout
-      contentStyle={tw`pt-6 pb-12 gap-6`}
-      description={t('attendance.description')}
-      title={t('attendance.title', { count: currentMembers?.length })}
-      onRefresh={refetchCurrentMembers}>
-      <View style={tw`flex flex-row gap-2 min-h-6 pl-6`}>
-        {currentMembersUpdatedAt ? (
-          <AppText
-            entering={FadeInLeft.duration(300)}
-            exiting={FadeOutLeft.duration(300)}
-            numberOfLines={1}
-            style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
-            {capitalize(
-              dayjs().diff(currentMembersUpdatedAt, 'minutes') > 60
-                ? dayjs(currentMembersUpdatedAt).calendar()
-                : dayjs(currentMembersUpdatedAt).fromNow(),
-            )}
-          </AppText>
-        ) : null}
-        {currentMembersError && !isSilentError(currentMembersError) ? (
-          <ErrorChip error={currentMembersError} label={t('attendance.onFetch.fail')} />
-        ) : null}
-      </View>
+    <>
+      <ServiceLayout
+        contentStyle={tw`pt-6 pb-12 gap-6`}
+        description={t('attendance.description')}
+        title={t('attendance.title', { count: currentMembers?.length })}
+        onRefresh={refetchCurrentMembers}>
+        <View style={tw`flex flex-row gap-2 min-h-6 pl-6`}>
+          {currentMembersUpdatedAt ? (
+            <AppText
+              entering={FadeInLeft.duration(300)}
+              exiting={FadeOutLeft.duration(300)}
+              numberOfLines={1}
+              style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
+              {capitalize(
+                dayjs().diff(currentMembersUpdatedAt, 'minutes') > 60
+                  ? dayjs(currentMembersUpdatedAt).calendar()
+                  : dayjs(currentMembersUpdatedAt).fromNow(),
+              )}
+            </AppText>
+          ) : null}
+          {currentMembersError && !isSilentError(currentMembersError) ? (
+            <ErrorChip error={currentMembersError} label={t('attendance.onFetch.fail')} />
+          ) : null}
+        </View>
 
-      <View style={tw`flex flex-col gap-12`}>
-        {isPendingCurrentMembers ? (
-          <View style={tw`flex flex-col gap-2 px-4`}>
-            <View style={tw`pl-2`}>
-              <Skeleton
-                backgroundColor={
-                  tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
-                }
-                colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-                height={24}
-                width={128}
-              />
-            </View>
-            {[0, 1, 2, 3].map((index) => (
-              <Animated.View
-                entering={FadeInLeft.duration(500).delay(150 * index)}
-                exiting={FadeOutLeft.duration(300)}
-                key={index}
-                style={tw`flex flex-col`}>
-                <MemberCard pending />
-              </Animated.View>
-            ))}
-          </View>
-        ) : groupedMembersByLocation.length ? (
-          groupedMembersByLocation.map((group) => (
-            <View key={group.location} style={tw`flex flex-col gap-2 px-4`}>
-              <AppText style={tw`text-sm font-normal uppercase text-slate-500 px-2`}>
-                {t(`onPremise.location.${group.location || 'unknown'}`)}
-              </AppText>
-              {group.members.map((member) => (
+        <View style={tw`flex flex-col gap-12`}>
+          {isPendingCurrentMembers ? (
+            <View style={tw`flex flex-col gap-2 px-4`}>
+              <View style={tw`pl-2`}>
+                <LoadingSkeleton height={24} width={128} />
+              </View>
+              {[0, 1, 2, 3].map((index) => (
                 <Animated.View
+                  entering={FadeInLeft.duration(500).delay(150 * index)}
                   exiting={FadeOutLeft.duration(300)}
-                  key={member._id}
-                  style={tw`flex`}>
-                  <Link asChild href={`/members/${member._id}`}>
+                  key={index}
+                  style={tw`flex flex-col`}>
+                  <MemberCard pending />
+                </Animated.View>
+              ))}
+            </View>
+          ) : groupedMembersByLocation.length ? (
+            groupedMembersByLocation.map((group) => (
+              <View key={group.location} style={tw`flex flex-col gap-2 px-4`}>
+                <Animated.View
+                  entering={FadeInLeft.duration(500)}
+                  exiting={FadeOutLeft.duration(500)}
+                  style={tw`flex flex-row items-center w-full gap-1`}>
+                  <AppText style={tw`text-sm font-normal uppercase text-slate-500 px-2`}>
+                    {t(`onPremise.location.${group.location || 'unknown'}`)}
+                  </AppText>
+                  <View style={tw`bg-gray-400/25 dark:bg-gray-700/50 py-1 px-2 rounded-full`}>
+                    <AppText style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
+                      {group.members.length}
+                    </AppText>
+                  </View>
+                </Animated.View>
+                {group.members.map((member) => (
+                  <Animated.View
+                    exiting={FadeOutLeft.duration(300)}
+                    key={member._id}
+                    style={tw`flex`}>
                     <MemberCard
                       loading={isFetchingCurrentMembers}
                       member={member}
-                      style={tw`grow-0`}>
+                      style={tw`grow-0`}
+                      onPress={() => setSelectedMember(member)}>
                       <MaterialCommunityIcons
                         color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
                         iconStyle={{ height: 20, width: 20, marginRight: 0 }}
@@ -159,31 +163,35 @@ const Attendance = () => {
                         style={tw`self-center shrink-0 ml-auto`}
                       />
                     </MemberCard>
-                  </Link>
-                </Animated.View>
-              ))}
+                  </Animated.View>
+                ))}
+              </View>
+            ))
+          ) : (
+            <View
+              style={tw`flex flex-col px-4 gap-2 grow basis-0 justify-start mx-auto w-full max-w-sm`}>
+              <EmptyOfficeAnimation style={tw`h-80 -my-12 w-80 mx-auto`} />
+              <AppText
+                entering={FadeInLeft.duration(500)}
+                numberOfLines={1}
+                style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                {t('attendance.empty.title')}
+              </AppText>
+              <AppText
+                entering={FadeInLeft.duration(500).delay(150)}
+                numberOfLines={2}
+                style={tw`text-base text-center text-slate-500 dark:text-slate-400`}>
+                {t('attendance.empty.description')}
+              </AppText>
             </View>
-          ))
-        ) : (
-          <View
-            style={tw`flex flex-col px-4 gap-2 grow basis-0 justify-start mx-auto w-full max-w-sm`}>
-            <EmptyOfficeAnimation style={tw`h-80 -my-12 w-80 mx-auto`} />
-            <AppText
-              entering={FadeInLeft.duration(500)}
-              numberOfLines={1}
-              style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-              {t('attendance.empty.title')}
-            </AppText>
-            <AppText
-              entering={FadeInLeft.duration(500).delay(150)}
-              numberOfLines={2}
-              style={tw`text-base text-center text-slate-500 dark:text-slate-400`}>
-              {t('attendance.empty.description')}
-            </AppText>
-          </View>
-        )}
-      </View>
-    </ServiceLayout>
+          )}
+        </View>
+      </ServiceLayout>
+
+      {selectedMember && (
+        <MemberBottomSheet member={selectedMember} onClose={() => setSelectedMember(null)} />
+      )}
+    </>
   );
 };
 

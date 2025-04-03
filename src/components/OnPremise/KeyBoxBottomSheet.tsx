@@ -1,7 +1,3 @@
-import KeysPairAnimation from '../Animations/KeysPairAnimation';
-import AppBottomSheet from '../AppBottomSheet';
-import AppRoundedButton from '../AppRoundedButton';
-import AppText from '../AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useState } from 'react';
@@ -11,6 +7,10 @@ import ReadMore from 'react-native-read-more-text';
 import Animated, { FadeIn, FadeOutDown } from 'react-native-reanimated';
 import { RandomReveal } from 'react-random-reveal';
 import tw from 'twrnc';
+import KeysPairAnimation from '@/components/Animations/KeysPairAnimation';
+import AppBottomSheet from '@/components/AppBottomSheet';
+import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
 import { getKeyBoxCode } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
@@ -53,8 +53,7 @@ const KeyBoxBottomSheet = ({
     <AppBottomSheet
       contentContainerStyle={tw`flex flex-col items-stretch gap-4 px-6 pt-6`}
       style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+      onClose={onClose}>
       <KeysPairAnimation loop={false} style={tw`w-full h-[144px]`} />
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>

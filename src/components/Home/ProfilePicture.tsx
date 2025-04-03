@@ -1,10 +1,10 @@
-import AccountAnimation from '../Animations/AccountAnimation';
+import LoadingSkeleton from '../LoadingSkeleton';
 import { Image } from 'expo-image';
-import { Skeleton } from 'moti/skeleton';
 import React, { ReactNode } from 'react';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AccountAnimation from '@/components/Animations/AccountAnimation';
 
 const ProfilePicture = ({
   url,
@@ -23,12 +23,7 @@ const ProfilePicture = ({
     <View style={[tw`relative`, style]}>
       <Animated.View style={tw`h-full w-full rounded-3xl bg-gray-200 overflow-hidden`}>
         {loading ? (
-          <Skeleton
-            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-            height={`100%`}
-            width={`100%`}
-          />
+          <LoadingSkeleton height={`100%`} width={`100%`} />
         ) : url ? (
           <Image
             cachePolicy="memory-disk"

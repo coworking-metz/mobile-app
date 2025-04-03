@@ -1,8 +1,9 @@
-import AppBlurView from '../AppBlurView';
-import AppText from '../AppText';
+import { MIN_PADDING_BOTTOM } from '../AppBottomSheet';
+import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MenuAction, MenuView } from '@react-native-menu/menu';
 import { useRouter } from 'expo-router';
-import React, { useState, type ReactNode, useCallback } from 'react';
+import React, { useCallback, useState, type ReactNode } from 'react';
 import { RefreshControl, StyleProp, View, ViewStyle } from 'react-native';
 import { type LayoutChangeEvent } from 'react-native/types';
 import {
@@ -18,6 +19,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
+import AppBlurView from '@/components/AppBlurView';
+import AppText from '@/components/AppText';
 import { theme } from '@/helpers/colors';
 
 const NAVIGATION_HEIGHT = 48;
@@ -28,7 +31,10 @@ const AnimatedKeyboardAwareScrollView =
 const ServiceLayout = ({
   title,
   description,
-  renderHeader,
+  loading,
+  actions = [],
+  header,
+  footer,
   children,
   style,
   contentStyle,
@@ -36,7 +42,12 @@ const ServiceLayout = ({
 }: {
   title: string;
   description?: string;
-  renderHeader?: () => ReactNode;
+  loading?: boolean;
+  actions?: (MenuAction & {
+    onPress?: () => void;
+  })[];
+  header?: ReactNode;
+  footer?: ReactNode;
   children: ReactNode;
   style?: StyleProp<ViewStyle>;
   contentStyle?: StyleProp<ViewStyle>;
@@ -112,19 +123,22 @@ const ServiceLayout = ({
           onLayout={({ nativeEvent }: LayoutChangeEvent) =>
             setHeaderHeight(nativeEvent.layout.height)
           }>
-          {renderHeader ? (
-            renderHeader()
-          ) : (
+          {header ?? (
             <>
-              <AppText
-                entering={FadeInLeft.duration(500)}
-                style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-                {title}
-              </AppText>
+              {loading ? (
+                <LoadingSkeleton height={40} width={172} />
+              ) : (
+                <AppText
+                  entering={FadeInLeft.duration(500)}
+                  numberOfLines={2}
+                  style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                  {title}
+                </AppText>
+              )}
               {description ? (
                 <AppText
                   entering={FadeInLeft.duration(500).delay(150)}
-                  style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                  style={tw`text-xl tracking-tight font-normal text-slate-500 dark:text-slate-400`}>
                   {description}
                 </AppText>
               ) : null}
@@ -158,6 +172,7 @@ const ServiceLayout = ({
               {
                 paddingLeft: insets.left,
                 paddingRight: insets.right,
+                paddingBottom: Math.max(insets.bottom, MIN_PADDING_BOTTOM),
               },
               contentStyle,
             ]}>
@@ -199,15 +214,42 @@ const ServiceLayout = ({
             onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
           />
         </View>
-        <View style={tw`flex flex-row justify-center shrink grow`}>
-          <AppText
-            numberOfLines={1}
-            style={[tw`text-lg text-slate-900 dark:text-gray-200 font-medium`, titleStyle]}>
-            {title}
-          </AppText>
+        <Animated.View style={[tw`flex flex-row justify-center shrink grow`, titleStyle]}>
+          {loading ? (
+            <LoadingSkeleton height={28} width={128} />
+          ) : (
+            <AppText
+              numberOfLines={1}
+              style={[tw`text-lg tracking-tight text-slate-900 dark:text-gray-200 font-medium`]}>
+              {title}
+            </AppText>
+          )}
+        </Animated.View>
+        <View style={tw`flex flex-row justify-end shrink basis-0 grow mr-4 min-w-10`}>
+          {actions?.length ? (
+            <MenuView
+              actions={actions}
+              shouldOpenOnLongPress={false}
+              onPressAction={({ nativeEvent: { event: actionId } }) => {
+                const action = actions.find(({ id }) => id === actionId);
+                action?.onPress?.();
+              }}>
+              <MaterialCommunityIcons.Button
+                backgroundColor="transparent"
+                borderRadius={24}
+                color={tw.prefixMatch('dark') ? tw.color('gray-500') : theme.charlestonGreen}
+                iconStyle={{ marginRight: 0 }}
+                name="dots-vertical"
+                size={28}
+                style={tw`p-1`}
+                underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
+              />
+            </MenuView>
+          ) : null}
         </View>
-        <View style={tw`shrink basis-0 grow mr-4 min-w-10`} />
       </Animated.View>
+
+      {footer}
     </View>
   );
 };

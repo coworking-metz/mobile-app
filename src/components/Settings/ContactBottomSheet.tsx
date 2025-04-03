@@ -1,13 +1,13 @@
-import ChatBubblesAnimation from '../Animations/ChatBubblesAnimation';
-import AppBottomSheet from '../AppBottomSheet';
-import AppRoundedButton from '../AppRoundedButton';
-import AppText from '../AppText';
-import AppTextButton from '../AppTextButton';
 import { Link } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import ChatBubblesAnimation from '@/components/Animations/ChatBubblesAnimation';
+import AppBottomSheet from '@/components/AppBottomSheet';
+import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
+import AppTextButton from '@/components/AppTextButton';
 import { parseErrorText } from '@/helpers/error';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useNoticeStore from '@/stores/notice';
@@ -39,10 +39,7 @@ const ContactBottomSheet = ({
   }, []);
 
   return (
-    <AppBottomSheet
-      style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+    <AppBottomSheet style={style} onClose={onClose}>
       <View style={tw`flex flex-col w-full pt-6 px-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <ChatBubblesAnimation style={tw`h-56 w-full`} />

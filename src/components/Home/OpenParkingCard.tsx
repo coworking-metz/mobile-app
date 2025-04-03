@@ -1,8 +1,3 @@
-import BarrierAnimation from '../Animations/BarrierAnimation';
-import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
-import AppText from '../AppText';
-import AppTouchableScale from '../AppTouchableScale';
-import ReanimatedText from '../ReanimatedText';
 import * as Sentry from '@sentry/react-native';
 import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
@@ -23,6 +18,11 @@ import Animated, {
 } from 'react-native-reanimated';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
+import BarrierAnimation from '@/components/Animations/BarrierAnimation';
+import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
+import AppText from '@/components/AppText';
+import AppTouchable from '@/components/AppTouchable';
+import ReanimatedText from '@/components/ReanimatedText';
 import { useAppAuth } from '@/context/auth';
 import { theme } from '@/helpers/colors';
 import { parseErrorText } from '@/helpers/error';
@@ -152,7 +152,7 @@ const OpenParkingCard = ({
   );
 
   return (
-    <AppTouchableScale
+    <AppTouchable
       disabled={disabled}
       style={[
         tw`flex flex-col items-start gap-4 p-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
@@ -220,7 +220,7 @@ const OpenParkingCard = ({
           {t('home.parking.label')}
         </AppText>
       )}
-    </AppTouchableScale>
+    </AppTouchable>
   );
 };
 

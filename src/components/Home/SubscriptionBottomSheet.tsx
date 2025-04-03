@@ -1,20 +1,20 @@
-import CalendarAnimation from '../Animations/CalendarAnimation';
-import AppBottomSheet from '../AppBottomSheet';
-import AppRoundedButton from '../AppRoundedButton';
-import AppText from '../AppText';
-import CarouselPaginationDots from '../CarouselPaginationDots';
-import ErrorChip from '../ErrorChip';
-import ServiceRow from '../Settings/ServiceRow';
+import LoadingSkeleton from '../LoadingSkeleton';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
-import { Skeleton } from 'moti/skeleton';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
+import { StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
+import CalendarAnimation from '@/components/Animations/CalendarAnimation';
+import AppBottomSheet from '@/components/AppBottomSheet';
+import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
+import CarouselPaginationDots from '@/components/CarouselPaginationDots';
+import ErrorChip from '@/components/ErrorChip';
+import ServiceRow from '@/components/Settings/ServiceRow';
 import { formatAmount } from '@/helpers/currency';
 import { isSilentError } from '@/helpers/error';
 import i18n from '@/i18n';
@@ -110,10 +110,7 @@ const SubscriptionBottomSheet = ({
   }, [sortedSubscriptions, currentSubscription]);
 
   return (
-    <AppBottomSheet
-      style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+    <AppBottomSheet style={style} onClose={onClose}>
       <View style={tw`mx-6`}>
         <CalendarAnimation style={tw`w-full h-40 mx-auto`} />
       </View>
@@ -147,17 +144,10 @@ const SubscriptionBottomSheet = ({
                       label={t('home.profile.subscription.status.startedOn')}
                       style={tw`w-full px-0`}>
                       {loading ? (
-                        <Skeleton
-                          backgroundColor={
-                            tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
-                          }
-                          colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-                          height={24}
-                          width={128}
-                        />
+                        <LoadingSkeleton height={24} width={128} />
                       ) : (
                         <AppText
-                          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+                          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
                           {dayjs(item.started).format('dddd ll')}
                         </AppText>
                       )}
@@ -171,17 +161,10 @@ const SubscriptionBottomSheet = ({
                       }
                       style={tw`w-full px-0`}>
                       {loading ? (
-                        <Skeleton
-                          backgroundColor={
-                            tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
-                          }
-                          colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-                          height={24}
-                          width={128}
-                        />
+                        <LoadingSkeleton height={24} width={128} />
                       ) : (
                         <AppText
-                          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+                          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
                           {dayjs(item.ended).format('dddd ll')}
                         </AppText>
                       )}
@@ -192,14 +175,7 @@ const SubscriptionBottomSheet = ({
                       label={t('home.profile.subscription.attendance.label')}
                       style={tw`w-full px-0`}>
                       {loading ? (
-                        <Skeleton
-                          backgroundColor={
-                            tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
-                          }
-                          colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-                          height={24}
-                          width={64}
-                        />
+                        <LoadingSkeleton height={24} width={64} />
                       ) : (
                         <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
                           {item.attendanceCount != 0 && (
@@ -225,14 +201,7 @@ const SubscriptionBottomSheet = ({
                       label={t('home.profile.subscription.activity.label')}
                       style={tw`w-full px-0`}>
                       {loading ? (
-                        <Skeleton
-                          backgroundColor={
-                            tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
-                          }
-                          colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-                          height={24}
-                          width={96}
-                        />
+                        <LoadingSkeleton height={24} width={96} />
                       ) : (
                         <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
                           {item.activityCount != 0 && (
@@ -257,14 +226,7 @@ const SubscriptionBottomSheet = ({
                       label={t('home.profile.subscription.savings.label')}
                       style={tw`w-full px-0`}>
                       {loading ? (
-                        <Skeleton
-                          backgroundColor={
-                            tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
-                          }
-                          colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-                          height={24}
-                          width={96}
-                        />
+                        <LoadingSkeleton height={24} width={96} />
                       ) : (
                         <View
                           style={[

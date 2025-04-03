@@ -15,7 +15,7 @@ import ZoomableImage from '@/components/ZoomableImage';
 import { isSilentError } from '@/helpers/error';
 import { getCurrentMembers } from '@/services/api/members';
 
-const Advanced = () => {
+const MemberDetail = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const { memberId } = useLocalSearchParams();
@@ -45,7 +45,7 @@ const Advanced = () => {
           <View style={tw`flex flex-col relative h-40 w-40 mx-auto`}>
             <ZoomableImage
               contentFit="cover"
-              source={member.picture}
+              source={member.polaroid}
               style={tw`h-full w-full rounded-2xl bg-gray-200 dark:bg-gray-900`}
             />
           </View>
@@ -65,7 +65,7 @@ const Advanced = () => {
             loading={isLoadingCurrentMembers}
             style={tw`px-3 mx-3`}>
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
               {dayjs(member.created).format('YYYY')}
             </AppText>
           </ServiceRow>
@@ -74,7 +74,7 @@ const Advanced = () => {
             loading={isLoadingCurrentMembers}
             style={tw`px-3 mx-3`}>
             <Link href={`/on-premise${member.location ? `?location=${member.location}` : ''}`}>
-              <AppText style={tw`text-base font-normal text-amber-500 grow text-right`}>
+              <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
                 {t(`onPremise.location.${member.location || 'unknown'}`)}
               </AppText>
             </Link>
@@ -106,4 +106,4 @@ const Advanced = () => {
   );
 };
 
-export default Advanced;
+export default MemberDetail;

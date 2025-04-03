@@ -1,0 +1,86 @@
+{
+  "add": {
+    "detect": {
+      "description": "Cet appareil va interroger notre service sur place pour détecter et récupérer les informations nécessaires.\nSi vous rencontrez un problème ou que vous souhaitez ajouter un autre appareil, vous pouvez le saisir manuellement.",
+      "label": "Associer cet appareil",
+      "reachable": "Service joignable.",
+      "start": "Détecter automatiquement",
+      "unreachable": "Vous devez être connecté au réseau Wi-Fi du Poulailler pour détecter cet appareil."
+    },
+    "manual": "Saisir manuellement",
+    "onDetect": {
+      "fail": "Impossible d'associer\ncet appareil",
+      "success": "{{name}} associé"
+    },
+    "onFetchDeviceInfo": {
+      "fail": "Impossible de récupérer\nles données de l'appareil",
+      "pending": "Récupération des données",
+      "tooManyAttempts": "Appareil introuvable sur le réseau par notre service après de multiple tentatives. (TOO_MANY_ATTEMPTS_AGAINST_PROBE)",
+      "unavailable": "Service injoignable.\nAssurez-vous d'être connecté au réseau Wi-Fi du Poulailler."
+    },
+    "onVerifyDevice": {
+      "fail": "Impossible de vérifier\nla présence de l'appareil",
+      "pending": "Vérification de la présence",
+      "tooManyAttempts": "Absence de l'appareil après de multiple tentatives. (TOO_MANY_ATTEMPTS_AGAINST_TICKETS)"
+    }
+  },
+  "detail": {
+    "delete": {
+      "confirm": "Supprimer",
+      "description": "Êtes-vous sûr de vouloir supprimer cet appareil ?\nCela ne supprimera pas l'activité liée à celui-ci.",
+      "title": "Suppression de l'appareil"
+    },
+    "location": {
+      "label": "Localisé",
+      "nowhere": "Nulle part"
+    },
+    "macAddress": {
+      "label": "Adresse MAC",
+      "locallyAdministered": "Cette adresse est virtuelle et peut changer souvent. Vous devrez peut-être la saisir à nouveau.",
+      "placeholder": "A1:B2:C3:D4:E6:F7"
+    },
+    "name": {
+      "label": "Nom"
+    },
+    "type": {
+      "label": "Type",
+      "value": {
+        "COMPUTER": "Ordinateur",
+        "MOBILE": "Mobile",
+        "UNKNOWN": "Autre",
+        "WEARABLE": "Montre"
+      }
+    }
+  },
+  "empty": {
+    "description": "Pour que votre présence soit comptabilisée lorsque vous êtes sur place, au moins un appareil doit être associé à votre profil.",
+    "title": "Aucun appareil associé"
+  },
+  "new": {
+    "macAddress": {
+      "label": "Adresse MAC"
+    },
+    "name": {
+      "label": "Nom"
+    },
+    "title": "Nouvel appareil"
+  },
+  "onAdd": {
+    "fail": "Impossible d'ajouter\ncet appareil",
+    "pending": "Ajout de l'appareil en cours",
+    "success": "{{name}} ajouté"
+  },
+  "onDelete": {
+    "fail": "Impossible de supprimer\ncet appareil",
+    "success": "{{name}} supprimé"
+  },
+  "onFetch": {
+    "fail": "Impossible de récupérer la liste des appareils",
+    "missingId": "Impossible de récupérer l'identifiant de l'appareil"
+  },
+  "onUpdate": {
+    "fail": "Impossible de modifier\ncet appareil",
+    "success": "{{name}} modifié"
+  },
+  "title": "Appareils associés"
+}

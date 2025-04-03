@@ -1,8 +1,5 @@
-import AppText from '../AppText';
-import ProfilePicture from '../Home/ProfilePicture';
-import LoadingSpinner from '../LoadingSpinner';
-import { Skeleton } from 'moti/skeleton';
-import React, { forwardRef, ForwardRefRenderFunction, ReactNode, useMemo } from 'react';
+import LoadingSkeleton from '../LoadingSkeleton';
+import React, { forwardRef, ForwardRefRenderFunction, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   TouchableHighlight,
@@ -13,6 +10,9 @@ import {
 } from 'react-native';
 import { FadeIn, FadeOut } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppText from '@/components/AppText';
+import ProfilePicture from '@/components/Home/ProfilePicture';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import {
   ApiMemberProfile,
   isMemberBalanceInsufficient,
@@ -33,10 +33,6 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
   ref,
 ) => {
   const { t } = useTranslation();
-
-  const fullname = useMemo(() => {
-    return [member?.firstName, member?.lastName].filter(Boolean).join(' ');
-  }, [member]);
 
   return (
     <TouchableHighlight
@@ -63,14 +59,20 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
             />
           </View>
 
-          <View style={tw`flex flex-col gap-1 items-start justify-center min-h-12 self-stretch`}>
-            {fullname && (
+          <View
+            style={tw`flex flex-col gap-1 items-start justify-center min-h-12 self-stretch shrink grow basis-0`}>
+            <View style={tw`flex flex-row flex-wrap gap-x-1 items-center`}>
               <AppText
                 numberOfLines={1}
                 style={tw`text-base font-semibold text-gray-900 dark:text-gray-200`}>
-                {fullname}
+                {member.firstName}
               </AppText>
-            )}
+              <AppText
+                numberOfLines={1}
+                style={tw`text-base font-semibold text-slate-500 dark:text-slate-400`}>
+                {member.lastName}
+              </AppText>
+            </View>
             {isMembershipNonCompliant(member) && (
               <AppText
                 numberOfLines={1}
@@ -96,24 +98,10 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
         pending && (
           <>
             <View style={tw`h-12 w-12 rounded-full overflow-hidden`}>
-              <Skeleton
-                backgroundColor={
-                  tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
-                }
-                colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-                height={`100%`}
-                width={`100%`}
-              />
+              <LoadingSkeleton height={`100%`} width={`100%`} />
             </View>
             <View style={tw`flex flex-col items-start justify-center min-h-12 self-stretch`}>
-              <Skeleton
-                backgroundColor={
-                  tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
-                }
-                colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-                height={24}
-                width={128}
-              />
+              <LoadingSkeleton height={24} width={128} />
             </View>
           </>
         )

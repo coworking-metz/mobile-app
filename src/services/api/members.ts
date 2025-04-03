@@ -15,6 +15,7 @@ export interface ApiMemberProfile {
   wpUserId: number;
   picture?: string;
   thumbnail?: string;
+  polaroid?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -135,4 +136,55 @@ export const isMemberBalanceInsufficient = (member: ApiMemberProfile) => {
   const isAttendingWithoutSufficientBalance =
     member.attending && !member.balance && !member.hasActiveSubscription;
   return member.balance < 0 || isAttendingWithoutSufficientBalance;
+};
+
+export enum DeviceType {
+  COMPUTER = 'COMPUTER',
+  MOBILE = 'MOBILE',
+  WEARABLE = 'WEARABLE',
+  UNKNOWN = 'UNKNOWN',
+}
+
+export interface ApiMemberDevice {
+  _id: string;
+  name?: string;
+  macAddress: string;
+  location?: ApiLocation;
+  heartbeat?: string;
+  attending?: boolean;
+  type?: DeviceType;
+}
+
+export const getMemberDevices = (memberId: string): Promise<ApiMemberDevice[]> => {
+  return HTTP.get(`/api/members/${memberId}/devices`).then(({ data }) => data);
+};
+
+export const getMemberDevice = (memberId: string, deviceId: string): Promise<ApiMemberDevice> => {
+  return HTTP.get(`/api/members/${memberId}/devices/${deviceId}`).then(({ data }) => data);
+};
+
+export const updateMemberDevicesMacAddresses = (
+  memberId: string,
+  macAddresses: string[],
+): Promise<string[]> => {
+  return HTTP.put(`/api/members/${memberId}/mac-addresses`, macAddresses).then(({ data }) => data);
+};
+
+export const addMemberDevice = (
+  memberId: string,
+  device: Omit<ApiMemberDevice, '_id'>,
+): Promise<ApiMemberDevice> => {
+  return HTTP.post(`/api/members/${memberId}/devices`, device).then(({ data }) => data);
+};
+
+export const updateMemberDevice = (
+  memberId: string,
+  deviceId: string,
+  device: ApiMemberDevice,
+): Promise<ApiMemberDevice> => {
+  return HTTP.put(`/api/members/${memberId}/devices/${deviceId}`, device).then(({ data }) => data);
+};
+
+export const deleteMemberDevice = (memberId: string, deviceId: string): Promise<void> => {
+  return HTTP.delete(`/api/members/${memberId}/devices/${deviceId}`).then(({ data }) => data);
 };

@@ -1,12 +1,12 @@
-import AppText from '../AppText';
+import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
-import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import AppText from '@/components/AppText';
 import { type ApiMemberSubscription } from '@/services/api/members';
 
 const SubscriptionCard = ({
@@ -86,13 +86,7 @@ const SubscriptionCard = ({
         {label}
       </AppText>
       {loading ? (
-        <Skeleton
-          backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-          colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-          height={26}
-          show={loading}
-          width={96}
-        />
+        <LoadingSkeleton height={26} show={loading} width={96} />
       ) : (
         <AppText
           numberOfLines={1}

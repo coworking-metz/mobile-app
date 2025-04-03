@@ -1,30 +1,23 @@
-import CallingWithLaptopAnimation from '../Animations/CallingWithLaptopAnimation';
-import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
-import VerticalLoadingAnimation from '../Animations/VerticalLoadingAnimation';
-import AppBottomSheet from '../AppBottomSheet';
-import AppText from '../AppText';
-import CarouselPaginationDots from '../CarouselPaginationDots';
-import ErrorChip from '../ErrorChip';
-import ServiceRow from '../Settings/ServiceRow';
+import LoadingSkeleton from '../LoadingSkeleton';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { isNil, uniq } from 'lodash';
-import { Skeleton } from 'moti/skeleton';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Platform,
-  StyleProp,
-  View,
-  ViewStyle,
-  useColorScheme,
-  type LayoutChangeEvent,
-} from 'react-native';
+import { StyleProp, View, ViewStyle, useColorScheme, type LayoutChangeEvent } from 'react-native';
 import { BarChart, type stackDataItem } from 'react-native-gifted-charts';
 import ReadMore from 'react-native-read-more-text';
 import { useSharedValue } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
+import CallingWithLaptopAnimation from '@/components/Animations/CallingWithLaptopAnimation';
+import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
+import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
+import AppBottomSheet from '@/components/AppBottomSheet';
+import AppText from '@/components/AppText';
+import CarouselPaginationDots from '@/components/CarouselPaginationDots';
+import ErrorChip from '@/components/ErrorChip';
+import ServiceRow from '@/components/Settings/ServiceRow';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
 import { getPhoneBoothsOccupation } from '@/services/api/services';
@@ -129,8 +122,7 @@ const PhoneBoothBottomSheet = ({
     <AppBottomSheet
       contentContainerStyle={tw`flex flex-col items-stretch gap-4 pt-4 pb-8`}
       style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+      onClose={onClose}>
       <View style={tw`flex flex-col items-start gap-4 px-4`}>
         <CallingWithLaptopAnimation
           autoPlay
@@ -174,17 +166,10 @@ const PhoneBoothBottomSheet = ({
               suffixIcon: blueOccupied ? 'door-closed' : 'door-open',
             })}>
             {loading ? (
-              <Skeleton
-                backgroundColor={
-                  tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
-                }
-                colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-                height={24}
-                width={128}
-              />
+              <LoadingSkeleton height={24} width={128} />
             ) : (
               <AppText
-                style={tw`text-base font-normal text-blue-500 dark:text-blue-400 grow text-right`}>
+                style={tw`text-base font-normal text-blue-500 dark:text-blue-400 text-right`}>
                 {isNil(blueOccupied)
                   ? t('onPremise.phoneBooths.state.blue.occupation.unknown')
                   : blueOccupied
@@ -201,17 +186,10 @@ const PhoneBoothBottomSheet = ({
               suffixIcon: orangeOccupied ? 'door-closed' : 'door-open',
             })}>
             {loading ? (
-              <Skeleton
-                backgroundColor={
-                  tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')
-                }
-                colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-                height={24}
-                width={128}
-              />
+              <LoadingSkeleton height={24} width={128} />
             ) : (
               <AppText
-                style={tw`text-base font-normal text-orange-500 dark:text-orange-400 grow text-right`}>
+                style={tw`text-base font-normal text-orange-500 dark:text-orange-400 text-right`}>
                 {isNil(orangeOccupied)
                   ? t('onPremise.phoneBooths.state.orange.occupation.unknown')
                   : orangeOccupied

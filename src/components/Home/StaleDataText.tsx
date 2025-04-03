@@ -1,5 +1,5 @@
 import PullToRefreshHint from './PullToRefreshHint';
-import AppText from '../AppText';
+import AppText from '@/components/AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';

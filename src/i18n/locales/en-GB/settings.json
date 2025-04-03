@@ -28,7 +28,7 @@
     "presence": {
       "activity_one": "day",
       "activity_other": "days",
-      "activity_zero": "None",
+      "activity_zero": "Nothing\nyet",
       "onFetch": {
         "fail": "Unable to fetch presence"
       },

@@ -4,7 +4,6 @@ import { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react
 import { StyleProp, View, ViewStyle } from 'react-native';
 import { Button } from 'react-native-ui-lib';
 import tw from 'twrnc';
-import type AppTouchableScale from './AppTouchableScale';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 
 type AppTextButtonProps = {
@@ -17,7 +16,7 @@ type AppTextButtonProps = {
   onPress?: () => void;
 };
 
-const AppTextButton: ForwardRefRenderFunction<typeof AppTouchableScale, AppTextButtonProps> = (
+const AppTextButton: ForwardRefRenderFunction<typeof Button, AppTextButtonProps> = (
   { prefixIcon, suffixIcon, style, children, disabled = false, loading = false, onPress },
   ref,
 ) => {

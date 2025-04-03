@@ -1,5 +1,5 @@
 import { version as appVersion } from '../../../package.json';
-import { API_BASE_URL } from '../http';
+import { API_BASE_URL } from '../environment';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { log } from '@/helpers/logger';

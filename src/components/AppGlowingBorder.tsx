@@ -1,11 +1,8 @@
 import { Blur, Canvas, Group, RoundedRect, SweepGradient, vec } from '@shopify/react-native-skia';
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Dimensions, StyleProp, ViewStyle } from 'react-native';
-
 import {
-  cancelAnimation,
   Easing,
-  useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   withRepeat,

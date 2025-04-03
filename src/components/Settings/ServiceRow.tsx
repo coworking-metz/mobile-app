@@ -1,11 +1,11 @@
-import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
-import AppText from '../AppText';
-import Divider from '../Divider';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { forwardRef, type ReactNode, type ForwardRefRenderFunction } from 'react';
 import { View, TouchableHighlight, type TouchableHighlightProps } from 'react-native';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
+import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
+import AppText from '@/components/AppText';
+import Divider from '@/components/Divider';
 
 export type ServiceRowProps = TouchableHighlightProps & {
   label: string;
@@ -93,7 +93,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
               iconStyle={{ height: 20, width: 20, marginRight: 0 }}
               name={suffixIcon}
               size={24}
-              style={[tw`shrink-0`, disabled && tw`opacity-40`]}
+              style={[tw`shrink-0 grow-0`, disabled && tw`opacity-40`]}
             />
           ) : null}
         </View>

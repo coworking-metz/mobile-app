@@ -154,15 +154,15 @@ const SwipeableButton = ({
       convertToRGBA(
         interpolateColor(sliding.value, inputRange, [
           backgroundColor,
-          theme.darkVanilla,
-          theme.darkVanilla,
+          theme.meatBrown,
+          theme.meatBrown,
         ]),
       ),
       convertToRGBA(
         interpolateColor(sliding.value, inputRange, [
           backgroundColor,
           backgroundColor,
-          theme.darkVanilla,
+          theme.meatBrown,
         ]),
       ),
     ];
@@ -173,7 +173,7 @@ const SwipeableButton = ({
       backgroundColor: interpolateColor(
         isSwiping.value || sliding.value - swipingRange + HANDLE_ENDING_POSITION,
         [0, 1],
-        [theme.darkVanilla, theme.charlestonGreen],
+        [theme.meatBrown, theme.charlestonGreen],
         'RGB',
       ),
       transform: [
@@ -219,7 +219,7 @@ const SwipeableButton = ({
   return (
     <View
       style={[
-        tw`flex flex-row justify-center items-center min-h-18 rounded-[4rem] border-4 border-[${theme.darkVanilla}] bg-gray-200 dark:bg-neutral-800 overflow-hidden`,
+        tw`flex flex-row justify-center items-center min-h-18 rounded-[4rem] border-4 border-[${theme.meatBrown}] bg-gray-200 dark:bg-neutral-800 overflow-hidden`,
         disabled && tw`opacity-50`,
         style,
       ]}
@@ -249,7 +249,7 @@ const SwipeableButton = ({
           }}>
           <TouchableOpacity disabled={disabled || !hasSwiped} onPress={onRestart}>
             {loading ? (
-              <HorizontalLoadingAnimation color={tw.color(`white`)} style={tw`h-8 w-8`} />
+              <HorizontalLoadingAnimation color={tw.color(`white`)} style={tw`h-10 w-10`} />
             ) : (
               <AnimatedMaterialCommunityIcons
                 animatedProps={handleIconAnimatedProps}

@@ -1,8 +1,19 @@
 import AppBottomSheetBackdrop from './AppBottomSheetBackdrop';
 import BottomSheet, { BottomSheetScrollView, type BottomSheetProps } from '@gorhom/bottom-sheet';
 import { SquircleView } from 'expo-squircle-view';
-import React, { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Dimensions, StyleProp, View, ViewStyle } from 'react-native';
+import React, {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
+import { Dimensions, Platform, StyleProp, View, ViewStyle } from 'react-native';
+import { useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
@@ -18,15 +29,18 @@ export type AppBottomSheetProps = Omit<BottomSheetProps, 'snapPoints'> & {
 
 const { height: screenHeight } = Dimensions.get('screen');
 
-const AppBottomSheet = ({
-  children,
-  contentContainerStyle,
-  style,
-  ...props
-}: AppBottomSheetProps) => {
+export type AppBottomSheetRef = {
+  close: () => void;
+};
+
+const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
+  { children, contentContainerStyle, style, ...props },
+  disposable,
+) => {
   const insets = useSafeAreaInsets();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [contentHeight, setContentHeight] = useState(0);
+  const [isClosing, setClosing] = useState(false);
 
   const visibleHeight = useMemo(
     () => Math.max(contentHeight + HANDLE_HEIGHT + 4, 256),
@@ -41,19 +55,25 @@ const AppBottomSheet = ({
   }, [visibleHeight, maxHeight]);
 
   useEffect(() => {
-    if (contentHeight) {
-      bottomSheetRef?.current?.expand();
+    if (contentHeight && !isClosing) {
+      bottomSheetRef.current?.expand();
     }
-  }, [contentHeight]);
+  }, [contentHeight, bottomSheetRef, isClosing]);
+
+  useImperativeHandle(disposable, () => ({
+    close: () => {
+      bottomSheetRef.current?.forceClose();
+    },
+  }));
 
   return (
     <BottomSheet
       ref={bottomSheetRef}
       enableContentPanningGesture
       enablePanDownToClose
+      activeOffsetX={[-999, 999]}
       // @see https://github.com/Abhinandan-Kushwaha/react-native-gifted-charts/issues/368#issuecomment-1724527189
       // @see https://github.com/gorhom/react-native-bottom-sheet/issues/770#issuecomment-1072113936
-      activeOffsetX={[-999, 999]}
       activeOffsetY={[-5, 5]}
       backdropComponent={(backdropProps) => (
         <AppBottomSheetBackdrop
@@ -68,6 +88,8 @@ const AppBottomSheet = ({
       handleIndicatorStyle={tw`bg-gray-500 rounded-full`}
       handleStyle={tw`bg-transparent absolute right-0 left-0`}
       topInset={insets.top + MIN_BACKDROP_HEIGHT}
+      onAnimate={(_, toIndex) => setClosing(toIndex === -1)}
+      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}
       {...props}
       style={[tw`mx-1 overflow-hidden`, style]}>
       <SquircleView
@@ -98,4 +120,4 @@ const AppBottomSheet = ({
   );
 };
 
-export default AppBottomSheet;
+export default forwardRef(AppBottomSheet);
