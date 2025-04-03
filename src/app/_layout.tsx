@@ -188,6 +188,30 @@ const RootLayout = () => {
                             headerShown: false,
                           }}
                         />
+
+                        <Stack.Screen
+                          name="(public)/devices"
+                          options={{
+                            headerShown: false,
+                          }}
+                        />
+
+                        <Stack.Screen
+                          name="(public)/devices/[deviceId]"
+                          options={{
+                            headerShown: false,
+                            // presentation: 'modal',
+                            // ...(Platform.OS === 'android' && { animation: 'slide_from_bottom' }),
+                          }}
+                        />
+                        <Stack.Screen
+                          name="(public)/devices/new"
+                          options={{
+                            headerShown: false,
+                            // presentation: 'modal',
+                            // ...(Platform.OS === 'android' && { animation: 'slide_from_bottom' }),
+                          }}
+                        />
                       </Stack>
 
                       <ToastMessage />

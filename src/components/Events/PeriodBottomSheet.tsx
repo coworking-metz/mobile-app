@@ -1,11 +1,11 @@
-import AppBottomSheet, { type AppBottomSheetProps } from '../AppBottomSheet';
-import AppText from '../AppText';
 import { useBottomSheet } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw from 'twrnc';
+import AppBottomSheet, { type AppBottomSheetProps } from '@/components/AppBottomSheet';
+import AppText from '@/components/AppText';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import { type CalendarEvent } from '@/services/api/calendar';
 

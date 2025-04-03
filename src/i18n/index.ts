@@ -34,6 +34,10 @@ dayjs.updateLocale('fr', {
     nextWeek: 'dddd [à] LT',
     sameElse: '[Le] dddd D MMMM à LT',
   },
+  relativeTime: {
+    ...dayjs.Ls['fr'].relativeTime,
+    s: 'un instant',
+  },
 });
 
 dayjs.updateLocale('en', {

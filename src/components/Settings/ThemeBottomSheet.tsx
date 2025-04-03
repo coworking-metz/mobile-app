@@ -1,11 +1,11 @@
 import DarklightModeAnimation from './DarklightModeAnimation';
-import ServiceRow from './ServiceRow';
-import AppBottomSheet, { type AppBottomSheetProps } from '../AppBottomSheet';
-import AppText from '../AppText';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useColorScheme, View } from 'react-native';
 import tw from 'twrnc';
+import AppBottomSheet, { type AppBottomSheetProps } from '@/components/AppBottomSheet';
+import AppText from '@/components/AppText';
+import ServiceRow from '@/components/Settings/ServiceRow';
 import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
 import {
   setAppThemePreference,

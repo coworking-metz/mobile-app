@@ -1,13 +1,13 @@
-import LoginAnimation from '../Animations/LoginAnimation';
-import AppBottomSheet from '../AppBottomSheet';
-import AppRoundedButton from '../AppRoundedButton';
-import AppText from '../AppText';
 import { makeRedirectUri } from 'expo-auth-session';
 import { WebBrowserRedirectResult, openAuthSessionAsync } from 'expo-web-browser';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import LoginAnimation from '@/components/Animations/LoginAnimation';
+import AppBottomSheet from '@/components/AppBottomSheet';
+import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
 import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import { HTTP } from '@/services/http';
@@ -65,10 +65,7 @@ const LoginBottomSheet = ({
   }, [notifyError, t, settingsStore]);
 
   return (
-    <AppBottomSheet
-      style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+    <AppBottomSheet style={style} onClose={onClose}>
       <View style={tw`flex flex-col w-full px-6 pt-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <LoginAnimation style={tw`h-56 w-full`} />

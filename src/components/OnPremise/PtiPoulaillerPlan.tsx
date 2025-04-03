@@ -6,17 +6,20 @@ import floorPlanPtiPoulaillerDay from '@/assets/images/floorplan-pti-poulailler-
 import floorPlanPtiPoulaillerNight from '@/assets/images/floorplan-pti-poulailler-night.png';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
-import { type OnPremiseState } from '@/services/api/services';
+import { OnPremiseFlexDesk, type OnPremiseState } from '@/services/api/services';
 
 const PtiPoulaillerPlan = ({
   loading,
+  onPremiseState,
   onKeyBoxSelected,
   onClimateSelected,
+  onFlexDeskSelected,
 }: {
   onPremiseState?: OnPremiseState;
   loading?: boolean;
   onKeyBoxSelected: () => void;
   onClimateSelected: () => void;
+  onFlexDeskSelected?: (desk?: OnPremiseFlexDesk) => void;
 }) => {
   useDeviceContext(tw);
   const [imageWidth, setImageWidth] = useState<number | null>(null);
@@ -58,6 +61,28 @@ const PtiPoulaillerPlan = ({
         />
       ) : (
         <>
+          {/* Flexispot A */}
+          <ActionableIcon
+            active={onPremiseState?.flexDesks?.a.occupied}
+            activeIcon="desk"
+            inactiveIcon="desk"
+            loading={loading}
+            style={tw`top-[25%] left-[43%]`}
+            onPress={() =>
+              onFlexDeskSelected?.({ occupied: onPremiseState?.flexDesks?.a.occupied })
+            }
+          />
+          {/* Flexispot B */}
+          <ActionableIcon
+            active={onPremiseState?.flexDesks?.b.occupied}
+            activeIcon="desk"
+            inactiveIcon="desk"
+            loading={loading}
+            style={tw`top-[25%] left-[30%]`}
+            onPress={() =>
+              onFlexDeskSelected?.({ occupied: onPremiseState?.flexDesks?.b.occupied })
+            }
+          />
           {/* Key box */}
           <ActionableIcon
             activeIcon="key-chain-variant"

@@ -1,17 +1,17 @@
-import MembershipFormAnimation from '../Animations/MembershipFormAnimation';
-import AppBottomSheet from '../AppBottomSheet';
-import AppRoundedButton from '../AppRoundedButton';
-import AppText from '../AppText';
-import ServiceRow from '../Settings/ServiceRow';
+import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
-import { Skeleton } from 'moti/skeleton';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import MembershipFormAnimation from '@/components/Animations/MembershipFormAnimation';
+import AppBottomSheet from '@/components/AppBottomSheet';
+import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
+import ServiceRow from '@/components/Settings/ServiceRow';
 import { theme } from '@/helpers/colors';
 
 import useAuthStore from '@/stores/auth';
@@ -50,11 +50,7 @@ const MembershipBottomSheet = ({
   }, [user, activeSince, valid, refetchProfile]);
 
   return (
-    <AppBottomSheet
-      contentContainerStyle={tw`px-6 pt-6`}
-      style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+    <AppBottomSheet contentContainerStyle={tw`px-6 pt-6`} style={style} onClose={onClose}>
       <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
         <MembershipFormAnimation active={active && valid} style={tw`h-56 w-full`} valid={valid} />
       </View>
@@ -71,15 +67,9 @@ const MembershipBottomSheet = ({
         label={t('home.profile.membership.status.label')}
         style={tw`w-full px-0`}>
         {loading ? (
-          <Skeleton
-            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-            height={24}
-            width={128}
-          />
+          <LoadingSkeleton height={24} width={128} />
         ) : (
-          <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+          <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
             {valid
               ? t('home.profile.membership.status.valid', { year: lastMembershipYear })
               : lastMembershipYear
@@ -95,12 +85,7 @@ const MembershipBottomSheet = ({
         label={t('home.profile.membership.activity.label')}
         style={tw`w-full px-0`}>
         {loading ? (
-          <Skeleton
-            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-            height={24}
-            width={128}
-          />
+          <LoadingSkeleton height={24} width={128} />
         ) : (
           <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
             {activityOverLast6Months != 0 && (
@@ -123,15 +108,9 @@ const MembershipBottomSheet = ({
 
       <ServiceRow label={t('home.profile.membership.grade.label')} style={tw`w-full px-0`}>
         {loading ? (
-          <Skeleton
-            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-            height={24}
-            width={128}
-          />
+          <LoadingSkeleton height={24} width={128} />
         ) : (
-          <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow text-right`}>
+          <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
             {active && valid
               ? t('home.profile.membership.grade.active.label')
               : valid

@@ -7,7 +7,7 @@ import { Platform, ScrollView, View } from 'react-native';
 import Animated, { FadeInLeft, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
-import AppTouchableScale from '@/components/AppTouchableScale';
+import AppTouchable from '@/components/AppTouchable';
 import ErrorState from '@/components/ErrorState';
 import PeriodBottomSheet, { type PeriodType } from '@/components/Events/PeriodBottomSheet';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
@@ -152,9 +152,9 @@ const Calendar = () => {
                     asChild
                     href={`/events/${event.id}`}
                     key={`calendar-event-card-${event.id}`}>
-                    <AppTouchableScale style={tw`w-full h-44`}>
+                    <AppTouchable style={tw`w-full h-44`}>
                       <CalendarEventCard activeSince={activeSince} event={event} />
-                    </AppTouchableScale>
+                    </AppTouchable>
                   </Link>
                 ))}
               </View>

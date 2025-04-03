@@ -1,14 +1,14 @@
-import AppText from '../AppText';
-import AppTouchableScale from '../AppTouchableScale';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppText from '@/components/AppText';
+import AppTouchable, { AppTouchableRef } from '@/components/AppTouchable';
 
 const OnPremiseCard: ForwardRefRenderFunction<
-  typeof AppTouchableScale,
+  AppTouchableRef,
   {
     children?: ReactNode;
     disabled?: boolean;
@@ -20,7 +20,7 @@ const OnPremiseCard: ForwardRefRenderFunction<
   const { t } = useTranslation();
 
   return (
-    <AppTouchableScale
+    <AppTouchable
       ref={ref}
       disabled={disabled}
       style={[
@@ -41,6 +41,7 @@ const OnPremiseCard: ForwardRefRenderFunction<
       </Animated.View>
       <Animated.View style={tw`flex flex-col z-20 w-full shrink grow`}>
         <AppText
+          numberOfLines={location ? 1 : 2}
           style={[
             tw`text-xl font-medium text-slate-900 dark:text-gray-200`,
             disabled && tw`opacity-30`,
@@ -64,7 +65,7 @@ const OnPremiseCard: ForwardRefRenderFunction<
         size={32}
         style={[tw`shrink-0`, disabled && tw`opacity-40`]}
       />
-    </AppTouchableScale>
+    </AppTouchable>
   );
 };
 

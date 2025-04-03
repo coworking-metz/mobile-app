@@ -65,9 +65,14 @@
         "fail": "Impossible de récupérer le cadeau"
       }
     },
+    "devices": {
+      "count_one": "1 appareil",
+      "count_other": "{{count}} appareils",
+      "count_zero": "Aucun",
+      "description": "Appareils\nassociés"
+    },
     "gift": {
       "description": "Une surprise vous attend…",
-      "discover": "Découvrir",
       "label": "Psst !"
     },
     "label": "Situation",
@@ -159,6 +164,7 @@
       "available_zero": "Aucun",
       "balance": {
         "label": "Solde actuel",
+        "onDepleted_one": "Une surconsommation excessive peut entraîner une suspension de vos accès.",
         "onDepleted_other": "Une surconsommation excessive peut entraîner une suspension de vos accès.",
         "onDepleted_zero": "Vous êtes présent mais votre solde semble insuffisant."
       },

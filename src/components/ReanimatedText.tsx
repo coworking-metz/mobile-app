@@ -27,11 +27,6 @@ const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 const ReanimatedText = (props: TextProps) => {
   const { style, text, ...rest } = props;
-  const font = matchFont({
-    fontSize: 14,
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-  });
   const animatedProps = useAnimatedProps(() => {
     return {
       text: text.value,

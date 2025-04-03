@@ -1,11 +1,11 @@
-import { AppGlowingBorder } from '../AppGlowingBorder';
-import AppText from '../AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LayoutChangeEvent, StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
 import tw from 'twrnc';
+import { AppGlowingBorder } from '@/components/AppGlowingBorder';
+import AppText from '@/components/AppText';
 
 const GiftCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
   const { t } = useTranslation();

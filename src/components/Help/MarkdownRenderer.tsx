@@ -1,9 +1,9 @@
-import ZoomableImage from '../ZoomableImage';
 import Markdown from '@ronradtke/react-native-markdown-display';
 import * as Linking from 'expo-linking';
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
+import ZoomableImage from '@/components/ZoomableImage';
 import { getMarkdownStyles } from '@/services/docs';
 
 const MarkdownRenderer = ({ content }: { content: string }) => {

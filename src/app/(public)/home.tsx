@@ -16,7 +16,7 @@ import Animated, {
 import { toast } from 'sonner-native';
 import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
-import AppTouchableScale from '@/components/AppTouchableScale';
+import AppTouchable from '@/components/AppTouchable';
 import ErrorChip from '@/components/ErrorChip';
 import { type PeriodType } from '@/components/Events/PeriodBottomSheet';
 import AppointmentCard from '@/components/Home/AppointmentCard';
@@ -27,6 +27,7 @@ import BirthdayBottomSheet from '@/components/Home/BirthdayBottomSheet';
 import BirthdayCard from '@/components/Home/BirthdayCard';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
+import DevicesCard from '@/components/Home/DevicesCard';
 import HomeLayout from '@/components/Home/HomeLayout';
 import MembershipBottomSheet from '@/components/Home/MembershipBottomSheet';
 import MembershipCard from '@/components/Home/MembershipCard';
@@ -45,6 +46,7 @@ import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents } from '@/services/api/calendar';
 import {
   getCurrentMembers,
+  getMemberDevices,
   getMemberProfile,
   getMemberSubscriptions,
   isMemberBalanceInsufficient,
@@ -100,8 +102,25 @@ export default function HomeScreen() {
     enabled: !!authStore.user?.id,
   });
 
+  const {
+    data: devices,
+    isPending: isPendingDevices,
+    isFetching: isFetchingDevices,
+    refetch: refetchDevices,
+  } = useQuery({
+    queryKey: ['members', authStore.user?.id, 'devices'],
+    queryFn: ({ queryKey: [_, userId] }) => {
+      if (userId) {
+        return getMemberDevices(userId);
+      }
+      throw new Error(t('account.profile.onFetch.missing'));
+    },
+    retry: false,
+  });
+
   const isTodayBirthday = useMemo(() => {
-    return profile?.birthDate && !dayjs(profile.birthDate).isSame(dayjs(), 'day');
+    return false; // currently disabled
+    // profile?.birthDate && dayjs(profile.birthDate).isSame(dayjs(), 'day');
   }, [profile]);
 
   const {
@@ -174,6 +193,7 @@ export default function HomeScreen() {
     return Promise.all([
       authStore.user?.id && refetchProfile(),
       authStore.user?.id && refetchSubscriptions(),
+      authStore.user?.id && refetchDevices(),
       refetchCurrentMembers(),
       refreshCalendarEvents(),
     ]);
@@ -198,22 +218,22 @@ export default function HomeScreen() {
       isFetchingProfile ||
       isFetchingSubscriptions ||
       isFetchingCalendarEvents ||
-      isFetchingCurrentMembers
+      isFetchingCurrentMembers ||
+      isFetchingDevices
     );
   }, [
     isFetchingProfile,
     isFetchingSubscriptions,
     isFetchingCalendarEvents,
     isFetchingCurrentMembers,
+    isFetchingDevices,
   ]);
 
   return (
     <HomeLayout
       outerChildren={
         <>
-          {hasSelectBirthday && isTodayBirthday ? (
-            <BirthdayBottomSheet onClose={() => selectBirthday(false)} />
-          ) : null}
+          {hasSelectBirthday ? <BirthdayBottomSheet onClose={() => selectBirthday(false)} /> : null}
 
           {hasSelectSubscription ? (
             <SubscriptionBottomSheet
@@ -264,8 +284,7 @@ export default function HomeScreen() {
 
         <View style={tw`flex flex-col items-end shrink grow basis-0`}>
           <Link asChild href="/settings">
-            <AppTouchableScale
-              style={tw`relative h-13 w-13 flex flex-col items-center justify-center`}>
+            <AppTouchable style={tw`relative h-13 w-13 flex flex-col items-center justify-center`}>
               {isFetching && (
                 <LoadingSpinner
                   entering={FadeIn.duration(300)}
@@ -280,7 +299,7 @@ export default function HomeScreen() {
                 style={tw`h-12 w-12`}
                 url={authStore.user?.picture}
               />
-            </AppTouchableScale>
+            </AppTouchable>
           </Link>
         </View>
       </View>
@@ -320,23 +339,35 @@ export default function HomeScreen() {
           showsHorizontalScrollIndicator={false}
           style={tw`w-full overflow-visible`}>
           {isTodayBirthday && (
-            <AppTouchableScale
+            <AppTouchable
               style={tw`flex flex-row items-stretch`}
               onPress={() => selectBirthday(true)}>
               <BirthdayCard style={tw`h-38`} />
-            </AppTouchableScale>
+            </AppTouchable>
           )}
-          <AppTouchableScale
-            style={tw`flex flex-row items-stretch`}
-            onPress={() => selectBalance(true)}>
+          {((devices && !devices.length) || (profile && !profile.lastSeen)) && (
+            <Link asChild href="/devices">
+              <AppTouchable style={tw`flex flex-row items-stretch`}>
+                <DevicesCard
+                  count={devices?.length}
+                  entering={FadeIn.duration(500)}
+                  exiting={FadeOut.duration(500)}
+                  invalid={!devices?.length}
+                  pending={isPendingDevices}
+                  style={tw`h-38`}
+                />
+              </AppTouchable>
+            </Link>
+          )}
+          <AppTouchable style={tw`flex flex-row items-stretch`} onPress={() => selectBalance(true)}>
             <BalanceCard
               count={profile?.balance}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
               style={tw`h-38`}
               valid={profile && !isMemberBalanceInsufficient(profile)}
             />
-          </AppTouchableScale>
-          <AppTouchableScale
+          </AppTouchable>
+          <AppTouchable
             style={tw`flex flex-row items-stretch`}
             onPress={() => selectSubscription(true)}>
             <SubscriptionCard
@@ -345,8 +376,8 @@ export default function HomeScreen() {
               style={tw`h-38`}
               subscription={currentSubscription}
             />
-          </AppTouchableScale>
-          <AppTouchableScale
+          </AppTouchable>
+          <AppTouchable
             style={tw`flex flex-row items-stretch`}
             onPress={() => selectMembership(true)}>
             <MembershipCard
@@ -356,7 +387,7 @@ export default function HomeScreen() {
               style={tw`h-38`}
               valid={profile?.membershipOk}
             />
-          </AppTouchableScale>
+          </AppTouchable>
         </ScrollView>
       </Animated.View>
 
@@ -407,9 +438,9 @@ export default function HomeScreen() {
                 exiting={FadeOut.duration(300)}
                 key={`calendar-event-card-${event.id}`}>
                 <Link asChild href={`/events/${event.id}`}>
-                  <AppTouchableScale style={tw`w-80`}>
+                  <AppTouchable style={tw`w-80`}>
                     <CalendarEventCard event={event} />
-                  </AppTouchableScale>
+                  </AppTouchable>
                 </Link>
               </Animated.View>
             ))

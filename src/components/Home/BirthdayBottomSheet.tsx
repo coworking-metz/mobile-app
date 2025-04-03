@@ -1,7 +1,3 @@
-import BirthdayCakeAnimation from '../Animations/BirthdayCakeAnimation';
-import AppBottomSheet, { MIN_PADDING_BOTTOM } from '../AppBottomSheet';
-import AppRoundedButton from '../AppRoundedButton';
-import AppText from '../AppText';
 import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
@@ -11,8 +7,11 @@ import { Platform, StyleProp, View, ViewStyle } from 'react-native';
 import { Confetti } from 'react-native-fast-confetti';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw from 'twrnc';
+import BirthdayCakeAnimation from '@/components/Animations/BirthdayCakeAnimation';
+import AppBottomSheet, { MIN_PADDING_BOTTOM } from '@/components/AppBottomSheet';
+import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
 import { parseErrorText } from '@/helpers/error';
-import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
 
@@ -58,11 +57,7 @@ const BirthdayBottomSheet = ({
   }, [noticeStore, t]);
 
   return (
-    <AppBottomSheet
-      contentContainerStyle={tw`pb-0`}
-      style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+    <AppBottomSheet contentContainerStyle={tw`pb-0`} style={style} onClose={onClose}>
       <Confetti autoplay isInfinite={false} onAnimationStart={onConfettiStart} />
       <View style={tw`mt-6 flex items-center justify-center h-40 overflow-visible`}>
         <BirthdayCakeAnimation style={tw`h-72 -mb-6 w-full`} />

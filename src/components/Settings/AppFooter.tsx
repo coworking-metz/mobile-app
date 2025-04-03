@@ -1,4 +1,4 @@
-import AppText from '../AppText';
+import AppText from '@/components/AppText';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import React from 'react';

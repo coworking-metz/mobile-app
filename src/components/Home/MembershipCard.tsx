@@ -1,11 +1,11 @@
-import AppText from '../AppText';
+import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppText from '@/components/AppText';
 
 const MembershipCard = ({
   lastMembershipYear,
@@ -38,13 +38,7 @@ const MembershipCard = ({
         {t('home.profile.membership.label')}
       </AppText>
       {loading ? (
-        <Skeleton
-          backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-          colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-          height={28}
-          show={loading}
-          width={96}
-        />
+        <LoadingSkeleton height={28} show={loading} width={96} />
       ) : (
         <>
           <AppText

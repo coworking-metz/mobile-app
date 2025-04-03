@@ -1,14 +1,14 @@
-import RateStarsAnimation from '../Animations/RateStarsAnimation';
-import AppBottomSheet from '../AppBottomSheet';
-import AppRoundedButton from '../AppRoundedButton';
-import AppText from '../AppText';
-import AppTextButton from '../AppTextButton';
 import { Link } from 'expo-router';
 import * as StoreReview from 'expo-store-review';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import RateStarsAnimation from '@/components/Animations/RateStarsAnimation';
+import AppBottomSheet from '@/components/AppBottomSheet';
+import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
+import AppTextButton from '@/components/AppTextButton';
 import { useErrorNotification } from '@/helpers/error';
 
 const ReviewBottomSheet = ({
@@ -31,10 +31,7 @@ const ReviewBottomSheet = ({
   }, [notifyError, t]);
 
   return (
-    <AppBottomSheet
-      style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+    <AppBottomSheet style={style} onClose={onClose}>
       <View style={tw`flex flex-col w-full px-6 pt-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <RateStarsAnimation style={tw`h-48 w-full`} />

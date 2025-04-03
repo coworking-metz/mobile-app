@@ -1,16 +1,17 @@
-import AppBlurView from '../AppBlurView';
-import AppText from '../AppText';
+import LoadingSkeleton from '../LoadingSkeleton';
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { Image, ImageBackground } from 'expo-image';
-import { Skeleton } from 'moti/skeleton';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AmourFoodSquareLogo from '@/assets/images/amour-food-square.png';
+import BliiidaSquareLogo from '@/assets/images/bliiida-square.svg';
 import CoworkingLogo from '@/assets/images/icon/icon-light-1024.png';
+import AppBlurView from '@/components/AppBlurView';
+import AppText from '@/components/AppText';
 import { theme } from '@/helpers/colors';
 import { type CalendarEvent } from '@/services/api/calendar';
 
@@ -26,6 +27,14 @@ const CoworkingIcon = () => {
   return (
     <View style={[tw`h-10 w-10 rounded-lg overflow-hidden`, { backgroundColor: theme.meatBrown }]}>
       <Image source={CoworkingLogo} style={[tw`h-full w-full`]} />
+    </View>
+  );
+};
+
+const BliiidaIcon = () => {
+  return (
+    <View style={[tw`h-10 w-10 bg-white rounded-lg overflow-hidden p-0.5`]}>
+      <Image source={BliiidaSquareLogo} style={[tw`h-full w-full`]} />
     </View>
   );
 };
@@ -47,6 +56,8 @@ const CalendarEventCard = ({
         return <AmourFoodIcon />;
       case 'COWORKING':
         return <CoworkingIcon />;
+      case 'BLIIIDA':
+        return <BliiidaIcon />;
     }
     return null;
   }, [event]);
@@ -82,12 +93,7 @@ const CalendarEventCard = ({
         style={tw`w-full h-full flex rounded-2xl overflow-hidden relative`}
         {...(event?.end && dayjs().isAfter(event.end) && { imageStyle: { opacity: 0.5 } })}>
         {loading ? (
-          <Skeleton
-            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
-            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-            height={'100%'}
-            width={'100%'}
-          />
+          <LoadingSkeleton height={'100%'} width={'100%'} />
         ) : event ? (
           <AppBlurView
             intensity={64}

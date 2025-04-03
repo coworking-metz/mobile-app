@@ -3,32 +3,28 @@ import dayjs from 'dayjs';
 import * as Calendar from 'expo-calendar';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { isNil } from 'lodash';
-import { Skeleton } from 'moti/skeleton';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import openMap from 'react-native-open-maps';
-import Animated, { FadeInLeft } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { FadeInLeft } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
 import ErrorState from '@/components/ErrorState';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import ServiceLayout from '@/components/Settings/ServiceLayout';
 import ServiceRow from '@/components/Settings/ServiceRow';
 import ZoomableImage from '@/components/ZoomableImage';
 import { useAppPermissions } from '@/context/permissions';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
-import AppText from '@/components/AppText';
-
-const MIN_PADDING_BOTTOM = 24;
 
 export default function CalendarEventPage() {
   useDeviceContext(tw);
   const { eventId } = useLocalSearchParams();
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
   const renderPermissionsBottomSheet = useAppPermissions();
 
   const {
@@ -77,12 +73,7 @@ export default function CalendarEventPage() {
 
   return (
     <ServiceLayout
-      contentStyle={[
-        tw`pt-4`,
-        {
-          paddingBottom: Math.max(insets.bottom || MIN_PADDING_BOTTOM),
-        },
-      ]}
+      contentStyle={tw`pt-4`}
       title={event?.title || ''}
       onRefresh={refetchCalendarEvents}>
       {event ? (
@@ -95,7 +86,9 @@ export default function CalendarEventPage() {
             transition={300}>
             {event.pictures.length > 1 && (
               <View style={tw`absolute bottom-1.5 right-5.5 bg-black/70 py-1 px-2 rounded-lg`}>
-                <AppText style={tw`text-xs text-gray-200 font-medium`}>{event.pictures.length}</AppText>
+                <AppText style={tw`text-xs text-gray-200 font-medium`}>
+                  {event.pictures.length}
+                </AppText>
               </View>
             )}
           </ZoomableImage>
@@ -133,10 +126,12 @@ export default function CalendarEventPage() {
           ) : null}
 
           {firstUrl ? (
-            <View style={tw`mx-6 mt-auto pt-6`}>
+            <View style={tw`mt-auto px-6 pt-6`}>
               <Link asChild href={firstUrl}>
                 <AppRoundedButton style={tw`min-h-14 self-stretch`} suffixIcon="open-in-new">
-                  <AppText style={tw`text-base font-medium text-black`}>{t('actions.takeALook')}</AppText>
+                  <AppText style={tw`text-base font-medium text-black`}>
+                    {t('actions.takeALook')}
+                  </AppText>
                 </AppRoundedButton>
               </Link>
             </View>
@@ -144,12 +139,7 @@ export default function CalendarEventPage() {
         </>
       ) : isFetchingCalendarEvents ? (
         <View style={tw`h-44 mx-4 overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
-          <Skeleton
-            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-            height={`100%`}
-            width={`100%`}
-          />
+          <LoadingSkeleton height={`100%`} width={`100%`} />
         </View>
       ) : calendarEventsError && !isSilentError(calendarEventsError) ? (
         <ErrorState error={calendarEventsError} title={t('home.calendar.onFetch.fail')} />

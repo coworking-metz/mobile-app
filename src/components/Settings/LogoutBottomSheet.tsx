@@ -1,8 +1,3 @@
-import ExitDoorAnimation from '../Animations/ExitDoorAnimation';
-import AppBottomSheet from '../AppBottomSheet';
-import AppRoundedButton from '../AppRoundedButton';
-import AppText from '../AppText';
-import AppTextButton from '../AppTextButton';
 import { makeRedirectUri } from 'expo-auth-session';
 import { Link } from 'expo-router';
 import { openAuthSessionAsync, WebBrowserRedirectResult } from 'expo-web-browser';
@@ -10,6 +5,11 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import ExitDoorAnimation from '@/components/Animations/ExitDoorAnimation';
+import AppBottomSheet from '@/components/AppBottomSheet';
+import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
+import AppTextButton from '@/components/AppTextButton';
 import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 
@@ -31,7 +31,7 @@ const LogoutBottomSheet = ({
     setLoading(true);
 
     const redirectUriOnSuccess = makeRedirectUri({
-      path: '/settings?loggedOut=true',
+      path: '/home?loggedOut=true',
     });
 
     const logoutUrl = `https://www.coworking-metz.fr/mon-compte/?logout=true&redirect_to=${redirectUriOnSuccess}`;
@@ -59,10 +59,7 @@ const LogoutBottomSheet = ({
   }, [notifyError, t]);
 
   return (
-    <AppBottomSheet
-      style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+    <AppBottomSheet style={style} onClose={onClose}>
       <View style={tw`flex flex-col w-full px-6 pt-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <ExitDoorAnimation style={tw`h-56 w-full`} />
@@ -78,6 +75,7 @@ const LogoutBottomSheet = ({
           disabled={isLoading}
           loading={isLoading}
           style={tw`self-stretch mt-6`}
+          suffixIcon="open-in-new"
           onPress={onLogout}>
           <AppText style={tw`text-base text-black font-medium`}>{t('actions.logout')}</AppText>
         </AppRoundedButton>

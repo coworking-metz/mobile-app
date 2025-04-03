@@ -6,7 +6,7 @@ import { isNil } from 'lodash';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, TextInput } from 'react-native';
-import Animated, { FadeInLeft } from 'react-native-reanimated';
+import { FadeInLeft } from 'react-native-reanimated';
 import { Switch } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';

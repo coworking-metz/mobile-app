@@ -15,3 +15,5 @@ export { default as account } from './account.json';
 export { default as attendance } from './attendance.json';
 export { default as privacy } from './privacy.json';
 export { default as members } from './members.json';
+export { default as devices } from './devices.json';
+export { default as validations } from './validations.json';

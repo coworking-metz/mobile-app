@@ -1,12 +1,12 @@
-import ToggleSwitchAnimation from '../Animations/ToggleSwitchAnimation';
-import AppBottomSheet from '../AppBottomSheet';
-import AppRoundedButton from '../AppRoundedButton';
-import AppText from '../AppText';
 import * as Linking from 'expo-linking';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import ToggleSwitchAnimation from '@/components/Animations/ToggleSwitchAnimation';
+import AppBottomSheet from '@/components/AppBottomSheet';
+import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
 
 const PermissionsBottomSheet = ({
   style,
@@ -18,10 +18,7 @@ const PermissionsBottomSheet = ({
   const { t } = useTranslation();
 
   return (
-    <AppBottomSheet
-      style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+    <AppBottomSheet style={style} onClose={onClose}>
       <View style={tw`flex flex-col w-full px-6 pt-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <ToggleSwitchAnimation style={tw`-my-12 h-80 w-99`} />

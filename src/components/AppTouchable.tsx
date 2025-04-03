@@ -7,10 +7,12 @@ import {
   type TouchableOpacityProps,
 } from 'react-native';
 
-const AppTouchableScale: ForwardRefRenderFunction<
-  typeof TouchableOpacity,
-  TouchableOpacityProps
-> = ({ children, onPress, ...props }, ref) => {
+export type AppTouchableRef = typeof TouchableOpacity;
+
+const AppTouchable: ForwardRefRenderFunction<typeof TouchableOpacity, TouchableOpacityProps> = (
+  { children, onPress, ...props },
+  ref,
+) => {
   const onTouch = useCallback(
     (event: GestureResponderEvent) => {
       if (Platform.OS === 'ios') {
@@ -31,4 +33,4 @@ const AppTouchableScale: ForwardRefRenderFunction<
   );
 };
 
-export default forwardRef(AppTouchableScale);
+export default forwardRef(AppTouchable);

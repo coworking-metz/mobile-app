@@ -1,15 +1,15 @@
-import UnlockAnimation from '../Animations/UnlockAnimation';
-import AppBottomSheet from '../AppBottomSheet';
-import AppText from '../AppText';
-import SwipeableButton from '../SwipeableButton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
+import UnlockAnimation from '@/components/Animations/UnlockAnimation';
+import AppBottomSheet from '@/components/AppBottomSheet';
+import AppText from '@/components/AppText';
+import SwipeableButton from '@/components/SwipeableButton';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
 import { unlockDeckDoor } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
@@ -69,8 +69,7 @@ const UnlockDeckDoorBottomSheet = ({
     <AppBottomSheet
       contentContainerStyle={tw`flex flex-col items-center gap-4 px-6 pt-6`}
       style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+      onClose={onClose}>
       <UnlockAnimation ref={animation} autoPlay={false} loop={false} style={tw`w-full h-[144px]`} />
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>

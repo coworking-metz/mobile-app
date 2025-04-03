@@ -1,5 +1,3 @@
-import VerticalLoadingAnimation from '../Animations/VerticalLoadingAnimation';
-import AppText from '../AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,6 +8,8 @@ import { StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
 import { ContributionGraph } from 'react-native-chart-kit';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
+import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
+import AppText from '@/components/AppText';
 import { theme } from '@/helpers/colors';
 import { type ApiMemberActivity } from '@/services/api/members';
 
@@ -25,6 +25,7 @@ const PresenceGraph = ({
   nonCompliantActivity = [],
   activityCount = 0,
   minimumSquares = MINIMUM_SQUARES,
+  withDescription = false,
   style,
   onDateSelect,
 }: {
@@ -34,6 +35,7 @@ const PresenceGraph = ({
   activity?: ApiMemberActivity[];
   activityCount?: number;
   minimumSquares?: number;
+  withDescription?: boolean;
   style?: StyleProp<ViewStyle>;
   onDateSelect?: (date: string) => void;
 }) => {
@@ -160,7 +162,7 @@ const PresenceGraph = ({
               />
             </View>
           </LinearGradient>
-        ) : activityCount && firstActivityDate ? (
+        ) : withDescription ? (
           <View style={tw`flex flex-col self-center ml-6`}>
             <View style={tw`flex flex-row items-end gap-1`}>
               <AppText
@@ -179,11 +181,13 @@ const PresenceGraph = ({
                 </AppText>
               )}
             </View>
-            <AppText style={[tw`font-normal text-sm text-slate-500 dark:text-slate-400`]}>
-              {t('settings.profile.presence.since', {
-                date: dayjs(firstActivityDate).format('ll'),
-              })}
-            </AppText>
+            {firstActivityDate && (
+              <AppText style={[tw`font-normal text-sm text-slate-500 dark:text-slate-400`]}>
+                {t('settings.profile.presence.since', {
+                  date: dayjs(firstActivityDate).format('ll'),
+                })}
+              </AppText>
+            )}
           </View>
         ) : null}
         <ContributionGraph

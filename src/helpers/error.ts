@@ -1,4 +1,5 @@
 import { type AxiosError } from 'axios';
+import * as Haptics from 'expo-haptics';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import useNoticeStore from '@/stores/notice';
@@ -94,4 +95,24 @@ export const useErrorNotification = () => {
   );
 
   return notifyError;
+};
+
+export const useErrorNotice = () => {
+  const noticeStore = useNoticeStore();
+  const { t } = useTranslation();
+
+  const noticeError = useCallback(
+    async (error: Error, label?: string) => {
+      const errorMessage = await parseErrorText(error);
+      noticeStore.add({
+        message: label || t('errors.default.message'),
+        description: errorMessage,
+        type: 'error',
+      });
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    },
+    [noticeStore, t],
+  );
+
+  return noticeError;
 };

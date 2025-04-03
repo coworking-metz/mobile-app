@@ -1,6 +1,3 @@
-import AppBottomSheet from '../AppBottomSheet';
-import AppText from '../AppText';
-import ServiceRow from '../Settings/ServiceRow';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import React from 'react';
@@ -9,6 +6,9 @@ import { Platform, StyleProp, View, ViewStyle } from 'react-native';
 import AnimatedProgressWheel from 'react-native-progress-wheel';
 import { Easing } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppBottomSheet from '@/components/AppBottomSheet';
+import AppText from '@/components/AppText';
+import ServiceRow from '@/components/Settings/ServiceRow';
 import { theme } from '@/helpers/colors';
 import { type ApiMemberActivity } from '@/services/api/members';
 
@@ -26,10 +26,7 @@ const PresenceBottomSheet = ({
   const { t } = useTranslation();
 
   return (
-    <AppBottomSheet
-      style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+    <AppBottomSheet style={style} onClose={onClose}>
       <View style={tw`flex flex-col w-full p-6`}>
         <AppText
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
@@ -64,7 +61,7 @@ const PresenceBottomSheet = ({
           style={tw`w-full px-0 mt-2`}>
           <AppText
             style={[
-              tw`font-normal text-slate-500 dark:text-slate-400 grow text-right`,
+              tw`font-normal text-slate-500 dark:text-slate-400 text-right`,
               nonCompliant && nonCompliant.value !== activity.value ? tw`text-sm` : tw`text-base`,
             ]}>
             {activity.type === 'subscription'

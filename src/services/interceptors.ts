@@ -189,7 +189,7 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
         `<< ${[response.config.method?.toUpperCase(), response.config.url]
           .filter(Boolean)
           .join(' ')}`,
-        response.data,
+        `\n${JSON.stringify(response.data, null, 2)}`,
       );
 
       return Promise.resolve(response);
@@ -198,7 +198,7 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
       if (error.config) {
         httpLogger.error(
           `<< ${[error.config.method?.toUpperCase(), error.config.url].filter(Boolean).join(' ')}`,
-          error.response?.data,
+          `\n${JSON.stringify(error.response?.data, null, 2)}`,
         );
       } else {
         httpLogger.error(error);

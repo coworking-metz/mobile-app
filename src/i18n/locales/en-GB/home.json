@@ -61,9 +61,14 @@
         "fail": "Unable to claim present"
       }
     },
+    "devices": {
+      "count_one": "1 device",
+      "count_other": "{{count}} devices",
+      "count_zero": "None",
+      "description": "Paired\ndevices"
+    },
     "gift": {
       "description": "There is a surprise for you…",
-      "discover": "Discover",
       "label": "Psst!"
     },
     "label": "Profile",
@@ -155,6 +160,7 @@
       "available_zero": "None",
       "balance": {
         "label": "Current balance",
+        "onDepleted_one": "Excessive overconsumption can lead to a suspension of your access.",
         "onDepleted_other": "Excessive overconsumption can lead to a suspension of your access.",
         "onDepleted_zero": "You are present but your balance seems insufficient."
       },

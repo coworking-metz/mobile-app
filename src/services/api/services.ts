@@ -18,6 +18,10 @@ export const openParkingGate = (): Promise<{
 
 export const CARBON_DIOXIDE_RANGES = [400, 800, 1200, 1600];
 
+export type OnPremiseFlexDesk = {
+  occupied?: boolean;
+};
+
 export type OnPremiseState = {
   deckDoor: {
     unlocked: boolean;
@@ -29,6 +33,10 @@ export type OnPremiseState = {
     orange: {
       occupied: boolean;
     };
+  };
+  flexDesks: {
+    a: OnPremiseFlexDesk;
+    b: OnPremiseFlexDesk;
   };
   sensors: {
     carbonDioxide: {

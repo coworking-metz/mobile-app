@@ -1,11 +1,11 @@
-import AppText from '../AppText';
+import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppText from '@/components/AppText';
 
 const BalanceCard = ({
   valid,
@@ -36,13 +36,7 @@ const BalanceCard = ({
         {t('home.profile.tickets.label')}
       </AppText>
       {loading ? (
-        <Skeleton
-          backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-          colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-          height={28}
-          show={loading}
-          width={96}
-        />
+        <LoadingSkeleton height={28} show={loading} width={96} />
       ) : (
         <View style={tw`flex flex-row items-baseline gap-1`}>
           {count != 0 && (
@@ -61,12 +55,8 @@ const BalanceCard = ({
                 : tw`text-2xl text-gray-400 dark:text-slate-600`,
             ]}>
             {count < 0
-              ? t('home.profile.tickets.depleted', {
-                count: count,
-              })
-              : t('home.profile.tickets.available', {
-                count: -count,
-              })}
+              ? t('home.profile.tickets.depleted', { count: count })
+              : t('home.profile.tickets.available', { count: -count })}
           </AppText>
         </View>
       )}

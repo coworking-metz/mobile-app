@@ -22,7 +22,6 @@ import ErrorChip from '@/components/ErrorChip';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import AppFooter from '@/components/Settings/AppFooter';
 import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
-import LogoutBottomSheet from '@/components/Settings/LogoutBottomSheet';
 import PresenceBottomSheet from '@/components/Settings/PresenceBottomSheet';
 import PresenceGraph from '@/components/Settings/PresenceGraph';
 import ReviewBottomSheet from '@/components/Settings/ReviewBottomSheet';
@@ -40,11 +39,9 @@ import {
   getMemberProfile,
   type ApiMemberActivity,
 } from '@/services/api/members';
+import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
-
-const WORDPRESS_BASE_URL =
-  process.env.EXPO_PUBLIC_WORDPRESS_BASE_URL || 'https://coworking-metz.fr/';
 
 const NAVIGATION_HEIGHT = 48;
 const PICTURE_SIZE = 96;
@@ -65,7 +62,6 @@ const Settings = () => {
   const [selectedPresence, setSelectedPresence] = useState<ApiMemberActivity | null>(null);
   const [isPickingLanguage, setPickingLanguage] = useState(false);
   const [isPickingTheme, setPickingTheme] = useState(false);
-  const [isLoggingOut, setLoggingOut] = useState(false);
   const [isReviewing, setReviewing] = useState(false);
 
   const {
@@ -214,8 +210,9 @@ const Settings = () => {
                   {authStore.user ? authStore.user.name : t('account.title')}
                 </AppText>
                 <AppText
+                  ellipsizeMode={'tail'}
                   entering={FadeInLeft.duration(500).delay(150)}
-                  numberOfLines={2}
+                  numberOfLines={authStore.user ? 1 : 2}
                   style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
                   {authStore.user ? authStore.user.email : t('auth.login.headline')}
                 </AppText>
@@ -319,9 +316,10 @@ const Settings = () => {
               activity={activity}
               activityCount={profile?.totalActivity}
               loading={isFetchingActivity || isFetchingProfile}
-              minimumSquares={!!authStore.user?.id ? 30 : 144}
+              minimumSquares={!!authStore.user?.id ? 45 : 144}
               nonCompliantActivity={nonCompliantActivity}
               selectedDate={selectedPresence?.date}
+              withDescription={!!profile}
               onDateSelect={onDateSelect}
             />
 
@@ -338,6 +336,17 @@ const Settings = () => {
                 suffixIcon="chevron-right"
               />
             </Link>
+            {authStore.user?.id && (
+              <Link asChild href="/devices/">
+                <ServiceRow
+                  withBottomDivider
+                  label={t('devices.title')}
+                  prefixIcon="devices"
+                  style={tw`px-3 mx-3`}
+                  suffixIcon="chevron-right"
+                />
+              </Link>
+            )}
             <Link asChild href="/privacy/">
               <ServiceRow
                 withBottomDivider
@@ -362,7 +371,7 @@ const Settings = () => {
               prefixIcon="web"
               style={tw`px-3 mx-3`}
               onPress={() => setPickingLanguage(true)}>
-              <AppText style={tw`text-base font-normal text-amber-500 grow text-right`}>
+              <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
                 {getLanguageLabel(
                   !chosenLanguage || chosenLanguage === SYSTEM_OPTION
                     ? SYSTEM_LANGUAGE
@@ -414,16 +423,6 @@ const Settings = () => {
               suffixIcon="chevron-right"
               onPress={() => setReviewing(true)}
             />
-
-            {authStore.user && (
-              <ServiceRow
-                label={t('actions.logout')}
-                prefixIcon="logout"
-                style={tw`px-3 mx-3 mt-6`}
-                suffixIcon="chevron-right"
-                onPress={() => setLoggingOut(true)}
-              />
-            )}
           </View>
 
           {/* transparent view to fake a touch on the footer link, should mimic as much as possible the footer */}
@@ -481,7 +480,6 @@ const Settings = () => {
           onClose={() => setSelectedPresence(null)}
         />
       )}
-      {isLoggingOut && <LogoutBottomSheet onClose={() => setLoggingOut(false)} />}
       {isReviewing && <ReviewBottomSheet onClose={() => setReviewing(false)} />}
     </View>
   );

@@ -1,17 +1,17 @@
-import CouponsAnimation from '../Animations/CouponsAnimation';
-import AppBottomSheet from '../AppBottomSheet';
-import AppRoundedButton from '../AppRoundedButton';
-import AppText from '../AppText';
-import ErrorChip from '../ErrorChip';
-import ServiceRow from '../Settings/ServiceRow';
+import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'expo-router';
-import { Skeleton } from 'moti/skeleton';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import CouponsAnimation from '@/components/Animations/CouponsAnimation';
+import AppBottomSheet from '@/components/AppBottomSheet';
+import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
+import ErrorChip from '@/components/ErrorChip';
+import ServiceRow from '@/components/Settings/ServiceRow';
 import { isSilentError } from '@/helpers/error';
 import {
   ApiMemberProfile,
@@ -77,11 +77,7 @@ const BalanceBottomSheet = ({
   }, [ticketsOrders, balance]);
 
   return (
-    <AppBottomSheet
-      contentContainerStyle={tw`px-6 pt-6`}
-      style={style}
-      onClose={onClose}
-      {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}>
+    <AppBottomSheet contentContainerStyle={tw`px-6 pt-6`} style={style} onClose={onClose}>
       <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
         <CouponsAnimation style={tw`h-56 w-full`} />
       </View>
@@ -99,12 +95,7 @@ const BalanceBottomSheet = ({
         label={t('home.profile.tickets.consumed.label')}
         style={tw`w-full px-0 mt-2`}>
         {isFetchingTicketsOrders ? (
-          <Skeleton
-            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-            height={24}
-            width={96}
-          />
+          <LoadingSkeleton height={24} width={96} />
         ) : (
           <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
             {consumedCount != 0 && (
@@ -124,12 +115,7 @@ const BalanceBottomSheet = ({
       </ServiceRow>
       <ServiceRow label={t('home.profile.tickets.balance.label')} style={tw`w-full px-0`}>
         {loading ? (
-          <Skeleton
-            backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-300')}
-            colorMode={tw.prefixMatch('dark') ? 'dark' : 'light'}
-            height={24}
-            width={96}
-          />
+          <LoadingSkeleton height={24} width={96} />
         ) : (
           <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
             {balance != 0 && (
@@ -143,12 +129,8 @@ const BalanceBottomSheet = ({
               numberOfLines={1}
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
               {balance >= 0
-                ? t('home.profile.tickets.available', {
-                  count: balance,
-                })
-                : t('home.profile.tickets.depleted', {
-                  count: -balance,
-                })}
+                ? t('home.profile.tickets.available', { count: balance })
+                : t('home.profile.tickets.depleted', { count: -balance })}
             </AppText>
           </View>
         )}
