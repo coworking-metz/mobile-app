@@ -12,12 +12,15 @@ import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import ReadMore from 'react-native-read-more-text';
 import { FadeIn, FadeInLeft, FadeOutRight } from 'react-native-reanimated';
+import { toast } from 'sonner-native';
 import tw from 'twrnc';
 import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
+import { useAppReview } from '@/context/review';
 import { AppErrorCode, handleSilentError, useErrorNotice } from '@/helpers/error';
 import { log } from '@/helpers/logger';
+import { settings } from '@/i18n/locales/en-GB';
 import {
   addMemberDevice,
   ApiMemberDevice,
@@ -27,6 +30,8 @@ import {
 import { getDeviceInfo, isDeviceInfoAvailable, ProbeDevice } from '@/services/api/probe';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
+import useSettingsStore from '@/stores/settings';
+import useToastStore from '@/stores/toast';
 
 const detectLogger = log.extend(`[detect]`);
 
@@ -45,6 +50,9 @@ const DetectDeviceBottomSheet = ({
   const authStore = useAuthStore();
   const noticeStore = useNoticeStore();
   const noticeError = useErrorNotice();
+  const toastStore = useToastStore();
+  const settingsStore = useSettingsStore();
+  const review = useAppReview();
   const animation = useRef<LottieView>(null);
   const bottomSheetRef = useRef<AppBottomSheetRef>(null);
   const queryClient = useQueryClient();
@@ -220,13 +228,29 @@ const DetectDeviceBottomSheet = ({
           name: verifiedDevice.name || verifiedDevice.macAddress,
         }),
         type: 'success',
+        onClose: () => {
+          if (!settingsStore.hasBeenInvitedToReview) {
+            useSettingsStore.setState({ hasBeenInvitedToReview: true });
+            toastStore.add({
+              message: t('review.onInvite.message'),
+              type: 'info',
+              action: {
+                label: t('review.onInvite.confirm'),
+                onPress: async () => {
+                  toast.dismiss();
+                  review();
+                },
+              },
+            });
+          }
+        },
       });
       queryClient.invalidateQueries({
         queryKey: ['members', authStore.user?.id, 'devices'],
         exact: true,
       });
     }
-  }, [verifiedDevice, noticeStore, t, bottomSheetRef, queryClient]);
+  }, [verifiedDevice, noticeStore, t, bottomSheetRef, queryClient, settingsStore, toastStore]);
 
   useEffect(() => {
     setReachingService(true);

@@ -23,6 +23,9 @@
         "success": "Cache has been cleared"
       }
     },
+    "hasBeenInvitedToReview": {
+      "label": "Hide review invite"
+    },
     "hasLearnPullToRefresh": {
       "label": "Hide pull to refresh hint"
     },

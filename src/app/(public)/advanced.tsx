@@ -237,6 +237,16 @@ const Advanced = () => {
       </ServiceRow>
       <ServiceRow
         withBottomDivider
+        label={t('advanced.store.hasBeenInvitedToReview.label')}
+        style={tw`px-3 mx-3`}>
+        <Switch
+          value={settingsStore.hasBeenInvitedToReview}
+          onColor={theme.meatBrown}
+          onValueChange={(value) => useSettingsStore.setState({ hasBeenInvitedToReview: value })}
+        />
+      </ServiceRow>
+      <ServiceRow
+        withBottomDivider
         description={`${authStore.accessToken}`}
         label={t('advanced.store.accessToken.label')}
         renderDescription={() => (

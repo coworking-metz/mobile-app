@@ -136,7 +136,7 @@ const DeviceCard = ({
       entering={FadeIn.duration(300)}
       exiting={FadeOut.duration(300)}
       style={[
-        tw`flex flex-col items-start p-4 rounded-2xl min-h-20 relative bg-gray-200 dark:bg-neutral-700/50`,
+        tw`flex flex-col items-start py-4 pl-4 rounded-2xl min-h-20 relative bg-gray-200 dark:bg-neutral-700/50`,
         style,
       ]}>
       {pending ? (

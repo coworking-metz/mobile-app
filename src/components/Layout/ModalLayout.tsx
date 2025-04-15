@@ -120,7 +120,7 @@ const ModalLayout = ({
     const fontSize = interpolate(
       verticalScrollProgress.value,
       INTERPOLATE_INPUT_RANGE,
-      [32, 32, 16, 16],
+      [32, 32, 20, 20],
       Extrapolation.CLAMP,
     );
 
@@ -174,8 +174,8 @@ const ModalLayout = ({
 
         <View
           style={[
-            tw`ml-4 mt-3 absolute z-10`,
-            Platform.OS === 'android' && { marginTop: 12 - insets.top },
+            tw`ml-4 absolute z-10`,
+            Platform.OS === 'ios' ? tw`mt-3` : { top: insets.top + 4 },
           ]}>
           {from ? (
             <MaterialCommunityIcons.Button
@@ -211,10 +211,7 @@ const ModalLayout = ({
         </Animated.View>
         <Animated.View
           entering={FadeInDown.duration(300).delay(150)}
-          style={[
-            tw`grow-0 shrink-0 mt-3`,
-            Platform.OS === 'android' && { marginTop: 12 - insets.top },
-          ]}>
+          style={[tw`grow-0 shrink-0`, Platform.OS === 'ios' ? tw`mt-3` : tw`mt-1`]}>
           <MaterialCommunityIcons.Button
             backgroundColor="transparent"
             borderRadius={24}

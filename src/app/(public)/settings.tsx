@@ -31,6 +31,7 @@ import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 import ThemePicker from '@/components/Settings/ThemePicker';
 import { useAppAuth } from '@/context/auth';
 import { useAppContact } from '@/context/contact';
+import { useAppReview } from '@/context/review';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
@@ -57,13 +58,13 @@ const Settings = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const authStore = useAuthStore();
+  const review = useAppReview();
   const chosenLanguage = useSettingsStore((state) => state.language);
   const verticalScrollProgress = useSharedValue(0);
 
   const [selectedPresence, setSelectedPresence] = useState<ApiMemberActivity | null>(null);
   const [isPickingLanguage, setPickingLanguage] = useState(false);
   const [isPickingTheme, setPickingTheme] = useState(false);
-  const [isReviewing, setReviewing] = useState(false);
   const [isSocializing, setSocializing] = useState(false);
 
   const {
@@ -418,7 +419,7 @@ const Settings = () => {
               prefixIcon="star-outline"
               style={tw`px-3 mx-3`}
               suffixIcon="chevron-right"
-              onPress={() => setReviewing(true)}
+              onPress={review}
             />
           </View>
 
@@ -477,7 +478,6 @@ const Settings = () => {
           onClose={() => setSelectedPresence(null)}
         />
       )}
-      {isReviewing && <ReviewBottomSheet onClose={() => setReviewing(false)} />}
       {isSocializing && <SocialsBottomSheet onClose={() => setSocializing(false)} />}
     </View>
   );

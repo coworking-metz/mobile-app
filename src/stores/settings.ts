@@ -13,12 +13,13 @@ interface SettingsState {
   hydrated: boolean; // whether the store has been loaded from the storage
   hasOnboard: boolean;
   hasLearnPullToRefresh: boolean;
+  hasBeenInvitedToReview: boolean;
+  hasSeenBirthdayPresentAt: string | null;
+  withNativePullToRefresh: boolean;
   language: StoreLanguage;
   theme: AppThemePreference;
   apiBaseUrl: string | null;
   areTokensInAsyncStorage: boolean;
-  withNativePullToRefresh: boolean;
-  hasSeenBirthdayPresentAt: string | null;
   clear: () => Promise<void>;
 }
 
@@ -31,8 +32,9 @@ const useSettingsStore = create<SettingsState>()(
         hydrated: false,
         hasOnboard: false,
         hasLearnPullToRefresh: false,
-        withNativePullToRefresh: false,
+        hasBeenInvitedToReview: false,
         hasSeenBirthdayPresentAt: null,
+        withNativePullToRefresh: false,
         language: SYSTEM_OPTION,
         theme: SYSTEM_OPTION,
         apiBaseUrl: null,
@@ -41,8 +43,9 @@ const useSettingsStore = create<SettingsState>()(
           await set({
             hasOnboard: false,
             hasLearnPullToRefresh: false,
-            withNativePullToRefresh: false,
+            hasBeenInvitedToReview: false,
             hasSeenBirthdayPresentAt: null,
+            withNativePullToRefresh: false,
             language: SYSTEM_OPTION,
             theme: SYSTEM_OPTION,
             apiBaseUrl: null,
@@ -60,6 +63,7 @@ const useSettingsStore = create<SettingsState>()(
                 'hasOnboard',
                 'hasLearnPullToRefresh',
                 'hasSeenBirthdayPresentAt',
+                'hasBeenInvitedToReview',
                 'withNativePullToRefresh',
                 'language',
                 'theme',
