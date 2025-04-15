@@ -1,11 +1,7 @@
 {
   "profile": {
-    "empty": {
-      "description": "This person doesn't seem to be around anymore.",
-      "title": "Member not found"
-    },
     "location": {
-      "label": "Currently located in"
+      "label": "Located in"
     },
     "since": {
       "label": "Member since"

@@ -134,7 +134,7 @@ export default function HomeScreen() {
       if (userId) {
         return getMemberSubscriptions(userId);
       }
-      throw new Error('Missing user id');
+      throw new Error(t('account.profile.onFetch.missing'));
     },
     retry: false,
     enabled: !!authStore.user?.id,

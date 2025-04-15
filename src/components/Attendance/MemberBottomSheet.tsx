@@ -1,7 +1,7 @@
 import ServiceRow from '../Layout/ServiceRow';
 import ZoomableImage from '../ZoomableImage';
 import dayjs from 'dayjs';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
@@ -12,14 +12,17 @@ import { ApiMemberProfile } from '@/services/api/members';
 
 const MemberBottomSheet = ({
   member,
+  since,
   style,
   onClose,
 }: {
   member?: ApiMemberProfile;
+  since?: string;
   style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <AppBottomSheet contentContainerStyle={tw`pt-6`} style={style} onClose={onClose}>
@@ -57,18 +60,30 @@ const MemberBottomSheet = ({
           <ServiceRow
             withBottomDivider
             label={t('members.profile.since.label')}
+            prefixIcon="medal-outline"
             style={tw`px-3 mx-3`}>
             <AppText
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
               {dayjs(member.created).format('YYYY')}
             </AppText>
           </ServiceRow>
-          <ServiceRow label={t('members.profile.location.label')} style={tw`px-3 mx-3`}>
-            <Link href={`/on-premise${member.location ? `?location=${member.location}` : ''}`}>
+          <ServiceRow
+            description={
+              since && member.lastSeen && dayjs(since).diff(member.lastSeen, 'minute') > 2
+                ? dayjs(member.lastSeen).fromNow()
+                : ''
+            }
+            label={t('members.profile.location.label')}
+            prefixIcon="map-marker-outline"
+            style={tw`px-3 mx-3`}
+            onPress={() =>
+              member?.location ? router.push(`/on-premise?location=${member.location}`) : null
+            }>
+            {member?.location && (
               <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
-                {t(`onPremise.location.${member.location || 'unknown'}`)}
+                {t(`onPremise.location.${member.location}`)}
               </AppText>
-            </Link>
+            )}
           </ServiceRow>
         </>
       )}
