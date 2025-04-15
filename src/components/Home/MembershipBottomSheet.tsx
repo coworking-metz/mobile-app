@@ -11,9 +11,10 @@ import MembershipFormAnimation from '@/components/Animations/MembershipFormAnima
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import { theme } from '@/helpers/colors';
 
+import { getMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
 const MembershipBottomSheet = ({
@@ -40,6 +41,12 @@ const MembershipBottomSheet = ({
 
   const { refetch: refetchProfile } = useQuery({
     queryKey: ['members', user?.id],
+    queryFn: ({ queryKey: [_, userId] }) => {
+      if (userId) {
+        return getMemberProfile(userId as string);
+      }
+      throw new Error(t('account.profile.onFetch.missing'));
+    },
     enabled: false,
   });
 

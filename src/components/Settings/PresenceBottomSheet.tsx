@@ -8,7 +8,7 @@ import { Easing } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import { theme } from '@/helpers/colors';
 import { type ApiMemberActivity } from '@/services/api/members';
 

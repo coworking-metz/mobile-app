@@ -116,8 +116,25 @@
       "rateOnStore": "Rate the app",
       "title": "Share your feedback!"
     },
-    "signal": {
-      "label": "Signal community"
+    "socials": {
+      "description": "Follow us on social media to stay updated with the latest news and updates.",
+      "facebook": {
+        "label": "Facebook"
+      },
+      "instagram": {
+        "label": "Instagram"
+      },
+      "label": "Follow us",
+      "linkedin": {
+        "label": "LinkedIn"
+      },
+      "signal": {
+        "label": "Signal community"
+      },
+      "title": "Social media",
+      "twitter": {
+        "label": "Twitter"
+      }
     },
     "store": {
       "label": "Store"

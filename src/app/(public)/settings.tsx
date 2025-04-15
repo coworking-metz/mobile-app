@@ -20,12 +20,13 @@ import AppBlurView from '@/components/AppBlurView';
 import AppText from '@/components/AppText';
 import ErrorChip from '@/components/ErrorChip';
 import ProfilePicture from '@/components/Home/ProfilePicture';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import AppFooter from '@/components/Settings/AppFooter';
 import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
 import PresenceBottomSheet from '@/components/Settings/PresenceBottomSheet';
 import PresenceGraph from '@/components/Settings/PresenceGraph';
 import ReviewBottomSheet from '@/components/Settings/ReviewBottomSheet';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import SocialsBottomSheet from '@/components/Settings/SocialsBottomSheet';
 import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 import ThemePicker from '@/components/Settings/ThemePicker';
 import { useAppAuth } from '@/context/auth';
@@ -63,6 +64,7 @@ const Settings = () => {
   const [isPickingLanguage, setPickingLanguage] = useState(false);
   const [isPickingTheme, setPickingTheme] = useState(false);
   const [isReviewing, setReviewing] = useState(false);
+  const [isSocializing, setSocializing] = useState(false);
 
   const {
     data: activity,
@@ -385,29 +387,24 @@ const Settings = () => {
               {t('settings.support.title')}
             </AppText>
             {authStore.user && (
-              <>
-                <Link asChild href={`${WORDPRESS_BASE_URL}/la-boutique/`}>
-                  <ServiceRow
-                    withBottomDivider
-                    label={t('settings.support.store.label')}
-                    prefixIcon="cart-outline"
-                    style={tw`px-3 mx-3`}
-                    suffixIcon="open-in-new"
-                  />
-                </Link>
-                <Link
-                  asChild
-                  href="https://signal.group/#CjQKICGvCmD9n9SJSW6z_g5FmRg5rRUj4hWpC1X5XxOexGwrEhDxUfX0r6UQ_blpMGz938M9">
-                  <ServiceRow
-                    withBottomDivider
-                    label={t('settings.support.signal.label')}
-                    prefixIcon="chat-outline"
-                    style={tw`px-3 mx-3`}
-                    suffixIcon="open-in-new"
-                  />
-                </Link>
-              </>
+              <Link asChild href={`${WORDPRESS_BASE_URL}/la-boutique/`}>
+                <ServiceRow
+                  withBottomDivider
+                  label={t('settings.support.store.label')}
+                  prefixIcon="cart-outline"
+                  style={tw`px-3 mx-3`}
+                  suffixIcon="open-in-new"
+                />
+              </Link>
             )}
+            <ServiceRow
+              withBottomDivider
+              label={t('settings.support.socials.label')}
+              prefixIcon="message-badge-outline"
+              style={tw`px-3 mx-3`}
+              suffixIcon="chevron-right"
+              onPress={() => setSocializing(true)}
+            />
             <ServiceRow
               withBottomDivider
               label={t('settings.support.contact.title')}
@@ -481,6 +478,7 @@ const Settings = () => {
         />
       )}
       {isReviewing && <ReviewBottomSheet onClose={() => setReviewing(false)} />}
+      {isSocializing && <SocialsBottomSheet onClose={() => setSocializing(false)} />}
     </View>
   );
 };

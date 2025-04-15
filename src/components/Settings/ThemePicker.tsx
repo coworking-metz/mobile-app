@@ -1,4 +1,4 @@
-import ServiceRow, { type ServiceRowProps } from './ServiceRow';
+import ServiceRow, { type ServiceRowProps } from '../Layout/ServiceRow';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import tw from 'twrnc';

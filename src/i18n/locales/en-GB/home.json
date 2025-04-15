@@ -56,7 +56,7 @@
     "birthday": {
       "claim": "Claim my present",
       "description": "It's your birthday today and we wouldn't miss it for the world to wish you a happy birthday 🎉\nand see you soon at the Poulailler!",
-      "label": "Happy birthday!",
+      "label": "Another year older!",
       "onClaim": {
         "fail": "Unable to claim present"
       }

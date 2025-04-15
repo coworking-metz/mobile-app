@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MarkdownRenderer from '@/components/Help/MarkdownRenderer';
-import ServiceLayout from '@/components/Settings/ServiceLayout';
+import ServiceLayout from '@/components/Layout/ServiceLayout';
 import { fetchLocalMarkdown, getDocumentationFromLanguage } from '@/services/docs';
 
 const Operating = () => {

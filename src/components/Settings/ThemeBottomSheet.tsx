@@ -5,7 +5,7 @@ import { useColorScheme, View } from 'react-native';
 import tw from 'twrnc';
 import AppBottomSheet, { type AppBottomSheetProps } from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
 import {
   setAppThemePreference,

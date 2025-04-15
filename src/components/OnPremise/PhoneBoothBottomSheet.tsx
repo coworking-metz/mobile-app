@@ -17,7 +17,7 @@ import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
 import ErrorChip from '@/components/ErrorChip';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
 import { getPhoneBoothsOccupation } from '@/services/api/services';

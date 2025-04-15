@@ -1,12 +1,11 @@
 import * as Calendar from 'expo-calendar';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text } from 'react-native';
 import { Switch } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
-import ServiceLayout from '@/components/Settings/ServiceLayout';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import { useAppPermissions } from '@/context/permissions';
 import { theme } from '@/helpers/colors';
 

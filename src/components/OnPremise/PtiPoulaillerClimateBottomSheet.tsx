@@ -6,7 +6,7 @@ import tw from 'twrnc';
 import HappySunAnimation from '@/components/Animations/HappySunAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import ServiceRow from '@/components/Layout/ServiceRow';
 
 const PtiPoulaillerClimateBottomSheet = ({
   loading = false,

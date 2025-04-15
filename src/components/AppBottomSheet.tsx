@@ -4,7 +4,6 @@ import { SquircleView } from 'expo-squircle-view';
 import React, {
   forwardRef,
   ForwardRefRenderFunction,
-  useCallback,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -13,7 +12,6 @@ import React, {
   type ReactNode,
 } from 'react';
 import { Dimensions, Platform, StyleProp, View, ViewStyle } from 'react-native';
-import { useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';

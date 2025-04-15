@@ -1,6 +1,6 @@
 import UpliftingDeskAnimation from '../Animations/UpliftingDeskAnimation';
 import LoadingSkeleton from '../LoadingSkeleton';
-import ServiceRow from '../Settings/ServiceRow';
+import ServiceRow from '../Layout/ServiceRow';
 import { isNil } from 'lodash';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

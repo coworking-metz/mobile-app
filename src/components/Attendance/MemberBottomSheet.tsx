@@ -1,4 +1,4 @@
-import ServiceRow from '../Settings/ServiceRow';
+import ServiceRow from '../Layout/ServiceRow';
 import ZoomableImage from '../ZoomableImage';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';

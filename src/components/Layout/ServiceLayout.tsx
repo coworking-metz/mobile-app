@@ -1,5 +1,3 @@
-import { MIN_PADDING_BOTTOM } from '../AppBottomSheet';
-import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MenuAction, MenuView } from '@react-native-menu/menu';
 import { useRouter } from 'expo-router';
@@ -20,7 +18,9 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import AppBlurView from '@/components/AppBlurView';
+import { MIN_PADDING_BOTTOM } from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { theme } from '@/helpers/colors';
 
 const NAVIGATION_HEIGHT = 48;

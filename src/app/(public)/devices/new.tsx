@@ -11,7 +11,7 @@ import tw, { useDeviceContext } from 'twrnc';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTextField from '@/components/AppTextField';
-import ServiceLayout from '@/components/Settings/ServiceLayout';
+import ServiceLayout from '@/components/Layout/ServiceLayout';
 import {
   formatMacAddress,
   getDeviceTypeIcon,
