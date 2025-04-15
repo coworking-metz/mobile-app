@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import tw from 'twrnc';
 import AppBottomSheet, { type AppBottomSheetProps } from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import { type CalendarEvent } from '@/services/api/calendar';
 
 const PERIODS = ['past', 'day', 'week', 'month', null] as const;

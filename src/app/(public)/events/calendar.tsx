@@ -13,7 +13,7 @@ import PeriodBottomSheet, { type PeriodType } from '@/components/Events/PeriodBo
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import { SelectableChip } from '@/components/SelectableChip';
-import ServiceLayout from '@/components/Settings/ServiceLayout';
+import ServiceLayout from '@/components/Layout/ServiceLayout';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';

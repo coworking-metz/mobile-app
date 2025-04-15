@@ -20,7 +20,7 @@ import PtiPoulaillerClimateBottomSheet from '@/components/OnPremise/PtiPoulaille
 import PtiPoulaillerPlan from '@/components/OnPremise/PtiPoulaillerPlan';
 import UnlockDeckDoorBottomSheet from '@/components/OnPremise/UnlockDeckDoorBottomSheet';
 import { SelectableChip } from '@/components/SelectableChip';
-import ServiceLayout from '@/components/Settings/ServiceLayout';
+import ServiceLayout from '@/components/Layout/ServiceLayout';
 import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState, OnPremiseFlexDesk } from '@/services/api/services';
 

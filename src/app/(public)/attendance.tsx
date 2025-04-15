@@ -13,10 +13,9 @@ import MemberBottomSheet from '@/components/Attendance/MemberBottomSheet';
 import MemberCard from '@/components/Attendance/MemberCard';
 import ErrorChip from '@/components/ErrorChip';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
-import ServiceLayout from '@/components/Settings/ServiceLayout';
+import ServiceLayout from '@/components/Layout/ServiceLayout';
 import { isSilentError } from '@/helpers/error';
 import { ApiLocation, ApiMemberProfile, getCurrentMembers } from '@/services/api/members';
-import useAuthStore from '@/stores/auth';
 
 type AttendingLocation = ApiLocation | '';
 
@@ -36,7 +35,6 @@ type MembersGroupByLocation = {
 const Attendance = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
-  const authStore = useAuthStore();
   const [selectedMember, setSelectedMember] = useState<ApiMemberProfile | null>(null);
 
   const {

@@ -14,11 +14,15 @@ import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
 import ErrorChip from '@/components/ErrorChip';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import { formatAmount } from '@/helpers/currency';
 import { isSilentError } from '@/helpers/error';
 import i18n from '@/i18n';
-import { type ApiMemberSubscription } from '@/services/api/members';
+import {
+  getMemberProfile,
+  getMemberSubscriptions,
+  type ApiMemberSubscription,
+} from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
 const SubscriptionBottomSheet = ({
@@ -43,6 +47,12 @@ const SubscriptionBottomSheet = ({
 
   const { refetch: refetchSubscriptions, error: subscriptionsError } = useQuery({
     queryKey: ['members', user?.id, 'subscriptions'],
+    queryFn: ({ queryKey: [_, userId] }) => {
+      if (userId) {
+        return getMemberSubscriptions(userId as string);
+      }
+      throw new Error(t('account.profile.onFetch.missing'));
+    },
     enabled: false,
   });
 

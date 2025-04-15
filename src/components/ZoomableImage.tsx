@@ -46,12 +46,12 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
         {...(Platform.OS === 'android' && { navigationBarTranslucent: true })}>
         {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
         <StatusBar translucent style="light" />
-        <View style={tw`flex flex-col h-screen w-screen bg-black`}>
+        <View style={tw`flex flex-col h-full w-full bg-black`}>
           <View
             style={[
-              tw`absolute z-10 flex flex-row items-center justify-end w-full p-4`,
+              tw`absolute top-0 z-10 flex flex-row items-center justify-end w-full px-4`,
               {
-                top: Platform.OS === 'ios' && insets.top,
+                paddingTop: insets.top,
                 left: insets.left,
                 right: insets.right,
               },

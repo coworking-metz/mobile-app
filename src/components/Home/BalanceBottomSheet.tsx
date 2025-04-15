@@ -11,10 +11,11 @@ import AppBottomSheet from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import ErrorChip from '@/components/ErrorChip';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import { isSilentError } from '@/helpers/error';
 import {
   ApiMemberProfile,
+  getMemberProfile,
   getMemberTickets,
   isMemberBalanceInsufficient,
 } from '@/services/api/members';
@@ -34,11 +35,17 @@ const BalanceBottomSheet = ({
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
-  const user = useAuthStore((s) => s.user);
+  const authStore = useAuthStore();
   const hasBeenActive = useRef(false);
 
   const { data: memberProfile, refetch: refetchProfile } = useQuery<ApiMemberProfile>({
-    queryKey: ['members', user?.id],
+    queryKey: ['members', authStore.user?.id],
+    queryFn: ({ queryKey: [_, userId] }) => {
+      if (userId) {
+        return getMemberProfile(userId as string);
+      }
+      throw new Error(t('account.profile.onFetch.missing'));
+    },
     enabled: false,
   });
 
@@ -48,24 +55,24 @@ const BalanceBottomSheet = ({
     error: ticketsOrdersError,
     refetch: refetchTicketsOrders,
   } = useQuery({
-    queryKey: ['members', user?.id, 'tickets'],
+    queryKey: ['members', authStore.user?.id, 'tickets'],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberTickets(userId);
       }
-      throw new Error('Missing user id');
+      throw new Error(t('account.profile.onFetch.missing'));
     },
     retry: false,
     refetchOnMount: false,
-    enabled: !!user?.id,
+    enabled: !!authStore.user?.id,
   });
 
   useEffect(() => {
-    if (!!user?.id && hasBeenActive.current) {
+    if (!!authStore.user?.id && hasBeenActive.current) {
       refetchProfile();
       refetchTicketsOrders();
     }
-  }, [user, activeSince, refetchProfile]);
+  }, [authStore.user, activeSince, refetchProfile]);
 
   useEffect(() => {
     hasBeenActive.current = true;
@@ -160,7 +167,10 @@ const BalanceBottomSheet = ({
         asChild
         href="https://www.coworking-metz.fr/boutique/carnet-10-journees/"
         style={tw`mt-2`}>
-        <AppRoundedButton disabled={!user} style={tw`h-14 self-stretch`} suffixIcon="open-in-new">
+        <AppRoundedButton
+          disabled={!authStore.user}
+          style={tw`h-14 self-stretch`}
+          suffixIcon="open-in-new">
           <AppText style={tw`text-base text-black font-medium`}>
             {t('home.profile.tickets.add')}
           </AppText>

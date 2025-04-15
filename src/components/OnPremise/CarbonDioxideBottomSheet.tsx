@@ -16,7 +16,7 @@ import Animated, {
 import tw from 'twrnc';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import { CARBON_DIOXIDE_RANGES } from '@/services/api/services';
 
 const ANIMATION_DURATION = 1_000;

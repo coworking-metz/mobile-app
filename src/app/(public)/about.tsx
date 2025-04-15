@@ -6,8 +6,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
-import ServiceLayout from '@/components/Settings/ServiceLayout';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import { APP_ENVIRONMENT } from '@/services/environment';
 
 const About = () => {
@@ -56,14 +56,14 @@ const About = () => {
           {APP_ENVIRONMENT}
         </AppText>
       </ServiceRow>
-      <ServiceRow
-        withBottomDivider
-        label={t('about.technical.version.label')}
-        style={tw`px-3 mx-3`}>
-        <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
-          {version}
-        </AppText>
-      </ServiceRow>
+      <Link asChild href="/changes">
+        <ServiceRow
+          withBottomDivider
+          label={t('about.technical.version.label')}
+          style={tw`px-3 mx-3`}>
+          <AppText style={tw`text-base font-normal text-amber-500 text-right`}>{version}</AppText>
+        </ServiceRow>
+      </Link>
       <ServiceRow
         withBottomDivider
         label={t('about.technical.buildDate.label')}

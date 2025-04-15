@@ -14,8 +14,8 @@ import AppText from '@/components/AppText';
 import AppTextField from '@/components/AppTextField';
 import Divider from '@/components/Divider';
 import ErrorChip from '@/components/ErrorChip';
-import ServiceLayout from '@/components/Settings/ServiceLayout';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import {
   formatMacAddress,
   getDeviceTypeIcon,

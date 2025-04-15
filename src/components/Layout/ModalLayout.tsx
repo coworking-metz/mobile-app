@@ -1,6 +1,3 @@
-import AppBlurView from './AppBlurView';
-import AppText from './AppText';
-import LoadingSkeleton from './LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
 import React, { useMemo, type ReactNode } from 'react';
@@ -15,6 +12,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
+import AppBlurView from '@/components/AppBlurView';
+import AppText from '@/components/AppText';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { theme } from '@/helpers/colors';
 
 const MAX_HEADER_HEIGHT = 144;
@@ -120,7 +120,7 @@ const ModalLayout = ({
     const fontSize = interpolate(
       verticalScrollProgress.value,
       INTERPOLATE_INPUT_RANGE,
-      [24, 24, 16, 16],
+      [32, 32, 16, 16],
       Extrapolation.CLAMP,
     );
 
@@ -152,10 +152,11 @@ const ModalLayout = ({
 
       <Animated.View
         style={[
-          tw`absolute flex flex-row justify-between items-start w-full pt-3`,
+          tw`absolute flex flex-row justify-between items-start w-full pr-4`,
           {
-            paddingLeft: insets.left,
-            paddingRight: insets.right,
+            left: insets.left,
+            right: insets.right,
+            ...(Platform.OS !== 'ios' && { paddingTop: insets.top }),
           },
           headerStyle,
         ]}>
@@ -174,8 +175,7 @@ const ModalLayout = ({
         <View
           style={[
             tw`ml-4 mt-3 absolute z-10`,
-            { left: insets.left },
-            Platform.OS === 'android' && { top: insets.top, marginTop: 4 },
+            Platform.OS === 'android' && { marginTop: 12 - insets.top },
           ]}>
           {from ? (
             <MaterialCommunityIcons.Button
@@ -211,7 +211,10 @@ const ModalLayout = ({
         </Animated.View>
         <Animated.View
           entering={FadeInDown.duration(300).delay(150)}
-          style={[tw`grow-0 shrink-0 mr-4`]}>
+          style={[
+            tw`grow-0 shrink-0 mt-3`,
+            Platform.OS === 'android' && { marginTop: 12 - insets.top },
+          ]}>
           <MaterialCommunityIcons.Button
             backgroundColor="transparent"
             borderRadius={24}

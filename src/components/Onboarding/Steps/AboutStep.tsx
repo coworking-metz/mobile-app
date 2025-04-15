@@ -6,7 +6,7 @@ import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import MobileAppAnimation from '@/components/Animations/MobileAppAnimation';
 import AppText from '@/components/AppText';
-import ServiceRow from '@/components/Settings/ServiceRow';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import { getLanguageLabel, SYSTEM_LANGUAGE } from '@/i18n';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 

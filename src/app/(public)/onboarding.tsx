@@ -125,8 +125,12 @@ const Onboarding = () => {
           <View style={tw`relative h-full flex grow flex-col`}>
             <View
               style={[
-                tw`absolute z-10 flex flex-row items-center w-full justify-between px-4 pt-3`,
-                { paddingTop: insets.top },
+                tw`absolute top-0 z-10 flex flex-row items-center w-full justify-between px-4`,
+                {
+                  paddingTop: insets.top,
+                  left: insets.left,
+                  right: insets.right,
+                },
               ]}>
               <View pointerEvents={'none'} style={tw`flex flex-row ml-2`}>
                 {screens.map((_, index) => (
