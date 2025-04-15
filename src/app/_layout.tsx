@@ -185,13 +185,6 @@ const RootLayout = () => {
                           />
 
                           <Stack.Screen
-                            name="(public)/members/[memberId]"
-                            options={{
-                              headerShown: false,
-                            }}
-                          />
-
-                          <Stack.Screen
                             name="(public)/devices"
                             options={{
                               headerShown: false,

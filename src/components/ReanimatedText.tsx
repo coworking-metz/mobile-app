@@ -1,20 +1,14 @@
-import { matchFont } from '@shopify/react-native-skia';
 import React from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { Platform, StyleSheet, TextInput } from 'react-native';
 import Animated, { useAnimatedProps } from 'react-native-reanimated';
-import type { TextProps as RNTextProps, TextInputProps } from 'react-native';
+import type { TextProps as RNTextProps, StyleProp, TextInputProps, TextStyle } from 'react-native';
+import { getFamilyForWeight } from '@/helpers/text';
 
 /**
  * Taken from https://wcandillon.gitbook.io/redash/strings#less-than-retext-greater-than
  * TODO: should move over to https://docs.expo.dev/versions/latest/sdk/skia/
  * to animate text instead once this PR is merged https://github.com/Shopify/react-native-skia/pull/1717
  */
-
-const styles = StyleSheet.create({
-  baseStyle: {
-    color: 'black',
-  },
-});
 
 Animated.addWhitelistedNativeProps({ text: true });
 
@@ -27,6 +21,9 @@ const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 const ReanimatedText = (props: TextProps) => {
   const { style, text, ...rest } = props;
+  const flattenedStyle = StyleSheet.flatten<TextStyle>(style as StyleProp<TextStyle>);
+  const { fontWeight } = flattenedStyle || {};
+
   const animatedProps = useAnimatedProps(() => {
     return {
       text: text.value,
@@ -37,7 +34,13 @@ const ReanimatedText = (props: TextProps) => {
   return (
     <AnimatedTextInput
       editable={false}
-      style={[styles.baseStyle, style || undefined]}
+      style={[
+        // numbers are much nicer on Apple SF Pro font
+        Platform.OS !== 'ios' && {
+          fontFamily: getFamilyForWeight(fontWeight),
+        },
+        style || undefined,
+      ]}
       underlineColorAndroid="transparent"
       value={text.value}
       {...rest}

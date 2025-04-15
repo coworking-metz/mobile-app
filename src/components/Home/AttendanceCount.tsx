@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import React, { useEffect, useMemo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, type ViewProps } from 'react-native';
+import { Platform, View, type ViewProps } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, {
   Easing,
@@ -66,18 +66,17 @@ const AttendanceCount = ({
 
   return (
     <View style={[tw`flex flex-col justify-end h-32 w-full`, style]}>
-      <View style={tw`flex flex-row w-full items-end`}>
+      <View style={tw`flex flex-row w-full items-end mb-5`}>
         {loading ? (
           <View style={tw`mb-4`}>
             <LoadingSkeleton height={92} radius={16} width={92} />
           </View>
         ) : (
-          <View style={tw`flex flex-col h-24`}>
+          <View style={tw`flex flex-col justify-end h-24`}>
             <ReanimatedText
               style={[
                 tw`text-8xl leading-[6.5rem] font-bold text-slate-900 dark:text-gray-200 min-w-[3rem]`,
-                // Platform.OS === 'android' &&
-                // tw`text-8xl leading-[6.5rem] tracking-tighter -mb-6 -mt-3`,
+                Platform.OS === 'ios' ? tw`-mb-6` : tw`-mb-8`,
               ]}
               text={membersCount}
             />
@@ -85,7 +84,7 @@ const AttendanceCount = ({
         )}
         <AppText
           style={[
-            tw`text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-slate-400 h-12 mb-5`,
+            tw`text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-slate-400 h-12`,
           ]}>
           {t('home.people.capacity', { total: total })}
         </AppText>

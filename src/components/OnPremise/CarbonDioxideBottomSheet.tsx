@@ -149,8 +149,8 @@ const CarbonDioxideBottomSheet = ({
             ) : (
               <ReanimatedText
                 style={[
-                  tw`text-4xl font-semibold text-slate-900 dark:text-gray-200 -mb-1`,
-                  Platform.OS === 'android' && tw`-mb-2`,
+                  tw`text-4xl font-semibold text-slate-900 dark:text-gray-200 -mb-2`,
+                  Platform.OS === 'ios' && tw`-mb-1`,
                 ]}
                 text={formattedAnimatedLevel}
               />

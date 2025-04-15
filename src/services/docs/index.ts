@@ -61,7 +61,7 @@ export const getMarkdownStyles = (
   body: tw`text-gray-600 dark:text-gray-300`,
   heading1: tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`,
   heading2: tw`my-2 text-2xl font-semibold text-slate-900 dark:text-slate-200`,
-  heading3: tw`my-2 text-xl tracking-tight font-normal text-slate-800 dark:text-slate-200`,
+  heading3: tw`my-2 text-xl tracking-tight font-medium text-slate-800 dark:text-slate-200`,
   code_inline: tw`font-mono text-slate-900 dark:text-gray-200 bg-gray-200 dark:bg-gray-800`,
   link: tw`text-amber-500 no-underline`,
 });

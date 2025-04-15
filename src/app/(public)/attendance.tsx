@@ -12,8 +12,8 @@ import AppText from '@/components/AppText';
 import MemberBottomSheet from '@/components/Attendance/MemberBottomSheet';
 import MemberCard from '@/components/Attendance/MemberCard';
 import ErrorChip from '@/components/ErrorChip';
-import LoadingSkeleton from '@/components/LoadingSkeleton';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { isSilentError } from '@/helpers/error';
 import { ApiLocation, ApiMemberProfile, getCurrentMembers } from '@/services/api/members';
 
@@ -152,7 +152,10 @@ const Attendance = () => {
                       loading={isFetchingCurrentMembers}
                       member={member}
                       style={tw`grow-0`}
-                      onPress={() => setSelectedMember(member)}>
+                      onPress={() => setSelectedMember(member)}
+                      {...(currentMembersUpdatedAt && {
+                        since: dayjs(currentMembersUpdatedAt).toISOString(),
+                      })}>
                       <MaterialCommunityIcons
                         color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
                         iconStyle={{ height: 20, width: 20, marginRight: 0 }}
@@ -187,7 +190,13 @@ const Attendance = () => {
       </ServiceLayout>
 
       {selectedMember && (
-        <MemberBottomSheet member={selectedMember} onClose={() => setSelectedMember(null)} />
+        <MemberBottomSheet
+          member={selectedMember}
+          onClose={() => setSelectedMember(null)}
+          {...(currentMembersUpdatedAt && {
+            since: dayjs(currentMembersUpdatedAt).toISOString(),
+          })}
+        />
       )}
     </>
   );
