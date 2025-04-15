@@ -1,3 +1,4 @@
+import AppBlurView from './AppBlurView';
 import CarouselPaginationDots from './CarouselPaginationDots';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Image, type ImageProps } from 'expo-image';
@@ -49,13 +50,14 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
         <View style={tw`flex flex-col h-full w-full bg-black`}>
           <View
             style={[
-              tw`absolute top-0 z-10 flex flex-row items-center justify-end w-full px-4`,
+              tw`absolute top-0 z-10 flex flex-row items-center justify-end w-full px-4 pb-2`,
               {
                 paddingTop: insets.top,
                 left: insets.left,
                 right: insets.right,
               },
             ]}>
+            <AppBlurView intensity={64} style={tw`absolute inset-0`} tint="dark" />
             {sourcesCount > 1 && (
               <>
                 {/* fake a View with the same size as the close button to properly center pagination dots */}
@@ -69,7 +71,7 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
               </>
             )}
             <MaterialCommunityIcons.Button
-              backgroundColor="rgba(3,10,42,0.4)"
+              backgroundColor="transparent"
               borderRadius={24}
               color={tw.color('gray-200')}
               iconStyle={tw`mr-0`}

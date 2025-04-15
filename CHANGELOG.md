@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Improve scroll handling on home screen.
-- (Android only) Apply a new font everywhere.
+- Apply a new font everywhere.
 
 ### Fixed
 

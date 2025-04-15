@@ -38,6 +38,7 @@ const NoticeBottomSheet = () => {
 
   const onClose = useCallback(() => {
     if (mostRecentUndismissedNotice?.id) {
+      mostRecentUndismissedNotice.onClose?.();
       noticeStore.dismiss(mostRecentUndismissedNotice.id);
     }
   }, [noticeStore]);

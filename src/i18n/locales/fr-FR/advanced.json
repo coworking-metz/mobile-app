@@ -23,6 +23,9 @@
         "success": "Le cache a été vidé"
       }
     },
+    "hasBeenInvitedToReview": {
+      "label": "Cacher l'invitation à donner son avis"
+    },
     "hasLearnPullToRefresh": {
       "label": "Cacher l'indice du glisser pour rafraîchir"
     },

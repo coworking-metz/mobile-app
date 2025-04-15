@@ -11,6 +11,7 @@ export interface Notice {
   description?: string;
   type?: NoticeType;
   timeout?: number;
+  onClose?: () => void;
 }
 
 export interface StoreNotice extends Notice {

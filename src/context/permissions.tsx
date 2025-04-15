@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import PermissionsBottomSheet from '@/components/Settings/PermissionsBottomSheet';
 
 const PermissionsContext = createContext<() => void>(() => { });

@@ -1,0 +1,6 @@
+{
+  "onInvite": {
+    "confirm": "Yes",
+    "message": "Did you like it?"
+  }
+}
