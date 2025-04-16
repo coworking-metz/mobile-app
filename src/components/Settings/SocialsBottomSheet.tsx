@@ -32,6 +32,18 @@ const SocialsBottomSheet = ({
         <AppText style={tw`text-left text-base font-normal text-slate-500 w-full my-4 px-6`}>
           {t('settings.support.socials.description')}
         </AppText>
+        <Link
+          asChild
+          href="https://us6.campaign-archive.com/home/?u=4406f25257&id=82ab4f380b"
+          target="_blank">
+          <ServiceRow
+            withBottomDivider
+            label={t('settings.support.socials.newsletter.label')}
+            prefixIcon="email-newsletter"
+            style={tw`px-3 mx-3`}
+            suffixIcon="open-in-new"
+          />
+        </Link>
         {authStore.user?.id && (
           <Link
             asChild
