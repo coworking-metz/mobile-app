@@ -88,6 +88,8 @@ export default function HomeLayout({
   };
 
   const onRefreshComplete = useCallback(() => {
+    // set it to 1 to not trigger onMoveShouldSetPanResponder
+    // and let the user easely scroll down
     pullDownPosition.value = withTiming(1, { duration: 300 });
     completed.value = false;
   }, [pullDownPosition.value, completed.value]);

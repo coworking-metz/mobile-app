@@ -105,11 +105,7 @@ const AttendanceCount = ({
         )}
 
         {error && !isSilentError(error) ? (
-          <ErrorChip
-            error={error}
-            label={t('home.people.onFetch.fail')}
-            style={tw`ml-2 shrink grow basis-0`}
-          />
+          <ErrorChip error={error} label={t('home.people.onFetch.fail')} style={tw`ml-2 shrink`} />
         ) : memberPictures.length ? (
           <Animated.View style={tw`shrink-0 ml-auto`}>
             <Link asChild href="/attendance">
