@@ -31,7 +31,6 @@ const AppRoundedButton: ForwardRefRenderFunction<AppTouchableRef, AppRoundedButt
         style={[
           tw`flex flex-row justify-center items-center min-h-14 px-6 rounded-3xl relative overflow-hidden`,
           disabled && tw`bg-neutral-200 dark:bg-neutral-400 opacity-50`,
-          // : { backgroundColor: theme.miramonYellow },
           style,
         ]}>
         {!disabled && (

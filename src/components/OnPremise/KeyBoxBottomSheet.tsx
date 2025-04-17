@@ -92,7 +92,7 @@ const KeyBoxBottomSheet = ({
           <AppRoundedButton
             disabled={!user?.capabilities?.includes('KEYS_ACCESS')}
             loading={isLoading}
-            style={tw`mt-2`}
+            style={tw`mt-2 w-full max-w-md self-center`}
             onPress={onFetchCode}>
             <AppText style={tw`text-base font-medium`}>{t('onPremise.keyBox.fetch')}</AppText>
           </AppRoundedButton>

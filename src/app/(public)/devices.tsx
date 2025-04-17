@@ -107,7 +107,7 @@ const Devices = () => {
             {t('devices.empty.description')}
           </AppText>
           <AppRoundedButton
-            style={tw`h-14 w-full mt-4`}
+            style={tw`h-14 mt-4 w-full max-w-md self-center`}
             suffixIcon="plus"
             onPress={() => setAddingNewDevice(true)}>
             <AppText style={tw`text-base text-black font-medium`}>

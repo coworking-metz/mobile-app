@@ -69,7 +69,7 @@
           }
         ]
       },
-      "supportsTablet": false
+      "supportsTablet": true
     },
     "name": "Le Poulailler",
     "newArchEnabled": false,

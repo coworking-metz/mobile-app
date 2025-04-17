@@ -19,6 +19,7 @@ import { formatAmount } from '@/helpers/currency';
 import { isSilentError } from '@/helpers/error';
 import i18n from '@/i18n';
 import { getMemberSubscriptions, type ApiMemberSubscription } from '@/services/api/members';
+import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
 
 const SubscriptionBottomSheet = ({
@@ -296,9 +297,12 @@ const SubscriptionBottomSheet = ({
 
       <Link
         asChild
-        href="https://www.coworking-metz.fr/boutique/pass-resident/"
+        href={`${WORDPRESS_BASE_URL}/boutique/pass-resident/`}
         style={tw`mx-6 ${sortedSubscriptions.length > 1 ? 'mt-6' : 'mt-2'}`}>
-        <AppRoundedButton disabled={!user} style={tw`h-14 self-stretch`} suffixIcon="open-in-new">
+        <AppRoundedButton
+          disabled={!user}
+          style={tw`h-14 w-full max-w-md self-center`}
+          suffixIcon="open-in-new">
           <AppText style={tw`text-base font-medium text-black`}>
             {sortedSubscriptions.length
               ? t('home.profile.subscription.renew')

@@ -80,7 +80,7 @@ const LoginBottomSheet = ({
         <AppRoundedButton
           disabled={isLoading}
           loading={isLoading}
-          style={tw`self-stretch mt-6`}
+          style={tw`mt-6 w-full max-w-md self-center`}
           suffixIcon="open-in-new"
           onPress={onSubmit}>
           <AppText style={tw`text-base text-black font-medium`}>{t('actions.login')}</AppText>

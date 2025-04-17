@@ -31,7 +31,7 @@ const PermissionsBottomSheet = ({
           {t('privacy.permissions.ask.description')}
         </AppText>
         <AppRoundedButton
-          style={tw`self-stretch mt-6`}
+          style={tw`mt-6 w-full max-w-md self-center`}
           suffixIcon="open-in-new"
           onPress={Linking.openSettings}>
           <AppText style={tw`text-base text-black font-medium`}>

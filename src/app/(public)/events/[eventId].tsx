@@ -13,9 +13,9 @@ import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollin
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import ErrorState from '@/components/ErrorState';
-import LoadingSkeleton from '@/components/LoadingSkeleton';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import ZoomableImage from '@/components/ZoomableImage';
 import { useAppPermissions } from '@/context/permissions';
 import { isSilentError } from '@/helpers/error';
@@ -128,7 +128,9 @@ export default function CalendarEventPage() {
           {firstUrl ? (
             <View style={tw`mt-auto px-6 pt-6`}>
               <Link asChild href={firstUrl}>
-                <AppRoundedButton style={tw`min-h-14 self-stretch`} suffixIcon="open-in-new">
+                <AppRoundedButton
+                  style={tw`min-h-14 w-full max-w-md self-center`}
+                  suffixIcon="open-in-new">
                   <AppText style={tw`text-base font-medium text-black`}>
                     {t('actions.takeALook')}
                   </AppText>

@@ -184,7 +184,7 @@ const Onboarding = () => {
             <Animated.View
               entering={FadeInDown.duration(500).delay(1000)}
               style={tw`shrink-0 pt-1 px-6`}>
-              <AppRoundedButton style={tw`min-h-14`} onPress={onNext}>
+              <AppRoundedButton style={tw`min-h-14 w-full max-w-md self-center`} onPress={onNext}>
                 <AppText style={tw`text-base font-medium text-black`}>{t('actions.next')}</AppText>
               </AppRoundedButton>
             </Animated.View>

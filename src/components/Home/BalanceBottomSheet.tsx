@@ -19,6 +19,7 @@ import {
   getMemberTickets,
   isMemberBalanceInsufficient,
 } from '@/services/api/members';
+import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
 
 const BalanceBottomSheet = ({
@@ -163,13 +164,10 @@ const BalanceBottomSheet = ({
           </AppText>
         </View>
       )}
-      <Link
-        asChild
-        href="https://www.coworking-metz.fr/boutique/carnet-10-journees/"
-        style={tw`mt-2`}>
+      <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/carnet-10-journees/`} style={tw`mt-2`}>
         <AppRoundedButton
           disabled={!authStore.user}
-          style={tw`h-14 self-stretch`}
+          style={tw`h-14 w-full max-w-md self-center`}
           suffixIcon="open-in-new">
           <AppText style={tw`text-base text-black font-medium`}>
             {t('home.profile.tickets.add')}
