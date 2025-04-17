@@ -18,11 +18,7 @@ import ServiceRow from '@/components/Layout/ServiceRow';
 import { formatAmount } from '@/helpers/currency';
 import { isSilentError } from '@/helpers/error';
 import i18n from '@/i18n';
-import {
-  getMemberProfile,
-  getMemberSubscriptions,
-  type ApiMemberSubscription,
-} from '@/services/api/members';
+import { getMemberSubscriptions, type ApiMemberSubscription } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
 const SubscriptionBottomSheet = ({

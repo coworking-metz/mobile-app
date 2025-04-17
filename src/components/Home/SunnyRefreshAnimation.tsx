@@ -47,7 +47,7 @@ const SunnyRefreshAnimation = ({
   }, [onEnd]);
 
   useDerivedValue(() => {
-    if (pullProgress?.get()) {
+    if (pullProgress?.get() && pullProgress.get() > 1) {
       runOnJS(setPullProgress)(pullProgress.get());
     } else {
       runOnJS(onReset)();
