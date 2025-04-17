@@ -11,7 +11,14 @@ import React, {
   useState,
   type ReactNode,
 } from 'react';
-import { Dimensions, Platform, StyleProp, View, ViewStyle } from 'react-native';
+import {
+  Dimensions,
+  Platform,
+  StyleProp,
+  useWindowDimensions,
+  View,
+  ViewStyle,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
@@ -19,6 +26,7 @@ import tw from 'twrnc';
 const HANDLE_HEIGHT = 8;
 export const MIN_PADDING_BOTTOM = 24;
 const MIN_BACKDROP_HEIGHT = 64;
+const MAX_WIDTH = 512;
 
 export type AppBottomSheetProps = Omit<BottomSheetProps, 'snapPoints'> & {
   children?: ReactNode;
@@ -35,6 +43,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
   { children, contentContainerStyle, style, ...props },
   disposable,
 ) => {
+  const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [contentHeight, setContentHeight] = useState(0);
@@ -89,7 +98,11 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
       onAnimate={(_, toIndex) => setClosing(toIndex === -1)}
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}
       {...props}
-      style={[tw`mx-1 overflow-hidden`, style]}>
+      style={[
+        tw`mx-1 overflow-hidden`,
+        width > MAX_WIDTH && tw`w-[${MAX_WIDTH}px] ml-[${width / 2 - MAX_WIDTH / 2}px]`,
+        style,
+      ]}>
       <SquircleView
         cornerSmoothing={100} // 0-100
         preserveSmoothing={true} // false matches figma, true has more rounding

@@ -43,13 +43,16 @@ const ReviewBottomSheet = ({
         <AppText style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
           {t('settings.support.review.description')}
         </AppText>
-        <AppRoundedButton loading={isLoading} style={tw`self-stretch mt-6`} onPress={onReview}>
+        <AppRoundedButton
+          loading={isLoading}
+          style={tw`mt-6 w-full max-w-md self-center`}
+          onPress={onReview}>
           <AppText style={tw`text-base text-black font-medium`}>
             {t('settings.support.review.rateOnStore')}
           </AppText>
         </AppRoundedButton>
         <Link asChild href={`https://g.page/r/Cc8iG0WZSUcoEAE/review`}>
-          <AppTextButton style={tw`mt-4`} suffixIcon="open-in-new">
+          <AppTextButton style={tw`mt-4 w-full max-w-md self-center`} suffixIcon="open-in-new">
             <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
               {t('settings.support.review.rateOnGoogleMaps')}
             </AppText>

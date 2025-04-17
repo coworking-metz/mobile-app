@@ -255,7 +255,7 @@ const Settings = () => {
 
         <Animated.ScrollView
           contentContainerStyle={[
-            tw`flex flex-col relative`,
+            tw`flex flex-col relative grow`,
             {
               paddingTop: NAVIGATION_HEIGHT + PICTURE_SIZE + insets.top,
               paddingBottom: insets.bottom,
@@ -282,7 +282,7 @@ const Settings = () => {
 
           <View
             style={[
-              tw`flex flex-col w-full grow py-6 bg-gray-50 dark:bg-zinc-900`,
+              tw`flex flex-col w-full py-6 bg-gray-50 dark:bg-zinc-900`,
               {
                 paddingLeft: insets.left,
                 paddingRight: insets.right,
@@ -322,6 +322,7 @@ const Settings = () => {
               minimumSquares={!!authStore.user?.id ? 45 : 144}
               nonCompliantActivity={nonCompliantActivity}
               selectedDate={selectedPresence?.date}
+              style={tw`grow-0`}
               withDescription={!!profile}
               onDateSelect={onDateSelect}
             />
@@ -426,7 +427,9 @@ const Settings = () => {
           {/* transparent view to fake a touch on the footer link, should mimic as much as possible the footer */}
           <Link asChild href="/about">
             <TouchableNativeFeedback>
-              <View style={[tw`self-center`, { height: footerHeight, width: footerWidth }]} />
+              <View
+                style={[tw`mt-auto self-center`, { height: footerHeight, width: footerWidth }]}
+              />
             </TouchableNativeFeedback>
           </Link>
         </Animated.ScrollView>

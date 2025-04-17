@@ -52,7 +52,9 @@ const ContactBottomSheet = ({
           {t('settings.support.contact.description')}
         </AppText>
         <Link asChild href={`${WORDPRESS_BASE_URL}#ouvrir-brevo`}>
-          <AppRoundedButton style={tw`h-14 self-stretch mt-6`} suffixIcon="chat-processing-outline">
+          <AppRoundedButton
+            style={tw`h-14 mt-6 w-full max-w-md self-center`}
+            suffixIcon="chat-processing-outline">
             <AppText style={tw`text-base text-black font-medium`}>
               {t('settings.support.contact.conversations.label')}
             </AppText>
@@ -60,7 +62,7 @@ const ContactBottomSheet = ({
         </Link>
         <AppTextButton
           loading={isContactingTeam}
-          style={tw`mt-4`}
+          style={tw`mt-4 w-full max-w-md self-center`}
           suffixIcon="email-outline"
           onPress={onContactTeamByEmail}>
           <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>

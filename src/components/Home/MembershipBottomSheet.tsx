@@ -15,6 +15,7 @@ import ServiceRow from '@/components/Layout/ServiceRow';
 import { theme } from '@/helpers/colors';
 
 import { getMemberProfile } from '@/services/api/members';
+import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
 
 const MembershipBottomSheet = ({
@@ -164,11 +165,11 @@ const MembershipBottomSheet = ({
       )}
 
       {!valid && (
-        <Link
-          asChild
-          href="https://www.coworking-metz.fr/boutique/carte-adherent/"
-          style={tw`mt-2`}>
-          <AppRoundedButton disabled={!user} style={tw`h-14 self-stretch`} suffixIcon="open-in-new">
+        <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/carte-adherent/`} style={tw`mt-2`}>
+          <AppRoundedButton
+            disabled={!user}
+            style={tw`h-14 w-full max-w-md self-center`}
+            suffixIcon="open-in-new">
             <AppText style={tw`text-base font-medium text-black`}>
               {lastMembershipYear
                 ? t('home.profile.membership.renew', { year: dayjs().year() })

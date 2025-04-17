@@ -1,17 +1,17 @@
-import AppText from '@/components/AppText';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, type ViewProps } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
+import AppText from '@/components/AppText';
 
 const AppFooter = ({ style, ...props }: ViewProps) => {
   useDeviceContext(tw);
   const { t } = useTranslation();
 
   return (
-    <View style={[tw`flex flex-col gap-1 w-full`, style]} {...props}>
+    <View style={[tw`flex flex-col gap-1`, style]} {...props}>
       <AppText style={tw`font-normal text-slate-500 text-center`}>
         {t('footer.copyright', { year: dayjs().year() })}
       </AppText>

@@ -201,7 +201,7 @@ const DeviceDetail = () => {
               </AppText>
               <AppRoundedButton
                 loading={isDeleting}
-                style={tw`h-14`}
+                style={tw`h-14 w-full max-w-md self-center`}
                 suffixIcon="trash-can-outline"
                 onPress={onDelete}>
                 <AppText style={tw`text-base text-black font-medium`}>
@@ -301,7 +301,6 @@ const DeviceDetail = () => {
           label={t('devices.detail.location.label')}
           prefixIcon="map-marker-outline"
           style={tw`px-3 mb-3`}
-          suffixIcon={device?.location ? 'chevron-right' : null}
           onPress={() =>
             device?.location ? router.push(`/on-premise?location=${device.location}`) : null
           }>
@@ -321,7 +320,7 @@ const DeviceDetail = () => {
           <AppRoundedButton
             disabled={!device || isSubmitting}
             loading={isSubmitting}
-            style={tw`min-h-14`}
+            style={tw`min-h-14 w-full max-w-md self-center`}
             suffixIcon="check"
             onPress={onSubmit}>
             <AppText style={tw`text-base font-medium text-black`}>{t('actions.apply')}</AppText>

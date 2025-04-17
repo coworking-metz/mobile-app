@@ -337,7 +337,10 @@ const DetectDeviceBottomSheet = ({
           </AppText>
         </ReadMore>
         <ReachableService pending={isReachingService} reachable={isServiceReachable} />
-        <AppRoundedButton disabled={isAnimating} style={tw`self-stretch mt-2`} onPress={onStart}>
+        <AppRoundedButton
+          disabled={isAnimating}
+          style={tw`mt-2 w-full max-w-md self-center`}
+          onPress={onStart}>
           <AppText style={tw`text-base text-black font-medium`}>
             {t('devices.add.detect.start')}
           </AppText>
