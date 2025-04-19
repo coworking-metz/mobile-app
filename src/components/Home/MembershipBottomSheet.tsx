@@ -64,7 +64,7 @@ const MembershipBottomSheet = ({
       </View>
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
-        {t('home.profile.membership.label')}
+        {t('home.profile.membership.title')}
       </AppText>
       <AppText style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
         {t('home.profile.membership.description')}

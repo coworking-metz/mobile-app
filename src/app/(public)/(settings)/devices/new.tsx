@@ -111,7 +111,7 @@ const NewDevice = () => {
 
   return (
     <ServiceLayout contentStyle={tw`pt-6`} title={t('devices.new.title')}>
-      <View style={tw`flex flex-col grow px-6`}>
+      <View style={tw`flex flex-col grow px-6 w-full max-w-xl mx-auto`}>
         <AppTextField
           ref={nameField}
           enableErrors

@@ -62,7 +62,7 @@
         }
       },
       "since": "depuis le {{date}}",
-      "title": "Ma présence"
+      "title": "Présence"
     }
   },
   "roles": {
@@ -72,6 +72,10 @@
       "external": "Externe",
       "guest": "Visiteur⸱se"
     }
+  },
+  "root": {
+    "description": "C'est ici que la magie opère.",
+    "title": "Abracadabra !"
   },
   "support": {
     "contact": {

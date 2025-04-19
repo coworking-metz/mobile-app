@@ -41,7 +41,7 @@ const PtiPoulaillerPlan = ({
   return (
     <View
       style={[
-        tw`flex flex-col grow items-center justify-center w-full relative`,
+        tw`flex flex-col items-center justify-center w-full relative`,
         !!imageWidth && !!imageHeight && { aspectRatio: imageWidth / imageHeight },
       ]}>
       {imageHeight && imageWidth ? (

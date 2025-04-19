@@ -75,22 +75,16 @@ const SubscriptionBottomSheet = ({
         const startMonthDaysCount = start.endOf('month').diff(start, 'day');
         const endMonthDaysCount = end.diff(end.startOf('month'), 'day');
         if (startMonthDaysCount >= 20) {
-          return t('home.profile.subscription.label.previous', {
-            month: now.isSame(start, 'year') ? start.format('MMMM') : start.format('MMMM YYYY'),
-          });
+          return now.isSame(start, 'year') ? start.format('MMMM') : start.format('MMMM YYYY');
         } else if (endMonthDaysCount >= 20) {
-          return t('home.profile.subscription.label.previous', {
-            month: now.isSame(end, 'year') ? end.format('MMMM') : end.format('MMMM YYYY'),
-          });
+          return now.isSame(end, 'year') ? end.format('MMMM') : end.format('MMMM YYYY');
         } else {
-          return t('home.profile.subscription.label.previous', {
-            month: [
-              `${start.format('MMMM')} - ${end.format('MMMM')}`,
-              !now.isSame(end, 'year') && end.format('YYYY'),
-            ]
-              .filter(Boolean)
-              .join(' '),
-          });
+          return [
+            `${start.format('MMMM')} - ${end.format('MMMM')}`,
+            !now.isSame(end, 'year') && end.format('YYYY'),
+          ]
+            .filter(Boolean)
+            .join(' ');
         }
       }
 
@@ -120,11 +114,20 @@ const SubscriptionBottomSheet = ({
     <AppBottomSheet style={style} onClose={onClose}>
       <View style={tw`mx-6`}>
         <CalendarAnimation style={tw`w-full h-40 mx-auto`} />
+        <AppText
+          numberOfLines={2}
+          style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
+          {t('home.profile.subscription.title')}
+        </AppText>
+        <AppText style={tw`text-left text-base font-normal text-slate-500 mt-4 mb-2`}>
+          {t('home.profile.subscription.description')}
+        </AppText>
       </View>
+
       {sortedSubscriptions.length ? (
         <>
           <View
-            style={tw`self-start w-full h-[28rem]`}
+            style={tw`self-start w-full h-[17rem]`}
             onLayout={({ nativeEvent }: LayoutChangeEvent) =>
               setCarouselWidth(nativeEvent.layout.width)
             }>
@@ -138,44 +141,27 @@ const SubscriptionBottomSheet = ({
                 renderItem={({ item }) => (
                   <View style={[tw`flex flex-col px-6 grow pb-3`, { width: carouselWidth }]}>
                     <AppText
-                      numberOfLines={2}
-                      style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 my-auto`}>
+                      style={tw`text-left text-sm font-normal uppercase text-slate-500 mt-1`}>
                       {getLabel(item)}
                     </AppText>
-                    <AppText
-                      style={tw`text-left text-base font-normal text-slate-500 w-full mt-4 mb-2`}>
-                      {t('home.profile.subscription.description')}
-                    </AppText>
                     <ServiceRow
                       withBottomDivider
-                      label={t('home.profile.subscription.status.startedOn')}
+                      label={t('home.profile.subscription.period.label')}
                       style={tw`w-full px-0`}>
                       {loading ? (
                         <LoadingSkeleton height={24} width={128} />
                       ) : (
                         <AppText
+                          numberOfLines={2}
                           style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
-                          {dayjs(item.started).format('dddd ll')}
+                          {t('home.profile.subscription.period.value', {
+                            started: dayjs(item.started).format('dddd ll'),
+                            ended: dayjs(item.ended).format('dddd ll'),
+                          })}
                         </AppText>
                       )}
                     </ServiceRow>
-                    <ServiceRow
-                      withBottomDivider
-                      label={
-                        dayjs().startOf('day').isAfter(item.ended)
-                          ? t('home.profile.subscription.status.expiredSince')
-                          : t('home.profile.subscription.status.ongoingUntil')
-                      }
-                      style={tw`w-full px-0`}>
-                      {loading ? (
-                        <LoadingSkeleton height={24} width={128} />
-                      ) : (
-                        <AppText
-                          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
-                          {dayjs(item.ended).format('dddd ll')}
-                        </AppText>
-                      )}
-                    </ServiceRow>
+
                     <ServiceRow
                       withBottomDivider
                       description={t('home.profile.subscription.attendance.description')}
@@ -276,17 +262,7 @@ const SubscriptionBottomSheet = ({
             <></>
           )}
         </>
-      ) : (
-        <View style={[tw`flex flex-col px-6`]}>
-          <AppText
-            style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
-            {t('home.profile.subscription.label.none')}
-          </AppText>
-          <AppText style={tw`text-left text-base font-normal text-slate-500 w-full mt-4 mb-2`}>
-            {t('home.profile.subscription.description')}
-          </AppText>
-        </View>
-      )}
+      ) : null}
       {subscriptionsError && !isSilentError(subscriptionsError) ? (
         <ErrorChip
           error={subscriptionsError}
@@ -295,21 +271,20 @@ const SubscriptionBottomSheet = ({
         />
       ) : null}
 
-      <Link
-        asChild
-        href={`${WORDPRESS_BASE_URL}/boutique/pass-resident/`}
-        style={tw`mx-6 ${sortedSubscriptions.length > 1 ? 'mt-6' : 'mt-2'}`}>
-        <AppRoundedButton
-          disabled={!user}
-          style={tw`h-14 w-full max-w-md self-center`}
-          suffixIcon="open-in-new">
-          <AppText style={tw`text-base font-medium text-black`}>
-            {sortedSubscriptions.length
-              ? t('home.profile.subscription.renew')
-              : t('home.profile.subscription.get')}
-          </AppText>
-        </AppRoundedButton>
-      </Link>
+      <View style={[tw`mx-6 mt-2`, sortedSubscriptions.length > 1 && tw`mt-6`]}>
+        <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/pass-resident/`}>
+          <AppRoundedButton
+            disabled={!user}
+            style={tw`h-14 w-full max-w-md self-center`}
+            suffixIcon="open-in-new">
+            <AppText style={tw`text-base font-medium text-black`}>
+              {sortedSubscriptions.length
+                ? t('home.profile.subscription.renew')
+                : t('home.profile.subscription.get')}
+            </AppText>
+          </AppRoundedButton>
+        </Link>
+      </View>
     </AppBottomSheet>
   );
 };

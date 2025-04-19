@@ -96,7 +96,7 @@
           "label": "Member"
         }
       },
-      "label": "Membership Card",
+      "label": "Membership\ncard",
       "renew": "Renew for {{year}}",
       "required": "Without this membership, you will not be able to access the shared office location.",
       "status": {
@@ -105,7 +105,8 @@
         "none": "None",
         "toRenew": "To renew",
         "valid": "Valid for {{year}}"
-      }
+      },
+      "title": "Membership card"
     },
     "onFetch": {
       "fail": "Unable to fetch profile"
@@ -134,11 +135,14 @@
         "expireSoon": "Subscription valid until",
         "expired": "Expired subscription",
         "next": "Next subscription",
-        "none": "Subscription",
-        "previous": "{{month}}\nsubscription"
+        "none": "Subscription"
       },
       "onFetch": {
         "fail": "Unable to fetch subscriptions"
+      },
+      "period": {
+        "label": "Period",
+        "value": "from {{started}}\nto {{ended}}"
       },
       "renew": "Renew",
       "savings": {
@@ -151,7 +155,8 @@
         "none": "None",
         "ongoingUntil": "Valid until",
         "startedOn": "Started on"
-      }
+      },
+      "title": "Subscription"
     },
     "tickets": {
       "add": "Add",

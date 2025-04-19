@@ -11,14 +11,7 @@ import React, {
   useState,
   type ReactNode,
 } from 'react';
-import {
-  Dimensions,
-  Platform,
-  StyleProp,
-  useWindowDimensions,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { Dimensions, LayoutChangeEvent, Platform, StyleProp, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
@@ -26,7 +19,7 @@ import tw from 'twrnc';
 const HANDLE_HEIGHT = 8;
 export const MIN_PADDING_BOTTOM = 24;
 const MIN_BACKDROP_HEIGHT = 64;
-const MAX_WIDTH = 512;
+const MAX_WIDTH = 448;
 
 export type AppBottomSheetProps = Omit<BottomSheetProps, 'snapPoints'> & {
   children?: ReactNode;
@@ -43,10 +36,10 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
   { children, contentContainerStyle, style, ...props },
   disposable,
 ) => {
-  const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [contentHeight, setContentHeight] = useState(0);
+  const [parentWidth, setParentWidth] = useState(0);
   const [isClosing, setClosing] = useState(false);
 
   const visibleHeight = useMemo(
@@ -85,6 +78,9 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
       backdropComponent={(backdropProps) => (
         <AppBottomSheetBackdrop
           {...backdropProps}
+          onLayout={({ nativeEvent }: LayoutChangeEvent) => {
+            setParentWidth(nativeEvent.layout.width);
+          }}
           onTouch={() => bottomSheetRef?.current?.close()}
         />
       )}
@@ -100,7 +96,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
       {...props}
       style={[
         tw`mx-1 overflow-hidden`,
-        width > MAX_WIDTH && tw`w-[${MAX_WIDTH}px] ml-[${width / 2 - MAX_WIDTH / 2}px]`,
+        parentWidth > MAX_WIDTH && tw`w-[${MAX_WIDTH}px] ml-[${parentWidth / 2 - MAX_WIDTH / 2}px]`,
         style,
       ]}>
       <SquircleView

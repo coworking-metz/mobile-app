@@ -37,6 +37,10 @@
     },
     "slideToUnlock": "Slide to unlock"
   },
+  "empty": {
+    "description": "What do you want to manage if there is nothing to do?",
+    "title": "Chaos"
+  },
   "flexDesk": {
     "description": "This sit-stand desk allows you to work sitting or standing, depending on your preferences.\nIt is available without reservation, with a real-time status to check if it is occupied or free.",
     "label": "Sit-stand desk",

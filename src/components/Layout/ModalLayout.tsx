@@ -187,7 +187,7 @@ const ModalLayout = ({
               size={32}
               style={tw`p-1 shrink-0`}
               underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
-              onPress={() => (canGoBack ? router.back() : router.replace(from))}
+              onPress={() => (canGoBack ? router.back() : router.dismissTo(from))}
             />
           ) : (
             <></>

@@ -1,6 +1,7 @@
 import SpaceshipRefreshAnimation from './SpaceshipRefreshAnimation';
 import * as Haptics from 'expo-haptics';
 import { useNavigation } from 'expo-router';
+import { SquircleView } from 'expo-squircle-view';
 import React, { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
   PanResponder,
@@ -22,6 +23,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import SunnyRefreshAnimation from '@/components/Home/SunnyRefreshAnimation';
+import useAppScreen from '@/helpers/screen';
 import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
 import useSettingsStore from '@/stores/settings';
 
@@ -43,9 +45,9 @@ export default function HomeLayout({
 
   const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
-
   const refreshing = useSharedValue(false);
   const completed = useSharedValue(false);
+  const { isWide } = useAppScreen();
   const [isRefresing, setRefreshing] = useState(false);
   const settingsStore = useSettingsStore();
   const navigation = useNavigation();
@@ -163,28 +165,29 @@ export default function HomeLayout({
         style,
       ]}>
       {enableAnimations ? (
-        <Animated.View
-          style={[
-            tw`absolute top-0 inset-x-0 w-full bg-gray-200 dark:bg-slate-800 overflow-hidden`,
-            refreshAnimationStyles,
-          ]}>
-          {colorScheme === 'light' ? (
-            <SunnyRefreshAnimation
-              completed={completed}
-              pullProgress={refreshProgress}
-              released={refreshing}
-              style={tw`w-full h-full`}
-              onEnd={onRefreshComplete}
-            />
-          ) : (
-            <SpaceshipRefreshAnimation
-              completed={completed}
-              pullProgress={refreshProgress}
-              released={refreshing}
-              style={tw`w-full h-full`}
-              onEnd={onRefreshComplete}
-            />
-          )}
+        <Animated.View style={[tw`absolute top-0 inset-x-0`, refreshAnimationStyles]}>
+          <SquircleView
+            cornerSmoothing={100} // 0-100
+            preserveSmoothing={true} // false matches figma, true has more rounding
+            style={[tw`overflow-hidden w-full`, isWide && tw`max-w-sm mx-auto rounded-b-[3.5rem]`]}>
+            {colorScheme === 'light' ? (
+              <SunnyRefreshAnimation
+                completed={completed}
+                pullProgress={refreshProgress}
+                released={refreshing}
+                style={tw`w-full h-full`}
+                onEnd={onRefreshComplete}
+              />
+            ) : (
+              <SpaceshipRefreshAnimation
+                completed={completed}
+                pullProgress={refreshProgress}
+                released={refreshing}
+                style={tw`w-full h-full`}
+                onEnd={onRefreshComplete}
+              />
+            )}
+          </SquircleView>
         </Animated.View>
       ) : null}
 
@@ -214,7 +217,7 @@ export default function HomeLayout({
           onScroll={scrollHandler}>
           <Animated.View
             style={[
-              tw`flex flex-col items-start justify-start bg-gray-100 dark:bg-black`,
+              tw`flex flex-col items-start justify-start bg-gray-100 dark:bg-black w-full max-w-2xl mx-auto`,
               { paddingBottom: insets.top + insets.bottom + 32 },
               enableAnimations && pullDownStyles,
             ]}>

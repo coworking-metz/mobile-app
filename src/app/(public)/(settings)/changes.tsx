@@ -1,4 +1,4 @@
-import Changelog from '../../../CHANGELOG.md';
+import Changelog from '../../../../CHANGELOG.md';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import tw, { useDeviceContext } from 'twrnc';

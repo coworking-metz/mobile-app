@@ -36,6 +36,8 @@ const ServiceLayout = ({
   header,
   footer,
   children,
+  from,
+  withBackButton = true,
   style,
   contentStyle,
   onRefresh,
@@ -49,6 +51,8 @@ const ServiceLayout = ({
   header?: ReactNode;
   footer?: ReactNode;
   children: ReactNode;
+  from?: string;
+  withBackButton?: boolean;
   style?: StyleProp<ViewStyle>;
   contentStyle?: StyleProp<ViewStyle>;
   onRefresh?: () => Promise<unknown>;
@@ -202,17 +206,25 @@ const ServiceLayout = ({
           />
         </Animated.View>
         <View style={tw`flex flex-row shrink-0 min-w-10 overflow-visible basis-0 grow ml-4`}>
-          <MaterialCommunityIcons.Button
-            backgroundColor="transparent"
-            borderRadius={24}
-            color={tw.prefixMatch('dark') ? tw.color('gray-500') : theme.charlestonGreen}
-            iconStyle={{ marginRight: 0 }}
-            name="arrow-left"
-            size={32}
-            style={tw`p-1`}
-            underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
-            onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
-          />
+          {withBackButton && (
+            <MaterialCommunityIcons.Button
+              backgroundColor="transparent"
+              borderRadius={24}
+              color={tw.prefixMatch('dark') ? tw.color('gray-500') : theme.charlestonGreen}
+              iconStyle={{ marginRight: 0 }}
+              name="arrow-left"
+              size={32}
+              style={tw`p-1`}
+              underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
+              onPress={() =>
+                from
+                  ? router.dismissTo(from)
+                  : router.canGoBack()
+                    ? router.back()
+                    : router.replace('/')
+              }
+            />
+          )}
         </View>
         <Animated.View style={[tw`flex flex-row justify-center shrink grow`, titleStyle]}>
           {loading ? (

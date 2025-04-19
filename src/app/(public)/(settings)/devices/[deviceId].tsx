@@ -161,7 +161,7 @@ const DeviceDetail = () => {
   useEffect(() => {
     if (device) {
       setName(device.name ?? '');
-      setMacAddress(device.macAddress);
+      setMacAddress(formatMacAddress(device.macAddress));
       if (DEVICE_TYPES.includes(device.type as DeviceType)) {
         setType(device.type as DeviceType);
       } else {
@@ -215,7 +215,7 @@ const DeviceDetail = () => {
       loading={isPendingDevice}
       title={device?.name ?? device?.macAddress ?? ''}
       onRefresh={refetchDevice}>
-      <View style={tw`flex flex-col grow px-3`}>
+      <View style={tw`flex flex-col grow px-3 w-full max-w-xl mx-auto`}>
         {deviceError && (
           <ErrorChip error={deviceError} label={t('devices.onFetch.fail')} style={tw`mb-6 mx-3`} />
         )}
@@ -302,7 +302,9 @@ const DeviceDetail = () => {
           prefixIcon="map-marker-outline"
           style={tw`px-3 mb-3`}
           onPress={() =>
-            device?.location ? router.push(`/on-premise?location=${device.location}`) : null
+            device?.location
+              ? router.push({ pathname: '/on-premise', params: { location: device.location } })
+              : null
           }>
           {device?.location ? (
             <AppText style={tw`text-base font-normal text-amber-500 text-right`}>

@@ -30,6 +30,7 @@ export const isLocallyAdministeredMacAddress = (macAddress: string): boolean => 
 export const formatMacAddress = (macAddress: string): string => {
   return (
     macAddress
+      .trim()
       .toUpperCase()
       .replace(/[^\d|A-Z]/g, '')
       .match(/.{1,2}/g) || []

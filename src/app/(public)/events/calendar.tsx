@@ -12,8 +12,8 @@ import ErrorState from '@/components/ErrorState';
 import PeriodBottomSheet, { type PeriodType } from '@/components/Events/PeriodBottomSheet';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
-import { SelectableChip } from '@/components/SelectableChip';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
+import { SelectableChip } from '@/components/SelectableChip';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
@@ -21,7 +21,7 @@ import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 const SORTS = ['descending', 'ascending'] as const;
 export type SortType = (typeof SORTS)[number];
 
-const Calendar = () => {
+const Calendar = ({ from }: { from?: string }) => {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const { period } = useLocalSearchParams<{ period?: string }>();
@@ -96,6 +96,7 @@ const Calendar = () => {
     <>
       <ServiceLayout
         contentStyle={tw`py-4`}
+        from={from}
         title={t('events.calendar.title')}
         onRefresh={refetchCalendarEvents}>
         <ScrollView
