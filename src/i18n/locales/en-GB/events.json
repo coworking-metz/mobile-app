@@ -42,6 +42,10 @@
       "label": "Previously"
     }
   },
+  "root": {
+    "description": "All upcoming and past events.",
+    "title": "Events calendar"
+  },
   "sort": {
     "label": "Sort",
     "options": {

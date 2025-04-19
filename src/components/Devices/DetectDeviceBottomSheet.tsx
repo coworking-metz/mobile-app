@@ -20,7 +20,6 @@ import AppText from '@/components/AppText';
 import { useAppReview } from '@/context/review';
 import { AppErrorCode, handleSilentError, useErrorNotice } from '@/helpers/error';
 import { log } from '@/helpers/logger';
-import { settings } from '@/i18n/locales/en-GB';
 import {
   addMemberDevice,
   ApiMemberDevice,
@@ -204,6 +203,7 @@ const DetectDeviceBottomSheet = ({
   const resetAnimation = useCallback(() => {
     setLoopAnimation(false);
     setEndAnimation(false);
+    animation.current?.play(0, 0);
     animation.current?.reset();
   }, [animation]);
 
@@ -347,7 +347,13 @@ const DetectDeviceBottomSheet = ({
         </AppRoundedButton>
         <Link
           asChild
-          href={`/devices/new?${[name && `name=${name}`, macAddress && `macAddress=${macAddress}`].filter(Boolean).join('&')}`}>
+          href={{
+            pathname: '/devices/new',
+            params: {
+              name,
+              macAddress,
+            },
+          }}>
           <AppTextButton onPress={() => bottomSheetRef.current?.close()}>
             <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
               {t('devices.add.manual')}

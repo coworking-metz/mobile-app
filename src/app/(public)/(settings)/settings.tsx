@@ -2,10 +2,16 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
-import { Link, useRouter } from 'expo-router';
+import { Link, usePathname, useRouter } from 'expo-router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TouchableNativeFeedback, View, type LayoutChangeEvent } from 'react-native';
+import {
+  StyleProp,
+  TouchableNativeFeedback,
+  View,
+  ViewStyle,
+  type LayoutChangeEvent,
+} from 'react-native';
 import Animated, {
   FadeInLeft,
   FadeInRight,
@@ -22,25 +28,20 @@ import ErrorChip from '@/components/ErrorChip';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import AppFooter from '@/components/Settings/AppFooter';
-import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
-import PresenceBottomSheet from '@/components/Settings/PresenceBottomSheet';
 import PresenceGraph from '@/components/Settings/PresenceGraph';
-import ReviewBottomSheet from '@/components/Settings/ReviewBottomSheet';
-import SocialsBottomSheet from '@/components/Settings/SocialsBottomSheet';
-import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 import ThemePicker from '@/components/Settings/ThemePicker';
 import { useAppAuth } from '@/context/auth';
 import { useAppContact } from '@/context/contact';
+import { useAppI18n } from '@/context/i18n';
+import { useAppPresence } from '@/context/presence';
 import { useAppReview } from '@/context/review';
+import { useAppSocials } from '@/context/socials';
+import { useAppTheme } from '@/context/theme';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
+import useAppScreen from '@/helpers/screen';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
-import {
-  getHelloActivity,
-  getMemberActivity,
-  getMemberProfile,
-  type ApiMemberActivity,
-} from '@/services/api/members';
+import { getHelloActivity, getMemberActivity, getMemberProfile } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
@@ -50,10 +51,15 @@ const PICTURE_SIZE = 96;
 const HEADER_HEIGHT = 240;
 const INTERPOLATE_INPUT = [-1, 0, HEADER_HEIGHT, HEADER_HEIGHT];
 
-const Settings = () => {
+const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle> }) => {
   useDeviceContext(tw);
   const { login } = useAppAuth();
   const contact = useAppContact();
+  const { selectLanguage } = useAppI18n();
+  const { selectTheme } = useAppTheme();
+  const { socialise } = useAppSocials();
+  const { selectedActivity, selectActivity } = useAppPresence();
+  const { isWide } = useAppScreen();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const router = useRouter();
@@ -61,11 +67,7 @@ const Settings = () => {
   const review = useAppReview();
   const chosenLanguage = useSettingsStore((state) => state.language);
   const verticalScrollProgress = useSharedValue(0);
-
-  const [selectedPresence, setSelectedPresence] = useState<ApiMemberActivity | null>(null);
-  const [isPickingLanguage, setPickingLanguage] = useState(false);
-  const [isPickingTheme, setPickingTheme] = useState(false);
-  const [isSocializing, setSocializing] = useState(false);
+  const pathname = usePathname();
 
   const {
     data: activity,
@@ -178,14 +180,17 @@ const Settings = () => {
       const activityFound = activity?.find(({ date }) => selectedDate === date);
       if (activityFound) {
         impactAsync(ImpactFeedbackStyle.Light);
-        setSelectedPresence(activityFound?.date === selectedPresence?.date ? null : activityFound);
+        selectActivity(
+          activityFound,
+          nonCompliantActivity.find(({ date }) => dayjs(date).isSame(activityFound.date)),
+        );
       }
     },
-    [setSelectedPresence, activity],
+    [selectActivity, activity],
   );
 
   return (
-    <View style={[{ flex: 1 }, tw`bg-gray-100 dark:bg-black`]}>
+    <View style={[{ flex: 1 }, tw`bg-gray-100 dark:bg-black`, style]}>
       <View style={tw`flex flex-col grow relative`}>
         <Animated.View
           style={[
@@ -321,7 +326,7 @@ const Settings = () => {
               loading={isFetchingActivity || isFetchingProfile}
               minimumSquares={!!authStore.user?.id ? 45 : 144}
               nonCompliantActivity={nonCompliantActivity}
-              selectedDate={selectedPresence?.date}
+              selectedDate={selectedActivity?.date}
               style={tw`grow-0`}
               withDescription={!!profile}
               onDateSelect={onDateSelect}
@@ -336,6 +341,7 @@ const Settings = () => {
                 withBottomDivider
                 label={t('advanced.title')}
                 prefixIcon="cog-outline"
+                selected={isWide && pathname === '/advanced'}
                 style={tw`px-3 mx-3`}
                 suffixIcon="chevron-right"
               />
@@ -346,6 +352,7 @@ const Settings = () => {
                   withBottomDivider
                   label={t('devices.title')}
                   prefixIcon="devices"
+                  selected={isWide && pathname.startsWith('/devices')}
                   style={tw`px-3 mx-3`}
                   suffixIcon="chevron-right"
                 />
@@ -356,6 +363,7 @@ const Settings = () => {
                 withBottomDivider
                 label={t('privacy.title')}
                 prefixIcon="hand-back-left-outline"
+                selected={isWide && pathname.startsWith('/privacy')}
                 style={tw`px-3 mx-3`}
                 suffixIcon="chevron-right"
               />
@@ -365,6 +373,7 @@ const Settings = () => {
                 withBottomDivider
                 label={t('settings.general.onboarding.label')}
                 prefixIcon="handshake-outline"
+                selected={isWide && pathname === '/onboarding'}
                 style={tw`px-3 mx-3`}
                 suffixIcon="chevron-right"
               />
@@ -374,7 +383,7 @@ const Settings = () => {
               label={t('settings.general.language.label')}
               prefixIcon="web"
               style={tw`px-3 mx-3`}
-              onPress={() => setPickingLanguage(true)}>
+              onPress={selectLanguage}>
               <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
                 {getLanguageLabel(
                   !chosenLanguage || chosenLanguage === SYSTEM_OPTION
@@ -383,7 +392,7 @@ const Settings = () => {
                 )}
               </AppText>
             </ServiceRow>
-            <ThemePicker style={tw`px-3 mx-3`} onPress={() => setPickingTheme(true)} />
+            <ThemePicker style={tw`px-3 mx-3`} onPress={selectTheme} />
 
             <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
               {t('settings.support.title')}
@@ -405,7 +414,7 @@ const Settings = () => {
               prefixIcon="message-badge-outline"
               style={tw`px-3 mx-3`}
               suffixIcon="chevron-right"
-              onPress={() => setSocializing(true)}
+              onPress={socialise}
             />
             <ServiceRow
               withBottomDivider
@@ -464,24 +473,17 @@ const Settings = () => {
               size={32}
               style={tw`p-1 shrink-0`}
               underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
-              onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+              onPress={() =>
+                from
+                  ? router.dismissTo(from)
+                  : router.canGoBack()
+                    ? router.back()
+                    : router.replace('/')
+              }
             />
           </View>
         </Animated.View>
       </View>
-
-      {isPickingLanguage && <LanguageBottomSheet onClose={() => setPickingLanguage(false)} />}
-      {isPickingTheme && <ThemeBottomSheet onClose={() => setPickingTheme(false)} />}
-      {selectedPresence && (
-        <PresenceBottomSheet
-          activity={selectedPresence}
-          nonCompliant={nonCompliantActivity.find(({ date }) =>
-            dayjs(date).isSame(selectedPresence.date),
-          )}
-          onClose={() => setSelectedPresence(null)}
-        />
-      )}
-      {isSocializing && <SocialsBottomSheet onClose={() => setSocializing(false)} />}
     </View>
   );
 };

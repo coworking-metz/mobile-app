@@ -2,8 +2,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
-import Animated, { FadeInLeft } from 'react-native-reanimated';
+import { View } from 'react-native';
+import { FadeInLeft } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
@@ -43,7 +43,7 @@ const MissingScreen = () => {
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
         />
       </View>
-      <View style={tw`flex flex-col items-center justify-end px-4 grow basis-0`}>
+      <View style={tw`flex flex-col items-center justify-end w-full px-4 grow basis-0`}>
         <TumbleweedRollingAnimation style={tw`h-56 w-full max-w-xs`} />
       </View>
       <View style={tw`flex flex-col px-4 gap-2 grow basis-0 justify-start mx-auto w-full max-w-sm`}>

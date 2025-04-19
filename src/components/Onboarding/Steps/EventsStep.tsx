@@ -48,7 +48,7 @@ const EventsStep = ({ active, containerHeight }: { active: boolean; containerHei
           loop={false}
           speed={speed}
           style={[
-            tw`h-full`,
+            tw`w-full max-h-80 h-full`,
             {
               width: 640,
               marginBottom: -64,

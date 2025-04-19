@@ -76,7 +76,7 @@
         }
       },
       "since": "since {{date}}",
-      "title": "My presence"
+      "title": "Presence"
     }
   },
   "roles": {
@@ -87,6 +87,10 @@
       "external": "External",
       "guest": "Guest"
     }
+  },
+  "root": {
+    "description": "This is where the magic happens.",
+    "title": "Abracadabra!"
   },
   "support": {
     "contact": {

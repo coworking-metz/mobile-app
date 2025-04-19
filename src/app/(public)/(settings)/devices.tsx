@@ -1,8 +1,8 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { Link } from 'expo-router';
-import React, { useState } from 'react';
+import { Link, useLocalSearchParams } from 'expo-router';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut, FadeIn, FadeOut } from 'react-native-reanimated';
@@ -12,20 +12,23 @@ import SwitchDevicesAnimation from '@/components/Animations/SwitchDevicesAnimati
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTouchable from '@/components/AppTouchable';
-import DetectDeviceBottomSheet from '@/components/Devices/DetectDeviceBottomSheet';
 import ErrorChip from '@/components/ErrorChip';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
+import { useAppNewDevice } from '@/context/new-device';
 import { getDeviceTypeIcon } from '@/helpers/device';
 import { isSilentError } from '@/helpers/error';
+import useAppScreen from '@/helpers/screen';
 import { ApiMemberDevice, DeviceType, getMemberDevices } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
 const Devices = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
+  const { _root } = useLocalSearchParams();
+  const { isWide } = useAppScreen();
   const authStore = useAuthStore();
-  const [isAddingNewDevice, setAddingNewDevice] = useState(false);
+  const { addNewDevice } = useAppNewDevice();
 
   const {
     data: devices,
@@ -47,14 +50,8 @@ const Devices = () => {
   return (
     <ServiceLayout
       contentStyle={tw`pt-6`}
-      footer={
-        <>
-          {isAddingNewDevice ? (
-            <DetectDeviceBottomSheet onClose={() => setAddingNewDevice(false)} />
-          ) : null}
-        </>
-      }
       title={t('devices.title')}
+      withBackButton={!_root}
       onRefresh={refetchDevices}>
       {devicesError && !isSilentError(devicesError) && (
         <ErrorChip
@@ -66,36 +63,48 @@ const Devices = () => {
       {isPendingDevices ? (
         <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-6`}>
           {[0].map((index) => (
-            <DeviceCard pending key={index} style={tw`min-w-30 grow shrink basis-0`} />
+            <DeviceCard
+              pending
+              key={index}
+              style={[isWide ? tw`w-48` : tw`grow shrink basis-0 min-w-30`]}
+            />
           ))}
           <AppTouchable
-            style={tw`min-w-30 flex flex-row grow shrink basis-0`}
-            onPress={() => setAddingNewDevice(true)}>
-            <NewDeviceCard style={tw`self-stretch grow`} />
+            style={[
+              tw`flex flex-row`,
+              isWide ? tw`w-48` : tw`grow shrink basis-0 min-w-30 self-stretch`,
+            ]}
+            onPress={addNewDevice}>
+            <NewDeviceCard style={tw`self-stretch w-full`} />
           </AppTouchable>
         </View>
       ) : devices?.length ? (
         <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-6`}>
           {devices.map((device) => (
-            <Link asChild href={`/devices/${device._id}`} key={device.macAddress}>
-              <AppTouchable style={tw`flex flex-row min-w-30 grow shrink basis-0`}>
+            <Link
+              asChild
+              href={`/devices/${device._id}`}
+              key={device.macAddress}
+              style={[isWide ? tw`w-48` : tw`grow shrink basis-0 min-w-30`]}>
+              <AppTouchable>
                 <DeviceCard
                   device={device}
                   key={device.macAddress}
                   loading={isFetchingDevices}
-                  style={tw`self-stretch w-full`}
+                  style={tw`w-full`}
                 />
               </AppTouchable>
             </Link>
           ))}
           <AppTouchable
-            style={tw`min-w-30 flex flex-row grow shrink basis-0`}
-            onPress={() => setAddingNewDevice(true)}>
+            style={[tw`min-w-30 flex flex-row grow shrink basis-0`, isWide && tw`max-w-56`]}
+            onPress={addNewDevice}>
             <NewDeviceCard style={tw`self-stretch grow`} />
           </AppTouchable>
         </View>
       ) : (
-        <Animated.View style={tw`flex flex-col gap-2 grow items-center w-full px-6`}>
+        <Animated.View
+          style={tw`flex flex-col gap-2 grow items-center w-full px-6 max-w-md mx-auto`}>
           <SwitchDevicesAnimation style={tw`h-48 w-full`} />
           <AppText
             numberOfLines={1}
@@ -107,9 +116,9 @@ const Devices = () => {
             {t('devices.empty.description')}
           </AppText>
           <AppRoundedButton
-            style={tw`h-14 mt-4 w-full max-w-md self-center`}
+            style={tw`h-14 mt-4 w-full self-center`}
             suffixIcon="plus"
-            onPress={() => setAddingNewDevice(true)}>
+            onPress={addNewDevice}>
             <AppText style={tw`text-base text-black font-medium`}>
               {t('devices.add.detect.label')}
             </AppText>
@@ -146,7 +155,10 @@ const DeviceCard = ({
           </View>
 
           <View style={tw`mt-5 rounded-lg overflow-hidden`}>
-            <LoadingSkeleton height={28} width={96} />
+            <LoadingSkeleton height={24} width={128} />
+          </View>
+          <View style={tw`mt-2.5 rounded-lg overflow-hidden`}>
+            <LoadingSkeleton height={14} width={80} />
           </View>
         </>
       ) : (

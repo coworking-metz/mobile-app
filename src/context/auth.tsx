@@ -5,6 +5,7 @@ import { usePostHog } from 'posthog-react-native';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LoginBottomSheet from '@/components/Settings/LoginBottomSheet';
+import LogoutBottomSheet from '@/components/Settings/LogoutBottomSheet';
 import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import useResetNavigation from '@/helpers/navigation';
@@ -18,6 +19,7 @@ const AuthContext = createContext<{
   isFetchingToken: boolean;
   ready: boolean;
   login?: () => void;
+  logout?: () => void;
 }>({ isFetchingToken: false, ready: false });
 
 SplashScreen.setOptions({
@@ -113,6 +115,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [ready, setReady] = useState<boolean>(false);
   const authStore = useAuthStore();
   const [isLoggingIn, setLoggingIn] = useState<boolean>(false);
+  const [isLoggingOut, setLoggingOut] = useState<boolean>(false);
   const posthog = usePostHog();
 
   useEffect(() => {
@@ -145,10 +148,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isFetchingToken: authStore.isFetchingToken,
         ready,
         login: () => setLoggingIn(true),
+        logout: () => setLoggingOut(true),
       }}>
       {children}
 
       {isLoggingIn && <LoginBottomSheet onClose={() => setLoggingIn(false)} />}
+      {isLoggingOut && <LogoutBottomSheet onClose={() => setLoggingOut(false)} />}
     </AuthContext.Provider>
   );
 };

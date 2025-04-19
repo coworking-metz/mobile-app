@@ -37,6 +37,10 @@
     },
     "slideToUnlock": "Glisser pour déverrouiller"
   },
+  "empty": {
+    "description": "Qu'est-ce que vous voulez gérer si il n'y a rien à faire ?",
+    "title": "Le chaos"
+  },
   "flexDesk": {
     "description": "Ce bureau assis debout permet de travailler en position assise ou debout, selon vos préférences.\nIl est disponible sans réservation, avec un statut en temps réel pour vérifier s'il est occupé ou libre.",
     "label": "Bureau assis debout",

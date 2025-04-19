@@ -1,6 +1,8 @@
 import * as Calendar from 'expo-calendar';
+import { useLocalSearchParams } from 'expo-router';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 import { Switch } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
@@ -12,6 +14,7 @@ import { theme } from '@/helpers/colors';
 const Privacy = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
+  const { _root } = useLocalSearchParams();
   const [calendarState, requestCalendarPermission] = Calendar.useCalendarPermissions();
   const renderPermissionsBottomSheet = useAppPermissions();
 
@@ -31,23 +34,25 @@ const Privacy = () => {
     <ServiceLayout
       contentStyle={tw`pt-6 pb-12`}
       description={t('privacy.description')}
-      title={t('privacy.title')}>
-      <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6`}>
-        {t('privacy.permissions.title')}
-      </AppText>
-      <ServiceRow
-        withBottomDivider
-        description={t('privacy.permissions.calendar.description')}
-        label={t('privacy.permissions.calendar.label')}
-        prefixIcon="calendar-outline"
-        style={tw`px-3 mx-3`}>
-        <Switch
-          value={calendarState?.granted}
-          onColor={theme.meatBrown}
-          onValueChange={onCalendarPermissionsPress}
-        />
-      </ServiceRow>
-      {/* <ServiceRow
+      title={t('privacy.title')}
+      withBackButton={!_root}>
+      <View style={tw`w-full max-w-xl mx-auto`}>
+        <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6`}>
+          {t('privacy.permissions.title')}
+        </AppText>
+        <ServiceRow
+          withBottomDivider
+          description={t('privacy.permissions.calendar.description')}
+          label={t('privacy.permissions.calendar.label')}
+          prefixIcon="calendar-outline"
+          style={tw`px-3 mx-3`}>
+          <Switch
+            value={calendarState?.granted}
+            onColor={theme.meatBrown}
+            onValueChange={onCalendarPermissionsPress}
+          />
+        </ServiceRow>
+        {/* <ServiceRow
         disabled
         withBottomDivider
         description={t('privacy.permissions.notifications.description')}
@@ -67,6 +72,7 @@ const Privacy = () => {
         label={t('privacy.permissions.location.label')}
         prefixIcon="map-marker-outline"
         style={tw`px-3 mx-3`}></ServiceRow> */}
+      </View>
     </ServiceLayout>
   );
 };

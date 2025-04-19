@@ -15,6 +15,7 @@ import ErrorChip from '@/components/ErrorChip';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { isSilentError } from '@/helpers/error';
+import useAppScreen from '@/helpers/screen';
 import { ApiLocation, ApiMemberProfile, getCurrentMembers } from '@/services/api/members';
 
 type AttendingLocation = ApiLocation | '';
@@ -35,6 +36,7 @@ type MembersGroupByLocation = {
 const Attendance = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
+  const { isWide } = useAppScreen();
   const [selectedMember, setSelectedMember] = useState<ApiMemberProfile | null>(null);
 
   const {
@@ -143,29 +145,35 @@ const Attendance = () => {
                     </AppText>
                   </View>
                 </Animated.View>
-                {group.members.map((member) => (
-                  <Animated.View
-                    exiting={FadeOutLeft.duration(300)}
-                    key={member._id}
-                    style={tw`flex`}>
-                    <MemberCard
-                      loading={isFetchingCurrentMembers}
-                      member={member}
-                      style={tw`grow-0`}
-                      onPress={() => setSelectedMember(member)}
-                      {...(currentMembersUpdatedAt && {
-                        since: dayjs(currentMembersUpdatedAt).toISOString(),
-                      })}>
-                      <MaterialCommunityIcons
-                        color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-                        iconStyle={{ height: 20, width: 20, marginRight: 0 }}
-                        name="chevron-right"
-                        size={24}
-                        style={tw`self-center shrink-0 ml-auto`}
-                      />
-                    </MemberCard>
-                  </Animated.View>
-                ))}
+                <View style={tw`flex flex-row flex-wrap gap-2 w-full`}>
+                  {group.members.map((member) => (
+                    <Animated.View
+                      exiting={FadeOutLeft.duration(300)}
+                      key={member._id}
+                      style={tw`flex`}>
+                      <MemberCard
+                        loading={isFetchingCurrentMembers}
+                        member={member}
+                        style={[tw`grow-0`, isWide ? tw`w-80` : tw`w-full`]}
+                        onPress={() => setSelectedMember(member)}
+                        {...(currentMembersUpdatedAt && {
+                          since: dayjs(currentMembersUpdatedAt).toISOString(),
+                        })}>
+                        {!isWide && (
+                          <MaterialCommunityIcons
+                            color={
+                              tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')
+                            }
+                            iconStyle={{ height: 20, width: 20, marginRight: 0 }}
+                            name="chevron-right"
+                            size={24}
+                            style={tw`self-center shrink-0 ml-auto`}
+                          />
+                        )}
+                      </MemberCard>
+                    </Animated.View>
+                  ))}
+                </View>
               </View>
             ))
           ) : (

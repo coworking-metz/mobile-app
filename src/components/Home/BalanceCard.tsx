@@ -23,7 +23,7 @@ const BalanceCard = ({
   return (
     <View
       style={[
-        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl w-32 relative px-3 pt-2 pb-4`,
+        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl w-32 relative pl-3 pt-2 pb-4`,
         style,
       ]}>
       <MaterialCommunityIcons

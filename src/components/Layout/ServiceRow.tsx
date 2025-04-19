@@ -45,7 +45,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
       disabled={disabled || loading || !onPress}
       style={[
         tw`flex flex-col px-2 rounded-xl`,
-        selected && tw`bg-gray-100 dark:bg-zinc-800`,
+        selected && tw`bg-gray-200/75 dark:bg-zinc-800/75`,
         style,
       ]}
       underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}

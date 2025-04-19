@@ -16,7 +16,6 @@ import AboutStep from '@/components/Onboarding/Steps/AboutStep';
 import ActivityStep from '@/components/Onboarding/Steps/ActivityStep';
 import EventsStep from '@/components/Onboarding/Steps/EventsStep';
 import ServicesStep from '@/components/Onboarding/Steps/ServicesStep';
-import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
 import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 import { theme } from '@/helpers/colors';
 import { log } from '@/helpers/logger';
@@ -41,7 +40,6 @@ const Onboarding = () => {
   const carouselRef = useRef<ICarouselInstance>(null);
   const offset = useSharedValue(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPickingLanguage, setPickingLanguage] = useState(false);
   const [isPickingTheme, setPickingTheme] = useState(false);
 
   useEffect(() => {
@@ -55,9 +53,7 @@ const Onboarding = () => {
   const screens: OnboardingScreen[] = [
     {
       key: 'about',
-      component: (active: boolean) => (
-        <AboutStep active={active} onPickingLanguage={() => setPickingLanguage(true)} />
-      ),
+      component: (active: boolean) => <AboutStep active={active} />,
     },
     {
       key: 'activity',
@@ -65,9 +61,7 @@ const Onboarding = () => {
     },
     {
       key: 'services',
-      component: (active: boolean) => (
-        <ServicesStep active={active} onPickingTheme={() => setPickingTheme(true)} />
-      ),
+      component: (active: boolean) => <ServicesStep active={active} />,
     },
     {
       key: 'events',
@@ -111,7 +105,6 @@ const Onboarding = () => {
   return (
     <>
       <View
-        pointerEvents={isPickingLanguage ? 'none' : 'auto'}
         style={[
           tw`overflow-hidden bg-gray-100 dark:bg-black`,
           {
@@ -183,8 +176,8 @@ const Onboarding = () => {
             </View>
             <Animated.View
               entering={FadeInDown.duration(500).delay(1000)}
-              style={tw`shrink-0 pt-1 px-6`}>
-              <AppRoundedButton style={tw`min-h-14 w-full max-w-md self-center`} onPress={onNext}>
+              style={tw`shrink-0 pt-1 px-6 self-center w-full max-w-md`}>
+              <AppRoundedButton style={tw`min-h-14 w-full`} onPress={onNext}>
                 <AppText style={tw`text-base font-medium text-black`}>{t('actions.next')}</AppText>
               </AppRoundedButton>
             </Animated.View>
@@ -200,7 +193,6 @@ const Onboarding = () => {
         />
       </Animated.View>
 
-      {isPickingLanguage && <LanguageBottomSheet onClose={() => setPickingLanguage(false)} />}
       {isPickingTheme && <ThemeBottomSheet onClose={() => setPickingTheme(false)} />}
     </>
   );

@@ -53,7 +53,7 @@ const Step = ({
   return (
     <View style={tw`absolute h-full w-full`}>
       <Animated.ScrollView
-        contentContainerStyle={tw`py-4`}
+        contentContainerStyle={tw`py-4 max-w-md w-full mx-auto`}
         horizontal={false}
         scrollEventThrottle={16}
         onLayout={({ nativeEvent }: LayoutChangeEvent) =>

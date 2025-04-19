@@ -100,7 +100,7 @@
           "label": "Membre adhérent"
         }
       },
-      "label": "Carte adhérent",
+      "label": "Carte\nadhérent",
       "renew": "Renouveler pour {{year}}",
       "required": "Sans cette adhésion, vous ne serez pas en mesure de pouvoir accéder à l'espace de coworking.",
       "status": {
@@ -109,7 +109,8 @@
         "none": "Aucune",
         "toRenew": "À renouveler",
         "valid": "Valide pour {{year}}"
-      }
+      },
+      "title": "Carte adhérent"
     },
     "onFetch": {
       "fail": "Impossible de récupérer le profil"
@@ -138,11 +139,14 @@
         "expireSoon": "Abonnement valide jusqu'à",
         "expired": "Abonnement expiré",
         "next": "Prochain abonnement",
-        "none": "Abonnement",
-        "previous": "Abonnement de\n{{month}}"
+        "none": "Abonnement"
       },
       "onFetch": {
         "fail": "Impossible de récupérer les abonnements"
+      },
+      "period": {
+        "label": "Période",
+        "value": "du {{started}}\nau {{ended}}"
       },
       "renew": "Renouveler",
       "savings": {
@@ -155,7 +159,8 @@
         "none": "Aucun",
         "ongoingUntil": "Valide jusqu'au",
         "startedOn": "Débute le"
-      }
+      },
+      "title": "Abonnement"
     },
     "tickets": {
       "add": "Ajouter",

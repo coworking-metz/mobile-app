@@ -283,7 +283,7 @@ export default function HomeScreen() {
         />
 
         <View style={tw`flex flex-col items-end shrink grow basis-0`}>
-          <Link asChild href="/settings">
+          <Link asChild href="(settings)">
             <AppTouchable style={tw`relative h-13 w-13 flex flex-col items-center justify-center`}>
               {isFetching && (
                 <LoadingSpinner
@@ -407,7 +407,7 @@ export default function HomeScreen() {
         {calendarEventsError && !isSilentError(calendarEventsError) ? (
           <ErrorChip error={calendarEventsError} label={t('home.calendar.onFetch.fail')} />
         ) : null}
-        <Link asChild href="/events/calendar">
+        <Link asChild href="/events">
           <AppText
             style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-5`}>
             {t('home.calendar.browse')}
@@ -450,10 +450,7 @@ export default function HomeScreen() {
               style={tw`w-full h-full mt-4`}>
               <Link
                 asChild
-                href={[
-                  '/events/calendar',
-                  firstPeriodWithEvents && `period=${firstPeriodWithEvents}`,
-                ]
+                href={['/events', firstPeriodWithEvents && `period=${firstPeriodWithEvents}`]
                   .filter(Boolean)
                   .join('?')}>
                 <AppText style={tw`text-base font-normal text-amber-500 text-center mt-4`}>
@@ -503,7 +500,12 @@ export default function HomeScreen() {
           style={tw`flex flex-col self-stretch`}>
           <Link
             asChild
-            href={`/on-premise${profile?.location ? `?location=${profile.location}` : ''}`}>
+            href={{
+              pathname: '/on-premise',
+              params: {
+                location: profile?.location,
+              },
+            }}>
             <OnPremiseCard
               location={profile?.location && t(`onPremise.location.${profile?.location}`)}
             />
@@ -512,7 +514,8 @@ export default function HomeScreen() {
 
         {!authStore.user && !authStore.isFetchingToken && (
           <UnauthenticatedState
-            exiting={FadeOutDown.duration(500).delay(900)}
+            entering={FadeInUp.duration(500).delay(1000)}
+            exiting={FadeOutDown.duration(500).delay(1000)}
             style={tw`mt-12 mb-6 mx-4`}
           />
         )}

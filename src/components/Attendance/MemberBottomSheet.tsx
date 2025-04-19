@@ -77,7 +77,9 @@ const MemberBottomSheet = ({
             prefixIcon="map-marker-outline"
             style={tw`px-3 mx-3`}
             onPress={() =>
-              member?.location ? router.push(`/on-premise?location=${member.location}`) : null
+              member?.location
+                ? router.push({ pathname: '/on-premise', params: { location: member.location } })
+                : null
             }>
             {member?.location && (
               <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
