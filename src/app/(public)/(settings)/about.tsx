@@ -18,11 +18,11 @@ const About = () => {
 
   return (
     <ServiceLayout
-      contentStyle={tw`pt-6 pb-12`}
+      contentStyle={tw`pt-6`}
       description={t('about.description')}
       title={t('about.title')}
       withBackButton={!_root}>
-      <View style={tw`w-full max-w-xl mx-auto`}>
+      <View style={tw`w-full max-w-xl mx-auto mb-6`}>
         <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6`}>
           {t('about.legal.title')}
         </AppText>

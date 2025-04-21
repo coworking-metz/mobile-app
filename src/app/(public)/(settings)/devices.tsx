@@ -63,20 +63,15 @@ const Devices = () => {
       {isPendingDevices ? (
         <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-6`}>
           {[0].map((index) => (
-            <DeviceCard
-              pending
-              key={index}
-              style={[isWide ? tw`w-48` : tw`grow shrink basis-0 min-w-30`]}
-            />
+            <DeviceCard pending key={index} style={[tw`grow shrink basis-0 min-w-32 max-w-44`]} />
           ))}
           <AppTouchable
-            style={[
-              tw`flex flex-row`,
-              isWide ? tw`w-48` : tw`grow shrink basis-0 min-w-30 self-stretch`,
-            ]}
+            style={[tw`flex flex-row`, tw`grow shrink basis-0 min-w-32 max-w-44`]}
             onPress={addNewDevice}>
             <NewDeviceCard style={tw`self-stretch w-full`} />
           </AppTouchable>
+          {/* Placeholder for the last card to maintain layout */}
+          <View style={tw`grow shrink basis-0 min-w-32 max-w-44`} />
         </View>
       ) : devices?.length ? (
         <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-6`}>
@@ -85,7 +80,7 @@ const Devices = () => {
               asChild
               href={`/devices/${device._id}`}
               key={device.macAddress}
-              style={[isWide ? tw`w-48` : tw`grow shrink basis-0 min-w-30`]}>
+              style={[tw`grow shrink basis-0 min-w-32 max-w-44`]}>
               <AppTouchable>
                 <DeviceCard
                   device={device}
@@ -97,10 +92,12 @@ const Devices = () => {
             </Link>
           ))}
           <AppTouchable
-            style={[isWide ? tw`w-48` : tw`grow shrink basis-0 min-w-30`]}
+            style={[tw`flex flex-row`, tw`grow shrink basis-0 min-w-32 max-w-44`]}
             onPress={addNewDevice}>
-            <NewDeviceCard style={tw`self-stretch grow`} />
+            <NewDeviceCard style={tw`w-full`} />
           </AppTouchable>
+          {/* Placeholder for the last card to maintain layout */}
+          <View style={tw`grow shrink basis-0 min-w-32 max-w-44`} />
         </View>
       ) : (
         <Animated.View
@@ -145,7 +142,7 @@ const DeviceCard = ({
       entering={FadeIn.duration(300)}
       exiting={FadeOut.duration(300)}
       style={[
-        tw`flex flex-col items-start py-4 pl-4 rounded-2xl min-h-20 relative bg-gray-200 dark:bg-neutral-700/50`,
+        tw`flex flex-col items-start py-4 pl-4 rounded-2xl min-h-20 relative bg-gray-200 dark:bg-gray-800/80`,
         style,
       ]}>
       {pending ? (

@@ -150,11 +150,11 @@ const Advanced = () => {
 
   return (
     <ServiceLayout
-      contentStyle={tw`py-6`}
+      contentStyle={tw`pt-6`}
       description={t('advanced.description')}
       title={t('advanced.title')}
       withBackButton={!_root}>
-      <View style={tw`w-full max-w-xl mx-auto`}>
+      <View style={tw`w-full max-w-xl mx-auto mb-6`}>
         <AppText style={[tw`text-sm uppercase text-slate-500 mx-6`]}>
           {t('advanced.services.title')}
         </AppText>
