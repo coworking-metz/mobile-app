@@ -140,26 +140,42 @@ const Calendar = ({ from }: { from?: string }) => {
         </ScrollView>
         <Animated.View exiting={FadeOut.duration(500)} style={tw`mt-4 mx-4 flex flex-col gap-8`}>
           {filteredEventsGroups?.length ? (
-            filteredEventsGroups.map(([date, events]) => (
-              <View key={`calendar-group-${date}`} style={tw`flex flex-col gap-4`}>
-                <AppText
-                  entering={FadeInLeft.duration(300)}
-                  exiting={FadeOut.duration(300)}
-                  style={tw`text-sm font-normal uppercase text-slate-500 mx-2`}>
-                  {dayjs(date).format('dddd LL')}
-                </AppText>
-                {events.map((event) => (
-                  <Link
-                    asChild
-                    href={`/events/${event.id}`}
-                    key={`calendar-event-card-${event.id}`}>
-                    <AppTouchable style={tw`w-full h-44`}>
-                      <CalendarEventCard activeSince={activeSince} event={event} />
-                    </AppTouchable>
-                  </Link>
-                ))}
-              </View>
-            ))
+            <>
+              {filteredEventsGroups.map(([date, events]) => (
+                <View key={`calendar-group-${date}`} style={tw`flex flex-col gap-4`}>
+                  <AppText
+                    entering={FadeInLeft.duration(300)}
+                    exiting={FadeOut.duration(300)}
+                    style={tw`text-sm font-normal uppercase text-slate-500 mx-2`}>
+                    {dayjs(date).format('dddd LL')}
+                  </AppText>
+                  {events.map((event) => (
+                    <Link
+                      asChild
+                      href={`/events/${event.id}`}
+                      key={`calendar-event-card-${event.id}`}>
+                      <AppTouchable style={tw`w-full h-44`}>
+                        <CalendarEventCard activeSince={activeSince} event={event} />
+                      </AppTouchable>
+                    </Link>
+                  ))}
+                </View>
+              ))}
+              {filteredEventsGroups.reduce((acc, [_, events]) => acc + events.length, 0) > 3 && (
+                <Animated.View
+                  style={tw`flex flex-col gap-2 items-center w-full px-4 max-w-md self-center mt-6 mb-12`}>
+                  <AppText
+                    numberOfLines={1}
+                    style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                    {t('events.calendar.onEnd.title')}
+                  </AppText>
+                  <AppText
+                    style={tw`text-base text-center font-normal text-slate-500 dark:text-slate-400 mb-auto`}>
+                    {t('events.calendar.onEnd.description')}
+                  </AppText>
+                </Animated.View>
+              )}
+            </>
           ) : isLoadingCalendarEvents ? (
             <>
               <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`h-44`} />
