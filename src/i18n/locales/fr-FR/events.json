@@ -1,5 +1,9 @@
 {
   "calendar": {
+    "onEnd": {
+      "description": "Il n'y a rien d'autre pour le moment.\nRevenez plus tard !",
+      "title": "C'est tout"
+    },
     "title": "Évènements"
   },
   "detail": {

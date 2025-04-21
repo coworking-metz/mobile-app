@@ -1,5 +1,9 @@
 {
   "calendar": {
+    "onEnd": {
+      "description": "There is nothing else for now.\nCome back later!",
+      "title": "That's all"
+    },
     "title": "Events"
   },
   "detail": {

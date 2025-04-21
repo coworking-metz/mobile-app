@@ -97,7 +97,7 @@ const Devices = () => {
             </Link>
           ))}
           <AppTouchable
-            style={[tw`min-w-30 flex flex-row grow shrink basis-0`, isWide && tw`max-w-56`]}
+            style={[isWide ? tw`w-48` : tw`grow shrink basis-0 min-w-30`]}
             onPress={addNewDevice}>
             <NewDeviceCard style={tw`self-stretch grow`} />
           </AppTouchable>
