@@ -77,7 +77,7 @@ export default function CalendarEventPage() {
       title={event?.title || ''}
       withBackButton={!_root}
       onRefresh={refetchCalendarEvents}>
-      <View style={tw`w-full max-w-xl mx-auto`}>
+      <View style={tw`w-full max-w-xl mx-auto grow`}>
         {event ? (
           <>
             <ZoomableImage

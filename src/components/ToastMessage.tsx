@@ -57,7 +57,7 @@ const ToastMessage = () => {
             size={20}
           />
         ),
-        style: tw`w-full max-w-md mx-auto`,
+        style: tw`sm:w-full sm:max-w-sm sm:mx-auto dark:bg-neutral-800`,
         closeButton: true,
         duration: notification.timeout ?? Infinity,
         onAutoClose: () => toastStore.dismiss(notification.id),
@@ -72,7 +72,7 @@ const ToastMessage = () => {
     }
   }, [notificationsCount]);
 
-  return <Toaster invert offset={(insets.top || 0) + 8} position="top-center" />;
+  return <Toaster offset={(insets.top || 0) + 8} position="top-center" theme="dark" />;
 };
 
 export default ToastMessage;
