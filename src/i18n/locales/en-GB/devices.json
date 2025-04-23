@@ -1,27 +1,37 @@
 {
   "add": {
-    "detect": {
+    "manual": "Enter manually",
+    "onFetchDeviceInfo": {
+      "attempts_one": "{{count}}st attempt…",
+      "attempts_other": "Attempt {{count}}/{{max}}…",
+      "attempts_zero": "No attempts yet",
+      "fail": "Unable to retrieve\ndevice data",
+      "pending": "Retrieving data",
+      "tooManyAttempts_one": "Unrecognisable device by our service after one attempt.",
+      "tooManyAttempts_other": "Unrecognisable device by our service after {{count}} attempts.",
+      "tooManyAttempts_zero": "Unrecognisable device by our service after no attempts.",
+      "unavailable": "Service unreachable.\nMake sure you are connected to the Poulailler Wi-Fi network."
+    },
+    "onPair": {
+      "fail": "Unable to pair\nthis device",
+      "success": "{{name}} paired"
+    },
+    "onVerifyDevice": {
+      "attempts_one": "{{count}}st attempt…",
+      "attempts_other": "Attempt {{count}}/{{max}}…",
+      "attempts_zero": "No attempts yet",
+      "fail": "Unable to verify\ndevice presence",
+      "pending": "Verifying device presence",
+      "tooManyAttempts_one": "Unable to verify device presence after one attempt.",
+      "tooManyAttempts_other": "Unable to verify device presence after {{count}} attempts.",
+      "tooManyAttempts_zero": "Unable to verify device presence after no attempts."
+    },
+    "pair": {
       "description": "This device will query our on-site service to detect and retrieve the necessary information.\nIf you encounter a problem or want to add another device, you can enter it manually.",
       "label": "Pair this device",
       "reachable": "Service reachable.",
       "start": "Detect automatically",
       "unreachable": "You must be connected to the Poulailler Wi-Fi network to detect this device."
-    },
-    "manual": "Enter manually",
-    "onDetect": {
-      "fail": "Unable to pair\nthis device",
-      "success": "{{name}} paired"
-    },
-    "onFetchDeviceInfo": {
-      "fail": "Unable to retrieve\ndevice data",
-      "pending": "Retrieving data",
-      "tooManyAttempts": "Device not found on the network by our service after multiple attempts. (TOO_MANY_ATTEMPTS_AGAINST_PROBE)",
-      "unavailable": "Service unreachable.\nMake sure you are connected to the Poulailler Wi-Fi network."
-    },
-    "onVerifyDevice": {
-      "fail": "Unable to verify\ndevice presence",
-      "pending": "Verifying device presence",
-      "tooManyAttempts": "Device not found after multiple attempts. (TOO_MANY_ATTEMPTS_AGAINST_TICKETS)"
     }
   },
   "detail": {

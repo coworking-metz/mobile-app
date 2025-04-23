@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Widescreen layout.
 - Newsletter link on socials bottom sheet.
 
+### Changed
+
+- Count attempts when automatically pairing a device.
+
 ### Fixed
 
 - Properly reset animation on Home screen once refresh is done.

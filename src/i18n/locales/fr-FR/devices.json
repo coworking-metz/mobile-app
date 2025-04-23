@@ -1,27 +1,37 @@
 {
   "add": {
-    "detect": {
+    "manual": "Saisir manuellement",
+    "onFetchDeviceInfo": {
+      "attempts_one": "1ère tentative…",
+      "attempts_other": "Tentative {{count}}/{{max}}…",
+      "attempts_zero": "Aucune tentative pour le moment",
+      "fail": "Impossible de récupérer\nles données de l'appareil",
+      "pending": "Récupération des données",
+      "tooManyAttempts_one": "Appareil introuvable sur le réseau par notre service après une tentative.",
+      "tooManyAttempts_other": "Appareil introuvable sur le réseau par notre service après {{count}} tentatives.",
+      "tooManyAttempts_zero": "Appareil introuvable sur le réseau par notre service après aucune tentative.",
+      "unavailable": "Service injoignable.\nAssurez-vous d'être connecté au réseau Wi-Fi du Poulailler."
+    },
+    "onPair": {
+      "fail": "Impossible d'associer\ncet appareil",
+      "success": "{{name}} associé"
+    },
+    "onVerifyDevice": {
+      "attempts_one": "1ère tentative…",
+      "attempts_other": "Tentative {{count}}/{{max}}…",
+      "attempts_zero": "Aucune tentative pour le moment",
+      "fail": "Impossible de vérifier\nla présence de l'appareil",
+      "pending": "Vérification de la présence",
+      "tooManyAttempts_one": "Absence de l'appareil après une tentative.",
+      "tooManyAttempts_other": "Absence de l'appareil après {{count}} tentatives.",
+      "tooManyAttempts_zero": "Absence de l'appareil après aucune tentative."
+    },
+    "pair": {
       "description": "Cet appareil va interroger notre service sur place pour détecter et récupérer les informations nécessaires.\nSi vous rencontrez un problème ou que vous souhaitez ajouter un autre appareil, vous pouvez le saisir manuellement.",
       "label": "Associer cet appareil",
       "reachable": "Service joignable.",
       "start": "Détecter automatiquement",
       "unreachable": "Vous devez être connecté au réseau Wi-Fi du Poulailler pour détecter cet appareil."
-    },
-    "manual": "Saisir manuellement",
-    "onDetect": {
-      "fail": "Impossible d'associer\ncet appareil",
-      "success": "{{name}} associé"
-    },
-    "onFetchDeviceInfo": {
-      "fail": "Impossible de récupérer\nles données de l'appareil",
-      "pending": "Récupération des données",
-      "tooManyAttempts": "Appareil introuvable sur le réseau par notre service après de multiple tentatives. (TOO_MANY_ATTEMPTS_AGAINST_PROBE)",
-      "unavailable": "Service injoignable.\nAssurez-vous d'être connecté au réseau Wi-Fi du Poulailler."
-    },
-    "onVerifyDevice": {
-      "fail": "Impossible de vérifier\nla présence de l'appareil",
-      "pending": "Vérification de la présence",
-      "tooManyAttempts": "Absence de l'appareil après de multiple tentatives. (TOO_MANY_ATTEMPTS_AGAINST_TICKETS)"
     }
   },
   "detail": {

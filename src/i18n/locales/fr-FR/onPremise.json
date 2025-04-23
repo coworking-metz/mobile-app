@@ -45,11 +45,11 @@
     "description": "Ce bureau assis debout permet de travailler en position assise ou debout, selon vos préférences.\nIl est disponible sans réservation, avec un statut en temps réel pour vérifier s'il est occupé ou libre.",
     "label": "Bureau assis debout",
     "occupancy": {
-      "label": "Occupation",
+      "label": "Disponibilité",
       "value": {
         "available": "Libre",
         "occupied": "Occupé",
-        "unknown": "Inconnu"
+        "unknown": "Inconnue"
       }
     }
   },

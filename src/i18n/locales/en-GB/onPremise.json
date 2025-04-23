@@ -45,9 +45,9 @@
     "description": "This sit-stand desk allows you to work sitting or standing, depending on your preferences.\nIt is available without reservation, with a real-time status to check if it is occupied or free.",
     "label": "Sit-stand desk",
     "occupancy": {
-      "label": "Occupancy",
+      "label": "Availability",
       "value": {
-        "available": "Available",
+        "available": "Free",
         "occupied": "Occupied",
         "unknown": "Unknown"
       }

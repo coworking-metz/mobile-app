@@ -1,10 +1,10 @@
 import { createContext, useContext, useState } from 'react';
-import DetectDeviceBottomSheet from '@/components/Devices/DetectDeviceBottomSheet';
+import PairDeviceBottomSheet from '@/components/Devices/PairDeviceBottomSheet';
 
 const NewDeviceContext = createContext<{
-  addNewDevice: () => void;
+  pairDevice: () => void;
 }>({
-  addNewDevice: () => { },
+  pairDevice: () => { },
 });
 
 export const useAppNewDevice = () => {
@@ -12,16 +12,16 @@ export const useAppNewDevice = () => {
 };
 
 export const NewDeviceProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isNewDeviceVisible, setNewDeviceVisible] = useState<boolean>(false);
+  const [isPairDeviceVisible, setPairDeviceVisible] = useState<boolean>(false);
 
   return (
     <NewDeviceContext.Provider
       value={{
-        addNewDevice: () => setNewDeviceVisible(true),
+        pairDevice: () => setPairDeviceVisible(true),
       }}>
       {children}
-      {isNewDeviceVisible ? (
-        <DetectDeviceBottomSheet onClose={() => setNewDeviceVisible(false)} />
+      {isPairDeviceVisible ? (
+        <PairDeviceBottomSheet onClose={() => setPairDeviceVisible(false)} />
       ) : null}
     </NewDeviceContext.Provider>
   );

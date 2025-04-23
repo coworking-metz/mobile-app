@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from 'react';
-import DetectDeviceBottomSheet from '@/components/Devices/DetectDeviceBottomSheet';
 import PresenceBottomSheet from '@/components/Settings/PresenceBottomSheet';
 import { ApiMemberActivity } from '@/services/api/members';
 
