@@ -73,6 +73,7 @@ const DeviceDetail = () => {
     },
     retry: false,
     enabled: !!authStore.user?.id && !!deviceId,
+    staleTime: 300_000,
   });
 
   const onSubmit = useCallback(() => {

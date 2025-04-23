@@ -18,7 +18,6 @@ import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { useAppNewDevice } from '@/context/new-device';
 import { getDeviceTypeIcon } from '@/helpers/device';
 import { isSilentError } from '@/helpers/error';
-import useAppScreen from '@/helpers/screen';
 import { ApiMemberDevice, DeviceType, getMemberDevices } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
@@ -26,9 +25,8 @@ const Devices = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const { _root } = useLocalSearchParams();
-  const { isWide } = useAppScreen();
   const authStore = useAuthStore();
-  const { addNewDevice } = useAppNewDevice();
+  const { pairDevice } = useAppNewDevice();
 
   const {
     data: devices,
@@ -45,6 +43,7 @@ const Devices = () => {
       throw new Error(t('account.profile.onFetch.missing'));
     },
     retry: false,
+    staleTime: 300_000,
   });
 
   return (
@@ -67,7 +66,7 @@ const Devices = () => {
           ))}
           <AppTouchable
             style={[tw`flex flex-row`, tw`grow shrink basis-0 min-w-32 max-w-44`]}
-            onPress={addNewDevice}>
+            onPress={pairDevice}>
             <NewDeviceCard style={tw`self-stretch w-full`} />
           </AppTouchable>
           {/* Placeholder for the last card to maintain layout */}
@@ -80,21 +79,21 @@ const Devices = () => {
               asChild
               href={`/devices/${device._id}`}
               key={device.macAddress}
-              style={[tw`grow shrink basis-0 min-w-32 max-w-44`]}>
+              style={[tw`flex flex-row`, tw`grow shrink basis-0 min-w-32 max-w-44`]}>
               <AppTouchable>
                 <DeviceCard
                   device={device}
                   key={device.macAddress}
                   loading={isFetchingDevices}
-                  style={tw`w-full`}
+                  style={tw`self-stretch w-full`}
                 />
               </AppTouchable>
             </Link>
           ))}
           <AppTouchable
             style={[tw`flex flex-row`, tw`grow shrink basis-0 min-w-32 max-w-44`]}
-            onPress={addNewDevice}>
-            <NewDeviceCard style={tw`w-full`} />
+            onPress={pairDevice}>
+            <NewDeviceCard style={tw`self-stretch w-full`} />
           </AppTouchable>
           {/* Placeholder for the last card to maintain layout */}
           <View style={tw`grow shrink basis-0 min-w-32 max-w-44`} />
@@ -115,9 +114,9 @@ const Devices = () => {
           <AppRoundedButton
             style={tw`h-14 mt-4 w-full self-center`}
             suffixIcon="plus"
-            onPress={addNewDevice}>
+            onPress={pairDevice}>
             <AppText style={tw`text-base text-black font-medium`}>
-              {t('devices.add.detect.label')}
+              {t('devices.add.pair.label')}
             </AppText>
           </AppRoundedButton>
         </Animated.View>
@@ -213,7 +212,7 @@ const NewDeviceCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
     <View
       // eslint-disable-next-line tailwindcss/no-custom-classname
       style={[
-        tw`flex flex-col items-start gap-4 pl-4 py-4 rounded-2xl border-gray-400`,
+        tw`flex flex-col items-start gap-4 px-4 py-4 rounded-2xl border-gray-400`,
         {
           borderStyle: 'dashed',
           borderWidth: 2,
