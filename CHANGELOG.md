@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [2025.4.2] - 2025-04-23
+
 ### Added
 
 - Widescreen layout.
@@ -341,7 +343,8 @@ Initial release with the following features:
 - services like opening the gate,
 - user attendance history.
 
-[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2025.4.1...main
+[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2025.4.2...main
+[2025.4.2]: https://github.com/coworking-metz/mobile-app/compare/2025.4.1...2025.4.2
 [2025.4.1]: https://github.com/coworking-metz/mobile-app/compare/2025.3.2...2025.4.1
 [2025.3.2]: https://github.com/coworking-metz/mobile-app/compare/2025.3.1...2025.3.2
 [2025.3.1]: https://github.com/coworking-metz/mobile-app/compare/2025.2.4...2025.3.1
