@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+
+- Touch uncentered elements on home screen for wide devices.
+
 ## [2025.4.2] - 2025-04-23
 
 ### Added

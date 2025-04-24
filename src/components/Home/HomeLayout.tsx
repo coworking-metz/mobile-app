@@ -217,7 +217,7 @@ export default function HomeLayout({
           onScroll={scrollHandler}>
           <Animated.View
             style={[
-              tw`flex flex-col items-start justify-start bg-gray-100 dark:bg-black w-full max-w-2xl mx-auto`,
+              tw`flex flex-col items-start justify-start bg-gray-100 dark:bg-black w-full`,
               { paddingBottom: insets.top + insets.bottom + 32 },
               enableAnimations && pullDownStyles,
             ]}>
