@@ -94,7 +94,7 @@ const Attendance = () => {
         description={t('attendance.description')}
         title={t('attendance.title', { count: currentMembers?.length })}
         onRefresh={refetchCurrentMembers}>
-        <View style={tw`flex flex-row gap-2 min-h-6 pl-6`}>
+        <View style={tw`flex flex-row gap-2 min-h-6 px-6`}>
           {currentMembersUpdatedAt ? (
             <AppText
               entering={FadeInLeft.duration(300)}
@@ -146,10 +146,10 @@ const Attendance = () => {
                   </View>
                 </Animated.View>
                 <View style={tw`flex flex-row flex-wrap gap-2 w-full`}>
-                  {group.members.map((member) => (
+                  {group.members.map((member, index) => (
                     <Animated.View
                       exiting={FadeOutLeft.duration(300)}
-                      key={member._id}
+                      key={`member-card-${member._id ?? index}`}
                       style={tw`flex`}>
                       <MemberCard
                         loading={isFetchingCurrentMembers}

@@ -39,7 +39,6 @@ import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnauthenticatedState from '@/components/Home/UnauthenticatedState';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import { useAppContact } from '@/context/contact';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
@@ -288,18 +287,13 @@ export default function HomeScreen() {
 
         <View style={tw`flex flex-col items-end shrink grow basis-0`}>
           <Link asChild href="(settings)">
-            <AppTouchable style={tw`relative h-13 w-13 flex flex-col items-center justify-center`}>
-              {isFetching && (
-                <LoadingSpinner
-                  entering={FadeIn.duration(300)}
-                  exiting={FadeOut.duration(300)}
-                  style={tw`absolute h-13 w-13`}
-                />
-              )}
-
+            <AppTouchable>
               <ProfilePicture
                 attending={profile?.attending}
-                loading={!authStore.user && authStore.isFetchingToken}
+                email={authStore.user?.email}
+                loading={isFetching}
+                name={authStore.user?.name}
+                pending={!authStore.user && authStore.isFetchingToken}
                 style={tw`h-12 w-12`}
                 url={authStore.user?.picture}
               />

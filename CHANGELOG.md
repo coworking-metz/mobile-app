@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Render initials as profile picture for members that don't have any.
+
 ### Fixed
 
 - Touch uncentered elements on home screen for wide devices.

@@ -1,7 +1,7 @@
 import ServiceRow from '../Layout/ServiceRow';
 import ZoomableImage from '../ZoomableImage';
 import dayjs from 'dayjs';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
@@ -57,16 +57,18 @@ const MemberBottomSheet = ({
             </AppText>
           </View>
 
-          <ServiceRow
-            withBottomDivider
-            label={t('members.profile.since.label')}
-            prefixIcon="medal-outline"
-            style={tw`px-3 mx-3`}>
-            <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
-              {dayjs(member.created).format('YYYY')}
-            </AppText>
-          </ServiceRow>
+          {member.created && (
+            <ServiceRow
+              withBottomDivider
+              label={t('members.profile.since.label')}
+              prefixIcon="medal-outline"
+              style={tw`px-3 mx-3`}>
+              <AppText
+                style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+                {dayjs(member.created).format('YYYY')}
+              </AppText>
+            </ServiceRow>
+          )}
           <ServiceRow
             description={
               since && member.lastSeen && dayjs(since).diff(member.lastSeen, 'minute') > 2

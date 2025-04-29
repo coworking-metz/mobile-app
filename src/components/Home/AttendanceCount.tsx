@@ -1,6 +1,6 @@
+import ProfilePicture from './ProfilePicture';
 import LoadingSkeleton from '../LoadingSkeleton';
 import ReanimatedText from '../ReanimatedText';
-import { Image } from 'expo-image';
 import { Link } from 'expo-router';
 import React, { useEffect, useMemo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -44,11 +44,13 @@ const AttendanceCount = ({
   const user = useAuthStore((s) => s.user);
   const count = useSharedValue<number>(0);
 
-  const memberPictures = useMemo(() => {
-    return members
-      .filter(({ _id }) => _id !== user?.id)
-      .map(({ picture }) => picture)
-      .filter(Boolean);
+  const otherMembers = useMemo(() => {
+    return (
+      members
+        // have at least a name to render initials
+        .filter((member) => member.firstName || member.lastName)
+        .filter(({ _id }) => !user?.id || _id !== user?.id)
+    );
   }, [members, user]);
 
   useEffect(() => {
@@ -109,35 +111,30 @@ const AttendanceCount = ({
 
         {error && !isSilentError(error) ? (
           <ErrorChip error={error} label={t('home.people.onFetch.fail')} style={tw`ml-2 shrink`} />
-        ) : memberPictures.length ? (
+        ) : otherMembers.length ? (
           <Animated.View style={tw`shrink-0 ml-auto`}>
             <Link asChild href="/attendance">
               <TouchableOpacity>
                 <View style={tw`flex flex-row items-center pl-4 grow h-8 overflow-hidden`}>
-                  {memberPictures
+                  {otherMembers
                     .slice(
                       0,
                       members.length > MAX_MEMBERS_PICTURES
                         ? MAX_MEMBERS_PICTURES - 1
                         : MAX_MEMBERS_PICTURES,
                     )
-                    .map((picture, index) => (
+                    .map((member, index) => (
                       <Animated.View
                         entering={FadeInRight.duration(750).delay(100 * index)}
                         exiting={FadeOutRight.duration(500).delay(100 * index)}
-                        key={`member-${picture}`}
-                        style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden -ml-4`}>
-                        <View
-                          style={tw`h-8 w-8 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-900`}>
-                          <Image
-                            cachePolicy="memory-disk"
-                            contentFit="cover"
-                            contentPosition={'top center'}
-                            source={picture}
-                            style={tw`size-full`}
-                            transition={1000}
-                          />
-                        </View>
+                        key={`member-${member.picture}-${index}`}
+                        style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-0.5 rounded-full h-10 w-10 overflow-hidden -ml-4`}>
+                        <ProfilePicture
+                          initialsStyle={tw`text-sm font-semibold`}
+                          name={[member.firstName, member.lastName].filter(Boolean).join(' ')}
+                          style={tw`h-full w-full`}
+                          url={member.picture}
+                        />
                       </Animated.View>
                     ))}
                   {members.length > MAX_MEMBERS_PICTURES ? (
