@@ -9,11 +9,10 @@ import {
   type StyleProp,
   type ViewStyle,
 } from 'react-native';
-import { FadeIn, FadeOut } from 'react-native-reanimated';
+import { FadeInLeft, FadeOutDown } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
 import ProfilePicture from '@/components/Home/ProfilePicture';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import {
   ApiMemberProfile,
   isMemberBalanceInsufficient,
@@ -45,21 +44,15 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
       onPress={onPress}>
       {member ? (
         <>
-          <View style={tw`relative h-13 w-13 flex flex-col items-center justify-center`}>
-            {loading && (
-              <LoadingSpinner
-                entering={FadeIn.duration(300)}
-                exiting={FadeOut.duration(300)}
-                style={tw`absolute h-13 w-13`}
-              />
-            )}
-            <ProfilePicture
-              attending
-              loading={pending}
-              style={tw`h-12 w-12`}
-              url={member.picture}
-            />
-          </View>
+          <ProfilePicture
+            attending={member.attending}
+            email={member.email}
+            loading={loading}
+            name={[member.firstName, member.lastName].join(' ')}
+            pending={pending}
+            style={tw`h-12 w-12`}
+            url={member.picture}
+          />
 
           <View
             style={tw`flex flex-col items-start justify-center min-h-12 self-stretch shrink grow basis-0`}>
@@ -77,6 +70,8 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
             </View>
             {since && member.lastSeen && dayjs(since).diff(member.lastSeen, 'minute') > 2 && (
               <AppText
+                entering={FadeInLeft.duration(1000)}
+                exiting={FadeOutDown.duration(1000)}
                 numberOfLines={1}
                 style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
                 {dayjs(member.lastSeen).fromNow()}

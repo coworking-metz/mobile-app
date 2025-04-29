@@ -124,7 +124,7 @@ export const getHelloActivity = () =>
 
 export const isMembershipNonCompliant = (member: ApiMemberProfile) => {
   return Boolean(
-    !member.membershipOk &&
+    member.membershipOk === false &&
       member.lastSeen &&
       dayjs(member.lastSeen).isSame(dayjs(), 'year') &&
       (!member.lastMembership ||
@@ -134,7 +134,7 @@ export const isMembershipNonCompliant = (member: ApiMemberProfile) => {
 
 export const isMemberBalanceInsufficient = (member: ApiMemberProfile) => {
   const isAttendingWithoutSufficientBalance =
-    member.attending && !member.balance && !member.hasActiveSubscription;
+    member.attending && member.balance === 0 && member.hasActiveSubscription === false;
   return member.balance < 0 || isAttendingWithoutSufficientBalance;
 };
 
