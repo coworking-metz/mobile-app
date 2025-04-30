@@ -1,7 +1,6 @@
 import GiftCard from './GiftCard';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { isNil } from 'lodash';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';

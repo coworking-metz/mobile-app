@@ -2,7 +2,6 @@ import { version } from '../../../../package.json';
 import dayjs from 'dayjs';
 import Constants from 'expo-constants';
 import { Link, useLocalSearchParams } from 'expo-router';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Platform, StyleSheet, TextInput } from 'react-native';
 import Animated, { useAnimatedProps } from 'react-native-reanimated';
 import type { TextProps as RNTextProps, StyleProp, TextInputProps, TextStyle } from 'react-native';

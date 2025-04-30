@@ -1,5 +1,4 @@
 import LoadingSkeleton from '../LoadingSkeleton';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';

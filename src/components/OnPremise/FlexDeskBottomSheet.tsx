@@ -1,8 +1,7 @@
 import UpliftingDeskAnimation from '../Animations/UpliftingDeskAnimation';
-import LoadingSkeleton from '../LoadingSkeleton';
 import ServiceRow from '../Layout/ServiceRow';
+import LoadingSkeleton from '../LoadingSkeleton';
 import { isNil } from 'lodash';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle } from 'react-native';
 import tw from 'twrnc';

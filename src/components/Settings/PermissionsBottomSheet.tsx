@@ -1,7 +1,6 @@
 import * as Linking from 'expo-linking';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import ToggleSwitchAnimation from '@/components/Animations/ToggleSwitchAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';

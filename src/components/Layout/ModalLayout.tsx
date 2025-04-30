@@ -211,7 +211,7 @@ const ModalLayout = ({
         </Animated.View>
         <Animated.View
           entering={FadeInDown.duration(300).delay(150)}
-          style={[tw`grow-0 shrink-0`, Platform.OS === 'ios' ? tw`mt-3` : tw`mt-1`]}>
+          style={tw`grow-0 shrink-0 ios:mt-3 android:mt-1`}>
           <MaterialCommunityIcons.Button
             backgroundColor="transparent"
             borderRadius={24}

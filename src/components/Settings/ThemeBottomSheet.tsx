@@ -34,7 +34,7 @@ const ThemeOptions = () => {
       <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
         {t('settings.general.theme.label')}
       </AppText>
-      <DarklightModeAnimation mode={currentTheme} style={tw`w-full h-28 mb-4`} />
+      {/* <DarklightModeAnimation mode={currentTheme} style={tw`w-full h-28 mb-4`} /> */}
       {supportedThemes.map((theme) => (
         <ServiceRow
           description={

@@ -50,55 +50,56 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
       ]}
       underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
       onPress={onPress}>
-      <>
-        <View style={tw`flex flex-row items-center min-h-14 gap-3 py-2`}>
-          {prefixIcon ? (
-            <MaterialCommunityIcons
-              color={iconColor}
-              iconStyle={{ height: 20, width: 20, marginRight: 0 }}
-              name={prefixIcon}
-              size={24}
-              style={[tw`shrink-0`, disabled && tw`opacity-40`]}
-            />
-          ) : null}
-          <View style={tw`flex flex-col shrink grow overflow-hidden`}>
+      <View
+        style={[
+          tw`flex flex-row items-center min-h-14 gap-3 py-2`,
+          withBottomDivider && tw`border-b-gray-200 dark:border-b-gray-700 border-b-[1px]`,
+        ]}>
+        {prefixIcon ? (
+          <MaterialCommunityIcons
+            color={iconColor}
+            iconStyle={{ height: 20, width: 20, marginRight: 0 }}
+            name={prefixIcon}
+            size={24}
+            style={[tw`shrink-0`, disabled && tw`opacity-40`]}
+          />
+        ) : null}
+        <View style={tw`flex flex-col shrink grow overflow-hidden`}>
+          <AppText
+            style={[
+              tw`text-base leading-5 font-normal dark:text-gray-200`,
+              disabled && tw`opacity-40`,
+            ]}
+            {...(Boolean(description || renderDescription) && { numberOfLines: 1 })}>
+            {label}
+          </AppText>
+          {renderDescription ? (
+            renderDescription(description, disabled)
+          ) : description ? (
             <AppText
               style={[
-                tw`text-base leading-5 font-normal dark:text-gray-200`,
+                tw`text-sm font-normal text-slate-500 dark:text-slate-400`,
                 disabled && tw`opacity-40`,
-              ]}
-              {...(Boolean(description || renderDescription) && { numberOfLines: 1 })}>
-              {label}
+              ]}>
+              {description}
             </AppText>
-            {renderDescription ? (
-              renderDescription(description, disabled)
-            ) : description ? (
-              <AppText
-                style={[
-                  tw`text-sm font-normal text-slate-500 dark:text-slate-400`,
-                  disabled && tw`opacity-40`,
-                ]}>
-                {description}
-              </AppText>
-            ) : null}
-          </View>
-          <>{children}</>
-          {loading ? (
-            <View style={tw`relative h-10 w-10 shrink-0`}>
-              <HorizontalLoadingAnimation color={iconColor} style={tw`h-full w-full`} />
-            </View>
-          ) : suffixIcon ? (
-            <MaterialCommunityIcons
-              color={iconColor}
-              iconStyle={{ height: 20, width: 20, marginRight: 0 }}
-              name={suffixIcon}
-              size={24}
-              style={[tw`shrink-0 grow-0`, disabled && tw`opacity-40`]}
-            />
           ) : null}
         </View>
-        {withBottomDivider ? <Divider /> : null}
-      </>
+        <>{children}</>
+        {loading ? (
+          <View style={tw`relative h-10 w-10 shrink-0`}>
+            <HorizontalLoadingAnimation color={iconColor} style={tw`h-full w-full`} />
+          </View>
+        ) : suffixIcon ? (
+          <MaterialCommunityIcons
+            color={iconColor}
+            iconStyle={{ height: 20, width: 20, marginRight: 0 }}
+            name={suffixIcon}
+            size={24}
+            style={[tw`shrink-0 grow-0`, disabled && tw`opacity-40`]}
+          />
+        ) : null}
+      </View>
     </TouchableHighlight>
   );
 };

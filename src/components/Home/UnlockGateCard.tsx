@@ -206,10 +206,7 @@ const UnlockCard = ({
               {t('home.intercom.onUnlocked.secondLine')}
             </AppText>
             <ReanimatedText
-              style={[
-                tw`text-xl font-semibold text-slate-900 dark:text-gray-200`,
-                Platform.OS === 'ios' && tw`mb-0.5`,
-              ]}
+              style={tw`text-xl font-semibold text-slate-900 dark:text-gray-200 ios:mb-0.5`}
               text={timeLeftInSeconds}
             />
           </View>

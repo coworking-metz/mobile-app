@@ -1,21 +1,10 @@
 import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useQuery } from '@tanstack/react-query';
-import { Skeleton } from 'moti/skeleton';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewProps, ViewStyle } from 'react-native';
-import Animated, {
-  AnimatedProps,
-  BounceIn,
-  BounceOut,
-  FadeIn,
-  FadeOut,
-} from 'react-native-reanimated';
+import Animated, { AnimatedProps, BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
-import { getMemberDevices } from '@/services/api/members';
-import useAuthStore from '@/stores/auth';
 
 const DevicesCard = ({
   count,

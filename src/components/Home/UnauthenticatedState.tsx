@@ -1,5 +1,4 @@
 import { Image } from 'expo-image';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, TouchableNativeFeedback, View, ViewStyle, type ViewProps } from 'react-native';
 import Animated, { type AnimatedProps } from 'react-native-reanimated';

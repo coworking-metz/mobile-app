@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, type ViewProps } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';

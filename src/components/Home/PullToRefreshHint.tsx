@@ -1,7 +1,5 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
-import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import ScrollDownAnimation from '@/components/Animations/ScrollDownAnimation';
 import AppText from '@/components/AppText';

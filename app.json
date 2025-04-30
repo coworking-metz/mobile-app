@@ -31,7 +31,9 @@
         "tinted": "./src/assets/images/icon/icon-tinted-1024.png"
       },
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSCalendarsFullAccessUsageDescription": "Autoriser l'application à accéder à votre calendrier.",
+        "NSCalendarsUsageDescription": "Autoriser l'application à accéder à votre calendrier."
       },
       "privacyManifests": {
         "NSPrivacyAccessedAPITypes": [

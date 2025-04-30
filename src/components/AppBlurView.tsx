@@ -1,5 +1,4 @@
 import { BlurView, type BlurViewProps } from 'expo-blur';
-import React from 'react';
 import { Platform, View } from 'react-native';
 
 const AppBlurView = ({ children, style, tint, intensity, ...props }: BlurViewProps) => {

@@ -1,7 +1,6 @@
 import FloatingSocialsAnimation from '../Animations/FloatingSocialsAnimation';
 import ServiceRow from '../Layout/ServiceRow';
 import { Link } from 'expo-router';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';

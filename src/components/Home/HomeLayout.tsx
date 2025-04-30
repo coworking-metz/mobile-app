@@ -52,7 +52,7 @@ export default function HomeLayout({
   const settingsStore = useSettingsStore();
   const navigation = useNavigation();
   const enableAnimations = useMemo(
-    () => !settingsStore.withNativePullToRefresh && !IS_RUNNING_IN_EXPO_GO,
+    () => false && !settingsStore.withNativePullToRefresh && !IS_RUNNING_IN_EXPO_GO,
     [settingsStore.withNativePullToRefresh],
   );
 

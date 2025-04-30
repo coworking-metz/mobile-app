@@ -60,7 +60,7 @@ import useToastStore from '@/stores/toast';
 
 const MAX_WIDTH = 672; // tw`max-w-2xl`
 
-export default function HomeScreen() {
+const HomeScreen = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const authStore = useAuthStore();
@@ -571,4 +571,6 @@ export default function HomeScreen() {
       </View>
     </HomeLayout>
   );
-}
+};
+
+export default HomeScreen;

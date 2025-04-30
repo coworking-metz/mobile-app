@@ -77,10 +77,7 @@ const AttendanceCount = ({
         ) : (
           <View style={tw`flex flex-col justify-end h-24`}>
             <ReanimatedText
-              style={[
-                tw`text-8xl leading-[6.5rem] font-bold text-slate-900 dark:text-gray-200 min-w-[3rem]`,
-                Platform.OS === 'ios' ? tw`-mb-6` : tw`-mb-8`,
-              ]}
+              style={tw`text-8xl leading-[6.5rem] font-bold text-slate-900 dark:text-gray-200 min-w-[3rem] ios:-mb-6 android:-mb-8`}
               text={membersCount}
             />
           </View>

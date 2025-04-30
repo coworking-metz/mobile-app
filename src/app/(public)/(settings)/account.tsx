@@ -2,7 +2,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link, useLocalSearchParams } from 'expo-router';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';

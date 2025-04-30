@@ -13,7 +13,6 @@ import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { theme } from '@/helpers/colors';
-
 import { getMemberProfile } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
