@@ -19,10 +19,10 @@ import ServicesStep from '@/components/Onboarding/Steps/ServicesStep';
 import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 import { theme } from '@/helpers/colors';
 import { log } from '@/helpers/logger';
+import { useAppPaddingBottom } from '@/helpers/screen';
 import useSettingsStore from '@/stores/settings';
 
 const onboardingLogger = log.extend(`[onboarding]`);
-const MIN_PADDING_BOTTOM = 24;
 
 type OnboardingScreen = {
   key: string;
@@ -32,6 +32,7 @@ type OnboardingScreen = {
 const Onboarding = () => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
+  const paddingBottom = useAppPaddingBottom();
   const { t } = useTranslation();
   const router = useRouter();
   const navigation = useNavigation();
@@ -109,8 +110,8 @@ const Onboarding = () => {
           tw`overflow-hidden bg-gray-100 dark:bg-black`,
           {
             paddingLeft: insets.left,
-            paddingBottom: Math.max(insets.bottom, MIN_PADDING_BOTTOM),
             paddingRight: insets.right,
+            paddingBottom,
           },
         ]}
         onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>

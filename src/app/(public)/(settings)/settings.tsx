@@ -306,9 +306,12 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 <ErrorChip error={profileError} label={t('home.profile.onFetch.fail')} />
               ) : profile?.balance && profile.balance < 0 ? (
                 <Animated.View
-                  entering={FadeInRight.duration(300).delay(300)}
-                  style={tw`ml-auto flex shrink flex-row items-center rounded-md overflow-hidden bg-red-100 dark:bg-red-200/75 gap-1.5 px-2.5 py-0.5`}>
-                  <AppText numberOfLines={1} style={tw`text-sm font-medium text-red-800`}>
+                  entering={FadeInRight.duration(600).delay(500)}
+                  style={tw`ml-auto flex flex-row items-center justify-end gap-1.5`}>
+                  <View style={tw`h-2.5 w-2.5 bg-red-600 dark:bg-red-700 rounded-full`} />
+                  <AppText
+                    numberOfLines={1}
+                    style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
                     {t('settings.profile.presence.selected.coverage.value.ticket', {
                       count: Math.abs(profile.balance),
                       suffix: t(`settings.profile.presence.selected.debt.unit.ticket`, {

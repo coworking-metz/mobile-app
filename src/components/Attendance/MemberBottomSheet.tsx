@@ -1,5 +1,6 @@
 import ServiceRow from '../Layout/ServiceRow';
 import ZoomableImage from '../ZoomableImage';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { useRouter } from 'expo-router';
 import React from 'react';
@@ -89,6 +90,23 @@ const MemberBottomSheet = ({
               </AppText>
             )}
           </ServiceRow>
+
+          {!member?._id && (
+            <View style={tw`flex flex-row items-start gap-3 my-3 mx-6`}>
+              <MaterialCommunityIcons
+                color={tw.color('blue-600')}
+                iconStyle={tw`h-6 w-6 mr-0`}
+                name="information"
+                size={24}
+                style={tw`shrink-0 grow-0`}
+              />
+
+              <AppText
+                style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
+                {t('members.profile.anonymous.description')}
+              </AppText>
+            </View>
+          )}
         </>
       )}
     </AppBottomSheet>

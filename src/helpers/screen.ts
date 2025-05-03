@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 import { useWindowDimensions } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const WIDE_SCREEN_WIDTH = 640;
+export const MIN_PADDING_BOTTOM = 24;
 
 export default function useAppScreen() {
   const { width } = useWindowDimensions();
@@ -15,3 +17,8 @@ export default function useAppScreen() {
     width,
   };
 }
+
+export const useAppPaddingBottom = () => {
+  const insets = useSafeAreaInsets();
+  return Math.max(insets.bottom + MIN_PADDING_BOTTOM / 2, MIN_PADDING_BOTTOM);
+};

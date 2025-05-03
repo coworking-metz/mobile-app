@@ -11,10 +11,12 @@ import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 import { theme } from '@/helpers/colors';
+import { useAppPaddingBottom } from '@/helpers/screen';
 
 const MissingScreen = () => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
+  const paddingBottom = useAppPaddingBottom();
   const { t } = useTranslation();
   const router = useRouter();
   const [isContacting, setContacting] = useState(false);
@@ -25,9 +27,9 @@ const MissingScreen = () => {
         tw`flex flex-col gap-4 h-full w-full bg-gray-100 dark:bg-black`,
         {
           paddingTop: insets.top,
-          paddingBottom: insets.bottom,
           paddingLeft: insets.left,
           paddingRight: insets.right,
+          paddingBottom,
         },
       ]}>
       <View style={tw`flex flex-row px-4`}>
@@ -40,7 +42,7 @@ const MissingScreen = () => {
           size={32}
           style={tw`p-1`}
           underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
-          onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+          onPress={() => (router.canGoBack() ? router.back() : router.replace('/settings'))}
         />
       </View>
       <View style={tw`flex flex-col items-center justify-end w-full px-4 grow basis-0`}>
@@ -56,7 +58,7 @@ const MissingScreen = () => {
         <AppText
           entering={FadeInLeft.duration(500).delay(150)}
           numberOfLines={2}
-          style={tw`text-base text-center text-slate-500 dark:text-slate-400`}>
+          style={tw`text-base text-center text-slate-500 dark:text-slate-400 mb-auto`}>
           {t('notFound.description')}
         </AppText>
 

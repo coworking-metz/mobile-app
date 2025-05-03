@@ -290,7 +290,6 @@ export default function HomeScreen() {
             <AppTouchable>
               <ProfilePicture
                 attending={profile?.attending}
-                email={authStore.user?.email}
                 loading={isFetching}
                 name={authStore.user?.name}
                 pending={!authStore.user && authStore.isFetchingToken}

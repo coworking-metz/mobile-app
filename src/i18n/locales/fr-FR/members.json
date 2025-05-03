@@ -1,5 +1,8 @@
 {
   "profile": {
+    "anonymous": {
+      "description": "Les informations personnelles sont anonymisées pour des raisons de confidentialité."
+    },
     "location": {
       "label": "Situé⸱e dans"
     },

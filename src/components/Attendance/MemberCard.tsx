@@ -9,7 +9,7 @@ import {
   type StyleProp,
   type ViewStyle,
 } from 'react-native';
-import { FadeInLeft, FadeOutDown } from 'react-native-reanimated';
+import Animated, { FadeInLeft, FadeInRight, FadeOutDown } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
 import ProfilePicture from '@/components/Home/ProfilePicture';
@@ -46,7 +46,6 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
         <>
           <ProfilePicture
             attending={member.attending}
-            email={member.email}
             loading={loading}
             name={[member.firstName, member.lastName].join(' ')}
             pending={pending}
@@ -78,22 +77,32 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
               </AppText>
             )}
             {isMembershipNonCompliant(member) && (
-              <AppText
-                numberOfLines={1}
-                style={tw`mt-1 text-sm font-medium text-gray-800 dark:text-gray-900 rounded-md overflow-hidden bg-gray-200/50 dark:bg-gray-100/80 px-2.5 py-0.5`}>
-                {member.lastMembership
-                  ? t(`attendance.members.membership.last`, { year: member.lastMembership })
-                  : t(`attendance.members.membership.none`)}
-              </AppText>
+              <Animated.View
+                entering={FadeInRight.duration(600).delay(500)}
+                style={tw`mt-1 flex flex-row items-center justify-end gap-1.5`}>
+                <View style={tw`h-2 w-2 bg-red-600 dark:bg-red-700 rounded-full`} />
+                <AppText
+                  numberOfLines={1}
+                  style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
+                  {member.lastMembership
+                    ? t(`attendance.members.membership.last`, { year: member.lastMembership })
+                    : t(`attendance.members.membership.none`)}
+                </AppText>
+              </Animated.View>
             )}
             {isMemberBalanceInsufficient(member) && (
-              <AppText
-                numberOfLines={1}
-                style={tw`mt-1 text-sm font-medium text-red-800 rounded-md overflow-hidden bg-red-100 dark:bg-red-200/75 px-2.5 py-0.5`}>
-                {t('attendance.members.debt.ticket', {
-                  count: Math.abs(member.balance),
-                })}
-              </AppText>
+              <Animated.View
+                entering={FadeInRight.duration(600).delay(500)}
+                style={tw`mt-1 flex flex-row items-center justify-end gap-1.5`}>
+                <View style={tw`h-2 w-2 bg-red-600 dark:bg-red-700 rounded-full`} />
+                <AppText
+                  numberOfLines={1}
+                  style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
+                  {t('attendance.members.debt.ticket', {
+                    count: Math.abs(member.balance),
+                  })}
+                </AppText>
+              </Animated.View>
             )}
           </View>
           {children}

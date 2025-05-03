@@ -18,10 +18,10 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import AppBlurView from '@/components/AppBlurView';
-import { MIN_PADDING_BOTTOM } from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { theme } from '@/helpers/colors';
+import { useAppPaddingBottom } from '@/helpers/screen';
 
 const NAVIGATION_HEIGHT = 48;
 
@@ -59,6 +59,7 @@ const ServiceLayout = ({
 }) => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
+  const paddingBottom = useAppPaddingBottom();
   const router = useRouter();
   const verticalScrollProgress = useSharedValue(0);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
@@ -176,7 +177,7 @@ const ServiceLayout = ({
               {
                 paddingLeft: insets.left,
                 paddingRight: insets.right,
-                paddingBottom: Math.max(insets.bottom, MIN_PADDING_BOTTOM),
+                paddingBottom,
               },
               contentStyle,
             ]}>

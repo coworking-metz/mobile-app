@@ -151,7 +151,7 @@ const BalanceBottomSheet = ({
         />
       ) : null}
       {memberProfile && isMemberBalanceInsufficient(memberProfile) && (
-        <View style={tw`flex flex-row items-start flex-gap-2 mb-4 w-full overflow-hidden`}>
+        <View style={tw`flex flex-row items-start gap-3 mb-4 w-full overflow-hidden`}>
           <MaterialCommunityIcons
             color={tw.color('yellow-500')}
             iconStyle={tw`h-6 w-6 mr-0`}

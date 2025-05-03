@@ -128,41 +128,43 @@ const MembershipBottomSheet = ({
         )}
       </ServiceRow>
 
-      {valid ? (
-        <View style={tw`flex flex-row items-start flex-gap-2 mb-4 w-full overflow-hidden`}>
-          <MaterialCommunityIcons
-            color={
-              active
-                ? theme.meatBrown
-                : tw.prefixMatch('dark')
-                  ? tw.color('gray-400')
-                  : tw.color('gray-700')
-            }
-            iconStyle={tw`h-6 w-6 mr-0`}
-            name="star-circle-outline"
-            size={24}
-            style={tw`shrink-0 grow-0`}
-          />
-          <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
-            {active
-              ? t('home.profile.membership.grade.active.description')
-              : t('home.profile.membership.grade.standard.description')}
-          </AppText>
-        </View>
-      ) : (
-        <View style={tw`flex flex-row items-start flex-gap-2 mb-4 w-full overflow-hidden`}>
-          <MaterialCommunityIcons
-            color={tw.color('yellow-500')}
-            iconStyle={tw`h-6 w-6 mr-0`}
-            name="alert"
-            size={24}
-            style={tw`shrink-0 grow-0`}
-          />
-          <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
-            {t('home.profile.membership.required')}
-          </AppText>
-        </View>
-      )}
+      <View style={tw`flex flex-row items-start gap-3 w-full overflow-hidden`}>
+        {valid ? (
+          <>
+            <MaterialCommunityIcons
+              color={
+                active
+                  ? theme.meatBrown
+                  : tw.prefixMatch('dark')
+                    ? tw.color('gray-400')
+                    : tw.color('gray-700')
+              }
+              iconStyle={tw`h-6 w-6 mr-0`}
+              name="star-circle-outline"
+              size={24}
+              style={tw`shrink-0 grow-0`}
+            />
+            <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
+              {active
+                ? t('home.profile.membership.grade.active.description')
+                : t('home.profile.membership.grade.standard.description')}
+            </AppText>
+          </>
+        ) : (
+          <>
+            <MaterialCommunityIcons
+              color={tw.color('yellow-500')}
+              iconStyle={tw`h-6 w-6 mr-0`}
+              name="alert"
+              size={24}
+              style={tw`shrink-0 grow-0`}
+            />
+            <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
+              {t('home.profile.membership.required')}
+            </AppText>
+          </>
+        )}
+      </View>
 
       {!valid && (
         <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/carte-adherent/`} style={tw`mt-2`}>

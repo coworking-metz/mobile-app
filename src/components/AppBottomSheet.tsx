@@ -15,9 +15,9 @@ import { Dimensions, LayoutChangeEvent, Platform, StyleProp, View, ViewStyle } f
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
+import { useAppPaddingBottom } from '@/helpers/screen';
 
 const HANDLE_HEIGHT = 8;
-export const MIN_PADDING_BOTTOM = 24;
 const MIN_BACKDROP_HEIGHT = 64;
 const MAX_WIDTH = 448;
 
@@ -37,6 +37,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
   disposable,
 ) => {
   const insets = useSafeAreaInsets();
+  const paddingBottom = useAppPaddingBottom();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [contentHeight, setContentHeight] = useState(0);
   const [parentWidth, setParentWidth] = useState(0);
@@ -113,11 +114,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
         {children && (
           <BottomSheetScrollView
             bounces={isBouncing}
-            contentContainerStyle={[
-              tw`pt-2`,
-              { paddingBottom: Math.max(insets.bottom, MIN_PADDING_BOTTOM) },
-              contentContainerStyle,
-            ]}
+            contentContainerStyle={[tw`pt-2`, { paddingBottom }, contentContainerStyle]}
             onContentSizeChange={(_width, height) => setContentHeight(height)}>
             {children}
           </BottomSheetScrollView>

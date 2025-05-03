@@ -3,15 +3,15 @@ import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import { Confetti } from 'react-native-fast-confetti';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw from 'twrnc';
 import BirthdayCakeAnimation from '@/components/Animations/BirthdayCakeAnimation';
-import AppBottomSheet, { MIN_PADDING_BOTTOM } from '@/components/AppBottomSheet';
+import AppBottomSheet from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import { parseErrorText } from '@/helpers/error';
+import { useAppPaddingBottom } from '@/helpers/screen';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
 
@@ -23,7 +23,7 @@ const BirthdayBottomSheet = ({
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
+  const paddingBottom = useAppPaddingBottom();
   const settingsStore = useSettingsStore();
   const noticeStore = useNoticeStore();
   const [isClaiming, setClaiming] = useState(false);
@@ -62,11 +62,7 @@ const BirthdayBottomSheet = ({
       <View style={tw`mt-6 flex items-center justify-center h-40 overflow-visible`}>
         <BirthdayCakeAnimation style={tw`h-72 -mb-6 w-full`} />
       </View>
-      <View
-        style={[
-          tw`flex flex-col px-6`,
-          { paddingBottom: Math.max(insets.bottom, MIN_PADDING_BOTTOM) },
-        ]}>
+      <View style={[tw`flex flex-col px-6`, { paddingBottom }]}>
         <AppText
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
           {t('home.profile.birthday.label')}

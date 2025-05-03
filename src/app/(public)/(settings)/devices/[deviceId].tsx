@@ -251,7 +251,7 @@ const DeviceDetail = () => {
           }}
         />
         {isLocallyAdministeredMacAddress(macAddress) && (
-          <View style={tw`flex flex-row items-start flex-gap-2 w-full overflow-hidden mb-4 mx-3`}>
+          <View style={tw`flex flex-row items-start gap-3 w-full overflow-hidden mb-4 mx-3`}>
             <MaterialCommunityIcons
               color={tw.color('blue-600')}
               iconStyle={tw`h-6 w-6 mr-0`}

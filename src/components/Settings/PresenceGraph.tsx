@@ -212,7 +212,7 @@ const PresenceGraph = ({
           }
           height={HEIGHT_IN_PIXELS}
           numDays={squaresCount}
-          tooltipDataAttrs={({ date }) => ({
+          tooltipDataAttrs={(_element) => ({
             // onPress: (evt) => {
             //   console.log(evt.nativeEvent.pageX, date);
             // },

@@ -6,8 +6,8 @@
   },
   "members": {
     "debt": {
-      "ticket_one": "{{count}} overconsummed",
-      "ticket_other": "{{count}} overconsummed",
+      "ticket_one": "{{count}} ticket indebted",
+      "ticket_other": "{{count}} ticket indebted",
       "ticket_zero": "Insufficient balance (0 tickets)"
     },
     "membership": {
