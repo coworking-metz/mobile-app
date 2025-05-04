@@ -120,7 +120,7 @@ const PhoneBoothBottomSheet = ({
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch gap-4 pt-4 pb-8`}
+      contentContainerStyle={tw`flex flex-col items-stretch gap-4 pt-4`}
       style={style}
       onClose={onClose}>
       <View style={tw`flex flex-col items-start gap-4 px-4`}>
