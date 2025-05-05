@@ -11,6 +11,7 @@ import Animated, {
   FadeOutRight,
 } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
+import BouncingBallOnDeskAnimation from '@/components/Animations/BouncingBallOnDeskAnimation';
 import AppText from '@/components/AppText';
 import ErrorChip from '@/components/ErrorChip';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
@@ -157,7 +158,7 @@ const OnPremise = () => {
           ) : (
             <Animated.View
               style={tw`flex flex-col gap-2 grow items-center w-full px-6 max-w-md self-center`}>
-              {/* <CoworkersAnimation style={tw`h-48 w-full`} /> */}
+              <BouncingBallOnDeskAnimation style={tw`h-48 w-full`} />
               <AppText
                 numberOfLines={1}
                 style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
