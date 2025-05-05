@@ -15,6 +15,7 @@ import {
 import Gallery from 'react-native-awesome-gallery';
 import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 
 type ZoomableImageProps = ImageProps & {
@@ -57,7 +58,13 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
                 right: insets.right,
               },
             ]}>
-            <AppBlurView intensity={64} style={tw`absolute inset-0`} tint="dark" />
+            <View style={tw`absolute inset-x-0 top-0`}>
+              <Fader
+                position={Fader.position.TOP}
+                size={(insets.top || (Platform.OS === 'android' ? 16 : 0)) + 64}
+                tintColor={tw.color('black/25')}
+              />
+            </View>
             {sourcesCount > 1 && (
               <>
                 {/* fake a View with the same size as the close button to properly center pagination dots */}
@@ -71,7 +78,7 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
               </>
             )}
             <MaterialCommunityIcons.Button
-              backgroundColor="transparent"
+              backgroundColor="rgba(3,10,42,0.4)"
               borderRadius={24}
               color={tw.color('gray-200')}
               iconStyle={tw`mr-0`}
