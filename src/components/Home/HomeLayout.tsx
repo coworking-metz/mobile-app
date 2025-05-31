@@ -1,4 +1,3 @@
-import SpaceshipRefreshAnimation from './SpaceshipRefreshAnimation';
 import * as Haptics from 'expo-haptics';
 import { useNavigation } from 'expo-router';
 import { SquircleView } from 'expo-squircle-view';
@@ -22,6 +21,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
+import SpaceshipRefreshAnimation from '@/components/Home/SpaceshipRefreshAnimation';
 import SunnyRefreshAnimation from '@/components/Home/SunnyRefreshAnimation';
 import useAppScreen from '@/helpers/screen';
 import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
@@ -199,7 +199,7 @@ export default function HomeLayout({
           {...(!enableAnimations && {
             refreshControl: (
               <RefreshControl
-                progressViewOffset={insets.top}
+                progressViewOffset={Platform.OS === 'ios' ? insets.top * 2 : 0}
                 refreshing={isRefresing}
                 onRefresh={() => {
                   setRefreshing(true);
@@ -232,6 +232,16 @@ export default function HomeLayout({
             tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
           />
         </Animated.View>
+
+        {!!insets.bottom && (
+          <Animated.View style={[tw`absolute bottom-0 left-0 right-0`, { height: insets.bottom }]}>
+            <Fader
+              position={Fader.position.BOTTOM}
+              size={insets.bottom}
+              tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
+            />
+          </Animated.View>
+        )}
       </Animated.View>
 
       {outerChildren}

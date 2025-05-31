@@ -1,5 +1,4 @@
 import PullToRefreshHint from './PullToRefreshHint';
-import AppText from '@/components/AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import { useQueryClient } from '@tanstack/react-query';
@@ -10,8 +9,9 @@ import { useTranslation } from 'react-i18next';
 import { TouchableOpacity } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppText from '@/components/AppText';
 
-const STALE_PERIOD_IN_SECONDS = 300; // 5 minutes
+export const STALE_PERIOD_IN_SECONDS = 300; // 5 minutes
 
 const StaleDataText = ({
   lastFetch,

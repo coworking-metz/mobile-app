@@ -1,7 +1,10 @@
+import { useIsFocused } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
+import { NetworkStateType, useNetworkState } from 'expo-network';
 import { Link } from 'expo-router';
-import React, { useCallback, useMemo, useState } from 'react';
+import { includes } from 'lodash';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import Animated, {
@@ -34,7 +37,7 @@ import MembershipCard from '@/components/Home/MembershipCard';
 import OnPremiseCard from '@/components/Home/OnPremiseCard';
 import OpenParkingCard from '@/components/Home/OpenParkingCard';
 import ProfilePicture from '@/components/Home/ProfilePicture';
-import StaleDataText from '@/components/Home/StaleDataText';
+import StaleDataText, { STALE_PERIOD_IN_SECONDS } from '@/components/Home/StaleDataText';
 import SubscriptionBottomSheet from '@/components/Home/SubscriptionBottomSheet';
 import SubscriptionCard from '@/components/Home/SubscriptionCard';
 import UnauthenticatedState from '@/components/Home/UnauthenticatedState';
@@ -65,6 +68,8 @@ export default function HomeScreen() {
   const toastStore = useToastStore();
   const activeSince = useAppState();
   const { isWide, width } = useAppScreen();
+  const networkState = useNetworkState();
+  const isFocus = useIsFocused();
 
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
@@ -231,6 +236,20 @@ export default function HomeScreen() {
     isFetchingCurrentMembers,
     isFetchingDevices,
   ]);
+
+  useEffect(() => {
+    if (
+      isFocus &&
+      networkState.isConnected &&
+      networkState.isInternetReachable &&
+      includes([NetworkStateType.ETHERNET, NetworkStateType.WIFI], networkState.type)
+    ) {
+      const lastFetch = currentMembersUpdatedAt ?? currentMembersErrorUpdatedAt;
+      if (lastFetch && dayjs().diff(lastFetch, 'second') > STALE_PERIOD_IN_SECONDS) {
+        onRefresh();
+      }
+    }
+  }, [isFocus, activeSince, networkState]);
 
   return (
     <HomeLayout
