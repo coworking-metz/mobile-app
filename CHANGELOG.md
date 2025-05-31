@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Fader on home screen bottom to avoid pressing buttons when swiping back to system home.
+- Auto-refresh home screen data when stale and connected to high speed connection.
+
 ## [2025.5.1] - 2025-05-03
 
 ### Added
