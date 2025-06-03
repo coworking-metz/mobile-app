@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/react-native';
 import { create } from 'zustand';
 import { persist, createJSONStorage, subscribeWithSelector } from 'zustand/middleware';
 import { log } from '@/helpers/logger';
+import { IS_DEV } from '@/services/environment';
 import { setAppThemePreference, type AppThemePreference } from '@/services/theme';
 
 export const SYSTEM_OPTION = 'system';
@@ -34,7 +35,7 @@ const useSettingsStore = create<SettingsState>()(
         hasLearnPullToRefresh: false,
         hasBeenInvitedToReview: false,
         hasSeenBirthdayPresentAt: null,
-        withNativePullToRefresh: false,
+        withNativePullToRefresh: IS_DEV,
         language: SYSTEM_OPTION,
         theme: SYSTEM_OPTION,
         apiBaseUrl: null,
@@ -45,7 +46,7 @@ const useSettingsStore = create<SettingsState>()(
             hasLearnPullToRefresh: false,
             hasBeenInvitedToReview: false,
             hasSeenBirthdayPresentAt: null,
-            withNativePullToRefresh: false,
+            withNativePullToRefresh: IS_DEV,
             language: SYSTEM_OPTION,
             theme: SYSTEM_OPTION,
             apiBaseUrl: null,
@@ -62,8 +63,8 @@ const useSettingsStore = create<SettingsState>()(
               [
                 'hasOnboard',
                 'hasLearnPullToRefresh',
-                'hasSeenBirthdayPresentAt',
                 'hasBeenInvitedToReview',
+                'hasSeenBirthdayPresentAt',
                 'withNativePullToRefresh',
                 'language',
                 'theme',
@@ -74,7 +75,7 @@ const useSettingsStore = create<SettingsState>()(
           ),
         onRehydrateStorage: (_state) => {
           settingsLogger.info(`Hydrating settings storage`);
-          return (_state, error) => {
+          return (_, error) => {
             if (error) {
               settingsLogger.error(`Unable to hydrate settings storage`, error);
               Sentry.captureException(error);
