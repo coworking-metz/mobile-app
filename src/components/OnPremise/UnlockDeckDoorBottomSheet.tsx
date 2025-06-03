@@ -91,7 +91,7 @@ const UnlockDeckDoorBottomSheet = ({
             <AppText
               entering={FadeInLeft.duration(300)}
               exiting={FadeOutLeft.duration(300)}
-              style={[tw`absolute left-8 text-base text-left font-medium text-black`]}>
+              style={tw`absolute left-8 text-base text-left font-medium text-black`}>
               {t('onPremise.deckDoor.loading')}
             </AppText>
           ) : null}
@@ -99,7 +99,7 @@ const UnlockDeckDoorBottomSheet = ({
             <AppText
               entering={FadeInLeft.duration(300)}
               exiting={FadeOutLeft.duration(300)}
-              style={[tw`absolute left-8 text-base text-left font-medium text-black`]}>
+              style={tw`absolute left-8 text-base text-left font-medium text-black`}>
               {t('onPremise.deckDoor.onUnlock.success')}
             </AppText>
           ) : null}

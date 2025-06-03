@@ -98,7 +98,7 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
         description={getPeriodDescription('past')}
         label={t(`events.period.options.past.label`)}
         selected={selected === 'past'}
-        style={[tw`px-3 mx-3`]}
+        style={tw`px-3 mx-3`}
         onPress={() => onPeriodPicked('past')}>
         <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
           <AppText style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
@@ -116,7 +116,7 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
           key={`period-option-${period}`}
           label={t(`events.period.options.${period ?? 'none'}.label`)}
           selected={selected === period}
-          style={[tw`px-3 mx-3`]}
+          style={tw`px-3 mx-3`}
           onPress={() => onPeriodPicked(period)}>
           <View style={tw`bg-gray-300 dark:bg-gray-700 py-1 px-2 rounded`}>
             <AppText style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>

@@ -155,8 +155,10 @@ const OpenParkingCard = ({
     <AppTouchable
       disabled={disabled}
       style={[
-        tw`flex flex-col items-start gap-4 p-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
-        disabled && tw`opacity-60`,
+        tw.style(
+          `flex flex-col items-start gap-4 p-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
+          disabled && `opacity-60`,
+        ),
         style,
       ]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setCardWidth(nativeEvent.layout.width)}
@@ -174,7 +176,7 @@ const OpenParkingCard = ({
             backgroundColor: tw.prefixMatch('dark') ? tw.color('yellow-600') : theme.meatBrown,
           },
         ]}>
-        <View style={[tw`relative h-8 w-8 shrink-0`]}>
+        <View style={tw`relative h-8 w-8 shrink-0`}>
           <BarrierAnimation
             ref={animation}
             autoPlay={false}

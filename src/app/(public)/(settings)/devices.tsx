@@ -62,10 +62,10 @@ const Devices = () => {
       {isPendingDevices ? (
         <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-6`}>
           {[0].map((index) => (
-            <DeviceCard pending key={index} style={[tw`grow shrink basis-0 min-w-32 max-w-44`]} />
+            <DeviceCard pending key={index} style={tw`grow shrink basis-0 min-w-32 max-w-44`} />
           ))}
           <AppTouchable
-            style={[tw`flex flex-row`, tw`grow shrink basis-0 min-w-32 max-w-44`]}
+            style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-44`}
             onPress={pairDevice}>
             <NewDeviceCard style={tw`self-stretch w-full`} />
           </AppTouchable>
@@ -79,7 +79,7 @@ const Devices = () => {
               asChild
               href={`/devices/${device._id}`}
               key={device.macAddress}
-              style={[tw`flex flex-row`, tw`grow shrink basis-0 min-w-32 max-w-44`]}>
+              style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-44`}>
               <AppTouchable>
                 <DeviceCard
                   device={device}
@@ -91,7 +91,7 @@ const Devices = () => {
             </Link>
           ))}
           <AppTouchable
-            style={[tw`flex flex-row`, tw`grow shrink basis-0 min-w-32 max-w-44`]}
+            style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-44`}
             onPress={pairDevice}>
             <NewDeviceCard style={tw`self-stretch w-full`} />
           </AppTouchable>
@@ -159,8 +159,8 @@ const DeviceCard = ({
         </>
       ) : (
         <>
-          <View style={[tw`bg-slate-300 dark:bg-gray-700 rounded-full p-2 z-20`]}>
-            <View style={[tw`flex relative h-8 w-8 shrink-0`]}>
+          <View style={tw`bg-slate-300 dark:bg-gray-700 rounded-full p-2 z-20`}>
+            <View style={tw`flex relative h-8 w-8 shrink-0`}>
               {loading ? (
                 <HorizontalLoadingAnimation
                   color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}

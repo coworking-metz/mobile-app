@@ -234,7 +234,7 @@ const PhoneBoothBottomSheet = ({
             data={WEEK_DAYS_INDEXES}
             defaultIndex={WEEK_DAYS_INDEXES.findIndex((index) => index === dayjs().day())}
             loop={false}
-            renderItem={({ item: day, index }) => (
+            renderItem={({ item: day }) => (
               <View style={[tw`flex flex-col`, { width: carouselWidth }]}>
                 <BarChart
                   disableScroll

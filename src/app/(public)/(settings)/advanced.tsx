@@ -155,7 +155,7 @@ const Advanced = () => {
       title={t('advanced.title')}
       withBackButton={!_root}>
       <View style={tw`w-full max-w-xl mx-auto mb-6`}>
-        <AppText style={[tw`text-sm uppercase text-slate-500 mx-6`]}>
+        <AppText style={tw`text-sm uppercase text-slate-500 mx-6`}>
           {t('advanced.services.title')}
         </AppText>
         <ServiceRow
@@ -187,7 +187,7 @@ const Advanced = () => {
           }}
         />
 
-        <AppText style={[tw`text-sm uppercase text-slate-500 mx-6 mt-6`]}>
+        <AppText style={tw`text-sm uppercase text-slate-500 mx-6 mt-6`}>
           {t('advanced.store.title')}
         </AppText>
         <ServiceRow

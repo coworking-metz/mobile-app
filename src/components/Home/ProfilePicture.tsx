@@ -61,7 +61,7 @@ const ProfilePicture = ({
         <LoadingSpinner
           entering={FadeIn.duration(300)}
           exiting={FadeOut.duration(300)}
-          style={[tw`absolute h-full w-full`]}
+          style={tw`absolute h-full w-full`}
         />
       )}
 

@@ -29,8 +29,10 @@ const AppRoundedButton: ForwardRefRenderFunction<AppTouchableRef, AppRoundedButt
         cornerSmoothing={100} // 0-100
         preserveSmoothing={true} // false matches figma, true has more rounding
         style={[
-          tw`flex flex-row justify-center items-center min-h-14 px-6 rounded-3xl relative overflow-hidden`,
-          disabled && tw`bg-neutral-200 dark:bg-neutral-400 opacity-50`,
+          tw.style(
+            `flex flex-row justify-center items-center min-h-14 px-6 rounded-3xl relative overflow-hidden`,
+            disabled && `bg-neutral-200 dark:bg-neutral-400 opacity-50`,
+          ),
           style,
         ]}>
         {!disabled && (

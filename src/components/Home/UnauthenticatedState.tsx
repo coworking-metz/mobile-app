@@ -1,4 +1,3 @@
-import AppText from '@/components/AppText';
 import { Image } from 'expo-image';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +5,7 @@ import { StyleProp, TouchableNativeFeedback, View, ViewStyle, type ViewProps } f
 import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import unlock from '@/assets/images/undraw/unlock.svg';
+import AppText from '@/components/AppText';
 import { useAppAuth } from '@/context/auth';
 
 const UnauthenticatedState = ({
@@ -24,7 +24,7 @@ const UnauthenticatedState = ({
         contentFit="contain"
         contentPosition="left center"
         source={unlock}
-        style={[tw`w-full h-32`]}
+        style={tw`w-full h-32`}
       />
       <View style={tw`flex flex-col w-full gap-3 grow shrink`}>
         <TouchableNativeFeedback onPress={login}>

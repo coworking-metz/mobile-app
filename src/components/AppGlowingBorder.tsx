@@ -68,7 +68,7 @@ export const AppGlowingBorder = ({
   };
 
   return (
-    <Canvas style={[tw`overflow-visible`, { width, height }, style]}>
+    <Canvas style={[tw.style(`overflow-visible`, { width, height }), style]}>
       <Group origin={{ x: screenWidth / 2, y: screenHeight / 2 }}>
         {/* Blurred Glow */}
         <Group>

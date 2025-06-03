@@ -174,7 +174,7 @@ const PresenceGraph = ({
               </AppText>
               {!!activityCount && (
                 <AppText
-                  style={[tw`font-normal text-sm leading-6 text-slate-500 dark:text-slate-400`]}>
+                  style={tw`font-normal text-sm leading-6 text-slate-500 dark:text-slate-400`}>
                   {t('settings.profile.presence.activity', {
                     count: activityCount,
                   })}
@@ -182,7 +182,7 @@ const PresenceGraph = ({
               )}
             </View>
             {firstActivityDate && (
-              <AppText style={[tw`font-normal text-sm text-slate-500 dark:text-slate-400`]}>
+              <AppText style={tw`font-normal text-sm text-slate-500 dark:text-slate-400`}>
                 {t('settings.profile.presence.since', {
                   date: dayjs(firstActivityDate).format('ll'),
                 })}

@@ -29,9 +29,7 @@ const GiftCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
       />
 
       <View
-        style={[
-          tw`flex flex-col items-start grow overflow-hidden gap-1 relative pl-3 pr-0 pt-2 pb-4`,
-        ]}>
+        style={tw`flex flex-col items-start grow overflow-hidden gap-1 relative pl-3 pr-0 pt-2 pb-4`}>
         <MaterialCommunityIcons
           color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
           name="gift"

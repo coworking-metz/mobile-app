@@ -63,10 +63,10 @@ const AppointmentCard = ({
 
   return (
     <View
-      // eslint-disable-next-line tailwindcss/no-custom-classname
       style={[
-        tw`flex flex-col items-start gap-4 rounded-2xl w-32 relative overflow-hidden p-4`,
-        { backgroundColor: tw.prefixMatch('dark') ? `${theme.meatBrown}CC` : theme.meatBrown },
+        tw.style(`flex flex-col items-start gap-4 rounded-2xl w-32 relative overflow-hidden p-4`, {
+          backgroundColor: tw.prefixMatch('dark') ? `${theme.meatBrown}CC` : theme.meatBrown,
+        }),
         style,
       ]}>
       <View style={tw`flex flex-row gap-4 items-start`}>
@@ -101,7 +101,7 @@ const AppointmentCard = ({
           />
           <AppText
             numberOfLines={1}
-            style={[tw`text-base font-normal text-gray-100 dark:text-gray-200`]}>
+            style={tw`text-base font-normal text-gray-100 dark:text-gray-200`}>
             {appointmentDate}
           </AppText>
         </View>
@@ -115,7 +115,7 @@ const AppointmentCard = ({
           />
           <AppText
             numberOfLines={1}
-            style={[tw`text-base font-normal text-gray-100 dark:text-gray-200`]}>
+            style={tw`text-base font-normal text-gray-100 dark:text-gray-200`}>
             {appointmentTime}
           </AppText>
         </View>

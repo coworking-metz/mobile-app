@@ -186,7 +186,7 @@ const Onboarding = () => {
         ) : null}
       </View>
 
-      <Animated.View style={[tw`absolute top-0 left-0 right-0`]}>
+      <Animated.View style={tw`absolute top-0 left-0 right-0`}>
         <Fader
           position={Fader.position.TOP}
           size={insets.top || (Platform.OS === 'android' ? 16 : 0)}

@@ -29,7 +29,7 @@ const MemberBottomSheet = ({
     <AppBottomSheet contentContainerStyle={tw`pt-6`} style={style} onClose={onClose}>
       {member && (
         <>
-          <View style={[tw`flex flex-row gap-4 items-center h-32 mx-6`]}>
+          <View style={tw`flex flex-row gap-4 items-center h-32 mx-6`}>
             <ZoomableImage
               contentFit="cover"
               source={member.polaroid}
