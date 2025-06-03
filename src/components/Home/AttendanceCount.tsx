@@ -86,9 +86,7 @@ const AttendanceCount = ({
           </View>
         )}
         <AppText
-          style={[
-            tw`text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-slate-400 h-12`,
-          ]}>
+          style={tw`text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-slate-400 h-12`}>
           {t('home.people.capacity', { total: total })}
         </AppText>
       </View>

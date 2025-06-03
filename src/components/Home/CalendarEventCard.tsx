@@ -17,7 +17,7 @@ import { type CalendarEvent } from '@/services/api/calendar';
 
 const AmourFoodIcon = () => {
   return (
-    <View style={[tw`h-10 w-10 bg-white rounded-lg overflow-hidden p-1`]}>
+    <View style={tw`h-10 w-10 bg-white rounded-lg overflow-hidden p-1`}>
       <Image source={AmourFoodSquareLogo} style={[tw`h-full w-full`]} />
     </View>
   );
@@ -33,7 +33,7 @@ const CoworkingIcon = () => {
 
 const BliiidaIcon = () => {
   return (
-    <View style={[tw`h-10 w-10 bg-white rounded-lg overflow-hidden p-0.5`]}>
+    <View style={tw`h-10 w-10 bg-white rounded-lg overflow-hidden p-0.5`}>
       <Image source={BliiidaSquareLogo} style={[tw`h-full w-full`]} />
     </View>
   );

@@ -36,7 +36,7 @@ const HomeCarousel = ({
               {item}
             </View>
           )}
-          style={[tw`flex flex-row w-full overflow-visible`]}
+          style={tw`flex flex-row w-full overflow-visible`}
           width={elements.length > 1 ? carouselWidth - 16 : carouselWidth}
         />
       ) : (

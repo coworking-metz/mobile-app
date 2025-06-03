@@ -57,7 +57,7 @@ const SocialsBottomSheet = ({
               renderDescription={(description) => (
                 <AppText
                   numberOfLines={1}
-                  style={[tw`text-sm font-normal text-slate-500 dark:text-slate-400`]}>
+                  style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
                   {description}
                 </AppText>
               )}

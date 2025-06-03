@@ -113,7 +113,7 @@ const ServiceLayout = ({
   }, [onRefresh]);
 
   return (
-    <View style={[{ flex: 1 }, tw`bg-gray-100 dark:bg-black`, style]}>
+    <View style={[tw`flex-1 bg-gray-100 dark:bg-black`, style]}>
       <View style={tw`flex flex-col grow relative`}>
         <Animated.View
           style={[
@@ -233,7 +233,7 @@ const ServiceLayout = ({
           ) : (
             <AppText
               numberOfLines={1}
-              style={[tw`text-lg tracking-tight text-slate-900 dark:text-gray-200 font-medium`]}>
+              style={tw`text-lg tracking-tight text-slate-900 dark:text-gray-200 font-medium`}>
               {title}
             </AppText>
           )}

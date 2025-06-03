@@ -29,7 +29,7 @@ const OnPremiseCard: ForwardRefRenderFunction<
       ]}
       onPress={onPress}>
       <Animated.View style={tw`bg-gray-300 dark:bg-gray-700 rounded-full p-2 z-20`}>
-        <View style={[tw`relative h-8 w-8 shrink-0`]}>
+        <View style={tw`relative h-8 w-8 shrink-0`}>
           <MaterialCommunityIcons
             color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
             iconStyle={{ height: 32, width: 32, marginRight: 0 }}
@@ -51,9 +51,7 @@ const OnPremiseCard: ForwardRefRenderFunction<
         {location && (
           <AppText
             numberOfLines={1}
-            style={[
-              tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400`,
-            ]}>
+            style={tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400`}>
             {location}
           </AppText>
         )}

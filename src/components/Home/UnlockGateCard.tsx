@@ -175,7 +175,7 @@ const UnlockCard = ({
             backgroundColor: tw.prefixMatch('dark') ? tw.color('yellow-600') : theme.meatBrown,
           },
         ]}>
-        <View style={[tw`relative h-8 w-8 shrink-0`]}>
+        <View style={tw`relative h-8 w-8 shrink-0`}>
           <LockUnlockAnimation
             ref={animation}
             autoPlay={false}

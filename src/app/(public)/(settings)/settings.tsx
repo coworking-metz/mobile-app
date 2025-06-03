@@ -190,7 +190,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   );
 
   return (
-    <View style={[{ flex: 1 }, tw`bg-gray-100 dark:bg-black`, style]}>
+    <View style={[tw`flex-1 bg-gray-100 dark:bg-black`, style]}>
       <View style={tw`flex flex-col grow relative`}>
         <Animated.View
           style={[
@@ -243,7 +243,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 iconStyle={{ height: 32, width: 32, marginRight: 0 }}
                 name="chevron-right"
                 size={32}
-                style={[tw`shrink-0 mt-6`]}
+                style={tw`shrink-0 mt-6`}
               />
             </View>
           </View>
@@ -269,7 +269,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           horizontal={false}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
-          style={[{ flex: 1 }, tw`z-10 grow shrink`]}
+          style={tw`flex-1 z-10 grow shrink`}
           onScroll={onVerticalScroll}>
           {
             /* transparent view to fake a touch on the header link, should mimic as much as possible the header */

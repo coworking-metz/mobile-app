@@ -65,7 +65,7 @@ const Step = ({
           return cloneElement(el as never, { containerHeight: scrollContainerHeight });
         })}
       </Animated.ScrollView>
-      <Animated.View style={[faderStyle]}>
+      <Animated.View style={faderStyle}>
         <Fader
           visible
           position={Fader.position.BOTTOM}

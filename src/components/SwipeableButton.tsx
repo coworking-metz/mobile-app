@@ -219,8 +219,10 @@ const SwipeableButton = ({
   return (
     <View
       style={[
-        tw`flex flex-row justify-center items-center min-h-18 rounded-[4rem] border-4 border-[${theme.meatBrown}] bg-gray-200 dark:bg-neutral-800 overflow-hidden`,
-        disabled && tw`opacity-50`,
+        tw.style(
+          `flex flex-row justify-center items-center min-h-18 rounded-[4rem] border-4 border-[${theme.meatBrown}] bg-gray-200 dark:bg-neutral-800 overflow-hidden`,
+          disabled && `opacity-50`,
+        ),
         style,
       ]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => {
@@ -255,7 +257,7 @@ const SwipeableButton = ({
                 animatedProps={handleIconAnimatedProps}
                 name={hasSwiped ? 'restart' : 'chevron-right'}
                 size={32}
-                style={[tw`shrink-0`]}
+                style={tw`shrink-0`}
               />
             )}
           </TouchableOpacity>

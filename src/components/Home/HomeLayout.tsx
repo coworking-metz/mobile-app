@@ -199,7 +199,7 @@ export default function HomeLayout({
           {...(!enableAnimations && {
             refreshControl: (
               <RefreshControl
-                progressViewOffset={Platform.OS === 'ios' ? insets.top * 2 : 0}
+                progressViewOffset={Platform.OS === 'ios' ? insets.top : 0}
                 refreshing={isRefresing}
                 onRefresh={() => {
                   setRefreshing(true);
@@ -217,8 +217,9 @@ export default function HomeLayout({
           onScroll={scrollHandler}>
           <Animated.View
             style={[
-              tw`flex flex-col items-start justify-start bg-gray-100 dark:bg-black w-full`,
-              { paddingBottom: insets.top + insets.bottom + 32 },
+              tw.style(`flex flex-col items-start justify-start bg-gray-100 dark:bg-black w-full`, {
+                paddingBottom: insets.top + insets.bottom + 32,
+              }),
               enableAnimations && pullDownStyles,
             ]}>
             {children}

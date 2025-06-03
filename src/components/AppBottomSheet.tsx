@@ -96,8 +96,10 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
       {...(Platform.OS === 'android' && { animationConfigs: { duration: 300 } })}
       {...props}
       style={[
-        tw`mx-1 overflow-hidden`,
-        parentWidth > MAX_WIDTH && tw`w-[${MAX_WIDTH}px] ml-[${parentWidth / 2 - MAX_WIDTH / 2}px]`,
+        tw.style(
+          `mx-1 overflow-hidden`,
+          parentWidth > MAX_WIDTH && `w-[${MAX_WIDTH}px] ml-[${parentWidth / 2 - MAX_WIDTH / 2}px]`,
+        ),
         style,
       ]}>
       <SquircleView
@@ -114,7 +116,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
         {children && (
           <BottomSheetScrollView
             bounces={isBouncing}
-            contentContainerStyle={[tw`pt-2`, { paddingBottom }, contentContainerStyle]}
+            contentContainerStyle={[tw.style(`pt-2`, { paddingBottom }), contentContainerStyle]}
             onContentSizeChange={(_width, height) => setContentHeight(height)}>
             {children}
           </BottomSheetScrollView>

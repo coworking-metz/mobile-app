@@ -61,7 +61,7 @@ const LanguageBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
             key={`language-option-${language.code}`}
             label={language.label}
             selected={settingsStore.language === language.code}
-            style={[tw`px-3 mx-3`]}
+            style={tw`px-3 mx-3`}
             suffixIcon={settingsStore.language === language.code ? 'check' : null}
             onPress={() => onLanguagePicked(language.code)}>
             {!getLanguageLabel(SYSTEM_LANGUAGE) && language.code === SYSTEM_OPTION ? (
