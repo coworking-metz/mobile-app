@@ -2,8 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, View, ViewStyle } from 'react-native';
-import ReadMore from 'react-native-read-more-text';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { FadeIn, FadeOutDown } from 'react-native-reanimated';
 import { RandomReveal } from 'react-random-reveal';
 import tw from 'twrnc';
@@ -59,22 +58,9 @@ const KeyBoxBottomSheet = ({
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.keyBox.label')}
       </AppText>
-      <ReadMore
-        numberOfLines={2}
-        renderRevealedFooter={(handlePress) => (
-          <AppText style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
-            {t('actions.hide')}
-          </AppText>
-        )}
-        renderTruncatedFooter={(handlePress) => (
-          <AppText style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
-            {t('actions.readMore')}
-          </AppText>
-        )}>
-        <AppText style={tw`text-left text-base font-normal text-slate-500`}>
-          {t('onPremise.keyBox.description')}
-        </AppText>
-      </ReadMore>
+      <AppText style={tw`text-left text-base font-normal text-slate-500`}>
+        {t('onPremise.keyBox.description')}
+      </AppText>
 
       {code ? (
         <AppText

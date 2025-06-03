@@ -251,6 +251,12 @@ export default function HomeScreen() {
     }
   }, [isFocus, activeSince, networkState]);
 
+  const onPremiseLocation = useMemo(() => {
+    if (profile?.location && profile?.attending) {
+      return profile?.location;
+    }
+  }, [profile?.location, profile?.attending]);
+
   return (
     <HomeLayout
       outerChildren={
@@ -543,12 +549,14 @@ export default function HomeScreen() {
             asChild
             href={{
               pathname: '/on-premise',
-              params: {
-                location: profile?.location,
-              },
+              ...(onPremiseLocation && {
+                params: {
+                  location: onPremiseLocation,
+                },
+              }),
             }}>
             <OnPremiseCard
-              location={profile?.location && t(`onPremise.location.${profile?.location}`)}
+              location={onPremiseLocation && t(`onPremise.location.${onPremiseLocation}`)}
             />
           </Link>
         </Animated.View>

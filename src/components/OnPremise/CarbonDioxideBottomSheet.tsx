@@ -165,7 +165,7 @@ const CarbonDioxideBottomSheet = ({
       </View>
       <Animated.View
         entering={FadeInUp.duration(1000).delay(900)}
-        style={tw`self-start flex flex-row items-center gap-1.5 px-2 py-1 rounded-full border-[0.5px] border-gray-300 dark:border-gray-700`}>
+        style={tw`self-start flex flex-row mx-auto items-center gap-1.5 px-2 py-1 rounded-full border-[0.5px] border-gray-300 dark:border-gray-700`}>
         <View style={[tw`h-2 w-2 rounded-full`, { backgroundColor: levelColor }]} />
         {loading ? (
           <View
