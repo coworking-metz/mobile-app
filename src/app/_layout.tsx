@@ -1,47 +1,48 @@
-import * as Sentry from '@sentry/react-native';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import * as NavigationBar from 'expo-navigation-bar';
-import { Stack, useNavigationContainerRef } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import * as SystemUI from 'expo-system-ui';
-import { PostHogProvider } from 'posthog-react-native';
-import { useEffect, useLayoutEffect } from 'react';
-import { Platform } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { KeyboardProvider } from 'react-native-keyboard-controller';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import tw, { useDeviceContext } from 'twrnc';
-import NoticeBottomSheet from '@/components/NoticeBottomSheet';
-import ToastMessage from '@/components/ToastMessage';
-import { AuthProvider } from '@/context/auth';
-import { ContactProvider } from '@/context/contact';
-import { I18nProvider } from '@/context/i18n';
-import { PermissionsProvider } from '@/context/permissions';
-import { ReviewProvider } from '@/context/review';
-import { SocialsProvider } from '@/context/socials';
-import { ThemeProvider } from '@/context/theme';
-import { IS_DEV } from '@/services/environment';
-import { HTTP } from '@/services/http';
-import createHttpInterceptors from '@/services/interceptors';
-import { navigationIntegration } from '@/services/sentry';
-import { AppThemeBackground } from '@/services/theme';
-import '@/i18n';
-import { NewDeviceProvider } from '@/context/new-device';
-import { PresenceProvider } from '@/context/presence';
+import * as Sentry from "@sentry/react-native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import * as NavigationBar from "expo-navigation-bar";
+import { Stack, useNavigationContainerRef } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
+import * as SystemUI from "expo-system-ui";
+import { PostHogProvider } from "posthog-react-native";
+import { useEffect, useLayoutEffect } from "react";
+import { Platform } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { KeyboardProvider } from "react-native-keyboard-controller";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import tw, { useDeviceContext } from "twrnc";
+import NoticeBottomSheet from "@/components/NoticeBottomSheet";
+import ToastMessage from "@/components/ToastMessage";
+import { AuthProvider } from "@/context/auth";
+import { ContactProvider } from "@/context/contact";
+import { I18nProvider } from "@/context/i18n";
+import { PermissionsProvider } from "@/context/permissions";
+import { ReviewProvider } from "@/context/review";
+import { SocialsProvider } from "@/context/socials";
+import { ThemeProvider } from "@/context/theme";
+import { IS_DEV } from "@/services/environment";
+import { HTTP } from "@/services/http";
+import createHttpInterceptors from "@/services/interceptors";
+import { navigationIntegration } from "@/services/sentry";
+import { AppThemeBackground } from "@/services/theme";
+import { registerBeaconMonitoring } from "@/services/beacons";
+import "@/i18n";
+import { NewDeviceProvider } from "@/context/new-device";
+import { PresenceProvider } from "@/context/presence";
 
 const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
-if (Platform.OS === 'android') {
+if (Platform.OS === "android") {
   // enables edge-to-edge mode
-  NavigationBar.setPositionAsync('absolute');
+  NavigationBar.setPositionAsync("absolute");
   // transparent backgrounds to see through
-  NavigationBar.setBackgroundColorAsync('#ffffff01');
+  NavigationBar.setBackgroundColorAsync("#ffffff01");
   // to avoid white flash when navigating https://www.reddit.com/r/reactnative/comments/1f7eknt/comment/ll9w39k/
-  SystemUI.setBackgroundColorAsync('black');
+  SystemUI.setBackgroundColorAsync("black");
 }
 
 const queryClient = new QueryClient();
@@ -67,6 +68,10 @@ const RootLayout = () => {
     }
   }, [ref]);
 
+  useEffect(() => {
+    registerBeaconMonitoring().catch(() => null);
+  }, []);
+
   return (
     <GestureHandlerRootView style={tw`h-screen w-screen flex-1`}>
       <KeyboardProvider navigationBarTranslucent statusBarTranslucent>
@@ -76,7 +81,7 @@ const RootLayout = () => {
             apiKey={POSTHOG_API_KEY}
             options={{
               disabled: IS_DEV,
-              host: 'https://eu.i.posthog.com',
+              host: "https://eu.i.posthog.com",
               // Enable session recording. Requires enabling in your project settings as well.
               // Default is false.
               enableSessionReplay: true,
@@ -103,7 +108,8 @@ const RootLayout = () => {
                 // Deboucer delay used to reduce the number of snapshots captured and reduce performance impact. Default is 1000ms
                 iOSdebouncerDelayMs: 1000,
               },
-            }}>
+            }}
+          >
             <I18nProvider>
               <QueryClientProvider client={queryClient}>
                 <AuthProvider>
@@ -118,17 +124,18 @@ const RootLayout = () => {
                                   screenOptions={{
                                     headerShown: false,
                                     contentStyle: {
-                                      backgroundColor: 'transparent',
+                                      backgroundColor: "transparent",
                                     },
                                     navigationBarTranslucent: true,
-                                  }}>
+                                  }}
+                                >
                                   <Stack.Screen
                                     name="index"
                                     options={{
-                                      animationTypeForReplace: 'pop',
-                                      animation: 'fade',
+                                      animationTypeForReplace: "pop",
+                                      animation: "fade",
                                       contentStyle: {
-                                        backgroundColor: 'transparent',
+                                        backgroundColor: "transparent",
                                       },
                                     }}
                                   />
@@ -143,7 +150,7 @@ const RootLayout = () => {
                                     name="(public)/onboarding"
                                     options={{
                                       headerShown: false,
-                                      animation: 'slide_from_bottom',
+                                      animation: "slide_from_bottom",
                                     }}
                                   />
 
@@ -151,7 +158,7 @@ const RootLayout = () => {
                                     name="(public)/home"
                                     options={{
                                       headerShown: false,
-                                      animationTypeForReplace: 'pop',
+                                      animationTypeForReplace: "pop",
                                     }}
                                   />
 
@@ -182,10 +189,10 @@ const RootLayout = () => {
 
                         <ToastMessage />
                         <NoticeBottomSheet />
-                        {Platform.OS === 'android' ? (
+                        {Platform.OS === "android" ? (
                           <AppThemeBackground
-                            dark={tw.color('black') as string}
-                            light={tw.color('transparent') as string}
+                            dark={tw.color("black") as string}
+                            light={tw.color("transparent") as string}
                           />
                         ) : null}
                         <StatusBar translucent />
