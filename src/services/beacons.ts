@@ -1,8 +1,8 @@
 import { HTTP } from './http';
+import Beacons, { BeaconRegion } from '@hkpuits/react-native-beacons-manager';
 import * as Location from 'expo-location';
 import * as TaskManager from 'expo-task-manager';
 import { DeviceEventEmitter, Platform } from 'react-native';
-import Beacons, { BeaconRegion } from 'react-native-beacons-manager';
 import { log } from '@/helpers/logger';
 
 const logger = log.extend('[beacons]');
