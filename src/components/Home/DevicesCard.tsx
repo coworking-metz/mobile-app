@@ -1,31 +1,20 @@
 import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useQuery } from '@tanstack/react-query';
-import { Skeleton } from 'moti/skeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewProps, ViewStyle } from 'react-native';
-import Animated, {
-  AnimatedProps,
-  BounceIn,
-  BounceOut,
-  FadeIn,
-  FadeOut,
-} from 'react-native-reanimated';
+import Animated, { AnimatedProps, BounceIn, BounceOut } from 'react-native-reanimated';
+import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
-import { getMemberDevices } from '@/services/api/members';
-import useAuthStore from '@/stores/auth';
 
 const DevicesCard = ({
   count,
-  invalid,
   pending,
   style,
 }: AnimatedProps<ViewProps> & {
   count?: number;
   pending?: boolean;
-  invalid?: boolean;
   style?: StyleProp<ViewStyle>;
 }) => {
   const { t } = useTranslation();
@@ -56,14 +45,22 @@ const DevicesCard = ({
           ellipsizeMode={'clip'}
           numberOfLines={1}
           style={[
-            tw`mt-auto text-2xl font-normal`,
+            tw`mt-auto text-2xl font-normal w-full`,
             count ? tw`text-slate-900 dark:text-gray-200` : tw`text-gray-400 dark:text-slate-600`,
           ]}>
           {t('home.profile.devices.count', { count: count ?? 0 })}
         </AppText>
       )}
 
-      {invalid && (
+      <View style={tw`absolute top-0 bottom-0 right-0 z-1 rounded-2xl overflow-hidden w-16`}>
+        <Fader
+          position={Fader.position.END}
+          size={16}
+          tintColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
+        />
+      </View>
+
+      {count === 0 && (
         <Animated.View
           entering={BounceIn.duration(1000).delay(300)}
           exiting={BounceOut.duration(1000)}

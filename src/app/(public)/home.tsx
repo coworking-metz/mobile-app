@@ -386,7 +386,6 @@ export default function HomeScreen() {
                   count={devices?.length}
                   entering={FadeIn.duration(500)}
                   exiting={FadeOut.duration(500)}
-                  invalid={!devices?.length}
                   pending={isPendingDevices}
                   style={tw`h-38`}
                 />

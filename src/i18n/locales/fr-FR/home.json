@@ -60,10 +60,11 @@
     "birthday": {
       "claim": "Recevoir mon cadeau",
       "description": "C'est votre anniversaire aujourd'hui et nous n'aurions manquer pour rien au monde de vous le souhaiter.\nAlors joyeux anniversaire 🎉 et à très vite au Poulailler !",
-      "label": "Un an de plus !",
+      "label": "Joyeux\nanniversaire !",
       "onClaim": {
         "fail": "Impossible de récupérer le cadeau"
-      }
+      },
+      "title": "Un an de plus !"
     },
     "devices": {
       "count_one": "1 appareil",

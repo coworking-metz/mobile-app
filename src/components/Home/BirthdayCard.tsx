@@ -5,6 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
+import { Fader, View } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
 import useSettingsStore from '@/stores/settings';
@@ -40,6 +41,14 @@ const BirthdayCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
       <AppText style={tw`mt-auto text-2xl font-normal text-gray-400 dark:text-slate-600`}>
         🥳
       </AppText>
+
+      <View style={tw`absolute top-0 bottom-0 right-0 z-1 rounded-2xl overflow-hidden w-16`}>
+        <Fader
+          position={Fader.position.END}
+          size={16}
+          tintColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
+        />
+      </View>
     </Animated.View>
   );
 };

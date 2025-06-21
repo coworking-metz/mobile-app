@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+
+- Fade text on situation cards when too large.
+
 ## [2025.6.1] - 2025-06-04
 
 ### Added

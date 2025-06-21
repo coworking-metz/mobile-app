@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
+import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
 
@@ -38,7 +39,7 @@ const BalanceCard = ({
       {loading ? (
         <LoadingSkeleton height={28} show={loading} width={96} />
       ) : (
-        <View style={tw`flex flex-row items-baseline gap-1`}>
+        <View style={tw`flex flex-row items-baseline gap-1 w-full`}>
           {count != 0 && (
             <AppText
               numberOfLines={1}
@@ -47,9 +48,10 @@ const BalanceCard = ({
             </AppText>
           )}
           <AppText
+            ellipsizeMode={'clip'}
             numberOfLines={1}
             style={[
-              tw`font-normal`,
+              tw`font-normal flex-shrink`,
               count != 0
                 ? tw`leading-6 text-sm text-slate-500 dark:text-slate-400`
                 : tw`text-2xl text-gray-400 dark:text-slate-600`,
@@ -61,12 +63,20 @@ const BalanceCard = ({
         </View>
       )}
 
+      <View style={tw`absolute top-0 bottom-0 right-0 z-1 rounded-2xl overflow-hidden w-16`}>
+        <Fader
+          position={Fader.position.END}
+          size={16}
+          tintColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
+        />
+      </View>
+
       {count > 0 && (
         <MaterialCommunityIcons
           color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
           name="check-circle"
           size={20}
-          style={tw`absolute top-3 right-3`}
+          style={tw`absolute top-3 right-3 z-10`}
         />
       )}
 

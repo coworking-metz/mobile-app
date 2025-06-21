@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
+import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
 import { type ApiMemberSubscription } from '@/services/api/members';
@@ -34,7 +35,7 @@ const SubscriptionCard = ({
     return t('home.profile.subscription.label.activeUntil');
   }, [subscription, t, isFocus, activeSince]);
 
-  const value = useMemo(() => {
+  const expirationDate = useMemo(() => {
     if (!subscription) return t('home.profile.subscription.status.none');
 
     const today = dayjs().startOf('day');
@@ -89,23 +90,32 @@ const SubscriptionCard = ({
         <LoadingSkeleton height={26} show={loading} width={96} />
       ) : (
         <AppText
+          ellipsizeMode={'clip'}
           numberOfLines={1}
           style={[
-            tw`text-2xl font-normal`,
+            tw`text-2xl font-normal w-full`,
             subscription
               ? tw`text-slate-900 dark:text-gray-200`
               : tw`text-gray-400 dark:text-slate-600`,
           ]}>
-          {value}
+          {expirationDate}
         </AppText>
       )}
+
+      <View style={tw`absolute top-0 bottom-0 right-0 z-1 rounded-2xl overflow-hidden w-16`}>
+        <Fader
+          position={Fader.position.END}
+          size={16}
+          tintColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
+        />
+      </View>
 
       {subscription && dayjs().isBetween(subscription.started, subscription.ended, 'day', '[]') && (
         <MaterialCommunityIcons
           color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
           name="check-circle"
           size={20}
-          style={tw`absolute top-3 right-3`}
+          style={tw`absolute top-3 right-3 z-10`}
         />
       )}
     </View>
