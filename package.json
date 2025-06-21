@@ -24,7 +24,7 @@
   "dependencies": {
     "@expo-google-fonts/noto-sans": "^0.4.0",
     "@expo/vector-icons": "^14.0.0",
-    "@gorhom/bottom-sheet": "^5.1.5",
+    "@gorhom/bottom-sheet": "^5.1.6",
     "@jonny/touchable-scale": "^1.0.2",
     "@leeoniya/ufuzzy": "^1.0.18",
     "@react-native-async-storage/async-storage": "1.23.1",
@@ -33,10 +33,10 @@
     "@ronradtke/react-native-markdown-display": "^8.1.0",
     "@sentry/react-native": "~6.10.0",
     "@shipt/segmented-arc-for-react-native": "^2.0.0",
-    "@shopify/react-native-skia": "1.12.4",
-    "@tanstack/react-query": "^5.79.0",
+    "@shopify/react-native-skia": "^1.12.4",
+    "@tanstack/react-query": "^5.80.10",
     "@vonovak/react-native-theme-control": "^6.1.0",
-    "axios": "^1.9.0",
+    "axios": "^1.10.0",
     "axios-retry": "^4.5.0",
     "color": "^5.0.0",
     "dayjs": "^1.11.13",
@@ -76,11 +76,11 @@
     "markdown-it-plain-text": "^0.3.0",
     "moti": "^0.30.0",
     "patch-package": "^8.0.0",
-    "posthog-react-native": "^3.16.1",
-    "posthog-react-native-session-replay": "^1.0.6",
+    "posthog-react-native": "^4.1.0",
+    "posthog-react-native-session-replay": "^1.1.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-i18next": "^15.5.2",
+    "react-i18next": "^15.5.3",
     "react-native": "0.76.9",
     "react-native-awesome-gallery": "^0.4.3",
     "react-native-chart-kit": "^6.12.0",
@@ -101,9 +101,9 @@
     "react-native-ui-lib": "^7.43.0",
     "react-native-uuid": "^2.0.3",
     "react-random-reveal": "^2.0.1",
-    "rive-react-native": "^9.3.2",
-    "sonner-native": "^0.20.0",
-    "twrnc": "^4.8.0",
+    "rive-react-native": "^9.3.4",
+    "sonner-native": "^0.21.0",
+    "twrnc": "^4.9.0",
     "zustand": "^5.0.5"
   },
   "devDependencies": {
@@ -125,7 +125,7 @@
     "sort-package-json": "^3.2.1",
     "tailwindcss": "^3.4.17",
     "tslib": "^2.7.0",
-    "typescript": "~5.7.3"
+    "typescript": "~5.8.3"
   },
   "expo": {
     "install": {
