@@ -63,19 +63,20 @@ const PresenceBottomSheet = ({
             tw`font-normal text-slate-500 dark:text-slate-400 text-right`,
             nonCompliant && nonCompliant.value !== activity.value ? tw`text-sm` : tw`text-base`,
           ]}>
-          {activity.type === 'subscription'
-            ? t('settings.profile.presence.selected.coverage.value.subscription')
-            : t('settings.profile.presence.selected.coverage.value.ticket', {
-              count: activity.value,
-              ...(nonCompliant && {
-                suffix: t(
-                  `settings.profile.presence.selected.debt.${nonCompliant.value !== activity.value ? 'with' : 'unit'}.ticket`,
-                  {
-                    count: nonCompliant.value,
-                  },
-                ),
-              }),
-            })}
+          {
+            /* eslint-disable prettier/prettier */
+            activity.type === 'subscription'
+              ? t('settings.profile.presence.selected.coverage.value.subscription')
+              : t('settings.profile.presence.selected.coverage.value.ticket', {
+                count: activity.value,
+                suffix: nonCompliant
+                  ? t(`settings.profile.presence.selected.debt.${nonCompliant.value !== activity.value ? 'with' : 'unit'}.ticket`,
+                    { count: nonCompliant.value },
+                  )
+                  : '',
+              })
+            /* eslint-enable prettier/prettier */
+          }
         </AppText>
       </ServiceRow>
 
