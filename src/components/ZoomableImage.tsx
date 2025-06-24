@@ -1,6 +1,6 @@
-import AppBlurView from './AppBlurView';
 import CarouselPaginationDots from './CarouselPaginationDots';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import dayjs from 'dayjs';
 import { Image, type ImageProps } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import React, { useMemo, useState } from 'react';
@@ -18,8 +18,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 
-type ZoomableImageProps = ImageProps & {
-  sources?: ImageProps['source'][];
+type ZoomableImageProps = Omit<ImageProps, 'source'> & {
+  source: string;
+  sources?: string[];
 };
 
 const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableImageProps) => {
@@ -37,7 +38,15 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
   return (
     <>
       <TouchableOpacity onPress={() => setSelected(true)}>
-        <Image cachePolicy="memory-disk" source={source} style={style} {...props} />
+        <Image
+          cachePolicy="memory-disk"
+          source={{
+            uri: source,
+            cacheKey: `${source}-${dayjs().format('YYYY-MM-DD')}`,
+          }}
+          style={style}
+          {...props}
+        />
         {children}
       </TouchableOpacity>
       <Modal
@@ -96,7 +105,10 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
                 allowDownscaling={false}
                 cachePolicy="memory-disk"
                 contentFit="contain"
-                source={item}
+                source={{
+                  uri: item,
+                  cacheKey: `${item}-${dayjs().format('YYYY-MM-DD')}`,
+                }}
                 style={tw`h-full w-full`}
                 onLoad={(event) => {
                   setImageDimensions({

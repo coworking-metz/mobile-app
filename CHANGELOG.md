@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fade text on situation cards when too large.
+- Reload images every day.
 
 ## [2025.6.1] - 2025-06-04
 

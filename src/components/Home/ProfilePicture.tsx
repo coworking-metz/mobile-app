@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { Image } from 'expo-image';
 import React, { ReactNode, useMemo } from 'react';
 import { StyleProp, TextStyle, View, ViewStyle } from 'react-native';
@@ -73,7 +74,7 @@ const ProfilePicture = ({
           <Image
             cachePolicy="memory-disk"
             contentFit="cover"
-            source={{ uri: url }}
+            source={{ uri: url, cacheKey: `${url}-${dayjs().format('YYYY-MM-DD')}` }}
             style={tw`h-full w-full`}
           />
         ) : initials ? (
