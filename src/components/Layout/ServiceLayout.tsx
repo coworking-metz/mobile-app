@@ -211,7 +211,7 @@ const ServiceLayout = ({
             <MaterialCommunityIcons.Button
               backgroundColor="transparent"
               borderRadius={24}
-              color={tw.prefixMatch('dark') ? tw.color('gray-500') : theme.charlestonGreen}
+              color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
               iconStyle={{ marginRight: 0 }}
               name="arrow-left"
               size={32}
@@ -250,7 +250,7 @@ const ServiceLayout = ({
               <MaterialCommunityIcons.Button
                 backgroundColor="transparent"
                 borderRadius={24}
-                color={tw.prefixMatch('dark') ? tw.color('gray-500') : theme.charlestonGreen}
+                color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
                 iconStyle={{ marginRight: 0 }}
                 name="dots-vertical"
                 size={28}

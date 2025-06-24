@@ -239,7 +239,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               </View>
 
               <MaterialCommunityIcons
-                color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
+                color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
                 iconStyle={{ height: 32, width: 32, marginRight: 0 }}
                 name="chevron-right"
                 size={32}
@@ -470,7 +470,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             <MaterialCommunityIcons.Button
               backgroundColor="transparent"
               borderRadius={24}
-              color={tw.prefixMatch('dark') ? tw.color('gray-500') : theme.charlestonGreen}
+              color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
               iconStyle={{ marginRight: 0 }}
               name="arrow-left"
               size={32}

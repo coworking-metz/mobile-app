@@ -139,7 +139,7 @@ const Onboarding = () => {
               <MaterialCommunityIcons.Button
                 backgroundColor="transparent"
                 borderRadius={24}
-                color={tw.prefixMatch('dark') ? tw.color('gray-500') : theme.charlestonGreen}
+                color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
                 iconStyle={{ height: 32, width: 32, marginRight: 0 }}
                 name="close"
                 size={32}
