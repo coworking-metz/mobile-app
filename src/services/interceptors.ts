@@ -58,17 +58,15 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
           const errorMessage = await parseErrorText(error);
           const prefixedError = new Error(
             [i18n.t('auth.onRefreshToken.fail'), errorMessage].filter(Boolean).join('\n'),
-            {
-              cause: error,
-            },
+            { cause: error },
           );
           return Promise.reject(prefixedError);
         })
       : null;
     const headers = {
       ...config.headers,
-      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-      ...(i18n.language ? { 'Accept-Language': i18n.language } : {}),
+      ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+      ...(i18n.language && { 'Accept-Language': i18n.language }),
     } as AxiosHeaders;
 
     return {
