@@ -15,14 +15,16 @@ const PoulaillerPlan = ({
   loading,
   onDeckDoorSelected,
   onPhoneBoothSelected,
-  onKeyBoxSelected,
+  onDeckKeyBoxSelected,
+  onMainKeyBoxSelected,
   onCarbonDioxideSelected,
 }: {
   onPremiseState?: OnPremiseState;
   loading?: boolean;
   onDeckDoorSelected: () => void;
   onPhoneBoothSelected: () => void;
-  onKeyBoxSelected: () => void;
+  onMainKeyBoxSelected: () => void;
+  onDeckKeyBoxSelected: () => void;
   onCarbonDioxideSelected: () => void;
 }) => {
   useDeviceContext(tw);
@@ -86,6 +88,14 @@ const PoulaillerPlan = ({
             onPress={onDeckDoorSelected}
           />
 
+          {/* Key box */}
+          <ActionableIcon
+            activeIcon="key-chain"
+            inactiveIcon="key-chain"
+            style={tw`top-[43%] left-[89%]`}
+            onPress={onDeckKeyBoxSelected}
+          />
+
           {/* Fans */}
           {/* <ActionableFan active id="1" style={tw`top-[19%] left-[11%]`} />
               <ActionableFan id="2" style={tw`top-[46%] left-[11%]`} /> */}
@@ -118,7 +128,7 @@ const PoulaillerPlan = ({
             activeIcon="key-chain-variant"
             inactiveIcon="key-chain-variant"
             style={tw`top-[84%] left-[56%]`}
-            onPress={onKeyBoxSelected}
+            onPress={onMainKeyBoxSelected}
           />
 
           {/* Carbon Dioxide level */}

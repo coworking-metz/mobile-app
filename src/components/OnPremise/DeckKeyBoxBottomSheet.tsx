@@ -3,19 +3,19 @@ import * as Haptics from 'expo-haptics';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
-import Animated, { FadeIn, FadeOutDown } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { RandomReveal } from 'react-random-reveal';
 import tw from 'twrnc';
-import KeysPairAnimation from '@/components/Animations/KeysPairAnimation';
+import KeyLockAnimation from '@/components/Animations/KeyLockAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
-import { getKeyBoxCode } from '@/services/api/services';
+import { getMainKeyBoxCode } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 
-const KeyBoxBottomSheet = ({
+const MainKeyBoxBottomSheet = ({
   style,
   onClose,
 }: {
@@ -30,7 +30,7 @@ const KeyBoxBottomSheet = ({
 
   const onFetchCode = useCallback(() => {
     setLoading(true);
-    getKeyBoxCode()
+    getMainKeyBoxCode()
       .then(({ code: fetchedCode }) => {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         setCode(fetchedCode);
@@ -39,7 +39,7 @@ const KeyBoxBottomSheet = ({
       .catch(async (error) => {
         const description = await parseErrorText(error);
         noticeStore.add({
-          message: t('onPremise.keyBox.onFetch.fail'),
+          message: t('onPremise.keyBoxes.deck.onFetch.fail'),
           description,
           type: 'error',
         });
@@ -53,13 +53,13 @@ const KeyBoxBottomSheet = ({
       contentContainerStyle={tw`flex flex-col items-stretch gap-4 px-6 pt-6`}
       style={style}
       onClose={onClose}>
-      <KeysPairAnimation loop={false} style={tw`w-full h-[144px]`} />
+      <KeyLockAnimation loop={false} style={tw`w-full h-[144px]`} />
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-        {t('onPremise.keyBox.label')}
+        {t('onPremise.keyBoxes.deck.label')}
       </AppText>
       <AppText style={tw`text-left text-base font-normal text-slate-500`}>
-        {t('onPremise.keyBox.description')}
+        {t('onPremise.keyBoxes.deck.description')}
       </AppText>
 
       {code ? (
@@ -80,7 +80,9 @@ const KeyBoxBottomSheet = ({
             loading={isLoading}
             style={tw`mt-2 w-full max-w-md self-center`}
             onPress={onFetchCode}>
-            <AppText style={tw`text-base font-medium`}>{t('onPremise.keyBox.fetch')}</AppText>
+            <AppText style={tw`text-base font-medium`}>
+              {t('onPremise.keyBoxes.deck.fetch')}
+            </AppText>
           </AppRoundedButton>
         </Animated.View>
       )}
@@ -94,7 +96,7 @@ const KeyBoxBottomSheet = ({
             style={tw`shrink-0 grow-0`}
           />
           <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
-            {t('onPremise.keyBox.missingCapability')}
+            {t('onPremise.keyBoxes.deck.missingCapability')}
           </AppText>
         </View>
       )}
@@ -102,4 +104,4 @@ const KeyBoxBottomSheet = ({
   );
 };
 
-export default KeyBoxBottomSheet;
+export default MainKeyBoxBottomSheet;
