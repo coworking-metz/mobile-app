@@ -58,16 +58,23 @@
       "description": "Cette boîte vous permet de récupérer les clés pour déverrouiller la porte de la terrasse lorsque vous n'êtes pas en mesure d'entrer dans le batîment.\n\nElle est située à droite de la porte et nécessite un code pour l'ouvrir.",
       "fetch": "Obtenir le code",
       "label": "Ouvrir la boîte à clés",
-      "missingCapability": "Ouvrir la boîte à clés requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10 journées d'activité.",
       "onFetch": {
         "fail": "Impossible d'obtenir le code"
       }
     },
-    "main": {
+    "missingCapability": "Ouvrir la boîte à clés requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10 journées d'activité.",
+    "poulailler": {
       "description": "La boîte à clés vous permet de récupérer les clés de l'espace et :\n- d'ouvrir celui-ci lorsque vous êtes le premier arrivé,\n- de le fermer lorsque vous êtes le dernier à partir.\n\nElle est située à coté de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
       "fetch": "Obtenir le code",
       "label": "Ouvrir la boîte à clés",
-      "missingCapability": "Ouvrir la boîte à clés requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10 journées d'activité.",
+      "onFetch": {
+        "fail": "Impossible d'obtenir le code"
+      }
+    },
+    "ptiPoulailler": {
+      "description": "La boîte à clés vous permet de récupérer les clés de l'espace et :\n- d'ouvrir celui-ci lorsque vous êtes le premier arrivé,\n- de le fermer lorsque vous êtes le dernier à partir.\n\nElle est située à coté de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
+      "fetch": "Obtenir le code",
+      "label": "Ouvrir la boîte à clés",
       "onFetch": {
         "fail": "Impossible d'obtenir le code"
       }
