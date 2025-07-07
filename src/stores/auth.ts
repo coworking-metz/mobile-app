@@ -12,7 +12,7 @@ import { decodeToken, getAccessAndRefreshTokens, type ApiUser } from '@/services
  * In order to avoid asking for multiple refresh tokens at the same time when it has expired,
  * this singleton holds the http request Promise until a new token is fetched.
  */
-let refreshTokenPromise: Promise<string | null> | null = null;
+let refreshTokensPromise: Promise<string | null> | null = null;
 
 interface AuthState {
   hydrated: boolean; // whether the store has been loaded from the storage
@@ -45,10 +45,10 @@ const useAuthStore = create<AuthState>()(
           await set({ accessToken, refreshToken });
         },
         refreshAccessToken: (): Promise<string | null> => {
-          if (!refreshTokenPromise) {
+          if (!refreshTokensPromise) {
             authLogger.debug('Refreshing access token');
             set({ isFetchingToken: true });
-            refreshTokenPromise = getAccessAndRefreshTokens(get().refreshToken as string)
+            refreshTokensPromise = getAccessAndRefreshTokens(get().refreshToken as string)
               .then(async ({ accessToken, refreshToken }) => {
                 // const user = accessToken ? decodeToken(accessToken) : null;
                 // Sentry.setUser({ email: user?.email });
@@ -57,10 +57,10 @@ const useAuthStore = create<AuthState>()(
               })
               .finally(() => {
                 set({ isFetchingToken: false });
-                refreshTokenPromise = null;
+                refreshTokensPromise = null;
               });
           }
-          return refreshTokenPromise;
+          return refreshTokensPromise;
         },
         getOrRefreshAccessToken: async (): Promise<string | null> => {
           const accessToken = get().accessToken;
@@ -87,7 +87,7 @@ const useAuthStore = create<AuthState>()(
         storage: createJSONStorage(createSecureStorage),
         partialize: (state) =>
           Object.fromEntries(
-            Object.entries(state).filter(([key]) => ['refreshToken'].includes(key)),
+            Object.entries(state).filter(([key]) => ['refreshToken', 'accessToken'].includes(key)),
           ),
         skipHydration: true,
       },
