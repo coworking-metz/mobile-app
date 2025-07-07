@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Key box code to manually open the deck door.
+
+### Fixed
+
+- Clip profile cards text on home screen.
+- Stay logged in even if the server is unreachable.
+
 ## [2025.6.2] - 2025-06-24
 
 ### Fixed
