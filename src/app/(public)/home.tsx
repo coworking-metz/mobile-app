@@ -328,14 +328,24 @@ export default function HomeScreen() {
 
       <Animated.View
         entering={FadeInLeft.duration(750)}
-        style={[tw`flex self-stretch ml-6 mr-4 mb-6`, isWide && tw`mx-auto w-full max-w-2xl`]}>
+        style={[
+          tw`flex flex-col self-stretch gap-2 ml-6 mr-4 mb-6`,
+          isWide && tw`mx-auto w-full max-w-2xl`,
+        ]}>
         <AttendanceCount
-          error={currentMembersError}
           loading={isLoadingCurrentMembers}
           members={currentMembers}
           style={tw`mt-4`}
           total={40}
         />
+
+        {currentMembersError && !isSilentError(currentMembersError) ? (
+          <ErrorChip
+            error={currentMembersError}
+            label={t('home.people.onFetch.fail')}
+            style={tw`self-start`}
+          />
+        ) : null}
       </Animated.View>
 
       {authStore.user?.onboarding && (
@@ -349,12 +359,13 @@ export default function HomeScreen() {
       <Animated.View entering={FadeInLeft.duration(750).delay(400)} style={tw`flex self-stretch`}>
         <View
           style={[
-            tw`flex flex-row gap-2 min-h-6 mt-6 mb-2 px-4`,
+            tw`flex flex-col items-start gap-2 mt-6 px-6`,
             isWide && tw`mx-auto w-full max-w-2xl`,
           ]}>
           <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
             {t('home.profile.label')}
           </AppText>
+
           {profileError && !isSilentError(profileError) ? (
             <ErrorChip error={profileError} label={t('home.profile.onFetch.fail')} />
           ) : null}
@@ -362,7 +373,7 @@ export default function HomeScreen() {
 
         <ScrollView
           contentContainerStyle={[
-            tw`flex flex-row items-stretch gap-4 px-4 overflow-visible`,
+            tw`flex flex-row items-stretch gap-4 px-4 mt-4 overflow-visible`,
             isWide && {
               paddingLeft: (width - MAX_WIDTH) / 2,
               paddingRight: (width - MAX_WIDTH) / 2,
@@ -427,7 +438,7 @@ export default function HomeScreen() {
       <Animated.View
         entering={FadeInRight.duration(750).delay(600)}
         style={[
-          tw`flex flex-row items-center w-full gap-2 mt-12 px-4`,
+          tw`flex flex-row items-center w-full gap-2 mt-12 px-6`,
           isWide && tw`mx-auto w-full max-w-2xl`,
         ]}>
         <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
@@ -440,9 +451,6 @@ export default function HomeScreen() {
             </AppText>
           </View>
         )}
-        {calendarEventsError && !isSilentError(calendarEventsError) ? (
-          <ErrorChip error={calendarEventsError} label={t('home.calendar.onFetch.fail')} />
-        ) : null}
         <Link asChild href="/events">
           <AppText
             style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-5`}>
@@ -450,6 +458,13 @@ export default function HomeScreen() {
           </AppText>
         </Link>
       </Animated.View>
+
+      {calendarEventsError && !isSilentError(calendarEventsError) ? (
+        <View
+          style={[tw`flex flex-col items-start mt-2 px-6`, isWide && tw`mx-auto w-full max-w-2xl`]}>
+          <ErrorChip error={calendarEventsError} label={t('home.calendar.onFetch.fail')} />
+        </View>
+      ) : null}
 
       <Animated.View entering={FadeInRight.duration(750).delay(600)} style={tw`flex w-full`}>
         <ScrollView
@@ -511,7 +526,7 @@ export default function HomeScreen() {
         ]}>
         <AppText
           entering={FadeInUp.duration(500).delay(600)}
-          style={tw`text-sm font-normal uppercase text-slate-500`}>
+          style={tw`mx-2 text-sm font-normal uppercase text-slate-500`}>
           {t('home.services.label')}
         </AppText>
 

@@ -297,14 +297,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
                 {t('settings.profile.presence.title')}
               </AppText>
-              {activityError && !isSilentError(activityError) ? (
-                <ErrorChip
-                  error={activityError}
-                  label={t('settings.profile.presence.onFetch.fail')}
-                />
-              ) : profileError && !isSilentError(profileError) ? (
-                <ErrorChip error={profileError} label={t('home.profile.onFetch.fail')} />
-              ) : profile?.balance && profile.balance < 0 ? (
+              {profile?.balance && profile.balance < 0 ? (
                 <Animated.View
                   entering={FadeInRight.duration(600).delay(500)}
                   style={tw`ml-auto flex flex-row items-center justify-end gap-1.5`}>
@@ -322,6 +315,20 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 </Animated.View>
               ) : null}
             </View>
+
+            {activityError && !isSilentError(activityError) ? (
+              <ErrorChip
+                error={activityError}
+                label={t('settings.profile.presence.onFetch.fail')}
+                style={tw`mx-6 mt-2 self-start`}
+              />
+            ) : profileError && !isSilentError(profileError) ? (
+              <ErrorChip
+                error={profileError}
+                label={t('home.profile.onFetch.fail')}
+                style={tw`mx-6 mt-2 self-start`}
+              />
+            ) : null}
 
             <PresenceGraph
               activity={activity}

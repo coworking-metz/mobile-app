@@ -30,7 +30,7 @@
       "activity_other": "journées",
       "activity_zero": "Rien\nencore",
       "onFetch": {
-        "fail": "Impossible de récupérer la présence"
+        "fail": "Impossible d'actualiser la présence"
       },
       "selected": {
         "coverage": {

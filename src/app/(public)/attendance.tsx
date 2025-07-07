@@ -94,7 +94,10 @@ const Attendance = () => {
         description={t('attendance.description')}
         title={t('attendance.title', { count: currentMembers?.length })}
         onRefresh={refetchCurrentMembers}>
-        <View style={tw`flex flex-row gap-2 min-h-6 px-6`}>
+        <View style={tw`flex flex-col items-start gap-2 min-h-6 px-6`}>
+          {currentMembersError && !isSilentError(currentMembersError) ? (
+            <ErrorChip error={currentMembersError} label={t('attendance.onFetch.fail')} />
+          ) : null}
           {currentMembersUpdatedAt ? (
             <AppText
               entering={FadeInLeft.duration(300)}
@@ -107,9 +110,6 @@ const Attendance = () => {
                   : dayjs(currentMembersUpdatedAt).fromNow(),
               )}
             </AppText>
-          ) : null}
-          {currentMembersError && !isSilentError(currentMembersError) ? (
-            <ErrorChip error={currentMembersError} label={t('attendance.onFetch.fail')} />
           ) : null}
         </View>
 

@@ -147,7 +147,7 @@ const BalanceBottomSheet = ({
         <ErrorChip
           error={ticketsOrdersError}
           label={t('home.profile.tickets.onFetch.fail')}
-          style={tw`self-start my-1`}
+          style={tw`self-start mt-1 mb-4`}
         />
       ) : null}
       {memberProfile && isMemberBalanceInsufficient(memberProfile) && (

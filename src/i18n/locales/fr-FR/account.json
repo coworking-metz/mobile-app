@@ -14,7 +14,7 @@
       "label": "Nom"
     },
     "onFetch": {
-      "fail": "Impossible de récupérer le profil",
+      "fail": "Impossible d'actualiser le profil",
       "missing": "Le profil est pour le moment inexistant. Il sera automatiquement rattaché une fois votre première commande passée."
     }
   },

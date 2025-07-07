@@ -19,7 +19,7 @@ import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 
 type ZoomableImageProps = Omit<ImageProps, 'source'> & {
-  source: string;
+  source?: string;
   sources?: string[];
 };
 

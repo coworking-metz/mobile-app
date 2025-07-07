@@ -48,7 +48,7 @@ const Devices = () => {
 
   return (
     <ServiceLayout
-      contentStyle={tw`pt-6`}
+      contentStyle={tw`pt-4`}
       title={t('devices.title')}
       withBackButton={!_root}
       onRefresh={refetchDevices}>
@@ -56,11 +56,11 @@ const Devices = () => {
         <ErrorChip
           error={devicesError}
           label={t('devices.onFetch.fail')}
-          style={tw`mx-6 mb-6 self-start`}
+          style={tw`mx-6 mb-4 self-start`}
         />
       )}
       {isPendingDevices ? (
-        <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-6`}>
+        <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-4`}>
           {[0].map((index) => (
             <DeviceCard pending key={index} style={tw`grow shrink basis-0 min-w-32 max-w-44`} />
           ))}
@@ -73,7 +73,7 @@ const Devices = () => {
           <View style={tw`grow shrink basis-0 min-w-32 max-w-44`} />
         </View>
       ) : devices?.length ? (
-        <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-6`}>
+        <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-4`}>
           {devices.map((device) => (
             <Link
               asChild
