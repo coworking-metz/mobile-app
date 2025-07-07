@@ -11,11 +11,11 @@ import AppBottomSheet from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
-import { getMainKeyBoxCode } from '@/services/api/services';
+import { getPtiPoulaillerKeyBoxCode } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 
-const MainKeyBoxBottomSheet = ({
+const PtiPoulaillerKeyBoxBottomSheet = ({
   style,
   onClose,
 }: {
@@ -30,7 +30,7 @@ const MainKeyBoxBottomSheet = ({
 
   const onFetchCode = useCallback(() => {
     setLoading(true);
-    getMainKeyBoxCode()
+    getPtiPoulaillerKeyBoxCode()
       .then(({ code: fetchedCode }) => {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         setCode(fetchedCode);
@@ -39,7 +39,7 @@ const MainKeyBoxBottomSheet = ({
       .catch(async (error) => {
         const description = await parseErrorText(error);
         noticeStore.add({
-          message: t('onPremise.keyBoxes.main.onFetch.fail'),
+          message: t('onPremise.keyBoxes.ptiPoulailler.onFetch.fail'),
           description,
           type: 'error',
         });
@@ -56,10 +56,10 @@ const MainKeyBoxBottomSheet = ({
       <KeysPairAnimation loop={false} style={tw`w-full h-[144px]`} />
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-        {t('onPremise.keyBoxes.main.label')}
+        {t('onPremise.keyBoxes.ptiPoulailler.label')}
       </AppText>
       <AppText style={tw`text-left text-base font-normal text-slate-500`}>
-        {t('onPremise.keyBoxes.main.description')}
+        {t('onPremise.keyBoxes.ptiPoulailler.description')}
       </AppText>
 
       {code ? (
@@ -81,7 +81,7 @@ const MainKeyBoxBottomSheet = ({
             style={tw`mt-2 w-full max-w-md self-center`}
             onPress={onFetchCode}>
             <AppText style={tw`text-base font-medium`}>
-              {t('onPremise.keyBoxes.main.fetch')}
+              {t('onPremise.keyBoxes.ptiPoulailler.fetch')}
             </AppText>
           </AppRoundedButton>
         </Animated.View>
@@ -96,7 +96,7 @@ const MainKeyBoxBottomSheet = ({
             style={tw`shrink-0 grow-0`}
           />
           <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
-            {t('onPremise.keyBoxes.main.missingCapability')}
+            {t('onPremise.keyBoxes.missingCapability')}
           </AppText>
         </View>
       )}
@@ -104,4 +104,4 @@ const MainKeyBoxBottomSheet = ({
   );
 };
 
-export default MainKeyBoxBottomSheet;
+export default PtiPoulaillerKeyBoxBottomSheet;

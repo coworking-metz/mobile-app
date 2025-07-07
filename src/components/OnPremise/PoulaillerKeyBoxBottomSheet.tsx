@@ -6,16 +6,16 @@ import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { FadeIn, FadeOutDown } from 'react-native-reanimated';
 import { RandomReveal } from 'react-random-reveal';
 import tw from 'twrnc';
-import KeyLockAnimation from '@/components/Animations/KeyLockAnimation';
+import KeysPairAnimation from '@/components/Animations/KeysPairAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
-import { getDeckKeyBoxCode } from '@/services/api/services';
+import { getPoulaillerKeyBoxCode } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 
-const DeckKeyBoxBottomSheet = ({
+const PoulaillerKeyBoxBottomSheet = ({
   style,
   onClose,
 }: {
@@ -30,7 +30,7 @@ const DeckKeyBoxBottomSheet = ({
 
   const onFetchCode = useCallback(() => {
     setLoading(true);
-    getDeckKeyBoxCode()
+    getPoulaillerKeyBoxCode()
       .then(({ code: fetchedCode }) => {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         setCode(fetchedCode);
@@ -39,7 +39,7 @@ const DeckKeyBoxBottomSheet = ({
       .catch(async (error) => {
         const description = await parseErrorText(error);
         noticeStore.add({
-          message: t('onPremise.keyBoxes.deck.onFetch.fail'),
+          message: t('onPremise.keyBoxes.poulailler.onFetch.fail'),
           description,
           type: 'error',
         });
@@ -53,13 +53,13 @@ const DeckKeyBoxBottomSheet = ({
       contentContainerStyle={tw`flex flex-col items-stretch gap-4 px-6 pt-6`}
       style={style}
       onClose={onClose}>
-      <KeyLockAnimation loop={false} style={tw`w-full h-[144px]`} />
+      <KeysPairAnimation loop={false} style={tw`w-full h-[144px]`} />
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-        {t('onPremise.keyBoxes.deck.label')}
+        {t('onPremise.keyBoxes.poulailler.label')}
       </AppText>
       <AppText style={tw`text-left text-base font-normal text-slate-500`}>
-        {t('onPremise.keyBoxes.deck.description')}
+        {t('onPremise.keyBoxes.poulailler.description')}
       </AppText>
 
       {code ? (
@@ -81,7 +81,7 @@ const DeckKeyBoxBottomSheet = ({
             style={tw`mt-2 w-full max-w-md self-center`}
             onPress={onFetchCode}>
             <AppText style={tw`text-base font-medium`}>
-              {t('onPremise.keyBoxes.deck.fetch')}
+              {t('onPremise.keyBoxes.poulailler.fetch')}
             </AppText>
           </AppRoundedButton>
         </Animated.View>
@@ -104,4 +104,4 @@ const DeckKeyBoxBottomSheet = ({
   );
 };
 
-export default DeckKeyBoxBottomSheet;
+export default PoulaillerKeyBoxBottomSheet;

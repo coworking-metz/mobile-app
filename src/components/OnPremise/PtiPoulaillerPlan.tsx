@@ -11,13 +11,13 @@ import { OnPremiseFlexDesk, type OnPremiseState } from '@/services/api/services'
 const PtiPoulaillerPlan = ({
   loading,
   onPremiseState,
-  onMainKeyBoxSelected,
+  onPtiPoulaillerKeyBoxSelected,
   onClimateSelected,
   onFlexDeskSelected,
 }: {
   onPremiseState?: OnPremiseState;
   loading?: boolean;
-  onMainKeyBoxSelected: () => void;
+  onPtiPoulaillerKeyBoxSelected: () => void;
   onClimateSelected: () => void;
   onFlexDeskSelected?: (desk?: OnPremiseFlexDesk) => void;
 }) => {
@@ -88,7 +88,7 @@ const PtiPoulaillerPlan = ({
             activeIcon="key-chain-variant"
             inactiveIcon="key-chain-variant"
             style={tw`top-[82%] left-[22%]`}
-            onPress={onMainKeyBoxSelected}
+            onPress={onPtiPoulaillerKeyBoxSelected}
           />
           {/* Climate */}
           <ActionableIcon

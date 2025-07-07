@@ -89,8 +89,12 @@ export const unlockDeckDoor = (): Promise<{
   return HTTP.post('/api/on-premise/deck-door/unlock').then(({ data }) => data);
 };
 
-export const getMainKeyBoxCode = (): Promise<{ code: number }> => {
-  return HTTP.get('/api/on-premise/key-box/code/main').then(({ data }) => data);
+export const getPoulaillerKeyBoxCode = (): Promise<{ code: number }> => {
+  return HTTP.get('/api/on-premise/key-box/code/poulailler').then(({ data }) => data);
+};
+
+export const getPtiPoulaillerKeyBoxCode = (): Promise<{ code: number }> => {
+  return HTTP.get('/api/on-premise/key-box/code/pti-poulailler').then(({ data }) => data);
 };
 
 export const getDeckKeyBoxCode = (): Promise<{ code: number }> => {
