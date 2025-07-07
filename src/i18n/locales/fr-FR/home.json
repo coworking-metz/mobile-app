@@ -16,7 +16,7 @@
     },
     "label": "Évènements",
     "onFetch": {
-      "fail": "Impossible de récupérer les évènements"
+      "fail": "Impossible d'actualiser les évènements"
     }
   },
   "intercom": {
@@ -50,7 +50,7 @@
   "people": {
     "capacity": " sur {{total}}",
     "onFetch": {
-      "fail": "Impossible de récupérer l'occupation actuelle"
+      "fail": "Impossible d'actualiser l'occupation actuelle"
     },
     "present_one": "Une seule personne présente",
     "present_other": "postes occupés",
@@ -114,7 +114,7 @@
       "title": "Carte adhérent"
     },
     "onFetch": {
-      "fail": "Impossible de récupérer le profil"
+      "fail": "Impossible d'actualiser le profil"
     },
     "subscription": {
       "activity": {
@@ -143,7 +143,7 @@
         "none": "Abonnement"
       },
       "onFetch": {
-        "fail": "Impossible de récupérer les abonnements"
+        "fail": "Impossible d'actualiser les abonnements"
       },
       "period": {
         "label": "Période",
@@ -186,7 +186,7 @@
       "description": "Les tickets sont sans fin de validité et chaque ticket équivaut à deux demi-journées.\nUne présence de moins de 5 heures sur une journée correspond à une demi-journée.",
       "label": "Tickets à la journée",
       "onFetch": {
-        "fail": "Impossible de récupérer les commandes de tickets"
+        "fail": "Impossible d'actualiser les commandes de tickets"
       }
     }
   },

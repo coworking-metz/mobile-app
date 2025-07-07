@@ -18,8 +18,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
-import ErrorChip from '@/components/ErrorChip';
-import { isSilentError } from '@/helpers/error';
 import { type ApiMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
@@ -30,14 +28,12 @@ const AttendanceCount = ({
   total = 0,
   loading = false,
   style,
-  error,
   children,
 }: {
   members?: ApiMemberProfile[];
   total?: number;
   loading?: boolean;
   style?: ViewProps;
-  error?: Error | null;
   children?: ReactNode;
 }) => {
   const { t } = useTranslation();
@@ -99,17 +95,12 @@ const AttendanceCount = ({
         ) : (
           <AppText
             numberOfLines={1}
-            style={[
-              tw`text-xl font-normal text-slate-500 dark:text-slate-400`,
-              error ? tw`shrink-0` : tw`shrink grow basis-0`,
-            ]}>
+            style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
             {t('home.people.present', { count: members.length })}
           </AppText>
         )}
 
-        {error && !isSilentError(error) ? (
-          <ErrorChip error={error} label={t('home.people.onFetch.fail')} style={tw`ml-2 shrink`} />
-        ) : otherMembers.length ? (
+        {otherMembers.length ? (
           <Animated.View style={tw`shrink-0 ml-auto`}>
             <Link asChild href="/attendance">
               <TouchableOpacity>

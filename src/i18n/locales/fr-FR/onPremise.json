@@ -70,7 +70,7 @@
     "unknown": "Quelque part"
   },
   "onFetch": {
-    "fail": "Impossible de récupérer l'état actuel de l'espace"
+    "fail": "Impossible d'actualiser l'état actuel de l'espace"
   },
   "phoneBooths": {
     "description": "Les cabines téléphoniques sont des espaces isolés et destinées à prendre de courts appels.\nElles sont équipées de prises électriques et d'une ventilation.\nElles ne sont pas réservables et sont accessibles à tous.",
@@ -79,7 +79,7 @@
     },
     "label": "Cabines téléphoniques",
     "onFetch": {
-      "fail": "Impossible de récupérer l'occupation"
+      "fail": "Impossible d'actualiser l'occupation"
     },
     "state": {
       "blue": {

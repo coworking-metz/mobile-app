@@ -11,7 +11,6 @@ import { useSharedValue } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
 import tw from 'twrnc';
 import CallingWithLaptopAnimation from '@/components/Animations/CallingWithLaptopAnimation';
-import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
@@ -201,17 +200,12 @@ const PhoneBoothBottomSheet = ({
         </View>
       </View>
 
-      <View style={tw`flex flex-row gap-2 min-h-6 mx-4`}>
+      <View style={tw`flex flex-col items-start min-h-6 gap-2 mx-4`}>
         <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
           {t('onPremise.phoneBooths.graph.label')}
         </AppText>
 
-        {occupationPerBooth && isFetchingOccupation ? (
-          <HorizontalLoadingAnimation
-            color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-            style={tw`ml-auto h-6 w-6`}
-          />
-        ) : occupationError && !isSilentError(occupationError) ? (
+        {occupationError && !isSilentError(occupationError) ? (
           <ErrorChip error={occupationError} label={t('onPremise.phoneBooths.onFetch.fail')} />
         ) : null}
       </View>

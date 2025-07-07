@@ -73,9 +73,7 @@ const Advanced = () => {
           <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
             {t('account.profile.label')}
           </AppText>
-          {profileError && !isSilentError(profileError) ? (
-            <ErrorChip error={profileError} label={t('account.profile.onFetch.fail')} />
-          ) : null}
+
           <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/modifier-compte/`}>
             <AppText
               style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-5`}>
@@ -83,6 +81,14 @@ const Advanced = () => {
             </AppText>
           </Link>
         </View>
+
+        {profileError && !isSilentError(profileError) ? (
+          <ErrorChip
+            error={profileError}
+            label={t('account.profile.onFetch.fail')}
+            style={tw`mx-6 mt-2 self-start`}
+          />
+        ) : null}
 
         <ServiceRow
           withBottomDivider

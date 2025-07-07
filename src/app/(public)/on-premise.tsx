@@ -89,7 +89,7 @@ const OnPremise = () => {
           <ErrorChip
             error={onPremiseStateError}
             label={t('onPremise.onFetch.fail')}
-            style={tw`mx-4 mb-4 self-start`}
+            style={tw`mx-6 mb-4 self-start`}
           />
         ) : null}
 

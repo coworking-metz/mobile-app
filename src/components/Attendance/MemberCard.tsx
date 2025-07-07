@@ -77,9 +77,7 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
               </AppText>
             )}
             {isMembershipNonCompliant(member) && (
-              <Animated.View
-                entering={FadeInRight.duration(600).delay(500)}
-                style={tw`mt-1 flex flex-row items-center justify-end gap-1.5`}>
+              <View style={tw`mt-1 flex flex-row items-center justify-end gap-1.5`}>
                 <View style={tw`h-2 w-2 bg-red-600 dark:bg-red-700 rounded-full`} />
                 <AppText
                   numberOfLines={1}
@@ -88,12 +86,10 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
                     ? t(`attendance.members.membership.last`, { year: member.lastMembership })
                     : t(`attendance.members.membership.none`)}
                 </AppText>
-              </Animated.View>
+              </View>
             )}
             {isMemberBalanceInsufficient(member) && (
-              <Animated.View
-                entering={FadeInRight.duration(600).delay(500)}
-                style={tw`mt-1 flex flex-row items-center justify-end gap-1.5`}>
+              <View style={tw`mt-1 flex flex-row items-center justify-end gap-1.5`}>
                 <View style={tw`h-2 w-2 bg-red-600 dark:bg-red-700 rounded-full`} />
                 <AppText
                   numberOfLines={1}
@@ -102,7 +98,7 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
                     count: Math.abs(member.balance),
                   })}
                 </AppText>
-              </Animated.View>
+              </View>
             )}
           </View>
           {children}

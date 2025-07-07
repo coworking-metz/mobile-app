@@ -85,7 +85,7 @@
     "success": "{{name}} supprimé"
   },
   "onFetch": {
-    "fail": "Impossible de récupérer la liste des appareils",
+    "fail": "Impossible d'actualiser la liste des appareils",
     "missingId": "Impossible de récupérer l'identifiant de l'appareil"
   },
   "onUpdate": {

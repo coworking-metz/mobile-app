@@ -218,7 +218,11 @@ const DeviceDetail = () => {
       onRefresh={refetchDevice}>
       <View style={tw`flex flex-col grow px-3 w-full max-w-xl mx-auto`}>
         {deviceError && (
-          <ErrorChip error={deviceError} label={t('devices.onFetch.fail')} style={tw`mb-6 mx-3`} />
+          <ErrorChip
+            error={deviceError}
+            label={t('devices.onFetch.fail')}
+            style={tw`mb-4 mx-3 self-start`}
+          />
         )}
         <AppTextField
           ref={nameField}
