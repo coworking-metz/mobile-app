@@ -33,7 +33,10 @@ const BalanceCard = ({
         size={40}
       />
 
-      <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
+      <AppText
+        ellipsizeMode={'clip'}
+        numberOfLines={2}
+        style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
         {t('home.profile.tickets.label')}
       </AppText>
       {loading ? (
