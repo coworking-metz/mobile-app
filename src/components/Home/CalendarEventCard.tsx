@@ -77,8 +77,9 @@ const CalendarEventCard = ({
       return t('home.calendar.event.ends', { duration: now.to(event.end) });
     }
 
-    if (Math.abs(dayjs().diff(event.start, 'hour')) < 2) {
-      return dayjs(event.start).fromNow();
+    const diffFromNow = now.diff(event.start, 'hour');
+    if (Math.abs(diffFromNow) < 2) {
+      return dayjs(diffFromNow <= 0 ? event.start : event.end).fromNow();
     }
 
     return dayjs(event.start).calendar();

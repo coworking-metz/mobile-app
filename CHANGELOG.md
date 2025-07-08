@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+
+- Hide pull to refresh hint once refreshing.
+- Relative date from previous events refers to their ending date instead of starting date.
+
 ## [2025.7.1] - 2025-07-08
 
 ### Added

@@ -81,7 +81,7 @@ const StaleDataText = ({
         )}
       </Animated.View>
       {/* mr-3 to be perflectly center aligned */}
-      <PullToRefreshHint style={tw`mr-3 shrink-0`} />
+      {!loading && <PullToRefreshHint style={tw`mr-3 shrink-0`} />}
     </>
   );
 };
