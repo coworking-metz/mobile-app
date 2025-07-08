@@ -17,7 +17,9 @@ import ToastMessage from '@/components/ToastMessage';
 import { AuthProvider } from '@/context/auth';
 import { ContactProvider } from '@/context/contact';
 import { I18nProvider } from '@/context/i18n';
+import { NewDeviceProvider } from '@/context/new-device';
 import { PermissionsProvider } from '@/context/permissions';
+import { PresenceProvider } from '@/context/presence';
 import { ReviewProvider } from '@/context/review';
 import { SocialsProvider } from '@/context/socials';
 import { ThemeProvider } from '@/context/theme';
@@ -27,8 +29,6 @@ import createHttpInterceptors from '@/services/interceptors';
 import { navigationIntegration } from '@/services/sentry';
 import { AppThemeBackground } from '@/services/theme';
 import '@/i18n';
-import { NewDeviceProvider } from '@/context/new-device';
-import { PresenceProvider } from '@/context/presence';
 
 const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 
