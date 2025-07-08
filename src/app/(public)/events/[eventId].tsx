@@ -3,11 +3,12 @@ import dayjs from 'dayjs';
 import * as Calendar from 'expo-calendar';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { isNil } from 'lodash';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { LayoutChangeEvent, View } from 'react-native';
 import openMap from 'react-native-open-maps';
 import { FadeInLeft } from 'react-native-reanimated';
+import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
@@ -19,6 +20,7 @@ import LoadingSkeleton from '@/components/LoadingSkeleton';
 import ZoomableImage from '@/components/ZoomableImage';
 import { useAppPermissions } from '@/context/permissions';
 import { isSilentError } from '@/helpers/error';
+import { useAppPaddingBottom } from '@/helpers/screen';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
 export default function CalendarEventPage() {
@@ -26,6 +28,8 @@ export default function CalendarEventPage() {
   const { eventId, _root } = useLocalSearchParams();
   const { t } = useTranslation();
   const renderPermissionsBottomSheet = useAppPermissions();
+  const [actionHeight, setActionHeight] = useState(0);
+  const paddingBottom = useAppPaddingBottom();
 
   const {
     data: calendarEvents,
@@ -73,10 +77,36 @@ export default function CalendarEventPage() {
 
   return (
     <ServiceLayout
-      contentStyle={tw`pt-4`}
+      contentStyle={[tw`pt-4`, actionHeight > 0 && { paddingBottom: actionHeight + 32 }]}
       title={event?.title || ''}
       withBackButton={!_root}
-      onRefresh={refetchCalendarEvents}>
+      onRefresh={refetchCalendarEvents}
+      {...(firstUrl && {
+        footer: (
+          <View
+            style={[tw`flex flex-col absolute bottom-0 px-6 w-full`, { paddingBottom }]}
+            onLayout={({ nativeEvent }: LayoutChangeEvent) =>
+              setActionHeight(nativeEvent.layout.height)
+            }>
+            <View style={tw`absolute inset-0`}>
+              <Fader
+                visible
+                position={Fader.position.BOTTOM}
+                size={actionHeight + 32}
+                tintColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('gray-50')}
+              />
+            </View>
+
+            <Link asChild href={firstUrl}>
+              <AppRoundedButton style={tw`w-full max-w-md self-center`} suffixIcon="open-in-new">
+                <AppText style={tw`text-base font-medium text-black`}>
+                  {t('actions.takeALook')}
+                </AppText>
+              </AppRoundedButton>
+            </Link>
+          </View>
+        ),
+      })}>
       <View style={tw`w-full max-w-xl mx-auto grow`}>
         {event ? (
           <>
@@ -125,20 +155,6 @@ export default function CalendarEventPage() {
               <AppText style={tw`text-base font-normal text-gray-500 mx-6 mt-6`}>
                 {event.description}
               </AppText>
-            ) : null}
-
-            {firstUrl ? (
-              <View style={tw`mt-auto px-6 pt-6`}>
-                <Link asChild href={firstUrl}>
-                  <AppRoundedButton
-                    style={tw`min-h-14 w-full max-w-md self-center`}
-                    suffixIcon="open-in-new">
-                    <AppText style={tw`text-base font-medium text-black`}>
-                      {t('actions.takeALook')}
-                    </AppText>
-                  </AppRoundedButton>
-                </Link>
-              </View>
             ) : null}
           </>
         ) : isFetchingCalendarEvents ? (

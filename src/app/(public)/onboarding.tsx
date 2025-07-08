@@ -37,6 +37,7 @@ const Onboarding = () => {
   const router = useRouter();
   const navigation = useNavigation();
   const [layoutWidth, setLayoutWidth] = useState(0);
+  const [actionHeight, setActionHeight] = useState(0);
 
   const carouselRef = useRef<ICarouselInstance>(null);
   const offset = useSharedValue(0);
@@ -111,7 +112,6 @@ const Onboarding = () => {
           {
             paddingLeft: insets.left,
             paddingRight: insets.right,
-            paddingBottom,
           },
         ]}
         onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>
@@ -155,7 +155,10 @@ const Onboarding = () => {
                 data={screens.map((screen, index) => ({ ...screen, index }))}
                 loop={false}
                 renderItem={({ item, index, animationValue }) => (
-                  <Step animationValue={animationValue} index={index} key={index}>
+                  <Step
+                    animationValue={animationValue}
+                    contentContainerStyle={{ paddingBottom: actionHeight + 32 }}
+                    key={index}>
                     {item.component(currentIndex === index)}
                   </Step>
                 )}
@@ -175,10 +178,23 @@ const Onboarding = () => {
                 onSnapToItem={setCurrentIndex}
               />
             </View>
+
             <Animated.View
               entering={FadeInDown.duration(500).delay(1000)}
-              style={tw`shrink-0 pt-1 px-6 self-center w-full max-w-md`}>
-              <AppRoundedButton style={tw`min-h-14 w-full`} onPress={onNext}>
+              style={[tw`flex flex-col absolute bottom-0 px-6 w-full`, { paddingBottom }]}
+              onLayout={({ nativeEvent }: LayoutChangeEvent) =>
+                setActionHeight(nativeEvent.layout.height)
+              }>
+              <View style={tw`absolute inset-0`}>
+                <Fader
+                  visible
+                  position={Fader.position.BOTTOM}
+                  size={actionHeight + 32}
+                  tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
+                />
+              </View>
+
+              <AppRoundedButton style={tw`self-start w-full max-w-md`} onPress={onNext}>
                 <AppText style={tw`text-base font-medium text-black`}>{t('actions.next')}</AppText>
               </AppRoundedButton>
             </Animated.View>

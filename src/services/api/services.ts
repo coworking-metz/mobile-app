@@ -90,15 +90,15 @@ export const unlockDeckDoor = (): Promise<{
 };
 
 export const getPoulaillerKeyBoxCode = (): Promise<{ code: number }> => {
-  return HTTP.get('/api/on-premise/key-box/code/poulailler').then(({ data }) => data);
+  return HTTP.get('/api/on-premise/key-box/poulailler/code').then(({ data }) => data);
 };
 
 export const getPtiPoulaillerKeyBoxCode = (): Promise<{ code: number }> => {
-  return HTTP.get('/api/on-premise/key-box/code/pti-poulailler').then(({ data }) => data);
+  return HTTP.get('/api/on-premise/key-box/pti-poulailler/code').then(({ data }) => data);
 };
 
 export const getDeckKeyBoxCode = (): Promise<{ code: number }> => {
-  return HTTP.get('/api/on-premise/key-box/code/deck').then(({ data }) => data);
+  return HTTP.get('/api/on-premise/key-box/deck/code').then(({ data }) => data);
 };
 
 export const turnOnLight = (

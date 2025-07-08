@@ -97,7 +97,7 @@ const useProtectedRoute = (ready: boolean, setReady: (ready: boolean) => void) =
       )
       .then(() => {
         // navigate to first screen
-        resetNavigation('/home');
+        resetNavigation('/');
       })
       .catch((error) => {
         notifyError(t('errors.default.message'), error);

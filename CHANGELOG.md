@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Key box code to manually open the deck door.
 
+### Changed
+
+- Float action button above content on event and onboarding screens.
+
 ### Fixed
 
 - Clip profile cards text on home screen.
