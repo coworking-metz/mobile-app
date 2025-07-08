@@ -1,0 +1,76 @@
+name: Bump version
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # https://stackoverflow.com/a/67201604/15183871
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Compute release tag
+        id: compute_tag
+        run: |
+          TAG=$(echo $(git tag | grep -o $(date '+%Y.%-m.') | wc -l) + 1 | bc)
+          echo "next=$(date '+%Y.%-m.')$TAG" >> $GITHUB_OUTPUT
+
+      - name: Update version in package.json and package-lock.json
+        run: |
+          npm version ${{ steps.compute_tag.outputs.next }} --no-git-tag-version
+
+      - name: Update version in app.json
+        run: |
+          NEW_VERSION=${{ steps.compute_tag.outputs.next }}
+          jq --arg v "$NEW_VERSION" '.expo.version = $v' app.json > tmp.$$.json && mv tmp.$$.json app.json
+
+      - name: Check unreleased changes
+        run: |
+          CHANGES=$(awk '/^## \[unreleased\]/{flag=1;next}/^## \[/{flag=0}flag' CHANGELOG.md | grep -v '^\s*$' || true)
+          if [ -z "$CHANGES" ]; then
+            echo "🛑 No changes under [unreleased], skipping version bump."
+            exit 1
+          else
+            echo "✅ Changes detected under [unreleased], proceeding with bump."
+          fi
+
+      - name: Update CHANGELOG.md
+        run: |
+          NEW_VERSION=${{ steps.compute_tag.outputs.next }}
+          PREV_TAG=$(git tag --sort=-creatordate | grep -v "$NEW_VERSION" | head -n 1)
+          TODAY=$(date +%Y-%m-%d)
+          sed -i "/^\[unreleased\]:/c\[unreleased]: https://github.com/coworking-metz/mobile-app/compare/$NEW_VERSION...main\n[$NEW_VERSION]: https://github.com/coworking-metz/mobile-app/compare/$PREV_TAG...$NEW_VERSION" CHANGELOG.md
+          awk -v v="$NEW_VERSION" -v d="$TODAY" '
+          /^## \[unreleased\]/ {
+            print;
+            print "";
+            print "## [" v "] - " d;
+            next
+          }
+          { print }
+          ' CHANGELOG.md > tmp.$$.md && mv tmp.$$.md CHANGELOG.md
+
+      - name: Commit and tag
+        run: |
+          NEW_VERSION=${{ steps.compute_tag.outputs.next }}
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git add app.json package.json package-lock.json CHANGELOG.md
+          git commit -m "chore(version): update to $NEW_VERSION"
+          git tag -a $NEW_VERSION -m "$NEW_VERSION"
+          git log -n 5 --oneline --decorate
+
+      - name: Push commit and tags
+        run: |
+          git push origin main
+          git push origin --tags
