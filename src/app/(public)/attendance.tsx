@@ -1,7 +1,8 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useIsFocused } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { capitalize } from 'lodash';
+import { capitalize, isNil } from 'lodash';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -14,6 +15,7 @@ import MemberCard from '@/components/Attendance/MemberCard';
 import ErrorChip from '@/components/ErrorChip';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
+import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
 import useAppScreen from '@/helpers/screen';
 import { ApiLocation, ApiMemberProfile, getCurrentMembers } from '@/services/api/members';
@@ -38,6 +40,8 @@ const Attendance = () => {
   const { t } = useTranslation();
   const { isWide } = useAppScreen();
   const [selectedMember, setSelectedMember] = useState<ApiMemberProfile | null>(null);
+  const activeSince = useAppState();
+  const isFocus = useIsFocused();
 
   const {
     data: currentMembers,
@@ -54,6 +58,12 @@ const Attendance = () => {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
+
+  // count duration since last fetch to redraw stale data text
+  // every time the screen gets focused or the app gets back to foreground
+  const durationSinceLastFetch = useMemo(() => {
+    return !isNil(currentMembersUpdatedAt) ? dayjs().diff(currentMembersUpdatedAt, 'second') : null;
+  }, [currentMembersUpdatedAt, isFocus, activeSince]);
 
   const groupedMembersByLocation = useMemo<MembersGroupByLocation[]>(() => {
     const groups: MembersGroupByLocation[] = (currentMembers ?? []).reduce((acc, member) => {
@@ -98,14 +108,14 @@ const Attendance = () => {
           {currentMembersError && !isSilentError(currentMembersError) ? (
             <ErrorChip error={currentMembersError} label={t('attendance.onFetch.fail')} />
           ) : null}
-          {currentMembersUpdatedAt ? (
+          {!isNil(durationSinceLastFetch) ? (
             <AppText
               entering={FadeInLeft.duration(300)}
               exiting={FadeOutLeft.duration(300)}
               numberOfLines={1}
               style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
               {capitalize(
-                dayjs().diff(currentMembersUpdatedAt, 'minutes') > 60
+                durationSinceLastFetch > 3_600
                   ? dayjs(currentMembersUpdatedAt).calendar()
                   : dayjs(currentMembersUpdatedAt).fromNow(),
               )}

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+
+- Refresh last fetch date on attendance screen when focused.
+
 ## [2025.7.2] - 2025-07-08
 
 ### Fixed

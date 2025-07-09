@@ -62,15 +62,15 @@ const Devices = () => {
       {isPendingDevices ? (
         <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-4`}>
           {[0].map((index) => (
-            <DeviceCard pending key={index} style={tw`grow shrink basis-0 min-w-32 max-w-44`} />
+            <DeviceCard pending key={index} style={tw`grow shrink basis-0 min-w-32 max-w-48`} />
           ))}
           <AppTouchable
-            style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-44`}
+            style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-48`}
             onPress={pairDevice}>
             <NewDeviceCard style={tw`self-stretch w-full`} />
           </AppTouchable>
           {/* Placeholder for the last card to maintain layout */}
-          <View style={tw`grow shrink basis-0 min-w-32 max-w-44`} />
+          <View style={tw`grow shrink basis-0 min-w-32 max-w-48`} />
         </View>
       ) : devices?.length ? (
         <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-4`}>
@@ -79,7 +79,7 @@ const Devices = () => {
               asChild
               href={`/devices/${device._id}`}
               key={device.macAddress}
-              style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-44`}>
+              style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-48`}>
               <AppTouchable>
                 <DeviceCard
                   device={device}
@@ -91,12 +91,12 @@ const Devices = () => {
             </Link>
           ))}
           <AppTouchable
-            style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-44`}
+            style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-48`}
             onPress={pairDevice}>
             <NewDeviceCard style={tw`self-stretch w-full`} />
           </AppTouchable>
           {/* Placeholder for the last card to maintain layout */}
-          <View style={tw`grow shrink basis-0 min-w-32 max-w-44`} />
+          <View style={tw`grow shrink basis-0 min-w-32 max-w-48`} />
         </View>
       ) : (
         <Animated.View
