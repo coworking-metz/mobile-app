@@ -20,7 +20,7 @@ const Step = ({
   const [scrollContainerHeight, setScrollContainerHeight] = useState(0);
 
   const maskStyle = useAnimatedStyle(() => {
-    const zIndex = interpolate(animationValue.value, [-1, 0, 1], [300, 0, -300]);
+    const zIndex = Math.round(interpolate(animationValue.value, [-1, 0, 1], [300, 0, -300]));
 
     const maskBackgroundColor = interpolateColor(
       animationValue.value,

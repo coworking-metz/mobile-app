@@ -18,5 +18,6 @@
   "tailwindCSS.experimental.classRegex": [
       "tw`([^`]*)"
   ],
+  "tailwindCSS.classFunctions": ["tw", "tw.color", "tw.style"],
   "svg.preview.background": "transparent"
 }

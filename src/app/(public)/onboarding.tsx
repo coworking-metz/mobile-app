@@ -90,7 +90,7 @@ const Onboarding = () => {
       'worklet';
       const translateX = interpolate(value, [-1, 0, 1], [-layoutWidth, 0, 0]);
 
-      const zIndex = interpolate(value, [-1, 0, 1], [300, 0, -300]);
+      const zIndex = Math.round(interpolate(value, [-1, 0, 1], [300, 0, -300]));
       const opacity = interpolate(value, [-1, 0, 1], [0, 1, 0]);
 
       const scale = interpolate(value, [-1, 0, 1], [1, 1, 0.8]);

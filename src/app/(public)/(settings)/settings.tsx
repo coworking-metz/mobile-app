@@ -25,7 +25,6 @@ import tw, { useDeviceContext } from 'twrnc';
 import AppBlurView from '@/components/AppBlurView';
 import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBagde';
-import ErrorChip from '@/components/ErrorChip';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';

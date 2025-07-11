@@ -90,7 +90,7 @@
       "supportsTablet": true
     },
     "name": "Le Poulailler",
-    "newArchEnabled": false,
+    "newArchEnabled": true,
     "orientation": "portrait",
     "owner": "coworking-metz",
     "packagerOpts": {
