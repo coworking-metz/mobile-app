@@ -27,14 +27,14 @@
     "@gorhom/bottom-sheet": "^5.1.6",
     "@jonny/touchable-scale": "^1.0.2",
     "@leeoniya/ufuzzy": "^1.0.18",
-    "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-menu/menu": "^1.2.3",
     "@react-navigation/native": "^7.0.0",
     "@ronradtke/react-native-markdown-display": "^8.1.0",
     "@sentry/react-native": "~6.10.0",
     "@shipt/segmented-arc-for-react-native": "^2.0.0",
     "@shopify/react-native-skia": "^1.12.4",
-    "@tanstack/react-query": "^5.81.5",
+    "@tanstack/react-query": "^5.83.0",
     "@vonovak/react-native-theme-control": "^6.1.0",
     "axios": "^1.10.0",
     "axios-retry": "^4.5.0",
@@ -69,7 +69,7 @@
     "expo-system-ui": "~4.0.9",
     "expo-updates": "~0.27.4",
     "expo-web-browser": "~14.0.2",
-    "i18next": "^25.3.1",
+    "i18next": "^25.3.2",
     "intl-pluralrules": "^2.0.1",
     "lodash.set": "^4.3.2",
     "lottie-react-native": "7.1.0",
@@ -86,7 +86,7 @@
     "react-native-chart-kit": "^6.12.0",
     "react-native-fast-confetti": "^1.0.2",
     "react-native-gesture-handler": "~2.20.2",
-    "react-native-gifted-charts": "^1.4.61",
+    "react-native-gifted-charts": "^1.4.62",
     "react-native-keyboard-controller": "^1.17.3",
     "react-native-logs": "^5.3.0",
     "react-native-open-maps": "^0.4.3",
@@ -130,6 +130,7 @@
   "expo": {
     "install": {
       "exclude": [
+        "@react-native-async-storage/async-storage",
         "@shopify/react-native-skia"
       ]
     }
