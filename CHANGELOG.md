@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Refresh last fetch date on attendance screen when focused.
+- Properly collapse presence graph when activity is found more than 6 months ago.
 
 ## [2025.7.2] - 2025-07-08
 

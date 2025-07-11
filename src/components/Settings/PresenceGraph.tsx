@@ -41,21 +41,31 @@ const PresenceGraph = ({
 }) => {
   const { i18n, t } = useTranslation();
   const colorScheme = useColorScheme();
-  const [startDate, setStartDate] = useState<string | null>(
-    dayjs().subtract(6, 'month').format('YYYY-MM-DD'),
-  );
+  const sixMonthsAgo = dayjs().subtract(6, 'months').startOf('day');
+  const [areAllDatesVisible, setAllDatesVisible] = useState(false);
 
   const firstActivityDate = useMemo(() => {
     const [first] = activity;
     return first?.date;
   }, [activity]);
 
+  const hasActivityBeforeSixMonths = useMemo(() => {
+    return activity.some(({ date }) => sixMonthsAgo.isAfter(date));
+  }, [activity, sixMonthsAgo]);
+
   const earliestDate = useMemo(() => {
-    const [first] = activity.filter(
-      ({ date }) => !startDate || dayjs(date).isAfter(startDate, 'day'),
-    );
+    if (!areAllDatesVisible) {
+      if (hasActivityBeforeSixMonths) {
+        return sixMonthsAgo.format('YYYY-MM-DD');
+      }
+
+      const [first] = activity.filter(({ date }) => sixMonthsAgo.isBefore(date));
+      return first?.date;
+    }
+
+    const [first] = activity;
     return first?.date;
-  }, [activity, startDate]);
+  }, [activity, areAllDatesVisible, hasActivityBeforeSixMonths]);
 
   const squaresCount = useMemo(() => {
     return Math.max(dayjs().add(1, 'day').diff(earliestDate, 'day'), minimumSquares);
@@ -133,9 +143,9 @@ const PresenceGraph = ({
       showsHorizontalScrollIndicator={false}
       style={[style, { transform: [{ scaleX: -1 }] }]}>
       <View
-        key={`presence-graph-${startDate ? `6months` : 'all'}`}
+        key={`presence-graph-${areAllDatesVisible ? `6months` : 'all'}`}
         style={[tw`flex flex-row`, { transform: [{ scaleX: -1 }] }]}>
-        {activityCount && startDate && dayjs(firstActivityDate).isBefore(startDate) ? (
+        {activityCount && !areAllDatesVisible && hasActivityBeforeSixMonths ? (
           <LinearGradient
             colors={
               colorScheme === 'dark'
@@ -158,7 +168,7 @@ const PresenceGraph = ({
                 size={40}
                 style={tw`p-1`}
                 underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
-                onPress={() => setStartDate(null)}
+                onPress={() => setAllDatesVisible(true)}
               />
             </View>
           </LinearGradient>
