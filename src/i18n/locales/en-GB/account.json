@@ -9,14 +9,14 @@
     "firstname": {
       "label": "Firstname"
     },
-    "label": "Personal data",
     "lastname": {
       "label": "Lastname"
     },
     "onFetch": {
       "fail": "Unable to fetch your profile",
       "missing": "Your profile is currently missing. It will be automatically created once you place your first order."
-    }
+    },
+    "title": "Personal data"
   },
   "title": "My account"
 }

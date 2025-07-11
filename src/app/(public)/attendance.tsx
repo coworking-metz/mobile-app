@@ -12,7 +12,8 @@ import EmptyOfficeAnimation from '@/components/Animations/EmptyOfficeAnimation';
 import AppText from '@/components/AppText';
 import MemberBottomSheet from '@/components/Attendance/MemberBottomSheet';
 import MemberCard from '@/components/Attendance/MemberCard';
-import ErrorChip from '@/components/ErrorChip';
+import ErrorBadge from '@/components/ErrorBagde';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import useAppState from '@/helpers/app-state';
@@ -104,10 +105,7 @@ const Attendance = () => {
         description={t('attendance.description')}
         title={t('attendance.title', { count: currentMembers?.length })}
         onRefresh={refetchCurrentMembers}>
-        <View style={tw`flex flex-col items-start gap-2 min-h-6 px-6`}>
-          {currentMembersError && !isSilentError(currentMembersError) ? (
-            <ErrorChip error={currentMembersError} label={t('attendance.onFetch.fail')} />
-          ) : null}
+        <View style={tw`flex flex-row items-center gap-2 min-h-6 px-6`}>
           {!isNil(durationSinceLastFetch) ? (
             <AppText
               entering={FadeInLeft.duration(300)}
@@ -120,6 +118,9 @@ const Attendance = () => {
                   : dayjs(currentMembersUpdatedAt).fromNow(),
               )}
             </AppText>
+          ) : null}
+          {currentMembersError && !isSilentError(currentMembersError) ? (
+            <ErrorBadge error={currentMembersError} title={t('attendance.onFetch.fail')} />
           ) : null}
         </View>
 
@@ -142,19 +143,14 @@ const Attendance = () => {
           ) : groupedMembersByLocation.length ? (
             groupedMembersByLocation.map((group) => (
               <View key={group.location} style={tw`flex flex-col gap-2 px-4`}>
-                <Animated.View
+                <SectionTitle
+                  count={group.members.length}
                   entering={FadeInLeft.duration(500)}
                   exiting={FadeOutLeft.duration(500)}
-                  style={tw`flex flex-row items-center w-full gap-1`}>
-                  <AppText style={tw`text-sm font-normal uppercase text-slate-500 px-2`}>
-                    {t(`onPremise.location.${group.location || 'unknown'}`)}
-                  </AppText>
-                  <View style={tw`bg-gray-400/25 dark:bg-gray-700/50 py-1 px-2 rounded-full`}>
-                    <AppText style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
-                      {group.members.length}
-                    </AppText>
-                  </View>
-                </Animated.View>
+                  style={tw`px-2`}
+                  title={t(`onPremise.location.${group.location || 'unknown'}`)}
+                />
+
                 <View style={tw`flex flex-row flex-wrap gap-2 w-full`}>
                   {group.members.map((member, index) => (
                     <Animated.View

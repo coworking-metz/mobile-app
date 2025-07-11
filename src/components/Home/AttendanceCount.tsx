@@ -1,4 +1,5 @@
 import ProfilePicture from './ProfilePicture';
+import ErrorBadge from '../ErrorBagde';
 import LoadingSkeleton from '../LoadingSkeleton';
 import ReanimatedText from '../ReanimatedText';
 import { Link } from 'expo-router';
@@ -18,6 +19,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
+import { AnyError } from '@/helpers/error';
 import { type ApiMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
 
@@ -27,12 +29,14 @@ const AttendanceCount = ({
   members = [],
   total = 0,
   loading = false,
+  error,
   style,
   children,
 }: {
   members?: ApiMemberProfile[];
   total?: number;
   loading?: boolean;
+  error?: AnyError | null;
   style?: ViewProps;
   children?: ReactNode;
 }) => {
@@ -85,6 +89,9 @@ const AttendanceCount = ({
           style={tw`text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-slate-400 h-12`}>
           {t('home.people.capacity', { total: total })}
         </AppText>
+        {error ? (
+          <ErrorBadge error={error} style={tw`ml-3`} title={t('home.people.onFetch.fail')} />
+        ) : null}
       </View>
 
       <View style={tw`flex flex-row items-center min-h-8 gap-2`}>

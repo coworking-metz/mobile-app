@@ -24,8 +24,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import AppBlurView from '@/components/AppBlurView';
 import AppText from '@/components/AppText';
+import ErrorBadge from '@/components/ErrorBagde';
 import ErrorChip from '@/components/ErrorChip';
 import ProfilePicture from '@/components/Home/ProfilePicture';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import AppFooter from '@/components/Settings/AppFooter';
 import PresenceGraph from '@/components/Settings/PresenceGraph';
@@ -293,10 +295,16 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 paddingRight: insets.right,
               },
             ]}>
-            <View style={tw`flex flex-row gap-2 items-center min-h-6 mx-6`}>
-              <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
-                {t('settings.profile.presence.title')}
-              </AppText>
+            <SectionTitle style={tw`mx-6`} title={t('settings.profile.presence.title')}>
+              {activityError && !isSilentError(activityError) ? (
+                <ErrorBadge
+                  error={activityError}
+                  title={t('settings.profile.presence.onFetch.fail')}
+                />
+              ) : profileError && !isSilentError(profileError) ? (
+                <ErrorBadge error={profileError} title={t('home.profile.onFetch.fail')} />
+              ) : null}
+
               {profile?.balance && profile.balance < 0 ? (
                 <Animated.View
                   entering={FadeInRight.duration(600).delay(500)}
@@ -314,21 +322,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                   </AppText>
                 </Animated.View>
               ) : null}
-            </View>
-
-            {activityError && !isSilentError(activityError) ? (
-              <ErrorChip
-                error={activityError}
-                label={t('settings.profile.presence.onFetch.fail')}
-                style={tw`mx-6 mt-2 self-start`}
-              />
-            ) : profileError && !isSilentError(profileError) ? (
-              <ErrorChip
-                error={profileError}
-                label={t('home.profile.onFetch.fail')}
-                style={tw`mx-6 mt-2 self-start`}
-              />
-            ) : null}
+            </SectionTitle>
 
             <PresenceGraph
               activity={activity}
@@ -342,9 +336,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               onDateSelect={onDateSelect}
             />
 
-            <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
-              {t('settings.general.title')}
-            </AppText>
+            <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.general.title')} />
 
             <Link asChild href="/advanced/">
               <ServiceRow
@@ -404,9 +396,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             </ServiceRow>
             <ThemePicker style={tw`px-3 mx-3`} onPress={selectTheme} />
 
-            <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
-              {t('settings.support.title')}
-            </AppText>
+            <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.support.title')} />
             {authStore.user && (
               <Link asChild href={`${WORDPRESS_BASE_URL}/la-boutique/`}>
                 <ServiceRow

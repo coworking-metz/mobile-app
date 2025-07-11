@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Changed
+
+- Prefer error icon instead of chip on most screens.
+
 ### Fixed
 
 - Refresh last fetch date on attendance screen when focused.

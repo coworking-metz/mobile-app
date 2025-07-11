@@ -1,4 +1,3 @@
-import LoadingSkeleton from '../LoadingSkeleton';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { isNil, uniq } from 'lodash';
@@ -15,8 +14,10 @@ import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAni
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
-import ErrorChip from '@/components/ErrorChip';
+import ErrorBadge from '@/components/ErrorBagde';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
 import { getPhoneBoothsOccupation } from '@/services/api/services';
@@ -200,15 +201,11 @@ const PhoneBoothBottomSheet = ({
         </View>
       </View>
 
-      <View style={tw`flex flex-col items-start min-h-6 gap-2 mx-4`}>
-        <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
-          {t('onPremise.phoneBooths.graph.label')}
-        </AppText>
-
+      <SectionTitle style={tw`mx-4`} title={t('onPremise.phoneBooths.graph.label')}>
         {occupationError && !isSilentError(occupationError) ? (
-          <ErrorChip error={occupationError} label={t('onPremise.phoneBooths.onFetch.fail')} />
+          <ErrorBadge error={occupationError} title={t('onPremise.phoneBooths.onFetch.fail')} />
         ) : null}
-      </View>
+      </SectionTitle>
 
       <View
         style={tw`flex flex-col self-start w-full h-48 pb-8`}

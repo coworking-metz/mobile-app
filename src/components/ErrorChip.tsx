@@ -1,10 +1,10 @@
 import AppText from './AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useCallback, useEffect, useState } from 'react';
-import { TouchableOpacity, type ViewStyle, type ViewProps, type StyleProp } from 'react-native';
+import React, { useCallback } from 'react';
+import { TouchableOpacity, type StyleProp, type ViewProps, type ViewStyle } from 'react-native';
 import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
-import { parseErrorText } from '@/helpers/error';
+import { AnyError, parseErrorText } from '@/helpers/error';
 import useNoticeStore from '@/stores/notice';
 
 const ErrorChip = ({
@@ -14,28 +14,19 @@ const ErrorChip = ({
   ...props
 }: AnimatedProps<ViewProps> & {
   label: string;
-  error?: Error;
+  error?: AnyError;
   style?: StyleProp<ViewStyle>;
 }) => {
-  const [description, setDescription] = useState<string | null>(null);
   const noticeStore = useNoticeStore();
 
-  useEffect(() => {
-    if (error) {
-      (async () => {
-        const errorMessage = await parseErrorText(error);
-        setDescription(errorMessage);
-      })();
-    }
-  }, [error]);
-
-  const onPress = useCallback(() => {
+  const onPress = useCallback(async () => {
+    const description = error ? await parseErrorText(error) : null;
     noticeStore.add({
       message: label,
       type: 'error',
       ...(description && { description }),
     });
-  }, [noticeStore, label, description]);
+  }, [noticeStore, label, error]);
 
   return (
     <TouchableOpacity style={[tw`shrink`, style]} onPress={onPress}>

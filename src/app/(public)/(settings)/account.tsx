@@ -8,7 +8,9 @@ import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
 import AppTouchable from '@/components/AppTouchable';
+import ErrorBadge from '@/components/ErrorBagde';
 import ErrorChip from '@/components/ErrorChip';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import ZoomableImage from '@/components/ZoomableImage';
@@ -69,26 +71,17 @@ const Advanced = () => {
           </View>
         </View>
 
-        <View style={tw`flex flex-row gap-2 min-h-6 mt-8 px-6`}>
-          <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
-            {t('account.profile.label')}
-          </AppText>
-
+        <SectionTitle style={tw`mx-6 mt-8`} title={t('account.profile.title')}>
+          {profileError && !isSilentError(profileError) ? (
+            <ErrorBadge error={profileError} title={t('account.profile.onFetch.fail')} />
+          ) : null}
           <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/modifier-compte/`}>
             <AppText
               style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-5`}>
               {t('actions.edit')}
             </AppText>
           </Link>
-        </View>
-
-        {profileError && !isSilentError(profileError) ? (
-          <ErrorChip
-            error={profileError}
-            label={t('account.profile.onFetch.fail')}
-            style={tw`mx-6 mt-2 self-start`}
-          />
-        ) : null}
+        </SectionTitle>
 
         <ServiceRow
           withBottomDivider

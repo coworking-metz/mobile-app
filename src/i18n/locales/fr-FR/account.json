@@ -9,14 +9,14 @@
     "firstname": {
       "label": "Prénom"
     },
-    "label": "Informations personnelles",
     "lastname": {
       "label": "Nom"
     },
     "onFetch": {
       "fail": "Impossible d'actualiser le profil",
       "missing": "Le profil est pour le moment inexistant. Il sera automatiquement rattaché une fois votre première commande passée."
-    }
+    },
+    "title": "Informations personnelles"
   },
   "title": "Mon profil"
 }

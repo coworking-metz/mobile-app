@@ -9,7 +9,7 @@ import {
   type StyleProp,
   type ViewStyle,
 } from 'react-native';
-import Animated, { BounceIn, BounceOut, FadeInLeft, FadeOutDown } from 'react-native-reanimated';
+import Animated, { BounceOut, FadeInLeft, FadeOutDown } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
 import ProfilePicture from '@/components/Home/ProfilePicture';
@@ -52,7 +52,6 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
             url={member.picture}>
             {member.attending && (
               <Animated.View
-                entering={BounceIn.duration(1000).delay(300)}
                 exiting={BounceOut.duration(1000)}
                 style={tw`z-10 h-5 w-5 bg-gray-50 dark:bg-zinc-900 rounded-full absolute flex items-center justify-center -bottom-0.5 -right-0.5`}>
                 <View style={tw`h-3 w-3 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />

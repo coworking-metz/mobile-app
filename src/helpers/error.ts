@@ -25,7 +25,9 @@ export interface AppError extends Error {
   code: AppErrorCode;
 }
 
-export const parseErrorText = async (error: AxiosError | Error): Promise<string> => {
+export type AnyError = AppError | AxiosError<ApiError> | Error;
+
+export const parseErrorText = async (error: AnyError): Promise<string> => {
   const contentType = (error as AxiosError).response?.headers?.['content-type'] as string;
   const contentLength = (error as AxiosError).response?.headers?.['content-length'] as string;
   const hasContent = !contentLength || parseInt(contentLength, 10) > 0;
@@ -48,8 +50,6 @@ export const parseErrorText = async (error: AxiosError | Error): Promise<string>
   }
   return error.message;
 };
-
-export type AnyError = AppError | AxiosError<ApiError> | Error;
 
 export const isSilentError = (error: AnyError): boolean =>
   [AppErrorCode.DISCONNECTED, AppErrorCode.CANCELED].includes((error as AppError)?.code) ||

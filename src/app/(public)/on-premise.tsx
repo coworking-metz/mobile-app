@@ -18,17 +18,17 @@ import ServiceLayout from '@/components/Layout/ServiceLayout';
 import CarbonDioxideBottomSheet from '@/components/OnPremise/CarbonDioxideBottomSheet';
 import DeckKeyBoxBottomSheet from '@/components/OnPremise/DeckKeyBoxBottomSheet';
 import FlexDeskBottomSheet from '@/components/OnPremise/FlexDeskBottomSheet';
-import PoulaillerKeyBoxBottomSheet from '@/components/OnPremise/PoulaillerKeyBoxBottomSheet';
 import PhoneBoothBottomSheet from '@/components/OnPremise/PhoneBoothBottomSheet';
+import PoulaillerKeyBoxBottomSheet from '@/components/OnPremise/PoulaillerKeyBoxBottomSheet';
 import PoulaillerPlan from '@/components/OnPremise/PoulaillerPlan';
 import PtiPoulaillerClimateBottomSheet from '@/components/OnPremise/PtiPoulaillerClimateBottomSheet';
+import PtiPoulaillerKeyBoxBottomSheet from '@/components/OnPremise/PtiPoulaillerKeyBoxBottomSheet';
 import PtiPoulaillerPlan from '@/components/OnPremise/PtiPoulaillerPlan';
 import UnlockDeckDoorBottomSheet from '@/components/OnPremise/UnlockDeckDoorBottomSheet';
 import { SelectableChip } from '@/components/SelectableChip';
 import { isSilentError } from '@/helpers/error';
 import useAppScreen from '@/helpers/screen';
 import { getOnPremiseState, OnPremiseFlexDesk } from '@/services/api/services';
-import PtiPoulaillerKeyBoxBottomSheet from '@/components/OnPremise/PtiPoulaillerKeyBoxBottomSheet';
 
 const SUPPORTED_LOCATIONS = ['poulailler', 'pti-poulailler'];
 type SupportedLocation = (typeof SUPPORTED_LOCATIONS)[number];
@@ -99,7 +99,7 @@ const OnPremise = () => {
 
         <View style={tw`mb-4`}>
           <ScrollView
-            contentContainerStyle={tw`flex flex-row items-center gap-4 px-4`}
+            contentContainerStyle={tw`flex flex-row items-center gap-4 px-6`}
             horizontal={true}
             scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
@@ -138,8 +138,8 @@ const OnPremise = () => {
                     onCarbonDioxideSelected={() => setCarbonDioxideSelected(true)}
                     onDeckDoorSelected={() => setDeckDoorSelected(true)}
                     onDeckKeyBoxSelected={() => setDeckKeyBoxSelected(true)}
-                    onPoulaillerKeyBoxSelected={() => setPoulaillerKeyBoxSelected(true)}
                     onPhoneBoothSelected={() => setPhoneBoothSelected(true)}
+                    onPoulaillerKeyBoxSelected={() => setPoulaillerKeyBoxSelected(true)}
                     onPremiseState={onPremiseState}
                   />
                 </Animated.View>
@@ -154,8 +154,8 @@ const OnPremise = () => {
                     loading={isFetchingOnPremiseState}
                     onClimateSelected={() => setPtiPoulaillerClimateSelected(true)}
                     onFlexDeskSelected={(d) => setSelectedFlexDesk(d ?? null)}
-                    onPtiPoulaillerKeyBoxSelected={() => setPtiPoulaillerKeyBoxSelected(true)}
                     onPremiseState={onPremiseState}
+                    onPtiPoulaillerKeyBoxSelected={() => setPtiPoulaillerKeyBoxSelected(true)}
                   />
                 </Animated.View>
               )}
