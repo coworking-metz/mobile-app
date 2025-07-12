@@ -4,6 +4,6 @@
   },
   "timeout": {
     "message": "No response{{withDuration}}. This may be due to an interrupted or poor quality connection.",
-    "withDuration": " after {{duration}} of waiting"
+    "withDuration": " after waiting for {{duration}}"
   }
 }

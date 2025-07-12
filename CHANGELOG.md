@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- A little bit of random in text descriptions.
+- Event description is selectable.
+
 ### Changed
 
 - Prefer error icon instead of chip on most screens.

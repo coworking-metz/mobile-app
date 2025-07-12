@@ -242,7 +242,7 @@ const PairDeviceBottomSheet = ({
     animation.current?.play(100, 150);
   }, [animation]);
 
-  const enddAnimation = useCallback(() => {
+  const endAnimation = useCallback(() => {
     setLoopAnimation(false);
     setEndAnimation(false);
     animation.current?.play(150, 250);
@@ -258,7 +258,7 @@ const PairDeviceBottomSheet = ({
 
   const onAnimationFinish = useCallback(() => {
     if (shouldEndAnimation) {
-      enddAnimation();
+      endAnimation();
     } else if (shouldLoopAnimation) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       continueAnimation();

@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { NetworkStateType, useNetworkState } from 'expo-network';
 import { Link } from 'expo-router';
-import { includes } from 'lodash';
+import { includes, sample } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
@@ -16,19 +16,20 @@ import Animated, {
   FadeOutDown,
   StretchInY,
 } from 'react-native-reanimated';
+import { toast } from 'sonner-native';
+import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
 import AppTouchable from '@/components/AppTouchable';
 import ErrorBadge from '@/components/ErrorBagde';
-import { type PeriodType } from '@/components/Events/PeriodBottomSheet';
 import AppointmentCard from '@/components/Home/AppointmentCard';
 import AttendanceCount from '@/components/Home/AttendanceCount';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
 import BirthdayBottomSheet from '@/components/Home/BirthdayBottomSheet';
 import BirthdayCard from '@/components/Home/BirthdayCard';
-import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import DevicesCard from '@/components/Home/DevicesCard';
+import HomeCalendarEmptyState from '@/components/Home/HomeCalendarEmptyState';
 import HomeLayout from '@/components/Home/HomeLayout';
 import MembershipBottomSheet from '@/components/Home/MembershipBottomSheet';
 import MembershipCard from '@/components/Home/MembershipCard';
@@ -56,8 +57,6 @@ import {
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
-import { toast } from 'sonner-native';
-import tw, { useDeviceContext } from 'twrnc';
 
 const MAX_WIDTH = 672; // tw`max-w-2xl`
 
@@ -167,6 +166,7 @@ export default function HomeScreen() {
     data: calendarEvents,
     isLoading: isLoadingCalendarEvents,
     isFetching: isFetchingCalendarEvents,
+    dataUpdatedAt: calendarEventsUpdatedAt,
     refetch: refreshCalendarEvents,
     error: calendarEventsError,
   } = useQuery({
@@ -186,18 +186,6 @@ export default function HomeScreen() {
     );
   }, [calendarEvents, activeSince]);
 
-  const firstPeriodWithEvents: PeriodType = useMemo(() => {
-    const [nextEvent] = nextCalendarEvents?.filter(({ end }) => dayjs().isBefore(end)) || [];
-    if (nextEvent) {
-      if (dayjs(nextEvent.start).isSame(dayjs(), 'week')) {
-        return 'week';
-      } else if (dayjs(nextEvent.start).isSame(dayjs(), 'month')) {
-        return 'month';
-      }
-    }
-    return null;
-  }, [nextCalendarEvents]);
-
   const onRefresh = useCallback(() => {
     return Promise.all([
       authStore.user?.id && refetchProfile(),
@@ -210,10 +198,10 @@ export default function HomeScreen() {
 
   const onSuccessiveTaps = useCallback(() => {
     toastStore.add({
-      message: t('home.onSuccessiveTaps.message'),
+      message: `${sample(t('home.onSuccessiveTaps.message', { returnObjects: true }))}`,
       type: 'info',
       action: {
-        label: t('home.onSuccessiveTaps.action'),
+        label: `${sample(t('home.onSuccessiveTaps.action', { returnObjects: true }))}`,
         onPress: async () => {
           toast.dismiss();
           contact();
@@ -337,6 +325,7 @@ export default function HomeScreen() {
           error={
             currentMembersError && !isSilentError(currentMembersError) ? currentMembersError : null
           }
+          lastFetch={currentMembersUpdatedAt}
           loading={isLoadingCurrentMembers}
           members={currentMembers}
           style={tw`mt-4`}
@@ -478,19 +467,11 @@ export default function HomeScreen() {
               </Animated.View>
             ))
           ) : (
-            <CalendarEmptyState
-              description={t('home.calendar.empty.label')}
-              style={tw`w-full h-full mt-4`}>
-              <Link
-                asChild
-                href={['/events', firstPeriodWithEvents && `period=${firstPeriodWithEvents}`]
-                  .filter(Boolean)
-                  .join('?')}>
-                <AppText style={tw`text-base font-normal text-amber-500 text-center mt-4`}>
-                  {t('home.calendar.empty.action')}
-                </AppText>
-              </Link>
-            </CalendarEmptyState>
+            <HomeCalendarEmptyState
+              events={nextCalendarEvents}
+              lastFetch={calendarEventsUpdatedAt}
+              style={tw`w-full h-full mt-4`}
+            />
           )}
         </ScrollView>
       </Animated.View>

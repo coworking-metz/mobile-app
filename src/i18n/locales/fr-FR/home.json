@@ -8,8 +8,18 @@
   "calendar": {
     "browse": "Tous",
     "empty": {
-      "action": "Découvrir d'autres évènements",
-      "label": "Il n'y a rien de prévu prochainement."
+      "action": [
+        "Découvrir d'autres évènements",
+        "Explorer la programmation",
+        "Voir le calendrier complet",
+        "Voir les autres évènements"
+      ],
+      "description": [
+        "Aucun évènement n'est planifié prochainement.",
+        "Aucun évènement à venir pour le moment.",
+        "Il n'y a rien de prévu prochainement.",
+        "Rien de prévu pour l'instant."
+      ]
     },
     "event": {
       "ends": "Termine {{duration}}"
@@ -34,8 +44,8 @@
     "label": "@:onPremise.title"
   },
   "onSuccessiveTaps": {
-    "action": "Oui",
-    "message": "Quelque chose ne va pas ?"
+    "action": ["Aidez-moi", "Effectivement", "En effet", "Oui"],
+    "message": ["Besoin d'aide ?", "Quelque chose ne va pas ?", "Un souci ?"]
   },
   "parking": {
     "label": "Ouvrir la grille\ndu parking",
@@ -52,9 +62,29 @@
     "onFetch": {
       "fail": "Impossible d'actualiser l'occupation actuelle"
     },
-    "present_one": "Une seule personne présente",
-    "present_other": "postes occupés",
-    "present_zero": "Aucune personne présente"
+    "present_one": [
+      "Il y a une personne sur place",
+      "Un membre est présent aujourd'hui",
+      "Un poste est actuellement occupé",
+      "Une seule personne est présente",
+      "membre présent",
+      "personne présente",
+      "personne sur place",
+      "poste occupé"
+    ],
+    "present_other": [
+      "membres présents",
+      "personnes présentes",
+      "personnes sur place",
+      "postes occupés",
+      "présents"
+    ],
+    "present_zero": [
+      "Aucune personne présente",
+      "C'est calme actuellement",
+      "Personne pour le moment",
+      "Personne à l'horizon"
+    ]
   },
   "profile": {
     "birthday": {
@@ -193,7 +223,7 @@
   "refresh": {
     "hint": "Tirer pour actualiser",
     "label": "Actualiser",
-    "loading": "Actualisation…"
+    "loading": ["Actualisation…", "Chargement…", "Mise à jour…", "Un peu de patience…"]
   },
   "services": {
     "label": "Services"

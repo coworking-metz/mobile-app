@@ -1,8 +1,13 @@
 {
-  "description": "Inside shared office spaces",
+  "description": "inside shared office spaces",
   "empty": {
-    "description": "No one is currently located on site.",
-    "title": "It's empty"
+    "description": [
+      "No desks are occupied right now.",
+      "No members are currently here.",
+      "No one is currently on site.",
+      "There is no one at the moment."
+    ],
+    "title": ["All quiet", "It's empty", "No one here", "No one present"]
   },
   "members": {
     "debt": {
@@ -20,5 +25,5 @@
   },
   "title_one": "Attending",
   "title_other": "{{count}} attending",
-  "title_zero": "Attending"
+  "title_zero": "No one"
 }

@@ -2,7 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { capitalize, isNil } from 'lodash';
+import { capitalize, isNil, sample } from 'lodash';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -98,12 +98,22 @@ const Attendance = () => {
     return groups;
   }, [currentMembers]);
 
+  const emptyTitle = useMemo(() => {
+    const i18nEmptyTitle = t('attendance.empty.title', { returnObjects: true });
+    return Array.isArray(i18nEmptyTitle) ? sample(i18nEmptyTitle) : i18nEmptyTitle;
+  }, [t, currentMembersUpdatedAt]);
+
+  const emptyDescription = useMemo(() => {
+    const text = t('attendance.empty.description', { returnObjects: true });
+    return Array.isArray(text) ? sample(text) : text;
+  }, [t, currentMembersUpdatedAt]);
+
   return (
     <>
       <ServiceLayout
         contentStyle={tw`pt-6 pb-12 gap-6`}
         description={t('attendance.description')}
-        title={t('attendance.title', { count: currentMembers?.length })}
+        title={t('attendance.title', { count: currentMembers?.length ?? 0 })}
         onRefresh={refetchCurrentMembers}>
         <View style={tw`flex flex-row items-center gap-2 min-h-6 px-6`}>
           {!isNil(durationSinceLastFetch) ? (
@@ -190,13 +200,13 @@ const Attendance = () => {
                 entering={FadeInLeft.duration(500)}
                 numberOfLines={1}
                 style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-                {t('attendance.empty.title')}
+                {emptyTitle}
               </AppText>
               <AppText
                 entering={FadeInLeft.duration(500).delay(150)}
                 numberOfLines={2}
                 style={tw`text-base text-center text-slate-500 dark:text-slate-400`}>
-                {t('attendance.empty.description')}
+                {emptyDescription}
               </AppText>
             </View>
           )}

@@ -4,7 +4,9 @@ import Animated, { AnimatedProps } from 'react-native-reanimated';
 import { AnimatedText } from 'react-native-reanimated/lib/typescript/component/Text';
 import { getFamilyForWeight } from '@/helpers/text';
 
-const AppText: ForwardRefRenderFunction<AnimatedText, AnimatedProps<TextProps>> = (
+export type AppTextProps = AnimatedProps<TextProps>;
+
+const AppText: ForwardRefRenderFunction<AnimatedText, AppTextProps> = (
   { children, style, ...otherProps },
   ref,
 ) => {

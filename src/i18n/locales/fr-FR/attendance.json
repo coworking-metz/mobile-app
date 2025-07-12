@@ -1,8 +1,13 @@
 {
-  "description": "Dans les espaces de travail",
+  "description": "dans les espaces de travail",
   "empty": {
-    "description": "Personne n'est actuellement localisé sur place.",
-    "title": "C'est vide"
+    "description": [
+      "Aucun membre présent sur place.",
+      "Aucun poste occupé actuellement.",
+      "Il n'y a personne pour le moment.",
+      "Personne n'est actuellement localisé sur place."
+    ],
+    "title": ["Aucun présent", "C'est vide", "Calme plat", "Personne sur place"]
   },
   "members": {
     "debt": {
@@ -18,7 +23,7 @@
   "onFetch": {
     "fail": "Impossible d'actualiser la liste des présents"
   },
-  "title_one": "Présents",
+  "title_one": "Présent",
   "title_other": "{{count}} présents",
-  "title_zero": "Présent"
+  "title_zero": "Personne"
 }

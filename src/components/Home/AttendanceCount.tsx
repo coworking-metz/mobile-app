@@ -3,7 +3,8 @@ import ErrorBadge from '../ErrorBagde';
 import LoadingSkeleton from '../LoadingSkeleton';
 import ReanimatedText from '../ReanimatedText';
 import { Link } from 'expo-router';
-import React, { useEffect, useMemo, type ReactNode } from 'react';
+import { sample } from 'lodash';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, View, type ViewProps } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -26,19 +27,19 @@ import useAuthStore from '@/stores/auth';
 const MAX_MEMBERS_PICTURES = 5;
 
 const AttendanceCount = ({
+  lastFetch,
   members = [],
   total = 0,
   loading = false,
   error,
   style,
-  children,
 }: {
+  lastFetch?: number;
   members?: ApiMemberProfile[];
   total?: number;
   loading?: boolean;
   error?: AnyError | null;
   style?: ViewProps;
-  children?: ReactNode;
 }) => {
   const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
@@ -67,6 +68,11 @@ const AttendanceCount = ({
     return `${count.value.toFixed(0)}`;
   }, [count]);
 
+  const attendanceText = useMemo(() => {
+    const text = t('home.people.present', { count: members.length, returnObjects: true });
+    return Array.isArray(text) ? sample(text) : text;
+  }, [t, members.length, lastFetch]);
+
   return (
     <View style={[tw`flex flex-col justify-end h-32 w-full`, style]}>
       <View style={tw`flex flex-row w-full items-end mb-5`}>
@@ -94,23 +100,23 @@ const AttendanceCount = ({
         ) : null}
       </View>
 
-      <View style={tw`flex flex-row items-center min-h-8 gap-2`}>
-        {loading ? (
-          <Animated.View exiting={FadeOut.duration(150)}>
-            <LoadingSkeleton height={24} width={172} />
-          </Animated.View>
-        ) : (
-          <AppText
-            numberOfLines={1}
-            style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
-            {t('home.people.present', { count: members.length })}
-          </AppText>
-        )}
+      <Link asChild href="/attendance">
+        <TouchableOpacity>
+          <View style={tw`flex flex-row items-center min-h-8 gap-1`}>
+            {loading ? (
+              <Animated.View exiting={FadeOut.duration(150)}>
+                <LoadingSkeleton height={24} width={172} />
+              </Animated.View>
+            ) : (
+              <AppText
+                numberOfLines={1}
+                style={tw`shrink text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                {attendanceText}
+              </AppText>
+            )}
 
-        {otherMembers.length ? (
-          <Animated.View style={tw`shrink-0 ml-auto`}>
-            <Link asChild href="/attendance">
-              <TouchableOpacity>
+            {otherMembers.length ? (
+              <Animated.View style={tw`shrink-0 ml-auto`}>
                 <View style={tw`flex flex-row items-center pl-4 grow h-8 overflow-hidden`}>
                   {otherMembers
                     .slice(
@@ -147,13 +153,11 @@ const AttendanceCount = ({
                     </Animated.View>
                   ) : null}
                 </View>
-              </TouchableOpacity>
-            </Link>
-          </Animated.View>
-        ) : null}
-
-        {children}
-      </View>
+              </Animated.View>
+            ) : null}
+          </View>
+        </TouchableOpacity>
+      </Link>
     </View>
   );
 };

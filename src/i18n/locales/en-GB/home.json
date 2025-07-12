@@ -8,8 +8,18 @@
   "calendar": {
     "browse": "More",
     "empty": {
-      "action": "Discover more events",
-      "label": "There's nothing planned in the near future."
+      "action": [
+        "Check the calendar",
+        "Discover more events",
+        "Explore the full schedule",
+        "See upcoming events"
+      ],
+      "description": [
+        "No events are currently scheduled.",
+        "No upcoming events at the moment.",
+        "Nothing planned for now.",
+        "There's nothing planned in the near future."
+      ]
     },
     "event": {
       "ends": "Ends {{duration}}"
@@ -30,8 +40,8 @@
     }
   },
   "onSuccessiveTaps": {
-    "action": "Yes",
-    "message": "Is there something wrong?"
+    "action": ["Help me", "Please", "Sure", "Yes"],
+    "message": ["Is it acting up?", "Is there something wrong?", "Need help?"]
   },
   "parking": {
     "label": "Open parking\nbarrier",
@@ -48,9 +58,23 @@
     "onFetch": {
       "fail": "Unable to fetch attendance"
     },
-    "present_one": "A single person is here",
-    "present_other": "occupied desks",
-    "present_zero": "Nobody there"
+    "present_one": [
+      "A single person is on site",
+      "One desk is currently occupied",
+      "One person is present",
+      "There's one member here",
+      "member present",
+      "occupied desk",
+      "person on site",
+      "person present"
+    ],
+    "present_other": ["members present", "occupied desks", "people on site", "people present"],
+    "present_zero": [
+      "It's currently quiet",
+      "No one at the moment",
+      "No one in sight",
+      "No one present"
+    ]
   },
   "profile": {
     "birthday": {
@@ -189,7 +213,7 @@
   "refresh": {
     "hint": "Pull to refresh",
     "label": "Refresh",
-    "loading": "Loading…"
+    "loading": ["Hang tight…", "Loading…", "Refreshing…", "Syncing…", "Updating…"]
   },
   "services": {
     "label": "Services"

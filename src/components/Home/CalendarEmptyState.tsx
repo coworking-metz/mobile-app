@@ -11,7 +11,7 @@ const CalendarEmptyState = ({
   children,
   ...props
 }: AnimatedProps<ViewProps> & {
-  description: string;
+  description?: string;
   style?: StyleProp<ViewStyle>;
   children?: ReactNode;
 }) => {

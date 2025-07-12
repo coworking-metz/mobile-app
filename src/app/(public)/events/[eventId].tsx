@@ -152,7 +152,7 @@ export default function CalendarEventPage() {
               />
             ) : null}
             {event.description ? (
-              <AppText style={tw`text-base font-normal text-gray-500 mx-6 mt-6`}>
+              <AppText selectable style={tw`text-base font-normal text-gray-500 mx-6 mt-6`}>
                 {event.description}
               </AppText>
             ) : null}
