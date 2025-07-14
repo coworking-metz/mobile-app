@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [2025.7.3] - 2025-07-14
+
 ### Added
 
 - A little bit of random in text descriptions.
@@ -409,7 +411,8 @@ Initial release with the following features:
 - services like opening the gate,
 - user attendance history.
 
-[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2025.7.2...main
+[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2025.7.3...main
+[2025.7.3]: https://github.com/coworking-metz/mobile-app/compare/2025.7.2...2025.7.3
 [2025.7.2]: https://github.com/coworking-metz/mobile-app/compare/2025.7.1...2025.7.2
 [2025.7.1]: https://github.com/coworking-metz/mobile-app/compare/2025.6.2...2025.7.1
 [2025.6.2]: https://github.com/coworking-metz/mobile-app/compare/2025.6.1...2025.6.2
