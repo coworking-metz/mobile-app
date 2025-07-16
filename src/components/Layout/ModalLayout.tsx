@@ -202,7 +202,7 @@ const ModalLayout = ({
             <AppText
               numberOfLines={1}
               style={[
-                tw`text-2xl font-semibold tracking-tight text-slate-900 dark:text-gray-200 `,
+                tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 `,
                 titleTextStyle,
               ]}>
               {title}

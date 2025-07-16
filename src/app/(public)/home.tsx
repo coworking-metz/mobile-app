@@ -45,7 +45,7 @@ import SectionTitle from '@/components/Layout/SectionTitle';
 import { useAppContact } from '@/context/contact';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
-import useAppScreen from '@/helpers/screen';
+import useAppScreen, { WIDE_SCREEN_WIDTH } from '@/helpers/screen';
 import { getCalendarEvents } from '@/services/api/calendar';
 import {
   getCurrentMembers,
@@ -57,8 +57,6 @@ import {
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
-
-const MAX_WIDTH = 672; // tw`max-w-2xl`
 
 export default function HomeScreen() {
   useDeviceContext(tw);
@@ -177,7 +175,7 @@ export default function HomeScreen() {
 
   const nextCalendarEvents = useMemo(() => {
     const now = dayjs();
-    const tomorrow = now.add(1, 'day').endOf('day');
+    const tomorrow = now.add(1, 'month').endOf('day');
     return (
       calendarEvents?.filter(
         ({ start, end }) =>
@@ -290,7 +288,7 @@ export default function HomeScreen() {
       }}>
       <View
         style={[
-          tw`flex flex-row items-center w-full px-4 pt-1`,
+          tw`flex flex-row items-center grow shrink pt-1 pl-6 pr-4`,
           isWide && tw`mx-auto w-full max-w-2xl`,
         ]}>
         <StaleDataText
@@ -318,7 +316,7 @@ export default function HomeScreen() {
       <Animated.View
         entering={FadeInLeft.duration(750)}
         style={[
-          tw`flex flex-col self-stretch gap-2 ml-6 mr-4 mb-6`,
+          tw`flex flex-col self-stretch gap-2 pl-6 pr-4 mb-6`,
           isWide && tw`mx-auto w-full max-w-2xl`,
         ]}>
         <AttendanceCount
@@ -336,14 +334,14 @@ export default function HomeScreen() {
       {authStore.user?.onboarding && (
         <Animated.View
           entering={StretchInY.delay(750)}
-          style={[tw`flex self-stretch mx-4`, isWide && tw`mx-auto w-full max-w-2xl`]}>
+          style={[tw`flex self-stretch px-4`, isWide && tw`mx-auto w-full max-w-2xl`]}>
           <AppointmentCard date={authStore.user.onboarding.date} style={tw`w-full`} />
         </Animated.View>
       )}
 
       <Animated.View entering={FadeInLeft.duration(750).delay(400)} style={tw`flex self-stretch`}>
         <SectionTitle
-          style={[tw`w-full mt-6 px-6`, isWide && tw`mx-auto max-w-2xl`]}
+          style={[tw`self-stretch mt-6 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
           title={t('home.profile.label')}>
           {profileError && !isSilentError(profileError) ? (
             <ErrorBadge error={profileError} title={t('home.profile.onFetch.fail')} />
@@ -354,8 +352,8 @@ export default function HomeScreen() {
           contentContainerStyle={[
             tw`flex flex-row items-stretch gap-4 px-4 mt-4 overflow-visible`,
             isWide && {
-              paddingLeft: (width - MAX_WIDTH) / 2,
-              paddingRight: (width - MAX_WIDTH) / 2,
+              paddingLeft: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
+              paddingRight: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
             },
           ]}
           horizontal={true}
@@ -417,7 +415,7 @@ export default function HomeScreen() {
       <SectionTitle
         count={nextCalendarEvents.length > 2 ? nextCalendarEvents.length : null}
         entering={FadeInRight.duration(750).delay(600)}
-        style={[tw`w-full mt-6 px-6`, isWide && tw`mx-auto max-w-2xl`]}
+        style={[tw`self-stretch mt-6 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
         title={t('home.calendar.label')}>
         {calendarEventsError && !isSilentError(calendarEventsError) ? (
           <ErrorBadge error={calendarEventsError} title={t('home.calendar.onFetch.fail')} />
@@ -433,13 +431,13 @@ export default function HomeScreen() {
 
       <Animated.View entering={FadeInRight.duration(750).delay(600)} style={tw`flex w-full`}>
         <ScrollView
-          contentContainerStyle={[
-            tw`flex flex-row gap-4 px-4 h-56 min-w-full py-3`,
+          contentContainerStyle={tw.style(
+            `flex flex-row gap-4 px-4 h-56 min-w-full py-3`,
             isWide && {
-              paddingLeft: (width - MAX_WIDTH) / 2,
-              paddingRight: (width - MAX_WIDTH) / 2,
+              paddingLeft: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
+              paddingRight: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
             },
-          ]}
+          )}
           horizontal={true}
           scrollEnabled={nextCalendarEvents.length > 0}
           scrollEventThrottle={16}

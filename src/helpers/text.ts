@@ -1,4 +1,4 @@
-import { Platform, TextStyle } from 'react-native';
+import { Platform, StyleProp, TextStyle, StyleSheet } from 'react-native';
 
 // as font-weight isn't supported with custom font
 // we map the font-weight to the closest available font
@@ -37,6 +37,14 @@ const fontFamilyForWeight = Platform.select({
 
 export const getFamilyForWeight = (fontWeight: TextStyle['fontWeight']) =>
   fontFamilyForWeight[fontWeight ?? '400'];
+
+export const withAppFontFamily = (style: StyleProp<TextStyle>): TextStyle => {
+  const { fontWeight, ...rest } = StyleSheet.flatten<TextStyle>(style);
+  return {
+    ...rest,
+    fontFamily: getFamilyForWeight(fontWeight),
+  };
+};
 
 export const getInitials = (name?: string, email?: string): string => {
   let words: string[] = [];

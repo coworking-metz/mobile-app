@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Markdown support in event description.
+
 ## [2025.7.3] - 2025-07-14
 
 ### Added

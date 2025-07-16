@@ -42,9 +42,7 @@ const StaleDataText = ({
   }
 
   return loading ? (
-    <AppText
-      numberOfLines={1}
-      style={tw`ml-3 text-sm font-normal text-slate-500 dark:text-slate-400`}>
+    <AppText numberOfLines={1} style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
       {loadingText}
     </AppText>
   ) : (
@@ -52,7 +50,7 @@ const StaleDataText = ({
       <Animated.View
         entering={FadeInUp.duration(300)}
         exiting={FadeOutUp.duration(300)}
-        style={tw`ml-3 flex flex-col items-start gap-1 shrink grow basis-0`}>
+        style={tw`flex flex-col items-start gap-1 shrink grow basis-0`}>
         <AppText
           numberOfLines={1}
           style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
@@ -78,8 +76,7 @@ const StaleDataText = ({
           />
         </TouchableOpacity>
       </Animated.View>
-      {/* mr-3 to be perflectly center aligned */}
-      <PullToRefreshHint style={tw`mr-3 shrink-0`} />
+      <PullToRefreshHint style={tw`shrink-0`} />
     </>
   );
 };

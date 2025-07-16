@@ -3,6 +3,7 @@ import * as french from './fr-FR';
 import { Asset } from 'expo-asset';
 import { StyleProp, ViewStyle, type StyleSheet } from 'react-native';
 import { type TailwindFn } from 'twrnc';
+import { withAppFontFamily } from '@/helpers/text';
 
 export const getDocumentationFromLanguage = (language: string) => {
   switch (language) {
@@ -19,9 +20,7 @@ export const fetchLocalMarkdown = async (module: string | number) => {
   return fetch(file.localUri || file.uri).then((r) => r.text());
 };
 
-export const getMarkdownStyles = (
-  tw: TailwindFn,
-): StyleSheet.NamedStyles<{
+export type MarkdownStyles = StyleSheet.NamedStyles<{
   body?: StyleProp<ViewStyle>;
   heading1?: StyleProp<ViewStyle>;
   heading2?: StyleProp<ViewStyle>;
@@ -57,11 +56,20 @@ export const getMarkdownStyles = (
   pre?: StyleProp<ViewStyle>;
   inline?: StyleProp<ViewStyle>;
   span?: StyleProp<ViewStyle>;
-}> => ({
-  body: tw`text-gray-600 dark:text-gray-300`,
-  heading1: tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`,
-  heading2: tw`my-2 text-2xl font-semibold text-slate-900 dark:text-slate-200`,
-  heading3: tw`my-2 text-xl tracking-tight font-medium text-slate-800 dark:text-slate-200`,
-  code_inline: tw`font-mono text-slate-900 dark:text-gray-200 bg-gray-200 dark:bg-gray-800`,
-  link: tw`text-amber-500 no-underline`,
+}>;
+
+export const getMarkdownStyles = (tw: TailwindFn): MarkdownStyles => ({
+  body: withAppFontFamily(tw`text-base text-gray-500`),
+  strong: withAppFontFamily(tw`font-semibold text-slate-900 dark:text-gray-200`),
+  heading1: withAppFontFamily(
+    tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`,
+  ),
+  heading2: withAppFontFamily(tw`my-2 text-2xl font-semibold text-slate-900 dark:text-slate-200`),
+  heading3: withAppFontFamily(
+    tw`my-2 text-xl tracking-tight font-medium text-slate-800 dark:text-slate-200`,
+  ),
+  code_inline: withAppFontFamily(
+    tw`font-mono text-slate-900 dark:text-gray-200 bg-gray-200 dark:bg-gray-800`,
+  ),
+  link: withAppFontFamily(tw`text-amber-500 no-underline`),
 });

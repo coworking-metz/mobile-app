@@ -1,9 +1,11 @@
+import Markdown, { MarkdownIt } from '@ronradtke/react-native-markdown-display';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import * as Calendar from 'expo-calendar';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { isNil } from 'lodash';
-import { useCallback, useMemo, useState } from 'react';
+import MarkdownItPlainText from 'markdown-it-plain-text';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LayoutChangeEvent, View } from 'react-native';
 import openMap from 'react-native-open-maps';
@@ -17,10 +19,12 @@ import ErrorState from '@/components/ErrorState';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
+import MarkdownRenderer from '@/components/MarkdownRenderer';
 import ZoomableImage from '@/components/ZoomableImage';
 import { useAppPermissions } from '@/context/permissions';
 import { isSilentError } from '@/helpers/error';
 import { useAppPaddingBottom } from '@/helpers/screen';
+import { getFamilyForWeight, withAppFontFamily } from '@/helpers/text';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
 export default function CalendarEventPage() {
@@ -29,6 +33,7 @@ export default function CalendarEventPage() {
   const { t } = useTranslation();
   const renderPermissionsBottomSheet = useAppPermissions();
   const [actionHeight, setActionHeight] = useState(0);
+  const [description, setDescription] = useState<string | null>(null);
   const paddingBottom = useAppPaddingBottom();
 
   const {
@@ -152,9 +157,9 @@ export default function CalendarEventPage() {
               />
             ) : null}
             {event.description ? (
-              <AppText selectable style={tw`text-base font-normal text-gray-500 mx-6 mt-6`}>
-                {event.description}
-              </AppText>
+              <View style={tw`mt-3 mx-6`}>
+                <MarkdownRenderer content={event.description} />
+              </View>
             ) : null}
           </>
         ) : isFetchingCalendarEvents ? (

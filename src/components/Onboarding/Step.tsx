@@ -40,6 +40,7 @@ const Step = ({
         contentContainerStyle={[tw`py-4 max-w-md w-full mx-auto`, contentContainerStyle]}
         horizontal={false}
         scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
         onLayout={({ nativeEvent }: LayoutChangeEvent) =>
           setScrollContainerHeight(nativeEvent.layout.height)
         }>

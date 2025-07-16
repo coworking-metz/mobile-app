@@ -173,7 +173,7 @@ const ServiceLayout = ({
           })}>
           <View
             style={[
-              tw`flex flex-col w-full grow bg-gray-50 dark:bg-zinc-900`,
+              tw`flex flex-col w-full grow bg-gray-50 dark:bg-zinc-900 relative`,
               {
                 paddingLeft: insets.left,
                 paddingRight: insets.right,

@@ -1,9 +1,10 @@
 import Changelog from '../../../../CHANGELOG.md';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
-import MarkdownRenderer from '@/components/Help/MarkdownRenderer';
 import ModalLayout from '@/components/Layout/ModalLayout';
+import MarkdownRenderer from '@/components/MarkdownRenderer';
 import { fetchLocalMarkdown } from '@/services/docs';
 
 const Changes = () => {
@@ -19,7 +20,9 @@ const Changes = () => {
 
   return (
     <ModalLayout title={t('about.changes.title')}>
-      <MarkdownRenderer content={text} />
+      <View style={tw`px-6`}>
+        <MarkdownRenderer content={text} />
+      </View>
     </ModalLayout>
   );
 };

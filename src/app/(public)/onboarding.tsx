@@ -194,7 +194,7 @@ const Onboarding = () => {
                 />
               </View>
 
-              <AppRoundedButton style={tw`self-start w-full max-w-md`} onPress={onNext}>
+              <AppRoundedButton style={tw`mx-auto w-full max-w-md`} onPress={onNext}>
                 <AppText style={tw`text-base font-medium text-black`}>{t('actions.next')}</AppText>
               </AppRoundedButton>
             </Animated.View>

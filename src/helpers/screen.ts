@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export const WIDE_SCREEN_WIDTH = 640;
+export const WIDE_SCREEN_WIDTH = 672;
 export const MIN_PADDING_BOTTOM = 24;
 
 export default function useAppScreen() {

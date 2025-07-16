@@ -1,12 +1,13 @@
 import Markdown from '@ronradtke/react-native-markdown-display';
 import * as Linking from 'expo-linking';
+import { merge } from 'lodash';
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import ZoomableImage from '@/components/ZoomableImage';
-import { getMarkdownStyles } from '@/services/docs';
+import { getMarkdownStyles, MarkdownStyles } from '@/services/docs';
 
-const MarkdownRenderer = ({ content }: { content: string }) => {
+const MarkdownRenderer = ({ content, style }: { content: string; style?: MarkdownStyles }) => {
   useDeviceContext(tw);
 
   const onLinkPress = useCallback((url: string) => {
@@ -22,19 +23,19 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
       rules={{
         image: (node) => {
           return (
-            <View key={node.key}>
-              <ZoomableImage source={node.attributes.src} style={tw`w-full`} />
+            <View style={tw`w-full h-40`}>
+              <ZoomableImage
+                contentFit="cover"
+                key={node.key}
+                source={node.attributes.src}
+                style={tw`w-full h-full rounded-2xl bg-gray-200 dark:bg-gray-900`}
+                transition={300}
+              />
             </View>
           );
         },
       }}
-      style={{
-        ...getMarkdownStyles(tw),
-        body: {
-          ...getMarkdownStyles(tw).body,
-          ...tw`px-6`,
-        },
-      }}
+      style={merge(getMarkdownStyles(tw), style)}
       onLinkPress={onLinkPress}>
       {content}
     </Markdown>
