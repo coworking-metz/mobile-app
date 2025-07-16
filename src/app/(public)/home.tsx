@@ -175,7 +175,7 @@ export default function HomeScreen() {
 
   const nextCalendarEvents = useMemo(() => {
     const now = dayjs();
-    const tomorrow = now.add(1, 'month').endOf('day');
+    const tomorrow = now.add(1, 'day').endOf('day');
     return (
       calendarEvents?.filter(
         ({ start, end }) =>

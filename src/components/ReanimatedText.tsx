@@ -1,8 +1,8 @@
 import React from 'react';
-import { Platform, StyleSheet, TextInput } from 'react-native';
-import Animated, { useAnimatedProps } from 'react-native-reanimated';
+import { Platform, TextInput } from 'react-native';
+import Animated, { AnimatedProps, SharedValue, useAnimatedProps } from 'react-native-reanimated';
 import type { TextProps as RNTextProps, StyleProp, TextInputProps, TextStyle } from 'react-native';
-import { getFamilyForWeight } from '@/helpers/text';
+import { withAppFontFamily } from '@/helpers/text';
 
 /**
  * Taken from https://wcandillon.gitbook.io/redash/strings#less-than-retext-greater-than
@@ -13,16 +13,14 @@ import { getFamilyForWeight } from '@/helpers/text';
 Animated.addWhitelistedNativeProps({ text: true });
 
 interface TextProps extends Omit<TextInputProps, 'value' | 'style'> {
-  text: Animated.SharedValue<string>;
-  style?: Animated.AnimateProps<RNTextProps>['style'];
+  text: SharedValue<string>;
+  style?: AnimatedProps<RNTextProps>['style'];
 }
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 const ReanimatedText = (props: TextProps) => {
   const { style, text, ...rest } = props;
-  const flattenedStyle = StyleSheet.flatten<TextStyle>(style as StyleProp<TextStyle>);
-  const { fontWeight } = flattenedStyle || {};
 
   const animatedProps = useAnimatedProps(() => {
     return {
@@ -34,13 +32,10 @@ const ReanimatedText = (props: TextProps) => {
   return (
     <AnimatedTextInput
       editable={false}
-      style={[
+      style={
         // numbers are much nicer on Apple SF Pro font
-        Platform.OS !== 'ios' && {
-          fontFamily: getFamilyForWeight(fontWeight),
-        },
-        style || undefined,
-      ]}
+        Platform.OS !== 'ios' ? withAppFontFamily(style as StyleProp<TextStyle>) : style
+      }
       underlineColorAndroid="transparent"
       value={text.value}
       {...rest}

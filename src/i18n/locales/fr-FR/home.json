@@ -36,7 +36,8 @@
     },
     "onUnlocked": {
       "firstLine": "Verrouillage",
-      "secondLine": "dans "
+      "secondLine": "dans ",
+      "suffix": "s"
     }
   },
   "onPremise": {
@@ -54,7 +55,8 @@
     },
     "onUnlocked": {
       "firstLine": "Fermeture",
-      "secondLine": "dans "
+      "secondLine": "dans ",
+      "suffix": "s"
     }
   },
   "people": {

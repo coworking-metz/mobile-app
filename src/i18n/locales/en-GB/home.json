@@ -36,7 +36,8 @@
     },
     "onUnlocked": {
       "firstLine": "Locking",
-      "secondLine": "in "
+      "secondLine": "in ",
+      "suffix": "s"
     }
   },
   "onSuccessiveTaps": {
@@ -50,7 +51,8 @@
     },
     "onUnlocked": {
       "firstLine": "Closing",
-      "secondLine": "in "
+      "secondLine": "in ",
+      "suffix": "s"
     }
   },
   "people": {

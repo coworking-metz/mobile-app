@@ -136,7 +136,8 @@ const OpenParkingCard = ({
   }, [opening.value]);
 
   const timeLeftInSeconds = useDerivedValue(() => {
-    return `${Math.ceil((opening.value * timeLeft) / 1000).toFixed(0)}`;
+    const seconds = (opening.value * timeLeft) / 1000;
+    return `${seconds > 10 ? Math.ceil(seconds).toFixed(0) : seconds.toFixed(1)}`;
   }, [opening, timeLeft]);
 
   useAnimatedReaction(
@@ -156,7 +157,7 @@ const OpenParkingCard = ({
       disabled={disabled}
       style={[
         tw.style(
-          `flex flex-col items-start gap-4 p-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
+          `flex flex-col items-start gap-4 pl-4 py-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
           disabled && `opacity-60`,
         ),
         style,
@@ -212,6 +213,11 @@ const OpenParkingCard = ({
               ]}
               text={timeLeftInSeconds}
             />
+            <AppText
+              numberOfLines={1}
+              style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+              {t('home.parking.onUnlocked.suffix')}
+            </AppText>
           </View>
         </View>
       ) : (

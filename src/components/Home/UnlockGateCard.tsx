@@ -137,7 +137,10 @@ const UnlockCard = ({
   }, [unlocking.value]);
 
   const timeLeftInSeconds = useDerivedValue(() => {
-    return `${Math.ceil((unlocking.value * timeLeft) / 1000).toFixed(0)}`;
+    const seconds = (unlocking.value * timeLeft) / 1000;
+    return Platform.OS === 'android'
+      ? `${Math.ceil(seconds).toFixed(0)}`.padStart(2, ' ')
+      : `${Math.ceil(seconds).toFixed(0)}`;
   }, [unlocking, timeLeft]);
 
   useAnimatedReaction(
@@ -212,6 +215,11 @@ const UnlockCard = ({
               ]}
               text={timeLeftInSeconds}
             />
+            <AppText
+              numberOfLines={1}
+              style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+              {t('home.intercom.onUnlocked.suffix')}
+            </AppText>
           </View>
         </View>
       ) : (
