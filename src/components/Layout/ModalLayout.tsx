@@ -1,6 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
 import React, { useMemo, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Platform, StyleProp, View, ViewStyle } from 'react-native';
 import Animated, {
   Extrapolation,
@@ -51,6 +52,7 @@ const ModalLayout = ({
   const router = useRouter();
   const navigation = useNavigation();
   const verticalScrollProgress = useSharedValue(0);
+  const { t } = useTranslation();
 
   const onVerticalScroll = useAnimatedScrollHandler({
     onScroll: ({ contentOffset }) => {
@@ -213,6 +215,7 @@ const ModalLayout = ({
           entering={FadeInDown.duration(300).delay(150)}
           style={[tw`grow-0 shrink-0`, Platform.OS === 'ios' ? tw`mt-3` : tw`mt-1`]}>
           <MaterialCommunityIcons.Button
+            aria-label={t('actions.close')}
             backgroundColor="transparent"
             borderRadius={24}
             color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}

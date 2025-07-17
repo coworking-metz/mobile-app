@@ -25,6 +25,15 @@ export default function SettingsLayout() {
             }),
           }}
         />
+        <Stack.Screen
+          name="chat"
+          options={{
+            presentation: 'modal',
+            ...(Platform.OS === 'android' && {
+              animation: 'slide_from_bottom',
+            }),
+          }}
+        />
       </Stack>
     );
   }
