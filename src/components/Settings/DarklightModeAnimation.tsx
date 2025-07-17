@@ -16,9 +16,8 @@ const DarklightModeAnimation = ({
   const riveRef = useRef<RiveRef>(null);
 
   const onStateChanged = useCallback(
-    (state: string, event: string) => {
+    (_state: string, event: string) => {
       if (riveRef.current && includes(['Day/Night_Click', 'Night/Day_Click'], event)) {
-        console.log('State changed', state, event);
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       }
     },

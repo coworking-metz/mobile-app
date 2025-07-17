@@ -1,3 +1,4 @@
+import { isNil } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -30,12 +31,12 @@ const AboutStep = ({ active, containerHeight }: { active: boolean; containerHeig
   return (
     <>
       <View
-        style={[
-          tw`flex flex-col w-full justify-end items-center overflow-visible`,
-          {
-            ...(containerHeight && { height: containerHeight / 2 }),
+        style={tw.style(
+          `flex flex-col w-full justify-end items-center overflow-visible`,
+          !isNil(containerHeight) && {
+            height: containerHeight / 2,
           },
-        ]}>
+        )}>
         <MobileAppAnimation
           ref={animation}
           autoPlay={false}
@@ -45,46 +46,44 @@ const AboutStep = ({ active, containerHeight }: { active: boolean; containerHeig
         />
       </View>
 
-      {containerHeight ? (
-        <View
-          style={[
-            tw`mt-4 flex flex-col self-stretch justify-start`,
-            { minHeight: containerHeight / 2 - 60 },
-          ]}>
-          <AppText
-            entering={FadeInLeft.duration(750).delay(150)}
-            style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
-            {t('onboarding.about.title')}
-          </AppText>
-          <AppText
-            entering={FadeInLeft.duration(750).delay(300)}
-            style={tw`text-xl font-normal text-slate-500 dark:text-slate-400 mx-6`}>
-            {t('onboarding.about.headline')}
-          </AppText>
-          <AppText
-            entering={FadeInDown.duration(750).delay(500)}
-            style={tw`mt-4 text-base font-normal text-gray-500 mx-6`}>
-            {t('onboarding.about.description')}
-          </AppText>
-          <Animated.View entering={FadeInDown.duration(750).delay(500)} style={tw`w-full`}>
-            <ServiceRow
-              label={t('settings.general.language.label')}
-              prefixIcon="web"
-              style={tw`px-3 mx-3`}
-              onPress={selectLanguage}>
-              <AppText style={tw`text-base font-normal text-amber-500 ml-auto`}>
-                {getLanguageLabel(
-                  !settingsStore.language || settingsStore.language === SYSTEM_OPTION
-                    ? SYSTEM_LANGUAGE
-                    : settingsStore.language,
-                )}
-              </AppText>
-            </ServiceRow>
-          </Animated.View>
-        </View>
-      ) : (
-        <></>
-      )}
+      <View
+        style={tw.style(
+          `mt-4 flex flex-col self-stretch justify-start`,
+          !isNil(containerHeight) && {
+            minHeight: containerHeight / 2,
+          },
+        )}>
+        <AppText
+          entering={FadeInLeft.duration(750).delay(150)}
+          style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
+          {t('onboarding.about.title')}
+        </AppText>
+        <AppText
+          entering={FadeInLeft.duration(750).delay(300)}
+          style={tw`text-xl font-normal text-slate-500 dark:text-slate-400 mx-6`}>
+          {t('onboarding.about.headline')}
+        </AppText>
+        <AppText
+          entering={FadeInDown.duration(750).delay(500)}
+          style={tw`mt-4 text-base font-normal text-gray-500 mx-6`}>
+          {t('onboarding.about.description')}
+        </AppText>
+        <Animated.View entering={FadeInDown.duration(750).delay(500)} style={tw`w-full`}>
+          <ServiceRow
+            label={t('settings.general.language.label')}
+            prefixIcon="web"
+            style={tw`px-3 mx-3`}
+            onPress={selectLanguage}>
+            <AppText style={tw`text-base font-normal text-amber-500 ml-auto`}>
+              {getLanguageLabel(
+                !settingsStore.language || settingsStore.language === SYSTEM_OPTION
+                  ? SYSTEM_LANGUAGE
+                  : settingsStore.language,
+              )}
+            </AppText>
+          </ServiceRow>
+        </Animated.View>
+      </View>
     </>
   );
 };

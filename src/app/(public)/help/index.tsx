@@ -164,6 +164,7 @@ const Help = () => {
         trailingAccessory={
           search ? (
             <MaterialCommunityIcons.Button
+              aria-label={t('actions.close')}
               backgroundColor="transparent"
               borderRadius={24}
               color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
