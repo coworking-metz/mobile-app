@@ -1,3 +1,4 @@
+import { isNil } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -23,12 +24,12 @@ const ActivityStep = ({ containerHeight }: { active: boolean; containerHeight?: 
   return (
     <>
       <View
-        style={[
-          tw`flex flex-col justify-end items-center overflow-visible`,
-          {
-            ...(containerHeight && { height: containerHeight / 2 }),
+        style={tw.style(
+          `flex flex-col justify-end items-center overflow-visible`,
+          !isNil(containerHeight) && {
+            height: containerHeight / 2,
           },
-        ]}>
+        )}>
         <DesktopWorkAnimation
           ref={animation}
           loop
@@ -37,14 +38,22 @@ const ActivityStep = ({ containerHeight }: { active: boolean; containerHeight?: 
           style={tw`w-[375px] max-h-80 h-full`}
         />
       </View>
-      <View style={tw`mt-4 flex flex-col self-stretch px-6 justify-start`}>
-        <AppText style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+
+      <View
+        style={tw.style(
+          `mt-4 flex flex-col self-stretch justify-start`,
+          !isNil(containerHeight) && {
+            minHeight: containerHeight / 2,
+          },
+        )}>
+        <AppText
+          style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
           {t('onboarding.activity.title')}
         </AppText>
-        <AppText style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+        <AppText style={tw`text-xl font-normal text-slate-500 dark:text-slate-400 mx-6`}>
           {t('onboarding.activity.headline')}
         </AppText>
-        <AppText style={tw`mt-4 text-base font-normal text-gray-500`}>
+        <AppText style={tw`mt-4 text-base font-normal text-gray-500 mx-6`}>
           {t('onboarding.activity.description')}
         </AppText>
       </View>

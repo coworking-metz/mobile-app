@@ -1,6 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { FadeInLeft } from 'react-native-reanimated';
@@ -9,17 +8,17 @@ import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
-import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
+import { useAppContact } from '@/context/contact';
 import { theme } from '@/helpers/colors';
 import { useAppPaddingBottom } from '@/helpers/screen';
 
 const MissingScreen = () => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
+  const contact = useAppContact();
   const paddingBottom = useAppPaddingBottom();
   const { t } = useTranslation();
   const router = useRouter();
-  const [isContacting, setContacting] = useState(false);
 
   return (
     <View
@@ -62,14 +61,10 @@ const MissingScreen = () => {
           {t('notFound.description')}
         </AppText>
 
-        <AppRoundedButton
-          style={tw`mt-4 mx-2 h-14 w-full max-w-md self-center`}
-          onPress={() => setContacting(true)}>
+        <AppRoundedButton style={tw`mt-4 mx-2 h-14 w-full max-w-md self-center`} onPress={contact}>
           <AppText style={tw`text-base font-medium text-black`}>{t('notFound.help')}</AppText>
         </AppRoundedButton>
       </View>
-
-      {isContacting && <ContactBottomSheet onClose={() => setContacting(false)} />}
     </View>
   );
 };

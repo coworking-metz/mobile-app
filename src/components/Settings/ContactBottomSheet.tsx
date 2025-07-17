@@ -1,15 +1,14 @@
 import { Link } from 'expo-router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import ChatBubblesAnimation from '@/components/Animations/ChatBubblesAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTextButton from '@/components/AppTextButton';
 import { parseErrorText } from '@/helpers/error';
-import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useNoticeStore from '@/stores/notice';
 
 const ContactBottomSheet = ({
@@ -22,6 +21,7 @@ const ContactBottomSheet = ({
   const { t } = useTranslation();
   const [isContactingTeam, setContactingTeam] = useState(false);
   const noticeStore = useNoticeStore();
+  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   const onContactTeamByEmail = useCallback(() => {
     setContactingTeam(true);
@@ -33,13 +33,14 @@ const ContactBottomSheet = ({
           description,
           type: 'error',
         });
-        onClose?.();
+        bottomSheetRef.current?.close();
       })
       .finally(() => setContactingTeam(false));
   }, []);
 
   return (
     <AppBottomSheet
+      ref={bottomSheetRef}
       contentContainerStyle={tw`flex flex-col w-full pt-6 px-6`}
       style={style}
       onClose={onClose}>
@@ -53,10 +54,11 @@ const ContactBottomSheet = ({
       <AppText style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
         {t('settings.support.contact.description')}
       </AppText>
-      <Link asChild href={`${WORDPRESS_BASE_URL}#ouvrir-brevo`}>
+      <Link asChild href="/chat">
         <AppRoundedButton
           style={tw`h-14 mt-6 w-full max-w-md self-center`}
-          suffixIcon="chat-processing-outline">
+          suffixIcon="chat-processing-outline"
+          onPress={() => bottomSheetRef.current?.close()}>
           <AppText style={tw`text-base text-black font-medium`}>
             {t('settings.support.contact.conversations.label')}
           </AppText>

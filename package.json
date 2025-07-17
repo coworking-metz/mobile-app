@@ -100,6 +100,7 @@
     "react-native-svg": "15.8.0",
     "react-native-ui-lib": "^7.44.0",
     "react-native-uuid": "^2.0.3",
+    "react-native-webview": "13.12.5",
     "react-random-reveal": "^2.0.1",
     "rive-react-native": "^9.3.4",
     "sonner-native": "^0.21.0",

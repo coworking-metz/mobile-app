@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Changed
+
+- Chat with the team inside the app instead of external web browser.
+
 ## [2025.7.4] - 2025-07-16
 
 ### Added

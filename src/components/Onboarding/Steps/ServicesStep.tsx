@@ -1,3 +1,4 @@
+import { isNil } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -26,12 +27,12 @@ const ServicesStep = ({ containerHeight }: { active: boolean; containerHeight?: 
   return (
     <>
       <View
-        style={[
-          tw`flex flex-col justify-end items-center overflow-visible`,
-          {
-            ...(containerHeight && { height: containerHeight / 2 }),
+        style={tw.style(
+          `flex flex-col justify-end items-center overflow-visible`,
+          !isNil(containerHeight) && {
+            height: containerHeight / 2,
           },
-        ]}>
+        )}>
         <WorkOnTheGoAnimation
           ref={animation}
           loop
@@ -40,11 +41,14 @@ const ServicesStep = ({ containerHeight }: { active: boolean; containerHeight?: 
           style={tw`w-[320px] max-h-80 h-full`}
         />
       </View>
+
       <View
-        style={[
-          tw`mt-4 flex flex-col self-stretch justify-start`,
-          { ...(containerHeight && { minHeight: containerHeight / 2 - 60 }) },
-        ]}>
+        style={tw.style(
+          `mt-4 flex flex-col self-stretch justify-start`,
+          !isNil(containerHeight) && {
+            minHeight: containerHeight / 2,
+          },
+        )}>
         <AppText
           style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
           {t('onboarding.services.title')}
@@ -52,7 +56,7 @@ const ServicesStep = ({ containerHeight }: { active: boolean; containerHeight?: 
         <AppText style={tw`mt-4 text-base font-normal text-gray-500 mx-6`}>
           {t('onboarding.services.description')}
         </AppText>
-        <View style={tw`w-full `}>
+        <View style={tw`w-full`}>
           <ThemePicker style={tw`px-3 mx-3`} onPress={selectTheme} />
         </View>
       </View>
