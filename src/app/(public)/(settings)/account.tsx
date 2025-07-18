@@ -9,7 +9,6 @@ import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
 import AppTouchable from '@/components/AppTouchable';
 import ErrorBadge from '@/components/ErrorBagde';
-import ErrorChip from '@/components/ErrorChip';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
@@ -20,7 +19,7 @@ import { getMemberProfile } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
 
-const Advanced = () => {
+const Account = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const { _root } = useLocalSearchParams();
@@ -134,4 +133,4 @@ const Advanced = () => {
   );
 };
 
-export default Advanced;
+export default Account;

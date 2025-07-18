@@ -63,8 +63,6 @@ export const formatDuration = (milliseconds: number): string => {
   return dayJSduration.format(dynamicFormats);
 };
 
-export const SYSTEM_LANGUAGE = Localisation.locale.substring(0, 2);
-
 export const APP_LANGUAGES = [
   {
     code: 'en',
@@ -78,15 +76,16 @@ export const APP_LANGUAGES = [
   },
 ];
 
-export const getLanguageLabel = (languageCode: string): string | null => {
+export const getLanguageLabel = (languageCode: string | null): string | null => {
   return APP_LANGUAGES.find(({ code }) => code === languageCode)?.label || null;
 };
 
 const [firstLocale] = Localisation.getLocales();
+export const SYSTEM_LANGUAGE = firstLocale?.languageCode;
 
 i18n.use(initReactI18next).init({
   resources: APP_LANGUAGES.reduce((acc, language) => ({ ...acc, [language.code]: language }), {}),
-  lng: firstLocale.languageCode || '',
+  lng: SYSTEM_LANGUAGE || '',
   // fallbackLng: 'en',
   interpolation: {
     escapeValue: false,

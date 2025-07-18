@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { Image, type ImageProps } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Modal,
   Platform,
@@ -28,6 +29,7 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
   const { width } = useWindowDimensions();
   const offset = useSharedValue(0);
   const [isSelected, setSelected] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   const sourcesCount = useMemo(() => sources?.length ?? 0, [sources]);
 
@@ -87,6 +89,7 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
               </>
             )}
             <MaterialCommunityIcons.Button
+              aria-label={t('actions.close')}
               backgroundColor="rgba(3,10,42,0.4)"
               borderRadius={24}
               color={tw.color('gray-200')}
