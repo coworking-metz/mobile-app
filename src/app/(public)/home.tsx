@@ -68,6 +68,7 @@ export default function HomeScreen() {
   const { isWide, width } = useAppScreen();
   const networkState = useNetworkState();
   const isFocus = useIsFocused();
+  const [lastFetch, setLastFetch] = useState<string | null>(null);
 
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
@@ -83,7 +84,6 @@ export default function HomeScreen() {
     refetch: refetchCurrentMembers,
     error: currentMembersError,
     dataUpdatedAt: currentMembersUpdatedAt,
-    errorUpdatedAt: currentMembersErrorUpdatedAt,
   } = useQuery({
     queryKey: ['currentMembers'],
     queryFn: getCurrentMembers,
@@ -134,6 +134,7 @@ export default function HomeScreen() {
     isLoading: isLoadingSubscriptions,
     isFetching: isFetchingSubscriptions,
     refetch: refetchSubscriptions,
+    error: subscriptionsError,
   } = useQuery({
     queryKey: ['members', authStore.user?.id, 'subscriptions'],
     queryFn: ({ queryKey: [_, userId] }) => {
@@ -191,7 +192,9 @@ export default function HomeScreen() {
       authStore.user?.id && refetchDevices(),
       refetchCurrentMembers(),
       refreshCalendarEvents(),
-    ]);
+    ]).finally(() => {
+      setLastFetch(dayjs().toISOString());
+    });
   }, [authStore.user, settingsStore]);
 
   const onSuccessiveTaps = useCallback(() => {
@@ -210,17 +213,17 @@ export default function HomeScreen() {
 
   const isFetching = useMemo(() => {
     return (
+      isFetchingCurrentMembers ||
       isFetchingProfile ||
       isFetchingSubscriptions ||
       isFetchingCalendarEvents ||
-      isFetchingCurrentMembers ||
       isFetchingDevices
     );
   }, [
+    isFetchingCurrentMembers,
     isFetchingProfile,
     isFetchingSubscriptions,
     isFetchingCalendarEvents,
-    isFetchingCurrentMembers,
     isFetchingDevices,
   ]);
 
@@ -231,7 +234,6 @@ export default function HomeScreen() {
       networkState.isInternetReachable &&
       includes([NetworkStateType.ETHERNET, NetworkStateType.WIFI], networkState.type)
     ) {
-      const lastFetch = currentMembersUpdatedAt ?? currentMembersErrorUpdatedAt;
       if (lastFetch && dayjs().diff(lastFetch, 'second') > STALE_PERIOD_IN_SECONDS) {
         onRefresh();
       }
@@ -291,11 +293,7 @@ export default function HomeScreen() {
           tw`flex flex-row items-center grow shrink pt-1 pl-6 pr-4`,
           isWide && tw`mx-auto w-full max-w-2xl`,
         ]}>
-        <StaleDataText
-          activeSince={activeSince}
-          lastFetch={currentMembersUpdatedAt ?? currentMembersErrorUpdatedAt}
-          loading={isFetching}
-        />
+        <StaleDataText activeSince={activeSince} lastFetch={lastFetch} loading={isFetching} />
 
         <View style={tw`flex flex-col items-end shrink grow basis-0`}>
           <Link asChild href="(settings)">
@@ -345,6 +343,11 @@ export default function HomeScreen() {
           title={t('home.profile.label')}>
           {profileError && !isSilentError(profileError) ? (
             <ErrorBadge error={profileError} title={t('home.profile.onFetch.fail')} />
+          ) : subscriptionsError && !isSilentError(subscriptionsError) ? (
+            <ErrorBadge
+              error={subscriptionsError}
+              title={t('home.profile.subscription.onFetch.fail')}
+            />
           ) : null}
         </SectionTitle>
 

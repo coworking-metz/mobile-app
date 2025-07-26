@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+
+- Render user fullname and roles in settings header.
+
 ## [2025.7.5] - 2025-07-20
 
 ### Changed

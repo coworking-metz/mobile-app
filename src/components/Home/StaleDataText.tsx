@@ -18,7 +18,7 @@ const StaleDataText = ({
   activeSince,
   loading,
 }: {
-  lastFetch?: number;
+  lastFetch?: string | null;
   activeSince?: string;
   loading?: boolean;
 }) => {
