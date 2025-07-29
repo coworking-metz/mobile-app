@@ -4,7 +4,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
-import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
 
@@ -24,7 +23,7 @@ const BalanceCard = ({
   return (
     <View
       style={[
-        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl w-32 relative pl-3 pt-2 pb-4`,
+        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl relative px-3 pt-2 pb-4`,
         style,
       ]}>
       <MaterialCommunityIcons
@@ -42,7 +41,7 @@ const BalanceCard = ({
       {loading ? (
         <LoadingSkeleton height={28} show={loading} width={96} />
       ) : (
-        <View style={tw`flex flex-row items-baseline gap-1 w-full`}>
+        <View style={tw`flex flex-row items-end gap-1 w-full`}>
           {count != 0 && (
             <AppText
               numberOfLines={1}
@@ -56,7 +55,7 @@ const BalanceCard = ({
             style={[
               tw`font-normal flex-shrink`,
               count != 0
-                ? tw`leading-6 text-sm text-slate-500 dark:text-slate-400`
+                ? tw`text-sm leading-7 text-slate-500 dark:text-slate-400`
                 : tw`text-2xl text-gray-400 dark:text-slate-600`,
             ]}>
             {count < 0
@@ -65,14 +64,6 @@ const BalanceCard = ({
           </AppText>
         </View>
       )}
-
-      <View style={tw`absolute top-0 bottom-0 right-0 z-1 rounded-2xl overflow-hidden w-16`}>
-        <Fader
-          position={Fader.position.END}
-          size={16}
-          tintColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
-        />
-      </View>
 
       {count > 0 && (
         <MaterialCommunityIcons

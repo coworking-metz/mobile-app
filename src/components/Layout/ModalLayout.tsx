@@ -132,7 +132,7 @@ const ModalLayout = ({
   }, [verticalScrollProgress, insets, from]);
 
   return (
-    <Animated.View style={tw`bg-gray-100 dark:bg-black`}>
+    <Animated.View style={tw`relative bg-gray-100 dark:bg-black`}>
       <Animated.ScrollView
         contentContainerStyle={[
           tw`flex flex-col grow`,
@@ -154,12 +154,11 @@ const ModalLayout = ({
 
       <Animated.View
         style={[
-          tw`absolute flex flex-row justify-between items-start w-full pr-4`,
-          {
+          tw.style(`absolute flex flex-row justify-between items-start w-full pr-4`, {
             left: insets.left,
             right: insets.right,
             ...(Platform.OS !== 'ios' && { paddingTop: insets.top }),
-          },
+          }),
           headerStyle,
         ]}>
         <Animated.View
@@ -197,7 +196,7 @@ const ModalLayout = ({
         </View>
         <Animated.View
           entering={FadeInDown.duration(300).delay(150)}
-          style={[tw`grow basis-0 mb-4 self-end`, !from && tw`ml-6`, titleStyle]}>
+          style={[tw.style(`grow basis-0 mb-4 self-end`, !from && `ml-6`), titleStyle]}>
           {loading ? (
             <LoadingSkeleton height={28} width={144} />
           ) : (

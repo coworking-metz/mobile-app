@@ -1,6 +1,6 @@
 import UpliftingDeskAnimation from '../Animations/UpliftingDeskAnimation';
-import LoadingSkeleton from '../LoadingSkeleton';
 import ServiceRow from '../Layout/ServiceRow';
+import LoadingSkeleton from '../LoadingSkeleton';
 import { isNil } from 'lodash';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +24,7 @@ const FlexDeskBottomSheet = ({
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch px-6 pt-6`}
+      contentContainerStyle={tw`flex flex-col items-stretch pt-6 px-6`}
       style={style}
       onClose={onClose}>
       <UpliftingDeskAnimation autoPlay loop={false} style={tw`w-full h-[144px] mb-2`} />

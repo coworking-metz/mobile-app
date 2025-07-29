@@ -40,8 +40,7 @@ export const getFamilyForWeight = (fontWeight: TextStyle['fontWeight']) =>
 
 export const withAppFontFamily = (style: StyleProp<TextStyle>): StyleProp<TextStyle> => {
   const flattenedStyle = StyleSheet.flatten<TextStyle>(style);
-  const { fontWeight } = flattenedStyle;
-  return [style, { fontFamily: getFamilyForWeight(fontWeight) }];
+  return [style, { fontFamily: getFamilyForWeight(flattenedStyle?.fontWeight) }];
 };
 
 export const getInitials = (name?: string, email?: string): string => {

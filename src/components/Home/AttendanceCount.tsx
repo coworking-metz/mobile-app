@@ -110,7 +110,7 @@ const AttendanceCount = ({
             ) : (
               <AppText
                 numberOfLines={1}
-                style={tw`shrink text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                style={tw`shrink grow text-xl font-normal text-slate-500 dark:text-slate-400`}>
                 {attendanceText}
               </AppText>
             )}

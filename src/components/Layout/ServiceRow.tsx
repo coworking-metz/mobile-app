@@ -82,7 +82,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
               </AppText>
             ) : null}
           </View>
-          <>{children}</>
+          {children}
           {loading ? (
             <View style={tw`relative h-10 w-10 shrink-0`}>
               <HorizontalLoadingAnimation color={iconColor} style={tw`h-full w-full`} />

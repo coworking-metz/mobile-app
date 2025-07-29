@@ -30,7 +30,10 @@
     }
   },
   "intercom": {
-    "label": "Déverrouiller\nla porte",
+    "label": {
+      "firstLine": "Déverrouiller",
+      "secondLine": "la porte"
+    },
     "onFail": {
       "message": "Impossible de déverrouiller"
     },
@@ -49,7 +52,10 @@
     "message": ["Besoin d'aide ?", "Quelque chose ne va pas ?", "Un souci ?"]
   },
   "parking": {
-    "label": "Ouvrir la grille\ndu parking",
+    "label": {
+      "firstLine": "Ouvrir la barrière",
+      "secondLine": "du parking"
+    },
     "onFail": {
       "message": "Impossible d'ouvrir"
     },
@@ -167,11 +173,11 @@
       "description": "L'abonnement permet d'accéder au Coworking sur 30 jours glissants à compter de la date de début choisie.",
       "get": "S'abonner",
       "label": {
-        "activeUntil": "Abonnement valide jusqu'au",
-        "current": "Abonnement actuel",
-        "expireSoon": "Abonnement valide jusqu'à",
-        "expired": "Abonnement expiré",
-        "next": "Prochain abonnement",
+        "activeUntil": "Abonnement\nvalide jusqu'au",
+        "current": "Abonnement\nactuel",
+        "expireSoon": "Abonnement\nvalide jusqu'à",
+        "expired": "Abonnement\nexpiré",
+        "next": "Prochain\nabonnement",
         "none": "Abonnement"
       },
       "onFetch": {
@@ -216,7 +222,7 @@
       "depleted_one": "redevable",
       "depleted_other": "redevables",
       "description": "Les tickets sont sans fin de validité et chaque ticket équivaut à deux demi-journées.\nUne présence de moins de 5 heures sur une journée correspond à une demi-journée.",
-      "label": "Tickets à la journée",
+      "label": "Tickets à\nla journée",
       "onFetch": {
         "fail": "Impossible d'actualiser les commandes de tickets"
       }

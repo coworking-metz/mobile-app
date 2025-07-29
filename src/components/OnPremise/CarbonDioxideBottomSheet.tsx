@@ -116,7 +116,7 @@ const CarbonDioxideBottomSheet = ({
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch gap-5 p-6`}
+      contentContainerStyle={tw`flex flex-col items-stretch gap-5 pt-6 px-6`}
       style={style}
       onClose={onClose}>
       <AppText

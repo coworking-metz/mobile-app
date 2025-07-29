@@ -4,7 +4,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewProps, ViewStyle } from 'react-native';
 import Animated, { AnimatedProps, BounceIn, BounceOut } from 'react-native-reanimated';
-import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
 
@@ -22,7 +21,7 @@ const DevicesCard = ({
   return (
     <Animated.View
       style={[
-        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl w-32 relative pl-3 pt-2 pb-4`,
+        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl relative px-3 pt-2 pb-4`,
         style,
       ]}>
       <MaterialCommunityIcons
@@ -51,14 +50,6 @@ const DevicesCard = ({
           {t('home.profile.devices.count', { count: count ?? 0 })}
         </AppText>
       )}
-
-      <View style={tw`absolute top-0 bottom-0 right-0 z-1 rounded-2xl overflow-hidden w-16`}>
-        <Fader
-          position={Fader.position.END}
-          size={16}
-          tintColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
-        />
-      </View>
 
       {count === 0 && (
         <Animated.View

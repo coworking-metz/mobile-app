@@ -314,7 +314,7 @@ export default function HomeScreen() {
       <Animated.View
         entering={FadeInLeft.duration(750)}
         style={[
-          tw`flex flex-col self-stretch gap-2 pl-6 pr-4 mb-6`,
+          tw`flex flex-col self-stretch gap-2 pl-6 pr-4`,
           isWide && tw`mx-auto w-full max-w-2xl`,
         ]}>
         <AttendanceCount
@@ -332,14 +332,14 @@ export default function HomeScreen() {
       {authStore.user?.onboarding && (
         <Animated.View
           entering={StretchInY.delay(750)}
-          style={[tw`flex self-stretch px-4`, isWide && tw`mx-auto w-full max-w-2xl`]}>
+          style={[tw`flex self-stretch px-4 mt-9`, isWide && tw`mx-auto w-full max-w-2xl`]}>
           <AppointmentCard date={authStore.user.onboarding.date} style={tw`w-full`} />
         </Animated.View>
       )}
 
       <Animated.View entering={FadeInLeft.duration(750).delay(400)} style={tw`flex self-stretch`}>
         <SectionTitle
-          style={[tw`self-stretch mt-6 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
+          style={[tw`self-stretch mt-9 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
           title={t('home.profile.label')}>
           {profileError && !isSilentError(profileError) ? (
             <ErrorBadge error={profileError} title={t('home.profile.onFetch.fail')} />
@@ -367,7 +367,7 @@ export default function HomeScreen() {
             <AppTouchable
               style={tw`flex flex-row items-stretch`}
               onPress={() => selectBirthday(true)}>
-              <BirthdayCard style={tw`h-38`} />
+              <BirthdayCard style={tw`min-h-38 min-w-32`} />
             </AppTouchable>
           )}
           {((devices && !devices.length) || (profile && !profile.lastSeen)) && (
@@ -378,7 +378,7 @@ export default function HomeScreen() {
                   entering={FadeIn.duration(500)}
                   exiting={FadeOut.duration(500)}
                   pending={isPendingDevices}
-                  style={tw`h-38`}
+                  style={tw`min-h-38 min-w-32`}
                 />
               </AppTouchable>
             </Link>
@@ -387,7 +387,7 @@ export default function HomeScreen() {
             <BalanceCard
               count={profile?.balance}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
-              style={tw`h-38`}
+              style={tw`min-h-38 min-w-32`}
               valid={profile && !isMemberBalanceInsufficient(profile)}
             />
           </AppTouchable>
@@ -397,7 +397,7 @@ export default function HomeScreen() {
             <SubscriptionCard
               activeSince={activeSince}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingSubscriptions}
-              style={tw`h-38`}
+              style={tw`min-h-38 min-w-32`}
               subscription={currentSubscription}
             />
           </AppTouchable>
@@ -408,7 +408,7 @@ export default function HomeScreen() {
               active={profile?.activeUser}
               lastMembershipYear={profile?.lastMembership}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
-              style={tw`h-38`}
+              style={tw`min-h-38 min-w-32`}
               valid={profile?.membershipOk}
             />
           </AppTouchable>
@@ -418,7 +418,7 @@ export default function HomeScreen() {
       <SectionTitle
         count={nextCalendarEvents.length > 2 ? nextCalendarEvents.length : null}
         entering={FadeInRight.duration(750).delay(600)}
-        style={[tw`self-stretch mt-6 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
+        style={[tw`self-stretch mt-9 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
         title={t('home.calendar.label')}>
         {calendarEventsError && !isSilentError(calendarEventsError) ? (
           <ErrorBadge error={calendarEventsError} title={t('home.calendar.onFetch.fail')} />

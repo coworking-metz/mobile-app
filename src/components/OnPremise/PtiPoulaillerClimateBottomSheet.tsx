@@ -25,7 +25,7 @@ const PtiPoulaillerClimateBottomSheet = ({
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch p-6`}
+      contentContainerStyle={tw`flex flex-col items-stretch pt-6 px-6`}
       style={style}
       onClose={onClose}>
       <HappySunAnimation autoPlay style={tw`w-full h-[224px] -my-4`} />

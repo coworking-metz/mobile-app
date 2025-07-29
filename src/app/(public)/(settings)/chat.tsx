@@ -16,6 +16,7 @@ import ErrorState from '@/components/ErrorState';
 import { theme } from '@/helpers/colors';
 import { useAppPaddingBottom } from '@/helpers/screen';
 import { SYSTEM_LANGUAGE } from '@/i18n';
+import { SUPPORT_EMAIL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 
@@ -49,9 +50,10 @@ const Chat = () => {
           <meta charset="utf-8">
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+          <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
 
           <style>
-            body, html {
+            html, body {
               margin: 0;
               padding: 0;
               width: 100%;
@@ -59,7 +61,7 @@ const Chat = () => {
               overflow: hidden;
             }
           </style>
-          <script>
+          <script defer>
             window.BrevoConversationsSetup = {
               disableChatOpenHash: true,
               language: '${language}',
@@ -70,20 +72,29 @@ const Chat = () => {
 
             var script = document.createElement('script');
             script.async = true;
+            script.type = 'text/javascript';
+            script.defer = true;
+            script.crossorigin = 'anonymous';
             script.src = '${BREVO_CONVERSATIONS_WIDGET_URL}';
-            script.addEventListener('load', () => {
-                BrevoConversations('updateIntegrationData', {
-                  email: '${authStore.user?.email || ''}',
-                  name: '${authStore.user?.name || ''}',
-                });
-                setTimeout(() => {
-                  window.ReactNativeWebView.postMessage('ready');
-                }, 1000);
-            })
-            if (document.head) document.head.appendChild(script);
+            script.onload = function () {
+              BrevoConversations('updateIntegrationData', {
+                email: '${authStore.user?.email || ''}',
+                name: '${authStore.user?.name || ''}',
+              });
+              setTimeout(() => {
+                window.ReactNativeWebView?.postMessage('ready');
+              }, 1000);
+            };
+            document.head.appendChild(script);
           </script>
         </head>
-        <body id="conversations-wrapper"></body>
+        <body id="conversations-wrapper">
+          <div style="width: 100%; height: 100%; display: flex;">
+            <p style="text-align: center; white-space: pre-line; max-width: 320px; margin: auto;">
+              ${t('settings.support.contact.conversations.onFetchBrevoWidget.fail', { email: `<a href="mailto:${SUPPORT_EMAIL}" style="display: block; text-decoration: none; color: ${theme.miramonYellow};"><strong>${SUPPORT_EMAIL}</strong></a>` })}
+            </p>
+          </div>
+        </body>
       </html>
     `,
     [authStore, language],
@@ -105,8 +116,12 @@ const Chat = () => {
         keyboardVerticalOffset={paddingBottom + 16}
         style={tw`grow w-full`}>
         <WebView
+          allowFileAccess={true}
+          allowUniversalAccessFromFileURLs={true}
+          androidLayerType="hardware"
           domStorageEnabled={true}
           javaScriptEnabled={true}
+          mixedContentMode="always"
           originWhitelist={['*']}
           source={{ html: htmlContent }}
           style={tw`h-full w-full`}
@@ -118,6 +133,8 @@ const Chat = () => {
           onMessage={(event) => {
             if (event.nativeEvent.data === 'ready') {
               setLoading(false);
+            } else {
+              console.log('WebView message:', event.nativeEvent.data);
             }
           }}
         />
@@ -138,7 +155,7 @@ const Chat = () => {
       ) : null}
       <View
         style={tw.style(
-          `absolute z-10 mr-4 rounded-full overflow-hidden`,
+          `absolute z-20 mr-4 rounded-full overflow-hidden`,
           {
             right: insets.right,
           },

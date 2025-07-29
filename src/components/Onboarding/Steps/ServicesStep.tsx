@@ -42,13 +42,7 @@ const ServicesStep = ({ containerHeight }: { active: boolean; containerHeight?: 
         />
       </View>
 
-      <View
-        style={tw.style(
-          `mt-4 flex flex-col self-stretch justify-start`,
-          !isNil(containerHeight) && {
-            minHeight: containerHeight / 2,
-          },
-        )}>
+      <View style={tw.style(`mt-4 flex flex-col self-stretch justify-start`)}>
         <AppText
           style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
           {t('onboarding.services.title')}

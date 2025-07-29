@@ -5,7 +5,6 @@ import dayjs from 'dayjs';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
-import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
 import { type ApiMemberSubscription } from '@/services/api/members';
@@ -70,7 +69,7 @@ const SubscriptionCard = ({
   return (
     <View
       style={[
-        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl w-32 relative overflow-hidden pl-3 pt-2 pb-4`,
+        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl relative overflow-hidden px-3 pt-2 pb-4`,
         style,
       ]}>
       <MaterialCommunityIcons
@@ -104,14 +103,6 @@ const SubscriptionCard = ({
           {expirationDate}
         </AppText>
       )}
-
-      <View style={tw`absolute top-0 bottom-0 right-0 z-1 rounded-2xl overflow-hidden w-16`}>
-        <Fader
-          position={Fader.position.END}
-          size={16}
-          tintColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
-        />
-      </View>
 
       {subscription && dayjs().isBetween(subscription.started, subscription.ended, 'day', '[]') && (
         <MaterialCommunityIcons

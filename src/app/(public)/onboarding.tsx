@@ -156,10 +156,7 @@ const Onboarding = () => {
                 data={screens.map((screen, index) => ({ ...screen, index }))}
                 loop={false}
                 renderItem={({ item, index, animationValue }) => (
-                  <Step
-                    animationValue={animationValue}
-                    contentContainerStyle={{ paddingBottom: actionHeight + 32 }}
-                    key={index}>
+                  <Step actionHeight={actionHeight} animationValue={animationValue} key={index}>
                     {item.component(currentIndex === index)}
                   </Step>
                 )}

@@ -17,15 +17,6 @@ export default function SettingsLayout() {
           headerShown: false,
         }}>
         <Stack.Screen
-          name="changes"
-          options={{
-            presentation: 'modal',
-            ...(Platform.OS === 'android' && {
-              animation: 'slide_from_bottom',
-            }),
-          }}
-        />
-        <Stack.Screen
           name="chat"
           options={{
             presentation: 'modal',
@@ -101,11 +92,9 @@ export default function SettingsLayout() {
               animation: 'fade_from_bottom',
             }}
           />
-          {/* <Stack.Screen name="devices/[deviceId]" options={{}} />
-          <Stack.Screen name="devices/new" options={{}} /> */}
 
           <Stack.Screen
-            name="changes"
+            name="chat"
             options={{
               presentation: 'modal',
               ...(Platform.OS === 'android' && {

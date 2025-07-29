@@ -14,3 +14,5 @@ export const WORDPRESS_BASE_URL =
 
 export const PROBE_BASE_URL =
   process.env.EXPO_PUBLIC_PROBE_BASE_URL || 'https://probe.coworking-metz.fr';
+
+export const SUPPORT_EMAIL = 'contact@coworking-metz.fr';

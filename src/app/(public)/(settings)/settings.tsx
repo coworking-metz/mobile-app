@@ -28,7 +28,6 @@ import ErrorBadge from '@/components/ErrorBagde';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
-import AppFooter from '@/components/Settings/AppFooter';
 import PresenceGraph from '@/components/Settings/PresenceGraph';
 import ThemePicker from '@/components/Settings/ThemePicker';
 import { useAppAuth } from '@/context/auth';
@@ -199,73 +198,90 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
 
   return (
     <View style={[tw`flex-1 bg-gray-100 dark:bg-black relative`, style]}>
-      <Animated.View
+      <View
         style={[
-          tw`absolute flex flex-col items-start gap-4 pb-6`,
+          tw`absolute flex flex-col items-stretch`,
           {
             top: NAVIGATION_HEIGHT + insets.top,
             left: insets.left,
             right: insets.right,
+            bottom: insets.bottom,
           },
-          headerStyle,
-        ]}
-        onLayout={({ nativeEvent }: LayoutChangeEvent) => {
-          setHeaderHeight(nativeEvent.layout.height);
-        }}>
-        <View style={tw`flex flex-col items-start gap-4 px-4`}>
-          <ProfilePicture
-            attending={profile?.attending}
-            pending={!authStore.user && authStore.isFetchingToken}
-            style={{ width: PICTURE_SIZE, height: PICTURE_SIZE }}
-            url={authStore.user?.picture}
-          />
-          <View style={tw`flex flex-row justify-between w-full`}>
-            <View style={tw`flex flex-col ml-2 shrink basis-0 grow`}>
-              <AppText
-                entering={FadeInLeft.duration(500)}
-                style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-                {authStore.user ? authStore.user.name : t('account.title')}
-              </AppText>
-              <AppText
-                ellipsizeMode={'tail'}
-                entering={FadeInLeft.duration(500).delay(150)}
-                numberOfLines={1}
-                style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
-                {authStore.user ? authStore.user.email : t('auth.login.headline')}
-              </AppText>
-
-              <Animated.View
-                entering={FadeInLeft.duration(500).delay(300)}
-                style={tw`flex flex-row flex-wrap gap-2 mt-2`}>
-                {authStore.user?.roles.map((role) => (
-                  <AppText
-                    key={`role-${role}`}
-                    style={tw`flex items-center rounded-md overflow-hidden bg-amber-200/50 dark:bg-amber-100/80 px-2.5 py-0.5 text-sm font-medium text-amber-800 dark:text-amber-900`}>
-                    {t(`settings.roles.value.${role}`)}
-                  </AppText>
-                ))}
-              </Animated.View>
-            </View>
-
-            <MaterialCommunityIcons
-              color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-              iconStyle={{ height: 32, width: 32, marginRight: 0 }}
-              name="chevron-right"
-              size={32}
-              style={tw`shrink-0 my-auto`}
+        ]}>
+        <Animated.View
+          style={[tw`grow-0 shrink-0 w-full`, headerStyle]}
+          onLayout={({ nativeEvent }: LayoutChangeEvent) => {
+            setHeaderHeight(nativeEvent.layout.height);
+          }}>
+          <View style={tw`flex flex-col items-start gap-4 px-4 pb-6`}>
+            <ProfilePicture
+              attending={profile?.attending}
+              pending={!authStore.user && authStore.isFetchingToken}
+              style={{ width: PICTURE_SIZE, height: PICTURE_SIZE }}
+              url={authStore.user?.picture}
             />
-          </View>
-        </View>
-      </Animated.View>
+            <View style={tw`flex flex-row justify-between w-full`}>
+              <View style={tw`flex flex-col ml-2 shrink basis-0 grow`}>
+                <AppText
+                  entering={FadeInLeft.duration(500)}
+                  style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                  {authStore.user ? authStore.user.name : t('account.title')}
+                </AppText>
+                <AppText
+                  ellipsizeMode={'tail'}
+                  entering={FadeInLeft.duration(500).delay(150)}
+                  numberOfLines={1}
+                  style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                  {authStore.user ? authStore.user.email : t('auth.login.headline')}
+                </AppText>
 
-      {/* this is the footer below the scrollview */}
-      <AppFooter
-        style={[tw`absolute bottom-0 self-center py-6 px-3`, { marginBottom: insets.bottom }]}
-        onLayout={({ nativeEvent }: LayoutChangeEvent) => {
-          setFooterHeight(nativeEvent.layout.height);
-          setFooterWidth(nativeEvent.layout.width);
-        }}
-      />
+                {authStore.user?.roles.length ? (
+                  <Animated.View
+                    entering={FadeInLeft.duration(500).delay(300)}
+                    style={tw`flex flex-row flex-wrap gap-2 mt-2`}>
+                    {authStore.user?.roles.map((role) => (
+                      <AppText
+                        key={`role-${role}`}
+                        style={tw`flex items-center rounded-md overflow-hidden bg-amber-200/50 dark:bg-amber-100/80 px-2.5 py-0.5 text-sm font-medium text-amber-800 dark:text-amber-900`}>
+                        {t(`settings.roles.value.${role}`)}
+                      </AppText>
+                    ))}
+                  </Animated.View>
+                ) : null}
+              </View>
+
+              <MaterialCommunityIcons
+                color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
+                iconStyle={{ height: 32, width: 32, marginRight: 0 }}
+                name="chevron-right"
+                size={32}
+                style={tw`shrink-0 my-auto`}
+              />
+            </View>
+          </View>
+        </Animated.View>
+
+        {/* this is the footer below the scrollview */}
+        <View
+          style={tw`mt-auto flex flex-col gap-1 self-center py-6 px-3`}
+          onLayout={({ nativeEvent }: LayoutChangeEvent) => {
+            setFooterHeight(nativeEvent.layout.height);
+            setFooterWidth(nativeEvent.layout.width);
+          }}>
+          <AppText style={tw`font-normal text-slate-500 text-center`}>
+            {t('footer.copyright', { year: dayjs().year() })}
+          </AppText>
+          <AppText style={tw`font-normal text-slate-500 text-center`}>
+            {t('footer.madeWith')}
+          </AppText>
+
+          <Link asChild href="/about">
+            <AppText style={tw`font-normal text-amber-500 text-center`}>
+              {t('footer.about')}
+            </AppText>
+          </Link>
+        </View>
+      </View>
 
       <Animated.ScrollView
         contentContainerStyle={[

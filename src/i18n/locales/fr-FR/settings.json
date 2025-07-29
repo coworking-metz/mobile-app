@@ -80,7 +80,10 @@
   "support": {
     "contact": {
       "conversations": {
-        "label": "Discuter en direct"
+        "label": "Discuter en direct",
+        "onFetchBrevoWidget": {
+          "fail": "Il semble que le chargement du widget Brevo a échoué.\n\nVous êtes probablement frustré⸱e en ce moment, veuillez nous excuser 😔\n\nVous pouvez nous contacter à {{email}}"
+        }
       },
       "description": "Pour toute question, suggestion ou problème, n'hésitez pas à nous contacter. Nous sommes là pour vous aider.",
       "mail": {

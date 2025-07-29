@@ -95,7 +95,10 @@
   "support": {
     "contact": {
       "conversations": {
-        "label": "Chat with someone"
+        "label": "Chat with someone",
+        "onFetchBrevoWidget": {
+          "fail": "It seems that the Brevo widget has failed to load.\n\nYou're probably frustrated right now thus please excuse us 😔\n\nYou can reach us at {{email}}"
+        }
       },
       "description": "For any question, suggestion or issue, feel free to contact us. We are here to help.",
       "mail": {

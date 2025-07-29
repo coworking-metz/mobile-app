@@ -30,7 +30,10 @@
     }
   },
   "intercom": {
-    "label": "Unlock\nfront gate",
+    "label": {
+      "firstLine": "Unlock",
+      "secondLine": "front gate"
+    },
     "onFail": {
       "message": "Unable to unlock"
     },
@@ -45,7 +48,10 @@
     "message": ["Is it acting up?", "Is there something wrong?", "Need help?"]
   },
   "parking": {
-    "label": "Open parking\nbarrier",
+    "label": {
+      "firstLine": "Open parking",
+      "secondLine": "barrier"
+    },
     "onFail": {
       "message": "Unable to open"
     },
@@ -157,11 +163,11 @@
       "description": "Subscription allows access to the Coworking location for 30 rolling days starting from the chosen start date.",
       "get": "Get one",
       "label": {
-        "activeUntil": "Subscription valid until",
-        "current": "Active subscription",
-        "expireSoon": "Subscription valid until",
-        "expired": "Expired subscription",
-        "next": "Next subscription",
+        "activeUntil": "Subscription\nvalid until",
+        "current": "Active\nsubscription",
+        "expireSoon": "Subscription\nvalid until",
+        "expired": "Expired\nsubscription",
+        "next": "Next\nsubscription",
         "none": "Subscription"
       },
       "onFetch": {
@@ -206,7 +212,7 @@
       "depleted_one": "indebted",
       "depleted_other": "indebted",
       "description": "Tickets have unlimited validity, and each ticket is equivalent to two half-days.\nPresence of less than 5 hours in a day corresponds to half a day.",
-      "label": "Individual tickets",
+      "label": "Individual\ntickets",
       "onFetch": {
         "fail": "Unable to fetch tickets orders"
       }

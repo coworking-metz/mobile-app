@@ -210,6 +210,7 @@ const OpenParkingCard = ({
               style={[
                 tw`text-xl font-semibold text-slate-900 dark:text-gray-200`,
                 Platform.OS === 'ios' && tw`mb-0.5`,
+                Platform.OS === 'android' && tw`-mb-0.5`,
               ]}
               text={timeLeftInSeconds}
             />
@@ -221,12 +222,18 @@ const OpenParkingCard = ({
           </View>
         </View>
       ) : (
-        <AppText
-          ellipsizeMode={'clip'}
-          numberOfLines={2}
-          style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
-          {t('home.parking.label')}
-        </AppText>
+        <View style={tw`flex flex-col items-stretch z-20 w-full overflow-hidden`}>
+          <AppText
+            numberOfLines={1}
+            style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
+            {t('home.parking.label.firstLine')}
+          </AppText>
+          <AppText
+            numberOfLines={1}
+            style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
+            {t('home.parking.label.secondLine')}
+          </AppText>
+        </View>
       )}
     </AppTouchable>
   );

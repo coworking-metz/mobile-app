@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Render user fullname and roles in settings header.
+- Render zoomed text properly.
+- (Android only) Revert chat feature to the external web browser.
 
 ## [2025.7.5] - 2025-07-20
 

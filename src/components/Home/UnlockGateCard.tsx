@@ -159,7 +159,7 @@ const UnlockCard = ({
     <AppTouchable
       disabled={disabled}
       style={[
-        tw`flex flex-col items-start gap-4 pl-4 py-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
+        tw`flex flex-col items-start gap-4 pl-4 py-4 rounded-2xl min-h-20 relative bg-gray-200 dark:bg-gray-900 overflow-hidden`,
         disabled && tw`opacity-60`,
         style,
       ]}
@@ -196,7 +196,7 @@ const UnlockCard = ({
       </Animated.View>
 
       {isUnlocked ? (
-        <View style={tw`flex flex-col items-start z-20`}>
+        <View style={tw`flex flex-col items-start z-20 w-full`}>
           <AppText
             numberOfLines={1}
             style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
@@ -212,6 +212,7 @@ const UnlockCard = ({
               style={[
                 tw`text-xl font-semibold text-slate-900 dark:text-gray-200`,
                 Platform.OS === 'ios' && tw`mb-0.5`,
+                Platform.OS === 'android' && tw`-mb-0.5`,
               ]}
               text={timeLeftInSeconds}
             />
@@ -223,12 +224,18 @@ const UnlockCard = ({
           </View>
         </View>
       ) : (
-        <AppText
-          ellipsizeMode={'clip'}
-          numberOfLines={2}
-          style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
-          {t('home.intercom.label')}
-        </AppText>
+        <View style={tw`flex flex-col items-stretch z-20 w-full overflow-hidden`}>
+          <AppText
+            numberOfLines={1}
+            style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
+            {t('home.intercom.label.firstLine')}
+          </AppText>
+          <AppText
+            numberOfLines={1}
+            style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
+            {t('home.intercom.label.secondLine')}
+          </AppText>
+        </View>
       )}
     </AppTouchable>
   );
