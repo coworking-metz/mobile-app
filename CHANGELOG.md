@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [2025.7.7] - 2025-07-30
+
 ### Added
 
 - Disable animations on motion reduced.
@@ -434,7 +436,8 @@ Initial release with the following features:
 - services like opening the gate,
 - user attendance history.
 
-[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2025.7.6...main
+[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2025.7.7...main
+[2025.7.7]: https://github.com/coworking-metz/mobile-app/compare/2025.7.6...2025.7.7
 [2025.7.6]: https://github.com/coworking-metz/mobile-app/compare/2025.7.5...2025.7.6
 [2025.7.5]: https://github.com/coworking-metz/mobile-app/compare/2025.7.4...2025.7.5
 [2025.7.4]: https://github.com/coworking-metz/mobile-app/compare/2025.7.3...2025.7.4
