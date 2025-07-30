@@ -8,6 +8,7 @@ import Carousel, { type ICarouselInstance } from 'react-native-reanimated-carous
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
+import AppFader from '@/components/AppFader';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import PaginationDot from '@/components/Onboarding/PaginationDot';
@@ -183,14 +184,12 @@ const Onboarding = () => {
               onLayout={({ nativeEvent }: LayoutChangeEvent) =>
                 setActionHeight(nativeEvent.layout.height)
               }>
-              <View style={tw`absolute inset-0`}>
-                <Fader
-                  visible
-                  position={Fader.position.BOTTOM}
-                  size={actionHeight + 32}
-                  tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
-                />
-              </View>
+              <AppFader
+                position={Fader.position.BOTTOM}
+                size={actionHeight + 32}
+                style={tw`absolute inset-0`}
+                tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
+              />
 
               <AppRoundedButton style={tw`mx-auto w-full max-w-md`} onPress={onNext}>
                 <AppText style={tw`text-base font-medium text-black`}>{t('actions.next')}</AppText>
@@ -200,13 +199,12 @@ const Onboarding = () => {
         ) : null}
       </View>
 
-      <Animated.View style={tw`absolute top-0 left-0 right-0`}>
-        <Fader
-          position={Fader.position.TOP}
-          size={insets.top || (Platform.OS === 'android' ? 16 : 0)}
-          tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
-        />
-      </Animated.View>
+      <AppFader
+        position={Fader.position.TOP}
+        size={insets.top || (Platform.OS === 'android' ? 16 : 0)}
+        style={tw`absolute inset-x-0 top-0`}
+        tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
+      />
 
       {isPickingTheme && <ThemeBottomSheet onClose={() => setPickingTheme(false)} />}
     </>

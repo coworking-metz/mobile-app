@@ -1,3 +1,4 @@
+import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
 import { useColorScheme } from 'react-native';
@@ -34,7 +35,7 @@ const CouponsAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
     });
   }, [colorScheme]);
 
-  return <LottieView ref={ref} autoPlay loop={false} {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} autoPlay loop={false} {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(CouponsAnimation);

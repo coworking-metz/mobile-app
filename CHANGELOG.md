@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Disable animations on motion reduced.
+
 ## [2025.7.6] - 2025-07-29
 
 ### Fixed

@@ -1,8 +1,8 @@
 import { isNil } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
-import Animated, { FadeInDown, FadeInLeft } from 'react-native-reanimated';
+import { useColorScheme, View } from 'react-native';
+import Animated, { FadeInDown, FadeInLeft, useReducedMotion } from 'react-native-reanimated';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import MobileAppAnimation from '@/components/Animations/MobileAppAnimation';
@@ -16,17 +16,25 @@ const AboutStep = ({ active, containerHeight }: { active: boolean; containerHeig
   const { t } = useTranslation();
   const { selectLanguage } = useAppI18n();
   const settingsStore = useSettingsStore();
+  const colorScheme = useColorScheme();
+  const reduceMotion = useReducedMotion();
   const animation = useRef<LottieView>(null);
   // as there is no way to know whether the animation is playing
   // https://github.com/lottie-react-native/lottie-react-native/issues/752
   const [isPlaying, setPlaying] = useState(false);
 
   useEffect(() => {
-    if (animation.current && active && !isPlaying) {
+    if (animation.current && active && !isPlaying && !reduceMotion) {
       requestAnimationFrame(() => animation.current?.play());
       setPlaying(true);
     }
-  }, [animation, active, isPlaying]);
+  }, [animation, active, isPlaying, reduceMotion]);
+
+  useEffect(() => {
+    if (!reduceMotion) {
+      requestAnimationFrame(() => animation.current?.play());
+    }
+  }, [colorScheme, reduceMotion]);
 
   return (
     <>
@@ -41,7 +49,6 @@ const AboutStep = ({ active, containerHeight }: { active: boolean; containerHeig
           ref={animation}
           autoPlay={false}
           loop={false}
-          progress={0}
           style={tw`w-full max-h-80 h-full`}
         />
       </View>

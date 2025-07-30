@@ -1,3 +1,4 @@
+import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
 import tw from 'twrnc';
@@ -24,7 +25,7 @@ const VerticalLoadingAnimation: ForwardRefRenderFunction<LottieView, AnimationPr
     });
   }, [color]);
 
-  return <LottieView ref={ref} autoPlay loop {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} autoPlay loop {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(VerticalLoadingAnimation);

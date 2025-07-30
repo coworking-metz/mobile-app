@@ -11,6 +11,7 @@ import { FadeInLeft } from 'react-native-reanimated';
 import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
+import AppFader from '@/components/AppFader';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import ErrorState from '@/components/ErrorState';
@@ -89,14 +90,12 @@ export default function CalendarEventPage() {
             onLayout={({ nativeEvent }: LayoutChangeEvent) =>
               setActionHeight(nativeEvent.layout.height)
             }>
-            <View style={tw`absolute inset-0`}>
-              <Fader
-                visible
-                position={Fader.position.BOTTOM}
-                size={actionHeight + 32}
-                tintColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('gray-50')}
-              />
-            </View>
+            <AppFader
+              position={Fader.position.BOTTOM}
+              size={actionHeight + 32}
+              style={tw`absolute inset-0`}
+              tintColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('gray-50')}
+            />
 
             <Link asChild href={firstUrl}>
               <AppRoundedButton style={tw`w-full max-w-md self-center`} suffixIcon="open-in-new">

@@ -1,3 +1,4 @@
+import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
@@ -16,7 +17,7 @@ const ChatBubblesAnimation: ForwardRefRenderFunction<LottieView, AnimationProps>
     return colouriseLottie(ChatBubbles, {});
   }, [colorScheme]);
 
-  return <LottieView ref={ref} autoPlay loop {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} autoPlay loop {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(ChatBubblesAnimation);

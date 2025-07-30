@@ -1,3 +1,4 @@
+import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import tw from 'twrnc';
@@ -26,7 +27,7 @@ const SuccessAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
     });
   }, [color]);
 
-  return <LottieView ref={ref} autoPlay loop={false} {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} autoPlay loop={false} {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(SuccessAnimation);

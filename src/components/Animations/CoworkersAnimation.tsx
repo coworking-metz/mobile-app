@@ -1,3 +1,4 @@
+import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
 import CooperatingCoworkers from '@/assets/animations/cooperating-coworkers.json';
@@ -305,7 +306,7 @@ const CoworkersAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> =
     [],
   );
 
-  return <LottieView ref={ref} autoPlay loop {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} autoPlay loop {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(CoworkersAnimation);

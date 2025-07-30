@@ -29,6 +29,7 @@ import createHttpInterceptors from '@/services/interceptors';
 import { navigationIntegration } from '@/services/sentry';
 import { AppThemeBackground } from '@/services/theme';
 import '@/i18n';
+import { useReducedMotion } from 'react-native-reanimated';
 
 const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 
@@ -53,6 +54,7 @@ export const unstable_settings = {
 
 const RootLayout = () => {
   useDeviceContext(tw);
+  const reduceMotion = useReducedMotion();
 
   // Capture the NavigationContainer ref and register it with the instrumentation.
   const ref = useNavigationContainerRef();
@@ -121,6 +123,9 @@ const RootLayout = () => {
                                       backgroundColor: 'transparent',
                                     },
                                     navigationBarTranslucent: true,
+                                    ...(reduceMotion && {
+                                      animation: 'fade',
+                                    }),
                                   }}>
                                   <Stack.Screen
                                     name="index"
@@ -143,7 +148,9 @@ const RootLayout = () => {
                                     name="(public)/onboarding"
                                     options={{
                                       headerShown: false,
-                                      animation: 'slide_from_bottom',
+                                      animation: reduceMotion
+                                        ? 'fade_from_bottom'
+                                        : 'slide_from_bottom',
                                     }}
                                   />
 

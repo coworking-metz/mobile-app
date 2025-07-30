@@ -1,3 +1,4 @@
+import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import WorkOnTheGo from '@/assets/animations/work-on-the-go.json';
@@ -154,7 +155,7 @@ const WorkOnTheGoAnimation: ForwardRefRenderFunction<LottieView, AnimationProps>
     [],
   );
 
-  return <LottieView ref={ref} autoPlay loop {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} autoPlay loop {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(WorkOnTheGoAnimation);

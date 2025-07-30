@@ -1,6 +1,7 @@
 import CalendarScreen from './calendar';
 import { Stack } from 'expo-router';
 import { View } from 'react-native';
+import { useReducedMotion } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import useAppScreen from '@/helpers/screen';
 
@@ -8,6 +9,7 @@ export default function EventsLayout() {
   useDeviceContext(tw);
 
   const { isWide } = useAppScreen();
+  const reduceMotion = useReducedMotion();
 
   if (!isWide) {
     return (
@@ -15,7 +17,11 @@ export default function EventsLayout() {
         initialRouteName="calendar"
         screenOptions={{
           headerShown: false,
-        }}></Stack>
+          ...(reduceMotion && {
+            animation: 'fade',
+          }),
+        }}
+      />
     );
   }
 

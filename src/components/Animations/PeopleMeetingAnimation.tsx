@@ -1,3 +1,4 @@
+import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import PeopleMeeting from '@/assets/animations/people-meeting.json';
@@ -154,7 +155,7 @@ const PeopleMeetingAnimation: ForwardRefRenderFunction<LottieView, AnimationProp
     [],
   );
 
-  return <LottieView ref={ref} {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(PeopleMeetingAnimation);

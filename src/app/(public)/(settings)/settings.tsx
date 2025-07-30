@@ -230,7 +230,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 <AppText
                   ellipsizeMode={'tail'}
                   entering={FadeInLeft.duration(500).delay(150)}
-                  numberOfLines={1}
+                  numberOfLines={!authStore.user ? 2 : 1}
                   style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
                   {authStore.user ? authStore.user.email : t('auth.login.headline')}
                 </AppText>

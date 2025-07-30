@@ -1,3 +1,4 @@
+import AppFader from './AppFader';
 import CarouselPaginationDots from './CarouselPaginationDots';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
@@ -69,13 +70,12 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
                 right: insets.right,
               },
             ]}>
-            <View style={tw`absolute inset-x-0 top-0`}>
-              <Fader
-                position={Fader.position.TOP}
-                size={(insets.top || (Platform.OS === 'android' ? 16 : 0)) + 64}
-                tintColor={tw.color('black/25')}
-              />
-            </View>
+            <AppFader
+              position={Fader.position.TOP}
+              size={(insets.top || (Platform.OS === 'android' ? 16 : 0)) + 64}
+              style={tw`absolute inset-x-0 top-0`}
+              tintColor={tw.color('black/25')}
+            />
             {sourcesCount > 1 && (
               <>
                 {/* fake a View with the same size as the close button to properly center pagination dots */}

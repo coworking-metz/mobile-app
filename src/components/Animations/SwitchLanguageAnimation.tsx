@@ -3,6 +3,7 @@ import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react
 import { useColorScheme } from 'react-native';
 import tw from 'twrnc';
 import SwitchLanguage from '@/assets/animations/switch-language.json';
+import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie } from '@/helpers/colors';
 
 type AnimationProps = Omit<LottieViewProps, 'source'>;
@@ -85,7 +86,7 @@ const SwitchLanguageAnimation: ForwardRefRenderFunction<LottieView, AnimationPro
     });
   }, [colorScheme]);
 
-  return <LottieView ref={ref} loop={false} speed={0.75} {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} loop={false} speed={0.75} {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(SwitchLanguageAnimation);

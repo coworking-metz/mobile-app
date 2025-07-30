@@ -3,7 +3,7 @@ import * as Haptics from 'expo-haptics';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
-import { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
+import { FadeInLeft, FadeOutLeft, useReducedMotion } from 'react-native-reanimated';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import UnlockAnimation from '@/components/Animations/UnlockAnimation';
@@ -28,18 +28,19 @@ const UnlockDeckDoorBottomSheet = ({
   const user = useAuthStore((s) => s.user);
   const noticeStore = useNoticeStore();
   const animation = useRef<LottieView>(null);
+  const reduceMotion = useReducedMotion();
   const [isUnlocked, setUnlocked] = useState(unlocked);
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (animation.current) {
+    if (animation.current && !reduceMotion) {
       if (isUnlocked) {
         animation.current.play(30, 120);
       } else {
         animation.current.play(0, 33);
       }
     }
-  }, [animation, isUnlocked]);
+  }, [animation, isUnlocked, reduceMotion]);
 
   const onUnlock = useCallback(() => {
     setLoading(true);
@@ -70,7 +71,13 @@ const UnlockDeckDoorBottomSheet = ({
       contentContainerStyle={tw`flex flex-col items-center gap-4 px-6 pt-6`}
       style={style}
       onClose={onClose}>
-      <UnlockAnimation ref={animation} autoPlay={false} loop={false} style={tw`w-full h-[144px]`} />
+      <UnlockAnimation
+        ref={animation}
+        autoPlay={false}
+        loop={false}
+        progress={reduceMotion ? 0.25 : 0}
+        style={tw`w-full h-[144px]`}
+      />
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.deckDoor.label')}

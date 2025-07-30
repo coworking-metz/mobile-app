@@ -1,6 +1,7 @@
 import SettingsScreen from './settings';
 import { Stack } from 'expo-router';
 import { Platform, View } from 'react-native';
+import { useReducedMotion } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import useAppScreen from '@/helpers/screen';
 
@@ -8,6 +9,7 @@ export default function SettingsLayout() {
   useDeviceContext(tw);
 
   const { isWide } = useAppScreen();
+  const reduceMotion = useReducedMotion();
 
   if (!isWide) {
     return (
@@ -15,6 +17,9 @@ export default function SettingsLayout() {
         initialRouteName="settings"
         screenOptions={{
           headerShown: false,
+          ...(reduceMotion && {
+            animation: 'fade',
+          }),
         }}>
         <Stack.Screen
           name="chat"
@@ -40,6 +45,9 @@ export default function SettingsLayout() {
           initialRouteName="root"
           screenOptions={{
             headerShown: false,
+            ...(reduceMotion && {
+              animation: 'fade',
+            }),
           }}>
           <Stack.Screen
             name="root"

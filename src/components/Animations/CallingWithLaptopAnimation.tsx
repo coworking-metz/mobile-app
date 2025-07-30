@@ -1,3 +1,4 @@
+import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import CallingWithLaptop from '@/assets/animations/calling-with-laptop.json';
@@ -199,7 +200,7 @@ const CallingWithLaptopAnimation: ForwardRefRenderFunction<LottieView, Animation
     });
   }, []);
 
-  return <LottieView ref={ref} {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(CallingWithLaptopAnimation);

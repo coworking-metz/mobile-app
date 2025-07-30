@@ -26,8 +26,6 @@ const LoadingSpinner = ({
   style,
   ...props
 }: AnimatedProps<{ style?: StyleProp<ViewStyle> }>): JSX.Element => {
-  // const rotationDegree = useRef(new Animated.Value(0)).current;
-
   const rotation = useSharedValue(0);
   const animatedStyle = useAnimatedStyle(
     () => ({
@@ -37,7 +35,6 @@ const LoadingSpinner = ({
   );
 
   useEffect(() => {
-    // startRotationAnimation(durationMs, rotationDegree);
     cancelAnimation(rotation);
     rotation.value = 0;
     rotation.value = withRepeat(

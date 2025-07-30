@@ -41,9 +41,11 @@ const Step = ({
   const clonedChildren = useMemo(() => {
     if (!scrollContainerHeight) return null;
     return Children.map(children, (el: ReactNode) => {
-      return cloneElement(el as never, { containerHeight: scrollContainerHeight });
+      return cloneElement(el as never, {
+        containerHeight: scrollContainerHeight - (actionHeight ?? 0),
+      });
     });
-  }, [children, scrollContainerHeight]);
+  }, [children, scrollContainerHeight, actionHeight]);
 
   const paddingBottom = useMemo(() => {
     if (

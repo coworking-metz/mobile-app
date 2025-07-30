@@ -1,4 +1,5 @@
 import AppBottomSheetBackdrop from './AppBottomSheetBackdrop';
+import AppFader from './AppFader';
 import BottomSheet, { BottomSheetScrollView, type BottomSheetProps } from '@gorhom/bottom-sheet';
 import { SquircleView } from 'expo-squircle-view';
 import React, {
@@ -11,7 +12,7 @@ import React, {
   useState,
   type ReactNode,
 } from 'react';
-import { Dimensions, LayoutChangeEvent, Platform, StyleProp, View, ViewStyle } from 'react-native';
+import { Dimensions, LayoutChangeEvent, Platform, StyleProp, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
@@ -106,13 +107,12 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
         cornerSmoothing={100} // 0-100
         preserveSmoothing={true} // false matches figma, true has more rounding
         style={tw`relative overflow-hidden rounded-[3.5rem] bg-white dark:bg-zinc-900`}>
-        <View style={tw`absolute top-0 left-0 right-0 z-10`}>
-          <Fader
-            position={Fader.position.TOP}
-            size={16}
-            tintColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
-          />
-        </View>
+        <AppFader
+          position={Fader.position.TOP}
+          size={16}
+          style={tw`absolute inset-x-0 top-0 z-10`}
+          tintColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
+        />
         {children && (
           <BottomSheetScrollView
             bounces={isBouncing}

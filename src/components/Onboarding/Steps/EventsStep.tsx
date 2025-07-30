@@ -2,13 +2,17 @@ import { isNil } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
+import { useReducedMotion } from 'react-native-reanimated';
+import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import PeopleMeetingAnimation from '@/components/Animations/PeopleMeetingAnimation';
+import AppFader from '@/components/AppFader';
 import AppText from '@/components/AppText';
 
 const EventsStep = ({ active, containerHeight }: { active: boolean; containerHeight?: number }) => {
   const { t } = useTranslation();
+  const reduceMotion = useReducedMotion();
   const animation = useRef<LottieView>(null);
   const [speed, setSpeed] = useState(1);
   // as there is no way to know whether the animation is playing
@@ -16,11 +20,11 @@ const EventsStep = ({ active, containerHeight }: { active: boolean; containerHei
   const [isPlaying, setPlaying] = useState(false);
 
   useEffect(() => {
-    if (animation.current && active && !isPlaying) {
+    if (animation.current && active && !isPlaying && !reduceMotion) {
       requestAnimationFrame(() => animation.current?.play());
       setPlaying(true);
     }
-  }, [animation, active, isPlaying]);
+  }, [animation, active, isPlaying, reduceMotion]);
 
   // trick to fake a loop by reversing the speed when the animation finishes
   const onAnimationFinish = useCallback(() => {
@@ -38,24 +42,31 @@ const EventsStep = ({ active, containerHeight }: { active: boolean; containerHei
     <>
       <View
         style={tw.style(
-          `flex flex-col justify-end items-center overflow-visible`,
+          `flex flex-col justify-end items-center self-center overflow-visible relative w-[640px] `,
           !isNil(containerHeight) && {
             height: containerHeight / 2,
           },
         )}>
+        <AppFader
+          position={Fader.position.START}
+          size={144}
+          style={tw`absolute inset-y-0 left-0 z-10`}
+          tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
+        />
         <PeopleMeetingAnimation
           ref={animation}
           autoPlay={false}
           loop={false}
+          progress={reduceMotion ? 1 : 0}
           speed={speed}
-          style={[
-            tw`w-full max-h-80 h-full`,
-            {
-              width: 640,
-              marginBottom: -64,
-            },
-          ]}
+          style={tw`w-full max-h-80 h-full -mb-16`}
           onAnimationFinish={onAnimationFinish}
+        />
+        <AppFader
+          position={Fader.position.END}
+          size={144}
+          style={tw`absolute inset-y-0 right-0 z-10`}
+          tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
         />
       </View>
 

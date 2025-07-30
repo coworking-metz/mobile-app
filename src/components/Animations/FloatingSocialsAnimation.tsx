@@ -1,6 +1,8 @@
+import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
+import { useReducedMotion } from 'react-native-reanimated';
 import tw from 'twrnc';
 import FloatingSocials from '@/assets/animations/floating-socials.json';
 import { colouriseLottie } from '@/helpers/colors';
@@ -39,7 +41,7 @@ const FloatingSocialsAnimation: ForwardRefRenderFunction<LottieView, AnimationPr
     });
   }, [colorScheme]);
 
-  return <LottieView ref={ref} autoPlay loop {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} autoPlay loop progress={0} {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(FloatingSocialsAnimation);

@@ -1,3 +1,4 @@
+import AppFader from '../AppFader';
 import * as Haptics from 'expo-haptics';
 import { useNavigation } from 'expo-router';
 import { SquircleView } from 'expo-squircle-view';
@@ -15,6 +16,7 @@ import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useDerivedValue,
+  useReducedMotion,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
@@ -45,6 +47,7 @@ export default function HomeLayout({
 
   const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
+  const reduceMotion = useReducedMotion();
   const refreshing = useSharedValue(false);
   const completed = useSharedValue(false);
   const { isWide } = useAppScreen();
@@ -52,8 +55,8 @@ export default function HomeLayout({
   const settingsStore = useSettingsStore();
   const navigation = useNavigation();
   const enableAnimations = useMemo(
-    () => !settingsStore.withNativePullToRefresh && !IS_RUNNING_IN_EXPO_GO,
-    [settingsStore.withNativePullToRefresh],
+    () => !settingsStore.withNativePullToRefresh && !IS_RUNNING_IN_EXPO_GO && !reduceMotion,
+    [settingsStore.withNativePullToRefresh, reduceMotion],
   );
 
   const scrollPosition = useSharedValue(0);
@@ -226,22 +229,20 @@ export default function HomeLayout({
           </Animated.View>
         </Animated.ScrollView>
 
-        <Animated.View style={[tw`absolute top-0 left-0 right-0`, topFaderStyles]}>
-          <Fader
-            position={Fader.position.TOP}
-            size={insets.top || (Platform.OS === 'android' ? 16 : 0)}
-            tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
-          />
-        </Animated.View>
+        <AppFader
+          position={Fader.position.TOP}
+          size={insets.top || (Platform.OS === 'android' ? 16 : 0)}
+          style={[tw`absolute inset-x-0 top-0`, topFaderStyles]}
+          tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
+        />
 
         {!!insets.bottom && (
-          <Animated.View style={[tw`absolute bottom-0 left-0 right-0`, { height: insets.bottom }]}>
-            <Fader
-              position={Fader.position.BOTTOM}
-              size={insets.bottom}
-              tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
-            />
-          </Animated.View>
+          <AppFader
+            position={Fader.position.BOTTOM}
+            size={insets.bottom}
+            style={tw.style(`absolute inset-x-0 bottom-0`, { height: insets.bottom })}
+            tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
+          />
         )}
       </Animated.View>
 

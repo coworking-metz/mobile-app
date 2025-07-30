@@ -1,3 +1,4 @@
+import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import StandingWork from '@/assets/animations/standing-work.json';
@@ -130,7 +131,7 @@ const StandingWorkAnimation: ForwardRefRenderFunction<LottieView, AnimationProps
     [],
   );
 
-  return <LottieView ref={ref} {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(StandingWorkAnimation);

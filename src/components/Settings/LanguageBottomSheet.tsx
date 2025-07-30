@@ -4,6 +4,7 @@ import LottieView from 'lottie-react-native';
 import React, { useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
+import { useReducedMotion } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppBottomSheet, {
   AppBottomSheetRef,
@@ -23,14 +24,15 @@ const LanguageBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
   const settingsStore = useSettingsStore();
   const bottomSheetRef = useRef<AppBottomSheetRef>(null);
   const animation = useRef<LottieView>(null);
+  const reduceMotion = useReducedMotion();
 
   const onBottomSheetChange = useCallback(
     (snapPointIndex: number) => {
-      if (snapPointIndex >= 0) {
+      if (snapPointIndex >= 0 && !reduceMotion) {
         animation.current?.play();
       }
     },
-    [animation],
+    [animation, reduceMotion],
   );
 
   const onLanguagePicked = useCallback(
@@ -55,7 +57,7 @@ const LanguageBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
             description={
               language.code === SYSTEM_OPTION
                 ? getLanguageLabel(SYSTEM_LANGUAGE) ||
-                `${SYSTEM_LANGUAGE} - ${t('settings.general.language.system.unsupported')}`
+                  `${SYSTEM_LANGUAGE} - ${t('settings.general.language.system.unsupported')}`
                 : ''
             }
             key={`language-option-${language.code}`}

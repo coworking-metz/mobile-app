@@ -1,3 +1,4 @@
+import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import DesktopWork from '@/assets/animations/desktop-work.json';
@@ -160,7 +161,7 @@ const DesktopWorkAnimation: ForwardRefRenderFunction<LottieView, AnimationProps>
     [],
   );
 
-  return <LottieView ref={ref} {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(DesktopWorkAnimation);

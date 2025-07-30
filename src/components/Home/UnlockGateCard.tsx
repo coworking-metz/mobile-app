@@ -184,6 +184,7 @@ const UnlockCard = ({
             autoPlay={false}
             color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
             loop={false}
+            progress={0}
             style={[tw`h-full w-full`, isLoading && { opacity: 0 }]}
           />
           {isLoading && (

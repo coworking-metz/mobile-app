@@ -1,3 +1,4 @@
+import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
 import { useColorScheme } from 'react-native';
@@ -13,7 +14,7 @@ const TumbleweedRollingAnimation: ForwardRefRenderFunction<LottieView, Animation
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => colouriseLottie(TumbleweedRolling, {}), [colorScheme]);
 
-  return <LottieView ref={ref} autoPlay loop {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} autoPlay loop {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(TumbleweedRollingAnimation);
