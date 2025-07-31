@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+
+- Hide stale data text when refreshing with touch.
+
 ## [2025.7.7] - 2025-07-30
 
 ### Added

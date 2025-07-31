@@ -1,7 +1,6 @@
 import PullToRefreshHint from './PullToRefreshHint';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
-import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { capitalize, sample } from 'lodash';
 import React, { useMemo } from 'react';
@@ -17,14 +16,15 @@ const StaleDataText = ({
   lastFetch,
   activeSince,
   loading,
+  onRefresh,
 }: {
   lastFetch?: string | null;
   activeSince?: string;
   loading?: boolean;
+  onRefresh?: () => void;
 }) => {
   const { t } = useTranslation();
   const isFocus = useIsFocused();
-  const queryClient = useQueryClient();
 
   // count duration since last fetch to redraw stale data text
   // every time the screen gets focused or the app gets back to foreground
@@ -60,11 +60,7 @@ const StaleDataText = ({
               : dayjs(lastFetch).fromNow(),
           )}
         </AppText>
-        <TouchableOpacity
-          style={tw`flex flex-row items-center gap-1`}
-          onPress={() => {
-            queryClient.invalidateQueries();
-          }}>
+        <TouchableOpacity style={tw`flex flex-row items-center gap-1`} onPress={onRefresh}>
           <AppText style={tw`text-sm font-normal leading-5 grow-0 text-amber-500`}>
             {t('home.refresh.label')}
           </AppText>

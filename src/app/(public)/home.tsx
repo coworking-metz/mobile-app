@@ -293,7 +293,12 @@ export default function HomeScreen() {
           tw`flex flex-row items-center grow shrink pt-1 pl-6 pr-4`,
           isWide && tw`mx-auto w-full max-w-2xl`,
         ]}>
-        <StaleDataText activeSince={activeSince} lastFetch={lastFetch} loading={isFetching} />
+        <StaleDataText
+          activeSince={activeSince}
+          lastFetch={lastFetch}
+          loading={isFetching}
+          onRefresh={onRefresh}
+        />
 
         <View style={tw`flex flex-col items-end shrink grow basis-0`}>
           <Link asChild href="(settings)">
