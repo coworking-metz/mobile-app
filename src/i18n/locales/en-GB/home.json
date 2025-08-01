@@ -215,7 +215,8 @@
       "label": "Individual\ntickets",
       "onFetch": {
         "fail": "Unable to fetch tickets orders"
-      }
+      },
+      "title": "Individual tickets"
     }
   },
   "refresh": {

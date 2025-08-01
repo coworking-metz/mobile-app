@@ -86,11 +86,15 @@ const CalendarEventCard = ({
   }, [event?.start, event?.end, isFocus, activeSince]);
 
   return (
-    <View style={[tw`relative rounded-2xl  bg-gray-200 dark:bg-gray-900`, style]}>
+    <View style={[tw`relative rounded-2xl bg-gray-300 dark:bg-gray-700`, style]}>
       <ImageBackground
+        cachePolicy="memory-disk"
         contentFit="cover"
         contentPosition="center"
-        source={firstPicture}
+        source={{
+          uri: firstPicture,
+          cacheKey: `${firstPicture}-${dayjs().format('YYYY-MM-DD')}`,
+        }}
         style={tw`w-full h-full flex rounded-2xl overflow-hidden relative`}
         {...(event?.end && dayjs().isAfter(event.end) && { imageStyle: { opacity: 0.5 } })}>
         {loading ? (

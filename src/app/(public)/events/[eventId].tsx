@@ -114,7 +114,7 @@ export default function CalendarEventPage() {
               contentFit="cover"
               source={firstPicture}
               sources={event.pictures}
-              style={tw`relative h-44 mx-4 rounded-2xl bg-gray-200 dark:bg-gray-900`}
+              style={tw`relative h-44 mx-4 rounded-2xl bg-gray-300 dark:bg-gray-700`}
               transition={300}>
               {event.pictures.length > 1 && (
                 <View style={tw`absolute bottom-1.5 right-5.5 bg-black/70 py-1 px-2 rounded-lg`}>

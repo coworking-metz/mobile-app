@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Hide stale data text when refreshing with touch.
+- Cache profile and events pictures.
 
 ## [2025.7.7] - 2025-07-30
 

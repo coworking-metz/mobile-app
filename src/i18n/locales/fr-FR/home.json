@@ -225,7 +225,8 @@
       "label": "Tickets à\nla journée",
       "onFetch": {
         "fail": "Impossible d'actualiser les commandes de tickets"
-      }
+      },
+      "title": "Tickets à la journée"
     }
   },
   "refresh": {

@@ -74,7 +74,10 @@ const ProfilePicture = ({
           <Image
             cachePolicy="memory-disk"
             contentFit="cover"
-            source={{ uri: url, cacheKey: `${url}-${dayjs().format('YYYY-MM-DD')}` }}
+            source={{
+              uri: url,
+              cacheKey: `${url}-${dayjs().format('YYYY-MM-DD')}`,
+            }}
             style={tw`h-full w-full`}
           />
         ) : initials ? (
