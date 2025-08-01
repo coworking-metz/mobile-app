@@ -2,6 +2,7 @@ import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'expo-router';
+import { isNil } from 'lodash';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
@@ -23,13 +24,11 @@ import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
 
 const BalanceBottomSheet = ({
-  balance,
   loading = false,
   activeSince,
   style,
   onClose,
 }: {
-  balance: number;
   loading?: boolean;
   activeSince?: string;
   style?: StyleProp<ViewStyle>;
@@ -80,9 +79,9 @@ const BalanceBottomSheet = ({
   }, []);
 
   const consumedCount = useMemo(() => {
-    const ordersCount = (ticketsOrders || []).reduce((acc, order) => acc + order.count, 0);
-    return Math.abs(ordersCount - balance);
-  }, [ticketsOrders, balance]);
+    const ordersCount = ticketsOrders?.reduce((acc, order) => acc + order.count, 0) ?? null;
+    return !isNil(ordersCount) ? Math.abs(ordersCount - (memberProfile?.balance ?? 0)) : null;
+  }, [ticketsOrders, memberProfile?.balance]);
 
   return (
     <AppBottomSheet contentContainerStyle={tw`px-6 pt-6`} style={style} onClose={onClose}>
@@ -116,7 +115,9 @@ const BalanceBottomSheet = ({
             <AppText
               numberOfLines={1}
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
-              {t('home.profile.tickets.consumed.count', { count: consumedCount })}
+              {!isNil(consumedCount)
+                ? t('home.profile.tickets.consumed.count', { count: consumedCount })
+                : t('home.profile.tickets.consumed.unknown')}
             </AppText>
           </View>
         )}
@@ -126,19 +127,21 @@ const BalanceBottomSheet = ({
           <LoadingSkeleton height={24} width={96} />
         ) : (
           <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
-            {balance != 0 && (
+            {!isNil(memberProfile?.balance) && memberProfile.balance !== 0 && (
               <AppText
                 numberOfLines={1}
                 style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
-                {Math.abs(balance)}
+                {Math.abs(memberProfile.balance)}
               </AppText>
             )}
             <AppText
               numberOfLines={1}
               style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
-              {balance >= 0
-                ? t('home.profile.tickets.available', { count: balance })
-                : t('home.profile.tickets.depleted', { count: -balance })}
+              {isNil(memberProfile?.balance)
+                ? t('home.profile.tickets.unknown')
+                : memberProfile.balance >= 0
+                  ? t('home.profile.tickets.available', { count: memberProfile.balance })
+                  : t('home.profile.tickets.depleted', { count: -memberProfile.balance })}
             </AppText>
           </View>
         )}
@@ -160,7 +163,9 @@ const BalanceBottomSheet = ({
             style={tw`shrink-0 grow-0`}
           />
           <AppText style={tw`text-left text-base font-normal text-slate-500 shrink grow basis-0`}>
-            {t('home.profile.tickets.balance.onDepleted', { count: Math.abs(balance) })}
+            {t('home.profile.tickets.balance.onDepleted', {
+              count: Math.abs(memberProfile.balance),
+            })}
           </AppText>
         </View>
       )}

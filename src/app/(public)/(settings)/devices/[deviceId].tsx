@@ -2,7 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, View } from 'react-native';
 import SegmentedControl from 'react-native-segmented-control-2';
@@ -28,7 +28,7 @@ import {
   ApiMemberDevice,
   deleteMemberDevice,
   DeviceType,
-  getMemberDevice,
+  getMemberDevices,
   updateMemberDevice,
 } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
@@ -55,26 +55,27 @@ const DeviceDetail = () => {
   const [isDeleting, setDeleting] = useState(false);
 
   const {
-    data: device,
-    isPending: isPendingDevice,
-    isFetching: isFetchingDevice,
-    error: deviceError,
-    refetch: refetchDevice,
+    data: devices,
+    isPending: isPendingDevices,
+    isFetching: isFetchingDevices,
+    error: devicesError,
+    refetch: refetchDevices,
   } = useQuery({
-    queryKey: ['members', authStore.user?.id, 'devices', `${deviceId}`],
-    queryFn: ({ queryKey: [_members, userId, _devices, id] }) => {
+    queryKey: ['members', authStore.user?.id, 'devices'],
+    queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
-        if (id) {
-          return getMemberDevice(userId, id as string);
-        }
-        throw new Error(t('devices.onFetch.missing'));
+        return getMemberDevices(userId);
       }
       throw new Error(t('account.profile.onFetch.missing'));
     },
     retry: false,
-    enabled: !!authStore.user?.id && !!deviceId,
     staleTime: 300_000,
+    enabled: !!authStore.user?.id,
   });
+
+  const device = useMemo(() => {
+    return devices?.find(({ _id }) => `${deviceId}` === `${_id}`) ?? null;
+  }, [devices, deviceId]);
 
   const onSubmit = useCallback(() => {
     if (!nameField.current?.validate() || !macAddressField.current?.validate()) {
@@ -213,13 +214,13 @@ const DeviceDetail = () => {
           </AppBottomSheet>
         ) : null
       }
-      loading={isPendingDevice}
+      loading={isPendingDevices}
       title={device?.name ?? device?.macAddress ?? ''}
-      onRefresh={refetchDevice}>
+      onRefresh={refetchDevices}>
       <View style={tw`flex flex-col grow px-3 w-full max-w-xl mx-auto`}>
-        {deviceError && (
+        {devicesError && (
           <ErrorChip
-            error={deviceError}
+            error={devicesError}
             label={t('devices.onFetch.fail')}
             style={tw`mb-4 mx-3 self-start`}
           />
@@ -231,7 +232,7 @@ const DeviceDetail = () => {
           validateOnChange
           containerStyle={tw`mx-3`}
           label={t('devices.detail.name.label')}
-          loading={isFetchingDevice}
+          loading={isFetchingDevices}
           validate={['required']}
           validationMessage={[t('validations.required')]}
           value={name}
@@ -244,7 +245,7 @@ const DeviceDetail = () => {
           validateOnChange
           containerStyle={tw`mx-3`}
           label={t('devices.detail.macAddress.label')}
-          loading={isFetchingDevice}
+          loading={isFetchingDevices}
           maxLength={MAC_ADDRESS_LENGTH}
           placeholder={t('devices.detail.macAddress.placeholder')}
           validate={['required', isValidMacAddress]}

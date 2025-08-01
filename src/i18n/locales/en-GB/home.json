@@ -207,7 +207,8 @@
         "count_other": "consumed",
         "count_zero": "None",
         "description": "since your arrival",
-        "label": "Overall consumption"
+        "label": "Overall consumption",
+        "unknown": "Unknown"
       },
       "depleted_one": "indebted",
       "depleted_other": "indebted",
@@ -216,7 +217,8 @@
       "onFetch": {
         "fail": "Unable to fetch tickets orders"
       },
-      "title": "Individual tickets"
+      "title": "Individual tickets",
+      "unknown": "Unknown"
     }
   },
   "refresh": {

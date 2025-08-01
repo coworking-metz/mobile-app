@@ -42,6 +42,7 @@ const Devices = () => {
       }
       throw new Error(t('account.profile.onFetch.missing'));
     },
+    enabled: !!authStore.user?.id,
     retry: false,
     staleTime: 300_000,
   });

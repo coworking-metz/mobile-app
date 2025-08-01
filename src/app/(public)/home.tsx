@@ -265,7 +265,6 @@ export default function HomeScreen() {
           {hasSelectBalance ? (
             <BalanceBottomSheet
               activeSince={activeSince}
-              balance={profile?.balance || 0}
               loading={isFetchingProfile}
               onClose={() => selectBalance(false)}
             />
@@ -390,7 +389,7 @@ export default function HomeScreen() {
           )}
           <AppTouchable style={tw`flex flex-row items-stretch`} onPress={() => selectBalance(true)}>
             <BalanceCard
-              count={profile?.balance}
+              count={profile?.balance ?? 0}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
               style={tw`min-h-38 min-w-32`}
               valid={profile && !isMemberBalanceInsufficient(profile)}

@@ -1,7 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { ReactNode, useCallback } from 'react';
-import { TouchableOpacity, type StyleProp, type ViewProps, type ViewStyle } from 'react-native';
-import Animated, { type AnimatedProps } from 'react-native-reanimated';
+import React, { useCallback } from 'react';
+import { TouchableOpacity, type StyleProp, type ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { AnyError, parseErrorText } from '@/helpers/error';
 import useNoticeStore from '@/stores/notice';

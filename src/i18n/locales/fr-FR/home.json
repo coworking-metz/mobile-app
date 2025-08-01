@@ -217,7 +217,8 @@
         "count_other": "consommés",
         "count_zero": "Aucun",
         "description": "depuis votre arrivée",
-        "label": "Consommation"
+        "label": "Consommation",
+        "unknown": "Inconnue"
       },
       "depleted_one": "redevable",
       "depleted_other": "redevables",
@@ -226,7 +227,8 @@
       "onFetch": {
         "fail": "Impossible d'actualiser les commandes de tickets"
       },
-      "title": "Tickets à la journée"
+      "title": "Tickets à la journée",
+      "unknown": "Inconnu"
     }
   },
   "refresh": {
