@@ -20,17 +20,8 @@ export default function SettingsLayout() {
           ...(reduceMotion && {
             animation: 'fade',
           }),
-        }}>
-        <Stack.Screen
-          name="chat"
-          options={{
-            presentation: 'modal',
-            ...(Platform.OS === 'android' && {
-              animation: 'slide_from_bottom',
-            }),
-          }}
-        />
-      </Stack>
+        }}
+      />
     );
   }
 
@@ -100,7 +91,6 @@ export default function SettingsLayout() {
               animation: 'fade_from_bottom',
             }}
           />
-
           <Stack.Screen
             name="chat"
             options={{

@@ -3,7 +3,6 @@ import AppText from './AppText';
 import React, { useEffect, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle, type ViewProps } from 'react-native';
-import ReadMore from 'react-native-read-more-text';
 import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { parseErrorText } from '@/helpers/error';
@@ -39,22 +38,9 @@ const ErrorState = ({
         style={tw`text-center text-2xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {title}
       </AppText>
-      <ReadMore
-        numberOfLines={3}
-        renderRevealedFooter={(handlePress) => (
-          <AppText style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
-            {t('actions.hide')}
-          </AppText>
-        )}
-        renderTruncatedFooter={(handlePress) => (
-          <AppText style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
-            {t('actions.readMore')}
-          </AppText>
-        )}>
-        <AppText style={tw`text-center text-xl font-normal text-slate-500 dark:text-slate-400`}>
-          {description}
-        </AppText>
-      </ReadMore>
+      <AppText style={tw`text-center text-xl font-normal text-slate-500 dark:text-slate-400`}>
+        {description}
+      </AppText>
       {children}
     </Animated.View>
   );

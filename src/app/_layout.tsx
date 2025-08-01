@@ -10,6 +10,7 @@ import { useEffect, useLayoutEffect } from 'react';
 import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { useReducedMotion } from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import NoticeBottomSheet from '@/components/NoticeBottomSheet';
@@ -29,7 +30,6 @@ import createHttpInterceptors from '@/services/interceptors';
 import { navigationIntegration } from '@/services/sentry';
 import { AppThemeBackground } from '@/services/theme';
 import '@/i18n';
-import { useReducedMotion } from 'react-native-reanimated';
 
 const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 
@@ -179,6 +179,16 @@ const RootLayout = () => {
                                     name="(public)/events"
                                     options={{
                                       headerShown: false,
+                                    }}
+                                  />
+
+                                  <Stack.Screen
+                                    name="(public)/chat"
+                                    options={{
+                                      presentation: 'modal',
+                                      ...(Platform.OS === 'android' && {
+                                        animation: 'slide_from_bottom',
+                                      }),
                                     }}
                                   />
                                 </Stack>

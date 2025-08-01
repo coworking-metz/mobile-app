@@ -63,7 +63,7 @@ const Attendance = () => {
   // count duration since last fetch to redraw stale data text
   // every time the screen gets focused or the app gets back to foreground
   const durationSinceLastFetch = useMemo(() => {
-    return !isNil(currentMembersUpdatedAt) ? dayjs().diff(currentMembersUpdatedAt, 'second') : null;
+    return currentMembersUpdatedAt ? dayjs().diff(currentMembersUpdatedAt, 'second') : null;
   }, [currentMembersUpdatedAt, isFocus, activeSince]);
 
   const groupedMembersByLocation = useMemo<MembersGroupByLocation[]>(() => {
@@ -205,7 +205,9 @@ const Attendance = () => {
         ) : (
           <View
             style={tw`flex flex-col px-4 gap-2 grow basis-0 justify-start mx-auto w-full max-w-sm`}>
-            <EmptyOfficeAnimation style={tw`h-80 -my-12 w-80 mx-auto`} />
+            <View style={tw`overflow-hidden`}>
+              <EmptyOfficeAnimation style={tw`h-80 -my-12 w-80 mx-auto`} />
+            </View>
             <AppText
               entering={FadeInLeft.duration(500)}
               numberOfLines={1}

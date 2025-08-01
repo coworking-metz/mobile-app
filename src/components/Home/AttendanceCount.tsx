@@ -10,6 +10,7 @@ import { Platform, View, type ViewProps } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, {
   Easing,
+  FadeIn,
   FadeInRight,
   FadeOut,
   FadeOutRight,
@@ -77,8 +78,11 @@ const AttendanceCount = ({
     <View style={[tw`flex flex-col justify-end h-32 w-full`, style]}>
       <View style={tw`flex flex-row w-full items-end mb-5`}>
         {loading ? (
-          <Animated.View exiting={FadeOut.duration(150)} style={tw`mb-0`}>
-            <LoadingSkeleton height={92} radius={16} width={92} />
+          <Animated.View
+            entering={FadeIn.duration(150)}
+            exiting={FadeOut.duration(150)}
+            style={tw`mb-0`}>
+            <LoadingSkeleton height={80} radius={16} width={64} />
           </Animated.View>
         ) : (
           <View style={tw`flex flex-col justify-end h-24`}>
