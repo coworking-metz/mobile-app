@@ -218,6 +218,8 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           <View style={tw`flex flex-col items-start gap-4 px-4 pb-6`}>
             <ProfilePicture
               attending={profile?.attending}
+              initialsStyle={tw`text-4xl pt-2`}
+              name={authStore.user?.name}
               pending={!authStore.user && authStore.isFetchingToken}
               style={{ width: PICTURE_SIZE, height: PICTURE_SIZE }}
               url={authStore.user?.picture}

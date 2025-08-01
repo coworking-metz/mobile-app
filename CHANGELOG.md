@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Ability to retry when a request has failed.
 
+### Changed
+
+- Render initials below user profile picture.
+
 ### Fixed
 
 - Hide stale data text when refreshing with touch.
