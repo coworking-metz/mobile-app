@@ -12,7 +12,7 @@ import EmptyOfficeAnimation from '@/components/Animations/EmptyOfficeAnimation';
 import AppText from '@/components/AppText';
 import MemberBottomSheet from '@/components/Attendance/MemberBottomSheet';
 import MemberCard from '@/components/Attendance/MemberCard';
-import ErrorBadge from '@/components/ErrorBagde';
+import ErrorBadge from '@/components/ErrorBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
@@ -140,7 +140,11 @@ const Attendance = () => {
           </AppText>
         ) : null}
         {currentMembersError && !isSilentError(currentMembersError) ? (
-          <ErrorBadge error={currentMembersError} title={t('attendance.onFetch.fail')} />
+          <ErrorBadge
+            error={currentMembersError}
+            title={t('attendance.onFetch.fail')}
+            onRetry={refetchCurrentMembers}
+          />
         ) : null}
       </View>
 

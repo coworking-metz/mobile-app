@@ -1,5 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, type StyleProp, type ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import { AnyError, parseErrorText } from '@/helpers/error';
@@ -9,11 +10,14 @@ const ErrorBadge = ({
   title,
   error,
   style,
+  onRetry,
 }: {
   title: string;
   error?: AnyError;
   style?: StyleProp<ViewStyle>;
+  onRetry?: () => void;
 }) => {
+  const { t } = useTranslation();
   const noticeStore = useNoticeStore();
 
   const onPress = useCallback(async () => {
@@ -22,6 +26,13 @@ const ErrorBadge = ({
       message: title,
       type: 'error',
       ...(description && { description }),
+      ...(onRetry && {
+        action: {
+          label: t('actions.retry'),
+          onPress: onRetry,
+          suffixIcon: 'reload',
+        },
+      }),
     });
   }, [noticeStore, title, error]);
 

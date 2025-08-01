@@ -58,6 +58,7 @@ const Devices = () => {
           error={devicesError}
           label={t('devices.onFetch.fail')}
           style={tw`mx-6 mb-4 self-start`}
+          onRetry={refetchDevices}
         />
       )}
       {isPendingDevices ? (
@@ -113,7 +114,7 @@ const Devices = () => {
             {t('devices.empty.description')}
           </AppText>
           <AppRoundedButton
-            style={tw`h-14 mt-4 w-full self-center`}
+            style={tw`mt-4 w-full self-center`}
             suffixIcon="plus"
             onPress={pairDevice}>
             <AppText style={tw`text-base text-black font-medium`}>

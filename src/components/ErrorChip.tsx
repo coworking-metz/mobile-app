@@ -1,6 +1,7 @@
 import AppText from './AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, type StyleProp, type ViewProps, type ViewStyle } from 'react-native';
 import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -11,12 +12,15 @@ const ErrorChip = ({
   label,
   error,
   style,
+  onRetry,
   ...props
 }: AnimatedProps<ViewProps> & {
   label: string;
   error?: AnyError;
   style?: StyleProp<ViewStyle>;
+  onRetry?: () => void;
 }) => {
+  const { t } = useTranslation();
   const noticeStore = useNoticeStore();
 
   const onPress = useCallback(async () => {
@@ -25,6 +29,13 @@ const ErrorChip = ({
       message: label,
       type: 'error',
       ...(description && { description }),
+      ...(onRetry && {
+        action: {
+          label: t('actions.retry'),
+          onPress: onRetry,
+          suffixIcon: 'reload',
+        },
+      }),
     });
   }, [noticeStore, label, error]);
 

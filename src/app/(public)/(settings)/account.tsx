@@ -8,7 +8,7 @@ import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
 import AppTouchable from '@/components/AppTouchable';
-import ErrorBadge from '@/components/ErrorBagde';
+import ErrorBadge from '@/components/ErrorBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
@@ -30,6 +30,7 @@ const Account = () => {
     data: profile,
     isFetching: isFetchingProfile,
     error: profileError,
+    refetch: refetchProfile,
   } = useQuery({
     queryKey: ['members', authStore.user?.id],
     queryFn: ({ queryKey: [_, userId] }) => {
@@ -72,7 +73,11 @@ const Account = () => {
 
         <SectionTitle style={tw`mx-6 mt-8`} title={t('account.profile.title')}>
           {profileError && !isSilentError(profileError) ? (
-            <ErrorBadge error={profileError} title={t('account.profile.onFetch.fail')} />
+            <ErrorBadge
+              error={profileError}
+              title={t('account.profile.onFetch.fail')}
+              onRetry={refetchProfile}
+            />
           ) : null}
           <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/modifier-compte/`}>
             <AppText

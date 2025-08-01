@@ -61,7 +61,7 @@ const ContactBottomSheet = ({
        */}
       <Link asChild href={Platform.OS === 'ios' ? '/chat' : `${WORDPRESS_BASE_URL}#ouvrir-brevo`}>
         <AppRoundedButton
-          style={tw`h-14 mt-6 w-full max-w-md self-center`}
+          style={tw`mt-6 w-full max-w-md self-center`}
           suffixIcon="chat-processing-outline"
           onPress={() => bottomSheetRef.current?.close()}>
           <AppText style={tw`text-base text-black font-medium`}>

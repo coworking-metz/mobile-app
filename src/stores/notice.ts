@@ -1,7 +1,12 @@
 import uuid from 'react-native-uuid';
 import { create } from 'zustand';
+import { AppRoundedButtonProps } from '@/components/AppRoundedButton';
 
 export type NoticeType = 'info' | 'success' | 'warning' | 'error' | 'loading' | 'unlock';
+
+export type NoticeAction = Pick<AppRoundedButtonProps, 'onPress' | 'suffixIcon'> & {
+  label: string;
+};
 
 /**
  * Notification shown through a blocking bottom sheet.
@@ -12,6 +17,7 @@ export interface Notice {
   type?: NoticeType;
   timeout?: number;
   onClose?: () => void;
+  action?: NoticeAction;
 }
 
 export interface StoreNotice extends Notice {

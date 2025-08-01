@@ -178,7 +178,7 @@ const NewDevice = () => {
                 </AppText>
               </View>
             ))}
-            value={DEVICE_TYPES.findIndex((t) => t === type)}
+            value={DEVICE_TYPES.findIndex((deviceType) => deviceType === type)}
             onChange={(index) => setType(DEVICE_TYPES[index])}
           />
         </View>
@@ -187,7 +187,7 @@ const NewDevice = () => {
           <AppRoundedButton
             disabled={isSubmitting}
             loading={isSubmitting}
-            style={tw`min-h-14 w-full max-w-md self-center`}
+            style={tw`w-full max-w-md self-center`}
             suffixIcon="plus"
             onPress={onSubmit}>
             <AppText style={tw`text-base font-medium text-black`}>{t('actions.add')}</AppText>

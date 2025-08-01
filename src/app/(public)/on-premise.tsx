@@ -94,6 +94,7 @@ const OnPremise = () => {
             error={onPremiseStateError}
             label={t('onPremise.onFetch.fail')}
             style={tw`mx-6 mb-4 self-start`}
+            onRetry={refetchOnPremiseState}
           />
         ) : null}
 

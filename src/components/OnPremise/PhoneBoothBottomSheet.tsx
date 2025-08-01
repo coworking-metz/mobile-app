@@ -14,7 +14,7 @@ import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAni
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
-import ErrorBadge from '@/components/ErrorBagde';
+import ErrorBadge from '@/components/ErrorBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
@@ -53,6 +53,7 @@ const PhoneBoothBottomSheet = ({
     data: occupationPerBooth,
     isFetching: isFetchingOccupation,
     error: occupationError,
+    refetch: refetchOccupationPerBooth,
   } = useQuery({
     queryKey: ['phone-booths-occupation'],
     queryFn: () => getPhoneBoothsOccupation(),
@@ -203,7 +204,11 @@ const PhoneBoothBottomSheet = ({
 
       <SectionTitle style={tw`mx-4`} title={t('onPremise.phoneBooths.graph.label')}>
         {occupationError && !isSilentError(occupationError) ? (
-          <ErrorBadge error={occupationError} title={t('onPremise.phoneBooths.onFetch.fail')} />
+          <ErrorBadge
+            error={occupationError}
+            title={t('onPremise.phoneBooths.onFetch.fail')}
+            onRetry={refetchOccupationPerBooth}
+          />
         ) : null}
       </SectionTitle>
 

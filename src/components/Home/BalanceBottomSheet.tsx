@@ -151,6 +151,7 @@ const BalanceBottomSheet = ({
           error={ticketsOrdersError}
           label={t('home.profile.tickets.onFetch.fail')}
           style={tw`self-start mt-1 mb-4`}
+          onRetry={refetchTicketsOrders}
         />
       ) : null}
       {memberProfile && isMemberBalanceInsufficient(memberProfile) && (
@@ -172,7 +173,7 @@ const BalanceBottomSheet = ({
       <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/carnet-10-journees/`} style={tw`mt-2`}>
         <AppRoundedButton
           disabled={!authStore.user}
-          style={tw`h-14 w-full max-w-md self-center`}
+          style={tw`w-full max-w-md self-center`}
           suffixIcon="open-in-new">
           <AppText style={tw`text-base text-black font-medium`}>
             {t('home.profile.tickets.add')}

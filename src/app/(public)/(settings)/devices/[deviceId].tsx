@@ -203,7 +203,7 @@ const DeviceDetail = () => {
               </AppText>
               <AppRoundedButton
                 loading={isDeleting}
-                style={tw`h-14 w-full max-w-md self-center`}
+                style={tw`w-full max-w-md self-center`}
                 suffixIcon="trash-can-outline"
                 onPress={onDelete}>
                 <AppText style={tw`text-base text-black font-medium`}>
@@ -223,6 +223,7 @@ const DeviceDetail = () => {
             error={devicesError}
             label={t('devices.onFetch.fail')}
             style={tw`mb-4 mx-3 self-start`}
+            onRetry={refetchDevices}
           />
         )}
         <AppTextField
@@ -328,7 +329,7 @@ const DeviceDetail = () => {
           <AppRoundedButton
             disabled={!device || isSubmitting}
             loading={isSubmitting}
-            style={tw`min-h-14 w-full max-w-md self-center`}
+            style={tw`w-full max-w-md self-center`}
             suffixIcon="check"
             onPress={onSubmit}>
             <AppText style={tw`text-base font-medium text-black`}>{t('actions.apply')}</AppText>

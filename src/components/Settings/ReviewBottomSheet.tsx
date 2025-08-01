@@ -2,7 +2,7 @@ import { Link } from 'expo-router';
 import * as StoreReview from 'expo-store-review';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import RateStarsAnimation from '@/components/Animations/RateStarsAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';

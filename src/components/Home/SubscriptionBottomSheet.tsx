@@ -38,7 +38,6 @@ const SubscriptionBottomSheet = ({
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
-
   const user = useAuthStore((s) => s.user);
   const hasBeenActive = useRef(false);
 
@@ -268,6 +267,7 @@ const SubscriptionBottomSheet = ({
           error={subscriptionsError}
           label={t('home.profile.subscription.onFetch.fail')}
           style={[tw`self-start mx-6`, sortedSubscriptions.length > 1 ? tw`mt-6` : tw`mt-2 mb-4`]}
+          onRetry={refetchSubscriptions}
         />
       ) : null}
 
@@ -275,7 +275,7 @@ const SubscriptionBottomSheet = ({
         <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/pass-resident/`}>
           <AppRoundedButton
             disabled={!user}
-            style={tw`h-14 w-full max-w-md self-center`}
+            style={tw`w-full max-w-md self-center`}
             suffixIcon="open-in-new">
             <AppText style={tw`text-base font-medium text-black`}>
               {sortedSubscriptions.length

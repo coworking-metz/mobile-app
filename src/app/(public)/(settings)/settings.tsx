@@ -24,7 +24,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import AppBlurView from '@/components/AppBlurView';
 import AppText from '@/components/AppText';
-import ErrorBadge from '@/components/ErrorBagde';
+import ErrorBadge from '@/components/ErrorBadge';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
@@ -71,6 +71,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     data: activity,
     isFetching: isFetchingActivity,
     error: activityError,
+    refetch: refetchActivity,
   } = useQuery({
     queryKey: ['members', authStore.user?.id, 'activity'],
     queryFn: ({ queryKey: [_, userId] }) => {
@@ -87,6 +88,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     data: profile,
     isFetching: isFetchingProfile,
     error: profileError,
+    refetch: refetchProfile,
   } = useQuery({
     queryKey: ['members', authStore.user?.id],
     queryFn: ({ queryKey: [_, userId] }) => {
@@ -323,9 +325,14 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               <ErrorBadge
                 error={activityError}
                 title={t('settings.profile.presence.onFetch.fail')}
+                onRetry={refetchActivity}
               />
             ) : profileError && !isSilentError(profileError) ? (
-              <ErrorBadge error={profileError} title={t('home.profile.onFetch.fail')} />
+              <ErrorBadge
+                error={profileError}
+                title={t('home.profile.onFetch.fail')}
+                onRetry={refetchProfile}
+              />
             ) : null}
 
             {profile?.balance && profile.balance < 0 ? (

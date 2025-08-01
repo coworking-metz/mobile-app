@@ -73,7 +73,7 @@ const BirthdayBottomSheet = ({
         <AppRoundedButton
           disabled={isClaiming}
           loading={isClaiming}
-          style={tw`mt-6 h-14 w-full max-w-md self-center`}
+          style={tw`mt-6 w-full max-w-md self-center`}
           suffixIcon="gift-open-outline"
           onPress={onClaimGift}>
           <AppText style={tw`text-base text-black font-medium`}>

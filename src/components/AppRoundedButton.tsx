@@ -9,7 +9,7 @@ import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import { theme } from '@/helpers/colors';
 
-type AppRoundedButtonProps = {
+export type AppRoundedButtonProps = {
   disabled?: boolean;
   loading?: boolean;
   style?: StyleProp<ViewStyle>;

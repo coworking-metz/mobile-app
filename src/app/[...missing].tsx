@@ -61,7 +61,7 @@ const MissingScreen = () => {
           {t('notFound.description')}
         </AppText>
 
-        <AppRoundedButton style={tw`mt-4 mx-2 h-14 w-full max-w-md self-center`} onPress={contact}>
+        <AppRoundedButton style={tw`mt-4 mx-2 w-full max-w-md self-center`} onPress={contact}>
           <AppText style={tw`text-base font-medium text-black`}>{t('notFound.help')}</AppText>
         </AppRoundedButton>
       </View>

@@ -1,7 +1,3 @@
-import ProfilePicture from './ProfilePicture';
-import ErrorBadge from '../ErrorBagde';
-import LoadingSkeleton from '../LoadingSkeleton';
-import ReanimatedText from '../ReanimatedText';
 import { Link } from 'expo-router';
 import { sample } from 'lodash';
 import React, { useEffect, useMemo } from 'react';
@@ -21,6 +17,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
+import ErrorBadge from '@/components/ErrorBadge';
+import ProfilePicture from '@/components/Home/ProfilePicture';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
+import ReanimatedText from '@/components/ReanimatedText';
 import { AnyError } from '@/helpers/error';
 import { type ApiMemberProfile } from '@/services/api/members';
 import useAuthStore from '@/stores/auth';
@@ -33,6 +33,7 @@ const AttendanceCount = ({
   total = 0,
   loading = false,
   error,
+  onRetry,
   style,
 }: {
   lastFetch?: number;
@@ -40,6 +41,7 @@ const AttendanceCount = ({
   total?: number;
   loading?: boolean;
   error?: AnyError | null;
+  onRetry?: () => void;
   style?: ViewProps;
 }) => {
   const { t } = useTranslation();
@@ -100,7 +102,12 @@ const AttendanceCount = ({
           {t('home.people.capacity', { total: total })}
         </AppText>
         {error ? (
-          <ErrorBadge error={error} style={tw`ml-3`} title={t('home.people.onFetch.fail')} />
+          <ErrorBadge
+            error={error}
+            style={tw`ml-3`}
+            title={t('home.people.onFetch.fail')}
+            onRetry={onRetry}
+          />
         ) : null}
       </View>
 

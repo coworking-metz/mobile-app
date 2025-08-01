@@ -20,7 +20,7 @@ import { toast } from 'sonner-native';
 import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
 import AppTouchable from '@/components/AppTouchable';
-import ErrorBadge from '@/components/ErrorBagde';
+import ErrorBadge from '@/components/ErrorBadge';
 import AppointmentCard from '@/components/Home/AppointmentCard';
 import AttendanceCount from '@/components/Home/AttendanceCount';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
@@ -166,7 +166,7 @@ export default function HomeScreen() {
     isLoading: isLoadingCalendarEvents,
     isFetching: isFetchingCalendarEvents,
     dataUpdatedAt: calendarEventsUpdatedAt,
-    refetch: refreshCalendarEvents,
+    refetch: refetchCalendarEvents,
     error: calendarEventsError,
   } = useQuery({
     queryKey: ['calendarEvents'],
@@ -191,7 +191,7 @@ export default function HomeScreen() {
       authStore.user?.id && refetchSubscriptions(),
       authStore.user?.id && refetchDevices(),
       refetchCurrentMembers(),
-      refreshCalendarEvents(),
+      refetchCalendarEvents(),
     ]).finally(() => {
       setLastFetch(dayjs().toISOString());
     });
@@ -330,6 +330,7 @@ export default function HomeScreen() {
           members={currentMembers}
           style={tw`mt-4`}
           total={40}
+          onRetry={refetchCurrentMembers}
         />
       </Animated.View>
 
@@ -346,11 +347,16 @@ export default function HomeScreen() {
           style={[tw`self-stretch mt-9 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
           title={t('home.profile.label')}>
           {profileError && !isSilentError(profileError) ? (
-            <ErrorBadge error={profileError} title={t('home.profile.onFetch.fail')} />
+            <ErrorBadge
+              error={profileError}
+              title={t('home.profile.onFetch.fail')}
+              onRetry={refetchProfile}
+            />
           ) : subscriptionsError && !isSilentError(subscriptionsError) ? (
             <ErrorBadge
               error={subscriptionsError}
               title={t('home.profile.subscription.onFetch.fail')}
+              onRetry={refetchSubscriptions}
             />
           ) : null}
         </SectionTitle>
@@ -425,7 +431,11 @@ export default function HomeScreen() {
         style={[tw`self-stretch mt-9 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
         title={t('home.calendar.label')}>
         {calendarEventsError && !isSilentError(calendarEventsError) ? (
-          <ErrorBadge error={calendarEventsError} title={t('home.calendar.onFetch.fail')} />
+          <ErrorBadge
+            error={calendarEventsError}
+            title={t('home.calendar.onFetch.fail')}
+            onRetry={refetchCalendarEvents}
+          />
         ) : null}
 
         <Link asChild href="/events">
