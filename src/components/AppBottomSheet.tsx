@@ -90,7 +90,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
       bottomInset={4}
       containerStyle={tw`z-10`}
       detached={true}
-      handleIndicatorStyle={tw`bg-gray-500 rounded-full`}
+      handleIndicatorStyle={tw`w-full max-w-16 mx-auto bg-gray-400 dark:bg-neutral-700 rounded-full`}
       handleStyle={tw`bg-transparent absolute right-0 left-0`}
       topInset={insets.top + MIN_BACKDROP_HEIGHT}
       onAnimate={(_, toIndex) => setClosing(toIndex === -1)}

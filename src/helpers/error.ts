@@ -31,11 +31,11 @@ export const parseErrorText = async (error: AnyError): Promise<string> => {
   const contentType = (error as AxiosError).response?.headers?.['content-type'] as string;
   const contentLength = (error as AxiosError).response?.headers?.['content-length'] as string;
   const hasContent = !contentLength || parseInt(contentLength, 10) > 0;
-  const isBodyJson = hasContent && contentType?.includes('json');
   if (hasContent) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const content = (error as AxiosError).response?.data as any;
     const isParseable = typeof content?.text === 'function';
+    const isBodyJson = contentType?.includes('json');
     if (isParseable && isBodyJson) {
       const isEmpty = !content?.size;
       if (!isEmpty) {

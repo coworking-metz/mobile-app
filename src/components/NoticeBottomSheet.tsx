@@ -52,22 +52,22 @@ const NoticeBottomSheet = () => {
       <View style={tw`flex flex-col h-32 w-32 items-center justify-center mx-auto`}>
         {getAnimation(mostRecentUndismissedNotice.type)}
       </View>
-      <View style={tw`flex flex-col items-center grow self-stretch py-4`}>
+      <View style={tw`flex flex-col items-center grow self-stretch mt-4`}>
         <AppText
           style={tw`text-center text-2xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {mostRecentUndismissedNotice.message}
         </AppText>
-        {mostRecentUndismissedNotice.description && (
+        {mostRecentUndismissedNotice.description ? (
           <AppText
             style={tw`mt-2 text-center text-xl font-normal text-slate-500 dark:text-slate-400`}>
             {mostRecentUndismissedNotice.description}
           </AppText>
-        )}
+        ) : null}
       </View>
 
       {mostRecentUndismissedNotice.action ? (
         <AppRoundedButton
-          style={tw`mt-2 w-full max-w-md self-center`}
+          style={tw`mt-6 w-full max-w-md self-center`}
           suffixIcon={mostRecentUndismissedNotice.action.suffixIcon}
           onPress={() => {
             mostRecentUndismissedNotice.action?.onPress?.();

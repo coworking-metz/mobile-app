@@ -3,7 +3,7 @@
     "message": "Oups 🫢"
   },
   "timeout": {
-    "message": "Aucune réponse{{withDuration}}. Cela peut être dû à une connexion interrompue ou de mauvaise qualité.",
+    "message": "Aucune réponse du serveur{{withDuration}}. Cela peut être dû à une connexion interrompue ou de mauvaise qualité.",
     "withDuration": " après {{duration}} d'attente"
   }
 }

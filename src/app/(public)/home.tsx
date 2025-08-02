@@ -232,11 +232,11 @@ export default function HomeScreen() {
       isFocus &&
       networkState.isConnected &&
       networkState.isInternetReachable &&
-      includes([NetworkStateType.ETHERNET, NetworkStateType.WIFI], networkState.type)
+      includes([NetworkStateType.ETHERNET, NetworkStateType.WIFI], networkState.type) &&
+      lastFetch &&
+      dayjs().diff(lastFetch, 'second') > STALE_PERIOD_IN_SECONDS
     ) {
-      if (lastFetch && dayjs().diff(lastFetch, 'second') > STALE_PERIOD_IN_SECONDS) {
-        onRefresh();
-      }
+      onRefresh();
     }
   }, [isFocus, activeSince, networkState]);
 
