@@ -68,7 +68,6 @@ export default function HomeScreen() {
   const { isWide, width } = useAppScreen();
   const networkState = useNetworkState();
   const isFocus = useIsFocused();
-  const [lastFetch, setLastFetch] = useState<string | null>(null);
 
   const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
   const [hasSelectBalance, selectBalance] = useState<boolean>(false);
@@ -192,9 +191,7 @@ export default function HomeScreen() {
       authStore.user?.id && refetchDevices(),
       refetchCurrentMembers(),
       refetchCalendarEvents(),
-    ]).finally(() => {
-      setLastFetch(dayjs().toISOString());
-    });
+    ]);
   }, [authStore.user, settingsStore]);
 
   const onSuccessiveTaps = useCallback(() => {
@@ -233,8 +230,8 @@ export default function HomeScreen() {
       networkState.isConnected &&
       networkState.isInternetReachable &&
       includes([NetworkStateType.ETHERNET, NetworkStateType.WIFI], networkState.type) &&
-      lastFetch &&
-      dayjs().diff(lastFetch, 'second') > STALE_PERIOD_IN_SECONDS
+      currentMembersUpdatedAt &&
+      dayjs().diff(currentMembersUpdatedAt, 'second') > STALE_PERIOD_IN_SECONDS
     ) {
       onRefresh();
     }
@@ -294,7 +291,7 @@ export default function HomeScreen() {
         ]}>
         <StaleDataText
           activeSince={activeSince}
-          lastFetch={lastFetch}
+          lastFetch={currentMembersUpdatedAt}
           loading={isFetching}
           onRefresh={onRefresh}
         />

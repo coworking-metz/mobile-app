@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+
+- Properly refresh automatically when app is active and device is connected to WiFi.
+
 ## [2025.8.1] - 2025-08-01
 
 ### Added
