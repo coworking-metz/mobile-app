@@ -98,6 +98,32 @@ const BalanceBottomSheet = ({
 
       <ServiceRow
         withBottomDivider
+        label={t('home.profile.tickets.balance.label')}
+        style={tw`w-full px-0`}>
+        {loading ? (
+          <LoadingSkeleton height={24} width={96} />
+        ) : (
+          <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
+            {!isNil(memberProfile?.balance) && memberProfile.balance !== 0 && (
+              <AppText
+                numberOfLines={1}
+                style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
+                {Math.abs(memberProfile.balance)}
+              </AppText>
+            )}
+            <AppText
+              numberOfLines={1}
+              style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+              {isNil(memberProfile?.balance)
+                ? t('home.profile.tickets.unknown')
+                : memberProfile.balance >= 0
+                  ? t('home.profile.tickets.available', { count: memberProfile.balance })
+                  : t('home.profile.tickets.depleted', { count: -memberProfile.balance })}
+            </AppText>
+          </View>
+        )}
+      </ServiceRow>
+      <ServiceRow
         description={t('home.profile.tickets.consumed.description')}
         label={t('home.profile.tickets.consumed.label')}
         style={tw`w-full px-0 mt-2`}>
@@ -118,30 +144,6 @@ const BalanceBottomSheet = ({
               {!isNil(consumedCount)
                 ? t('home.profile.tickets.consumed.count', { count: consumedCount })
                 : t('home.profile.tickets.consumed.unknown')}
-            </AppText>
-          </View>
-        )}
-      </ServiceRow>
-      <ServiceRow label={t('home.profile.tickets.balance.label')} style={tw`w-full px-0`}>
-        {loading ? (
-          <LoadingSkeleton height={24} width={96} />
-        ) : (
-          <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
-            {!isNil(memberProfile?.balance) && memberProfile.balance !== 0 && (
-              <AppText
-                numberOfLines={1}
-                style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
-                {Math.abs(memberProfile.balance)}
-              </AppText>
-            )}
-            <AppText
-              numberOfLines={1}
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
-              {isNil(memberProfile?.balance)
-                ? t('home.profile.tickets.unknown')
-                : memberProfile.balance >= 0
-                  ? t('home.profile.tickets.available', { count: memberProfile.balance })
-                  : t('home.profile.tickets.depleted', { count: -memberProfile.balance })}
             </AppText>
           </View>
         )}
