@@ -65,7 +65,7 @@ const SubscriptionBottomSheet = ({
   const [carouselWidth, setCarouselWidth] = useState<number>(0);
   const offset = useSharedValue(0);
 
-  const getLabel = useCallback(
+  const getHeader = useCallback(
     (s: ApiMemberSubscription) => {
       const now = dayjs();
       if (now.startOf('day').isAfter(s.ended)) {
@@ -87,8 +87,8 @@ const SubscriptionBottomSheet = ({
         }
       }
 
-      if (now.isBefore(s.started)) return t('home.profile.subscription.label.next');
-      return t('home.profile.subscription.label.current');
+      if (now.isBefore(s.started)) return t('home.profile.subscription.header.next');
+      return t('home.profile.subscription.header.current');
     },
     [t],
   );
@@ -141,7 +141,7 @@ const SubscriptionBottomSheet = ({
                   <View style={[tw`flex flex-col px-6 grow pb-3`, { width: carouselWidth }]}>
                     <AppText
                       style={tw`text-left text-sm font-normal uppercase text-slate-500 mt-1`}>
-                      {getLabel(item)}
+                      {getHeader(item)}
                     </AppText>
                     <ServiceRow
                       withBottomDivider

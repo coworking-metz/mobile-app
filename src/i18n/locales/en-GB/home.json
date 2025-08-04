@@ -162,9 +162,12 @@
       "date": "{{date, datetime }}",
       "description": "Subscription allows access to the Coworking location for 30 rolling days starting from the chosen start date.",
       "get": "Get one",
+      "header": {
+        "current": "Current subscription",
+        "next": "Next subscription"
+      },
       "label": {
         "activeUntil": "Subscription\nvalid until",
-        "current": "Active\nsubscription",
         "expireSoon": "Subscription\nvalid until",
         "expired": "Expired\nsubscription",
         "next": "Next\nsubscription",

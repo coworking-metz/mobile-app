@@ -172,9 +172,12 @@
       "date": "{{date, datetime }}",
       "description": "L'abonnement permet d'accéder au Coworking sur 30 jours glissants à compter de la date de début choisie.",
       "get": "S'abonner",
+      "header": {
+        "current": "Abonnement actuel",
+        "next": "Prochain abonnement"
+      },
       "label": {
         "activeUntil": "Abonnement\nvalide jusqu'au",
-        "current": "Abonnement\nactuel",
         "expireSoon": "Abonnement\nvalide jusqu'à",
         "expired": "Abonnement\nexpiré",
         "next": "Prochain\nabonnement",
