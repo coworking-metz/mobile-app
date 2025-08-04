@@ -72,7 +72,7 @@ const ProfilePicture = ({
 
         {url ? (
           <Image
-            cachePolicy="memory-disk"
+            cachePolicy="memory"
             contentFit="cover"
             source={{
               uri: url,

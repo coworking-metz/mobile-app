@@ -42,7 +42,7 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
     <>
       <TouchableOpacity onPress={() => setSelected(true)}>
         <Image
-          cachePolicy="memory-disk"
+          cachePolicy="memory"
           source={{
             uri: source,
             cacheKey: `${source}-${dayjs().format('YYYY-MM-DD')}`,
@@ -106,7 +106,7 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
             renderItem={({ item, setImageDimensions }) => (
               <Image
                 allowDownscaling={false}
-                cachePolicy="memory-disk"
+                cachePolicy="memory"
                 contentFit="contain"
                 source={{
                   uri: item,

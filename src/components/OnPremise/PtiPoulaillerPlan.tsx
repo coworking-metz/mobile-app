@@ -47,7 +47,7 @@ const PtiPoulaillerPlan = ({
       {imageHeight && imageWidth ? (
         <Image
           blurRadius={!hasFloorplanLoaded ? 16 : 0}
-          cachePolicy="memory-disk"
+          cachePolicy="memory"
           source={backgroundImage}
           style={[tw`w-full relative`, { aspectRatio: imageWidth / imageHeight }]}
           onLoadEnd={() => setFloorplanLoaded(true)}

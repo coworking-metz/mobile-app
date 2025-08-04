@@ -88,7 +88,7 @@ const CalendarEventCard = ({
   return (
     <View style={[tw`relative rounded-2xl bg-gray-300 dark:bg-gray-700`, style]}>
       <ImageBackground
-        cachePolicy="memory-disk"
+        cachePolicy="memory"
         contentFit="cover"
         contentPosition="center"
         source={{
