@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Changed
+
+- Logout from API instead of public website.
+
 ## [2025.8.2] - 2025-08-04
 
 ### Fixed
