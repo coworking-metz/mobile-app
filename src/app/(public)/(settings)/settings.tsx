@@ -28,6 +28,7 @@ import ErrorBadge from '@/components/ErrorBadge';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
+import ServiceRowLink from '@/components/Layout/ServiceRowLink';
 import PresenceGraph from '@/components/Settings/PresenceGraph';
 import ThemePicker from '@/components/Settings/ThemePicker';
 import { useAppAuth } from '@/context/auth';
@@ -430,15 +431,13 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
 
           <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.support.title')} />
           {authStore.user && (
-            <Link asChild href={`${WORDPRESS_BASE_URL}/la-boutique/`}>
-              <ServiceRow
-                withBottomDivider
-                label={t('settings.support.store.label')}
-                prefixIcon="cart-outline"
-                style={tw`px-3 mx-3`}
-                suffixIcon="open-in-new"
-              />
-            </Link>
+            <ServiceRowLink
+              withBottomDivider
+              href={`${WORDPRESS_BASE_URL}/la-boutique/`}
+              label={t('settings.support.store.label')}
+              prefixIcon="cart-outline"
+              style={tw`px-3 mx-3`}
+            />
           )}
           <ServiceRow
             withBottomDivider
