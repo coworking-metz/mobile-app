@@ -99,7 +99,7 @@ const BalanceBottomSheet = ({
       <ServiceRow
         withBottomDivider
         label={t('home.profile.tickets.balance.label')}
-        style={tw`w-full px-0`}>
+        style={tw`w-full px-0 mt-2`}>
         {loading ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
@@ -126,7 +126,7 @@ const BalanceBottomSheet = ({
       <ServiceRow
         description={t('home.profile.tickets.consumed.description')}
         label={t('home.profile.tickets.consumed.label')}
-        style={tw`w-full px-0 mt-2`}>
+        style={tw`w-full px-0 mb-2`}>
         {isFetchingTicketsOrders ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (

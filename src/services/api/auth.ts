@@ -1,8 +1,7 @@
-import { version as appVersion } from '../../../package.json';
-import { API_BASE_URL } from '../environment';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { log } from '@/helpers/logger';
+import { API_BASE_URL, APP_NAME, APP_VERSION } from '@/services/environment';
 import useSettingsStore from '@/stores/settings';
 
 interface ApiTokens {
@@ -46,8 +45,8 @@ export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiToke
         baseURL: apiBaseUrl,
         timeout: 30_000,
         headers: {
-          'X-APP-NAME': 'COWORKING_MOBILE',
-          'X-APP-VERSION': appVersion,
+          'X-APP-NAME': APP_NAME,
+          'X-APP-VERSION': APP_VERSION,
         },
       },
     )

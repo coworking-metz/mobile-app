@@ -482,7 +482,7 @@ export default function HomeScreen() {
             <HomeCalendarEmptyState
               events={nextCalendarEvents}
               lastFetch={calendarEventsUpdatedAt}
-              style={{ width: width - 16 * 2 }}
+              style={[{ width: width - 16 * 2 }, isWide && tw`mx-auto w-full max-w-2xl`]}
             />
           )}
         </ScrollView>

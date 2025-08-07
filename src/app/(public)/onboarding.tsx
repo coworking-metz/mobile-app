@@ -143,7 +143,7 @@ const Onboarding = () => {
                 borderRadius={24}
                 color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
                 iconStyle={{ height: 32, width: 32, marginRight: 0 }}
-                name="close"
+                name="window-close"
                 size={32}
                 style={tw`p-1`}
                 underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}

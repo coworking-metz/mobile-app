@@ -168,7 +168,7 @@ const Chat = () => {
           borderRadius={24}
           color={theme.charlestonGreen}
           iconStyle={tw`mr-0`}
-          name="close"
+          name="window-close"
           size={32}
           style={tw`p-1 grow-0 shrink-0`}
           underlayColor={tw.color('gray-200')}

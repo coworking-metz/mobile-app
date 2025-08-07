@@ -6,6 +6,7 @@ import { Link, usePathname, useRouter } from 'expo-router';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  Platform,
   StyleProp,
   TouchableNativeFeedback,
   View,
@@ -21,8 +22,10 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppBlurView from '@/components/AppBlurView';
+import AppFader from '@/components/AppFader';
 import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBadge';
 import ProfilePicture from '@/components/Home/ProfilePicture';
@@ -481,24 +484,30 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             paddingRight: insets.right,
           },
         ]}>
-        <Animated.View
-          style={[
-            tw`absolute top-0 left-0 bottom-0 right-0 border-b-gray-300 dark:border-b-gray-700 border-b-[0.5px]`,
-            navigationBackgroundStyle,
-          ]}>
-          <AppBlurView
-            intensity={64}
-            style={tw`h-full w-full`}
-            tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
-          />
-        </Animated.View>
-        <View style={tw`ml-4`}>
+        <AppFader
+          position={Fader.position.TOP}
+          size={(insets.top || (Platform.OS === 'android' ? 16 : 0)) + 32}
+          style={tw`absolute inset-x-0 top-0`}
+          tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
+        />
+        <View style={tw`ml-4 relative`}>
+          <Animated.View
+            style={[
+              tw`absolute top-0 left-0 bottom-0 right-0  rounded-full overflow-hidden border-gray-300 dark:border-gray-700 border-[0.5px]`,
+              navigationBackgroundStyle,
+            ]}>
+            <AppBlurView
+              intensity={64}
+              style={tw`h-full w-full`}
+              tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
+            />
+          </Animated.View>
           <MaterialCommunityIcons.Button
             backgroundColor="transparent"
             borderRadius={24}
             color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
             iconStyle={{ marginRight: 0 }}
-            name="arrow-left"
+            name="chevron-left"
             size={32}
             style={tw`p-1 shrink-0`}
             underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}

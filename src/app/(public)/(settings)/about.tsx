@@ -1,4 +1,3 @@
-import { version } from '../../../../package.json';
 import dayjs from 'dayjs';
 import Constants from 'expo-constants';
 import { Link, useLocalSearchParams } from 'expo-router';
@@ -9,9 +8,8 @@ import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
-import ServiceRowHref from '@/components/Layout/ServiceRowLink';
 import ServiceRowLink from '@/components/Layout/ServiceRowLink';
-import { APP_ENVIRONMENT } from '@/services/environment';
+import { APP_ENVIRONMENT, APP_VERSION } from '@/services/environment';
 
 const About = () => {
   useDeviceContext(tw);
@@ -40,7 +38,7 @@ const About = () => {
           style={tw`px-3 mx-3`}
         />
         <ServiceRowLink
-          href="https://www.coworking-metz.fr/donnees/"
+          href="https://coworking-metz.fr/donnees/"
           label={t('about.legal.privacyPolicy.label')}
           style={tw`px-3 mx-3`}
         />
@@ -61,7 +59,9 @@ const About = () => {
             withBottomDivider
             label={t('about.technical.version.label')}
             style={tw`px-3 mx-3`}>
-            <AppText style={tw`text-base font-normal text-amber-500 text-right`}>{version}</AppText>
+            <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
+              {APP_VERSION}
+            </AppText>
           </ServiceRow>
         </Link>
         <ServiceRow

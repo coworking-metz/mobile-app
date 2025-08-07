@@ -169,7 +169,7 @@ const Help = () => {
               borderRadius={24}
               color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
               iconStyle={tw`h-6 w-6 mr-0`}
-              name="close"
+              name="window-close"
               size={24}
               style={tw`p-1 shrink-0`}
               underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
