@@ -1,20 +1,5 @@
 {
-  "description": "For those who are in on it",
-  "services": {
-    "apiBaseUrl": {
-      "description": "API calls will be relative to this URL.",
-      "label": "API base url"
-    },
-    "crash": {
-      "description": "To verify error reporting",
-      "label": "Crash the app"
-    },
-    "title": "Services"
-  },
-  "store": {
-    "accessToken": {
-      "label": "Access token"
-    },
+  "actions": {
     "clearCache": {
       "description": "To free up storage space",
       "label": "Clear cache",
@@ -22,6 +7,41 @@
         "fail": "Unable to clear cache",
         "success": "Cache has been cleared"
       }
+    },
+    "crash": {
+      "description": "To verify error reporting",
+      "label": "Crash the app"
+    },
+    "reset": {
+      "confirm": {
+        "message": "This will log you out and reset all application data as if it was installed for the first time.",
+        "title": "Reset data"
+      },
+      "label": "Reset everything",
+      "onReset": {
+        "fail": "Unable to reset data",
+        "success": "All data has been reset"
+      }
+    },
+    "switchTokensStorage": {
+      "alert": {
+        "message": "This will expose tokens to other processes and can lead to potential leak of sensitive data. You should only enable this option if you are aware of the risks and know what you are doing.\nYou've been warned.\n\nThe application will be restart after switching this option.",
+        "title": "Switching to insecure storage"
+      },
+      "description": "In case of authentication issues",
+      "label": "Decrease tokens security"
+    },
+    "title": "Actions"
+  },
+  "description": "For those who are in on it",
+  "title": "Advanced settings",
+  "variables": {
+    "accessToken": {
+      "label": "Access token"
+    },
+    "apiBaseUrl": {
+      "description": "API calls will be relative to this URL.",
+      "label": "API base url"
     },
     "hasBeenInvitedToReview": {
       "label": "Hide review invite"
@@ -38,29 +58,9 @@
     "refreshToken": {
       "label": "Refresh token"
     },
-    "reset": {
-      "confirm": {
-        "message": "This will log you out and reset all application data as if it was installed for the first time.",
-        "title": "Reset data"
-      },
-      "label": "Reset everything",
-      "onReset": {
-        "fail": "Unable to reset data",
-        "success": "All data has been reset"
-      }
-    },
-    "title": "Application storage",
-    "tokensStorage": {
-      "alert": {
-        "message": "This will expose tokens to other processes and can lead to potential leak of sensitive data. You should only enable this option if you are aware of the risks and know what you are doing.\nYou've been warned.\n\nThe application will be restart after switching this option.",
-        "title": "Switching to insecure storage"
-      },
-      "description": "In case of authentication issues",
-      "label": "Decrease tokens security"
-    },
+    "title": "Variables",
     "withNativePullToRefresh": {
       "label": "Disable pull to refresh animations"
     }
-  },
-  "title": "Advanced settings"
+  }
 }
