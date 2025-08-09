@@ -5,8 +5,9 @@
   "scripts": {
     "android": "npm run start -- --android",
     "build:android": "rm -f build*.apk && SENTRY_DISABLE_AUTO_UPLOAD=true eas build --profile preview --platform android --local && adb install build-*.apk",
-    "build:ios": "rm -f build*.ipa && SENTRY_DISABLE_AUTO_UPLOAD=true eas build --profile preview --platform ios --local",
+    "build:ios": "rm -f build*.ipa && SENTRY_DISABLE_AUTO_UPLOAD=true eas build --non-interactive --profile preview --platform ios --local",
     "clean": "rm -rf .expo node_modules ios android && npm i",
+    "deploy": "eas build --platform all --non-interactive --auto-submit-with-profile=production",
     "dev": "npm run prebuild && expo run --port 19001",
     "dev:android": "expo run:android --port 19001",
     "dev:ios": "expo run:ios --port 19001",
