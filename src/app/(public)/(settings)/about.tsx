@@ -33,11 +33,13 @@ const About = () => {
         </ServiceRow>
         <ServiceRowLink
           withBottomDivider
+          target="_blank"
           href="https://coworking-metz.fr"
           label={t('about.legal.author.label')}
           style={tw`px-3 mx-3`}
         />
         <ServiceRowLink
+          target="_blank"
           href="https://coworking-metz.fr/donnees/"
           label={t('about.legal.privacyPolicy.label')}
           style={tw`px-3 mx-3`}
@@ -84,17 +86,20 @@ const About = () => {
         <ServiceRowLink
           withBottomDivider
           href="https://lottiefiles.com/page/license"
+          target="_blank"
           label={t('about.credits.lottiefiles.label')}
           style={tw`px-3 mx-3`}
         />
         <ServiceRowLink
           withBottomDivider
-          href="https://lordicon.com/license-terms#license-rights"
+          href="https://lordicon.com/licenses"
+          target="_blank"
           label={t('about.credits.lordicon.label')}
           style={tw`px-3 mx-3`}
         />
         <ServiceRowLink
-          href="https://rive.app/community/doc/terms-of-service/docG7vv2lLg8"
+          href="https://rive.app/docs/legal/terms-of-service"
+          target="_blank"
           label={t('about.credits.rive.label')}
           style={tw`px-3 mx-3`}
         />
@@ -105,11 +110,13 @@ const About = () => {
         <ServiceRowLink
           withBottomDivider
           href="https://gitlab.com/coworking-metz-poulailler/"
+          target="_blank"
           label={t('about.opensource.gitlab.label')}
           style={tw`px-3 mx-3`}
         />
         <ServiceRowLink
           href="https://github.com/coworking-metz"
+          target="_blank"
           label={t('about.opensource.github.label')}
           style={tw`px-3 mx-3`}
         />

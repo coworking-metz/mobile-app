@@ -51,17 +51,20 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
       underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
       onPress={onPress}>
       <>
-        <View style={tw`flex flex-row items-center min-h-14 gap-3 py-2`}>
+        <View style={tw`flex flex-row items-start min-h-14 gap-3 py-2`}>
           {prefixIcon ? (
-            <MaterialCommunityIcons
-              color={iconColor}
-              iconStyle={{ height: 20, width: 20, marginRight: 0 }}
-              name={prefixIcon}
-              size={24}
-              style={[tw`shrink-0`, disabled && tw`opacity-40`]}
-            />
+            <View style={tw`flex flex-row items-center shrink-0 min-h-10`}>
+              <MaterialCommunityIcons
+                color={iconColor}
+                iconStyle={{ height: 20, width: 20, marginRight: 0 }}
+                name={prefixIcon}
+                size={24}
+                style={[tw`shrink-0`, disabled && tw`opacity-40`]}
+              />
+            </View>
           ) : null}
-          <View style={tw`flex flex-col shrink grow overflow-hidden`}>
+
+          <View style={tw`flex flex-col justify-center shrink grow overflow-hidden min-h-10`}>
             <AppText
               style={[
                 tw`text-base leading-5 font-normal dark:text-gray-200`,
@@ -82,20 +85,23 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
               </AppText>
             ) : null}
           </View>
-          {children}
-          {loading ? (
-            <View style={tw`relative h-10 w-10 shrink-0`}>
-              <HorizontalLoadingAnimation color={iconColor} style={tw`h-full w-full`} />
-            </View>
-          ) : suffixIcon ? (
-            <MaterialCommunityIcons
-              color={iconColor}
-              iconStyle={{ height: 20, width: 20, marginRight: 0 }}
-              name={suffixIcon}
-              size={24}
-              style={[tw`shrink-0 grow-0`, disabled && tw`opacity-40`]}
-            />
-          ) : null}
+
+          <View style={tw`flex flex-row items-center shrink-0 grow-0 min-h-10`}>
+            {children}
+            {loading ? (
+              <View style={tw`relative h-10 w-10 shrink-0`}>
+                <HorizontalLoadingAnimation color={iconColor} style={tw`h-full w-full`} />
+              </View>
+            ) : suffixIcon ? (
+              <MaterialCommunityIcons
+                color={iconColor}
+                iconStyle={{ height: 20, width: 20, marginRight: 0 }}
+                name={suffixIcon}
+                size={24}
+                style={[tw`shrink-0 grow-0`, disabled && tw`opacity-40`]}
+              />
+            ) : null}
+          </View>
         </View>
         {withBottomDivider ? <Divider /> : null}
       </>

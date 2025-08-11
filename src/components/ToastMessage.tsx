@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useEffect } from 'react';
-import { type ColorSchemeName, useColorScheme } from 'react-native';
+import { type ColorSchemeName, useColorScheme, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Toaster, toast } from 'sonner-native';
 import tw from 'twrnc';
@@ -10,11 +10,11 @@ import useToastStore, { type ToastType } from '@/stores/toast';
 const getToastIcon = (type?: ToastType): keyof typeof mdiGlyphMap => {
   switch (type) {
     case 'success':
-      return 'check-circle';
+      return 'check-circle-outline';
     case 'warning':
-      return 'alert';
+      return 'alert-outline';
     case 'error':
-      return 'alert-box';
+      return 'alert-box-outline';
     case 'info':
     default:
       return 'information-outline';

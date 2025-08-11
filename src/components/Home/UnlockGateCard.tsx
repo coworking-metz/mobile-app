@@ -227,6 +227,7 @@ const UnlockCard = ({
       ) : (
         <View style={tw`flex flex-col items-stretch z-20 w-full overflow-hidden`}>
           <AppText
+            ellipsizeMode="clip"
             numberOfLines={1}
             style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
             {t('home.intercom.label.firstLine')}

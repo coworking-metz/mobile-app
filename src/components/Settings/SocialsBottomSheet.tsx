@@ -8,6 +8,7 @@ import tw from 'twrnc';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import useAuthStore from '@/stores/auth';
+import ServiceRowLink from '../Layout/ServiceRowLink';
 
 const SocialsBottomSheet = ({
   style,
@@ -32,82 +33,68 @@ const SocialsBottomSheet = ({
         <AppText style={tw`text-left text-base font-normal text-slate-500 w-full my-4 px-6`}>
           {t('settings.support.socials.description')}
         </AppText>
-        <Link
-          asChild
+        <ServiceRowLink
+          withBottomDivider
           href="https://us6.campaign-archive.com/home/?u=4406f25257&id=82ab4f380b"
-          target="_blank">
-          <ServiceRow
-            withBottomDivider
-            label={t('settings.support.socials.newsletter.label')}
-            prefixIcon="email-newsletter"
-            style={tw`px-3 mx-3`}
-            suffixIcon="open-in-new"
-          />
-        </Link>
+          label={t('settings.support.socials.newsletter.label')}
+          prefixIcon="email-newsletter"
+          target="_blank"
+          suffixIcon="open-in-new"
+          style={tw`px-3 mx-3`}
+          renderDescription={(d) => (
+            <AppText numberOfLines={1} style={tw`text-sm font-normal text-amber-500`}>{d}</AppText>
+          )}
+        />
         {authStore.user?.id && (
-          <Link
-            asChild
+          <ServiceRowLink
+            withBottomDivider
             href="https://signal.group/#CjQKICGvCmD9n9SJSW6z_g5FmRg5rRUj4hWpC1X5XxOexGwrEhDxUfX0r6UQ_blpMGz938M9"
-            target="_blank">
-            <ServiceRow
-              withBottomDivider
-              description="signal.group/#CjQKICGvCmD9n9SJSW6z_g5FmRg5rRUj4hWpC1X5XxOexGwrEhDxUfX0r6UQ_blpMGz938M9"
-              label={t('settings.support.socials.signal.label')}
-              prefixIcon="chat-outline"
-              renderDescription={(description) => (
-                <AppText
-                  numberOfLines={1}
-                  style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
-                  {description}
-                </AppText>
-              )}
-              style={tw`px-3 mx-3`}
-              suffixIcon="open-in-new"
-            />
-          </Link>
+            label={t('settings.support.socials.signal.label')}
+            prefixIcon="chat-outline"
+            target="_blank"
+            renderDescription={(d) => (
+              <AppText numberOfLines={1} style={tw`text-sm font-normal text-amber-500`}>{d}</AppText>
+            )}
+            style={tw`px-3 mx-3`}
+            suffixIcon="open-in-new"
+          />
         )}
-        <Link asChild href="https://www.instagram.com/coworkingmetz/" target="_blank">
-          <ServiceRow
-            withBottomDivider
-            description="coworkingmetz"
-            label={t('settings.support.socials.instagram.label')}
-            prefixIcon="instagram"
-            style={tw`px-3 mx-3`}
-            suffixIcon="open-in-new"
-          />
-        </Link>
-        <Link asChild href="https://www.facebook.com/CoworkingMetz/" target="_blank">
-          <ServiceRow
-            withBottomDivider
-            description="CoworkingMetz"
-            label={t('settings.support.socials.facebook.label')}
-            prefixIcon="facebook"
-            style={tw`px-3 mx-3`}
-            suffixIcon="open-in-new"
-          />
-        </Link>
-        <Link asChild href="https://twitter.com/CoworkingMetz" target="_blank">
-          <ServiceRow
-            withBottomDivider
-            description="CoworkingMetz"
-            label={t('settings.support.socials.twitter.label')}
-            prefixIcon="twitter"
-            style={tw`px-3 mx-3`}
-            suffixIcon="open-in-new"
-          />
-        </Link>
-        <Link
-          asChild
+        <ServiceRowLink
+          href="https://www.instagram.com/coworkingmetz/" target="_blank"
+          withBottomDivider
+          description="coworkingmetz"
+          label={t('settings.support.socials.instagram.label')}
+          prefixIcon="instagram"
+          style={tw`px-3 mx-3`}
+          suffixIcon="open-in-new"
+        />
+        <ServiceRowLink
+          withBottomDivider
+          href="https://www.facebook.com/CoworkingMetz/" target="_blank"
+          description="CoworkingMetz"
+          label={t('settings.support.socials.facebook.label')}
+          prefixIcon="facebook"
+          style={tw`px-3 mx-3`}
+          suffixIcon="open-in-new"
+        />
+        <ServiceRowLink
+          href="https://twitter.com/CoworkingMetz" target="_blank"
+          withBottomDivider
+          description="CoworkingMetz"
+          label={t('settings.support.socials.twitter.label')}
+          prefixIcon="twitter"
+          style={tw`px-3 mx-3`}
+          suffixIcon="open-in-new"
+        />
+        <ServiceRowLink
           href="https://fr.linkedin.com/company/le-poulailler-coworking-metz"
-          target="_blank">
-          <ServiceRow
-            description="le-poulailler-coworking-metz"
-            label={t('settings.support.socials.linkedin.label')}
-            prefixIcon="linkedin"
-            style={tw`px-3 mx-3`}
-            suffixIcon="open-in-new"
-          />
-        </Link>
+          target="_blank"
+          description="le-poulailler-coworking-metz"
+          label={t('settings.support.socials.linkedin.label')}
+          prefixIcon="linkedin"
+          style={tw`px-3 mx-3`}
+          suffixIcon="open-in-new"
+        />
       </View>
     </AppBottomSheet>
   );

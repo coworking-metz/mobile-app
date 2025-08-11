@@ -225,6 +225,7 @@ const OpenParkingCard = ({
         <View style={tw`flex flex-col items-stretch z-20 w-full overflow-hidden`}>
           <AppText
             numberOfLines={1}
+            ellipsizeMode="clip"
             style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
             {t('home.parking.label.firstLine')}
           </AppText>

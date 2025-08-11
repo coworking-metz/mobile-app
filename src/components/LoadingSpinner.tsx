@@ -11,21 +11,11 @@ import Animated, {
 } from 'react-native-reanimated';
 import tw from 'twrnc';
 
-// const startRotationAnimation = (durationMs: number, rotationDegree: Animated.Value): void => {
-//   Animated.loop(
-//     Animated.timing(rotationDegree, {
-//       toValue: 360,
-//       duration: durationMs,
-//       easing: Easing.linear,
-//       useNativeDriver: true,
-//     }),
-//   ).start();
-// };
-
 const LoadingSpinner = ({
   style,
+  beamSize = 4,
   ...props
-}: AnimatedProps<{ style?: StyleProp<ViewStyle> }>): JSX.Element => {
+}: AnimatedProps<{ style?: StyleProp<ViewStyle> }> & { beamSize?: 2 | 4 | 8 }): JSX.Element => {
   const rotation = useSharedValue(0);
   const animatedStyle = useAnimatedStyle(
     () => ({
@@ -58,7 +48,8 @@ const LoadingSpinner = ({
       <Animated.View
         style={[
           // https://github.com/facebook/react-native/issues/19981#issuecomment-1185341829
-          tw`absolute w-full h-full rounded-full border-t-amber-400 border-t-4 border-l-0 border-r-0 border-b-0`,
+          tw`absolute w-full h-full rounded-full border-t-amber-400 border-l-0 border-r-0 border-b-0`,
+          { borderTopWidth: beamSize },
           animatedStyle,
         ]}
       />

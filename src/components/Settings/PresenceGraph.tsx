@@ -155,7 +155,7 @@ const PresenceGraph = ({
             end={{ x: 1, y: 0 }}
             start={{ x: 0.1, y: 0 }}
             style={[
-              tw`w-48 z-10 absolute left-0 bottom-3.5`,
+              tw`w-64 z-10 absolute left-0 bottom-3.5`,
               { height: (SQUARE_SIZE + SQUARE_GAP) * 7 - SQUARE_GAP },
             ]}>
             <View style={tw`my-auto w-12 ml-9`}>
@@ -211,9 +211,10 @@ const PresenceGraph = ({
               tw.prefixMatch('dark')
                 ? `rgba(255, 255, 255, ${opacity})`
                 : `rgba(0, 0, 0, ${opacity})`,
-            strokeWidth: 2, // optional, default 3
+            strokeWidth: 2, // optional, default 3,
           }}
           endDate={new Date()}
+
           getMonthLabel={(month) =>
             new Intl.DateTimeFormat(i18n.language, {
               month: 'long',

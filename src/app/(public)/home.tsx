@@ -446,13 +446,15 @@ export default function HomeScreen() {
       <Animated.View entering={FadeInRight.duration(750).delay(600)} style={tw`flex w-full`}>
         <ScrollView
           contentContainerStyle={tw.style(
-            `flex flex-row gap-4 px-4 h-56 min-w-full py-3`,
+            `flex flex-row px-4 h-56 min-w-full py-3`,
             isWide && {
               paddingLeft: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
               paddingRight: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
             },
           )}
           horizontal={true}
+          snapToInterval={320 + 16}
+          decelerationRate="fast"
           scrollEnabled={nextCalendarEvents.length > 0}
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
@@ -466,8 +468,9 @@ export default function HomeScreen() {
               />
             </Animated.View>
           ) : nextCalendarEvents.length ? (
-            nextCalendarEvents.map((event) => (
+            nextCalendarEvents.map((event, index) => (
               <Animated.View
+                style={[index > 0 && tw`ml-4`]}
                 entering={FadeIn.duration(300)}
                 exiting={FadeOut.duration(300)}
                 key={`calendar-event-card-${event.id}`}>

@@ -121,7 +121,7 @@ const Account = () => {
           <AppText
             ellipsizeMode={'middle'}
             numberOfLines={1}
-            style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right max-w-4/5`}>
+            style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right grow ml-auto max-w-4/5`}>
             {profile?.email}
           </AppText>
         </ServiceRow>

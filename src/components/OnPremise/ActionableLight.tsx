@@ -15,16 +15,18 @@ import useToastStore from '@/stores/toast';
 
 const ActionableLight = ({
   id,
+  loading = false,
   active = false,
   style,
 }: {
   id: string;
+  loading?: boolean;
   active?: boolean;
   style?: StyleProp<ViewStyle>;
 }) => {
   const toastStore = useToastStore();
   const [isActive, setActive] = useState(active);
-  const [isLoading, setLoading] = useState(false);
+  const [isUpdating, setUpdating] = useState(false);
 
   const xTranslation = useSharedValue(0);
 
@@ -33,7 +35,7 @@ const ActionableLight = ({
   }));
 
   const toggle = useCallback(() => {
-    setLoading(true);
+    setUpdating(true);
     toastStore.dismissAll();
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     (isActive ? turnOffLight(id) : turnOnLight(id))
@@ -53,7 +55,7 @@ const ActionableLight = ({
           withTiming(0, { duration: 100 / 2 }),
         );
       })
-      .finally(() => setLoading(false));
+      .finally(() => setUpdating(false));
   }, [id, active, isActive]);
 
   return (
@@ -62,7 +64,8 @@ const ActionableLight = ({
       activeIcon="ceiling-light"
       iconStyle={animatedStyle}
       inactiveIcon="ceiling-light-outline"
-      loading={isLoading}
+      loading={loading}
+      pending={isUpdating}
       style={style}
       onPress={toggle}
     />

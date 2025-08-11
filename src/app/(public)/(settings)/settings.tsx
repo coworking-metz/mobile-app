@@ -373,17 +373,6 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           />
 
           <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.general.title')} />
-
-          <Link asChild href="/advanced/">
-            <ServiceRow
-              withBottomDivider
-              label={t('advanced.title')}
-              prefixIcon="cog-outline"
-              selected={isWide && pathname === '/advanced'}
-              style={tw`px-3 mx-3`}
-              suffixIcon="chevron-right"
-            />
-          </Link>
           {authStore.user?.id && (
             <Link asChild href="/devices/">
               <ServiceRow
@@ -400,7 +389,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             <ServiceRow
               withBottomDivider
               label={t('privacy.title')}
-              prefixIcon="hand-back-left-outline"
+              prefixIcon="shield-account-variant-outline"
               selected={isWide && pathname.startsWith('/privacy')}
               style={tw`px-3 mx-3`}
               suffixIcon="chevron-right"
@@ -430,7 +419,16 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               )}
             </AppText>
           </ServiceRow>
-          <ThemePicker style={tw`px-3 mx-3`} onPress={selectTheme} />
+          <ThemePicker withBottomDivider style={tw`px-3 mx-3`} onPress={selectTheme} />
+          <Link asChild href="/advanced/">
+            <ServiceRow
+              label={t('advanced.title')}
+              prefixIcon="cog-outline"
+              selected={isWide && pathname === '/advanced'}
+              style={tw`px-3 mx-3`}
+              suffixIcon="chevron-right"
+            />
+          </Link>
 
           <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.support.title')} />
           {authStore.user && (
@@ -493,7 +491,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
         <View style={tw`ml-4 relative`}>
           <Animated.View
             style={[
-              tw`absolute top-0 left-0 bottom-0 right-0  rounded-full overflow-hidden border-gray-300 dark:border-gray-700 border-[0.5px]`,
+              tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden border-gray-300 dark:border-gray-700 border-[0.5px]`,
               navigationBackgroundStyle,
             ]}>
             <AppBlurView

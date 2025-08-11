@@ -228,6 +228,7 @@ const PhoneBoothBottomSheet = ({
           <Carousel
             snapEnabled
             data={WEEK_DAYS_INDEXES}
+            windowSize={3}
             defaultIndex={WEEK_DAYS_INDEXES.findIndex((index) => index === dayjs().day())}
             loop={false}
             renderItem={({ item: day }) => (
@@ -307,20 +308,15 @@ const PhoneBoothBottomSheet = ({
             )}
             style={[tw`flex flex-row w-full h-full overflow-visible`]}
             width={carouselWidth}
-            onProgressChange={(progress) => {
-              offset.value = -progress;
+            onProgressChange={(_progress, relativeProgress) => {
+              offset.value = relativeProgress;
             }}
           />
         ) : (
           <></>
         )}
       </View>
-      <CarouselPaginationDots
-        count={7}
-        offset={offset}
-        style={tw`self-center -mt-8`}
-        width={carouselWidth}
-      />
+      <CarouselPaginationDots count={7} offset={offset} style={tw`self-center -mt-8`} />
     </AppBottomSheet>
   );
 };

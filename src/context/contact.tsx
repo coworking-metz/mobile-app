@@ -5,7 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 
-const ContactContext = createContext<() => void>(() => { });
+const ContactContext = createContext<() => void>(() => {
+  /* nothing */
+});
 
 export const useAppContact = () => {
   return useContext(ContactContext);
@@ -13,7 +15,7 @@ export const useAppContact = () => {
 
 export const ContactProvider = ({ children }: { children: React.ReactNode }) => {
   const { t } = useTranslation();
-  const [shouldRenderContactBottomSheet, setRenderContactBottomSheet] = useState<boolean>(false);
+  const [isContactBottomSheetVisible, setContactBottomSheetVisible] = useState<boolean | null>(null);
 
   useEffect(() => {
     QuickActions.setItems([
@@ -27,20 +29,24 @@ export const ContactProvider = ({ children }: { children: React.ReactNode }) => 
   }, [t]);
 
   useQuickActionCallback((action) => {
-    if (action.id === 'contact') {
-      setRenderContactBottomSheet(true);
+    if (action.id === 'contact' && isNil(isContactBottomSheetVisible)) {
+      setContactBottomSheetVisible(true);
     }
   });
 
   return (
     <ContactContext.Provider
       value={() => {
-        setRenderContactBottomSheet(true);
+        setContactBottomSheetVisible(true);
       }}>
       {children}
-      {shouldRenderContactBottomSheet ? (
-        <ContactBottomSheet onClose={() => setRenderContactBottomSheet(false)} />
+      {isContactBottomSheetVisible ? (
+        <ContactBottomSheet onClose={() => setContactBottomSheetVisible(false)} />
       ) : null}
     </ContactContext.Provider>
   );
 };
+function isNil(isContactBottomSheetVisible: boolean | null) {
+  throw new Error('Function not implemented.');
+}
+

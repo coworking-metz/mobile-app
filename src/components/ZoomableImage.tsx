@@ -1,5 +1,3 @@
-import AppFader from './AppFader';
-import CarouselPaginationDots from './CarouselPaginationDots';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { Image, type ImageProps } from 'expo-image';
@@ -11,14 +9,16 @@ import {
   Platform,
   TouchableOpacity,
   View,
-  ViewStyle,
-  useWindowDimensions,
+  ViewStyle
 } from 'react-native';
 import Gallery from 'react-native-awesome-gallery';
-import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
+import AppBlurView from './AppBlurView';
+import AppFader from './AppFader';
+import CarouselPaginationDots from './CarouselPaginationDots';
 
 type ZoomableImageProps = Omit<ImageProps, 'source'> & {
   source?: string;
@@ -27,7 +27,6 @@ type ZoomableImageProps = Omit<ImageProps, 'source'> & {
 
 const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableImageProps) => {
   const insets = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
   const offset = useSharedValue(0);
   const [isSelected, setSelected] = useState<boolean>(false);
   const { t } = useTranslation();
@@ -63,7 +62,7 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
         <View style={tw`flex flex-col h-full w-full bg-black`}>
           <View
             style={[
-              tw`absolute top-0 z-10 flex flex-row items-center justify-end w-full px-4 pb-2`,
+              tw`absolute top-0 z-10 flex flex-row items-center justify-start w-full px-4 pb-2`,
               {
                 paddingTop: insets.top,
                 left: insets.left,
@@ -76,30 +75,41 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
               style={tw`absolute inset-x-0 top-0`}
               tintColor={tw.color('black/25')}
             />
+            <View style={tw`relative`}>
+              <Animated.View
+                style={[
+                  tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`,
+                ]}>
+                <AppBlurView
+                  intensity={64}
+                  style={tw`h-full w-full`}
+                  tint='dark'
+                />
+              </Animated.View>
+              <MaterialCommunityIcons.Button
+                aria-label={t('actions.close')}
+                backgroundColor="transparent"
+                borderRadius={24}
+                name="window-close"
+                color={tw.color('gray-400')}
+                iconStyle={{ marginRight: 0 }}
+                size={32}
+                style={tw`p-1 shrink-0`}
+                underlayColor={tw.color('zinc-800')}
+                onPress={() => setSelected(false)}
+              />
+            </View>
             {sourcesCount > 1 && (
               <>
-                {/* fake a View with the same size as the close button to properly center pagination dots */}
-                <View style={tw`size-10`} />
                 <CarouselPaginationDots
                   count={sourcesCount}
                   offset={offset}
                   style={tw`mx-auto grow-0`}
-                  width={width}
                 />
+                {/* fake a View with the same size as the close button to properly center pagination dots */}
+                <View style={tw`size-10`} />
               </>
             )}
-            <MaterialCommunityIcons.Button
-              aria-label={t('actions.close')}
-              backgroundColor="rgba(3,10,42,0.4)"
-              borderRadius={24}
-              color={tw.color('gray-200')}
-              iconStyle={tw`mr-0`}
-              name="window-close"
-              size={32}
-              style={tw`p-1 grow-0 shrink-0`}
-              underlayColor={tw.color('gray-800')}
-              onPress={() => setSelected(false)}
-            />
           </View>
           <Gallery
             data={sources ?? [source]}
@@ -122,7 +132,7 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
               />
             )}
             onIndexChange={(index) => {
-              offset.value = withTiming(index * width, {
+              offset.value = withTiming(index, {
                 easing: Easing.linear,
                 duration: 300,
               });

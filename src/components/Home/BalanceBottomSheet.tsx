@@ -103,7 +103,7 @@ const BalanceBottomSheet = ({
         {loading ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
-          <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
+          <View style={tw`flex flex-row justify-end items-end gap-1`}>
             {!isNil(memberProfile?.balance) && memberProfile.balance !== 0 && (
               <AppText
                 numberOfLines={1}
@@ -130,7 +130,7 @@ const BalanceBottomSheet = ({
         {isFetchingTicketsOrders ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
-          <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
+          <View style={tw`flex flex-row justify-end items-end gap-1`}>
             {consumedCount != 0 && (
               <AppText
                 numberOfLines={1}

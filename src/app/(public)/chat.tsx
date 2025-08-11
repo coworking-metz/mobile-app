@@ -22,6 +22,7 @@ import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 
 const BREVO_CONVERSATIONS_ID = '65324d6bf96d92531b4091f8';
 const BREVO_CONVERSATIONS_WIDGET_URL = `https://conversations-widget.brevo.com/brevo-conversations.js`;
+const BREVO_READY_MESSAGE = 'brevo_conversations_ready';
 
 const Chat = () => {
   useDeviceContext(tw);
@@ -82,7 +83,7 @@ const Chat = () => {
                 name: '${authStore.user?.name || ''}',
               });
               setTimeout(() => {
-                window.ReactNativeWebView?.postMessage('ready');
+                window.ReactNativeWebView?.postMessage('${BREVO_READY_MESSAGE}');
               }, 1000);
             };
             document.head.appendChild(script);
@@ -131,7 +132,7 @@ const Chat = () => {
           }}
           onLoadStart={() => setLoading(true)}
           onMessage={(event) => {
-            if (event.nativeEvent.data === 'ready') {
+            if (event.nativeEvent.data === BREVO_READY_MESSAGE) {
               setLoading(false);
             } else {
               console.log('WebView message:', event.nativeEvent.data);

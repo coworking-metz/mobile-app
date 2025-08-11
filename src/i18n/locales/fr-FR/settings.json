@@ -68,9 +68,12 @@
   "roles": {
     "value": {
       "admin": "Administrateur⸱rice",
+      "administrator": "Administrateur⸱rice",
       "coworker": "Coworkeur⸱se",
+      "customer": "Coworkeur⸱se",
       "external": "Externe",
-      "guest": "Visiteur⸱se"
+      "guest": "Visiteur⸱se",
+      "inactive": "Inactif⸱ve"
     }
   },
   "root": {

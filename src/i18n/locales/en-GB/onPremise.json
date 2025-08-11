@@ -1,4 +1,9 @@
 {
+  "actions": {
+    "edit": "Edit",
+    "info": "Informations",
+    "refetch": "Refresh"
+  },
   "climate": {
     "carbonDioxide": {
       "description": "The CO2 level is an indicator of air quality. A high level can cause headaches, fatigue and a decrease in concentration.\n\nIt is recommended to ventilate the workspace when the CO2 level exceeds 1000 ppm.",

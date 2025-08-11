@@ -22,6 +22,7 @@ import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
+import Divider from '@/components/Divider';
 
 const advancedLogger = log.extend(`[advanced]`);
 
@@ -160,17 +161,6 @@ const Advanced = () => {
 
         <ServiceRow
           withBottomDivider
-          description={t('advanced.actions.switchTokensStorage.description')}
-          label={t('advanced.actions.switchTokensStorage.label')}
-          style={tw`px-3 mx-3`}>
-          <Switch
-            value={settingsStore.areTokensInAsyncStorage}
-            onColor={theme.meatBrown}
-            onValueChange={onSwitchAuthStorage}
-          />
-        </ServiceRow>
-        <ServiceRow
-          withBottomDivider
           description={t('advanced.actions.clearCache.description')}
           label={t('advanced.actions.clearCache.label')}
           loading={isClearingCache}
@@ -254,7 +244,7 @@ const Advanced = () => {
         </ServiceRow>
         <AppTextField
           autoCapitalize="none"
-          containerStyle={tw`mt-6 mx-6`}
+          containerStyle={tw`mt-3 mx-6`}
           keyboardType="url"
           label={t('advanced.variables.apiBaseUrl.label')}
           placeholder={HTTP.defaults.baseURL}
@@ -283,6 +273,17 @@ const Advanced = () => {
             useAuthStore.setState({ refreshToken: refreshToken || null })
           }
         />
+        <Divider style={tw`mx-6`} />
+        <ServiceRow
+          description={t('advanced.actions.switchTokensStorage.description')}
+          label={t('advanced.actions.switchTokensStorage.label')}
+          style={tw`px-3 mx-3`}>
+          <Switch
+            value={settingsStore.areTokensInAsyncStorage}
+            onColor={theme.meatBrown}
+            onValueChange={onSwitchAuthStorage}
+          />
+        </ServiceRow>
       </View>
     </ServiceLayout>
   );

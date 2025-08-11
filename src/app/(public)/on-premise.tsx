@@ -1,236 +1,207 @@
-import { useQuery } from '@tanstack/react-query';
-import { useLocalSearchParams } from 'expo-router';
-import { uniq } from 'lodash';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ScrollView, View } from 'react-native';
-import Animated, {
-  FadeInLeft,
-  FadeInRight,
-  FadeOutLeft,
-  FadeOutRight,
-} from 'react-native-reanimated';
-import tw, { useDeviceContext } from 'twrnc';
-import BouncingBallOnDeskAnimation from '@/components/Animations/BouncingBallOnDeskAnimation';
-import AppText from '@/components/AppText';
-import ErrorChip from '@/components/ErrorChip';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
-import CarbonDioxideBottomSheet from '@/components/OnPremise/CarbonDioxideBottomSheet';
-import DeckKeyBoxBottomSheet from '@/components/OnPremise/DeckKeyBoxBottomSheet';
-import FlexDeskBottomSheet from '@/components/OnPremise/FlexDeskBottomSheet';
-import PhoneBoothBottomSheet from '@/components/OnPremise/PhoneBoothBottomSheet';
-import PoulaillerKeyBoxBottomSheet from '@/components/OnPremise/PoulaillerKeyBoxBottomSheet';
+import AppBlurView from '@/components/AppBlurView';
+import AppFader from '@/components/AppFader';
+import AppMenu from '@/components/AppMenu';
+import CarouselPaginationDots from '@/components/CarouselPaginationDots';
+import { OnPremiseProvider } from '@/components/OnPremise/OnPremiseContext';
 import PoulaillerPlan from '@/components/OnPremise/PoulaillerPlan';
-import PtiPoulaillerClimateBottomSheet from '@/components/OnPremise/PtiPoulaillerClimateBottomSheet';
-import PtiPoulaillerKeyBoxBottomSheet from '@/components/OnPremise/PtiPoulaillerKeyBoxBottomSheet';
 import PtiPoulaillerPlan from '@/components/OnPremise/PtiPoulaillerPlan';
-import UnlockDeckDoorBottomSheet from '@/components/OnPremise/UnlockDeckDoorBottomSheet';
-import { SelectableChip } from '@/components/SelectableChip';
-import { isSilentError } from '@/helpers/error';
+import { theme } from '@/helpers/colors';
 import useAppScreen from '@/helpers/screen';
-import { getOnPremiseState, OnPremiseFlexDesk } from '@/services/api/services';
+import { getOnPremiseState } from '@/services/api/services';
+import { IS_DEV } from '@/services/environment';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useQuery } from '@tanstack/react-query';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { includes } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Platform, RefreshControl, ScrollView, View, type LayoutChangeEvent } from 'react-native';
+import Animated, {
+  useAnimatedScrollHandler,
+  useSharedValue
+} from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Fader } from 'react-native-ui-lib';
+import tw, { useDeviceContext } from 'twrnc';
 
 const SUPPORTED_LOCATIONS = ['poulailler', 'pti-poulailler'];
-type SupportedLocation = (typeof SUPPORTED_LOCATIONS)[number];
 
 const OnPremise = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const { isWide } = useAppScreen();
-  const { location } = useLocalSearchParams<{ location: string }>();
-  const [isDeckDoorSelected, setDeckDoorSelected] = useState<boolean>(false);
-  const [isPhoneBoothSelected, setPhoneBoothSelected] = useState<boolean>(false);
-  const [isPoulaillerKeyBoxSelected, setPoulaillerKeyBoxSelected] = useState<boolean>(false);
-  const [isDeckKeyBoxSelected, setDeckKeyBoxSelected] = useState<boolean>(false);
-  const [isCarbonDioxideSelected, setCarbonDioxideSelected] = useState<boolean>(false);
-  const [isPtiPoulaillerKeyBoxSelected, setPtiPoulaillerKeyBoxSelected] = useState<boolean>(false);
-  const [isPtiPoulaillerClimateSelected, setPtiPoulaillerClimateSelected] =
-    useState<boolean>(false);
-  const [selectedFlexDesk, setSelectedFlexDesk] = useState<OnPremiseFlexDesk | null>(null);
-  const [selectedLocations, setSelectedLocations] = useState<SupportedLocation[]>([]);
+  const [areInformationsVisible, setInformationsVisible] = useState(false);
 
-  const {
-    data: onPremiseState,
-    isFetching: isFetchingOnPremiseState,
-    error: onPremiseStateError,
-    refetch: refetchOnPremiseState,
-  } = useQuery({
+  const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const [layoutWidth, setLayoutWidth] = useState(0);
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  const offset = useSharedValue(0);
+  const horizontalScrollView = useRef<Animated.ScrollView>(null);
+
+  const onHorizontalScroll = useAnimatedScrollHandler({
+    onScroll: ({ contentOffset }) => {
+      offset.value = contentOffset.x / layoutWidth;
+    },
+  }, [layoutWidth]);
+
+  const { location } = useLocalSearchParams<{ location: string }>();
+
+  const { refetch: refetchOnPremiseState } = useQuery({
     queryKey: ['on-premise-state'],
     queryFn: getOnPremiseState,
     retry: false,
   });
 
-  const toggleLocation = useCallback(
-    (toggledLocation: SupportedLocation) => {
-      if (isWide) {
-        if (selectedLocations.includes(toggledLocation)) {
-          setSelectedLocations((prev) => prev.filter((l) => l !== toggledLocation));
-        } else if (SUPPORTED_LOCATIONS.includes(toggledLocation)) {
-          setSelectedLocations((prev) => uniq([...prev, toggledLocation]) as SupportedLocation[]);
-        }
-      } else if (SUPPORTED_LOCATIONS.includes(toggledLocation)) {
-        setSelectedLocations([toggledLocation]);
-      }
-    },
-    [selectedLocations, isWide],
-  );
-
   useEffect(() => {
-    if (!isWide) {
-      toggleLocation(location || 'poulailler');
-    } else {
-      setSelectedLocations(SUPPORTED_LOCATIONS);
+    if (includes(SUPPORTED_LOCATIONS, location) && layoutWidth && horizontalScrollView.current) {
+      const index = SUPPORTED_LOCATIONS.indexOf(location);
+      horizontalScrollView.current?.scrollTo({ x: index * layoutWidth });
     }
-  }, [location, isWide]);
+  }, [location, layoutWidth, horizontalScrollView]);
 
   return (
-    <>
-      <ServiceLayout
-        contentStyle={tw`bg-transparent pb-0 flex flex-col grow`}
-        title={t('onPremise.title')}
-        onRefresh={refetchOnPremiseState}>
-        {onPremiseStateError && !isSilentError(onPremiseStateError) ? (
-          <ErrorChip
-            error={onPremiseStateError}
-            label={t('onPremise.onFetch.fail')}
-            style={tw`mx-6 mb-4 self-start`}
-            onRetry={refetchOnPremiseState}
+    <View
+      style={[
+        tw`overflow-hidden bg-gray-100 dark:bg-black`,
+        {
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+        },
+      ]}
+      onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>
+      <Animated.View
+        style={[
+          tw`flex flex-row items-center absolute top-0 px-4 pb-2 w-full z-10`,
+          { paddingTop: insets.top },
+        ]}
+        onLayout={({ nativeEvent }: LayoutChangeEvent) =>
+          setHeaderHeight(nativeEvent.layout.height)
+        }>
+        <AppFader
+          position={Fader.position.TOP}
+          size={headerHeight}
+          style={tw`absolute inset-0`}
+          tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
+        />
+
+        <View style={tw`relative`}>
+          <Animated.View
+            style={tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`}>
+            <AppBlurView
+              intensity={64}
+              style={tw`h-full w-full`}
+              tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
+            />
+          </Animated.View>
+          <MaterialCommunityIcons.Button
+            backgroundColor="transparent"
+            borderRadius={32}
+            color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
+            iconStyle={{ marginRight: 0 }}
+            name="arrow-left"
+            size={32}
+            style={tw`p-1 shrink-0`}
+            underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
+            onPress={() => router.canGoBack()
+              ? router.back()
+              : router.replace('/')}
           />
+        </View>
+
+        {!isWide && SUPPORTED_LOCATIONS.length > 1 ? (
+          <View style={tw`grow`}>
+            <CarouselPaginationDots
+              count={SUPPORTED_LOCATIONS.length}
+              offset={offset}
+              style={tw`grow-0 mx-auto`}
+            />
+          </View>
         ) : null}
 
-        <View style={tw`mb-4`}>
-          <ScrollView
-            contentContainerStyle={tw`flex flex-row items-center gap-4 px-6`}
-            horizontal={true}
-            scrollEventThrottle={16}
-            showsHorizontalScrollIndicator={false}
-            style={tw`w-full`}>
-            <SelectableChip
-              label={t('onPremise.location.poulailler')}
-              selected={selectedLocations.includes('poulailler')}
-              onPress={() => toggleLocation('poulailler')}
-            />
-            <SelectableChip
-              label={t('onPremise.location.pti-poulailler')}
-              selected={selectedLocations.includes('pti-poulailler')}
-              onPress={() => toggleLocation('pti-poulailler')}
-            />
-          </ScrollView>
-        </View>
-
-        <View style={tw`w-full grow overflow-hidden`}>
-          {selectedLocations.length ? (
-            <ScrollView
-              contentContainerStyle={[
-                isWide ? tw`flex flex-row items-start gap-4 px-4` : tw`w-full`,
-              ]}
-              horizontal={true}
-              scrollEnabled={isWide}
-              scrollEventThrottle={16}
-              showsHorizontalScrollIndicator={false}
-              style={[tw`grow`]}>
-              {selectedLocations.includes('poulailler') && (
-                <Animated.View
-                  entering={FadeInLeft.duration(350)}
-                  exiting={FadeOutLeft.duration(350)}
-                  style={[tw`w-full`, isWide && tw`max-w-md`]}>
-                  <PoulaillerPlan
-                    loading={isFetchingOnPremiseState}
-                    onCarbonDioxideSelected={() => setCarbonDioxideSelected(true)}
-                    onDeckDoorSelected={() => setDeckDoorSelected(true)}
-                    onDeckKeyBoxSelected={() => setDeckKeyBoxSelected(true)}
-                    onPhoneBoothSelected={() => setPhoneBoothSelected(true)}
-                    onPoulaillerKeyBoxSelected={() => setPoulaillerKeyBoxSelected(true)}
-                    onPremiseState={onPremiseState}
-                  />
-                </Animated.View>
-              )}
-
-              {selectedLocations.includes('pti-poulailler') && (
-                <Animated.View
-                  entering={FadeInRight.duration(350)}
-                  exiting={FadeOutRight.duration(350)}
-                  style={[tw`w-full`, isWide && tw`max-w-md`]}>
-                  <PtiPoulaillerPlan
-                    loading={isFetchingOnPremiseState}
-                    onClimateSelected={() => setPtiPoulaillerClimateSelected(true)}
-                    onFlexDeskSelected={(d) => setSelectedFlexDesk(d ?? null)}
-                    onPremiseState={onPremiseState}
-                    onPtiPoulaillerKeyBoxSelected={() => setPtiPoulaillerKeyBoxSelected(true)}
-                  />
-                </Animated.View>
-              )}
-            </ScrollView>
-          ) : (
+        <View style={tw`relative ml-auto w-10`}>
+          {IS_DEV && <>
             <Animated.View
-              style={tw`flex flex-col gap-2 grow items-center w-full px-6 max-w-md self-center`}>
-              <BouncingBallOnDeskAnimation style={tw`h-48 w-full`} />
-              <AppText
-                numberOfLines={1}
-                style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-                {t('onPremise.empty.title')}
-              </AppText>
-              <AppText
-                style={tw`text-base text-center font-normal text-slate-500 dark:text-slate-400 mb-auto`}>
-                {t('onPremise.empty.description')}
-              </AppText>
+              style={tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`}>
+              <AppBlurView
+                intensity={64}
+                style={tw`h-full w-full`}
+                tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
+              />
             </Animated.View>
-          )}
+            <AppMenu
+              actions={[
+                {
+                  id: 'refetch',
+                  title: t('onPremise.actions.refetch'),
+                  image: Platform.select({
+                    ios: 'goforward', // https://github.com/andrewtavis/sf-symbols-online
+                    android: 'ic_popup_sync', // https://developer.android.com/reference/android/R.drawable
+                  }),
+                  onPress: refetchOnPremiseState,
+                },
+                {
+                  id: 'info',
+                  title: t('onPremise.actions.info'),
+                  image: Platform.select({
+                    ios: 'info.circle', // https://github.com/andrewtavis/sf-symbols-online
+                    android: 'ic_menu_info_details', // https://developer.android.com/reference/android/R.drawable
+                  }),
+                  onPress: () => setInformationsVisible(true),
+                },
+              ]}
+            />
+          </>
+          }
         </View>
-      </ServiceLayout>
+      </Animated.View>
 
-      {isDeckDoorSelected && (
-        <UnlockDeckDoorBottomSheet onClose={() => setDeckDoorSelected(false)} />
-      )}
+      <OnPremiseProvider>
+        {layoutWidth ? (
+          <View style={tw`relative h-full flex grow flex-col`}>
+            <AppFader
+              position={Fader.position.TOP}
+              size={insets.top || (Platform.OS === 'android' ? 16 : 0)}
+              style={tw`absolute top-0 inset-x-0 z-10`}
+              tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
+            />
 
-      {isPhoneBoothSelected && (
-        <PhoneBoothBottomSheet
-          blueOccupied={onPremiseState?.phoneBooths.blue.occupied}
-          loading={isFetchingOnPremiseState}
-          orangeOccupied={onPremiseState?.phoneBooths.orange.occupied}
-          onClose={() => setPhoneBoothSelected(false)}
-        />
-      )}
-
-      {isPoulaillerKeyBoxSelected && (
-        <PoulaillerKeyBoxBottomSheet onClose={() => setPoulaillerKeyBoxSelected(false)} />
-      )}
-
-      {isPtiPoulaillerKeyBoxSelected && (
-        <PtiPoulaillerKeyBoxBottomSheet onClose={() => setPtiPoulaillerKeyBoxSelected(false)} />
-      )}
-
-      {isDeckKeyBoxSelected && (
-        <DeckKeyBoxBottomSheet onClose={() => setDeckKeyBoxSelected(false)} />
-      )}
-
-      {isCarbonDioxideSelected && (
-        <CarbonDioxideBottomSheet
-          humidityLevel={onPremiseState?.sensors?.humidity.level || 0}
-          level={onPremiseState?.sensors?.carbonDioxide.level || 0}
-          loading={isFetchingOnPremiseState}
-          noiseLevel={onPremiseState?.sensors?.noise.level || 0}
-          temperatureLevel={onPremiseState?.sensors?.temperature.level || 0}
-          onClose={() => setCarbonDioxideSelected(false)}
-        />
-      )}
-
-      {isPtiPoulaillerClimateSelected && (
-        <PtiPoulaillerClimateBottomSheet
-          humidityLevel={onPremiseState?.sensors?.humidity.ptiPoulaillerLevel || 0}
-          loading={isFetchingOnPremiseState}
-          temperatureLevel={onPremiseState?.sensors?.temperature.ptiPoulaillerLevel || 0}
-          onClose={() => setPtiPoulaillerClimateSelected(false)}
-        />
-      )}
-
-      {!!selectedFlexDesk && (
-        <FlexDeskBottomSheet
-          occupied={selectedFlexDesk?.occupied}
-          onClose={() => setSelectedFlexDesk(null)}
-        />
-      )}
-    </>
+            <Animated.ScrollView
+              ref={horizontalScrollView}
+              contentContainerStyle={[
+                tw`flex flex-row items-stretch`,
+              ]}
+              horizontal
+              pagingEnabled
+              scrollEventThrottle={16}
+              onScroll={onHorizontalScroll}
+              showsHorizontalScrollIndicator={false}>
+              <ScrollView
+                contentContainerStyle={[
+                  isWide && tw`max-w-md`,
+                  { paddingTop: headerHeight, width: layoutWidth },
+                ]}
+                horizontal={false}
+                scrollEventThrottle={16}
+                showsVerticalScrollIndicator={false}>
+                <PoulaillerPlan />
+              </ScrollView>
+              <ScrollView
+                contentContainerStyle={[
+                  isWide && tw`max-w-md`,
+                  { paddingTop: headerHeight, width: layoutWidth },
+                ]}
+                horizontal={false}
+                scrollEventThrottle={16}
+                showsVerticalScrollIndicator={false}>
+                <PtiPoulaillerPlan />
+              </ScrollView>
+            </Animated.ScrollView>
+          </View>
+        ) : null}
+      </OnPremiseProvider>
+    </View>
   );
 };
 

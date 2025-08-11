@@ -1,4 +1,9 @@
 {
+  "actions": {
+    "edit": "Modifier",
+    "info": "Informations",
+    "refetch": "Actualiser"
+  },
   "climate": {
     "carbonDioxide": {
       "description": "Le taux de CO2 est un indicateur de la qualité de l'air. Un taux élevé peut entraîner des maux de tête, de la fatigue et une diminution de la concentration.\n\nIl est recommandé de ventiler l'espace lorsque le taux de CO2 dépasse 1000 ppm.",

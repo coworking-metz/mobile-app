@@ -8,7 +8,7 @@ import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AmourFoodSquareLogo from '@/assets/images/amour-food-square.png';
-import BliiidaSquareLogo from '@/assets/images/bliiida-square.svg';
+import BliiidaSquareLogo from '@/assets/images/bliiida-square.png';
 import CoworkingLogo from '@/assets/images/icon/icon-light-1024.png';
 import AppBlurView from '@/components/AppBlurView';
 import AppText from '@/components/AppText';
@@ -33,7 +33,7 @@ const CoworkingIcon = () => {
 
 const BliiidaIcon = () => {
   return (
-    <View style={tw`h-10 w-10 bg-white rounded-lg overflow-hidden p-0.5`}>
+    <View style={tw`h-10 w-10 bg-black rounded-lg overflow-hidden p-0.5`}>
       <Image source={BliiidaSquareLogo} style={[tw`h-full w-full`]} />
     </View>
   );
