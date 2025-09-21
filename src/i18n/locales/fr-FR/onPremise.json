@@ -1,8 +1,7 @@
 {
-  "actions": {
-    "edit": "Modifier",
-    "info": "Informations",
-    "refetch": "Actualiser"
+  "airConditioning": {
+    "description": "La climatisation peut être allumée ou éteinte via les télécommandes prévues à cet effet.\nLa température se régule automatiquement selon l'ambiance du lieu.\n\nIl est recommandé de l'éteindre lorsqu'aucun coworker n'occupe la pièce.",
+    "label": "Climatisation"
   },
   "climate": {
     "carbonDioxide": {
@@ -31,6 +30,10 @@
       "level": "{{level}} °C"
     }
   },
+  "coffeeMachine": {
+    "description": "La machine à café, également utilisable pour le thé, est en libre service.\nUne tasse nominative est recommandée et peut être <0>commandée via la boutique</0> ; des emplacements partagés sont disponibles dans l'entrée du Poulailler pour la laisser sur place.\n\n<1>Une participation</1> est bienvenue en cas de consommation régulière.",
+    "label": "Machine à café"
+  },
   "deckDoor": {
     "description": "La porte de la terrasse vous permet d'accéder directement à l'espace depuis l'extérieur.",
     "label": "Déverrouiller\nla porte de la terrasse",
@@ -40,6 +43,7 @@
       "fail": "Impossible de déverrouiller la porte",
       "success": "C'est ouvert !"
     },
+    "retry": "Toucher pour réessayer",
     "slideToUnlock": "Glisser pour déverrouiller"
   },
   "empty": {
@@ -47,7 +51,7 @@
     "title": "Le chaos"
   },
   "flexDesk": {
-    "description": "Ce bureau assis debout permet de travailler en position assise ou debout, selon vos préférences.\nIl est disponible sans réservation, avec un statut en temps réel pour vérifier s'il est occupé ou libre.",
+    "description": "Ce bureau assis debout permet de travailler en position assise ou debout, selon vos préférences.\nIl est disponible sans réservation, avec un statut en temps réel pour vérifier s'il est libre ou occupé.",
     "label": "Bureau assis debout",
     "occupancy": {
       "label": "Disponibilité",
@@ -57,6 +61,18 @@
         "unknown": "Inconnue"
       }
     }
+  },
+  "fridge": {
+    "description": "Le réfrigérateur est à disposition pour tous les adhérents.\nIl est vidé régulièrement et sans préavis afin de maintenir la propreté.\nIl est recommandé de ne pas y laisser d'aliments sur la durée.",
+    "label": "Frigo"
+  },
+  "groupWork": {
+    "description": "Une salle attenante est dédiée aux échanges collectifs : réunions, visioconférences ou discussions de groupe.\nElle permet de préserver le calme de l'open space, où la discrétion est de mise.\nCet espace est mutualisé et son usage doit rester ponctuel, afin que chacun puisse en bénéficier selon ses besoins.",
+    "label": "Espace collaboratif"
+  },
+  "intercom": {
+    "description": "La sonnette signale le plus souvent l'arrivée d'un membre adhérent ou d'une visite.\nLes membres sont invités à décrocher l'interphone pour permettre l'accès. Ce geste simple participe à la convivialité et au bon accueil au sein du coworking.",
+    "label": "Interphone"
   },
   "keyBoxes": {
     "deck": {
@@ -124,5 +140,21 @@
       }
     }
   },
-  "title": "Gérer l'espace"
+  "printer": {
+    "description": "L'imprimante est accessible sur le réseau ou par e-mail à l'adresse indiquée à proximité.\nL'usage reste modéré (environ 30 pages par mois).\n\nUne participation est demandée en cas d'impression régulière, disponible dans <0>la boutique</0>.",
+    "label": "Imprimante"
+  },
+  "television": {
+    "description": "L'écran de télévision situé dans l'espace affiche les informations importantes du Poulailler : la présence des membres, les événements à venir, les annonces internes ou encore des rappels du règlement.\n\nC'est le tableau d'affichage numérique du coworking, pensé pour que chacun reste informé de la vie de l'association.",
+    "label": "Télévision"
+  },
+  "title": "Gérer l'espace",
+  "wifi": {
+    "credentials": {
+      "fetch": "Obtenir les identifiants",
+      "missingCapability": "Les identifiants WiFi ne sont disponibles qu'aux membres adhérents et visiteurs."
+    },
+    "description": "Le réseau WiFi donne accès à Internet et enregistre automatiquement la présence grâce à l'adresse MAC de l'appareil.\nEn cas de changement d'appareil, l'adresse peut être mise à jour directement depuis <0>l'application</0> ou <1>le site internet</1>.\n\nL'usage doit rester professionnel et raisonnable ; les téléchargements lourds et BitTorrent sont interdits.",
+    "label": "Réseau WiFi"
+  }
 }

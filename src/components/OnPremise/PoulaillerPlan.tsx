@@ -1,7 +1,5 @@
 import ActionableLight from './ActionableLight';
 import { useOnPremise } from './OnPremiseContext';
-import AppText from '../AppText';
-import ErrorBadge from '../ErrorBadge';
 import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -11,13 +9,23 @@ import tw, { useDeviceContext } from 'twrnc';
 import floorPlanDay from '@/assets/images/floorplan-day.png';
 import floorPlanNight from '@/assets/images/floorplan-night.png';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
+import AppText from '@/components/AppText';
+import ErrorBadge from '@/components/ErrorBadge';
 import ActionableCarbonDioxide from '@/components/OnPremise/ActionableCarbonDioxide';
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
 import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState } from '@/services/api/services';
 
-const PoulaillerPlan = ({ style }: { style?: StyleProp<ViewStyle>; }) => {
+const PoulaillerPlan = ({
+  style,
+  withInformations = false,
+  withLights = false,
+}: {
+  style?: StyleProp<ViewStyle>;
+  withInformations?: boolean;
+  withLights?: boolean;
+}) => {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const [imageWidth, setImageWidth] = useState<number | null>(null);
@@ -29,6 +37,27 @@ const PoulaillerPlan = ({ style }: { style?: StyleProp<ViewStyle>; }) => {
     selectDeckKeyBox,
     selectPhoneBooth,
     selectPoulaillerKeyBox,
+    selectTelevision,
+    selectCoffeeMachine,
+    selectPrinter,
+    selectFridge,
+    selectAirConditioning,
+    selectWifi,
+    selectIntercom,
+    selectGroupWork,
+    isWifiSelected,
+    isTelevisionSelected,
+    isCarbonDioxideSelected,
+    isDeckDoorSelected,
+    isDeckKeyBoxSelected,
+    isPhoneBoothSelected,
+    isPoulaillerKeyBoxSelected,
+    isCoffeeMachineSelected,
+    isPrinterSelected,
+    isFridgeSelected,
+    isIntercomSelected,
+    isAirConditioningSelected,
+    isGroupWorkSelected,
   } = useOnPremise();
 
   const {
@@ -90,10 +119,78 @@ const PoulaillerPlan = ({ style }: { style?: StyleProp<ViewStyle>; }) => {
             color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
             style={tw`absolute h-16 w-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full`}
           />
-        ) : (
+        ) : withInformations ? (
+          <>
+            <ActionableIcon
+              activeIcon="fridge-outline"
+              inactiveIcon="fridge-outline"
+              selected={isFridgeSelected}
+              style={tw`top-[56%] left-[62%]`}
+              onPress={selectFridge}
+            />
+            <ActionableIcon
+              activeIcon="coffee-outline"
+              inactiveIcon="coffee-outline"
+              selected={isCoffeeMachineSelected}
+              style={tw`top-[56%] left-[77%]`}
+              onPress={selectCoffeeMachine}
+            />
+            <ActionableIcon
+              activeIcon="television-guide"
+              inactiveIcon="television-guide"
+              selected={isTelevisionSelected}
+              style={tw`top-[75%] left-[73%]`}
+              onPress={selectTelevision}
+            />
+
+            <ActionableIcon
+              activeIcon="printer"
+              inactiveIcon="printer-outline"
+              selected={isPrinterSelected}
+              style={tw`top-[49%] left-[66%]`}
+              onPress={selectPrinter}
+            />
+            <ActionableIcon
+              activeIcon="bell-ring-outline"
+              inactiveIcon="bell-ring-outline"
+              selected={isIntercomSelected}
+              style={tw`top-[32%] left-[48%]`}
+              onPress={selectIntercom}
+            />
+            <ActionableIcon
+              activeIcon="fan"
+              inactiveIcon="fan"
+              selected={isAirConditioningSelected}
+              style={tw`top-[19%] left-[11%]`}
+              onPress={selectAirConditioning}
+            />
+            <ActionableIcon
+              activeIcon="fan"
+              inactiveIcon="fan"
+              selected={isAirConditioningSelected}
+              style={tw`top-[46%] left-[11%]`}
+              onPress={selectAirConditioning}
+            />
+
+            <ActionableIcon
+              activeIcon="wifi"
+              inactiveIcon="wifi"
+              selected={isWifiSelected}
+              style={tw`top-[75%] left-[48%]`}
+              onPress={selectWifi}
+            />
+            <ActionableIcon
+              activeIcon="account-group-outline"
+              inactiveIcon="account-group-outline"
+              selected={isGroupWorkSelected}
+              style={tw`top-[60%] left-[28%]`}
+              onPress={selectGroupWork}
+            />
+          </>
+        ) : withLights ? (
           <>
             {/* Lights */}
-            {/* <ActionableLight
+            <ActionableLight
               id="1"
               loading={isFetchingOnPremiseState}
               style={tw`top-[22%] left-[32%]`}
@@ -122,14 +219,17 @@ const PoulaillerPlan = ({ style }: { style?: StyleProp<ViewStyle>; }) => {
               id="6"
               loading={isFetchingOnPremiseState}
               style={tw`top-[68%] left-[65%]`}
-            /> */}
-
+            />
+          </>
+        ) : (
+          <>
             {/* Door */}
             <ActionableIcon
               active={onPremiseState?.deckDoor?.unlocked}
               activeIcon="lock-open"
               inactiveIcon="lock"
               loading={isFetchingOnPremiseState}
+              selected={isDeckDoorSelected}
               style={tw`top-[50%] left-[82%]`}
               onPress={selectDeckDoor}
             />
@@ -138,6 +238,7 @@ const PoulaillerPlan = ({ style }: { style?: StyleProp<ViewStyle>; }) => {
             <ActionableIcon
               activeIcon="key-chain"
               inactiveIcon="key-chain"
+              selected={isDeckKeyBoxSelected}
               style={tw`top-[43%] left-[89%]`}
               onPress={selectDeckKeyBox}
             />
@@ -145,15 +246,6 @@ const PoulaillerPlan = ({ style }: { style?: StyleProp<ViewStyle>; }) => {
             {/* Fans */}
             {/* <ActionableFan active id="1" style={tw`top-[19%] left-[11%]`} />
               <ActionableFan id="2" style={tw`top-[46%] left-[11%]`} /> */}
-
-            {/* TV */}
-            {/* <ActionableIcon
-                disabled
-                active={false}
-                activeIcon="volume-high"
-                inactiveIcon="volume-off"
-                style={tw`top-[72%] left-[68%]`}
-              /> */}
 
             {/* Phone booths */}
             <ActionablePhoneBooths
@@ -164,6 +256,7 @@ const PoulaillerPlan = ({ style }: { style?: StyleProp<ViewStyle>; }) => {
               ]}
               inactiveIcon="door-open"
               loading={isFetchingOnPremiseState}
+              selected={isPhoneBoothSelected}
               style={tw`top-[82%] left-[12%] w-[25%] min-w-26`}
               unknownIcon="door"
               onPress={selectPhoneBooth}
@@ -173,6 +266,7 @@ const PoulaillerPlan = ({ style }: { style?: StyleProp<ViewStyle>; }) => {
             <ActionableIcon
               activeIcon="key-chain-variant"
               inactiveIcon="key-chain-variant"
+              selected={isPoulaillerKeyBoxSelected}
               style={tw`top-[84%] left-[56%]`}
               onPress={selectPoulaillerKeyBox}
             />
@@ -183,6 +277,7 @@ const PoulaillerPlan = ({ style }: { style?: StyleProp<ViewStyle>; }) => {
               inactiveIcon="leaf"
               level={onPremiseState?.sensors?.carbonDioxide.level || 0}
               loading={isFetchingOnPremiseState}
+              selected={isCarbonDioxideSelected}
               style={tw`top-[32%] left-[56%]`}
               onPress={selectCarbonDioxide}
             />

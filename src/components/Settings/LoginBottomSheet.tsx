@@ -1,16 +1,16 @@
 import { makeRedirectUri } from 'expo-auth-session';
 import { WebBrowserRedirectResult, openAuthSessionAsync } from 'expo-web-browser';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Linking, Platform, StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import LoginAnimation from '@/components/Animations/LoginAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
-import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import { HTTP } from '@/services/http';
+import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
 
 const loginLogger = log.extend(`[login]`);
@@ -24,8 +24,9 @@ const LoginBottomSheet = ({
 }) => {
   const { t } = useTranslation();
   const settingsStore = useSettingsStore();
+  const noticeStore = useNoticeStore();
   const [isLoading, setLoading] = useState<boolean>(false);
-  const notifyError = useErrorNotification();
+  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   const onSubmit = useCallback(() => {
     setLoading(true);
@@ -49,6 +50,7 @@ const LoginBottomSheet = ({
           loginLogger.debug('openAuthSessionAsync result', result);
           if (result.type === 'success') {
             const url = (result as WebBrowserRedirectResult).url || redirectUriOnSuccess;
+            bottomSheetRef.current?.close();
             return Linking.openURL(url);
           }
         });
@@ -56,16 +58,14 @@ const LoginBottomSheet = ({
 
       return Linking.openURL(loginUri);
     })()
-      .catch((error) => {
-        notifyError(t('errors.default.message'), error);
-      })
+      .catch((error) => noticeStore.addError(error, { message: t('errors.default.message') }))
       .finally(() => {
         setLoading(false);
       });
-  }, [notifyError, t, settingsStore]);
+  }, [t, settingsStore, noticeStore]);
 
   return (
-    <AppBottomSheet style={style} onClose={onClose}>
+    <AppBottomSheet ref={bottomSheetRef} style={style} onClose={onClose}>
       <View style={tw`flex flex-col w-full px-6 pt-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <LoginAnimation style={tw`h-56 w-full`} />

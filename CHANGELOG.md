@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Tour on floor plans.
+
 ### Changed
 
 - Logout from API instead of public website.
+- Emphasized all links.
 
 ## [2025.8.2] - 2025-08-04
 

@@ -10,11 +10,11 @@ import { Alert, View } from 'react-native';
 import { Switch } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppTextField from '@/components/AppTextField';
+import Divider from '@/components/Divider';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { theme } from '@/helpers/colors';
-import { parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import useResetNavigation from '@/helpers/navigation';
 import { HTTP } from '@/services/http';
@@ -22,7 +22,6 @@ import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
-import Divider from '@/components/Divider';
 
 const advancedLogger = log.extend(`[advanced]`);
 
@@ -90,14 +89,11 @@ const Advanced = () => {
           timeout: 3_000,
         });
       })
-      .catch(async (error: Error) => {
-        const description = await parseErrorText(error);
-        noticeStore.add({
+      .catch((error) =>
+        noticeStore.addError(error, {
           message: t('advanced.actions.clearCache.onCleared.fail'),
-          description,
-          type: 'error',
-        });
-      })
+        }),
+      )
       .finally(() => {
         setClearingCache(false);
       });
@@ -117,14 +113,9 @@ const Advanced = () => {
         });
         resetNavigation('/');
       })
-      .catch(async (error: Error) => {
-        const description = await parseErrorText(error);
-        noticeStore.add({
-          message: t('advanced.actions.reset.onReset.fail'),
-          description,
-          type: 'error',
-        });
-      })
+      .catch((error) =>
+        noticeStore.addError(error, { message: t('advanced.actions.reset.onReset.fail') }),
+      )
       .finally(() => {
         setResetting(false);
       });

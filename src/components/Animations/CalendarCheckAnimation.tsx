@@ -1,15 +1,15 @@
-import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 import tw from 'twrnc';
 import CalendarCheck from '@/assets/animations/calendar-check.json';
+import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie } from '@/helpers/colors';
 
 type AnimationProps = Omit<LottieViewProps, 'source'>;
 
 const CalendarCheckAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
-  { ...props },
+  props,
   ref,
 ) => {
   const colorScheme = useColorScheme();

@@ -1,8 +1,8 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useEffect } from 'react';
-import { type ColorSchemeName, useColorScheme, View } from 'react-native';
+import { type ColorSchemeName, useColorScheme } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Toaster, toast } from 'sonner-native';
+import { toast, Toaster } from 'sonner-native';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import useToastStore, { type ToastType } from '@/stores/toast';

@@ -1,6 +1,6 @@
 {
   "uuid": "24b9c1a8-40f0-40ad-bb65-ed03b51aeea0",
-  "lastMigration": 32,
+  "lastMigration": 33,
   "name": "Coworking Metz API",
   "endpointPrefix": "",
   "latency": 300,
@@ -53,7 +53,9 @@
         }
       ],
       "responseMode": "RANDOM",
-      "type": "http"
+      "type": "http",
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "4b44392b-23e1-4011-88d3-e376495ca282",
@@ -82,7 +84,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "d72d4754-f40b-47f7-a0b5-da029485de17",
@@ -111,7 +115,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "7c8c5840-35d6-431b-8ee0-34dfe79b6545",
@@ -159,7 +165,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "e727a1dd-e739-4bf3-bc5a-cfa02e89fa02",
@@ -188,7 +196,9 @@
         }
       ],
       "responseMode": null,
-      "type": "http"
+      "type": "http",
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "1655a055-3b0c-4a04-a0aa-4d8662c60919",
@@ -236,7 +246,9 @@
         }
       ],
       "responseMode": null,
-      "type": "http"
+      "type": "http",
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "7b66f169-670c-44eb-9714-831731c04f55",
@@ -265,7 +277,9 @@
         }
       ],
       "responseMode": null,
-      "type": "http"
+      "type": "http",
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "2d7dbb1b-89f9-4fdc-a065-ca71dfe88737",
@@ -313,7 +327,9 @@
         }
       ],
       "responseMode": null,
-      "type": "http"
+      "type": "http",
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "07a2f2ce-8958-4339-9693-26dbc3ce1bb1",
@@ -342,7 +358,9 @@
         }
       ],
       "responseMode": null,
-      "type": "http"
+      "type": "http",
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "53ef8f71-4b2f-4cf8-a847-6d445eb4c420",
@@ -371,7 +389,9 @@
         }
       ],
       "responseMode": null,
-      "type": "http"
+      "type": "http",
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "2f69dae6-4003-4153-9313-04236faec273",
@@ -400,7 +420,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": "RANDOM"
+      "responseMode": "RANDOM",
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "43a45d91-641c-45dc-a25f-a65e10626516",
@@ -448,7 +470,9 @@
         }
       ],
       "responseMode": null,
-      "type": "http"
+      "type": "http",
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "b4c91046-d898-4b70-a641-9ba530fdfbd2",
@@ -506,7 +530,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": "RANDOM"
+      "responseMode": "RANDOM",
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "9e716a93-42f7-414f-b788-abaf0fc6c468",
@@ -535,7 +561,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "c3db2ffb-bd12-4ed7-8e56-72a11a17c6eb",
@@ -564,7 +592,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "89d5250d-5b8d-4d88-8c44-622b03f65401",
@@ -593,7 +623,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "5e1ec7c5-a579-4a15-aec8-61f5ed3d3c93",
@@ -622,7 +654,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "97b2c0ae-99e1-4f59-9cce-a95d9ca56cc0",
@@ -651,7 +685,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "61281080-2d94-4a92-9663-b19c7ced5882",
@@ -680,7 +716,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "dc55ee9d-193a-42a8-a8f9-bfddae3ac397",
@@ -709,7 +747,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     }
   ],
   "proxyMode": true,

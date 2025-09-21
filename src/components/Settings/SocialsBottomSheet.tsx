@@ -1,14 +1,12 @@
-import FloatingSocialsAnimation from '../Animations/FloatingSocialsAnimation';
-import ServiceRow from '../Layout/ServiceRow';
-import { Link } from 'expo-router';
+import ServiceRowLink from '../Layout/ServiceRowLink';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import FloatingSocialsAnimation from '@/components/Animations/FloatingSocialsAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import useAuthStore from '@/stores/auth';
-import ServiceRowLink from '../Layout/ServiceRowLink';
 
 const SocialsBottomSheet = ({
   style,
@@ -38,12 +36,14 @@ const SocialsBottomSheet = ({
           href="https://us6.campaign-archive.com/home/?u=4406f25257&id=82ab4f380b"
           label={t('settings.support.socials.newsletter.label')}
           prefixIcon="email-newsletter"
-          target="_blank"
-          suffixIcon="open-in-new"
-          style={tw`px-3 mx-3`}
           renderDescription={(d) => (
-            <AppText numberOfLines={1} style={tw`text-sm font-normal text-amber-500`}>{d}</AppText>
+            <AppText numberOfLines={1} style={tw`text-sm font-normal text-amber-500`}>
+              {d}
+            </AppText>
           )}
+          style={tw`px-3 mx-3`}
+          suffixIcon="open-in-new"
+          target="_blank"
         />
         {authStore.user?.id && (
           <ServiceRowLink
@@ -51,49 +51,54 @@ const SocialsBottomSheet = ({
             href="https://signal.group/#CjQKICGvCmD9n9SJSW6z_g5FmRg5rRUj4hWpC1X5XxOexGwrEhDxUfX0r6UQ_blpMGz938M9"
             label={t('settings.support.socials.signal.label')}
             prefixIcon="chat-outline"
-            target="_blank"
             renderDescription={(d) => (
-              <AppText numberOfLines={1} style={tw`text-sm font-normal text-amber-500`}>{d}</AppText>
+              <AppText numberOfLines={1} style={tw`text-sm font-normal text-amber-500`}>
+                {d}
+              </AppText>
             )}
             style={tw`px-3 mx-3`}
             suffixIcon="open-in-new"
+            target="_blank"
           />
         )}
         <ServiceRowLink
-          href="https://www.instagram.com/coworkingmetz/" target="_blank"
           withBottomDivider
           description="coworkingmetz"
+          href="https://www.instagram.com/coworkingmetz/"
           label={t('settings.support.socials.instagram.label')}
           prefixIcon="instagram"
           style={tw`px-3 mx-3`}
           suffixIcon="open-in-new"
+          target="_blank"
         />
         <ServiceRowLink
           withBottomDivider
-          href="https://www.facebook.com/CoworkingMetz/" target="_blank"
           description="CoworkingMetz"
+          href="https://www.facebook.com/CoworkingMetz/"
           label={t('settings.support.socials.facebook.label')}
           prefixIcon="facebook"
           style={tw`px-3 mx-3`}
           suffixIcon="open-in-new"
+          target="_blank"
         />
         <ServiceRowLink
-          href="https://twitter.com/CoworkingMetz" target="_blank"
           withBottomDivider
           description="CoworkingMetz"
+          href="https://twitter.com/CoworkingMetz"
           label={t('settings.support.socials.twitter.label')}
           prefixIcon="twitter"
           style={tw`px-3 mx-3`}
           suffixIcon="open-in-new"
+          target="_blank"
         />
         <ServiceRowLink
-          href="https://fr.linkedin.com/company/le-poulailler-coworking-metz"
-          target="_blank"
           description="le-poulailler-coworking-metz"
+          href="https://fr.linkedin.com/company/le-poulailler-coworking-metz"
           label={t('settings.support.socials.linkedin.label')}
           prefixIcon="linkedin"
           style={tw`px-3 mx-3`}
           suffixIcon="open-in-new"
+          target="_blank"
         />
       </View>
     </AppBottomSheet>

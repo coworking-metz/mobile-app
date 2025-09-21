@@ -101,6 +101,10 @@ export const getDeckKeyBoxCode = (): Promise<{ code: number }> => {
   return HTTP.get('/api/on-premise/key-box/deck/code').then(({ data }) => data);
 };
 
+export const getWifiCredentials = (): Promise<{ password: string; ssid: string }> => {
+  return HTTP.get('/api/on-premise/wifi/credentials').then(({ data }) => data);
+};
+
 export const turnOnLight = (
   lightId: string | number,
 ): Promise<{

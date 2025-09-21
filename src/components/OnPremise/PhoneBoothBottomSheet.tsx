@@ -21,7 +21,6 @@ import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
 import { getPhoneBoothsOccupation } from '@/services/api/services';
-import useAuthStore from '@/stores/auth';
 
 const BAR_WIDTH = 32;
 const BAR_SPACING = 2;
@@ -46,7 +45,6 @@ const PhoneBoothBottomSheet = ({
   const { t } = useTranslation();
   const [carouselWidth, setCarouselWidth] = useState<number>(0);
   const offset = useSharedValue(0);
-  const user = useAuthStore((s) => s.user);
   const colorScheme = useColorScheme();
 
   const {
@@ -58,7 +56,6 @@ const PhoneBoothBottomSheet = ({
     queryKey: ['phone-booths-occupation'],
     queryFn: () => getPhoneBoothsOccupation(),
     retry: false,
-    enabled: !!user,
   });
 
   const allHours = useMemo(() => {
@@ -170,7 +167,7 @@ const PhoneBoothBottomSheet = ({
               <LoadingSkeleton height={24} width={128} />
             ) : (
               <AppText
-                style={tw`text-base font-normal text-blue-500 dark:text-blue-400 text-right`}>
+                style={tw`text-base font-normal text-blue-500 dark:text-blue-400 text-right mr-1`}>
                 {isNil(blueOccupied)
                   ? t('onPremise.phoneBooths.state.blue.occupation.unknown')
                   : blueOccupied
@@ -190,7 +187,7 @@ const PhoneBoothBottomSheet = ({
               <LoadingSkeleton height={24} width={128} />
             ) : (
               <AppText
-                style={tw`text-base font-normal text-orange-500 dark:text-orange-400 text-right`}>
+                style={tw`text-base font-normal text-orange-500 dark:text-orange-400 text-right mr-1`}>
                 {isNil(orangeOccupied)
                   ? t('onPremise.phoneBooths.state.orange.occupation.unknown')
                   : orangeOccupied
@@ -228,7 +225,6 @@ const PhoneBoothBottomSheet = ({
           <Carousel
             snapEnabled
             data={WEEK_DAYS_INDEXES}
-            windowSize={3}
             defaultIndex={WEEK_DAYS_INDEXES.findIndex((index) => index === dayjs().day())}
             loop={false}
             renderItem={({ item: day }) => (
@@ -308,6 +304,7 @@ const PhoneBoothBottomSheet = ({
             )}
             style={[tw`flex flex-row w-full h-full overflow-visible`]}
             width={carouselWidth}
+            windowSize={3}
             onProgressChange={(_progress, relativeProgress) => {
               offset.value = relativeProgress;
             }}

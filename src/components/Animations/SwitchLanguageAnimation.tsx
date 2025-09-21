@@ -1,7 +1,5 @@
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
-import { useColorScheme } from 'react-native';
-import tw from 'twrnc';
 import SwitchLanguage from '@/assets/animations/switch-language.json';
 import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie } from '@/helpers/colors';
@@ -9,13 +7,10 @@ import { colouriseLottie } from '@/helpers/colors';
 type AnimationProps = Omit<LottieViewProps, 'source'>;
 
 const SwitchLanguageAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
-  { ...props },
+  props,
   ref,
 ) => {
-  const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const isDark = colorScheme === 'dark';
-    const bulbColor = (isDark ? tw.color('amber-400') : tw.color('yellow-300')) as string;
     return colouriseLottie(SwitchLanguage, {
       // Loading.L Fill.Group 1.Stroke 1
       // 'assets.0.layers.0.shapes.0.it.1.c.k': '#ffffff',
@@ -84,7 +79,7 @@ const SwitchLanguageAnimation: ForwardRefRenderFunction<LottieView, AnimationPro
       // // Loading.L-outline.Group 5.Stroke 1
       // 'assets.0.layers.5.shapes.4.it.1.c.k': '#9c9c9c',
     });
-  }, [colorScheme]);
+  }, []);
 
   return <AppLottieView ref={ref} loop={false} speed={0.75} {...props} source={colorizedSource} />;
 };

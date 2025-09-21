@@ -1,13 +1,13 @@
-import UpliftingDeskAnimation from '../Animations/UpliftingDeskAnimation';
-import ServiceRow from '../Layout/ServiceRow';
-import LoadingSkeleton from '../LoadingSkeleton';
 import { isNil } from 'lodash';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import UpliftingDeskAnimation from '@/components/Animations/UpliftingDeskAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
+import ServiceRow from '@/components/Layout/ServiceRow';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 const FlexDeskBottomSheet = ({
   occupied,
@@ -29,7 +29,7 @@ const FlexDeskBottomSheet = ({
       onClose={onClose}>
       <UpliftingDeskAnimation autoPlay loop={false} style={tw`w-full h-[144px] mb-2`} />
       <AppText
-        style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mb-6`}>
+        style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.flexDesk.label')}
       </AppText>
 

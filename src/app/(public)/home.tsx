@@ -452,12 +452,12 @@ export default function HomeScreen() {
               paddingRight: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
             },
           )}
-          horizontal={true}
-          snapToInterval={320 + 16}
           decelerationRate="fast"
+          horizontal={true}
           scrollEnabled={nextCalendarEvents.length > 0}
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
+          snapToInterval={320 + 16}
           style={tw`w-full overflow-visible`}>
           {isLoadingCalendarEvents ? (
             <Animated.View exiting={FadeOut.duration(500)}>
@@ -470,10 +470,10 @@ export default function HomeScreen() {
           ) : nextCalendarEvents.length ? (
             nextCalendarEvents.map((event, index) => (
               <Animated.View
-                style={[index > 0 && tw`ml-4`]}
                 entering={FadeIn.duration(300)}
                 exiting={FadeOut.duration(300)}
-                key={`calendar-event-card-${event.id}`}>
+                key={`calendar-event-card-${event.id}`}
+                style={[index > 0 && tw`ml-4`]}>
                 <Link asChild href={`/events/${event.id}`}>
                   <AppTouchable style={tw`w-80`}>
                     <CalendarEventCard event={event} />
@@ -535,11 +535,11 @@ export default function HomeScreen() {
             asChild
             href={{
               pathname: '/on-premise',
-              ...(onPremiseLocation && {
-                params: {
+              params: {
+                ...(onPremiseLocation && {
                   location: onPremiseLocation,
-                },
-              }),
+                }),
+              },
             }}>
             <OnPremiseCard
               location={onPremiseLocation && t(`onPremise.location.${onPremiseLocation}`)}

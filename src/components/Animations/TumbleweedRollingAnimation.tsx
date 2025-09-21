@@ -1,8 +1,8 @@
-import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
 import { useColorScheme } from 'react-native';
 import TumbleweedRolling from '@/assets/animations/tumbleweed-rolling.json';
+import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie } from '@/helpers/colors';
 
 type AnimationProps = Omit<LottieViewProps, 'source'>;

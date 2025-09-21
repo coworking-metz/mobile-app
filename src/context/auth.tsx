@@ -6,10 +6,10 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import { useTranslation } from 'react-i18next';
 import LoginBottomSheet from '@/components/Settings/LoginBottomSheet';
 import LogoutBottomSheet from '@/components/Settings/LogoutBottomSheet';
-import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import useResetNavigation from '@/helpers/navigation';
 import useAuthStore from '@/stores/auth';
+import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
 
@@ -40,11 +40,11 @@ const useProtectedRoute = (ready: boolean, setReady: (ready: boolean) => void) =
   const { t } = useTranslation();
   const authStore = useAuthStore();
   const toastStore = useToastStore();
+  const noticeStore = useNoticeStore();
   const refreshToken = useAuthStore((state) => state.refreshToken);
   const isAuthStoreHydrated = useAuthStore((state) => state.hydrated);
   const isSettingsStoreHydrated = useSettingsStore((state) => state.hydrated);
   const queryClient = useQueryClient();
-  const notifyError = useErrorNotification();
 
   const {
     accessToken: queryAccessToken,
@@ -100,9 +100,22 @@ const useProtectedRoute = (ready: boolean, setReady: (ready: boolean) => void) =
         resetNavigation('/');
       })
       .catch((error) => {
-        notifyError(t('errors.default.message'), error);
+        const title = t('errors.default.message');
+        const toast = toastStore.add({
+          message: title,
+          type: 'error',
+          action: {
+            label: t('actions.more'),
+            onPress: () => {
+              noticeStore.addError(error, {
+                message: title,
+              });
+              toastStore.dismiss(toast.id);
+            },
+          },
+        });
       });
-  }, [authStore, toastStore, t]);
+  }, [authStore, noticeStore, toastStore, t]);
 
   useEffect(() => {
     if (loggedOut) {

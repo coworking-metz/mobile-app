@@ -4,7 +4,7 @@ import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
 const ThemeContext = createContext<{
   selectTheme: () => void;
 }>({
-  selectTheme: () => { },
+  selectTheme: () => {},
 });
 
 export const useAppTheme = () => {

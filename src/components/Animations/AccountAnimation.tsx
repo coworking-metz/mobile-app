@@ -1,7 +1,7 @@
-import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import SystemOutlineAccountIntro from '@/assets/animations/lordicon/system-outline-account-intro.json';
+import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie, theme } from '@/helpers/colors';
 
 type AnimationProps = Omit<LottieViewProps, 'source'> & { color?: string };

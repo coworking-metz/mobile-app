@@ -1,17 +1,14 @@
-import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
 import { useColorScheme } from 'react-native';
 import tw from 'twrnc';
 import MobileApp from '@/assets/animations/mobile-app.json';
+import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie } from '@/helpers/colors';
 
 type AnimationProps = Omit<LottieViewProps, 'source'>;
 
-const MobileAppAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
-  { ...props },
-  ref,
-) => {
+const MobileAppAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (props, ref) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
     const isDark = colorScheme === 'dark';

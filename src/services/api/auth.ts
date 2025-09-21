@@ -14,7 +14,8 @@ export type ApiUserCapability =
   | 'UNLOCK_GATE'
   | 'PARKING_ACCESS'
   | 'UNLOCK_DECK_DOOR'
-  | 'KEYS_ACCESS';
+  | 'KEYS_ACCESS'
+  | 'WIFI_CREDENTIALS';
 
 export type ApiUser = {
   id?: string;

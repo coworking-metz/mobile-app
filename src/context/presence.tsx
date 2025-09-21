@@ -7,7 +7,7 @@ const PresenceContext = createContext<{
   selectActivity: (activity: ApiMemberActivity, nonCompliantActivity?: ApiMemberActivity) => void;
 }>({
   selectedActivity: null,
-  selectActivity: () => { },
+  selectActivity: () => {},
 });
 
 export const useAppPresence = () => {

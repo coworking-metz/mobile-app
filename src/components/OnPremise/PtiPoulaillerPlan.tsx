@@ -14,13 +14,32 @@ import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState } from '@/services/api/services';
 
-const PtiPoulaillerPlan = ({ style }: { style?: StyleProp<ViewStyle>; }) => {
+const PtiPoulaillerPlan = ({
+  style,
+  withInformations = false,
+  withLights = false,
+}: {
+  style?: StyleProp<ViewStyle>;
+  withInformations?: boolean;
+  withLights?: boolean;
+}) => {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const [imageWidth, setImageWidth] = useState<number | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
   const [hasFloorplanLoaded, setFloorplanLoaded] = useState<boolean>(false);
-  const { selectFlexDesk, selectPtiPoulaillerKeyBox, selectPtiPoulaillerClimate } = useOnPremise();
+  const {
+    selectFlexDesk,
+    selectPtiPoulaillerKeyBox,
+    selectPtiPoulaillerClimate,
+    selectWifi,
+    selectTelevision,
+    isWifiSelected,
+    isTelevisionSelected,
+    isPtiPoulaillerClimateSelected,
+    isPtiPoulaillerKeyBoxSelected,
+    selectedFlexDesk,
+  } = useOnPremise();
 
   const {
     data: onPremiseState,
@@ -81,6 +100,26 @@ const PtiPoulaillerPlan = ({ style }: { style?: StyleProp<ViewStyle>; }) => {
             color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
             style={tw`absolute h-16 w-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full`}
           />
+        ) : withInformations ? (
+          <>
+            <ActionableIcon
+              activeIcon="television-guide"
+              inactiveIcon="television-guide"
+              selected={isTelevisionSelected}
+              style={tw`top-[71%] left-[53%]`}
+              onPress={selectTelevision}
+            />
+
+            <ActionableIcon
+              activeIcon="wifi"
+              inactiveIcon="wifi"
+              selected={isWifiSelected}
+              style={tw`top-[73%] left-[17%]`}
+              onPress={selectWifi}
+            />
+          </>
+        ) : withLights ? (
+          <></>
         ) : (
           <>
             {/* Flexispot A */}
@@ -89,8 +128,11 @@ const PtiPoulaillerPlan = ({ style }: { style?: StyleProp<ViewStyle>; }) => {
               activeIcon="desk"
               inactiveIcon="desk"
               loading={isFetchingOnPremiseState}
+              selected={selectedFlexDesk?.id === 'a'}
               style={tw`top-[25%] left-[43%]`}
-              onPress={() => selectFlexDesk?.({ occupied: onPremiseState?.flexDesks?.a.occupied })}
+              onPress={() =>
+                selectFlexDesk?.({ id: 'a', occupied: onPremiseState?.flexDesks?.a.occupied })
+              }
             />
             {/* Flexispot B */}
             <ActionableIcon
@@ -98,21 +140,26 @@ const PtiPoulaillerPlan = ({ style }: { style?: StyleProp<ViewStyle>; }) => {
               activeIcon="desk"
               inactiveIcon="desk"
               loading={isFetchingOnPremiseState}
+              selected={selectedFlexDesk?.id === 'b'}
               style={tw`top-[25%] left-[30%]`}
-              onPress={() => selectFlexDesk({ occupied: onPremiseState?.flexDesks?.b.occupied })}
+              onPress={() =>
+                selectFlexDesk({ id: 'b', occupied: onPremiseState?.flexDesks?.b.occupied })
+              }
             />
             {/* Key box */}
             <ActionableIcon
               activeIcon="key-chain-variant"
               inactiveIcon="key-chain-variant"
+              selected={isPtiPoulaillerKeyBoxSelected}
               style={tw`top-[82%] left-[22%]`}
               onPress={selectPtiPoulaillerKeyBox}
             />
             {/* Climate */}
             <ActionableIcon
-              activeIcon="leaf"
-              inactiveIcon="leaf"
+              activeIcon="sun-thermometer"
+              inactiveIcon="sun-thermometer"
               loading={isFetchingOnPremiseState}
+              selected={isPtiPoulaillerClimateSelected}
               style={tw`top-[68%] left-[45%]`}
               onPress={selectPtiPoulaillerClimate}
             />

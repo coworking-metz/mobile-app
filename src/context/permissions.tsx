@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import PermissionsBottomSheet from '@/components/Settings/PermissionsBottomSheet';
 
-const PermissionsContext = createContext<() => void>(() => { });
+const PermissionsContext = createContext<() => void>(() => {});
 
 export const useAppPermissions = () => {
   return useContext(PermissionsContext);

@@ -249,7 +249,7 @@ const SwipeableButton = ({
           onLayout={({ nativeEvent }: LayoutChangeEvent) => {
             setHandleWidth(nativeEvent.layout.width);
           }}>
-          <TouchableOpacity disabled={disabled || !hasSwiped} onPress={onRestart}>
+          <TouchableOpacity disabled={loading || disabled} onPress={onRestart}>
             {loading ? (
               <HorizontalLoadingAnimation color={tw.color(`white`)} style={tw`h-10 w-10`} />
             ) : (
@@ -265,7 +265,7 @@ const SwipeableButton = ({
       </PanGestureHandler>
       <AppText
         style={[
-          tw`absolute right-8 text-base text-right font-normal text-slate-500 dark:text-slate-400`,
+          tw`absolute right-8 text-base text-right font-medium text-slate-500 dark:text-slate-400`,
           placeholderAnimatedStyle,
         ]}>
         {placeholder}

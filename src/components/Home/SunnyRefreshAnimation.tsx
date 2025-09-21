@@ -75,7 +75,7 @@ const SunnyRefreshAnimation = ({
       resourceName="sunny_pull_release"
       stateMachineName={STATE_MACHINE_NAME}
       style={style}
-    // url="https://public.rive.app/community/runtime-files/3838-8030-pull-release-animation.riv"
+      // url="https://public.rive.app/community/runtime-files/3838-8030-pull-release-animation.riv"
     />
   );
 };

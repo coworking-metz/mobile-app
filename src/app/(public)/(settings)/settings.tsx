@@ -26,6 +26,7 @@ import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppBlurView from '@/components/AppBlurView';
 import AppFader from '@/components/AppFader';
+import AppIconButton from '@/components/AppIconButton';
 import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBadge';
 import ProfilePicture from '@/components/Home/ProfilePicture';
@@ -408,7 +409,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           <ServiceRow
             withBottomDivider
             label={t('settings.general.language.label')}
-            prefixIcon="web"
+            prefixIcon="alphabetical"
             style={tw`px-3 mx-3`}
             onPress={selectLanguage}>
             <AppText style={tw`text-base font-normal text-amber-500 text-right`}>

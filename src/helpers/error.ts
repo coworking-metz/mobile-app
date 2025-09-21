@@ -1,9 +1,4 @@
 import { type AxiosError } from 'axios';
-import * as Haptics from 'expo-haptics';
-import { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import useNoticeStore from '@/stores/notice';
-import useToastStore from '@/stores/toast';
 
 export enum ApiErrorCode {
   EXPIRED_ACCESS_TOKEN = 'EXPIRED_ACCESS_TOKEN',
@@ -65,54 +60,4 @@ export const handleSilentError = async (error: AppError | AxiosError): Promise<v
     return Promise.resolve();
   }
   return Promise.reject(error);
-};
-
-export const useErrorNotification = () => {
-  const toastStore = useToastStore();
-  const noticeStore = useNoticeStore();
-  const { t } = useTranslation();
-
-  const notifyError = useCallback(
-    async (label: string, error: Error) => {
-      const errorMessage = await parseErrorText(error);
-      const toast = toastStore.add({
-        message: label,
-        type: 'error',
-        action: {
-          label: t('actions.more'),
-          onPress: () => {
-            noticeStore.add({
-              message: label,
-              description: errorMessage,
-              type: 'error',
-            });
-            toastStore.dismiss(toast.id);
-          },
-        },
-      });
-    },
-    [toastStore, noticeStore, t],
-  );
-
-  return notifyError;
-};
-
-export const useErrorNotice = () => {
-  const noticeStore = useNoticeStore();
-  const { t } = useTranslation();
-
-  const noticeError = useCallback(
-    async (error: Error, label?: string) => {
-      const errorMessage = await parseErrorText(error);
-      noticeStore.add({
-        message: label || t('errors.default.message'),
-        description: errorMessage,
-        type: 'error',
-      });
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-    },
-    [noticeStore, t],
-  );
-
-  return noticeError;
 };

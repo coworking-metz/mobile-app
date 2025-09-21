@@ -4,7 +4,7 @@ import SocialsBottomSheet from '@/components/Settings/SocialsBottomSheet';
 const SocialsContext = createContext<{
   socialise: () => void;
 }>({
-  socialise: () => { },
+  socialise: () => {},
 });
 
 export const useAppSocials = () => {

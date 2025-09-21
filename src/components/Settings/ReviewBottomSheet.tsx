@@ -9,7 +9,7 @@ import AppBottomSheet from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTextButton from '@/components/AppTextButton';
-import { useErrorNotification } from '@/helpers/error';
+import useNoticeStore from '@/stores/notice';
 
 const ReviewBottomSheet = ({
   style,
@@ -20,15 +20,16 @@ const ReviewBottomSheet = ({
 }) => {
   const { t } = useTranslation();
   const [isLoading, setLoading] = useState<boolean>(false);
-
-  const notifyError = useErrorNotification();
+  const noticeStore = useNoticeStore();
 
   const onReview = useCallback(() => {
     setLoading(true);
-    StoreReview.requestReview().finally(() => {
-      setLoading(false);
-    });
-  }, [notifyError, t]);
+    StoreReview.requestReview()
+      .catch((error) => noticeStore.addError(error, { message: t('review.onRequest.fail') }))
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [t]);
 
   return (
     <AppBottomSheet style={style} onClose={onClose}>

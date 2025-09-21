@@ -1,31 +1,36 @@
+import AppBlurView from './AppBlurView';
+import AppFader from './AppFader';
+import CarouselPaginationDots from './CarouselPaginationDots';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { Image, type ImageProps } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
-import React, { useMemo, useState } from 'react';
+import { isNil } from 'lodash';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Modal,
-  Platform,
-  TouchableOpacity,
-  View,
-  ViewStyle
-} from 'react-native';
+import { Modal, Platform, TouchableOpacity, View, ViewStyle } from 'react-native';
 import Gallery from 'react-native-awesome-gallery';
 import Animated, { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
-import AppBlurView from './AppBlurView';
-import AppFader from './AppFader';
-import CarouselPaginationDots from './CarouselPaginationDots';
 
 type ZoomableImageProps = Omit<ImageProps, 'source'> & {
   source?: string;
   sources?: string[];
+  zoomed?: boolean;
+  onZoomChange?: (zoomed: boolean) => void;
 };
 
-const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableImageProps) => {
+const ZoomableImage = ({
+  source,
+  sources,
+  zoomed,
+  style,
+  children,
+  onZoomChange,
+  ...props
+}: ZoomableImageProps) => {
   const insets = useSafeAreaInsets();
   const offset = useSharedValue(0);
   const [isSelected, setSelected] = useState<boolean>(false);
@@ -36,6 +41,16 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
   if (!source) {
     return <View style={style as ViewStyle} />;
   }
+
+  useEffect(() => {
+    onZoomChange?.(isSelected);
+  }, [isSelected]);
+
+  useEffect(() => {
+    if (!isNil(zoomed) && isSelected !== zoomed) {
+      setSelected(zoomed);
+    }
+  }, [zoomed]);
 
   return (
     <>
@@ -77,22 +92,16 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
             />
             <View style={tw`relative`}>
               <Animated.View
-                style={[
-                  tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`,
-                ]}>
-                <AppBlurView
-                  intensity={64}
-                  style={tw`h-full w-full`}
-                  tint='dark'
-                />
+                style={[tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`]}>
+                <AppBlurView intensity={64} style={tw`h-full w-full`} tint="dark" />
               </Animated.View>
               <MaterialCommunityIcons.Button
                 aria-label={t('actions.close')}
                 backgroundColor="transparent"
                 borderRadius={24}
-                name="window-close"
                 color={tw.color('gray-400')}
                 iconStyle={{ marginRight: 0 }}
+                name="window-close"
                 size={32}
                 style={tw`p-1 shrink-0`}
                 underlayColor={tw.color('zinc-800')}

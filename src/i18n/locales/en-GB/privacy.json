@@ -2,9 +2,9 @@
   "description": "You and your data",
   "permissions": {
     "ask": {
-      "description": "To access this feature, an additional system setting is required.\nYou just need to change it in your device settings.",
-      "review": "Go to system settings",
-      "title": "We need you"
+      "description": "To change this property, please go to your device's system settings.",
+      "review": "Change settings",
+      "title": "System settings"
     },
     "bluetooth": {
       "description": "To be located within spaces.",

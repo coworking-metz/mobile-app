@@ -1,36 +1,29 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { includes } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
+import { Platform, ScrollView, View, type LayoutChangeEvent } from 'react-native';
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Fader } from 'react-native-ui-lib';
+import tw, { useDeviceContext } from 'twrnc';
 import AppBlurView from '@/components/AppBlurView';
 import AppFader from '@/components/AppFader';
-import AppMenu from '@/components/AppMenu';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
 import { OnPremiseProvider } from '@/components/OnPremise/OnPremiseContext';
 import PoulaillerPlan from '@/components/OnPremise/PoulaillerPlan';
 import PtiPoulaillerPlan from '@/components/OnPremise/PtiPoulaillerPlan';
 import { theme } from '@/helpers/colors';
 import useAppScreen from '@/helpers/screen';
-import { getOnPremiseState } from '@/services/api/services';
 import { IS_DEV } from '@/services/environment';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useQuery } from '@tanstack/react-query';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { includes } from 'lodash';
-import { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Platform, RefreshControl, ScrollView, View, type LayoutChangeEvent } from 'react-native';
-import Animated, {
-  useAnimatedScrollHandler,
-  useSharedValue
-} from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Fader } from 'react-native-ui-lib';
-import tw, { useDeviceContext } from 'twrnc';
 
 const SUPPORTED_LOCATIONS = ['poulailler', 'pti-poulailler'];
 
 const OnPremise = () => {
   useDeviceContext(tw);
-  const { t } = useTranslation();
   const { isWide } = useAppScreen();
   const [areInformationsVisible, setInformationsVisible] = useState(false);
+  const [areLightsVisible, setLightsVisible] = useState(false);
 
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -40,19 +33,20 @@ const OnPremise = () => {
   const offset = useSharedValue(0);
   const horizontalScrollView = useRef<Animated.ScrollView>(null);
 
-  const onHorizontalScroll = useAnimatedScrollHandler({
-    onScroll: ({ contentOffset }) => {
-      offset.value = contentOffset.x / layoutWidth;
+  const onHorizontalScroll = useAnimatedScrollHandler(
+    {
+      onScroll: ({ contentOffset }) => {
+        offset.value = contentOffset.x / layoutWidth;
+      },
     },
-  }, [layoutWidth]);
+    [layoutWidth],
+  );
 
-  const { location } = useLocalSearchParams<{ location: string }>();
-
-  const { refetch: refetchOnPremiseState } = useQuery({
-    queryKey: ['on-premise-state'],
-    queryFn: getOnPremiseState,
-    retry: false,
-  });
+  const { location, withInformations, withLights } = useLocalSearchParams<{
+    location: string;
+    withInformations: string;
+    withLights: string;
+  }>();
 
   useEffect(() => {
     if (includes(SUPPORTED_LOCATIONS, location) && layoutWidth && horizontalScrollView.current) {
@@ -60,6 +54,19 @@ const OnPremise = () => {
       horizontalScrollView.current?.scrollTo({ x: index * layoutWidth });
     }
   }, [location, layoutWidth, horizontalScrollView]);
+
+  useEffect(() => {
+    if (withInformations === 'true') {
+      setInformationsVisible(true);
+      setLightsVisible(false);
+    } else if (withLights === 'true') {
+      setLightsVisible(true);
+      setInformationsVisible(false);
+    } else {
+      setLightsVisible(false);
+      setInformationsVisible(false);
+    }
+  }, [withInformations, withLights]);
 
   return (
     <View
@@ -86,42 +93,8 @@ const OnPremise = () => {
           tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
         />
 
-        <View style={tw`relative`}>
-          <Animated.View
-            style={tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`}>
-            <AppBlurView
-              intensity={64}
-              style={tw`h-full w-full`}
-              tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
-            />
-          </Animated.View>
-          <MaterialCommunityIcons.Button
-            backgroundColor="transparent"
-            borderRadius={32}
-            color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
-            iconStyle={{ marginRight: 0 }}
-            name="arrow-left"
-            size={32}
-            style={tw`p-1 shrink-0`}
-            underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
-            onPress={() => router.canGoBack()
-              ? router.back()
-              : router.replace('/')}
-          />
-        </View>
-
-        {!isWide && SUPPORTED_LOCATIONS.length > 1 ? (
-          <View style={tw`grow`}>
-            <CarouselPaginationDots
-              count={SUPPORTED_LOCATIONS.length}
-              offset={offset}
-              style={tw`grow-0 mx-auto`}
-            />
-          </View>
-        ) : null}
-
-        <View style={tw`relative ml-auto w-10`}>
-          {IS_DEV && <>
+        <View style={tw`grow shrink basis-0 flex flex-row items-center justify-start gap-2`}>
+          <View style={tw`relative`}>
             <Animated.View
               style={tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`}>
               <AppBlurView
@@ -130,30 +103,104 @@ const OnPremise = () => {
                 tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
               />
             </Animated.View>
-            <AppMenu
-              actions={[
-                {
-                  id: 'refetch',
-                  title: t('onPremise.actions.refetch'),
-                  image: Platform.select({
-                    ios: 'goforward', // https://github.com/andrewtavis/sf-symbols-online
-                    android: 'ic_popup_sync', // https://developer.android.com/reference/android/R.drawable
-                  }),
-                  onPress: refetchOnPremiseState,
-                },
-                {
-                  id: 'info',
-                  title: t('onPremise.actions.info'),
-                  image: Platform.select({
-                    ios: 'info.circle', // https://github.com/andrewtavis/sf-symbols-online
-                    android: 'ic_menu_info_details', // https://developer.android.com/reference/android/R.drawable
-                  }),
-                  onPress: () => setInformationsVisible(true),
-                },
-              ]}
+            <MaterialCommunityIcons.Button
+              backgroundColor="transparent"
+              borderRadius={32}
+              color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
+              iconStyle={{ marginRight: 0 }}
+              name="arrow-left"
+              size={32}
+              style={tw`p-1 shrink-0`}
+              underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
+              onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
             />
-          </>
-          }
+          </View>
+        </View>
+
+        {!isWide && SUPPORTED_LOCATIONS.length > 1 ? (
+          <CarouselPaginationDots
+            count={SUPPORTED_LOCATIONS.length}
+            offset={offset}
+            style={tw`grow-0 mx-auto`}
+          />
+        ) : null}
+
+        <View style={tw`grow shrink basis-0 flex flex-row items-center justify-end gap-2`}>
+          {IS_DEV && (
+            <>
+              <View style={tw`relative`}>
+                <Animated.View
+                  style={[
+                    tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`,
+                    areLightsVisible && { backgroundColor: theme.meatBrown },
+                  ]}>
+                  {!areLightsVisible && (
+                    <AppBlurView
+                      intensity={64}
+                      style={tw`h-full w-full`}
+                      tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
+                    />
+                  )}
+                </Animated.View>
+                <MaterialCommunityIcons.Button
+                  backgroundColor="transparent"
+                  borderRadius={32}
+                  color={
+                    areLightsVisible || !tw.prefixMatch('dark')
+                      ? theme.charlestonGreen
+                      : tw.color('gray-400')
+                  }
+                  iconStyle={{ marginRight: 0 }}
+                  name={areLightsVisible ? 'lightbulb-group' : 'lightbulb-group-outline'}
+                  size={32}
+                  style={tw`p-1 shrink-0`}
+                  underlayColor={
+                    tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')
+                  }
+                  onPress={() => {
+                    setLightsVisible(!areLightsVisible);
+                    setInformationsVisible(false);
+                  }}
+                />
+              </View>
+
+              <View style={tw`relative`}>
+                <Animated.View
+                  style={[
+                    tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`,
+                    areInformationsVisible && { backgroundColor: theme.meatBrown },
+                  ]}>
+                  {!areInformationsVisible && (
+                    <AppBlurView
+                      intensity={64}
+                      style={tw`h-full w-full`}
+                      tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
+                    />
+                  )}
+                </Animated.View>
+                <MaterialCommunityIcons.Button
+                  backgroundColor="transparent"
+                  borderRadius={32}
+                  color={
+                    areInformationsVisible || !tw.prefixMatch('dark')
+                      ? theme.charlestonGreen
+                      : tw.color('gray-400')
+                  }
+                  iconStyle={{ marginRight: 0 }}
+                  name={areInformationsVisible ? 'help-circle' : 'help-circle-outline'}
+                  size={32}
+                  style={tw`p-1 shrink-0`}
+                  underlayColor={
+                    tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')
+                  }
+                  onPress={() => {
+                    setLightsVisible(false);
+                    setInformationsVisible(!areInformationsVisible);
+                  }}
+                />
+              </View>
+            </>
+          )}
         </View>
       </Animated.View>
 
@@ -169,14 +216,12 @@ const OnPremise = () => {
 
             <Animated.ScrollView
               ref={horizontalScrollView}
-              contentContainerStyle={[
-                tw`flex flex-row items-stretch`,
-              ]}
               horizontal
               pagingEnabled
+              contentContainerStyle={tw`flex flex-row items-stretch`}
               scrollEventThrottle={16}
-              onScroll={onHorizontalScroll}
-              showsHorizontalScrollIndicator={false}>
+              showsHorizontalScrollIndicator={false}
+              onScroll={onHorizontalScroll}>
               <ScrollView
                 contentContainerStyle={[
                   isWide && tw`max-w-md`,
@@ -185,7 +230,10 @@ const OnPremise = () => {
                 horizontal={false}
                 scrollEventThrottle={16}
                 showsVerticalScrollIndicator={false}>
-                <PoulaillerPlan />
+                <PoulaillerPlan
+                  withInformations={areInformationsVisible}
+                  withLights={areLightsVisible}
+                />
               </ScrollView>
               <ScrollView
                 contentContainerStyle={[
@@ -195,7 +243,10 @@ const OnPremise = () => {
                 horizontal={false}
                 scrollEventThrottle={16}
                 showsVerticalScrollIndicator={false}>
-                <PtiPoulaillerPlan />
+                <PtiPoulaillerPlan
+                  withInformations={areInformationsVisible}
+                  withLights={areLightsVisible}
+                />
               </ScrollView>
             </Animated.ScrollView>
           </View>

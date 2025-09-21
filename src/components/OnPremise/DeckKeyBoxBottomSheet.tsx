@@ -10,7 +10,7 @@ import KeyLockAnimation from '@/components/Animations/KeyLockAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
-import { handleSilentError, parseErrorText } from '@/helpers/error';
+import { handleSilentError } from '@/helpers/error';
 import { getDeckKeyBoxCode } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -36,15 +36,9 @@ const DeckKeyBoxBottomSheet = ({
         setCode(fetchedCode);
       })
       .catch(handleSilentError)
-      .catch(async (error) => {
-        const description = await parseErrorText(error);
-        noticeStore.add({
-          message: t('onPremise.keyBoxes.deck.onFetch.fail'),
-          description,
-          type: 'error',
-        });
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      })
+      .catch((error) =>
+        noticeStore.addError(error, { message: t('onPremise.keyBoxes.deck.onFetch.fail') }),
+      )
       .finally(() => setLoading(false));
   }, [noticeStore]);
 

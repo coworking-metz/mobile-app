@@ -135,7 +135,6 @@ const SubscriptionBottomSheet = ({
                 snapEnabled
                 data={sortedSubscriptions}
                 defaultIndex={defaultIndex}
-                windowSize={5}
                 enabled={sortedSubscriptions.length > 1}
                 loop={false}
                 renderItem={({ item }) => (
@@ -243,6 +242,7 @@ const SubscriptionBottomSheet = ({
                 )}
                 style={[tw`flex flex-row w-full h-full overflow-visible`]}
                 width={carouselWidth}
+                windowSize={5}
                 onProgressChange={(_progress, relativeProgress) => {
                   offset.value = relativeProgress;
                 }}

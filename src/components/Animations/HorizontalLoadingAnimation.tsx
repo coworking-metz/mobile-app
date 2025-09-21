@@ -1,8 +1,8 @@
-import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
 import tw from 'twrnc';
 import WiredOutlineHorizontalLoader from '@/assets/animations/lordicon/wired-outline-horizontal-loader.json';
+import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie } from '@/helpers/colors';
 
 type AnimationProps = Omit<LottieViewProps, 'source'> & { color?: string };

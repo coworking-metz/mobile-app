@@ -1,7 +1,8 @@
+import AppTouchable from '../AppTouchable';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { isNil } from 'lodash';
 import React, { useMemo } from 'react';
-import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
@@ -14,6 +15,7 @@ const ActionablePhoneBooths = ({
   inactiveIcon,
   unknownIcon,
   actives = [false, false],
+  selected = false,
   disabled = false,
   loading,
   onPress,
@@ -23,6 +25,7 @@ const ActionablePhoneBooths = ({
   inactiveIcon: keyof typeof mdiGlyphMap;
   unknownIcon: keyof typeof mdiGlyphMap;
   actives?: (boolean | null)[];
+  selected?: boolean;
   disabled?: boolean;
   loading?: boolean;
   onPress?: () => void;
@@ -42,14 +45,12 @@ const ActionablePhoneBooths = ({
     <AppBlurView
       intensity={8}
       style={[
-        tw`absolute z-10 h-12 w-24 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-85`,
+        tw`absolute z-10 h-12 w-24 flex items-stretch rounded-full overflow-hidden bg-gray-200 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-85`,
+        selected && tw.style(`border-2 border-gray-500 dark:border-gray-400`),
         style,
       ]}
       tint={tw.prefixMatch('dark') ? 'dark' : 'light'}>
-      <TouchableOpacity
-        disabled={disabled}
-        style={tw`flex flex-row items-center justify-between h-full w-full`}
-        onPress={onPress}>
+      <AppTouchable disabled={disabled} style={tw`h-full w-full`} onPress={onPress}>
         {loading ? (
           <HorizontalLoadingAnimation
             color={
@@ -60,10 +61,10 @@ const ActionablePhoneBooths = ({
             style={tw`w-10 h-10 m-auto`}
           />
         ) : (
-          <>
+          <Animated.View style={tw`flex flex-row items-center grow`}>
             <Animated.View
               style={[
-                tw`h-full w-1/2 p-2 flex flex-row items-center justify-center`,
+                tw`h-full grow p-1 flex flex-row items-center justify-center`,
                 isFirstPhoneBoothSelected && { backgroundColor: theme.meatBrown },
               ]}>
               <MaterialCommunityIcons
@@ -85,7 +86,7 @@ const ActionablePhoneBooths = ({
             </Animated.View>
             <Animated.View
               style={[
-                tw`h-full w-1/2 p-2 flex flex-row items-center justify-center`,
+                tw`h-full grow p-1 flex flex-row items-center justify-center`,
                 isSecondPhoneBoothSelected && { backgroundColor: theme.meatBrown },
               ]}>
               <MaterialCommunityIcons
@@ -105,9 +106,9 @@ const ActionablePhoneBooths = ({
                 underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
               />
             </Animated.View>
-          </>
+          </Animated.View>
         )}
-      </TouchableOpacity>
+      </AppTouchable>
     </AppBlurView>
   );
 };

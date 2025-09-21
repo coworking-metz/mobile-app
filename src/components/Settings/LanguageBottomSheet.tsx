@@ -1,4 +1,3 @@
-import SwitchLanguageAnimation from '../Animations/SwitchLanguageAnimation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useRef } from 'react';
@@ -6,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
 import tw from 'twrnc';
+import SwitchLanguageAnimation from '@/components/Animations/SwitchLanguageAnimation';
 import AppBottomSheet, {
   AppBottomSheetRef,
   type AppBottomSheetProps,

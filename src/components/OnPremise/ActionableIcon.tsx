@@ -1,19 +1,20 @@
-import AppBlurView from '@/components/AppBlurView';
-import AppTouchable from '@/components/AppTouchable';
-import { theme } from '@/helpers/colors';
+import LoadingSpinner from '../LoadingSpinner';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import React, { type ReactNode } from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import tw from 'twrnc';
-import LoadingSpinner from '../LoadingSpinner';
-import HorizontalLoadingAnimation from '../Animations/HorizontalLoadingAnimation';
+import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
+import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
+import AppBlurView from '@/components/AppBlurView';
+import AppTouchable from '@/components/AppTouchable';
+import { theme } from '@/helpers/colors';
 
 export type ActionableIconProps = {
   activeIcon: keyof typeof mdiGlyphMap;
   inactiveIcon: keyof typeof mdiGlyphMap;
   active?: boolean;
+  selected?: boolean;
   disabled?: boolean;
   loading?: boolean;
   pending?: boolean;
@@ -27,6 +28,7 @@ const ActionableIcon = ({
   activeIcon,
   inactiveIcon,
   active = false,
+  selected = false,
   disabled = false,
   loading,
   pending,
@@ -44,6 +46,7 @@ const ActionableIcon = ({
         active
           ? { backgroundColor: theme.meatBrown }
           : tw`bg-gray-200 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-85`,
+        selected && tw.style(`border-2 border-gray-500 dark:border-gray-400`),
         style,
       ]}
       tint={tw.prefixMatch('dark') ? 'dark' : 'light'}>

@@ -1,6 +1,8 @@
+import * as Haptics from 'expo-haptics';
 import uuid from 'react-native-uuid';
 import { create } from 'zustand';
 import { AppRoundedButtonProps } from '@/components/AppRoundedButton';
+import { AnyError, parseErrorText } from '@/helpers/error';
 
 export type NoticeType = 'info' | 'success' | 'warning' | 'error' | 'loading' | 'unlock';
 
@@ -29,12 +31,13 @@ export interface StoreNotice extends Notice {
 interface NoticeState {
   history: StoreNotice[];
   add: (notice: Notice) => void;
+  addError: (error: AnyError, options: Notice) => Promise<AnyError>;
   remove: (id: string | number[]) => void;
   dismiss: (id: string | number[]) => void;
   dismissAll: () => void;
 }
 
-const useNoticeStore = create<NoticeState>((set, _get) => ({
+const useNoticeStore = create<NoticeState>((set, get) => ({
   history: [],
   add: (notice: Notice): void => {
     set((state) => ({
@@ -48,6 +51,16 @@ const useNoticeStore = create<NoticeState>((set, _get) => ({
         },
       ],
     }));
+  },
+  addError: async (error: AnyError, options: Notice): Promise<AnyError> => {
+    const description = await parseErrorText(error);
+    get().add({
+      description,
+      type: 'error',
+      ...options,
+    });
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    return Promise.reject(error);
   },
   remove: (id: string | number[]): void => {
     set((state) => ({ history: state.history.filter((notice) => notice.id !== id) }));

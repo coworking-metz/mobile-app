@@ -1,8 +1,7 @@
 {
-  "actions": {
-    "edit": "Edit",
-    "info": "Informations",
-    "refetch": "Refresh"
+  "airConditioning": {
+    "description": "The air conditioning can be turned on or off using the provided remote controls.\nThe temperature adjusts automatically according to the room's conditions.\n\nIt is recommended to turn it off when no coworker is in the room.",
+    "label": "Air conditioning"
   },
   "climate": {
     "carbonDioxide": {
@@ -31,6 +30,10 @@
       "level": "{{level}} °C"
     }
   },
+  "coffeeMachine": {
+    "description": "The coffee machine, which can also be used for tea, is self-service.\nA personal mug is recommended and can be <0>ordered from the shop</0>; shared spots are available at the entrance of Le Poulailler to leave it there.\n\n<1>A contribution</1> is appreciated in case of regular use.",
+    "label": "Coffee machine"
+  },
   "deckDoor": {
     "description": "This door directly leads to the deck, and can be opened from the exterior to enter the workspace.",
     "label": "Unlock\nthe deck door",
@@ -40,6 +43,7 @@
       "fail": "Unable to unlock the door",
       "success": "Door is open!"
     },
+    "retry": "Tap to retry",
     "slideToUnlock": "Slide to unlock"
   },
   "empty": {
@@ -47,7 +51,7 @@
     "title": "Chaos"
   },
   "flexDesk": {
-    "description": "This sit-stand desk allows you to work sitting or standing, depending on your preferences.\nIt is available without reservation, with a real-time status to check if it is occupied or free.",
+    "description": "This sit-stand desk allows you to work sitting or standing, depending on your preferences.\nIt is available without reservation, with a real-time status to check if it is free or occupied.",
     "label": "Sit-stand desk",
     "occupancy": {
       "label": "Availability",
@@ -57,6 +61,18 @@
         "unknown": "Unknown"
       }
     }
+  },
+  "fridge": {
+    "description": "The refrigerator is available for all members.\nIt is emptied regularly and without notice to maintain cleanliness.\nIt's recommended not to leave food for extended periods.",
+    "label": "Fridge"
+  },
+  "groupWork": {
+    "description": "An adjacent room is dedicated to collective exchanges: meetings, video calls, or group discussions.\nIt helps preserve the calm of the open space, where discretion is expected.\nThis area is shared and should be used occasionally so everyone can benefit from it.",
+    "label": "Collaborative space"
+  },
+  "intercom": {
+    "description": "The doorbell most often signals the arrival of a member or a visitor.\nMembers are encouraged to answer the intercom to grant access. This simple gesture contributes to the welcoming and convivial atmosphere of the coworking space.",
+    "label": "Intercom"
   },
   "keyBoxes": {
     "deck": {
@@ -124,5 +140,21 @@
       }
     }
   },
-  "title": "Manage workspace"
+  "printer": {
+    "description": "The printer is accessible on the network or by e-mail to the address indicated nearby.\nUsage should remain occasional and reasonable.\n\nA contribution is requested in case of regular printing, available in <0>the shop</0>.",
+    "label": "Printer"
+  },
+  "television": {
+    "description": "The television screen in the space displays important information from Le Poulailler: attendance, upcoming events, internal announcements, and reminders of the rules.\n\nIt serves as the digital notice board of the coworking space, designed to keep everyone informed about community life.",
+    "label": "Television"
+  },
+  "title": "Manage workspace",
+  "wifi": {
+    "credentials": {
+      "fetch": "Get credentials",
+      "missingCapability": "Wi-Fi credentials are only available to members and visitors."
+    },
+    "description": "The Wi-Fi network provides Internet access and automatically records presence through the device's MAC address.\nIf you change devices, the address can be updated directly from <0>the app</0> or <1>the website</1>.\n\nUsage should remain professional and reasonable; heavy downloads and BitTorrent are prohibited.",
+    "label": "Wi-Fi network"
+  }
 }

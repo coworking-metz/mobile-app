@@ -134,8 +134,9 @@ const Help = () => {
           );
           return {
             ...helpItems[itemIndex],
-            markdownDescription: `${start > CHARACTERS_BEFORE_HIGHLIGHT ? '...' : ''
-              }${description.slice(Math.max(start - CHARACTERS_BEFORE_HIGHLIGHT, 0))}`,
+            markdownDescription: `${
+              start > CHARACTERS_BEFORE_HIGHLIGHT ? '...' : ''
+            }${description.slice(Math.max(start - CHARACTERS_BEFORE_HIGHLIGHT, 0))}`,
           } as HelpItem;
         });
         return highlightedHelpItems;

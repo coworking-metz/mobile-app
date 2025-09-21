@@ -2,9 +2,9 @@
   "description": "Vous et vos données",
   "permissions": {
     "ask": {
-      "description": "Pour accéder à cette fonctionnalité, un réglage système supplémentaire est nécessaire.\nIl vous suffit simplement de le modifier dans les paramètres de votre appareil.",
+      "description": "Pour modifier cette propriété, veuillez vous diriger vers les réglages systèmes de votre appareil.",
       "review": "Modifier les réglages",
-      "title": "Nous avons besoin de vous"
+      "title": "Réglages systèmes"
     },
     "bluetooth": {
       "description": "Pour être localisé au sein des espaces.",

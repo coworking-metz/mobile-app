@@ -33,16 +33,16 @@ const About = () => {
         </ServiceRow>
         <ServiceRowLink
           withBottomDivider
-          target="_blank"
           href="https://coworking-metz.fr"
           label={t('about.legal.author.label')}
           style={tw`px-3 mx-3`}
+          target="_blank"
         />
         <ServiceRowLink
-          target="_blank"
           href="https://coworking-metz.fr/donnees/"
           label={t('about.legal.privacyPolicy.label')}
           style={tw`px-3 mx-3`}
+          target="_blank"
         />
 
         <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
@@ -86,22 +86,22 @@ const About = () => {
         <ServiceRowLink
           withBottomDivider
           href="https://lottiefiles.com/page/license"
-          target="_blank"
           label={t('about.credits.lottiefiles.label')}
           style={tw`px-3 mx-3`}
+          target="_blank"
         />
         <ServiceRowLink
           withBottomDivider
           href="https://lordicon.com/licenses"
-          target="_blank"
           label={t('about.credits.lordicon.label')}
           style={tw`px-3 mx-3`}
+          target="_blank"
         />
         <ServiceRowLink
           href="https://rive.app/docs/legal/terms-of-service"
-          target="_blank"
           label={t('about.credits.rive.label')}
           style={tw`px-3 mx-3`}
+          target="_blank"
         />
 
         <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
@@ -110,15 +110,15 @@ const About = () => {
         <ServiceRowLink
           withBottomDivider
           href="https://gitlab.com/coworking-metz-poulailler/"
-          target="_blank"
           label={t('about.opensource.gitlab.label')}
           style={tw`px-3 mx-3`}
+          target="_blank"
         />
         <ServiceRowLink
           href="https://github.com/coworking-metz"
-          target="_blank"
           label={t('about.opensource.github.label')}
           style={tw`px-3 mx-3`}
+          target="_blank"
         />
       </View>
     </ServiceLayout>

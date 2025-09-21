@@ -46,7 +46,7 @@
     },
     "macAddress": {
       "label": "Adresse MAC",
-      "locallyAdministered": "Cette adresse est virtuelle et peut changer souvent. Vous devrez peut-être la saisir à nouveau.",
+      "locallyAdministered": "Cette adresse est virtuelle et peut changer souvent. Vous devrez peut-être la saisir à nouveau.\n<0>Comment désactiver les adresses MAC aléatoires ?</0>",
       "placeholder": "A1:B2:C3:D4:E6:F7"
     },
     "name": {

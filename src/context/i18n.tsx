@@ -10,7 +10,7 @@ const I18nContext = createContext<{
   language: string | null;
   ready: boolean;
   selectLanguage: () => void;
-}>({ language: null, ready: false, selectLanguage: () => { } });
+}>({ language: null, ready: false, selectLanguage: () => {} });
 
 export const DEFAULT_LANGUAGE = process.env.EXPO_PUBLIC_DEFAULT_LANGUAGE || 'fr';
 

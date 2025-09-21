@@ -214,7 +214,6 @@ const PresenceGraph = ({
             strokeWidth: 2, // optional, default 3,
           }}
           endDate={new Date()}
-
           getMonthLabel={(month) =>
             new Intl.DateTimeFormat(i18n.language, {
               month: 'long',
