@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import * as Calendar from 'expo-calendar';
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { isNil } from 'lodash';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LayoutChangeEvent, Platform, RefreshControl, View } from 'react-native';
 import {
@@ -61,6 +61,16 @@ export default function CalendarEventPage() {
     return NAVIGATION_HEIGHT + insets.top;
   }, [insets.top]);
 
+  // https://github.com/facebook/react-native/issues/54183#issuecomment-3467125323
+  const [progressViewOffset, setProgressViewOffset] = useState(0);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setProgressViewOffset(navigationHeight + headerHeight);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [navigationHeight, headerHeight]);
+
   const onVerticalScroll = useAnimatedScrollHandler({
     onScroll: ({ contentOffset }) => {
       verticalScrollProgress.value = contentOffset.y;
@@ -114,7 +124,7 @@ export default function CalendarEventPage() {
   });
 
   const event = useMemo<CalendarEvent | null>(() => {
-    return (!isNil(eventId) && (calendarEvents || []).find((e) => `${e.id}` === eventId)) || null;
+    return (!isNil(eventId) && (calendarEvents || [])?.find((e) => `${e.id}` === eventId)) || null;
   }, [calendarEvents, eventId]);
 
   const firstPicture = useMemo(() => {
@@ -155,7 +165,7 @@ export default function CalendarEventPage() {
         keyboardShouldPersistTaps="handled"
         refreshControl={
           <RefreshControl
-            progressViewOffset={navigationHeight + headerHeight}
+            progressViewOffset={progressViewOffset}
             refreshing={isFetchingCalendarEvents}
             onRefresh={refetchCalendarEvents}
           />
@@ -313,17 +323,10 @@ export default function CalendarEventPage() {
             tw`absolute top-0 left-0 bottom-0 right-0 border-b-gray-300 dark:border-b-gray-700 border-b-[0.5px]`,
             navigationBackgroundStyle,
           ]}>
-          <AppBlurView
-            intensity={64}
-            style={tw`h-full w-full`}
-            tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
-          />
+          <AppBlurView style={tw`h-full w-full`} />
         </Animated.View>
         <View style={tw`flex flex-row shrink-0 min-w-10 overflow-visible basis-0 grow ml-4`}>
-          <AppBlurView
-            intensity={64}
-            style={tw`rounded-full overflow-hidden`}
-            tint={tw.prefixMatch('dark') ? 'dark' : 'light'}>
+          <AppBlurView style={tw`rounded-full overflow-hidden`}>
             <MaterialCommunityIcons.Button
               backgroundColor="transparent"
               borderRadius={24}

@@ -100,10 +100,7 @@ const CalendarEventCard = ({
         {loading ? (
           <LoadingSkeleton height={'100%'} width={'100%'} />
         ) : event ? (
-          <AppBlurView
-            intensity={64}
-            style={tw`w-full flex flex-row items-center px-3 py-2 mt-auto`}
-            tint={tw.prefixMatch('dark') ? 'dark' : 'light'}>
+          <AppBlurView style={tw`w-full flex flex-row items-center px-3 py-2 mt-auto`}>
             {eventIcon}
             <View style={tw`flex flex-col items-stretch grow shrink basis-0 ml-3`}>
               {date && (

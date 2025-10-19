@@ -1,7 +1,6 @@
 import AppBottomSheetBackdrop from './AppBottomSheetBackdrop';
 import AppFader from './AppFader';
 import BottomSheet, { BottomSheetScrollView, type BottomSheetProps } from '@gorhom/bottom-sheet';
-import { SquircleView } from 'expo-squircle-view';
 import React, {
   forwardRef,
   ForwardRefRenderFunction,
@@ -13,6 +12,7 @@ import React, {
   type ReactNode,
 } from 'react';
 import { Dimensions, LayoutChangeEvent, Platform, StyleProp, ViewStyle } from 'react-native';
+import SquircleView from 'react-native-fast-squircle';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
@@ -104,8 +104,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
         style,
       ]}>
       <SquircleView
-        cornerSmoothing={100} // 0-100
-        preserveSmoothing={true} // false matches figma, true has more rounding
+        cornerSmoothing={1} // 0-1
         style={tw`relative overflow-hidden rounded-[3.5rem] bg-white dark:bg-zinc-900`}>
         <AppFader
           position={Fader.position.TOP}
@@ -117,7 +116,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
           <BottomSheetScrollView
             bounces={isBouncing}
             contentContainerStyle={[tw.style(`pt-2`, { paddingBottom }), contentContainerStyle]}
-            onContentSizeChange={(_width, height) => setContentHeight(height)}>
+            onContentSizeChange={(_width: number, height: number) => setContentHeight(height)}>
             {children}
           </BottomSheetScrollView>
         )}

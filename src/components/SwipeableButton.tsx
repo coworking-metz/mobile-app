@@ -12,15 +12,13 @@ import {
   useColorScheme,
   type LayoutChangeEvent,
 } from 'react-native';
-import { PanGestureHandler } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolate,
   Extrapolation,
   convertToRGBA,
   interpolate,
   interpolateColor,
-  runOnJS,
-  useAnimatedGestureHandler,
   useAnimatedProps,
   useAnimatedStyle,
   useDerivedValue,
@@ -85,62 +83,45 @@ const SwipeableButton = ({
     }
   }, [hasPassedThreshold]);
 
-  const onSwipe = useCallback(() => {
-    setSwiped(true);
-    onSwiped?.();
-  }, [onSwiped]);
-
-  const onHold = useCallback(() => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-  }, []);
-
   const onRestart = useCallback(() => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSwiped(false);
     onReset?.();
   }, []);
 
-  const animatedGestureHandler = useAnimatedGestureHandler(
-    {
-      onStart: () => {
-        isSwiping.value = 1;
-        runOnJS(onHold)();
-      },
-      onActive: (e) => {
-        const newValue = e.translationX;
+  const pan = Gesture.Pan()
+    .onBegin(() => {
+      isSwiping.value = 1;
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    })
+    .onChange((event) => {
+      const newValue = event.translationX;
 
-        if (newValue >= 0 && newValue <= swipingRange - RIGHT_PADDING) {
-          sliding.value = newValue;
-        }
+      if (newValue >= 0 && newValue <= swipingRange - RIGHT_PADDING) {
+        sliding.value = newValue;
+      }
 
-        if (sliding.value >= swipingRange - HANDLE_ENDING_POSITION) {
-          runOnJS(setPassedThreshold)(true);
-        } else {
-          runOnJS(setPassedThreshold)(false);
-        }
-      },
-      onCancel: () => {
-        isSwiping.value = 0;
-      },
-      onFail: () => {
-        isSwiping.value = 0;
-      },
-      onFinish: () => {
-        isSwiping.value = 0;
-      },
-      onEnd: () => {
-        if (sliding.value >= swipingRange - HANDLE_ENDING_POSITION) {
-          sliding.value = withSpring(swipingRange - RIGHT_PADDING, {
-            stiffness: 300,
-          });
-          runOnJS(onSwipe)();
-        } else {
-          sliding.value = withSpring(0);
-        }
-      },
-    },
-    [swipingRange],
-  );
+      if (sliding.value >= swipingRange - HANDLE_ENDING_POSITION) {
+        setPassedThreshold(true);
+      } else {
+        setPassedThreshold(false);
+      }
+    })
+    .onFinalize(() => {
+      if (sliding.value >= swipingRange - HANDLE_ENDING_POSITION) {
+        sliding.value = withSpring(swipingRange - RIGHT_PADDING, {
+          stiffness: 300,
+        });
+        setSwiped(true);
+        onSwiped?.();
+      } else {
+        sliding.value = withSpring(0);
+      }
+    })
+    .onEnd(() => {
+      isSwiping.value = 0;
+    })
+    .runOnJS(true);
 
   const colors = useDerivedValue(() => {
     const inputRange = [
@@ -240,7 +221,7 @@ const SwipeableButton = ({
           </Rect>
         </Canvas>
       ) : null}
-      <PanGestureHandler enabled={!disabled && !hasSwiped} onGestureEvent={animatedGestureHandler}>
+      <GestureDetector gesture={pan}>
         <Animated.View
           style={[
             tw`absolute left-0 h-16 w-16 rounded-full z-20 flex justify-center items-center`,
@@ -262,7 +243,7 @@ const SwipeableButton = ({
             )}
           </TouchableOpacity>
         </Animated.View>
-      </PanGestureHandler>
+      </GestureDetector>
       <AppText
         style={[
           tw`absolute right-8 text-base text-right font-medium text-slate-500 dark:text-slate-400`,

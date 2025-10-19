@@ -423,9 +423,19 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           <ThemePicker withBottomDivider style={tw`px-3 mx-3`} onPress={selectTheme} />
           <Link asChild href="/advanced/">
             <ServiceRow
+              withBottomDivider
               label={t('advanced.title')}
               prefixIcon="cog-outline"
               selected={isWide && pathname === '/advanced'}
+              style={tw`px-3 mx-3`}
+              suffixIcon="chevron-right"
+            />
+          </Link>
+          <Link asChild href="/analytics">
+            <ServiceRow
+              label={t('settings.analytics.title')}
+              prefixIcon="chart-bar"
+              selected={isWide && pathname === '/analytics'}
               style={tw`px-3 mx-3`}
               suffixIcon="chevron-right"
             />
@@ -495,11 +505,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden border-gray-300 dark:border-gray-700 border-[0.5px]`,
               navigationBackgroundStyle,
             ]}>
-            <AppBlurView
-              intensity={64}
-              style={tw`h-full w-full`}
-              tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
-            />
+            <AppBlurView style={tw`h-full w-full`} />
           </Animated.View>
           <MaterialCommunityIcons.Button
             backgroundColor="transparent"

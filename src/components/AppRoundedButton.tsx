@@ -2,9 +2,9 @@ import HorizontalLoadingAnimation from './Animations/HorizontalLoadingAnimation'
 import AppTouchable, { AppTouchableRef } from './AppTouchable';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SquircleView } from 'expo-squircle-view';
 import { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
 import { StyleProp, View, ViewStyle } from 'react-native';
+import SquircleView from 'react-native-fast-squircle';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import { theme } from '@/helpers/colors';
@@ -26,11 +26,10 @@ const AppRoundedButton: ForwardRefRenderFunction<AppTouchableRef, AppRoundedButt
   return (
     <AppTouchable ref={ref} disabled={disabled} {...(!disabled && { onPress })}>
       <SquircleView
-        cornerSmoothing={100} // 0-100
-        preserveSmoothing={true} // false matches figma, true has more rounding
+        cornerSmoothing={1} // 0-1
         style={[
           tw.style(
-            `flex flex-row justify-center items-center min-h-14 px-6 rounded-3xl relative overflow-hidden`,
+            `flex flex-row justify-center items-center min-h-14 px-6 rounded-[1.5rem] relative overflow-hidden`,
             disabled && `bg-neutral-200 dark:bg-neutral-400 opacity-50`,
           ),
           style,

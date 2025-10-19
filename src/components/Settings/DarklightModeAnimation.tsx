@@ -2,7 +2,8 @@ import * as Haptics from 'expo-haptics';
 import { includes } from 'lodash';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { ViewStyle } from 'react-native';
-import Rive, { Alignment, Fit, type RiveRef } from 'rive-react-native';
+import { Alignment, Fit, type RiveRef } from 'rive-react-native';
+import RiveAnimation from '@/components/RiveAnimation';
 
 const STATE_MACHINE_NAME = 'Button_Animation' as const;
 
@@ -33,12 +34,12 @@ const DarklightModeAnimation = ({
   }, [riveRef.current, mode]);
 
   return (
-    <Rive
+    <RiveAnimation
       ref={riveRef}
       alignment={Alignment.Center}
       artboardName="Artboard"
       fit={Fit.Cover}
-      resourceName="dark_light_mode_switch"
+      source={require('@/assets/rive/dark_light_mode_switch.riv')}
       stateMachineName={STATE_MACHINE_NAME}
       style={style}
       onStateChanged={onStateChanged}

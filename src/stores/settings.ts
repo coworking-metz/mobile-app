@@ -1,5 +1,5 @@
 import { createAsyncStorage } from './async-storage';
-import * as Sentry from '@sentry/react-native';
+// import * as Sentry from '@sentry/react-native';
 import { create } from 'zustand';
 import { persist, createJSONStorage, subscribeWithSelector } from 'zustand/middleware';
 import { log } from '@/helpers/logger';
@@ -78,7 +78,7 @@ const useSettingsStore = create<SettingsState>()(
           return (_, error) => {
             if (error) {
               settingsLogger.error(`Unable to hydrate settings storage`, error);
-              Sentry.captureException(error);
+              // Sentry.captureException(error);
             } else {
               settingsLogger.info(`Settings storage hydrated`);
               useSettingsStore.setState({ hydrated: true });

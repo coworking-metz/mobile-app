@@ -97,11 +97,7 @@ const OnPremise = () => {
           <View style={tw`relative`}>
             <Animated.View
               style={tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`}>
-              <AppBlurView
-                intensity={64}
-                style={tw`h-full w-full`}
-                tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
-              />
+              <AppBlurView style={tw`h-full w-full`} />
             </Animated.View>
             <MaterialCommunityIcons.Button
               backgroundColor="transparent"
@@ -127,80 +123,62 @@ const OnPremise = () => {
 
         <View style={tw`grow shrink basis-0 flex flex-row items-center justify-end gap-2`}>
           {IS_DEV && (
-            <>
-              <View style={tw`relative`}>
-                <Animated.View
-                  style={[
-                    tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`,
-                    areLightsVisible && { backgroundColor: theme.meatBrown },
-                  ]}>
-                  {!areLightsVisible && (
-                    <AppBlurView
-                      intensity={64}
-                      style={tw`h-full w-full`}
-                      tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
-                    />
-                  )}
-                </Animated.View>
-                <MaterialCommunityIcons.Button
-                  backgroundColor="transparent"
-                  borderRadius={32}
-                  color={
-                    areLightsVisible || !tw.prefixMatch('dark')
-                      ? theme.charlestonGreen
-                      : tw.color('gray-400')
-                  }
-                  iconStyle={{ marginRight: 0 }}
-                  name={areLightsVisible ? 'lightbulb-group' : 'lightbulb-group-outline'}
-                  size={32}
-                  style={tw`p-1 shrink-0`}
-                  underlayColor={
-                    tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')
-                  }
-                  onPress={() => {
-                    setLightsVisible(!areLightsVisible);
-                    setInformationsVisible(false);
-                  }}
-                />
-              </View>
-
-              <View style={tw`relative`}>
-                <Animated.View
-                  style={[
-                    tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`,
-                    areInformationsVisible && { backgroundColor: theme.meatBrown },
-                  ]}>
-                  {!areInformationsVisible && (
-                    <AppBlurView
-                      intensity={64}
-                      style={tw`h-full w-full`}
-                      tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
-                    />
-                  )}
-                </Animated.View>
-                <MaterialCommunityIcons.Button
-                  backgroundColor="transparent"
-                  borderRadius={32}
-                  color={
-                    areInformationsVisible || !tw.prefixMatch('dark')
-                      ? theme.charlestonGreen
-                      : tw.color('gray-400')
-                  }
-                  iconStyle={{ marginRight: 0 }}
-                  name={areInformationsVisible ? 'help-circle' : 'help-circle-outline'}
-                  size={32}
-                  style={tw`p-1 shrink-0`}
-                  underlayColor={
-                    tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')
-                  }
-                  onPress={() => {
-                    setLightsVisible(false);
-                    setInformationsVisible(!areInformationsVisible);
-                  }}
-                />
-              </View>
-            </>
+            <View style={tw`relative`}>
+              <Animated.View
+                style={[
+                  tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`,
+                  areLightsVisible && { backgroundColor: theme.meatBrown },
+                ]}>
+                <AppBlurView style={tw`h-full w-full`} />
+              </Animated.View>
+              <MaterialCommunityIcons.Button
+                backgroundColor="transparent"
+                borderRadius={32}
+                color={
+                  areLightsVisible || !tw.prefixMatch('dark')
+                    ? theme.charlestonGreen
+                    : tw.color('gray-400')
+                }
+                iconStyle={{ marginRight: 0 }}
+                name={areLightsVisible ? 'lightbulb-group' : 'lightbulb-group-outline'}
+                size={32}
+                style={tw`p-1 shrink-0`}
+                underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
+                onPress={() => {
+                  setLightsVisible(!areLightsVisible);
+                  setInformationsVisible(false);
+                }}
+              />
+            </View>
           )}
+
+          <View style={tw`relative`}>
+            <Animated.View
+              style={[
+                tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`,
+                areInformationsVisible && { backgroundColor: theme.meatBrown },
+              ]}>
+              {<AppBlurView style={tw`h-full w-full`} />}
+            </Animated.View>
+            <MaterialCommunityIcons.Button
+              backgroundColor="transparent"
+              borderRadius={32}
+              color={
+                areInformationsVisible || !tw.prefixMatch('dark')
+                  ? theme.charlestonGreen
+                  : tw.color('gray-400')
+              }
+              iconStyle={{ marginRight: 0 }}
+              name={areInformationsVisible ? 'help-circle' : 'help-circle-outline'}
+              size={32}
+              style={tw`p-1 shrink-0`}
+              underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
+              onPress={() => {
+                setLightsVisible(false);
+                setInformationsVisible(!areInformationsVisible);
+              }}
+            />
+          </View>
         </View>
       </Animated.View>
 

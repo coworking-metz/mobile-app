@@ -23,10 +23,7 @@ const AppIconButton: ForwardRefRenderFunction<AppTouchableRef, AppIconButtonProp
 ) => {
   return (
     <AppTouchable ref={ref} disabled={disabled} style={style} {...(!disabled && { onPress })}>
-      <AppBlurView
-        intensity={64}
-        style={tw`h-full w-full rounded-full overflow-hidden`}
-        tint={tw.prefixMatch('dark') ? 'dark' : 'default'}>
+      <AppBlurView style={tw`h-full w-full rounded-full overflow-hidden`}>
         {loading && (
           <LoadingSpinner
             beamSize={2}

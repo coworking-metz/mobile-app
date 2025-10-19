@@ -1,7 +1,7 @@
 import { createAsyncStorage } from './async-storage';
 import createSecureStorage from './secure-storage';
 import useSettingsStore from './settings';
-import * as Sentry from '@sentry/react-native';
+// import * as Sentry from '@sentry/react-native';
 import dayjs from 'dayjs';
 import { create } from 'zustand';
 import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware';
@@ -50,8 +50,6 @@ const useAuthStore = create<AuthState>()(
             set({ isFetchingToken: true });
             refreshTokensPromise = getAccessAndRefreshTokens(get().refreshToken as string)
               .then(async ({ accessToken, refreshToken }) => {
-                // const user = accessToken ? decodeToken(accessToken) : null;
-                // Sentry.setUser({ email: user?.email });
                 await set({ accessToken, refreshToken });
                 return accessToken;
               })
@@ -72,7 +70,7 @@ const useAuthStore = create<AuthState>()(
           return accessToken;
         },
         clear: async (): Promise<void> => {
-          Sentry.setUser(null);
+          // Sentry.setUser(null);
           await set({
             accessToken: null,
             refreshToken: null,
@@ -99,7 +97,7 @@ useAuthStore.subscribe(
   (state) => state.accessToken,
   (accessToken) => {
     const user = accessToken ? decodeToken(accessToken) : null;
-    Sentry.setUser({ email: user?.email });
+    // Sentry.setUser({ email: user?.email });
     useAuthStore.setState({ user });
   },
 );
@@ -125,7 +123,7 @@ const unsubscribe = useSettingsStore.subscribe(
             return (_hydratedState, error) => {
               if (error) {
                 authLogger.error(`Unable to hydrate auth storage`, error);
-                Sentry.captureException(error);
+                // Sentry.captureException(error);
               } else {
                 authLogger.info(`Auth storage hydrated`);
                 useAuthStore.setState({ hydrated: true });

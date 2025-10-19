@@ -50,7 +50,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
       ]}
       underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
       onPress={onPress}>
-      <>
+      <View style={tw`flex flex-col`}>
         <View style={tw`flex flex-row items-start min-h-14 gap-3 py-2`}>
           {prefixIcon ? (
             <View style={tw`flex flex-row items-center shrink-0 min-h-10`}>
@@ -104,7 +104,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
           </View>
         </View>
         {withBottomDivider ? <Divider /> : null}
-      </>
+      </View>
     </TouchableHighlight>
   );
 };

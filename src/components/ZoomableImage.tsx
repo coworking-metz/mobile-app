@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { Image, type ImageProps } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import { isNil } from 'lodash';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal, Platform, TouchableOpacity, View, ViewStyle } from 'react-native';
 import Gallery from 'react-native-awesome-gallery';
@@ -19,6 +19,7 @@ type ZoomableImageProps = Omit<ImageProps, 'source'> & {
   source?: string;
   sources?: string[];
   zoomed?: boolean;
+  children?: ReactNode;
   onZoomChange?: (zoomed: boolean) => void;
 };
 
@@ -93,7 +94,7 @@ const ZoomableImage = ({
             <View style={tw`relative`}>
               <Animated.View
                 style={[tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`]}>
-                <AppBlurView intensity={64} style={tw`h-full w-full`} tint="dark" />
+                <AppBlurView style={tw`h-full w-full`} type="dark" />
               </Animated.View>
               <MaterialCommunityIcons.Button
                 aria-label={t('actions.close')}

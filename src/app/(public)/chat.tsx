@@ -162,7 +162,7 @@ const Chat = () => {
           },
           Platform.OS === 'ios' ? tw`mt-3` : { top: insets.top + 4 },
         )}>
-        <AppBlurView intensity={64} style={tw`absolute h-full w-full`} tint={'light'} />
+        <AppBlurView style={tw`absolute h-full w-full`} type={'light'} />
         <MaterialCommunityIcons.Button
           aria-label={t('actions.close')}
           backgroundColor="transparent"

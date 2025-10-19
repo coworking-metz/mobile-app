@@ -39,7 +39,6 @@ const ActionableIcon = ({
 }: ActionableIconProps) => {
   return (
     <AppBlurView
-      intensity={8}
       style={[
         tw`absolute z-10 h-12 w-12 flex items-center justify-center rounded-full overflow-hidden`,
         { transform: [{ translateX: -24 }, { translateY: -24 }] }, // to properly center the button
@@ -48,8 +47,7 @@ const ActionableIcon = ({
           : tw`bg-gray-200 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-85`,
         selected && tw.style(`border-2 border-gray-500 dark:border-gray-400`),
         style,
-      ]}
-      tint={tw.prefixMatch('dark') ? 'dark' : 'light'}>
+      ]}>
       {loading && (
         <LoadingSpinner
           beamSize={2}

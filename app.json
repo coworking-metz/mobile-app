@@ -5,7 +5,8 @@
         "backgroundColor": "#F9B000",
         "foregroundImage": "./src/assets/images/icon/adaptive-icon.png"
       },
-      "package": "fr.coworking_metz.mobile"
+      "package": "fr.coworking_metz.mobile",
+      "permissions": ["android.permission.READ_CALENDAR", "android.permission.WRITE_CALENDAR"]
     },
     "androidStatusBar": {
       "translucent": true
@@ -25,13 +26,13 @@
     "icon": "./src/assets/images/icon/icon-light-1024.png",
     "ios": {
       "bundleIdentifier": "fr.coworking-metz.mobile",
-      "icon": {
-        "dark": "./src/assets/images/icon/icon-dark-1024.png",
-        "light": "./src/assets/images/icon/icon-light-1024.png",
-        "tinted": "./src/assets/images/icon/icon-tinted-1024.png"
-      },
+      "icon": "./src/assets/images/icon/le-poulailler.icon",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSCalendarsFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your calendar",
+        "NSCalendarsUsageDescription": "Allow $(PRODUCT_NAME) to access your calendar",
+        "NSRemindersFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders",
+        "NSRemindersUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders"
       },
       "privacyManifests": {
         "NSPrivacyAccessedAPITypes": [
@@ -72,29 +73,19 @@
       "supportsTablet": true
     },
     "name": "Le Poulailler",
-    "newArchEnabled": false,
     "orientation": "portrait",
     "owner": "coworking-metz",
-    "packagerOpts": {
-      "assetExts": ["md"]
-    },
     "plugins": [
       "@vonovak/react-native-theme-control",
       "expo-localization",
       "expo-quick-actions",
       "expo-router",
       "expo-secure-store",
+      "expo-web-browser",
       [
         "expo-calendar",
         {
           "calendarPermission": "The app needs to access your calendar."
-        }
-      ],
-      [
-        "@sentry/react-native/expo",
-        {
-          "organization": "coworking-metz",
-          "project": "mobile"
         }
       ],
       [
@@ -140,6 +131,12 @@
             "node_modules/@expo-google-fonts/noto-sans/900Black/NotoSans_900Black.ttf"
           ]
         }
+      ],
+      [
+        "expo-dev-client",
+        {
+          "launchMode": "most-recent"
+        }
       ]
     ],
     "runtimeVersion": {
@@ -150,7 +147,6 @@
     "updates": {
       "url": "https://u.expo.dev/d4548eb7-404d-4a34-a484-8c0a1f01e0d6"
     },
-    "userInterfaceStyle": "automatic",
     "version": "2025.8.2"
   }
 }

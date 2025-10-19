@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useGlobalSearchParams, useNavigationContainerRef, useRouter } from 'expo-router';
+import { useGlobalSearchParams, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { usePostHog } from 'posthog-react-native';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
@@ -33,7 +33,6 @@ export const useAppAuth = () => {
 
 // This hook will protect the route access based on user authentication.
 const useProtectedRoute = (ready: boolean, setReady: (ready: boolean) => void) => {
-  const rootNavigation = useNavigationContainerRef();
   const router = useRouter();
   const resetNavigation = useResetNavigation();
 
@@ -57,7 +56,6 @@ const useProtectedRoute = (ready: boolean, setReady: (ready: boolean) => void) =
   }>();
 
   useEffect(() => {
-    if (!rootNavigation?.isReady()) return;
     if (!isAuthStoreHydrated || !isSettingsStoreHydrated) return;
 
     if (queryRefreshToken && queryAccessToken && refreshToken !== queryRefreshToken) {
@@ -72,12 +70,11 @@ const useProtectedRoute = (ready: boolean, setReady: (ready: boolean) => void) =
 
       router.setParams({ accessToken: '', refreshToken: '' });
       // setting a new refreshToken will re-trigger the useEffect
-      return;
+      // return;
     }
 
     setReady(true);
   }, [
-    rootNavigation,
     queryRefreshToken,
     queryAccessToken,
     isAuthStoreHydrated,

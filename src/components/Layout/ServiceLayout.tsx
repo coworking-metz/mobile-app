@@ -1,9 +1,9 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MenuAction, MenuView } from '@react-native-menu/menu';
 import { useRouter } from 'expo-router';
-import React, { useCallback, useState, type ReactNode } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { RefreshControl, StyleProp, View, ViewStyle } from 'react-native';
-import { type LayoutChangeEvent } from 'react-native/types';
+import { type LayoutChangeEvent } from 'react-native';
 import {
   KeyboardAwareScrollView,
   type KeyboardAwareScrollViewProps,
@@ -64,6 +64,16 @@ const ServiceLayout = ({
   const verticalScrollProgress = useSharedValue(0);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
   const [refreshing, setRefreshing] = useState(false);
+
+  // https://github.com/facebook/react-native/issues/54183#issuecomment-3467125323
+  const [progressViewOffset, setProgressViewOffset] = useState(0);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setProgressViewOffset(20 + headerHeight + insets.top);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [headerHeight, insets.top]);
 
   const onVerticalScroll = useAnimatedScrollHandler({
     onScroll: ({ contentOffset }) => {
@@ -165,7 +175,7 @@ const ServiceLayout = ({
           {...(onRefresh && {
             refreshControl: (
               <RefreshControl
-                progressViewOffset={NAVIGATION_HEIGHT + headerHeight + insets.top}
+                progressViewOffset={progressViewOffset}
                 refreshing={refreshing}
                 onRefresh={onShouldRefresh}
               />
@@ -197,14 +207,10 @@ const ServiceLayout = ({
         ]}>
         <Animated.View
           style={[
-            tw`absolute top-0 left-0 bottom-0 right-0 border-b-gray-300 dark:border-b-gray-700 border-b-[0.5px]`,
+            tw`absolute overflow-hidden top-0 left-0 bottom-0 right-0 `,
             navigationBackgroundStyle,
           ]}>
-          <AppBlurView
-            intensity={64}
-            style={tw`h-full w-full`}
-            tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
-          />
+          <AppBlurView style={tw`h-full w-full`} />
         </Animated.View>
         <View style={tw`flex flex-row shrink-0 min-w-10 overflow-visible basis-0 grow ml-4`}>
           {withBackButton && (

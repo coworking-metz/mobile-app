@@ -1,7 +1,6 @@
 import AppFader from '../AppFader';
 import * as Haptics from 'expo-haptics';
 import { useNavigation } from 'expo-router';
-import { SquircleView } from 'expo-squircle-view';
 import React, { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
   PanResponder,
@@ -12,6 +11,7 @@ import {
   ViewStyle,
   useColorScheme,
 } from 'react-native';
+import SquircleView from 'react-native-fast-squircle';
 import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -58,6 +58,16 @@ export default function HomeLayout({
     () => !settingsStore.withNativePullToRefresh && !IS_RUNNING_IN_EXPO_GO && !reduceMotion,
     [settingsStore.withNativePullToRefresh, reduceMotion],
   );
+
+  // https://github.com/facebook/react-native/issues/54183#issuecomment-3467125323
+  const [progressViewOffset, setProgressViewOffset] = useState(0);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setProgressViewOffset(Platform.OS === 'ios' ? insets.top : 0);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [insets.top]);
 
   const scrollPosition = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler({
@@ -170,8 +180,7 @@ export default function HomeLayout({
       {enableAnimations ? (
         <Animated.View style={[tw`absolute top-0 inset-x-0`, refreshAnimationStyles]}>
           <SquircleView
-            cornerSmoothing={100} // 0-100
-            preserveSmoothing={true} // false matches figma, true has more rounding
+            cornerSmoothing={1} // 0-1
             style={[tw`overflow-hidden w-full`, isWide && tw`max-w-sm mx-auto rounded-b-[3.5rem]`]}>
             {colorScheme === 'light' ? (
               <SunnyRefreshAnimation
@@ -202,7 +211,7 @@ export default function HomeLayout({
           {...(!enableAnimations && {
             refreshControl: (
               <RefreshControl
-                progressViewOffset={Platform.OS === 'ios' ? insets.top : 0}
+                progressViewOffset={progressViewOffset}
                 refreshing={isRefresing}
                 onRefresh={() => {
                   setRefreshing(true);

@@ -166,11 +166,7 @@ const ModalLayout = ({
             tw`absolute top-0 left-0 bottom-0 right-0 border-b-gray-300 dark:border-b-gray-700 border-b-[0.5px]`,
             headerBackgroundStyle,
           ]}>
-          <AppBlurView
-            intensity={64}
-            style={tw`h-full w-full`}
-            tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
-          />
+          <AppBlurView style={tw`h-full w-full`} />
         </Animated.View>
 
         <View

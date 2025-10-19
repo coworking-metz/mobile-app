@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Tour on floor plans.
+- (iOS) Liquid glass instead of blur.
+- (Android) Blur instead of transparent background.
 
 ### Changed
 

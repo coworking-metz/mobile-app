@@ -188,3 +188,126 @@ export const updateMemberDevice = (
 export const deleteMemberDevice = (memberId: string, deviceId: string): Promise<void> => {
   return HTTP.delete(`/api/members/${memberId}/devices/${deviceId}`).then(({ data }) => data);
 };
+
+export const getMemberStats = (
+  memberId: string,
+): Promise<{ totalVisits: number; totalBookings: number; totalSpent: number }> => {
+  return HTTP.get(`/member/stats`, { params: { userId: memberId } }).then(({ data }) => data);
+};
+
+export const getMemberStatsDetailed = (
+  memberId: string | number,
+): Promise<{
+  activity: ApiMemberActivity[];
+  subscriptions: ApiMemberSubscription[];
+}> => {
+  return Promise.all([
+    getMemberActivity(String(memberId)),
+    getMemberSubscriptions(String(memberId)),
+  ]).then(([activity, subscriptions]) => ({ activity, subscriptions }));
+};
+
+export const getMemberPresenceStats = (
+  memberId: string,
+): Promise<{
+  averagePresence: { daily: number; weekly: number; monthly: number };
+  presenceByMonth: { [month: string]: number };
+  presenceByYear: { [year: string]: number };
+  newMembersMet: number;
+  newMembersByMonth: { [month: string]: number };
+  eventsAttended: number;
+  eventsByMonth: { [month: string]: number };
+  favoriteDay: string;
+  averageArrivalTime: string;
+  communityContribution: number;
+  contributionByType: { [type: string]: number };
+  recommendations: string[];
+}> => {
+  return getMemberActivity(memberId).then((activity) => {
+    const presenceByDate = activity.reduce(
+      (acc, curr) => {
+        const date = dayjs(curr.date);
+        const year = date.format('YYYY');
+        const month = date.format('YYYY-MM');
+        const day = date.format('dddd');
+
+        acc.daily += curr.value;
+        acc.weekly += curr.value / 7;
+        acc.monthly += curr.value / 30;
+
+        acc.presenceByMonth[month] = (acc.presenceByMonth[month] || 0) + curr.value;
+        acc.presenceByYear[year] = (acc.presenceByYear[year] || 0) + curr.value;
+        acc.days[day] = (acc.days[day] || 0) + curr.value;
+
+        return acc;
+      },
+      {
+        daily: 0,
+        weekly: 0,
+        monthly: 0,
+        presenceByMonth: {} as { [month: string]: number },
+        presenceByYear: {} as { [year: string]: number },
+        days: {} as { [day: string]: number },
+      },
+    );
+
+    const favoriteDay = Object.entries(presenceByDate.days).reduce((a, b) =>
+      a[1] > b[1] ? a : b,
+    )[0];
+
+    return {
+      averagePresence: {
+        daily: presenceByDate.daily,
+        weekly: presenceByDate.weekly,
+        monthly: presenceByDate.monthly,
+      },
+      presenceByMonth: presenceByDate.presenceByMonth,
+      presenceByYear: presenceByDate.presenceByYear,
+      newMembersMet: 5, // Mocked value
+      newMembersByMonth: { '2023-01': 2, '2023-02': 3 }, // Mocked value
+      eventsAttended: 10, // Mocked value
+      eventsByMonth: { '2023-01': 4, '2023-02': 6 }, // Mocked value
+      favoriteDay,
+      averageArrivalTime: '09:30 AM', // Mocked value
+      communityContribution: 50, // Mocked value
+      contributionByType: { mentoring: 20, organizing: 30 }, // Mocked value
+      recommendations: ['Try coworking on Fridays!', 'Join the next hackathon!'], // Mocked value
+    };
+  });
+};
+
+export const getMemberTrends = (
+  memberId: string,
+): Promise<{
+  weeklyTrend: number;
+  monthlyTrend: number;
+}> => {
+  return getMemberActivity(memberId).then((activity) => {
+    const now = dayjs();
+    const lastWeek = now.subtract(1, 'week');
+    const lastMonth = now.subtract(1, 'month');
+
+    const weeklyTrend = activity
+      .filter((a) => dayjs(a.date).isAfter(lastWeek))
+      .reduce((sum, a) => sum + a.value, 0);
+
+    const monthlyTrend = activity
+      .filter((a) => dayjs(a.date).isAfter(lastMonth))
+      .reduce((sum, a) => sum + a.value, 0);
+
+    return { weeklyTrend, monthlyTrend };
+  });
+};
+
+export const getMemberFinancialStats = (
+  memberId: string,
+): Promise<{
+  averageCostPerDay: number;
+}> => {
+  return getMemberSubscriptions(memberId).then((subscriptions) => {
+    const totalSpent = subscriptions.reduce((sum, sub) => sum + sub.amount, 0);
+    const totalDays = subscriptions.reduce((sum, sub) => sum + sub.activityCount, 0);
+
+    return { averageCostPerDay: totalDays > 0 ? totalSpent / totalDays : 0 };
+  });
+};

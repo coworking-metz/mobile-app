@@ -1,12 +1,9 @@
-import * as Sentry from '@sentry/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import * as NavigationBar from 'expo-navigation-bar';
-import { Stack, useNavigationContainerRef } from 'expo-router';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import * as SystemUI from 'expo-system-ui';
 import { PostHogProvider } from 'posthog-react-native';
-import { useEffect, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
@@ -24,54 +21,30 @@ import { PresenceProvider } from '@/context/presence';
 import { ReviewProvider } from '@/context/review';
 import { SocialsProvider } from '@/context/socials';
 import { ThemeProvider } from '@/context/theme';
+import '@/i18n';
 import { IS_DEV } from '@/services/environment';
 import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
-import { navigationIntegration } from '@/services/sentry';
 import { AppThemeBackground } from '@/services/theme';
-import '@/i18n';
 
 const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
-if (Platform.OS === 'android') {
-  // enables edge-to-edge mode
-  NavigationBar.setPositionAsync('absolute');
-  // transparent backgrounds to see through
-  NavigationBar.setBackgroundColorAsync('#ffffff01');
-  // to avoid white flash when navigating https://www.reddit.com/r/reactnative/comments/1f7eknt/comment/ll9w39k/
-  SystemUI.setBackgroundColorAsync('black');
-}
-
 const queryClient = new QueryClient();
-
-export const unstable_settings = {
-  // Ensure any route can link back to `/`
-  // initialRouteName: 'index',
-};
 
 const RootLayout = () => {
   useDeviceContext(tw);
   const reduceMotion = useReducedMotion();
 
-  // Capture the NavigationContainer ref and register it with the instrumentation.
-  const ref = useNavigationContainerRef();
-
   useLayoutEffect(() => {
     createHttpInterceptors(HTTP);
   }, []);
 
-  useEffect(() => {
-    if (ref) {
-      navigationIntegration.registerNavigationContainer(ref);
-    }
-  }, [ref]);
-
   return (
-    <GestureHandlerRootView style={tw`h-screen w-screen flex-1`}>
-      <KeyboardProvider navigationBarTranslucent statusBarTranslucent>
+    <GestureHandlerRootView style={tw`h-screen w-screen flex-1 bg-gray-100 dark:bg-black`}>
+      <KeyboardProvider>
         <SafeAreaProvider>
           <PostHogProvider
             autocapture
@@ -122,7 +95,7 @@ const RootLayout = () => {
                                     contentStyle: {
                                       backgroundColor: 'transparent',
                                     },
-                                    navigationBarTranslucent: true,
+                                    // navigationBarTranslucent: true,
                                     ...(reduceMotion && {
                                       animation: 'fade',
                                     }),
@@ -219,4 +192,4 @@ const RootLayout = () => {
   );
 };
 
-export default Sentry.wrap(RootLayout);
+export default RootLayout;

@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Sentry from '@sentry/react-native';
 import { type StateStorage } from 'zustand/middleware';
 import { log } from '@/helpers/logger';
 
@@ -9,7 +8,7 @@ const setAsyncItem = async (name: string, value: string): Promise<void> => {
   try {
     await AsyncStorage.setItem(name, value);
   } catch (error) {
-    Sentry.captureException(error);
+    // Sentry.captureException(error);
   }
 };
 
@@ -17,7 +16,7 @@ const deleteAsyncItem = async (name: string): Promise<void> => {
   try {
     await AsyncStorage.removeItem(name);
   } catch (error) {
-    Sentry.captureException(error);
+    // Sentry.captureException(error);
   }
 };
 
@@ -36,9 +35,9 @@ const retrieveAsyncItem = async (name: string): Promise<string | null> => {
     }
   }
   // log to Sentry if keeps failing
-  Sentry.captureMessage(`Unable to retrieve ${name} from async storage`, {
-    level: 'error',
-  });
+  // Sentry.captureMessage(`Unable to retrieve ${name} from async storage`, {
+  //   level: 'error',
+  // });
   await deleteAsyncItem(name);
   return null;
 };

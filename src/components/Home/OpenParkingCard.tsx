@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/react-native';
 import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
@@ -108,9 +107,6 @@ const OpenParkingCard = ({
         WARN_ON_SUCCESSIVE_TAPS_PERIOD_IN_MS;
 
       if (isTappingSuccessively) {
-        Sentry.captureMessage('Tapping successively on parking card', {
-          level: 'warning',
-        });
         setLastWarning(new Date().toISOString());
         onSuccessiveTaps?.();
       }

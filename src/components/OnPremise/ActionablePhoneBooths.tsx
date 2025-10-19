@@ -43,13 +43,11 @@ const ActionablePhoneBooths = ({
 
   return (
     <AppBlurView
-      intensity={8}
       style={[
         tw`absolute z-10 h-12 w-24 flex items-stretch rounded-full overflow-hidden bg-gray-200 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-85`,
         selected && tw.style(`border-2 border-gray-500 dark:border-gray-400`),
         style,
-      ]}
-      tint={tw.prefixMatch('dark') ? 'dark' : 'light'}>
+      ]}>
       <AppTouchable disabled={disabled} style={tw`h-full w-full`} onPress={onPress}>
         {loading ? (
           <HorizontalLoadingAnimation
