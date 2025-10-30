@@ -1,5 +1,20 @@
 {
   "general": {
+    "home": {
+      "upcomingEventsPeriod": {
+        "description": "Choose a period for which upcoming events are displayed on the home screen.",
+        "hint": "on the home screen",
+        "label": "Upcoming events",
+        "options": {
+          "day_one": "day",
+          "day_other": "days",
+          "month_one": "month",
+          "month_other": "months",
+          "week_one": "week",
+          "week_other": "weeks"
+        }
+      }
+    },
     "language": {
       "label": "Language",
       "system": {
@@ -30,7 +45,7 @@
       "activity_other": "days",
       "activity_zero": "Nothing\nyet",
       "onFetch": {
-        "fail": "Unable to fetch presence"
+        "fail": "Unable to fetch attendance"
       },
       "selected": {
         "coverage": {
@@ -76,7 +91,7 @@
         }
       },
       "since": "since {{date}}",
-      "title": "Presence"
+      "title": "Attendance"
     }
   },
   "roles": {
@@ -116,9 +131,6 @@
       },
       "title": "Contact the team"
     },
-    "help": {
-      "label": "Help"
-    },
     "review": {
       "description": "Do you enjoy Le Poulailler and its app?\nHelp us make them even better by sharing your feedback on their respective pages.\nThank you so much for your support! 🙏",
       "label": "Give your feedback",
@@ -127,6 +139,9 @@
       "title": "Share your feedback!"
     },
     "socials": {
+      "bliiidaNewsletter": {
+        "label": "Bliiida newsletter"
+      },
       "description": "Follow us on social media to stay updated with the latest news and updates.",
       "facebook": {
         "label": "Facebook"

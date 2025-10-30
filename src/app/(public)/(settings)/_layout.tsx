@@ -1,6 +1,6 @@
 import SettingsScreen from './settings';
 import { Stack } from 'expo-router';
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import useAppScreen from '@/helpers/screen';

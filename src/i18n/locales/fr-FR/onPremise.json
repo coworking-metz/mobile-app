@@ -78,7 +78,7 @@
     "deck": {
       "description": "Cette boîte vous permet de récupérer les clés pour déverrouiller la porte de la terrasse lorsque vous n'êtes pas en mesure d'entrer dans le batîment.\n\nElle est située à droite de la porte et nécessite un code pour l'ouvrir.",
       "fetch": "Obtenir le code",
-      "label": "Ouvrir la boîte à clés",
+      "label": "Ouvrir la boîte à clés\nde la terrasse",
       "onFetch": {
         "fail": "Impossible d'obtenir le code"
       }
@@ -87,7 +87,7 @@
     "poulailler": {
       "description": "La boîte à clés vous permet de récupérer les clés de l'espace et :\n- d'ouvrir celui-ci lorsque vous êtes le premier arrivé,\n- de le fermer lorsque vous êtes le dernier à partir.\n\nElle est située à coté de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
       "fetch": "Obtenir le code",
-      "label": "Ouvrir la boîte à clés",
+      "label": "Ouvrir la boîte à clés\ndu Poulailler",
       "onFetch": {
         "fail": "Impossible d'obtenir le code"
       }
@@ -95,7 +95,16 @@
     "ptiPoulailler": {
       "description": "La boîte à clés vous permet de récupérer les clés de l'espace et :\n- d'ouvrir celui-ci lorsque vous êtes le premier arrivé,\n- de le fermer lorsque vous êtes le dernier à partir.\n\nElle est située à coté de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
       "fetch": "Obtenir le code",
-      "label": "Ouvrir la boîte à clés",
+      "label": "Ouvrir la boîte à clés\ndu P'ti Poulailler",
+      "onFetch": {
+        "fail": "Impossible d'obtenir le code"
+      }
+    },
+    "storage": {
+      "description": "Le stock contient tout le matériel nécessaire à l'entretien et à la maintenance des espaces.",
+      "fetch": "Obtenir le code",
+      "label": "Ouvrir la boîte à clés\ndu stock",
+      "missingCapability": "Ouvrir la boîte à clés du stock nécessite un accès spécifique que vous n'avez pas. Dommage.",
       "onFetch": {
         "fail": "Impossible d'obtenir le code"
       }
@@ -152,7 +161,16 @@
   "wifi": {
     "credentials": {
       "fetch": "Obtenir les identifiants",
-      "missingCapability": "Les identifiants WiFi ne sont disponibles qu'aux membres adhérents et visiteurs."
+      "missingCapability": "Les identifiants WiFi ne sont disponibles qu'aux membres adhérents et visiteurs.",
+      "onFetch": {
+        "fail": "Impossible de récupérer les identifiants WiFi"
+      },
+      "password": {
+        "label": "Mot de passe"
+      },
+      "ssid": {
+        "label": "Réseau (SSID)"
+      }
     },
     "description": "Le réseau WiFi donne accès à Internet et enregistre automatiquement la présence grâce à l'adresse MAC de l'appareil.\nEn cas de changement d'appareil, l'adresse peut être mise à jour directement depuis <0>l'application</0> ou <1>le site internet</1>.\n\nL'usage doit rester professionnel et raisonnable ; les téléchargements lourds et BitTorrent sont interdits.",
     "label": "Réseau WiFi"

@@ -5,9 +5,10 @@ import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image as RNImage, StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
+import { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
-import floorPlanDay from '@/assets/images/floorplan-day.png';
-import floorPlanNight from '@/assets/images/floorplan-night.png';
+import floorPlanDay from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-13-30.png';
+import floorPlanNight from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-20-30.png';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
 import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBadge';
@@ -16,6 +17,7 @@ import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
 import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState } from '@/services/api/services';
+import useAuthStore from '@/stores/auth';
 
 const PoulaillerPlan = ({
   style,
@@ -28,6 +30,7 @@ const PoulaillerPlan = ({
 }) => {
   useDeviceContext(tw);
   const { t } = useTranslation();
+  const user = useAuthStore((s) => s.user);
   const [imageWidth, setImageWidth] = useState<number | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
   const [hasFloorplanLoaded, setFloorplanLoaded] = useState<boolean>(false);
@@ -37,6 +40,7 @@ const PoulaillerPlan = ({
     selectDeckKeyBox,
     selectPhoneBooth,
     selectPoulaillerKeyBox,
+    selectStorageKeyBox,
     selectTelevision,
     selectCoffeeMachine,
     selectPrinter,
@@ -52,6 +56,7 @@ const PoulaillerPlan = ({
     isDeckKeyBoxSelected,
     isPhoneBoothSelected,
     isPoulaillerKeyBoxSelected,
+    isStorageKeyBoxSelected,
     isCoffeeMachineSelected,
     isPrinterSelected,
     isFridgeSelected,
@@ -85,9 +90,7 @@ const PoulaillerPlan = ({
   return (
     <View style={[tw`flex flex-col grow items-start`, style]}>
       <View style={tw`flex flex-row gap-3 items-end w-full mx-6 mb-4`}>
-        <AppText
-          numberOfLines={1}
-          style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+        <AppText style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.location.poulailler')}
         </AppText>
         {onPremiseStateError && !isSilentError(onPremiseStateError) && (
@@ -122,66 +125,84 @@ const PoulaillerPlan = ({
         ) : withInformations ? (
           <>
             <ActionableIcon
-              activeIcon="fridge-outline"
-              inactiveIcon="fridge-outline"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="fridge-outline"
+              key="fridge"
               selected={isFridgeSelected}
               style={tw`top-[56%] left-[62%]`}
               onPress={selectFridge}
             />
+
             <ActionableIcon
-              activeIcon="coffee-outline"
-              inactiveIcon="coffee-outline"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="coffee-outline"
+              key="coffee-machine"
               selected={isCoffeeMachineSelected}
               style={tw`top-[56%] left-[77%]`}
               onPress={selectCoffeeMachine}
             />
+
             <ActionableIcon
-              activeIcon="television-guide"
-              inactiveIcon="television-guide"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              icon="television-guide"
+              key="television"
               selected={isTelevisionSelected}
               style={tw`top-[75%] left-[73%]`}
               onPress={selectTelevision}
             />
 
             <ActionableIcon
-              activeIcon="printer"
-              inactiveIcon="printer-outline"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="printer-outline"
+              key="printer"
               selected={isPrinterSelected}
               style={tw`top-[49%] left-[66%]`}
               onPress={selectPrinter}
             />
             <ActionableIcon
-              activeIcon="bell-ring-outline"
-              inactiveIcon="bell-ring-outline"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="bell-ring-outline"
+              key="intercom"
               selected={isIntercomSelected}
               style={tw`top-[32%] left-[48%]`}
               onPress={selectIntercom}
             />
             <ActionableIcon
-              activeIcon="fan"
-              inactiveIcon="fan"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="fan"
+              key="air-conditioning-1"
               selected={isAirConditioningSelected}
               style={tw`top-[19%] left-[11%]`}
               onPress={selectAirConditioning}
             />
             <ActionableIcon
-              activeIcon="fan"
-              inactiveIcon="fan"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="fan"
+              key="air-conditioning-2"
               selected={isAirConditioningSelected}
               style={tw`top-[46%] left-[11%]`}
               onPress={selectAirConditioning}
             />
 
             <ActionableIcon
-              activeIcon="wifi"
-              inactiveIcon="wifi"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="wifi"
               selected={isWifiSelected}
               style={tw`top-[75%] left-[48%]`}
               onPress={selectWifi}
             />
             <ActionableIcon
-              activeIcon="account-group-outline"
-              inactiveIcon="account-group-outline"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="account-group-outline"
+              key="group-work"
               selected={isGroupWorkSelected}
               style={tw`top-[60%] left-[28%]`}
               onPress={selectGroupWork}
@@ -191,32 +212,50 @@ const PoulaillerPlan = ({
           <>
             {/* Lights */}
             <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
               id="1"
+              key="light-1"
               loading={isFetchingOnPremiseState}
               style={tw`top-[22%] left-[32%]`}
             />
             <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
               id="2"
+              key="light-2"
               loading={isFetchingOnPremiseState}
               style={tw`top-[22%] left-[65%]`}
             />
             <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
               id="3"
+              key="light-3"
               loading={isFetchingOnPremiseState}
               style={tw`top-[40%] left-[32%]`}
             />
             <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
               id="4"
+              key="light-4"
               loading={isFetchingOnPremiseState}
               style={tw`top-[40%] left-[65%]`}
             />
             <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
               id="5"
+              key="light-5"
               loading={isFetchingOnPremiseState}
               style={tw`top-[68%] left-[32%]`}
             />
             <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
               id="6"
+              key="light-6"
               loading={isFetchingOnPremiseState}
               style={tw`top-[68%] left-[65%]`}
             />
@@ -227,7 +266,10 @@ const PoulaillerPlan = ({
             <ActionableIcon
               active={onPremiseState?.deckDoor?.unlocked}
               activeIcon="lock-open"
-              inactiveIcon="lock"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="lock"
+              key="deck-door"
               loading={isFetchingOnPremiseState}
               selected={isDeckDoorSelected}
               style={tw`top-[50%] left-[82%]`}
@@ -236,8 +278,10 @@ const PoulaillerPlan = ({
 
             {/* Key box */}
             <ActionableIcon
-              activeIcon="key-chain"
-              inactiveIcon="key-chain"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="key-chain"
+              key="deck-key-box"
               selected={isDeckKeyBoxSelected}
               style={tw`top-[43%] left-[89%]`}
               onPress={selectDeckKeyBox}
@@ -254,7 +298,10 @@ const PoulaillerPlan = ({
                 onPremiseState?.phoneBooths?.orange.occupied ?? null,
                 onPremiseState?.phoneBooths?.blue.occupied ?? null,
               ]}
-              inactiveIcon="door-open"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="door-open"
+              key="phone-booths"
               loading={isFetchingOnPremiseState}
               selected={isPhoneBoothSelected}
               style={tw`top-[82%] left-[12%] w-[25%] min-w-26`}
@@ -262,19 +309,33 @@ const PoulaillerPlan = ({
               onPress={selectPhoneBooth}
             />
 
-            {/* Key box */}
             <ActionableIcon
-              activeIcon="key-chain-variant"
-              inactiveIcon="key-chain-variant"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="key-chain-variant"
+              key="poulailler-key-box"
               selected={isPoulaillerKeyBoxSelected}
               style={tw`top-[84%] left-[56%]`}
               onPress={selectPoulaillerKeyBox}
             />
 
-            {/* Carbon Dioxide level */}
+            {user?.capabilities?.includes('STORAGE_KEYS_ACCESS') && (
+              <ActionableIcon
+                entering={BounceIn.duration(750).delay(Math.random() * 500)}
+                exiting={BounceOut.duration(750)}
+                icon="key-chain-variant"
+                key="storage-key-box"
+                selected={isStorageKeyBoxSelected}
+                style={tw`top-[95%] left-[50%]`}
+                onPress={selectStorageKeyBox}
+              />
+            )}
+
             <ActionableCarbonDioxide
-              activeIcon="leaf"
-              inactiveIcon="leaf"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="leaf"
+              key="carbon-dioxide-level"
               level={onPremiseState?.sensors?.carbonDioxide.level || 0}
               loading={isFetchingOnPremiseState}
               selected={isCarbonDioxideSelected}

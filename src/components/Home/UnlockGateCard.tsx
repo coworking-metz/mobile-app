@@ -19,8 +19,9 @@ import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import LockUnlockAnimation from '@/components/Animations/LockUnlockAnimation';
+import AppPressable from '@/components/AppPressable';
+import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
-import AppTouchable from '@/components/AppTouchable';
 import ReanimatedText from '@/components/ReanimatedText';
 import { useAppAuth } from '@/context/auth';
 import { theme } from '@/helpers/colors';
@@ -152,90 +153,91 @@ const UnlockCard = ({
   );
 
   return (
-    <AppTouchable
+    <AppPressable
       disabled={disabled}
-      style={[
-        tw`flex flex-col items-start gap-4 pl-4 py-4 rounded-2xl min-h-20 relative bg-gray-200 dark:bg-gray-900 overflow-hidden`,
-        disabled && tw`opacity-60`,
-        style,
-      ]}
+      style={tw`flex-1`}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setCardWidth(nativeEvent.layout.width)}
       onPress={() => (authStore.user ? onUnlock() : login?.())}>
-      <Animated.View
+      <AppSquircleView
         style={[
-          tw`absolute top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-800 w-full`,
-          backgroundStyle,
-        ]}
-      />
-      <Animated.View
-        style={[
-          tw`bg-gray-300 dark:bg-gray-700 rounded-full p-2 z-20`,
-          isUnlocked && {
-            backgroundColor: tw.prefixMatch('dark') ? tw.color('yellow-600') : theme.meatBrown,
-          },
+          tw.style(
+            `flex flex-col items-start gap-4 pl-4 py-4 rounded-3xl min-h-20 relative bg-gray-200 dark:bg-gray-900 overflow-hidden`,
+            disabled && tw`opacity-60`,
+          ),
+          style,
         ]}>
-        <View style={tw`relative h-8 w-8 shrink-0`}>
-          <LockUnlockAnimation
-            ref={animation}
-            autoPlay={false}
-            color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-            loop={false}
-            progress={0}
-            style={[tw`h-full w-full`, isLoading && { opacity: 0 }]}
-          />
-          {isLoading && (
-            <HorizontalLoadingAnimation
+        <Animated.View
+          style={[
+            tw`absolute top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-800 w-full`,
+            backgroundStyle,
+          ]}
+        />
+        <Animated.View
+          style={[
+            tw`bg-gray-300 dark:bg-gray-700 rounded-full p-2 z-20`,
+            isUnlocked && {
+              backgroundColor: tw.prefixMatch('dark') ? tw.color('yellow-600') : theme.meatBrown,
+            },
+          ]}>
+          <View style={tw`relative h-8 w-8 shrink-0`}>
+            <LockUnlockAnimation
+              ref={animation}
+              autoPlay={false}
               color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-              style={tw`absolute h-full w-full`}
+              loop={false}
+              progress={0}
+              style={[tw`h-full w-full`, isLoading && { opacity: 0 }]}
             />
-          )}
-        </View>
-      </Animated.View>
+            {isLoading && (
+              <HorizontalLoadingAnimation
+                color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
+                style={tw`absolute h-full w-full`}
+              />
+            )}
+          </View>
+        </Animated.View>
 
-      {isUnlocked ? (
-        <View style={tw`flex flex-col items-start z-20 w-full`}>
-          <AppText
-            numberOfLines={1}
-            style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
-            {t('home.intercom.onUnlocked.firstLine')}
-          </AppText>
-          <View style={tw`flex flex-row items-end gap-1`}>
+        {isUnlocked ? (
+          <View style={tw`flex flex-col items-start z-20 w-full`}>
             <AppText
               numberOfLines={1}
               style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
-              {t('home.intercom.onUnlocked.secondLine')}
+              {t('home.intercom.onUnlocked.firstLine')}
             </AppText>
-            <ReanimatedText
-              style={[
-                tw`text-xl font-semibold text-slate-900 dark:text-gray-200`,
-                Platform.OS === 'ios' && tw`mb-0.5`,
-                Platform.OS === 'android' && tw`-mb-0.5`,
-              ]}
-              text={timeLeftInSeconds}
-            />
+            <View style={tw`flex flex-row items-end gap-1`}>
+              <AppText
+                numberOfLines={1}
+                style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                {t('home.intercom.onUnlocked.secondLine')}
+              </AppText>
+              <ReanimatedText
+                style={tw`text-xl font-semibold text-slate-900 dark:text-gray-200 android:pr-1`}
+                text={timeLeftInSeconds}
+              />
+              <AppText
+                numberOfLines={1}
+                style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                {t('home.intercom.onUnlocked.suffix')}
+              </AppText>
+            </View>
+          </View>
+        ) : (
+          <View style={tw`flex flex-col items-stretch z-20 w-full overflow-hidden`}>
+            <AppText
+              ellipsizeMode="clip"
+              numberOfLines={1}
+              style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
+              {t('home.intercom.label.firstLine')}
+            </AppText>
             <AppText
               numberOfLines={1}
-              style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
-              {t('home.intercom.onUnlocked.suffix')}
+              style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
+              {t('home.intercom.label.secondLine')}
             </AppText>
           </View>
-        </View>
-      ) : (
-        <View style={tw`flex flex-col items-stretch z-20 w-full overflow-hidden`}>
-          <AppText
-            ellipsizeMode="clip"
-            numberOfLines={1}
-            style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
-            {t('home.intercom.label.firstLine')}
-          </AppText>
-          <AppText
-            numberOfLines={1}
-            style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
-            {t('home.intercom.label.secondLine')}
-          </AppText>
-        </View>
-      )}
-    </AppTouchable>
+        )}
+      </AppSquircleView>
+    </AppPressable>
   );
 };
 

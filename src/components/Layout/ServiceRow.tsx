@@ -13,6 +13,7 @@ export type ServiceRowProps = TouchableHighlightProps & {
   renderDescription?: (text?: string, disabled?: boolean) => ReactNode;
   prefixIcon?: keyof typeof mdiGlyphMap | null;
   suffixIcon?: keyof typeof mdiGlyphMap | null;
+  prefix?: ReactNode;
   children?: ReactNode;
   loading?: boolean;
   disabled?: boolean;
@@ -27,6 +28,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
     renderDescription,
     prefixIcon = null,
     suffixIcon = null,
+    prefix,
     children,
     loading = false,
     disabled = false,
@@ -52,17 +54,18 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
       onPress={onPress}>
       <View style={tw`flex flex-col`}>
         <View style={tw`flex flex-row items-start min-h-14 gap-3 py-2`}>
-          {prefixIcon ? (
-            <View style={tw`flex flex-row items-center shrink-0 min-h-10`}>
-              <MaterialCommunityIcons
-                color={iconColor}
-                iconStyle={{ height: 20, width: 20, marginRight: 0 }}
-                name={prefixIcon}
-                size={24}
-                style={[tw`shrink-0`, disabled && tw`opacity-40`]}
-              />
-            </View>
-          ) : null}
+          {prefix ??
+            (prefixIcon ? (
+              <View style={tw`flex flex-row items-center shrink-0 min-h-10`}>
+                <MaterialCommunityIcons
+                  color={iconColor}
+                  iconStyle={{ height: 20, width: 20, marginRight: 0 }}
+                  name={prefixIcon}
+                  size={24}
+                  style={[tw`shrink-0`, disabled && tw`opacity-40`]}
+                />
+              </View>
+            ) : null)}
 
           <View style={tw`flex flex-col justify-center shrink grow overflow-hidden min-h-10`}>
             <AppText

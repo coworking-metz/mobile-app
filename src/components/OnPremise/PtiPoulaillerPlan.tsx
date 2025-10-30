@@ -6,9 +6,10 @@ import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image as RNImage, StyleProp, useColorScheme, View, ViewStyle } from 'react-native';
+import { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
-import floorPlanPtiPoulaillerDay from '@/assets/images/floorplan-pti-poulailler-day.png';
-import floorPlanPtiPoulaillerNight from '@/assets/images/floorplan-pti-poulailler-night.png';
+import floorPlanPtiPoulaillerDay from '@/assets/images/floorplans/floorplan-pti-poulailler-01-06-2023-19-00.png';
+import floorPlanPtiPoulaillerNight from '@/assets/images/floorplans/floorplan-pti-poulailler-01-06-2023-22-30.png';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import { isSilentError } from '@/helpers/error';
@@ -67,7 +68,7 @@ const PtiPoulaillerPlan = ({
     <View style={[tw`flex flex-col grow items-start`, style]}>
       <View style={tw`flex flex-row gap-3 items-end w-full mx-6 mb-4`}>
         <AppText
-          numberOfLines={1}
+          numberOfLines={2}
           style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.location.pti-poulailler')}
         </AppText>
@@ -103,16 +104,18 @@ const PtiPoulaillerPlan = ({
         ) : withInformations ? (
           <>
             <ActionableIcon
-              activeIcon="television-guide"
-              inactiveIcon="television-guide"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="television-guide"
               selected={isTelevisionSelected}
               style={tw`top-[71%] left-[53%]`}
               onPress={selectTelevision}
             />
 
             <ActionableIcon
-              activeIcon="wifi"
-              inactiveIcon="wifi"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="wifi"
               selected={isWifiSelected}
               style={tw`top-[73%] left-[17%]`}
               onPress={selectWifi}
@@ -125,8 +128,10 @@ const PtiPoulaillerPlan = ({
             {/* Flexispot A */}
             <ActionableIcon
               active={onPremiseState?.flexDesks?.a.occupied}
-              activeIcon="desk"
-              inactiveIcon="desk"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="desk"
+              key="flex-desk-a"
               loading={isFetchingOnPremiseState}
               selected={selectedFlexDesk?.id === 'a'}
               style={tw`top-[25%] left-[43%]`}
@@ -137,8 +142,10 @@ const PtiPoulaillerPlan = ({
             {/* Flexispot B */}
             <ActionableIcon
               active={onPremiseState?.flexDesks?.b.occupied}
-              activeIcon="desk"
-              inactiveIcon="desk"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="desk"
+              key="flex-desk-b"
               loading={isFetchingOnPremiseState}
               selected={selectedFlexDesk?.id === 'b'}
               style={tw`top-[25%] left-[30%]`}
@@ -148,16 +155,20 @@ const PtiPoulaillerPlan = ({
             />
             {/* Key box */}
             <ActionableIcon
-              activeIcon="key-chain-variant"
-              inactiveIcon="key-chain-variant"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="key-chain-variant"
+              key="key-box"
               selected={isPtiPoulaillerKeyBoxSelected}
               style={tw`top-[82%] left-[22%]`}
               onPress={selectPtiPoulaillerKeyBox}
             />
             {/* Climate */}
             <ActionableIcon
-              activeIcon="sun-thermometer"
-              inactiveIcon="sun-thermometer"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="sun-thermometer"
+              key="climate"
               loading={isFetchingOnPremiseState}
               selected={isPtiPoulaillerClimateSelected}
               style={tw`top-[68%] left-[45%]`}

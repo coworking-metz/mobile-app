@@ -202,7 +202,7 @@ const SwipeableButton = ({
       style={[
         tw.style(
           `flex flex-row justify-center items-center min-h-18 rounded-[4rem] border-4 border-[${theme.meatBrown}] bg-gray-200 dark:bg-neutral-800 overflow-hidden`,
-          disabled && `opacity-50`,
+          disabled && `opacity-50 pointer-events-none`,
         ),
         style,
       ]}
@@ -246,7 +246,7 @@ const SwipeableButton = ({
       </GestureDetector>
       <AppText
         style={[
-          tw`absolute right-8 text-base text-right font-medium text-slate-500 dark:text-slate-400`,
+          tw`absolute insets-0 ml-10 text-base text-center font-medium text-slate-500 dark:text-slate-400`,
           placeholderAnimatedStyle,
         ]}>
         {placeholder}

@@ -92,10 +92,10 @@
         "expo-build-properties",
         {
           "android": {
-            "buildToolsVersion": "35.0.0",
-            "compileSdkVersion": 35,
+            "buildToolsVersion": "36.0.0",
+            "compileSdkVersion": 36,
             "minSdkVersion": 24,
-            "targetSdkVersion": 35
+            "targetSdkVersion": 36
           },
           "ios": {
             "deploymentTarget": "15.1"
@@ -136,6 +136,14 @@
         "expo-dev-client",
         {
           "launchMode": "most-recent"
+        }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "organization": "coworking-metz",
+          "project": "mobile",
+          "url": "https://sentry.io/"
         }
       ]
     ],

@@ -297,6 +297,7 @@ const PairDeviceBottomSheet = ({
   }, [verifiedDevice, noticeStore, t, bottomSheetRef, queryClient, settingsStore, toastStore]);
 
   useEffect(() => {
+    animation.current?.pause();
     setReachingService(true);
     isDeviceInfoAvailable()
       .then(() => {
@@ -316,7 +317,9 @@ const PairDeviceBottomSheet = ({
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <WifiNetworkAnimation
             ref={animation}
+            autoPlay={false}
             loop={false}
+            progress={0}
             style={tw`h-64 w-full bg-transparent`}
             onAnimationFinish={onAnimationFinish}
           />

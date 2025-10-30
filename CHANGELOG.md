@@ -9,14 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Option to set upcoming events period on home screen.
 - Tour on floor plans.
+- Shimmer section title when fetching data.
 - (iOS) Liquid glass instead of blur.
 - (Android) Blur instead of transparent background.
+- Render ticket or subscription coverage on attendance graph.
+- Bliiida newsletter link in socials bottom sheet.
 
 ### Changed
 
 - Logout from API instead of public website.
 - Emphasized all links.
+- Event screen layout.
+- Advanced screen options order.
 
 ## [2025.8.2] - 2025-08-04
 

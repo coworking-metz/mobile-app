@@ -12,6 +12,6 @@ export interface CalendarEvent {
   calendar: 'COWORKING' | 'AMOUR_FOOD' | 'BLIIIDA';
 }
 
-export const getCalendarEvents = (): Promise<CalendarEvent[]> => {
+export const getCalendarEvents = async (): Promise<CalendarEvent[]> => {
   return HTTP.get('/api/calendar/events').then(({ data }) => data);
 };

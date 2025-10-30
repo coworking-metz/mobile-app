@@ -1,6 +1,6 @@
 import { HTTP } from '../http';
 
-export const unlockSteelGate = (): Promise<{
+export const unlockSteelGate = async (): Promise<{
   triggered: string;
   locked: string;
   timeout: string;
@@ -8,7 +8,7 @@ export const unlockSteelGate = (): Promise<{
   return HTTP.post('/api/interphone').then(({ data }) => data);
 };
 
-export const openParkingGate = (): Promise<{
+export const openParkingGate = async (): Promise<{
   triggered: string;
   closed: string;
   timeout: string;
@@ -59,7 +59,7 @@ export type OnPremiseState = {
   };
 };
 
-export const getOnPremiseState = (): Promise<OnPremiseState> => {
+export const getOnPremiseState = async (): Promise<OnPremiseState> => {
   return HTTP.get('/api/on-premise').then(({ data }) => data);
 };
 
@@ -70,7 +70,7 @@ export type PhoneBoothDailyOccupation = {
   };
 };
 
-export const getPhoneBoothsOccupation = (): Promise<{
+export const getPhoneBoothsOccupation = async (): Promise<{
   blue: {
     occupation: PhoneBoothDailyOccupation[];
   };
@@ -81,7 +81,7 @@ export const getPhoneBoothsOccupation = (): Promise<{
   return HTTP.get('/api/on-premise/phone-booths/occupation').then(({ data }) => data);
 };
 
-export const unlockDeckDoor = (): Promise<{
+export const unlockDeckDoor = async (): Promise<{
   triggered: string;
   locked: string;
   timeout: string;
@@ -89,23 +89,27 @@ export const unlockDeckDoor = (): Promise<{
   return HTTP.post('/api/on-premise/deck-door/unlock').then(({ data }) => data);
 };
 
-export const getPoulaillerKeyBoxCode = (): Promise<{ code: number }> => {
+export const getPoulaillerKeyBoxCode = async (): Promise<{ code: number }> => {
   return HTTP.get('/api/on-premise/key-box/poulailler/code').then(({ data }) => data);
 };
 
-export const getPtiPoulaillerKeyBoxCode = (): Promise<{ code: number }> => {
+export const getPtiPoulaillerKeyBoxCode = async (): Promise<{ code: number }> => {
   return HTTP.get('/api/on-premise/key-box/pti-poulailler/code').then(({ data }) => data);
 };
 
-export const getDeckKeyBoxCode = (): Promise<{ code: number }> => {
+export const getDeckKeyBoxCode = async (): Promise<{ code: number }> => {
   return HTTP.get('/api/on-premise/key-box/deck/code').then(({ data }) => data);
 };
 
-export const getWifiCredentials = (): Promise<{ password: string; ssid: string }> => {
+export const getStorageKeyBoxCode = async (): Promise<{ code: number }> => {
+  return HTTP.get('/api/on-premise/key-box/storage/code').then(({ data }) => data);
+};
+
+export const getWifiCredentials = async (): Promise<{ password: string; ssid: string }> => {
   return HTTP.get('/api/on-premise/wifi/credentials').then(({ data }) => data);
 };
 
-export const turnOnLight = (
+export const turnOnLight = async (
   lightId: string | number,
 ): Promise<{
   state: 'on';
@@ -116,7 +120,7 @@ export const turnOnLight = (
   );
 };
 
-export const turnOffLight = (
+export const turnOffLight = async (
   lightId: string | number,
 ): Promise<{
   state: 'off';
@@ -127,7 +131,7 @@ export const turnOffLight = (
   );
 };
 
-export const turnOnFan = (
+export const turnOnFan = async (
   fanId: string | number,
 ): Promise<{
   state: 'on';
@@ -138,7 +142,7 @@ export const turnOnFan = (
   );
 };
 
-export const turnOffFan = (
+export const turnOffFan = async (
   fanId: string | number,
 ): Promise<{
   state: 'off';

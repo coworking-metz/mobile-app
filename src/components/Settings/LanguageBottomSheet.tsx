@@ -44,40 +44,42 @@ const LanguageBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
   );
 
   return (
-    <AppBottomSheet ref={bottomSheetRef} onChange={onBottomSheetChange} {...props}>
-      <View style={tw`flex flex-col w-full gap-1 pt-6 pb-3`}>
-        <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-          <SwitchLanguageAnimation ref={animation} style={tw`h-60 w-full`} />
-        </View>
-        <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
-          {t('settings.general.language.label')}
-        </AppText>
-        {supportedLanguages.map((language) => (
-          <ServiceRow
-            description={
-              language.code === SYSTEM_OPTION
-                ? getLanguageLabel(SYSTEM_LANGUAGE) ||
-                  `${SYSTEM_LANGUAGE} - ${t('settings.general.language.system.unsupported')}`
-                : ''
-            }
-            key={`language-option-${language.code}`}
-            label={language.label}
-            selected={settingsStore.language === language.code}
-            style={tw`px-3 mx-3`}
-            suffixIcon={settingsStore.language === language.code ? 'check' : null}
-            onPress={() => onLanguagePicked(language.code)}>
-            {!getLanguageLabel(SYSTEM_LANGUAGE) && language.code === SYSTEM_OPTION ? (
-              <MaterialCommunityIcons
-                color={tw.color('yellow-500')}
-                iconStyle={tw`h-6 w-6`}
-                name="alert"
-                size={24}
-                style={tw`shrink-0`}
-              />
-            ) : null}
-          </ServiceRow>
-        ))}
+    <AppBottomSheet
+      ref={bottomSheetRef}
+      contentContainerStyle={tw`pt-6`}
+      onChange={onBottomSheetChange}
+      {...props}>
+      <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
+        <SwitchLanguageAnimation ref={animation} style={tw`h-60 w-full`} />
       </View>
+      <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
+        {t('settings.general.language.label')}
+      </AppText>
+      {supportedLanguages.map((language) => (
+        <ServiceRow
+          description={
+            language.code === SYSTEM_OPTION
+              ? getLanguageLabel(SYSTEM_LANGUAGE) ||
+                `${SYSTEM_LANGUAGE} - ${t('settings.general.language.system.unsupported')}`
+              : ''
+          }
+          key={`language-option-${language.code}`}
+          label={language.label}
+          selected={settingsStore.language === language.code}
+          style={tw`px-3 mx-3`}
+          suffixIcon={settingsStore.language === language.code ? 'check' : null}
+          onPress={() => onLanguagePicked(language.code)}>
+          {!getLanguageLabel(SYSTEM_LANGUAGE) && language.code === SYSTEM_OPTION ? (
+            <MaterialCommunityIcons
+              color={tw.color('yellow-500')}
+              iconStyle={tw`h-6 w-6`}
+              name="alert"
+              size={24}
+              style={tw`shrink-0`}
+            />
+          ) : null}
+        </ServiceRow>
+      ))}
     </AppBottomSheet>
   );
 };

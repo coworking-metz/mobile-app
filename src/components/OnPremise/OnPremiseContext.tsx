@@ -11,6 +11,7 @@ import PoulaillerKeyBoxBottomSheet from './PoulaillerKeyBoxBottomSheet';
 import PrinterBottomSheet from './PrinterBottomSheet';
 import PtiPoulaillerClimateBottomSheet from './PtiPoulaillerClimateBottomSheet';
 import PtiPoulaillerKeyBoxBottomSheet from './PtiPoulaillerKeyBoxBottomSheet';
+import StorageKeyBoxBottomSheet from './StorageKeyBoxBottomSheet';
 import TelevisionBottomSheet from './TelevisionBottomSheet';
 import UnlockDeckDoorBottomSheet from './UnlockDeckDoorBottomSheet';
 import WifiBottomSheet from './WifiBottomSheet';
@@ -27,6 +28,8 @@ const OnPremiseContext = createContext<{
   selectPhoneBooth: () => void;
   isPoulaillerKeyBoxSelected: boolean;
   selectPoulaillerKeyBox: () => void;
+  isStorageKeyBoxSelected: boolean;
+  selectStorageKeyBox: () => void;
   isDeckKeyBoxSelected: boolean;
   selectDeckKeyBox: () => void;
   isCarbonDioxideSelected: boolean;
@@ -60,6 +63,8 @@ const OnPremiseContext = createContext<{
   selectPhoneBooth: () => {},
   isPoulaillerKeyBoxSelected: false,
   selectPoulaillerKeyBox: () => {},
+  isStorageKeyBoxSelected: false,
+  selectStorageKeyBox: () => {},
   isDeckKeyBoxSelected: false,
   selectDeckKeyBox: () => {},
   isCarbonDioxideSelected: false,
@@ -96,6 +101,7 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
   const [isDeckDoorSelected, setDeckDoorSelected] = useState<boolean>(false);
   const [isPhoneBoothSelected, setPhoneBoothSelected] = useState<boolean>(false);
   const [isPoulaillerKeyBoxSelected, setPoulaillerKeyBoxSelected] = useState<boolean>(false);
+  const [isStorageKeyBoxSelected, setStorageKeyBoxSelected] = useState<boolean>(false);
   const [isDeckKeyBoxSelected, setDeckKeyBoxSelected] = useState<boolean>(false);
   const [isCarbonDioxideSelected, setCarbonDioxideSelected] = useState<boolean>(false);
   const [isPtiPoulaillerKeyBoxSelected, setPtiPoulaillerKeyBoxSelected] = useState<boolean>(false);
@@ -127,6 +133,8 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
         selectPhoneBooth: () => setPhoneBoothSelected(true),
         isPoulaillerKeyBoxSelected,
         selectPoulaillerKeyBox: () => setPoulaillerKeyBoxSelected(true),
+        isStorageKeyBoxSelected,
+        selectStorageKeyBox: () => setStorageKeyBoxSelected(true),
         isDeckKeyBoxSelected,
         selectDeckKeyBox: () => setDeckKeyBoxSelected(true),
         isCarbonDioxideSelected,
@@ -172,6 +180,10 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
         <PoulaillerKeyBoxBottomSheet onClose={() => setPoulaillerKeyBoxSelected(false)} />
       )}
 
+      {isStorageKeyBoxSelected && (
+        <StorageKeyBoxBottomSheet onClose={() => setStorageKeyBoxSelected(false)} />
+      )}
+
       {isPtiPoulaillerKeyBoxSelected && (
         <PtiPoulaillerKeyBoxBottomSheet onClose={() => setPtiPoulaillerKeyBoxSelected(false)} />
       )}
@@ -183,7 +195,7 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
       {isCarbonDioxideSelected && (
         <CarbonDioxideBottomSheet
           humidityLevel={onPremiseState?.sensors?.humidity.level || 0}
-          level={onPremiseState?.sensors?.carbonDioxide.level || 0}
+          level={onPremiseState?.sensors?.carbonDioxide.level || 90}
           loading={isFetchingOnPremiseState}
           noiseLevel={onPremiseState?.sensors?.noise.level || 0}
           temperatureLevel={onPremiseState?.sensors?.temperature.level || 0}

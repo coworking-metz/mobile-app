@@ -1,10 +1,10 @@
 import HorizontalLoadingAnimation from './Animations/HorizontalLoadingAnimation';
-import AppTouchable, { AppTouchableRef } from './AppTouchable';
+import AppPressable, { AppPressableRef } from './AppPressable';
+import AppSquircleView from './AppSquircleView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
 import { StyleProp, View, ViewStyle } from 'react-native';
-import SquircleView from 'react-native-fast-squircle';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import { theme } from '@/helpers/colors';
@@ -19,14 +19,13 @@ export type AppRoundedButtonProps = {
   onPress?: () => void;
 };
 
-const AppRoundedButton: ForwardRefRenderFunction<AppTouchableRef, AppRoundedButtonProps> = (
+const AppRoundedButton: ForwardRefRenderFunction<AppPressableRef, AppRoundedButtonProps> = (
   { prefixIcon, suffixIcon, style, children, disabled = false, loading = false, onPress },
   ref,
 ) => {
   return (
-    <AppTouchable ref={ref} disabled={disabled} {...(!disabled && { onPress })}>
-      <SquircleView
-        cornerSmoothing={1} // 0-1
+    <AppPressable ref={ref} disabled={disabled} {...(!disabled && { onPress })}>
+      <AppSquircleView
         style={[
           tw.style(
             `flex flex-row justify-center items-center min-h-14 px-6 rounded-[1.5rem] relative overflow-hidden`,
@@ -71,8 +70,8 @@ const AppRoundedButton: ForwardRefRenderFunction<AppTouchableRef, AppRoundedButt
             </View>
           </>
         )}
-      </SquircleView>
-    </AppTouchable>
+      </AppSquircleView>
+    </AppPressable>
   );
 };
 

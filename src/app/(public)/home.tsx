@@ -8,6 +8,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import Animated, {
+  BounceIn,
+  BounceOut,
   FadeIn,
   FadeInLeft,
   FadeInRight,
@@ -18,8 +20,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { toast } from 'sonner-native';
 import tw, { useDeviceContext } from 'twrnc';
+import AppPressable from '@/components/AppPressable';
 import AppText from '@/components/AppText';
-import AppTouchable from '@/components/AppTouchable';
 import ErrorBadge from '@/components/ErrorBadge';
 import AppointmentCard from '@/components/Home/AppointmentCard';
 import AttendanceCount from '@/components/Home/AttendanceCount';
@@ -173,16 +175,18 @@ export default function HomeScreen() {
     retry: false,
   });
 
-  const nextCalendarEvents = useMemo(() => {
+  const upcomingEvents = useMemo(() => {
     const now = dayjs();
-    const tomorrow = now.add(1, 'day').endOf('day');
+    const endOfPeriod = now
+      .add(settingsStore.upcomingEventsPeriod.count, settingsStore.upcomingEventsPeriod.unit)
+      .endOf('day');
     return (
       calendarEvents?.filter(
         ({ start, end }) =>
-          dayjs(start).isBetween(now, tomorrow) || dayjs(end).isBetween(now, tomorrow),
+          dayjs(start).isBetween(now, endOfPeriod) || dayjs(end).isBetween(now, endOfPeriod),
       ) ?? []
     );
-  }, [calendarEvents, activeSince]);
+  }, [calendarEvents, activeSince, settingsStore.upcomingEventsPeriod]);
 
   const onRefresh = useCallback(() => {
     return Promise.all([
@@ -251,7 +255,6 @@ export default function HomeScreen() {
 
           {hasSelectSubscription ? (
             <SubscriptionBottomSheet
-              activeSince={activeSince}
               currentSubscription={currentSubscription}
               loading={isFetchingSubscriptions}
               subscriptions={subscriptions}
@@ -260,17 +263,12 @@ export default function HomeScreen() {
           ) : null}
 
           {hasSelectBalance ? (
-            <BalanceBottomSheet
-              activeSince={activeSince}
-              loading={isFetchingProfile}
-              onClose={() => selectBalance(false)}
-            />
+            <BalanceBottomSheet loading={isFetchingProfile} onClose={() => selectBalance(false)} />
           ) : null}
 
           {hasSelectMembership ? (
             <MembershipBottomSheet
               active={profile?.activeUser}
-              activeSince={activeSince}
               activityOverLast6Months={profile?.activity}
               lastMembershipYear={profile?.lastMembership}
               loading={isFetchingProfile}
@@ -290,7 +288,6 @@ export default function HomeScreen() {
           isWide && tw`mx-auto w-full max-w-2xl`,
         ]}>
         <StaleDataText
-          activeSince={activeSince}
           lastFetch={currentMembersUpdatedAt}
           loading={isFetching}
           onRefresh={onRefresh}
@@ -298,7 +295,7 @@ export default function HomeScreen() {
 
         <View style={tw`flex flex-col items-end shrink grow basis-0`}>
           <Link asChild href="(settings)">
-            <AppTouchable>
+            <AppPressable>
               <ProfilePicture
                 attending={profile?.attending}
                 loading={isFetching}
@@ -307,7 +304,7 @@ export default function HomeScreen() {
                 style={tw`h-12 w-12`}
                 url={authStore.user?.picture}
               />
-            </AppTouchable>
+            </AppPressable>
           </Link>
         </View>
       </View>
@@ -322,6 +319,7 @@ export default function HomeScreen() {
           error={
             currentMembersError && !isSilentError(currentMembersError) ? currentMembersError : null
           }
+          fetching={isFetchingCurrentMembers}
           lastFetch={currentMembersUpdatedAt}
           loading={isLoadingCurrentMembers}
           members={currentMembers}
@@ -339,8 +337,11 @@ export default function HomeScreen() {
         </Animated.View>
       )}
 
-      <Animated.View entering={FadeInLeft.duration(750).delay(400)} style={tw`flex self-stretch`}>
+      <Animated.View
+        entering={FadeInLeft.duration(750).delay(400)}
+        style={tw`flex flex-col self-stretch`}>
         <SectionTitle
+          loading={isFetchingProfile || isFetchingSubscriptions}
           style={[tw`self-stretch mt-9 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
           title={t('home.profile.label')}>
           {profileError && !isSilentError(profileError) ? (
@@ -371,15 +372,15 @@ export default function HomeScreen() {
           showsHorizontalScrollIndicator={false}
           style={tw`w-full overflow-visible`}>
           {isTodayBirthday && (
-            <AppTouchable
+            <AppPressable
               style={tw`flex flex-row items-stretch`}
               onPress={() => selectBirthday(true)}>
               <BirthdayCard style={tw`min-h-38 min-w-32`} />
-            </AppTouchable>
+            </AppPressable>
           )}
           {((devices && !devices.length) || (profile && !profile.lastSeen)) && (
             <Link asChild href="/devices">
-              <AppTouchable style={tw`flex flex-row items-stretch`}>
+              <AppPressable style={tw`flex flex-row items-stretch`}>
                 <DevicesCard
                   count={devices?.length}
                   entering={FadeIn.duration(500)}
@@ -387,28 +388,27 @@ export default function HomeScreen() {
                   pending={isPendingDevices}
                   style={tw`min-h-38 min-w-32`}
                 />
-              </AppTouchable>
+              </AppPressable>
             </Link>
           )}
-          <AppTouchable style={tw`flex flex-row items-stretch`} onPress={() => selectBalance(true)}>
+          <AppPressable style={tw`flex flex-row items-stretch`} onPress={() => selectBalance(true)}>
             <BalanceCard
               count={profile?.balance ?? 0}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
               style={tw`min-h-38 min-w-32`}
               valid={profile && !isMemberBalanceInsufficient(profile)}
             />
-          </AppTouchable>
-          <AppTouchable
+          </AppPressable>
+          <AppPressable
             style={tw`flex flex-row items-stretch`}
             onPress={() => selectSubscription(true)}>
             <SubscriptionCard
-              activeSince={activeSince}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingSubscriptions}
               style={tw`min-h-38 min-w-32`}
               subscription={currentSubscription}
             />
-          </AppTouchable>
-          <AppTouchable
+          </AppPressable>
+          <AppPressable
             style={tw`flex flex-row items-stretch`}
             onPress={() => selectMembership(true)}>
             <MembershipCard
@@ -418,13 +418,14 @@ export default function HomeScreen() {
               style={tw`min-h-38 min-w-32`}
               valid={profile?.membershipOk}
             />
-          </AppTouchable>
+          </AppPressable>
         </ScrollView>
       </Animated.View>
 
       <SectionTitle
-        count={nextCalendarEvents.length > 2 ? nextCalendarEvents.length : null}
+        count={upcomingEvents.length > 2 ? upcomingEvents.length : null}
         entering={FadeInRight.duration(750).delay(600)}
+        loading={isFetchingCalendarEvents}
         style={[tw`self-stretch mt-9 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
         title={t('home.calendar.label')}>
         {calendarEventsError && !isSilentError(calendarEventsError) ? (
@@ -437,7 +438,7 @@ export default function HomeScreen() {
 
         <Link asChild href="/events">
           <AppText
-            style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-5`}>
+            style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-16`}>
             {t('home.calendar.browse')}
           </AppText>
         </Link>
@@ -454,36 +455,46 @@ export default function HomeScreen() {
           )}
           decelerationRate="fast"
           horizontal={true}
-          scrollEnabled={nextCalendarEvents.length > 0}
+          scrollEnabled={upcomingEvents.length > 0}
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
-          snapToInterval={320 + 16}
+          snapToAlignment="start"
+          snapToOffsets={Array.from({ length: upcomingEvents.length }).map(
+            (_, i) => 320 + i * (320 + 16),
+          )}
           style={tw`w-full overflow-visible`}>
           {isLoadingCalendarEvents ? (
             <Animated.View exiting={FadeOut.duration(500)}>
-              <CalendarEventCard
-                activeSince={activeSince}
-                loading={isLoadingCalendarEvents}
-                style={tw`w-80`}
-              />
+              <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`w-80`} />
             </Animated.View>
-          ) : nextCalendarEvents.length ? (
-            nextCalendarEvents.map((event, index) => (
+          ) : upcomingEvents.length ? (
+            upcomingEvents.map((event, index) => (
               <Animated.View
                 entering={FadeIn.duration(300)}
                 exiting={FadeOut.duration(300)}
                 key={`calendar-event-card-${event.id}`}
                 style={[index > 0 && tw`ml-4`]}>
                 <Link asChild href={`/events/${event.id}`}>
-                  <AppTouchable style={tw`w-80`}>
-                    <CalendarEventCard event={event} />
-                  </AppTouchable>
+                  <AppPressable style={tw`w-80`}>
+                    <CalendarEventCard event={event}>
+                      {dayjs().isBetween(event.start, event.end) && (
+                        <Animated.View
+                          entering={BounceIn.duration(1000).delay(300)}
+                          exiting={BounceOut.duration(1000)}
+                          style={tw`z-10 h-7 w-7 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -bottom-1.5 -right-1.5`}>
+                          <View
+                            style={tw`h-4 w-4 bg-emerald-600 dark:bg-emerald-700 rounded-full`}
+                          />
+                        </Animated.View>
+                      )}
+                    </CalendarEventCard>
+                  </AppPressable>
                 </Link>
               </Animated.View>
             ))
           ) : (
             <HomeCalendarEmptyState
-              events={nextCalendarEvents}
+              events={upcomingEvents}
               lastFetch={calendarEventsUpdatedAt}
               style={[{ width: width - 16 * 2 }, isWide && tw`mx-auto w-full max-w-2xl`]}
             />

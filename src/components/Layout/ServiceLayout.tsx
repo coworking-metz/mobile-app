@@ -1,9 +1,9 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AppTopFader } from '../AppFader';
+import AppIconButton from '../AppIconButton';
 import { MenuAction, MenuView } from '@react-native-menu/menu';
 import { useRouter } from 'expo-router';
-import React, { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { RefreshControl, StyleProp, View, ViewStyle } from 'react-native';
-import { type LayoutChangeEvent } from 'react-native';
+import React, { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { RefreshControl, StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import {
   KeyboardAwareScrollView,
   type KeyboardAwareScrollViewProps,
@@ -17,10 +17,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
-import AppBlurView from '@/components/AppBlurView';
 import AppText from '@/components/AppText';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
-import { theme } from '@/helpers/colors';
 import { useAppPaddingBottom } from '@/helpers/screen';
 
 const NAVIGATION_HEIGHT = 48;
@@ -88,30 +86,6 @@ const ServiceLayout = ({
     return {
       opacity,
       transform: [{ scale }],
-    };
-  }, [verticalScrollProgress, headerHeight]);
-
-  const navigationBackgroundStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(
-      verticalScrollProgress.value,
-      [-1, 0, headerHeight - 16, headerHeight],
-      [0, 0, 0, 1],
-    );
-
-    return {
-      opacity,
-    };
-  }, [verticalScrollProgress, headerHeight]);
-
-  const titleStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(
-      verticalScrollProgress.value,
-      [0, headerHeight, headerHeight + 32],
-      [0, 0, 1],
-    );
-
-    return {
-      opacity,
     };
   }, [verticalScrollProgress, headerHeight]);
 
@@ -205,24 +179,13 @@ const ServiceLayout = ({
             paddingRight: insets.right,
           },
         ]}>
-        <Animated.View
-          style={[
-            tw`absolute overflow-hidden top-0 left-0 bottom-0 right-0 `,
-            navigationBackgroundStyle,
-          ]}>
-          <AppBlurView style={tw`h-full w-full`} />
-        </Animated.View>
+        <AppTopFader style={tw`absolute inset-x-0 top-0`} />
+
         <View style={tw`flex flex-row shrink-0 min-w-10 overflow-visible basis-0 grow ml-4`}>
           {withBackButton && (
-            <MaterialCommunityIcons.Button
-              backgroundColor="transparent"
-              borderRadius={24}
-              color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
-              iconStyle={{ marginRight: 0 }}
-              name="arrow-left"
-              size={32}
-              style={tw`p-1`}
-              underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
+            <AppIconButton
+              icon="arrow-left"
+              style={tw`h-10 w-10`}
               onPress={() =>
                 from
                   ? router.dismissTo(from)
@@ -233,17 +196,7 @@ const ServiceLayout = ({
             />
           )}
         </View>
-        <Animated.View style={[tw`flex flex-row justify-center shrink grow`, titleStyle]}>
-          {loading ? (
-            <LoadingSkeleton height={28} width={128} />
-          ) : (
-            <AppText
-              numberOfLines={1}
-              style={tw`text-lg tracking-tight text-slate-900 dark:text-gray-200 font-medium`}>
-              {title}
-            </AppText>
-          )}
-        </Animated.View>
+
         <View style={tw`flex flex-row justify-end shrink basis-0 grow mr-4 min-w-10`}>
           {actions?.length ? (
             <MenuView
@@ -253,16 +206,7 @@ const ServiceLayout = ({
                 const action = actions.find(({ id }) => id === actionId);
                 action?.onPress?.();
               }}>
-              <MaterialCommunityIcons.Button
-                backgroundColor="transparent"
-                borderRadius={24}
-                color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
-                iconStyle={{ marginRight: 0 }}
-                name="dots-vertical"
-                size={28}
-                style={tw`p-1`}
-                underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
-              />
+              <AppIconButton icon="dots-vertical" style={tw`h-10 w-10`} />
             </MenuView>
           ) : null}
         </View>

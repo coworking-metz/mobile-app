@@ -15,7 +15,7 @@ export const isDeviceInfoAvailable = (): Promise<void> => {
   });
 };
 
-export const getDeviceInfo = (): Promise<{ device?: ProbeDevice }> => {
+export const getDeviceInfo = async (): Promise<{ device?: ProbeDevice }> => {
   return axios
     .get(`/info`, {
       baseURL: PROBE_BASE_URL,

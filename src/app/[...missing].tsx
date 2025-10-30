@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -6,10 +5,10 @@ import { FadeInLeft } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
+import AppIconButton from '@/components/AppIconButton';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import { useAppContact } from '@/context/contact';
-import { theme } from '@/helpers/colors';
 import { useAppPaddingBottom } from '@/helpers/screen';
 
 const MissingScreen = () => {
@@ -32,15 +31,8 @@ const MissingScreen = () => {
         },
       ]}>
       <View style={tw`flex flex-row px-4`}>
-        <MaterialCommunityIcons.Button
-          backgroundColor="transparent"
-          borderRadius={24}
-          color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
-          iconStyle={{ marginRight: 0 }}
-          name="arrow-left"
-          size={32}
-          style={tw`p-1`}
-          underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
+        <AppIconButton
+          icon="arrow-left"
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/settings'))}
         />
       </View>

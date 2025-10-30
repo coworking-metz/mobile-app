@@ -78,6 +78,7 @@ const PresenceGraph = ({
         const nonCompliant = nonCompliantActivity.find(({ date }) => date === item.date);
         return {
           date: item.date,
+          type: item.type,
           selected: item.date === selectedDate,
           count: item.value,
           nonCompliantCount: nonCompliant?.value,
@@ -100,7 +101,7 @@ const PresenceGraph = ({
     (opacity: number, value?: (typeof values)[number]) => {
       // non-empty values are at least 0.15
       if (opacity > 0.15 && value) {
-        const { count, nonCompliantCount, selected } = value;
+        const { count, nonCompliantCount, selected, type } = value;
         if (selected) {
           return `${tw.color('amber-800')}`;
         }
@@ -113,11 +114,19 @@ const PresenceGraph = ({
           }
         }
 
-        if (count >= 1) {
-          return theme.meatBrown;
+        if (type === 'subscription') {
+          if (count >= 1) {
+            return theme.meatBrown;
+          }
+
+          return theme.peachYellow;
         }
 
-        return theme.peachYellow;
+        if (count >= 1) {
+          return theme.blueCrayola;
+        }
+
+        return theme.babyBlueEyes;
       }
 
       // for empty values

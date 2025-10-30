@@ -1,19 +1,20 @@
-import AppBlurView from './AppBlurView';
-import AppFader from './AppFader';
+import { AppTopFader } from './AppFader';
+import AppIconButton from './AppIconButton';
 import CarouselPaginationDots from './CarouselPaginationDots';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { isLiquidGlassSupported } from '@callstack/liquid-glass';
 import dayjs from 'dayjs';
 import { Image, type ImageProps } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import { isNil } from 'lodash';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Modal, Platform, TouchableOpacity, View, ViewStyle } from 'react-native';
 import Gallery from 'react-native-awesome-gallery';
-import Animated, { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
+import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
+
+// in case we need to migrate off 'react-native-awesome-gallery'
+// https://github.com/saseungmin/react-native-gesture-image-viewer
 
 type ZoomableImageProps = Omit<ImageProps, 'source'> & {
   source?: string;
@@ -34,8 +35,7 @@ const ZoomableImage = ({
 }: ZoomableImageProps) => {
   const insets = useSafeAreaInsets();
   const offset = useSharedValue(0);
-  const [isSelected, setSelected] = useState<boolean>(false);
-  const { t } = useTranslation();
+  const [isGalleryVisible, setGalleryVisible] = useState<boolean>(false);
 
   const sourcesCount = useMemo(() => sources?.length ?? 0, [sources]);
 
@@ -44,18 +44,18 @@ const ZoomableImage = ({
   }
 
   useEffect(() => {
-    onZoomChange?.(isSelected);
-  }, [isSelected]);
+    onZoomChange?.(isGalleryVisible);
+  }, [isGalleryVisible]);
 
   useEffect(() => {
-    if (!isNil(zoomed) && isSelected !== zoomed) {
-      setSelected(zoomed);
+    if (!isNil(zoomed) && isGalleryVisible !== zoomed) {
+      setGalleryVisible(zoomed);
     }
   }, [zoomed]);
 
   return (
     <>
-      <TouchableOpacity onPress={() => setSelected(true)}>
+      <TouchableOpacity onPress={() => setGalleryVisible(true)}>
         <Image
           cachePolicy="memory"
           source={{
@@ -71,7 +71,7 @@ const ZoomableImage = ({
         statusBarTranslucent
         transparent
         animationType="fade"
-        visible={isSelected}
+        visible={isGalleryVisible}
         {...(Platform.OS === 'android' && { navigationBarTranslucent: true })}>
         {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
         <StatusBar translucent style="light" />
@@ -85,30 +85,14 @@ const ZoomableImage = ({
                 right: insets.right,
               },
             ]}>
-            <AppFader
-              position={Fader.position.TOP}
-              size={(insets.top || (Platform.OS === 'android' ? 16 : 0)) + 64}
-              style={tw`absolute inset-x-0 top-0`}
-              tintColor={tw.color('black/25')}
+            <AppTopFader style={tw`absolute inset-x-0 top-0`} tintColor={tw.color('black/25')} />
+
+            <AppIconButton
+              icon="window-close"
+              onPress={() => setGalleryVisible(false)}
+              {...(!isLiquidGlassSupported && { colorScheme: 'dark' })}
             />
-            <View style={tw`relative`}>
-              <Animated.View
-                style={[tw`absolute top-0 left-0 bottom-0 right-0 rounded-full overflow-hidden`]}>
-                <AppBlurView style={tw`h-full w-full`} type="dark" />
-              </Animated.View>
-              <MaterialCommunityIcons.Button
-                aria-label={t('actions.close')}
-                backgroundColor="transparent"
-                borderRadius={24}
-                color={tw.color('gray-400')}
-                iconStyle={{ marginRight: 0 }}
-                name="window-close"
-                size={32}
-                style={tw`p-1 shrink-0`}
-                underlayColor={tw.color('zinc-800')}
-                onPress={() => setSelected(false)}
-              />
-            </View>
+
             {sourcesCount > 1 && (
               <>
                 <CarouselPaginationDots
@@ -147,7 +131,7 @@ const ZoomableImage = ({
                 duration: 300,
               });
             }}
-            onSwipeToClose={() => setSelected(false)}
+            onSwipeToClose={() => setGalleryVisible(false)}
           />
         </View>
       </Modal>

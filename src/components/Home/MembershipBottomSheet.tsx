@@ -12,6 +12,7 @@ import AppBottomSheet from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import ServiceRow from '@/components/Layout/ServiceRow';
+import useAppState from '@/helpers/app-state';
 import { theme } from '@/helpers/colors';
 
 import { getMemberProfile } from '@/services/api/members';
@@ -24,7 +25,6 @@ const MembershipBottomSheet = ({
   active,
   activityOverLast6Months,
   loading = false,
-  activeSince,
   style,
   onClose,
 }: {
@@ -33,12 +33,12 @@ const MembershipBottomSheet = ({
   active?: boolean;
   loading?: boolean;
   activityOverLast6Months?: number;
-  activeSince?: string;
   style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
+  const activeSince = useAppState();
 
   const { refetch: refetchProfile } = useQuery({
     queryKey: ['members', user?.id],

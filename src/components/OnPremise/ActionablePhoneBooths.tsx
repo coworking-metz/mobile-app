@@ -1,4 +1,4 @@
-import AppTouchable from '../AppTouchable';
+import AppPressable from '../AppPressable';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { isNil } from 'lodash';
 import React, { useMemo } from 'react';
@@ -7,30 +7,31 @@ import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
-import AppBlurView from '@/components/AppBlurView';
+import AppBlurView, { AppBlurViewProps } from '@/components/AppBlurView';
 import { theme } from '@/helpers/colors';
 
 const ActionablePhoneBooths = ({
-  activeIcon,
-  inactiveIcon,
-  unknownIcon,
+  icon,
+  activeIcon = icon,
+  unknownIcon = icon,
   actives = [false, false],
   selected = false,
   disabled = false,
   loading,
   onPress,
   style,
+  ...props
 }: {
-  activeIcon: keyof typeof mdiGlyphMap;
-  inactiveIcon: keyof typeof mdiGlyphMap;
-  unknownIcon: keyof typeof mdiGlyphMap;
+  activeIcon?: keyof typeof mdiGlyphMap;
+  icon: keyof typeof mdiGlyphMap;
+  unknownIcon?: keyof typeof mdiGlyphMap;
   actives?: (boolean | null)[];
   selected?: boolean;
   disabled?: boolean;
   loading?: boolean;
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
-}) => {
+} & AppBlurViewProps) => {
   const isFirstPhoneBoothSelected = useMemo(() => {
     const [firstPhoneBooth] = actives;
     return firstPhoneBooth;
@@ -47,8 +48,9 @@ const ActionablePhoneBooths = ({
         tw`absolute z-10 h-12 w-24 flex items-stretch rounded-full overflow-hidden bg-gray-200 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-85`,
         selected && tw.style(`border-2 border-gray-500 dark:border-gray-400`),
         style,
-      ]}>
-      <AppTouchable disabled={disabled} style={tw`h-full w-full`} onPress={onPress}>
+      ]}
+      {...props}>
+      <AppPressable disabled={disabled} style={tw`h-full w-full`} onPress={onPress}>
         {loading ? (
           <HorizontalLoadingAnimation
             color={
@@ -75,7 +77,7 @@ const ActionablePhoneBooths = ({
                     ? unknownIcon
                     : isFirstPhoneBoothSelected
                       ? activeIcon
-                      : inactiveIcon
+                      : icon
                 }
                 size={32}
                 style={[tw`shrink-0`, disabled && tw`opacity-70`, loading && tw`opacity-0`]}
@@ -97,7 +99,7 @@ const ActionablePhoneBooths = ({
                     ? unknownIcon
                     : isSecondPhoneBoothSelected
                       ? activeIcon
-                      : inactiveIcon
+                      : icon
                 }
                 size={32}
                 style={[tw`shrink-0`, disabled && tw`opacity-70`, loading && tw`opacity-0`]}
@@ -106,7 +108,7 @@ const ActionablePhoneBooths = ({
             </Animated.View>
           </Animated.View>
         )}
-      </AppTouchable>
+      </AppPressable>
     </AppBlurView>
   );
 };

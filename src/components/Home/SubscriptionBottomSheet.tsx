@@ -15,6 +15,7 @@ import AppText from '@/components/AppText';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
 import ErrorChip from '@/components/ErrorChip';
 import ServiceRow from '@/components/Layout/ServiceRow';
+import useAppState from '@/helpers/app-state';
 import { formatAmount } from '@/helpers/currency';
 import { isSilentError } from '@/helpers/error';
 import i18n from '@/i18n';
@@ -26,20 +27,19 @@ const SubscriptionBottomSheet = ({
   subscriptions = [],
   currentSubscription, // the one that should be displayed first
   loading = false,
-  activeSince,
   style,
   onClose,
 }: {
   subscriptions?: ApiMemberSubscription[];
   currentSubscription?: ApiMemberSubscription;
   loading?: boolean;
-  activeSince?: string;
   style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const hasBeenActive = useRef(false);
+  const activeSince = useAppState();
 
   const { refetch: refetchSubscriptions, error: subscriptionsError } = useQuery({
     queryKey: ['members', user?.id, 'subscriptions'],

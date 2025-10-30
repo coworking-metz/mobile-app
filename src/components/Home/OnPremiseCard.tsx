@@ -4,11 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppPressable, { AppPressableRef } from '@/components/AppPressable';
+import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
-import AppTouchable, { AppTouchableRef } from '@/components/AppTouchable';
 
 const OnPremiseCard: ForwardRefRenderFunction<
-  AppTouchableRef,
+  AppPressableRef,
   {
     children?: ReactNode;
     disabled?: boolean;
@@ -20,50 +21,49 @@ const OnPremiseCard: ForwardRefRenderFunction<
   const { t } = useTranslation();
 
   return (
-    <AppTouchable
-      ref={ref}
-      disabled={disabled}
-      style={[
-        tw`flex flex-row items-center gap-4 px-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
-        style,
-      ]}
-      onPress={onPress}>
-      <Animated.View style={tw`bg-gray-300 dark:bg-gray-700 rounded-full p-2 z-20`}>
-        <View style={tw`relative h-8 w-8 shrink-0`}>
-          <MaterialCommunityIcons
-            color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-            iconStyle={{ height: 32, width: 32, marginRight: 0 }}
-            name="floor-plan"
-            size={32}
-            style={[tw`shrink-0`, disabled && tw`opacity-40`]}
-          />
-        </View>
-      </Animated.View>
-      <Animated.View style={tw`flex flex-col z-20 w-full shrink grow`}>
-        <AppText
-          numberOfLines={location ? 1 : 2}
-          style={[
-            tw`text-xl font-medium text-slate-900 dark:text-gray-200`,
-            disabled && tw`opacity-30`,
-          ]}>
-          {t('onPremise.title')}
-        </AppText>
-        {location && (
+    <AppPressable ref={ref} disabled={disabled} style={tw`flex-1`} onPress={onPress}>
+      <AppSquircleView
+        style={[
+          tw`flex flex-row items-center gap-4 px-4 rounded-3xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
+          style,
+        ]}>
+        <Animated.View style={tw`bg-gray-300 dark:bg-gray-700 rounded-full p-2 z-20`}>
+          <View style={tw`relative h-8 w-8 shrink-0`}>
+            <MaterialCommunityIcons
+              color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
+              iconStyle={{ height: 32, width: 32, marginRight: 0 }}
+              name="floor-plan"
+              size={32}
+              style={[tw`shrink-0`, disabled && tw`opacity-40`]}
+            />
+          </View>
+        </Animated.View>
+        <Animated.View style={tw`flex flex-col z-20 w-full shrink grow`}>
           <AppText
-            numberOfLines={1}
-            style={tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400`}>
-            {location}
+            numberOfLines={location ? 1 : 2}
+            style={[
+              tw`text-xl font-medium text-slate-900 dark:text-gray-200`,
+              disabled && tw`opacity-30`,
+            ]}>
+            {t('onPremise.title')}
           </AppText>
-        )}
-      </Animated.View>
-      <MaterialCommunityIcons
-        color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-        iconStyle={{ height: 32, width: 32, marginRight: 0 }}
-        name="chevron-right"
-        size={32}
-        style={[tw`shrink-0`, disabled && tw`opacity-40`]}
-      />
-    </AppTouchable>
+          {location && (
+            <AppText
+              numberOfLines={1}
+              style={tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400`}>
+              {location}
+            </AppText>
+          )}
+        </Animated.View>
+        <MaterialCommunityIcons
+          color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
+          iconStyle={{ height: 32, width: 32, marginRight: 0 }}
+          name="chevron-right"
+          size={32}
+          style={[tw`shrink-0`, disabled && tw`opacity-40`]}
+        />
+      </AppSquircleView>
+    </AppPressable>
   );
 };
 

@@ -1,12 +1,11 @@
+import AppShimmerText from '../AppShimmerText';
 import { Link } from 'expo-router';
 import { sample } from 'lodash';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, View, type ViewProps } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, View, type ViewProps } from 'react-native';
 import Animated, {
   Easing,
-  FadeIn,
   FadeInRight,
   FadeOut,
   FadeOutRight,
@@ -31,7 +30,8 @@ const AttendanceCount = ({
   lastFetch,
   members = [],
   total = 0,
-  loading = false,
+  loading,
+  fetching,
   error,
   onRetry,
   style,
@@ -40,6 +40,7 @@ const AttendanceCount = ({
   members?: ApiMemberProfile[];
   total?: number;
   loading?: boolean;
+  fetching?: boolean;
   error?: AnyError | null;
   onRetry?: () => void;
   style?: ViewProps;
@@ -79,26 +80,16 @@ const AttendanceCount = ({
   return (
     <View style={[tw`flex flex-col justify-end h-32 w-full`, style]}>
       <View style={tw`flex flex-row w-full items-end mb-5`}>
-        {loading ? (
-          <Animated.View
-            entering={FadeIn.duration(150)}
-            exiting={FadeOut.duration(150)}
-            style={tw`mb-0`}>
-            <LoadingSkeleton height={80} radius={16} width={64} />
-          </Animated.View>
-        ) : (
-          <View style={tw`flex flex-col justify-end h-24`}>
-            <ReanimatedText
-              style={[
-                tw`text-8xl leading-[6.5rem] font-bold text-slate-900 dark:text-gray-200 min-w-[3rem]`,
-                Platform.OS === 'ios' ? tw`-mb-6` : tw`-mb-8`,
-              ]}
-              text={membersCount}
-            />
-          </View>
-        )}
+        <LoadingSkeleton radius={16} show={loading}>
+          <ReanimatedText
+            style={[
+              tw`text-8xl leading-[6rem] font-bold text-slate-900 dark:text-gray-200 min-w-[3rem] ios:-mb-4.5 android:pr-3 android:h-28 android:-mb-2`,
+            ]}
+            text={membersCount}
+          />
+        </LoadingSkeleton>
         <AppText
-          style={tw`text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-slate-400 h-12`}>
+          style={tw`text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-slate-400 h-12 android:min-w-28`}>
           {t('home.people.capacity', { total: total })}
         </AppText>
         {error ? (
@@ -119,11 +110,13 @@ const AttendanceCount = ({
                 <LoadingSkeleton height={24} width={172} />
               </Animated.View>
             ) : (
-              <AppText
+              <AppShimmerText
+                active={fetching}
+                activeColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
                 numberOfLines={1}
                 style={tw`shrink grow text-xl font-normal text-slate-500 dark:text-slate-400`}>
                 {attendanceText}
-              </AppText>
+              </AppShimmerText>
             )}
 
             {otherMembers.length ? (

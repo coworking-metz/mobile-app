@@ -1,22 +1,19 @@
 import { BlurView, BlurViewProps } from '@danielsaraldi/react-native-blur-view'; // until 'expo-blur' updates
-import { GlassView, isLiquidGlassAvailable } from 'expo-glass-effect';
 import React from 'react';
-import Animated from 'react-native-reanimated';
+import { ViewProps } from 'react-native';
+import Animated, { AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 
-const AppBlurView = ({ children, style, type, radius = 10, ...props }: BlurViewProps) => {
+export type AppBlurViewProps = BlurViewProps & AnimatedProps<ViewProps>;
+
+const AppBlurView = ({ children, style, type, radius = 10, ...props }: AppBlurViewProps) => {
   return (
-    <Animated.View style={[tw`relative`, style]}>
-      {isLiquidGlassAvailable() ? (
-        <GlassView style={tw`absolute inset-0`} />
-      ) : (
-        <BlurView
-          radius={radius}
-          style={tw`absolute inset-0`}
-          type={(type ?? tw.prefixMatch('dark')) ? 'dark' : 'light'}
-          {...props}
-        />
-      )}
+    <Animated.View style={[tw`relative`, style]} {...props}>
+      <BlurView
+        radius={radius}
+        style={tw`absolute inset-0`}
+        type={type ?? (tw.prefixMatch('dark') ? 'dark' : 'light')}
+      />
       {children}
     </Animated.View>
   );

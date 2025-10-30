@@ -3,7 +3,7 @@ import ReanimatedText from '../ReanimatedText';
 import { SegmentedArc } from '@shipt/segmented-arc-for-react-native';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
+import { StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
 import ReadMore from 'react-native-read-more-text';
 import Animated, {
   Easing,
@@ -23,7 +23,7 @@ const ANIMATION_DURATION = 1_000;
 
 const CarbonDioxideBottomSheet = ({
   loading = false,
-  level = 0,
+  level = 10,
   temperatureLevel = 0,
   humidityLevel = 0,
   noiseLevel = 0,
@@ -148,10 +148,7 @@ const CarbonDioxideBottomSheet = ({
               </View>
             ) : (
               <ReanimatedText
-                style={[
-                  tw`text-4xl font-semibold text-slate-900 dark:text-gray-200 -mb-2`,
-                  Platform.OS === 'ios' && tw`-mb-1`,
-                ]}
+                style={tw`text-4xl font-semibold text-slate-900 dark:text-gray-200 ios:-mb-1 android:h-10 android:pr-1`}
                 text={formattedAnimatedLevel}
               />
             )}

@@ -1,7 +1,6 @@
-import ActionableIcon from './ActionableIcon';
+import ActionableIcon, { ActionableIconProps } from './ActionableIcon';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useState } from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
 import {
   useAnimatedStyle,
   useSharedValue,
@@ -15,15 +14,12 @@ import useToastStore from '@/stores/toast';
 
 const ActionableLight = ({
   id,
-  loading = false,
   active = false,
-  style,
+  ...props
 }: {
   id: string;
-  loading?: boolean;
   active?: boolean;
-  style?: StyleProp<ViewStyle>;
-}) => {
+} & Omit<ActionableIconProps, 'icon' | 'activeIcon' | 'iconStyle' | 'pending' | 'onPress'>) => {
   const toastStore = useToastStore();
   const [isActive, setActive] = useState(active);
   const [isUpdating, setUpdating] = useState(false);
@@ -60,13 +56,12 @@ const ActionableLight = ({
 
   return (
     <ActionableIcon
+      {...props}
       active={isActive}
       activeIcon="ceiling-light"
+      icon="ceiling-light-outline"
       iconStyle={animatedStyle}
-      inactiveIcon="ceiling-light-outline"
-      loading={loading}
       pending={isUpdating}
-      style={style}
       onPress={toggle}
     />
   );

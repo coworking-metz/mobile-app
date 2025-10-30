@@ -32,6 +32,7 @@ export const ContactProvider = ({ children }: { children: React.ReactNode }) => 
   }, [t]);
 
   useQuickActionCallback((action) => {
+    console.log('Quick action received:', action);
     if (action.id === 'contact' && isNil(isContactBottomSheetVisible)) {
       setContactBottomSheetVisible(true);
     }

@@ -1,4 +1,4 @@
-import AppFader from '../AppFader';
+import AppSquircleView from '../AppSquircleView';
 import * as Haptics from 'expo-haptics';
 import { useNavigation } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
@@ -11,7 +11,6 @@ import {
   ViewStyle,
   useColorScheme,
 } from 'react-native';
-import SquircleView from 'react-native-fast-squircle';
 import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -23,9 +22,10 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
+import { AppTopFader } from '@/components/AppFader';
 import SpaceshipRefreshAnimation from '@/components/Home/SpaceshipRefreshAnimation';
 import SunnyRefreshAnimation from '@/components/Home/SunnyRefreshAnimation';
-import useAppScreen from '@/helpers/screen';
+import useAppScreen, { useAppPaddingBottom } from '@/helpers/screen';
 import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
 import useSettingsStore from '@/stores/settings';
 
@@ -54,6 +54,7 @@ export default function HomeLayout({
   const [isRefresing, setRefreshing] = useState(false);
   const settingsStore = useSettingsStore();
   const navigation = useNavigation();
+  const paddingBottom = useAppPaddingBottom();
   const enableAnimations = useMemo(
     () => !settingsStore.withNativePullToRefresh && !IS_RUNNING_IN_EXPO_GO && !reduceMotion,
     [settingsStore.withNativePullToRefresh, reduceMotion],
@@ -174,13 +175,14 @@ export default function HomeLayout({
   return (
     <View
       style={[
-        tw`w-full grow flex flex-col items-stretch relative bg-gray-100 dark:bg-black`,
+        tw`w-full bg-gray-100 dark:bg-black grow flex flex-col items-stretch relative`,
         style,
       ]}>
+      {/* <HomeBackground /> */}
+
       {enableAnimations ? (
         <Animated.View style={[tw`absolute top-0 inset-x-0`, refreshAnimationStyles]}>
-          <SquircleView
-            cornerSmoothing={1} // 0-1
+          <AppSquircleView
             style={[tw`overflow-hidden w-full`, isWide && tw`max-w-sm mx-auto rounded-b-[3.5rem]`]}>
             {colorScheme === 'light' ? (
               <SunnyRefreshAnimation
@@ -199,13 +201,13 @@ export default function HomeLayout({
                 onEnd={onRefreshComplete}
               />
             )}
-          </SquircleView>
+          </AppSquircleView>
         </Animated.View>
       ) : null}
 
       <Animated.View
         {...(enableAnimations && panResponderRef.current.panHandlers)}
-        style={[tw`w-full grow flex flex-col relative`]}>
+        style={[tw`flex flex-col grow relative w-full`]}>
         <Animated.ScrollView
           horizontal={false}
           {...(!enableAnimations && {
@@ -229,8 +231,8 @@ export default function HomeLayout({
           onScroll={scrollHandler}>
           <Animated.View
             style={[
-              tw.style(`flex flex-col items-start justify-start bg-gray-100 dark:bg-black w-full`, {
-                paddingBottom: insets.top + insets.bottom + 32,
+              tw.style(`flex flex-col items-start justify-start w-full`, {
+                paddingBottom: paddingBottom + (Platform.OS === 'android' ? 64 : 16),
               }),
               enableAnimations && pullDownStyles,
             ]}>
@@ -238,19 +240,13 @@ export default function HomeLayout({
           </Animated.View>
         </Animated.ScrollView>
 
-        <AppFader
-          position={Fader.position.TOP}
-          size={insets.top || (Platform.OS === 'android' ? 16 : 0)}
-          style={[tw`absolute inset-x-0 top-0`, topFaderStyles]}
-          tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
-        />
+        <AppTopFader style={[tw`absolute inset-x-0 top-0`, topFaderStyles]} />
 
         {!!insets.bottom && (
-          <AppFader
+          <AppTopFader
             position={Fader.position.BOTTOM}
             size={insets.bottom}
             style={tw.style(`absolute inset-x-0 bottom-0`, { height: insets.bottom })}
-            tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
           />
         )}
       </Animated.View>

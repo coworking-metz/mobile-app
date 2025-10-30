@@ -8,8 +8,8 @@ import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import CalendarCheckAnimation from '@/components/Animations/CalendarCheckAnimation';
+import AppPressable from '@/components/AppPressable';
 import AppText from '@/components/AppText';
-import AppTouchable from '@/components/AppTouchable';
 import { theme } from '@/helpers/colors';
 
 const AppointmentCard = ({
@@ -70,12 +70,12 @@ const AppointmentCard = ({
         style,
       ]}>
       <View style={tw`flex flex-row gap-4 items-start`}>
-        <AppTouchable onPress={onAnimationPress}>
+        <AppPressable onPress={onAnimationPress}>
           <Animated.View
             style={tw`flex rounded-2xl bg-amber-100 bg-opacity-75 dark:bg-opacity-50 overflow-hidden h-20 w-20`}>
             <CalendarCheckAnimation ref={animation} style={tw`h-full w-full`} />
           </Animated.View>
-        </AppTouchable>
+        </AppPressable>
 
         <View style={tw`flex flex-col justify-center min-h-20 grow shrink`}>
           <AppText numberOfLines={1} style={tw`text-3xl font-semibold text-zinc-900`}>

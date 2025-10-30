@@ -15,7 +15,8 @@ export type ApiUserCapability =
   | 'PARKING_ACCESS'
   | 'UNLOCK_DECK_DOOR'
   | 'KEYS_ACCESS'
-  | 'WIFI_CREDENTIALS';
+  | 'STORAGE_KEYS_ACCESS'
+  | 'WIFI_CREDENTIALS_ACCESS';
 
 export type ApiUser = {
   id?: string;
@@ -34,7 +35,7 @@ export type ApiUser = {
 
 const authLogger = log.extend(`[auth]`);
 
-export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiTokens> => {
+export const getAccessAndRefreshTokens = async (refreshToken: string): Promise<ApiTokens> => {
   const apiBaseUrl = useSettingsStore.getState().apiBaseUrl || API_BASE_URL;
   // refreshing tokens should have its own axios config
   // and should not be cancelled

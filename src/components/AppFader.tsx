@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { AccessibilityInfo, StyleProp, ViewStyle } from 'react-native';
+import { AccessibilityInfo, Platform, StyleProp, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader, FaderProps } from 'react-native-ui-lib';
+import tw from 'twrnc';
 
-const AppFader = ({
-  style,
-  ...faderProps
-}: FaderProps & {
+type AppFaderProps = FaderProps & {
   style?: StyleProp<ViewStyle>;
-}) => {
+};
+
+const AppFader = ({ style, ...faderProps }: AppFaderProps) => {
   const [reduceTransparencyEnabled, setReduceTransparencyEnabled] = useState(false);
 
   useEffect(() => {
@@ -36,3 +37,16 @@ const AppFader = ({
 };
 
 export default AppFader;
+
+export const AppTopFader = (props: AppFaderProps) => {
+  const insets = useSafeAreaInsets();
+
+  return (
+    <AppFader
+      position={Fader.position.TOP}
+      size={(insets.top || (Platform.OS === 'android' ? 16 : 0)) + 32}
+      tintColor={tw.prefixMatch('dark') ? tw.color('black/25') : tw.color('white/40')}
+      {...props}
+    />
+  );
+};

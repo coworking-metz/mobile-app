@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppFader from '@/components/AppFader';
+import AppIconButton from '@/components/AppIconButton';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import PaginationDot from '@/components/Onboarding/PaginationDot';
@@ -17,7 +17,6 @@ import AboutStep from '@/components/Onboarding/Steps/AboutStep';
 import ActivityStep from '@/components/Onboarding/Steps/ActivityStep';
 import EventsStep from '@/components/Onboarding/Steps/EventsStep';
 import ServicesStep from '@/components/Onboarding/Steps/ServicesStep';
-import { theme } from '@/helpers/colors';
 import { log } from '@/helpers/logger';
 import { useAppPaddingBottom } from '@/helpers/screen';
 import useSettingsStore from '@/stores/settings';
@@ -140,18 +139,7 @@ const Onboarding = () => {
                 />
               ))}
             </View>
-            <MaterialCommunityIcons.Button
-              aria-label={t('actions.close')}
-              backgroundColor="transparent"
-              borderRadius={24}
-              color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
-              iconStyle={{ height: 32, width: 32, marginRight: 0 }}
-              name="window-close"
-              size={32}
-              style={tw`p-1`}
-              underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
-              onPress={onClose}
-            />
+            <AppIconButton icon="window-close" onPress={onClose} />
           </View>
           <View style={tw`grow basis-0`}>
             <Carousel

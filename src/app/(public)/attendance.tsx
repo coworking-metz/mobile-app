@@ -171,7 +171,8 @@ const Attendance = () => {
                 count={group.members.length}
                 entering={FadeInLeft.duration(500)}
                 exiting={FadeOutLeft.duration(500)}
-                style={tw`px-2`}
+                loading={isFetchingCurrentMembers}
+                style={tw`px-2 self-stretch`}
                 title={t(`onPremise.location.${group.location || 'unknown'}`)}
               />
 
