@@ -4,17 +4,16 @@ import { Link, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, ScrollView, View } from 'react-native';
-import Animated, { FadeInLeft, FadeOut } from 'react-native-reanimated';
+import Animated, { BounceIn, BounceOut, FadeInLeft, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
+import AppPressable from '@/components/AppPressable';
 import AppText from '@/components/AppText';
-import AppTouchable from '@/components/AppTouchable';
 import ErrorState from '@/components/ErrorState';
 import PeriodBottomSheet, { type PeriodType } from '@/components/Events/PeriodBottomSheet';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import { SelectableChip } from '@/components/SelectableChip';
-import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
@@ -28,7 +27,6 @@ const Calendar = ({ from }: { from?: string }) => {
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>(null);
   const [hasSelectedPeriodFilter, setSelectedPeriodFilter] = useState<boolean>(false);
   const [selectedSort, setSelectedSort] = useState<SortType>('ascending');
-  const activeSince = useAppState();
 
   useEffect(() => {
     if (period) {
@@ -154,9 +152,20 @@ const Calendar = ({ from }: { from?: string }) => {
                       asChild
                       href={`/events/${event.id}`}
                       key={`calendar-event-card-${event.id}`}>
-                      <AppTouchable style={tw`w-full h-44`}>
-                        <CalendarEventCard activeSince={activeSince} event={event} />
-                      </AppTouchable>
+                      <AppPressable style={tw`w-full h-44`}>
+                        <CalendarEventCard event={event}>
+                          {dayjs().isBetween(event.start, event.end) && (
+                            <Animated.View
+                              entering={BounceIn.duration(1000).delay(300)}
+                              exiting={BounceOut.duration(1000)}
+                              style={tw`z-10 h-7 w-7 bg-gray-50 dark:bg-zinc-900 rounded-full absolute flex items-center justify-center -bottom-1.5 -right-1.5`}>
+                              <View
+                                style={tw`h-4 w-4 bg-emerald-600 dark:bg-emerald-700 rounded-full`}
+                              />
+                            </Animated.View>
+                          )}
+                        </CalendarEventCard>
+                      </AppPressable>
                     </Link>
                   ))}
                 </View>

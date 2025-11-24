@@ -1,8 +1,7 @@
-import { version as appVersion } from '../../../package.json';
-import { API_BASE_URL } from '../environment';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { log } from '@/helpers/logger';
+import { API_BASE_URL, APP_NAME, APP_VERSION } from '@/services/environment';
 import useSettingsStore from '@/stores/settings';
 
 interface ApiTokens {
@@ -15,7 +14,9 @@ export type ApiUserCapability =
   | 'UNLOCK_GATE'
   | 'PARKING_ACCESS'
   | 'UNLOCK_DECK_DOOR'
-  | 'KEYS_ACCESS';
+  | 'KEYS_ACCESS'
+  | 'STORAGE_KEYS_ACCESS'
+  | 'WIFI_CREDENTIALS_ACCESS';
 
 export type ApiUser = {
   id?: string;
@@ -34,7 +35,7 @@ export type ApiUser = {
 
 const authLogger = log.extend(`[auth]`);
 
-export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiTokens> => {
+export const getAccessAndRefreshTokens = async (refreshToken: string): Promise<ApiTokens> => {
   const apiBaseUrl = useSettingsStore.getState().apiBaseUrl || API_BASE_URL;
   // refreshing tokens should have its own axios config
   // and should not be cancelled
@@ -46,8 +47,8 @@ export const getAccessAndRefreshTokens = (refreshToken: string): Promise<ApiToke
         baseURL: apiBaseUrl,
         timeout: 30_000,
         headers: {
-          'X-APP-NAME': 'COWORKING_MOBILE',
-          'X-APP-VERSION': appVersion,
+          'X-APP-NAME': APP_NAME,
+          'X-APP-VERSION': APP_VERSION,
         },
       },
     )

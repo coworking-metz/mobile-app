@@ -1,7 +1,7 @@
 import AppBottomSheetBackdrop from './AppBottomSheetBackdrop';
 import AppFader from './AppFader';
+import AppSquircleView from './AppSquircleView';
 import BottomSheet, { BottomSheetScrollView, type BottomSheetProps } from '@gorhom/bottom-sheet';
-import { SquircleView } from 'expo-squircle-view';
 import React, {
   forwardRef,
   ForwardRefRenderFunction,
@@ -103,9 +103,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
         ),
         style,
       ]}>
-      <SquircleView
-        cornerSmoothing={100} // 0-100
-        preserveSmoothing={true} // false matches figma, true has more rounding
+      <AppSquircleView
         style={tw`relative overflow-hidden rounded-[3.5rem] bg-white dark:bg-zinc-900`}>
         <AppFader
           position={Fader.position.TOP}
@@ -117,11 +115,11 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
           <BottomSheetScrollView
             bounces={isBouncing}
             contentContainerStyle={[tw.style(`pt-2`, { paddingBottom }), contentContainerStyle]}
-            onContentSizeChange={(_width, height) => setContentHeight(height)}>
+            onContentSizeChange={(_width: number, height: number) => setContentHeight(height)}>
             {children}
           </BottomSheetScrollView>
         )}
-      </SquircleView>
+      </AppSquircleView>
     </BottomSheet>
   );
 };

@@ -1,4 +1,8 @@
 {
+  "airConditioning": {
+    "description": "La climatisation peut être allumée ou éteinte via les télécommandes prévues à cet effet.\nLa température se régule automatiquement selon l'ambiance du lieu.\n\nIl est recommandé de l'éteindre lorsqu'aucun coworker n'occupe la pièce.",
+    "label": "Climatisation"
+  },
   "climate": {
     "carbonDioxide": {
       "description": "Le taux de CO2 est un indicateur de la qualité de l'air. Un taux élevé peut entraîner des maux de tête, de la fatigue et une diminution de la concentration.\n\nIl est recommandé de ventiler l'espace lorsque le taux de CO2 dépasse 1000 ppm.",
@@ -26,6 +30,10 @@
       "level": "{{level}} °C"
     }
   },
+  "coffeeMachine": {
+    "description": "La machine à café, également utilisable pour le thé, est en libre service.\nUne tasse nominative est recommandée et peut être <0>commandée via la boutique</0> ; des emplacements partagés sont disponibles dans l'entrée du Poulailler pour la laisser sur place.\n\n<1>Une participation</1> est bienvenue en cas de consommation régulière.",
+    "label": "Machine à café"
+  },
   "deckDoor": {
     "description": "La porte de la terrasse vous permet d'accéder directement à l'espace depuis l'extérieur.",
     "label": "Déverrouiller\nla porte de la terrasse",
@@ -35,6 +43,7 @@
       "fail": "Impossible de déverrouiller la porte",
       "success": "C'est ouvert !"
     },
+    "retry": "Toucher pour réessayer",
     "slideToUnlock": "Glisser pour déverrouiller"
   },
   "empty": {
@@ -42,7 +51,7 @@
     "title": "Le chaos"
   },
   "flexDesk": {
-    "description": "Ce bureau assis debout permet de travailler en position assise ou debout, selon vos préférences.\nIl est disponible sans réservation, avec un statut en temps réel pour vérifier s'il est occupé ou libre.",
+    "description": "Ce bureau assis debout permet de travailler en position assise ou debout, selon vos préférences.\nIl est disponible sans réservation, avec un statut en temps réel pour vérifier s'il est libre ou occupé.",
     "label": "Bureau assis debout",
     "occupancy": {
       "label": "Disponibilité",
@@ -53,11 +62,23 @@
       }
     }
   },
+  "fridge": {
+    "description": "Le réfrigérateur est à disposition pour tous les adhérents.\nIl est vidé régulièrement et sans préavis afin de maintenir la propreté.\nIl est recommandé de ne pas y laisser d'aliments sur la durée.",
+    "label": "Frigo"
+  },
+  "groupWork": {
+    "description": "Une salle attenante est dédiée aux échanges collectifs : réunions, visioconférences ou discussions de groupe.\nElle permet de préserver le calme de l'open space, où la discrétion est de mise.\nCet espace est mutualisé et son usage doit rester ponctuel, afin que chacun puisse en bénéficier selon ses besoins.",
+    "label": "Espace collaboratif"
+  },
+  "intercom": {
+    "description": "La sonnette signale le plus souvent l'arrivée d'un membre adhérent ou d'une visite.\nLes membres sont invités à décrocher l'interphone pour permettre l'accès. Ce geste simple participe à la convivialité et au bon accueil au sein du coworking.",
+    "label": "Interphone"
+  },
   "keyBoxes": {
     "deck": {
       "description": "Cette boîte vous permet de récupérer les clés pour déverrouiller la porte de la terrasse lorsque vous n'êtes pas en mesure d'entrer dans le batîment.\n\nElle est située à droite de la porte et nécessite un code pour l'ouvrir.",
       "fetch": "Obtenir le code",
-      "label": "Ouvrir la boîte à clés",
+      "label": "Ouvrir la boîte à clés\nde la terrasse",
       "onFetch": {
         "fail": "Impossible d'obtenir le code"
       }
@@ -66,7 +87,7 @@
     "poulailler": {
       "description": "La boîte à clés vous permet de récupérer les clés de l'espace et :\n- d'ouvrir celui-ci lorsque vous êtes le premier arrivé,\n- de le fermer lorsque vous êtes le dernier à partir.\n\nElle est située à coté de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
       "fetch": "Obtenir le code",
-      "label": "Ouvrir la boîte à clés",
+      "label": "Ouvrir la boîte à clés\ndu Poulailler",
       "onFetch": {
         "fail": "Impossible d'obtenir le code"
       }
@@ -74,7 +95,16 @@
     "ptiPoulailler": {
       "description": "La boîte à clés vous permet de récupérer les clés de l'espace et :\n- d'ouvrir celui-ci lorsque vous êtes le premier arrivé,\n- de le fermer lorsque vous êtes le dernier à partir.\n\nElle est située à coté de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
       "fetch": "Obtenir le code",
-      "label": "Ouvrir la boîte à clés",
+      "label": "Ouvrir la boîte à clés\ndu P'ti Poulailler",
+      "onFetch": {
+        "fail": "Impossible d'obtenir le code"
+      }
+    },
+    "storage": {
+      "description": "Le stock contient tout le matériel nécessaire à l'entretien et à la maintenance des espaces.",
+      "fetch": "Obtenir le code",
+      "label": "Ouvrir la boîte à clés\ndu stock",
+      "missingCapability": "Ouvrir la boîte à clés du stock nécessite un accès spécifique que vous n'avez pas. Dommage.",
       "onFetch": {
         "fail": "Impossible d'obtenir le code"
       }
@@ -119,5 +149,30 @@
       }
     }
   },
-  "title": "Gérer l'espace"
+  "printer": {
+    "description": "L'imprimante est accessible sur le réseau ou par e-mail à l'adresse indiquée à proximité.\nL'usage reste modéré (environ 30 pages par mois).\n\nUne participation est demandée en cas d'impression régulière, disponible dans <0>la boutique</0>.",
+    "label": "Imprimante"
+  },
+  "television": {
+    "description": "L'écran de télévision situé dans l'espace affiche les informations importantes du Poulailler : la présence des membres, les événements à venir, les annonces internes ou encore des rappels du règlement.\n\nC'est le tableau d'affichage numérique du coworking, pensé pour que chacun reste informé de la vie de l'association.",
+    "label": "Télévision"
+  },
+  "title": "Gérer l'espace",
+  "wifi": {
+    "credentials": {
+      "fetch": "Obtenir les identifiants",
+      "missingCapability": "Les identifiants WiFi ne sont disponibles qu'aux membres adhérents et visiteurs.",
+      "onFetch": {
+        "fail": "Impossible de récupérer les identifiants WiFi"
+      },
+      "password": {
+        "label": "Mot de passe"
+      },
+      "ssid": {
+        "label": "Réseau (SSID)"
+      }
+    },
+    "description": "Le réseau WiFi donne accès à Internet et enregistre automatiquement la présence grâce à l'adresse MAC de l'appareil.\nEn cas de changement d'appareil, l'adresse peut être mise à jour directement depuis <0>l'application</0> ou <1>le site internet</1>.\n\nL'usage doit rester professionnel et raisonnable ; les téléchargements lourds et BitTorrent sont interdits.",
+    "label": "Réseau WiFi"
+  }
 }

@@ -15,27 +15,13 @@ const MARGIN = (DOT_SIZE / 3) * 2;
 const PaginationDot = ({
   animationValue,
   index,
-  containerWidth,
 }: {
   index: number;
   animationValue: SharedValue<number>;
-  containerWidth: number;
 }) => {
-  const inputRange = [
-    (index - 1) * containerWidth,
-    index * containerWidth,
-    (index + 1) * containerWidth,
-  ];
+  const inputRange = [index - 1, index, index + 1];
 
-  const sizeInputRange = [
-    (index - 3) * containerWidth,
-    (index - 2) * containerWidth,
-    (index - 1) * containerWidth,
-    index * containerWidth,
-    (index + 1) * containerWidth,
-    (index + 2) * containerWidth,
-    (index + 3) * containerWidth,
-  ];
+  const sizeInputRange = [index - 3, index - 2, index - 1, index, index + 1, index + 2, index + 3];
 
   const animatedStyles = useAnimatedStyle(() => {
     const colour = interpolateColor(
@@ -100,12 +86,10 @@ const PaginationDot = ({
 
 const CarouselPaginationDots = ({
   count = 0,
-  width = 0,
   offset,
   style,
 }: {
   count: number;
-  width: number;
   offset: SharedValue<number>;
   style?: StyleProp<ViewStyle>;
 }) => {
@@ -118,12 +102,7 @@ const CarouselPaginationDots = ({
         style,
       ]}>
       {Array.from({ length: count }, (_, index) => (
-        <PaginationDot
-          animationValue={offset}
-          containerWidth={width}
-          index={index}
-          key={`pagination-dot-${index}`}
-        />
+        <PaginationDot animationValue={offset} index={index} key={`pagination-dot-${index}`} />
       ))}
     </View>
   );

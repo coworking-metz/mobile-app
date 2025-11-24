@@ -72,7 +72,7 @@ const AboutStep = ({ active, containerHeight }: { active: boolean; containerHeig
         <Animated.View entering={FadeInDown.duration(750).delay(500)} style={tw`w-full`}>
           <ServiceRow
             label={t('settings.general.language.label')}
-            prefixIcon="web"
+            prefixIcon="alphabetical"
             style={tw`px-3 mx-3`}
             onPress={selectLanguage}>
             <AppText style={tw`text-base font-normal text-amber-500 ml-auto`}>

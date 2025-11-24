@@ -28,3 +28,5 @@ android/
 *.ipa
 
 TODO.md
+
+.env.local

@@ -9,22 +9,22 @@ import { TouchableOpacity } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
+import useAppState from '@/helpers/app-state';
 
 export const STALE_PERIOD_IN_SECONDS = 300; // 5 minutes
 
 const StaleDataText = ({
   lastFetch,
-  activeSince,
   loading,
   onRefresh,
 }: {
   lastFetch?: number | null;
-  activeSince?: string;
   loading?: boolean;
   onRefresh?: () => void;
 }) => {
   const { t } = useTranslation();
   const isFocus = useIsFocused();
+  const activeSince = useAppState();
 
   // count duration since last fetch to redraw stale data text
   // every time the screen gets focused or the app gets back to foreground

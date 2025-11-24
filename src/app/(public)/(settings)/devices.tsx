@@ -9,9 +9,9 @@ import Animated, { BounceIn, BounceOut, FadeIn, FadeOut } from 'react-native-rea
 import tw, { useDeviceContext } from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import SwitchDevicesAnimation from '@/components/Animations/SwitchDevicesAnimation';
+import AppPressable from '@/components/AppPressable';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
-import AppTouchable from '@/components/AppTouchable';
 import ErrorChip from '@/components/ErrorChip';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
@@ -66,11 +66,11 @@ const Devices = () => {
           {[0].map((index) => (
             <DeviceCard pending key={index} style={tw`grow shrink basis-0 min-w-32 max-w-48`} />
           ))}
-          <AppTouchable
+          <AppPressable
             style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-48`}
             onPress={pairDevice}>
             <NewDeviceCard style={tw`self-stretch w-full`} />
-          </AppTouchable>
+          </AppPressable>
           {/* Placeholder for the last card to maintain layout */}
           <View style={tw`grow shrink basis-0 min-w-32 max-w-48`} />
         </View>
@@ -82,21 +82,21 @@ const Devices = () => {
               href={`/devices/${device._id}`}
               key={device.macAddress}
               style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-48`}>
-              <AppTouchable>
+              <AppPressable>
                 <DeviceCard
                   device={device}
                   key={device.macAddress}
                   loading={isFetchingDevices}
                   style={tw`self-stretch w-full`}
                 />
-              </AppTouchable>
+              </AppPressable>
             </Link>
           ))}
-          <AppTouchable
+          <AppPressable
             style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-48`}
             onPress={pairDevice}>
             <NewDeviceCard style={tw`self-stretch w-full`} />
-          </AppTouchable>
+          </AppPressable>
           {/* Placeholder for the last card to maintain layout */}
           <View style={tw`grow shrink basis-0 min-w-32 max-w-48`} />
         </View>

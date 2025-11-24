@@ -10,7 +10,7 @@ import KeysPairAnimation from '@/components/Animations/KeysPairAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
-import { handleSilentError, parseErrorText } from '@/helpers/error';
+import { handleSilentError } from '@/helpers/error';
 import { getPoulaillerKeyBoxCode } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -36,15 +36,9 @@ const PoulaillerKeyBoxBottomSheet = ({
         setCode(fetchedCode);
       })
       .catch(handleSilentError)
-      .catch(async (error) => {
-        const description = await parseErrorText(error);
-        noticeStore.add({
-          message: t('onPremise.keyBoxes.poulailler.onFetch.fail'),
-          description,
-          type: 'error',
-        });
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      })
+      .catch((error) =>
+        noticeStore.addError(error, { message: t('onPremise.keyBoxes.poulailler.onFetch.fail') }),
+      )
       .finally(() => setLoading(false));
   }, [noticeStore]);
 

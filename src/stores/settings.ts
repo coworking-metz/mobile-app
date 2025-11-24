@@ -1,5 +1,5 @@
 import { createAsyncStorage } from './async-storage';
-import * as Sentry from '@sentry/react-native';
+// import * as Sentry from '@sentry/react-native';
 import { create } from 'zustand';
 import { persist, createJSONStorage, subscribeWithSelector } from 'zustand/middleware';
 import { log } from '@/helpers/logger';
@@ -19,6 +19,10 @@ interface SettingsState {
   withNativePullToRefresh: boolean;
   language: StoreLanguage;
   theme: AppThemePreference;
+  upcomingEventsPeriod: {
+    count: number;
+    unit: 'day' | 'week' | 'month';
+  };
   apiBaseUrl: string | null;
   areTokensInAsyncStorage: boolean;
   clear: () => Promise<void>;
@@ -26,32 +30,30 @@ interface SettingsState {
 
 const settingsLogger = log.extend(`[settings]`);
 
+const defaultSettingsState: Omit<SettingsState, 'hydrated' | 'clear'> = {
+  hasOnboard: false,
+  hasLearnPullToRefresh: false,
+  hasBeenInvitedToReview: false,
+  hasSeenBirthdayPresentAt: null,
+  withNativePullToRefresh: IS_DEV,
+  language: SYSTEM_OPTION,
+  theme: SYSTEM_OPTION,
+  upcomingEventsPeriod: {
+    count: 5,
+    unit: 'day',
+  },
+  apiBaseUrl: null,
+  areTokensInAsyncStorage: false,
+};
+
 const useSettingsStore = create<SettingsState>()(
   subscribeWithSelector(
     persist(
       (set, _get) => ({
+        ...defaultSettingsState,
         hydrated: false,
-        hasOnboard: false,
-        hasLearnPullToRefresh: false,
-        hasBeenInvitedToReview: false,
-        hasSeenBirthdayPresentAt: null,
-        withNativePullToRefresh: IS_DEV,
-        language: SYSTEM_OPTION,
-        theme: SYSTEM_OPTION,
-        apiBaseUrl: null,
-        areTokensInAsyncStorage: false,
         clear: async (): Promise<void> => {
-          await set({
-            hasOnboard: false,
-            hasLearnPullToRefresh: false,
-            hasBeenInvitedToReview: false,
-            hasSeenBirthdayPresentAt: null,
-            withNativePullToRefresh: IS_DEV,
-            language: SYSTEM_OPTION,
-            theme: SYSTEM_OPTION,
-            apiBaseUrl: null,
-            areTokensInAsyncStorage: false,
-          } as Omit<SettingsState, 'clear' | 'hydrated'>);
+          await set(defaultSettingsState);
         },
       }),
       {
@@ -60,17 +62,7 @@ const useSettingsStore = create<SettingsState>()(
         partialize: (state) =>
           Object.fromEntries(
             Object.entries(state).filter(([key]) =>
-              [
-                'hasOnboard',
-                'hasLearnPullToRefresh',
-                'hasBeenInvitedToReview',
-                'hasSeenBirthdayPresentAt',
-                'withNativePullToRefresh',
-                'language',
-                'theme',
-                'apiBaseUrl',
-                'areTokensInAsyncStorage',
-              ].includes(key),
+              Object.keys(defaultSettingsState).includes(key),
             ),
           ),
         onRehydrateStorage: (_state) => {
@@ -78,7 +70,7 @@ const useSettingsStore = create<SettingsState>()(
           return (_, error) => {
             if (error) {
               settingsLogger.error(`Unable to hydrate settings storage`, error);
-              Sentry.captureException(error);
+              // Sentry.captureException(error);
             } else {
               settingsLogger.info(`Settings storage hydrated`);
               useSettingsStore.setState({ hydrated: true });

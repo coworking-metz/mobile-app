@@ -1,7 +1,8 @@
 import React, { useCallback, useRef } from 'react';
 import { ViewStyle } from 'react-native';
 import { runOnJS, useDerivedValue, type SharedValue } from 'react-native-reanimated';
-import Rive, { Alignment, Fit, type RiveRef } from 'rive-react-native';
+import { Alignment, Fit, type RiveRef } from 'rive-react-native';
+import RiveAnimation from '@/components/RiveAnimation';
 
 const STATE_MACHINE_NAME = 'Motion';
 
@@ -63,12 +64,12 @@ const SpaceshipRefreshAnimation = ({
   }, [completed]);
 
   return (
-    <Rive
+    <RiveAnimation
       ref={riveRef}
       alignment={Alignment.TopCenter}
       artboardName="New Artboard"
       fit={Fit.Cover}
-      resourceName="spaceship_pull_to_refresh"
+      source={require('@/assets/rive/spaceship_pull_to_refresh.riv')}
       stateMachineName={STATE_MACHINE_NAME}
       style={style}
       // url="https://public.rive.app/community/runtime-files/3146-6725-pull-to-refresh.riv"

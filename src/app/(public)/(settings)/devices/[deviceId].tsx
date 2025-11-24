@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Platform, View } from 'react-native';
 import SegmentedControl from 'react-native-segmented-control-2';
 import { TextFieldRef } from 'react-native-ui-lib';
@@ -12,6 +12,7 @@ import AppBottomSheet from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTextField from '@/components/AppTextField';
+import AppTextLink from '@/components/AppTextLink';
 import Divider from '@/components/Divider';
 import ErrorChip from '@/components/ErrorChip';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
@@ -23,7 +24,7 @@ import {
   isValidMacAddress,
   MAC_ADDRESS_LENGTH,
 } from '@/helpers/device';
-import { handleSilentError, useErrorNotice } from '@/helpers/error';
+import { handleSilentError } from '@/helpers/error';
 import {
   ApiMemberDevice,
   deleteMemberDevice,
@@ -31,7 +32,9 @@ import {
   getMemberDevices,
   updateMemberDevice,
 } from '@/services/api/members';
+import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
+import useNoticeStore from '@/stores/notice';
 import useToastStore from '@/stores/toast';
 
 const DEVICE_TYPES = Object.values(DeviceType) as DeviceType[];
@@ -42,7 +45,7 @@ const DeviceDetail = () => {
   const authStore = useAuthStore();
   const toastStore = useToastStore();
   const router = useRouter();
-  const noticeError = useErrorNotice();
+  const noticeStore = useNoticeStore();
   const queryClient = useQueryClient();
   const { deviceId } = useLocalSearchParams();
   const [name, setName] = useState<string>('');
@@ -113,9 +116,7 @@ const DeviceDetail = () => {
         router.canGoBack() ? router.back() : router.replace('/devices');
       })
       .catch(handleSilentError)
-      .catch(async (error) => {
-        noticeError(error, t('devices.onUpdate.fail'));
-      })
+      .catch((error) => noticeStore.addError(error, { message: t('devices.onUpdate.fail') }))
       .finally(() => {
         setSubmitting(false);
       });
@@ -152,9 +153,7 @@ const DeviceDetail = () => {
         router.canGoBack() ? router.back() : router.replace('/devices');
       })
       .catch(handleSilentError)
-      .catch((error) => {
-        noticeError(error, t('devices.onDelete.fail'));
-      })
+      .catch((error) => noticeStore.addError(error, { message: t('devices.onDelete.fail') }))
       .finally(() => {
         setDeleting(false);
       });
@@ -257,7 +256,7 @@ const DeviceDetail = () => {
           }}
         />
         {isLocallyAdministeredMacAddress(macAddress) && (
-          <View style={tw`flex flex-row items-start gap-3 w-full overflow-hidden mb-4 mx-3`}>
+          <View style={tw`flex flex-row items-start gap-3 w-full overflow-hidden mb-4 px-3`}>
             <MaterialCommunityIcons
               color={tw.color('blue-600')}
               iconStyle={tw`h-6 w-6 mr-0`}
@@ -266,10 +265,19 @@ const DeviceDetail = () => {
               style={tw`shrink-0 grow-0`}
             />
 
-            <AppText
-              style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
-              {t('devices.detail.macAddress.locallyAdministered')}
-            </AppText>
+            <Trans
+              components={[
+                <AppTextLink
+                  href={`${WORDPRESS_BASE_URL}/comment-desactiver-les-adresses-mac-aleatoires/`}
+                  key="how-to-disable-random-mac-addresses-link"
+                  style={tw`text-amber-500`}
+                  target="_blank"
+                />,
+              ]}
+              defaults={t('devices.detail.macAddress.locallyAdministered')}
+              parent={AppText}
+              style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400 shrink grow basis-0`}
+            />
           </View>
         )}
 

@@ -15,6 +15,7 @@ import AppText from '@/components/AppText';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
 import ErrorChip from '@/components/ErrorChip';
 import ServiceRow from '@/components/Layout/ServiceRow';
+import useAppState from '@/helpers/app-state';
 import { formatAmount } from '@/helpers/currency';
 import { isSilentError } from '@/helpers/error';
 import i18n from '@/i18n';
@@ -26,20 +27,19 @@ const SubscriptionBottomSheet = ({
   subscriptions = [],
   currentSubscription, // the one that should be displayed first
   loading = false,
-  activeSince,
   style,
   onClose,
 }: {
   subscriptions?: ApiMemberSubscription[];
   currentSubscription?: ApiMemberSubscription;
   loading?: boolean;
-  activeSince?: string;
   style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const hasBeenActive = useRef(false);
+  const activeSince = useAppState();
 
   const { refetch: refetchSubscriptions, error: subscriptionsError } = useQuery({
     queryKey: ['members', user?.id, 'subscriptions'],
@@ -152,7 +152,7 @@ const SubscriptionBottomSheet = ({
                       ) : (
                         <AppText
                           numberOfLines={2}
-                          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+                          style={tw`text-sm font-normal text-slate-500 dark:text-slate-400 text-right`}>
                           {t('home.profile.subscription.period.value', {
                             started: dayjs(item.started).format('dddd ll'),
                             ended: dayjs(item.ended).format('dddd ll'),
@@ -169,7 +169,7 @@ const SubscriptionBottomSheet = ({
                       {loading ? (
                         <LoadingSkeleton height={24} width={64} />
                       ) : (
-                        <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
+                        <View style={tw`flex flex-row justify-end items-end gap-1`}>
                           {item.attendanceCount != 0 && (
                             <AppText
                               numberOfLines={1}
@@ -195,7 +195,7 @@ const SubscriptionBottomSheet = ({
                       {loading ? (
                         <LoadingSkeleton height={24} width={96} />
                       ) : (
-                        <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
+                        <View style={tw`flex flex-row justify-end items-end gap-1`}>
                           {item.activityCount != 0 && (
                             <AppText
                               numberOfLines={1}
@@ -242,8 +242,9 @@ const SubscriptionBottomSheet = ({
                 )}
                 style={[tw`flex flex-row w-full h-full overflow-visible`]}
                 width={carouselWidth}
-                onProgressChange={(progress) => {
-                  offset.value = -progress;
+                windowSize={5}
+                onProgressChange={(_progress, relativeProgress) => {
+                  offset.value = relativeProgress;
                 }}
               />
             ) : (
@@ -255,7 +256,6 @@ const SubscriptionBottomSheet = ({
               count={sortedSubscriptions.length}
               offset={offset}
               style={tw`self-center`}
-              width={carouselWidth}
             />
           ) : (
             <></>

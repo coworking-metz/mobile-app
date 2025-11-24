@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useMemo, useState } from 'react';
@@ -11,7 +10,7 @@ import { WebView } from 'react-native-webview';
 import { WebViewError } from 'react-native-webview/lib/WebViewTypes';
 import tw, { useDeviceContext } from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
-import AppBlurView from '@/components/AppBlurView';
+import AppIconButton from '@/components/AppIconButton';
 import ErrorState from '@/components/ErrorState';
 import { theme } from '@/helpers/colors';
 import { useAppPaddingBottom } from '@/helpers/screen';
@@ -22,6 +21,7 @@ import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 
 const BREVO_CONVERSATIONS_ID = '65324d6bf96d92531b4091f8';
 const BREVO_CONVERSATIONS_WIDGET_URL = `https://conversations-widget.brevo.com/brevo-conversations.js`;
+const BREVO_READY_MESSAGE = 'brevo_conversations_ready';
 
 const Chat = () => {
   useDeviceContext(tw);
@@ -82,7 +82,7 @@ const Chat = () => {
                 name: '${authStore.user?.name || ''}',
               });
               setTimeout(() => {
-                window.ReactNativeWebView?.postMessage('ready');
+                window.ReactNativeWebView?.postMessage('${BREVO_READY_MESSAGE}');
               }, 1000);
             };
             document.head.appendChild(script);
@@ -131,7 +131,7 @@ const Chat = () => {
           }}
           onLoadStart={() => setLoading(true)}
           onMessage={(event) => {
-            if (event.nativeEvent.data === 'ready') {
+            if (event.nativeEvent.data === BREVO_READY_MESSAGE) {
               setLoading(false);
             } else {
               console.log('WebView message:', event.nativeEvent.data);
@@ -153,28 +153,17 @@ const Chat = () => {
           <ErrorState error={new Error(error.description)} title={t('chat.onError.title')} />
         </Animated.View>
       ) : null}
-      <View
+
+      <AppIconButton
+        colorScheme="light"
+        icon="window-close"
         style={tw.style(
-          `absolute z-20 mr-4 rounded-full overflow-hidden`,
-          {
-            right: insets.right,
-          },
+          `absolute z-20 mr-4`,
+          { right: insets.right },
           Platform.OS === 'ios' ? tw`mt-3` : { top: insets.top + 4 },
-        )}>
-        <AppBlurView intensity={64} style={tw`absolute h-full w-full`} tint={'light'} />
-        <MaterialCommunityIcons.Button
-          aria-label={t('actions.close')}
-          backgroundColor="transparent"
-          borderRadius={24}
-          color={theme.charlestonGreen}
-          iconStyle={tw`mr-0`}
-          name="close"
-          size={32}
-          style={tw`p-1 grow-0 shrink-0`}
-          underlayColor={tw.color('gray-200')}
-          onPress={() => (router.canDismiss() ? router.dismiss() : router.navigate('/home'))}
-        />
-      </View>
+        )}
+        onPress={() => (router.canDismiss() ? router.dismiss() : router.navigate('/home'))}
+      />
     </View>
   );
 };

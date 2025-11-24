@@ -1,6 +1,6 @@
 import SettingsScreen from './settings';
 import { Stack } from 'expo-router';
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import useAppScreen from '@/helpers/screen';
@@ -89,15 +89,6 @@ export default function SettingsLayout() {
             name="about"
             options={{
               animation: 'fade_from_bottom',
-            }}
-          />
-          <Stack.Screen
-            name="chat"
-            options={{
-              presentation: 'modal',
-              ...(Platform.OS === 'android' && {
-                animation: 'slide_from_bottom',
-              }),
             }}
           />
         </Stack>

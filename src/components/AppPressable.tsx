@@ -7,9 +7,9 @@ import {
   type TouchableOpacityProps,
 } from 'react-native';
 
-export type AppTouchableRef = typeof TouchableOpacity;
+export type AppPressableRef = typeof TouchableOpacity;
 
-const AppTouchable: ForwardRefRenderFunction<typeof TouchableOpacity, TouchableOpacityProps> = (
+const AppPressable: ForwardRefRenderFunction<typeof TouchableOpacity, TouchableOpacityProps> = (
   { children, onPress, ...props },
   ref,
 ) => {
@@ -33,4 +33,4 @@ const AppTouchable: ForwardRefRenderFunction<typeof TouchableOpacity, TouchableO
   );
 };
 
-export default forwardRef(AppTouchable);
+export default forwardRef(AppPressable);

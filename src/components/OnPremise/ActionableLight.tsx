@@ -1,7 +1,6 @@
-import ActionableIcon from './ActionableIcon';
+import ActionableIcon, { ActionableIconProps } from './ActionableIcon';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useState } from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
 import {
   useAnimatedStyle,
   useSharedValue,
@@ -16,15 +15,14 @@ import useToastStore from '@/stores/toast';
 const ActionableLight = ({
   id,
   active = false,
-  style,
+  ...props
 }: {
   id: string;
   active?: boolean;
-  style?: StyleProp<ViewStyle>;
-}) => {
+} & Omit<ActionableIconProps, 'icon' | 'activeIcon' | 'iconStyle' | 'pending' | 'onPress'>) => {
   const toastStore = useToastStore();
   const [isActive, setActive] = useState(active);
-  const [isLoading, setLoading] = useState(false);
+  const [isUpdating, setUpdating] = useState(false);
 
   const xTranslation = useSharedValue(0);
 
@@ -33,7 +31,7 @@ const ActionableLight = ({
   }));
 
   const toggle = useCallback(() => {
-    setLoading(true);
+    setUpdating(true);
     toastStore.dismissAll();
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     (isActive ? turnOffLight(id) : turnOnLight(id))
@@ -53,17 +51,17 @@ const ActionableLight = ({
           withTiming(0, { duration: 100 / 2 }),
         );
       })
-      .finally(() => setLoading(false));
+      .finally(() => setUpdating(false));
   }, [id, active, isActive]);
 
   return (
     <ActionableIcon
+      {...props}
       active={isActive}
       activeIcon="ceiling-light"
+      icon="ceiling-light-outline"
       iconStyle={animatedStyle}
-      inactiveIcon="ceiling-light-outline"
-      loading={isLoading}
-      style={style}
+      pending={isUpdating}
       onPress={toggle}
     />
   );

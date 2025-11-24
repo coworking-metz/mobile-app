@@ -1,5 +1,5 @@
-import { HTTP } from '../http';
 import dayjs from 'dayjs';
+import { HTTP } from '@/services/http';
 
 export type ApiLocation = 'poulailler' | 'pti-poulailler' | 'racine' | 'cantina';
 
@@ -35,13 +35,13 @@ export interface ApiMemberProfile {
   hasActiveSubscription: boolean;
 }
 
-export const getCurrentMembers = (): Promise<ApiMemberProfile[]> => {
+export const getCurrentMembers = async (): Promise<ApiMemberProfile[]> => {
   return HTTP.get('/api/current-members').then(({ data }) =>
     data.sort((a: ApiMemberProfile, b: ApiMemberProfile) => dayjs(a.lastSeen).diff(b.lastSeen)),
   );
 };
 
-export const getMemberProfile = (memberId: string | number): Promise<ApiMemberProfile> => {
+export const getMemberProfile = async (memberId: string | number): Promise<ApiMemberProfile> => {
   return HTTP.get(`/api/members/${memberId}`).then(({ data }) => data);
 };
 
@@ -53,7 +53,9 @@ export type ApiMemberActivity = {
   type: AttendanceType;
 };
 
-export const getMemberActivity = (memberId: string | number): Promise<ApiMemberActivity[]> => {
+export const getMemberActivity = async (
+  memberId: string | number,
+): Promise<ApiMemberActivity[]> => {
   return HTTP.get(`/api/members/${memberId}/activity`).then(
     ({ data }) => [...data].sort((a, b) => dayjs(a.date).diff(b.date)), // sort by date
   );
@@ -72,7 +74,9 @@ export interface ApiMemberSubscription {
   savingsOverTickets: number; // amount saved over buying tickets
 }
 
-export const getMemberSubscriptions = (memberId: string): Promise<ApiMemberSubscription[]> => {
+export const getMemberSubscriptions = async (
+  memberId: string,
+): Promise<ApiMemberSubscription[]> => {
   return HTTP.get(`/api/members/${memberId}/subscriptions`).then(
     ({ data }: { data: Omit<ApiMemberSubscription, 'current'>[] }) => {
       const sortedSubscriptions = data.sort((a, b) => dayjs(b.started).diff(a.started));
@@ -92,7 +96,7 @@ export interface ApiMemberTicket {
   orderReference?: string;
 }
 
-export const getMemberTickets = (memberId: string): Promise<ApiMemberTicket[]> => {
+export const getMemberTickets = async (memberId: string): Promise<ApiMemberTicket[]> => {
   return HTTP.get(`/api/members/${memberId}/tickets`).then(({ data }) => data);
 };
 
@@ -118,7 +122,7 @@ export const getHelloActivity = () =>
       ({
         date: helloStartDate.add(index - 1, 'days').format('YYYY-MM-DD'),
         value: value ? (Math.random() > 0.5 ? 1 : 0.5) : 0,
-        type: Math.random() > 0.5 ? 'subscription' : 'ticket',
+        type: 'subscription',
       }) as ApiMemberActivity,
   );
 
@@ -155,29 +159,32 @@ export interface ApiMemberDevice {
   type?: DeviceType;
 }
 
-export const getMemberDevices = (memberId: string): Promise<ApiMemberDevice[]> => {
+export const getMemberDevices = async (memberId: string): Promise<ApiMemberDevice[]> => {
   return HTTP.get(`/api/members/${memberId}/devices`).then(({ data }) => data);
 };
 
-export const getMemberDevice = (memberId: string, deviceId: string): Promise<ApiMemberDevice> => {
+export const getMemberDevice = async (
+  memberId: string,
+  deviceId: string,
+): Promise<ApiMemberDevice> => {
   return HTTP.get(`/api/members/${memberId}/devices/${deviceId}`).then(({ data }) => data);
 };
 
-export const updateMemberDevicesMacAddresses = (
+export const updateMemberDevicesMacAddresses = async (
   memberId: string,
   macAddresses: string[],
 ): Promise<string[]> => {
   return HTTP.put(`/api/members/${memberId}/mac-addresses`, macAddresses).then(({ data }) => data);
 };
 
-export const addMemberDevice = (
+export const addMemberDevice = async (
   memberId: string,
   device: Omit<ApiMemberDevice, '_id'>,
 ): Promise<ApiMemberDevice> => {
   return HTTP.post(`/api/members/${memberId}/devices`, device).then(({ data }) => data);
 };
 
-export const updateMemberDevice = (
+export const updateMemberDevice = async (
   memberId: string,
   deviceId: string,
   device: ApiMemberDevice,
@@ -185,6 +192,6 @@ export const updateMemberDevice = (
   return HTTP.put(`/api/members/${memberId}/devices/${deviceId}`, device).then(({ data }) => data);
 };
 
-export const deleteMemberDevice = (memberId: string, deviceId: string): Promise<void> => {
+export const deleteMemberDevice = async (memberId: string, deviceId: string): Promise<void> => {
   return HTTP.delete(`/api/members/${memberId}/devices/${deviceId}`).then(({ data }) => data);
 };

@@ -8,7 +8,6 @@ export { default as advanced } from './advanced.json';
 export { default as about } from './about.json';
 export { default as footer } from './footer.json';
 export { default as notFound } from './notFound.json';
-export { default as help } from './help.json';
 export { default as events } from './events.json';
 export { default as onPremise } from './onPremise.json';
 export { default as account } from './account.json';

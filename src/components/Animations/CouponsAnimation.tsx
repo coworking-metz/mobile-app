@@ -1,9 +1,9 @@
-import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
 import { useColorScheme } from 'react-native';
 import tw from 'twrnc';
 import BuyCoupons from '@/assets/animations/buy-coupons.json';
+import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie, theme } from '@/helpers/colors';
 
 type AnimationProps = Omit<LottieViewProps, 'source'>;

@@ -1,39 +1,82 @@
+import ActionableLight from './ActionableLight';
+import { useOnPremise } from './OnPremiseContext';
+import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Image as RNImage, View, useColorScheme } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Image as RNImage, StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
+import { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
-import floorPlanDay from '@/assets/images/floorplan-day.png';
-import floorPlanNight from '@/assets/images/floorplan-night.png';
+import floorPlanDay from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-13-30.png';
+import floorPlanNight from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-20-30.png';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
+import AppText from '@/components/AppText';
+import ErrorBadge from '@/components/ErrorBadge';
 import ActionableCarbonDioxide from '@/components/OnPremise/ActionableCarbonDioxide';
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
-import { type OnPremiseState } from '@/services/api/services';
+import { isSilentError } from '@/helpers/error';
+import { getOnPremiseState } from '@/services/api/services';
+import useAuthStore from '@/stores/auth';
 
 const PoulaillerPlan = ({
-  onPremiseState,
-  loading,
-  onDeckDoorSelected,
-  onPhoneBoothSelected,
-  onDeckKeyBoxSelected,
-  onPoulaillerKeyBoxSelected,
-  onCarbonDioxideSelected,
+  style,
+  withInformations = false,
+  withLights = false,
 }: {
-  onPremiseState?: OnPremiseState;
-  loading?: boolean;
-  onDeckDoorSelected: () => void;
-  onPhoneBoothSelected: () => void;
-  onPoulaillerKeyBoxSelected: () => void;
-  onDeckKeyBoxSelected: () => void;
-  onCarbonDioxideSelected: () => void;
+  style?: StyleProp<ViewStyle>;
+  withInformations?: boolean;
+  withLights?: boolean;
 }) => {
   useDeviceContext(tw);
+  const { t } = useTranslation();
+  const user = useAuthStore((s) => s.user);
   const [imageWidth, setImageWidth] = useState<number | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
   const [hasFloorplanLoaded, setFloorplanLoaded] = useState<boolean>(false);
+  const {
+    selectCarbonDioxide,
+    selectDeckDoor,
+    selectDeckKeyBox,
+    selectPhoneBooth,
+    selectPoulaillerKeyBox,
+    selectStorageKeyBox,
+    selectTelevision,
+    selectCoffeeMachine,
+    selectPrinter,
+    selectFridge,
+    selectAirConditioning,
+    selectWifi,
+    selectIntercom,
+    selectGroupWork,
+    isWifiSelected,
+    isTelevisionSelected,
+    isCarbonDioxideSelected,
+    isDeckDoorSelected,
+    isDeckKeyBoxSelected,
+    isPhoneBoothSelected,
+    isPoulaillerKeyBoxSelected,
+    isStorageKeyBoxSelected,
+    isCoffeeMachineSelected,
+    isPrinterSelected,
+    isFridgeSelected,
+    isIntercomSelected,
+    isAirConditioningSelected,
+    isGroupWorkSelected,
+  } = useOnPremise();
+
+  const {
+    data: onPremiseState,
+    isFetching: isFetchingOnPremiseState,
+    error: onPremiseStateError,
+    refetch: refetchOnPremiseState,
+  } = useQuery({
+    queryKey: ['on-premise-state'],
+    queryFn: getOnPremiseState,
+    retry: false,
+  });
 
   const colorScheme = useColorScheme();
-
   const backgroundImage = useMemo(() => {
     return colorScheme === 'dark' ? floorPlanNight : floorPlanDay;
   }, [colorScheme]);
@@ -45,103 +88,263 @@ const PoulaillerPlan = ({
   }, [backgroundImage]);
 
   return (
-    <View
-      style={[
-        tw`flex flex-col items-center justify-center w-full relative`,
-        !!imageWidth && !!imageHeight && { aspectRatio: imageWidth / imageHeight },
-      ]}>
-      {imageHeight && imageWidth ? (
-        <Image
-          blurRadius={!hasFloorplanLoaded ? 16 : 0}
-          cachePolicy="memory"
-          source={backgroundImage}
-          style={[tw`w-full relative`, { aspectRatio: imageWidth / imageHeight }]}
-          onLoadEnd={() => setFloorplanLoaded(true)}
-        />
-      ) : null}
-
-      {!hasFloorplanLoaded ? (
-        <VerticalLoadingAnimation
-          color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-          style={tw`absolute h-16 w-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full`}
-        />
-      ) : (
-        <>
-          {/* Lights */}
-          {/* <ActionableLight id="1" style={tw`top-[19%] left-[21%]`} />
-              <ActionableLight active id="2" style={tw`top-[19%] left-[49%]`} />
-              <ActionableLight id="3" style={tw`top-[19%] left-[67%]`} />
-              <ActionableLight id="4" style={tw`top-[36%] left-[49%]`} />
-              <ActionableLight id="5" style={tw`top-[36%] left-[67%]`} />
-              <ActionableLight id="6" style={tw`top-[31%] left-[21%]`} />
-              <ActionableLight active id="7" style={tw`top-[42%] left-[21%]`} />
-              <ActionableLight id="8" style={tw`top-[58%] left-[25%]`} />
-              <ActionableLight id="9" style={tw`top-[70%] left-[25%]`} /> */}
-
-          {/* Door */}
-          <ActionableIcon
-            active={onPremiseState?.deckDoor?.unlocked}
-            activeIcon="lock-open"
-            inactiveIcon="lock"
-            loading={loading}
-            style={tw`top-[50%] left-[82%]`}
-            onPress={onDeckDoorSelected}
+    <View style={[tw`flex flex-col grow items-start`, style]}>
+      <View style={tw`flex flex-row gap-3 items-end w-full mx-6 mb-4`}>
+        <AppText style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+          {t('onPremise.location.poulailler')}
+        </AppText>
+        {onPremiseStateError && !isSilentError(onPremiseStateError) && (
+          <ErrorBadge
+            error={onPremiseStateError}
+            style={tw`shrink-0 mb-2`}
+            title={t('onPremise.onFetch.fail')}
+            onRetry={refetchOnPremiseState}
           />
-
-          {/* Key box */}
-          <ActionableIcon
-            activeIcon="key-chain"
-            inactiveIcon="key-chain"
-            style={tw`top-[43%] left-[89%]`}
-            onPress={onDeckKeyBoxSelected}
+        )}
+      </View>
+      <View
+        style={[
+          tw`flex flex-col items-center justify-center w-full relative`,
+          !!imageWidth && !!imageHeight && { aspectRatio: imageWidth / imageHeight },
+        ]}>
+        {imageHeight && imageWidth ? (
+          <Image
+            blurRadius={!hasFloorplanLoaded ? 16 : 0}
+            cachePolicy="memory"
+            source={backgroundImage}
+            style={[tw`w-full relative`, { aspectRatio: imageWidth / imageHeight }]}
+            onLoadEnd={() => setFloorplanLoaded(true)}
           />
+        ) : null}
 
-          {/* Fans */}
-          {/* <ActionableFan active id="1" style={tw`top-[19%] left-[11%]`} />
+        {!hasFloorplanLoaded ? (
+          <VerticalLoadingAnimation
+            color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
+            style={tw`absolute h-16 w-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full`}
+          />
+        ) : withInformations ? (
+          <>
+            <ActionableIcon
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="fridge-outline"
+              key="fridge"
+              selected={isFridgeSelected}
+              style={tw`top-[56%] left-[62%]`}
+              onPress={selectFridge}
+            />
+
+            <ActionableIcon
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="coffee-outline"
+              key="coffee-machine"
+              selected={isCoffeeMachineSelected}
+              style={tw`top-[56%] left-[77%]`}
+              onPress={selectCoffeeMachine}
+            />
+
+            <ActionableIcon
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              icon="television-guide"
+              key="television"
+              selected={isTelevisionSelected}
+              style={tw`top-[75%] left-[73%]`}
+              onPress={selectTelevision}
+            />
+
+            <ActionableIcon
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="printer-outline"
+              key="printer"
+              selected={isPrinterSelected}
+              style={tw`top-[49%] left-[66%]`}
+              onPress={selectPrinter}
+            />
+            <ActionableIcon
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="bell-ring-outline"
+              key="intercom"
+              selected={isIntercomSelected}
+              style={tw`top-[32%] left-[48%]`}
+              onPress={selectIntercom}
+            />
+            <ActionableIcon
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="fan"
+              key="air-conditioning-1"
+              selected={isAirConditioningSelected}
+              style={tw`top-[19%] left-[11%]`}
+              onPress={selectAirConditioning}
+            />
+            <ActionableIcon
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="fan"
+              key="air-conditioning-2"
+              selected={isAirConditioningSelected}
+              style={tw`top-[46%] left-[11%]`}
+              onPress={selectAirConditioning}
+            />
+
+            <ActionableIcon
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="wifi"
+              selected={isWifiSelected}
+              style={tw`top-[75%] left-[48%]`}
+              onPress={selectWifi}
+            />
+            <ActionableIcon
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="account-group-outline"
+              key="group-work"
+              selected={isGroupWorkSelected}
+              style={tw`top-[60%] left-[28%]`}
+              onPress={selectGroupWork}
+            />
+          </>
+        ) : withLights ? (
+          <>
+            {/* Lights */}
+            <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              id="1"
+              key="light-1"
+              loading={isFetchingOnPremiseState}
+              style={tw`top-[22%] left-[32%]`}
+            />
+            <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              id="2"
+              key="light-2"
+              loading={isFetchingOnPremiseState}
+              style={tw`top-[22%] left-[65%]`}
+            />
+            <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              id="3"
+              key="light-3"
+              loading={isFetchingOnPremiseState}
+              style={tw`top-[40%] left-[32%]`}
+            />
+            <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              id="4"
+              key="light-4"
+              loading={isFetchingOnPremiseState}
+              style={tw`top-[40%] left-[65%]`}
+            />
+            <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              id="5"
+              key="light-5"
+              loading={isFetchingOnPremiseState}
+              style={tw`top-[68%] left-[32%]`}
+            />
+            <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              id="6"
+              key="light-6"
+              loading={isFetchingOnPremiseState}
+              style={tw`top-[68%] left-[65%]`}
+            />
+          </>
+        ) : (
+          <>
+            {/* Door */}
+            <ActionableIcon
+              active={onPremiseState?.deckDoor?.unlocked}
+              activeIcon="lock-open"
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="lock"
+              key="deck-door"
+              loading={isFetchingOnPremiseState}
+              selected={isDeckDoorSelected}
+              style={tw`top-[50%] left-[82%]`}
+              onPress={selectDeckDoor}
+            />
+
+            {/* Key box */}
+            <ActionableIcon
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="key-chain"
+              key="deck-key-box"
+              selected={isDeckKeyBoxSelected}
+              style={tw`top-[43%] left-[89%]`}
+              onPress={selectDeckKeyBox}
+            />
+
+            {/* Fans */}
+            {/* <ActionableFan active id="1" style={tw`top-[19%] left-[11%]`} />
               <ActionableFan id="2" style={tw`top-[46%] left-[11%]`} /> */}
 
-          {/* TV */}
-          {/* <ActionableIcon
-                disabled
-                active={false}
-                activeIcon="volume-high"
-                inactiveIcon="volume-off"
-                style={tw`top-[72%] left-[68%]`}
-              /> */}
+            {/* Phone booths */}
+            <ActionablePhoneBooths
+              activeIcon="door-closed"
+              actives={[
+                onPremiseState?.phoneBooths?.orange.occupied ?? null,
+                onPremiseState?.phoneBooths?.blue.occupied ?? null,
+              ]}
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="door-open"
+              key="phone-booths"
+              loading={isFetchingOnPremiseState}
+              selected={isPhoneBoothSelected}
+              style={tw`top-[82%] left-[12%] w-[25%] min-w-26`}
+              unknownIcon="door"
+              onPress={selectPhoneBooth}
+            />
 
-          {/* Phone booths */}
-          <ActionablePhoneBooths
-            activeIcon="door-closed"
-            actives={[
-              onPremiseState?.phoneBooths?.orange.occupied ?? null,
-              onPremiseState?.phoneBooths?.blue.occupied ?? null,
-            ]}
-            inactiveIcon="door-open"
-            loading={loading}
-            style={tw`top-[82%] left-[12%] w-[25%] min-w-26`}
-            unknownIcon="door"
-            onPress={onPhoneBoothSelected}
-          />
+            <ActionableIcon
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="key-chain-variant"
+              key="poulailler-key-box"
+              selected={isPoulaillerKeyBoxSelected}
+              style={tw`top-[84%] left-[56%]`}
+              onPress={selectPoulaillerKeyBox}
+            />
 
-          {/* Key box */}
-          <ActionableIcon
-            activeIcon="key-chain-variant"
-            inactiveIcon="key-chain-variant"
-            style={tw`top-[84%] left-[56%]`}
-            onPress={onPoulaillerKeyBoxSelected}
-          />
+            {user?.capabilities?.includes('STORAGE_KEYS_ACCESS') && (
+              <ActionableIcon
+                entering={BounceIn.duration(750).delay(Math.random() * 500)}
+                exiting={BounceOut.duration(750)}
+                icon="key-chain-variant"
+                key="storage-key-box"
+                selected={isStorageKeyBoxSelected}
+                style={tw`top-[95%] left-[50%]`}
+                onPress={selectStorageKeyBox}
+              />
+            )}
 
-          {/* Carbon Dioxide level */}
-          <ActionableCarbonDioxide
-            activeIcon="leaf"
-            inactiveIcon="leaf"
-            level={onPremiseState?.sensors?.carbonDioxide.level || 0}
-            loading={loading}
-            style={tw`top-[32%] left-[56%]`}
-            onPress={onCarbonDioxideSelected}
-          />
-        </>
-      )}
+            <ActionableCarbonDioxide
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="leaf"
+              key="carbon-dioxide-level"
+              level={onPremiseState?.sensors?.carbonDioxide.level || 0}
+              loading={isFetchingOnPremiseState}
+              selected={isCarbonDioxideSelected}
+              style={tw`top-[32%] left-[56%]`}
+              onPress={selectCarbonDioxide}
+            />
+          </>
+        )}
+      </View>
     </View>
   );
 };

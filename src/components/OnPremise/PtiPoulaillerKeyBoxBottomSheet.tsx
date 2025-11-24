@@ -10,7 +10,7 @@ import KeysPairAnimation from '@/components/Animations/KeysPairAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
-import { handleSilentError, parseErrorText } from '@/helpers/error';
+import { handleSilentError } from '@/helpers/error';
 import { getPtiPoulaillerKeyBoxCode } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -36,15 +36,11 @@ const PtiPoulaillerKeyBoxBottomSheet = ({
         setCode(fetchedCode);
       })
       .catch(handleSilentError)
-      .catch(async (error) => {
-        const description = await parseErrorText(error);
-        noticeStore.add({
+      .catch((error) =>
+        noticeStore.addError(error, {
           message: t('onPremise.keyBoxes.ptiPoulailler.onFetch.fail'),
-          description,
-          type: 'error',
-        });
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      })
+        }),
+      )
       .finally(() => setLoading(false));
   }, [noticeStore]);
 

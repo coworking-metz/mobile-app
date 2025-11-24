@@ -1,3 +1,4 @@
+import { includes } from 'lodash';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import { DeviceType } from '@/services/api/members';
 
@@ -19,12 +20,24 @@ export const isValidMacAddress = (macAddress?: string): boolean => {
  * @returns boolean
  */
 export const isLocallyAdministeredMacAddress = (macAddress: string): boolean => {
-  const macAddressParts = macAddress.split(':');
-  return (
-    macAddressParts.length === 6 &&
-    parseInt(macAddressParts[0], 16) % 2 === 0 &&
-    parseInt(macAddressParts[1], 16) % 2 === 1
-  );
+  const [_firstChar, secondChar] = macAddress
+    ?.trim()
+    .toUpperCase()
+    .replace(/[^\d|A-Z]/g, '')
+    .split('');
+
+  if (secondChar) {
+    const randomizedChars = ['2', '6', 'A', 'E'];
+    return includes(randomizedChars, secondChar);
+  }
+  return false;
+
+  // const macAddressParts = macAddress.split(':');
+  // return (
+  //   macAddressParts.length === 6 &&
+  //   parseInt(macAddressParts[0], 16) % 2 === 0 &&
+  //   parseInt(macAddressParts[1], 16) % 2 === 1
+  // );
 };
 
 export const formatMacAddress = (macAddress: string): string => {

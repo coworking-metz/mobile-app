@@ -10,7 +10,7 @@ import UnlockAnimation from '@/components/Animations/UnlockAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import SwipeableButton from '@/components/SwipeableButton';
-import { handleSilentError, parseErrorText } from '@/helpers/error';
+import { handleSilentError } from '@/helpers/error';
 import { unlockDeckDoor } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -31,6 +31,7 @@ const UnlockDeckDoorBottomSheet = ({
   const reduceMotion = useReducedMotion();
   const [isUnlocked, setUnlocked] = useState(unlocked);
   const [isLoading, setLoading] = useState(false);
+  const [hasSwiped, setSwiped] = useState(false);
 
   useEffect(() => {
     if (animation.current && !reduceMotion) {
@@ -44,26 +45,22 @@ const UnlockDeckDoorBottomSheet = ({
 
   const onUnlock = useCallback(() => {
     setLoading(true);
+    setSwiped(true);
     unlockDeckDoor()
       .then(() => {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         setUnlocked(true);
       })
       .catch(handleSilentError)
-      .catch(async (error) => {
-        const description = await parseErrorText(error);
-        noticeStore.add({
-          message: t('onPremise.deckDoor.onUnlock.fail'),
-          description,
-          type: 'error',
-        });
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      })
+      .catch((error) =>
+        noticeStore.addError(error, { message: t('onPremise.deckDoor.onUnlock.fail') }),
+      )
       .finally(() => setLoading(false));
   }, [noticeStore]);
 
   const onReset = useCallback(() => {
     setUnlocked(false);
+    setSwiped(false);
   }, []);
 
   return (
@@ -86,7 +83,7 @@ const UnlockDeckDoorBottomSheet = ({
         {t('onPremise.deckDoor.description')}
       </AppText>
       <SwipeableButton
-        disabled={isLoading || !user?.capabilities.includes('UNLOCK_DECK_DOOR')}
+        disabled={!user?.capabilities.includes('UNLOCK_DECK_DOOR')}
         loading={isLoading}
         placeholder={t('onPremise.deckDoor.slideToUnlock')}
         style={tw`w-full mt-3 max-w-80`}
@@ -101,13 +98,19 @@ const UnlockDeckDoorBottomSheet = ({
               style={tw`absolute left-8 text-base text-left font-medium text-black`}>
               {t('onPremise.deckDoor.loading')}
             </AppText>
-          ) : null}
-          {isUnlocked ? (
+          ) : isUnlocked ? (
             <AppText
               entering={FadeInLeft.duration(300)}
               exiting={FadeOutLeft.duration(300)}
               style={tw`absolute left-8 text-base text-left font-medium text-black`}>
               {t('onPremise.deckDoor.onUnlock.success')}
+            </AppText>
+          ) : hasSwiped ? (
+            <AppText
+              entering={FadeInLeft.duration(300)}
+              exiting={FadeOutLeft.duration(300)}
+              style={tw`absolute left-8 text-base text-left font-medium text-black`}>
+              {t('onPremise.deckDoor.retry')}
             </AppText>
           ) : null}
         </>

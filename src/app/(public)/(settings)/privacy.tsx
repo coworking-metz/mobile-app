@@ -41,7 +41,6 @@ const Privacy = () => {
           {t('privacy.permissions.title')}
         </AppText>
         <ServiceRow
-          withBottomDivider
           description={t('privacy.permissions.calendar.description')}
           label={t('privacy.permissions.calendar.label')}
           prefixIcon="calendar-outline"

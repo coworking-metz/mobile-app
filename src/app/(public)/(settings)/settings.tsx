@@ -22,12 +22,14 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
-import AppBlurView from '@/components/AppBlurView';
+import { AppTopFader } from '@/components/AppFader';
+import AppIconButton from '@/components/AppIconButton';
 import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBadge';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
+import ServiceRowLink from '@/components/Layout/ServiceRowLink';
 import PresenceGraph from '@/components/Settings/PresenceGraph';
 import ThemePicker from '@/components/Settings/ThemePicker';
 import { useAppAuth } from '@/context/auth';
@@ -37,7 +39,7 @@ import { useAppPresence } from '@/context/presence';
 import { useAppReview } from '@/context/review';
 import { useAppSocials } from '@/context/socials';
 import { useAppTheme } from '@/context/theme';
-import { theme } from '@/helpers/colors';
+import { useAppUpcomingEvents } from '@/context/upcoming-events';
 import { isSilentError } from '@/helpers/error';
 import useAppScreen from '@/helpers/screen';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
@@ -56,6 +58,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const { selectLanguage } = useAppI18n();
   const { selectTheme } = useAppTheme();
   const { socialise } = useAppSocials();
+  const { selectUpcomingEventsPeriod } = useAppUpcomingEvents();
   const { selectedActivity, selectActivity } = useAppPresence();
   const { isWide } = useAppScreen();
   const insets = useSafeAreaInsets();
@@ -64,8 +67,23 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const authStore = useAuthStore();
   const review = useAppReview();
   const chosenLanguage = useSettingsStore((state) => state.language);
+  const upcomingEventsPeriod = useSettingsStore((state) => state.upcomingEventsPeriod);
   const verticalScrollProgress = useSharedValue(0);
   const pathname = usePathname();
+
+  const upcomingEventsPeriodValue = useMemo(() => {
+    if (!upcomingEventsPeriod.count) {
+      const [firstWord] = dayjs().calendar().split(' ');
+      if (firstWord) return firstWord;
+    }
+
+    return [
+      upcomingEventsPeriod.count,
+      t(`settings.general.home.upcomingEventsPeriod.options.${upcomingEventsPeriod.unit}`, {
+        count: upcomingEventsPeriod.count,
+      }),
+    ].join(' ');
+  }, [upcomingEventsPeriod.count, upcomingEventsPeriod.unit, t]);
 
   const {
     data: activity,
@@ -112,18 +130,6 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
       verticalScrollProgress.value = contentOffset.y;
     },
   });
-
-  const navigationBackgroundStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(
-      verticalScrollProgress.value,
-      [-1, 0, headerHeight - 16, headerHeight],
-      [0, 0, 0, 1],
-    );
-
-    return {
-      opacity,
-    };
-  }, [verticalScrollProgress, insets, headerHeight]);
 
   const headerStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
@@ -322,7 +328,10 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               paddingRight: insets.right,
             },
           ]}>
-          <SectionTitle style={tw`mx-6`} title={t('settings.profile.presence.title')}>
+          <SectionTitle
+            loading={isFetchingActivity || isFetchingProfile}
+            style={tw`mx-6`}
+            title={t('settings.profile.presence.title')}>
             {activityError && !isSilentError(activityError) ? (
               <ErrorBadge
                 error={activityError}
@@ -369,17 +378,6 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           />
 
           <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.general.title')} />
-
-          <Link asChild href="/advanced/">
-            <ServiceRow
-              withBottomDivider
-              label={t('advanced.title')}
-              prefixIcon="cog-outline"
-              selected={isWide && pathname === '/advanced'}
-              style={tw`px-3 mx-3`}
-              suffixIcon="chevron-right"
-            />
-          </Link>
           {authStore.user?.id && (
             <Link asChild href="/devices/">
               <ServiceRow
@@ -396,7 +394,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             <ServiceRow
               withBottomDivider
               label={t('privacy.title')}
-              prefixIcon="hand-back-left-outline"
+              prefixIcon="shield-account-variant-outline"
               selected={isWide && pathname.startsWith('/privacy')}
               style={tw`px-3 mx-3`}
               suffixIcon="chevron-right"
@@ -415,7 +413,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           <ServiceRow
             withBottomDivider
             label={t('settings.general.language.label')}
-            prefixIcon="web"
+            prefixIcon="alphabetical"
             style={tw`px-3 mx-3`}
             onPress={selectLanguage}>
             <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
@@ -426,19 +424,37 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               )}
             </AppText>
           </ServiceRow>
-          <ThemePicker style={tw`px-3 mx-3`} onPress={selectTheme} />
+          <ThemePicker withBottomDivider style={tw`px-3 mx-3`} onPress={selectTheme} />
+          <ServiceRow
+            withBottomDivider
+            description={t('settings.general.home.upcomingEventsPeriod.hint')}
+            label={t('settings.general.home.upcomingEventsPeriod.label')}
+            prefixIcon="calendar-blank-multiple"
+            style={tw`px-3 mx-3`}
+            onPress={selectUpcomingEventsPeriod}>
+            <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
+              {upcomingEventsPeriodValue}
+            </AppText>
+          </ServiceRow>
+          <Link asChild href="/advanced/">
+            <ServiceRow
+              label={t('advanced.title')}
+              prefixIcon="cog-outline"
+              selected={isWide && pathname === '/advanced'}
+              style={tw`px-3 mx-3`}
+              suffixIcon="chevron-right"
+            />
+          </Link>
 
           <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.support.title')} />
           {authStore.user && (
-            <Link asChild href={`${WORDPRESS_BASE_URL}/la-boutique/`}>
-              <ServiceRow
-                withBottomDivider
-                label={t('settings.support.store.label')}
-                prefixIcon="cart-outline"
-                style={tw`px-3 mx-3`}
-                suffixIcon="open-in-new"
-              />
-            </Link>
+            <ServiceRowLink
+              withBottomDivider
+              href={`${WORDPRESS_BASE_URL}/la-boutique/`}
+              label={t('settings.support.store.label')}
+              prefixIcon="cart-outline"
+              style={tw`px-3 mx-3`}
+            />
           )}
           <ServiceRow
             withBottomDivider
@@ -482,36 +498,15 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             paddingRight: insets.right,
           },
         ]}>
-        <Animated.View
-          style={[
-            tw`absolute top-0 left-0 bottom-0 right-0 border-b-gray-300 dark:border-b-gray-700 border-b-[0.5px]`,
-            navigationBackgroundStyle,
-          ]}>
-          <AppBlurView
-            intensity={64}
-            style={tw`h-full w-full`}
-            tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
-          />
-        </Animated.View>
-        <View style={tw`ml-4`}>
-          <MaterialCommunityIcons.Button
-            backgroundColor="transparent"
-            borderRadius={24}
-            color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
-            iconStyle={{ marginRight: 0 }}
-            name="arrow-left"
-            size={32}
-            style={tw`p-1 shrink-0`}
-            underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
-            onPress={() =>
-              from
-                ? router.dismissTo(from)
-                : router.canGoBack()
-                  ? router.back()
-                  : router.replace('/')
-            }
-          />
-        </View>
+        <AppTopFader style={tw`absolute inset-x-0 top-0`} />
+
+        <AppIconButton
+          icon="arrow-left"
+          style={tw`ml-4`}
+          onPress={() =>
+            from ? router.dismissTo(from) : router.canGoBack() ? router.back() : router.replace('/')
+          }
+        />
       </Animated.View>
     </View>
   );

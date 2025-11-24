@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppFader from '@/components/AppFader';
+import AppIconButton from '@/components/AppIconButton';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import PaginationDot from '@/components/Onboarding/PaginationDot';
@@ -17,8 +17,6 @@ import AboutStep from '@/components/Onboarding/Steps/AboutStep';
 import ActivityStep from '@/components/Onboarding/Steps/ActivityStep';
 import EventsStep from '@/components/Onboarding/Steps/EventsStep';
 import ServicesStep from '@/components/Onboarding/Steps/ServicesStep';
-import ThemeBottomSheet from '@/components/Settings/ThemeBottomSheet';
-import { theme } from '@/helpers/colors';
 import { log } from '@/helpers/logger';
 import { useAppPaddingBottom } from '@/helpers/screen';
 import useSettingsStore from '@/stores/settings';
@@ -43,7 +41,6 @@ const Onboarding = () => {
   const carouselRef = useRef<ICarouselInstance>(null);
   const offset = useSharedValue(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPickingTheme, setPickingTheme] = useState(false);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', () => {
@@ -106,108 +103,92 @@ const Onboarding = () => {
   );
 
   return (
-    <>
-      <View
-        style={[
-          tw`overflow-hidden bg-gray-100 dark:bg-black`,
-          {
-            paddingLeft: insets.left,
-            paddingRight: insets.right,
-          },
-        ]}
-        onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>
-        {layoutWidth ? (
-          <View style={tw`relative h-full flex grow flex-col`}>
-            <View
-              style={[
-                tw`absolute top-0 z-10 flex flex-row items-center w-full justify-between px-4`,
-                {
-                  paddingTop: insets.top,
-                  left: insets.left,
-                  right: insets.right,
-                },
-              ]}>
-              <View pointerEvents={'none'} style={tw`flex flex-row ml-2`}>
-                {screens.map((_, index) => (
-                  <PaginationDot
-                    animationValue={offset}
-                    containerWidth={layoutWidth}
-                    index={index}
-                    key={`pagination-dot-${index}`}
-                  />
-                ))}
-              </View>
-              <MaterialCommunityIcons.Button
-                aria-label={t('actions.close')}
-                backgroundColor="transparent"
-                borderRadius={24}
-                color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
-                iconStyle={{ height: 32, width: 32, marginRight: 0 }}
-                name="close"
-                size={32}
-                style={tw`p-1`}
-                underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
-                onPress={onClose}
-              />
+    <View
+      style={[
+        tw`overflow-hidden bg-gray-100 dark:bg-black`,
+        {
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+        },
+      ]}
+      onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>
+      {layoutWidth ? (
+        <View style={tw`relative h-full flex grow flex-col`}>
+          <View
+            style={[
+              tw`absolute top-0 z-10 flex flex-row items-center w-full justify-between px-4`,
+              {
+                paddingTop: insets.top,
+                left: insets.left,
+                right: insets.right,
+              },
+            ]}>
+            <AppFader
+              position={Fader.position.TOP}
+              size={(insets.top || (Platform.OS === 'android' ? 16 : 0)) + 64}
+              style={tw`absolute inset-0`}
+              tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
+            />
+            <View pointerEvents={'none'} style={tw`flex flex-row ml-2`}>
+              {screens.map((_, index) => (
+                <PaginationDot
+                  animationValue={offset}
+                  containerWidth={layoutWidth}
+                  index={index}
+                  key={`pagination-dot-${index}`}
+                />
+              ))}
             </View>
-            <View style={tw`grow basis-0`}>
-              <Carousel
-                ref={carouselRef}
-                customAnimation={animationStyle}
-                data={screens.map((screen, index) => ({ ...screen, index }))}
-                loop={false}
-                renderItem={({ item, index, animationValue }) => (
-                  <Step actionHeight={actionHeight} animationValue={animationValue} key={index}>
-                    {item.component(currentIndex === index)}
-                  </Step>
-                )}
-                style={{
-                  width: layoutWidth,
-                }}
-                vertical={false}
-                // to let the user scroll vertically inside the carousel
-                // https://github.com/dohooo/react-native-reanimated-carousel/issues/143#issuecomment-1022276126
-                width={layoutWidth}
-                onConfigurePanGesture={(gestureChain) => {
-                  gestureChain.activeOffsetX([-10, 10]);
-                }}
-                onProgressChange={(progress) => {
-                  offset.set(-progress);
-                }}
-                onSnapToItem={setCurrentIndex}
-              />
-            </View>
-
-            <Animated.View
-              entering={FadeInDown.duration(500).delay(1000)}
-              style={[tw`flex flex-col absolute bottom-0 px-6 w-full`, { paddingBottom }]}
-              onLayout={({ nativeEvent }: LayoutChangeEvent) =>
-                setActionHeight(nativeEvent.layout.height)
-              }>
-              <AppFader
-                position={Fader.position.BOTTOM}
-                size={actionHeight + 32}
-                style={tw`absolute inset-0`}
-                tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
-              />
-
-              <AppRoundedButton style={tw`mx-auto w-full max-w-md`} onPress={onNext}>
-                <AppText style={tw`text-base font-medium text-black`}>{t('actions.next')}</AppText>
-              </AppRoundedButton>
-            </Animated.View>
+            <AppIconButton icon="window-close" onPress={onClose} />
           </View>
-        ) : null}
-      </View>
+          <View style={tw`grow basis-0`}>
+            <Carousel
+              ref={carouselRef}
+              customAnimation={animationStyle}
+              data={screens.map((screen, index) => ({ ...screen, index }))}
+              loop={false}
+              renderItem={({ item, index, animationValue }) => (
+                <Step actionHeight={actionHeight} animationValue={animationValue} key={index}>
+                  {item.component(currentIndex === index)}
+                </Step>
+              )}
+              style={{
+                width: layoutWidth,
+              }}
+              vertical={false}
+              // to let the user scroll vertically inside the carousel
+              // https://github.com/dohooo/react-native-reanimated-carousel/issues/143#issuecomment-1022276126
+              width={layoutWidth}
+              onConfigurePanGesture={(gestureChain) => {
+                gestureChain.activeOffsetX([-10, 10]);
+              }}
+              onProgressChange={(progress) => {
+                offset.set(-progress);
+              }}
+              onSnapToItem={setCurrentIndex}
+            />
+          </View>
 
-      <AppFader
-        position={Fader.position.TOP}
-        size={insets.top || (Platform.OS === 'android' ? 16 : 0)}
-        style={tw`absolute inset-x-0 top-0`}
-        tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
-      />
+          <Animated.View
+            entering={FadeInDown.duration(500).delay(1000)}
+            style={[tw`flex flex-col absolute bottom-0 px-6 w-full`, { paddingBottom }]}
+            onLayout={({ nativeEvent }: LayoutChangeEvent) =>
+              setActionHeight(nativeEvent.layout.height)
+            }>
+            <AppFader
+              position={Fader.position.BOTTOM}
+              size={actionHeight + 32}
+              style={tw`absolute inset-0`}
+              tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
+            />
 
-      {isPickingTheme && <ThemeBottomSheet onClose={() => setPickingTheme(false)} />}
-    </>
+            <AppRoundedButton style={tw`mx-auto w-full max-w-md`} onPress={onNext}>
+              <AppText style={tw`text-base font-medium text-black`}>{t('actions.next')}</AppText>
+            </AppRoundedButton>
+          </Animated.View>
+        </View>
+      ) : null}
+    </View>
   );
 };
 

@@ -6,8 +6,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
+import AppPressable from '@/components/AppPressable';
+import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
-import AppTouchable from '@/components/AppTouchable';
 import ErrorBadge from '@/components/ErrorBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
@@ -48,16 +49,19 @@ const Account = () => {
     <ServiceLayout contentStyle={tw`pt-6 pb-12`} title={t('account.title')} withBackButton={!_root}>
       <View style={tw`w-full max-w-xl mx-auto`}>
         <View style={tw`flex flex-col relative h-40 w-40 mx-auto`}>
-          <ZoomableImage
-            contentFit="cover"
-            source={authStore.user?.picture}
-            style={tw`h-full w-full rounded-2xl bg-gray-200 dark:bg-gray-900`}
-          />
+          <AppSquircleView
+            style={tw`h-full w-full rounded-2xl bg-gray-200 dark:bg-gray-900 overflow-hidden`}>
+            <ZoomableImage
+              contentFit="cover"
+              source={authStore.user?.picture}
+              style={tw`h-full w-full`}
+            />
+          </AppSquircleView>
 
           <View
             style={tw`absolute -bottom-3 -right-3 z-10 h-12 w-12 bg-gray-50 dark:bg-zinc-900 rounded-full flex items-center justify-center`}>
             <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/polaroid/`}>
-              <AppTouchable
+              <AppPressable
                 style={tw`bg-gray-400/50 dark:bg-gray-600/50 rounded-full flex items-center justify-center h-9 w-9`}>
                 <MaterialCommunityIcons
                   color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
@@ -66,7 +70,7 @@ const Account = () => {
                   size={20}
                   style={tw``}
                 />
-              </AppTouchable>
+              </AppPressable>
             </Link>
           </View>
         </View>
@@ -121,7 +125,7 @@ const Account = () => {
           <AppText
             ellipsizeMode={'middle'}
             numberOfLines={1}
-            style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right max-w-4/5`}>
+            style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right grow ml-auto max-w-4/5`}>
             {profile?.email}
           </AppText>
         </ServiceRow>

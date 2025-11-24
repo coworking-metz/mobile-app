@@ -75,12 +75,7 @@ const Step = ({
         onLayout={({ nativeEvent }: LayoutChangeEvent) =>
           setScrollContainerHeight(nativeEvent.layout.height)
         }>
-        <Animated.View
-          style={[maskStyle, tw`absolute h-full w-full`]}
-          onLayout={({ nativeEvent }: LayoutChangeEvent) =>
-            setContentHeight(nativeEvent.layout.height)
-          }
-        />
+        <Animated.View style={[maskStyle, tw`absolute h-full w-full`]} />
         {clonedChildren}
       </Animated.ScrollView>
     </View>

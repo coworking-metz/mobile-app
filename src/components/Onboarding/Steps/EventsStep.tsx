@@ -6,7 +6,7 @@ import { useReducedMotion } from 'react-native-reanimated';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
-import PeopleMeetingAnimation from '@/components/Animations/PeopleMeetingAnimation';
+import PeopleGatheringAnimation from '@/components/Animations/PeopleGatheringAnimation';
 import AppFader from '@/components/AppFader';
 import AppText from '@/components/AppText';
 
@@ -53,7 +53,7 @@ const EventsStep = ({ active, containerHeight }: { active: boolean; containerHei
           style={tw`absolute inset-y-0 left-0 z-10`}
           tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
         />
-        <PeopleMeetingAnimation
+        <PeopleGatheringAnimation
           ref={animation}
           autoPlay={false}
           loop={false}

@@ -4,7 +4,7 @@ import PairDeviceBottomSheet from '@/components/Devices/PairDeviceBottomSheet';
 const NewDeviceContext = createContext<{
   pairDevice: () => void;
 }>({
-  pairDevice: () => { },
+  pairDevice: () => {},
 });
 
 export const useAppNewDevice = () => {

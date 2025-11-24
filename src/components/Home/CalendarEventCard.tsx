@@ -1,17 +1,18 @@
-import LoadingSkeleton from '../LoadingSkeleton';
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { Image, ImageBackground } from 'expo-image';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
-import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AmourFoodSquareLogo from '@/assets/images/amour-food-square.png';
-import BliiidaSquareLogo from '@/assets/images/bliiida-square.svg';
+import BliiidaSquareLogo from '@/assets/images/bliiida-square.png';
 import CoworkingLogo from '@/assets/images/icon/icon-light-1024.png';
 import AppBlurView from '@/components/AppBlurView';
+import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
+import useAppState from '@/helpers/app-state';
 import { theme } from '@/helpers/colors';
 import { type CalendarEvent } from '@/services/api/calendar';
 
@@ -33,7 +34,7 @@ const CoworkingIcon = () => {
 
 const BliiidaIcon = () => {
   return (
-    <View style={tw`h-10 w-10 bg-white rounded-lg overflow-hidden p-0.5`}>
+    <View style={tw`h-10 w-10 bg-black rounded-lg overflow-hidden p-0.5`}>
       <Image source={BliiidaSquareLogo} style={[tw`h-full w-full`]} />
     </View>
   );
@@ -43,12 +44,12 @@ const CalendarEventCard = ({
   event = null,
   loading = false,
   style,
-  activeSince,
+  children,
 }: {
   event?: CalendarEvent | null;
   loading?: boolean;
   style?: StyleProp<ViewStyle>;
-  activeSince?: string;
+  children?: React.ReactNode;
 }) => {
   const eventIcon = useMemo(() => {
     switch (event?.calendar) {
@@ -68,6 +69,7 @@ const CalendarEventCard = ({
   }, [event]);
   const { t } = useTranslation();
   const isFocus = useIsFocused();
+  const activeSince = useAppState();
 
   const date = useMemo(() => {
     if (!event) return null;
@@ -82,54 +84,51 @@ const CalendarEventCard = ({
       return dayjs(diffFromNow <= 0 ? event.start : event.end).fromNow();
     }
 
+    if (dayjs(event.start).diff(event.end, 'hours', true) % 24 === 0) {
+      return dayjs(event.start).format('dddd D MMMM');
+    }
+
     return dayjs(event.start).calendar();
   }, [event?.start, event?.end, isFocus, activeSince]);
 
   return (
-    <View style={[tw`relative rounded-2xl bg-gray-300 dark:bg-gray-700`, style]}>
-      <ImageBackground
-        cachePolicy="memory"
-        contentFit="cover"
-        contentPosition="center"
-        source={{
-          uri: firstPicture,
-          cacheKey: `${firstPicture}-${dayjs().format('YYYY-MM-DD')}`,
-        }}
-        style={tw`w-full h-full flex rounded-2xl overflow-hidden relative`}
-        {...(event?.end && dayjs().isAfter(event.end) && { imageStyle: { opacity: 0.5 } })}>
-        {loading ? (
-          <LoadingSkeleton height={'100%'} width={'100%'} />
-        ) : event ? (
-          <AppBlurView
-            intensity={64}
-            style={tw`w-full flex flex-row items-center px-3 py-2 mt-auto`}
-            tint={tw.prefixMatch('dark') ? 'dark' : 'light'}>
-            {eventIcon}
-            <View style={tw`flex flex-col items-stretch grow shrink basis-0 ml-3`}>
-              {date && (
+    <View style={[tw`relative`, style]}>
+      <AppSquircleView style={tw`rounded-3xl overflow-hidden bg-gray-300 dark:bg-gray-700`}>
+        <ImageBackground
+          cachePolicy="memory"
+          contentFit="cover"
+          contentPosition="center"
+          source={{
+            uri: firstPicture,
+            cacheKey: `${firstPicture}-${dayjs().format('YYYY-MM-DD')}`,
+          }}
+          style={tw`w-full h-full flex relative`}
+          {...(event?.end && dayjs().isAfter(event.end) && { imageStyle: { opacity: 0.5 } })}>
+          {loading ? (
+            <LoadingSkeleton height={'100%'} width={'100%'} />
+          ) : event ? (
+            <AppBlurView style={tw`w-full flex flex-row items-center px-3 py-2 mt-auto`}>
+              {eventIcon}
+              <View style={tw`flex flex-col items-stretch grow shrink basis-0 ml-3`}>
+                {date && (
+                  <AppText
+                    numberOfLines={1}
+                    style={tw`text-base font-light text-slate-800 dark:text-slate-300`}>
+                    {`${date.slice(0, 1).toUpperCase()}${date.slice(1)}`}
+                  </AppText>
+                )}
                 <AppText
                   numberOfLines={1}
-                  style={tw`text-base font-light text-slate-800 dark:text-slate-300`}>
-                  {`${date.slice(0, 1).toUpperCase()}${date.slice(1)}`}
+                  style={tw`text-xl font-medium text-gray-900 dark:text-gray-200`}>
+                  {event.title}
                 </AppText>
-              )}
-              <AppText
-                numberOfLines={1}
-                style={tw`text-xl font-medium text-gray-900 dark:text-gray-200`}>
-                {event.title}
-              </AppText>
-            </View>
-          </AppBlurView>
-        ) : null}
-      </ImageBackground>
-      {dayjs().isBetween(event?.start, event?.end) && (
-        <Animated.View
-          entering={BounceIn.duration(1000).delay(300)}
-          exiting={BounceOut.duration(1000)}
-          style={tw`z-10 h-7 w-7 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -bottom-1.5 -right-1.5`}>
-          <View style={tw`h-4 w-4 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
-        </Animated.View>
-      )}
+              </View>
+            </AppBlurView>
+          ) : null}
+        </ImageBackground>
+      </AppSquircleView>
+
+      {children}
     </View>
   );
 };

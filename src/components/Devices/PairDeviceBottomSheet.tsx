@@ -1,4 +1,3 @@
-import WifiNetworkAnimation from '../Animations/WifiNetworkAnimation';
 import AppTextButton from '../AppTextButton';
 import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -14,11 +13,12 @@ import ReadMore from 'react-native-read-more-text';
 import { FadeIn, FadeInLeft, FadeOutRight } from 'react-native-reanimated';
 import { toast } from 'sonner-native';
 import tw from 'twrnc';
+import WifiNetworkAnimation from '@/components/Animations/WifiNetworkAnimation';
 import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import { useAppReview } from '@/context/review';
-import { AppErrorCode, handleSilentError, useErrorNotice } from '@/helpers/error';
+import { AppErrorCode, handleSilentError } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import {
   addMemberDevice,
@@ -48,7 +48,6 @@ const PairDeviceBottomSheet = ({
   const { t } = useTranslation();
   const authStore = useAuthStore();
   const noticeStore = useNoticeStore();
-  const noticeError = useErrorNotice();
   const toastStore = useToastStore();
   const settingsStore = useSettingsStore();
   const review = useAppReview();
@@ -215,7 +214,7 @@ const PairDeviceBottomSheet = ({
       })
       .catch(handleSilentError)
       .catch((error) => {
-        noticeError(error, t('devices.add.onPair.fail'));
+        noticeStore.addError(error, { message: t('devices.add.onPair.fail') });
         resetAnimation();
       });
   }, [authStore]);
@@ -298,6 +297,7 @@ const PairDeviceBottomSheet = ({
   }, [verifiedDevice, noticeStore, t, bottomSheetRef, queryClient, settingsStore, toastStore]);
 
   useEffect(() => {
+    animation.current?.pause();
     setReachingService(true);
     isDeviceInfoAvailable()
       .then(() => {
@@ -317,7 +317,9 @@ const PairDeviceBottomSheet = ({
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
           <WifiNetworkAnimation
             ref={animation}
+            autoPlay={false}
             loop={false}
+            progress={0}
             style={tw`h-64 w-full bg-transparent`}
             onAnimationFinish={onAnimationFinish}
           />

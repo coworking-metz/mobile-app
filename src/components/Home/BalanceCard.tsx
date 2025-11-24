@@ -1,11 +1,12 @@
-import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 const BalanceCard = ({
   valid,
@@ -21,58 +22,60 @@ const BalanceCard = ({
   const { t } = useTranslation();
 
   return (
-    <View
-      style={[
-        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl relative px-3 pt-2 pb-4`,
-        style,
-      ]}>
-      <MaterialCommunityIcons
-        color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-        name="ticket"
-        size={40}
-      />
-
-      <AppText
-        ellipsizeMode={'clip'}
-        numberOfLines={2}
-        style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
-        {t('home.profile.tickets.label')}
-      </AppText>
-      {loading ? (
-        <LoadingSkeleton height={28} show={loading} width={96} />
-      ) : (
-        <View style={tw`flex flex-row items-end gap-1 w-full`}>
-          {count != 0 && (
-            <AppText
-              numberOfLines={1}
-              style={tw`text-2xl font-normal text-slate-900 dark:text-gray-200`}>
-              {Math.abs(count)}
-            </AppText>
-          )}
-          <AppText
-            ellipsizeMode={'clip'}
-            numberOfLines={1}
-            style={[
-              tw`font-normal flex-shrink`,
-              count != 0
-                ? tw`text-sm leading-7 text-slate-500 dark:text-slate-400`
-                : tw`text-2xl text-gray-400 dark:text-slate-600`,
-            ]}>
-            {count < 0
-              ? t('home.profile.tickets.depleted', { count: count })
-              : t('home.profile.tickets.available', { count: -count })}
-          </AppText>
-        </View>
-      )}
-
-      {count > 0 && (
+    <View style={[tw`flex flex-row items-stretch relative`]}>
+      <AppSquircleView
+        style={[
+          tw`flex flex-col items-start gap-1 bg-gray-300/60 dark:bg-gray-900/85 rounded-2xl px-3 pt-2 pb-4`,
+          style,
+        ]}>
         <MaterialCommunityIcons
-          color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
-          name="check-circle"
-          size={20}
-          style={tw`absolute top-3 right-3 z-10`}
+          color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
+          name="ticket"
+          size={40}
         />
-      )}
+
+        <AppText
+          ellipsizeMode={'clip'}
+          numberOfLines={2}
+          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
+          {t('home.profile.tickets.label')}
+        </AppText>
+        {loading ? (
+          <LoadingSkeleton height={28} show={loading} width={96} />
+        ) : (
+          <View style={tw`flex flex-row items-end gap-1 w-full`}>
+            {count != 0 && (
+              <AppText
+                numberOfLines={1}
+                style={tw`text-2xl font-normal text-slate-900 dark:text-gray-200`}>
+                {Math.abs(count)}
+              </AppText>
+            )}
+            <AppText
+              ellipsizeMode={'clip'}
+              numberOfLines={1}
+              style={[
+                tw`font-normal flex-shrink`,
+                count != 0
+                  ? tw`text-sm leading-[1.625rem] ml-0.5 text-slate-500 dark:text-slate-400`
+                  : tw`text-2xl text-gray-400 dark:text-slate-600`,
+              ]}>
+              {count < 0
+                ? t('home.profile.tickets.depleted', { count: count })
+                : t('home.profile.tickets.available', { count: -count })}
+            </AppText>
+          </View>
+        )}
+
+        {count > 0 && (
+          <MaterialCommunityIcons
+            color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
+            name="check-circle"
+            size={20}
+            style={tw`absolute top-3 right-3 z-10`}
+          />
+        )}
+      </AppSquircleView>
 
       {valid === false && (
         <Animated.View

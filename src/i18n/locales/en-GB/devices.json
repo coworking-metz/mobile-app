@@ -46,7 +46,7 @@
     },
     "macAddress": {
       "label": "MAC address",
-      "locallyAdministered": "This address is virtual and may change frequently. You might need to enter it again.",
+      "locallyAdministered": "This address is virtual and may change frequently. You might need to enter it again.\n<0>How to disable random MAC addresses?</0>",
       "placeholder": "A1:B2:C3:D4:E6:F7"
     },
     "name": {

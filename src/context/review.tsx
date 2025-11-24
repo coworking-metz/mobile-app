@@ -1,8 +1,7 @@
 import { createContext, useContext, useState } from 'react';
-import PermissionsBottomSheet from '@/components/Settings/PermissionsBottomSheet';
 import ReviewBottomSheet from '@/components/Settings/ReviewBottomSheet';
 
-const ReviewContext = createContext<() => void>(() => { });
+const ReviewContext = createContext<() => void>(() => {});
 
 export const useAppReview = () => {
   return useContext(ReviewContext);

@@ -1,10 +1,9 @@
-import * as Sentry from '@sentry/react-native';
 import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
+import { StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import Animated, {
   Easing,
   interpolate,
@@ -20,8 +19,9 @@ import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import BarrierAnimation from '@/components/Animations/BarrierAnimation';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
+import AppPressable from '@/components/AppPressable';
+import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
-import AppTouchable from '@/components/AppTouchable';
 import ReanimatedText from '@/components/ReanimatedText';
 import { useAppAuth } from '@/context/auth';
 import { theme } from '@/helpers/colors';
@@ -108,9 +108,6 @@ const OpenParkingCard = ({
         WARN_ON_SUCCESSIVE_TAPS_PERIOD_IN_MS;
 
       if (isTappingSuccessively) {
-        Sentry.captureMessage('Tapping successively on parking card', {
-          level: 'warning',
-        });
         setLastWarning(new Date().toISOString());
         onSuccessiveTaps?.();
       }
@@ -153,89 +150,89 @@ const OpenParkingCard = ({
   );
 
   return (
-    <AppTouchable
+    <AppPressable
       disabled={disabled}
-      style={[
-        tw.style(
-          `flex flex-col items-start gap-4 pl-4 py-4 rounded-2xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
-          disabled && `opacity-60`,
-        ),
-        style,
-      ]}
+      style={tw`flex-1`}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setCardWidth(nativeEvent.layout.width)}
       onPress={() => (authStore.user ? onOpen() : login?.())}>
-      <Animated.View
+      <AppSquircleView
         style={[
-          tw`absolute top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-800 w-full`,
-          backgroundStyle,
-        ]}
-      />
-      <Animated.View
-        style={[
-          tw`bg-gray-300 dark:bg-gray-700 rounded-full p-2 z-20`,
-          isUnlocked && {
-            backgroundColor: tw.prefixMatch('dark') ? tw.color('yellow-600') : theme.meatBrown,
-          },
+          tw.style(
+            `flex flex-col items-start gap-4 pl-4 py-4 rounded-3xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
+            disabled && `opacity-60`,
+          ),
+          style,
         ]}>
-        <View style={tw`relative h-8 w-8 shrink-0`}>
-          <BarrierAnimation
-            ref={animation}
-            autoPlay={false}
-            progress={tw.prefixMatch('dark') ? 0.133 : 0.132} // hack to keep the progress in sync with the color scheme
-            style={[tw`h-full w-full`, isLoading && { opacity: 0 }]}
-          />
-          {isLoading && (
-            <HorizontalLoadingAnimation
-              color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-              style={tw`absolute h-full w-full`}
+        <Animated.View
+          style={[
+            tw`absolute top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-800 w-full`,
+            backgroundStyle,
+          ]}
+        />
+        <Animated.View
+          style={[
+            tw`bg-gray-300 dark:bg-gray-700 rounded-full p-2 z-20`,
+            isUnlocked && {
+              backgroundColor: tw.prefixMatch('dark') ? tw.color('yellow-600') : theme.meatBrown,
+            },
+          ]}>
+          <View style={tw`relative h-8 w-8 shrink-0`}>
+            <BarrierAnimation
+              ref={animation}
+              autoPlay={false}
+              progress={tw.prefixMatch('dark') ? 0.133 : 0.132} // hack to keep the progress in sync with the color scheme
+              style={[tw`h-full w-full`, isLoading && { opacity: 0 }]}
             />
-          )}
-        </View>
-      </Animated.View>
+            {isLoading && (
+              <HorizontalLoadingAnimation
+                color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
+                style={tw`absolute h-full w-full`}
+              />
+            )}
+          </View>
+        </Animated.View>
 
-      {isUnlocked ? (
-        <View style={tw`flex flex-col z-20`}>
-          <AppText
-            numberOfLines={1}
-            style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
-            {t('home.parking.onUnlocked.firstLine')}
-          </AppText>
-          <View style={tw`flex flex-row items-end gap-1`}>
+        {isUnlocked ? (
+          <View style={tw`flex flex-col z-20`}>
             <AppText
               numberOfLines={1}
               style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
-              {t('home.parking.onUnlocked.secondLine')}
+              {t('home.parking.onUnlocked.firstLine')}
             </AppText>
-            <ReanimatedText
-              style={[
-                tw`text-xl font-semibold text-slate-900 dark:text-gray-200`,
-                Platform.OS === 'ios' && tw`mb-0.5`,
-                Platform.OS === 'android' && tw`-mb-0.5`,
-              ]}
-              text={timeLeftInSeconds}
-            />
+            <View style={tw`flex flex-row items-end gap-1`}>
+              <AppText
+                numberOfLines={1}
+                style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                {t('home.parking.onUnlocked.secondLine')}
+              </AppText>
+              <ReanimatedText
+                style={tw`text-xl font-semibold text-slate-900 dark:text-gray-200 android:pr-1`}
+                text={timeLeftInSeconds}
+              />
+              <AppText
+                numberOfLines={1}
+                style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                {t('home.parking.onUnlocked.suffix')}
+              </AppText>
+            </View>
+          </View>
+        ) : (
+          <View style={tw`flex flex-col items-stretch z-20 w-full overflow-hidden`}>
+            <AppText
+              ellipsizeMode="clip"
+              numberOfLines={1}
+              style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
+              {t('home.parking.label.firstLine')}
+            </AppText>
             <AppText
               numberOfLines={1}
-              style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
-              {t('home.parking.onUnlocked.suffix')}
+              style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
+              {t('home.parking.label.secondLine')}
             </AppText>
           </View>
-        </View>
-      ) : (
-        <View style={tw`flex flex-col items-stretch z-20 w-full overflow-hidden`}>
-          <AppText
-            numberOfLines={1}
-            style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
-            {t('home.parking.label.firstLine')}
-          </AppText>
-          <AppText
-            numberOfLines={1}
-            style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
-            {t('home.parking.label.secondLine')}
-          </AppText>
-        </View>
-      )}
-    </AppTouchable>
+        )}
+      </AppSquircleView>
+    </AppPressable>
   );
 };
 

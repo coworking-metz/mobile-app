@@ -8,7 +8,6 @@ import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTextButton from '@/components/AppTextButton';
-import { parseErrorText } from '@/helpers/error';
 import { SUPPORT_EMAIL, WORDPRESS_BASE_URL } from '@/services/environment';
 import useNoticeStore from '@/stores/notice';
 
@@ -27,15 +26,9 @@ const ContactBottomSheet = ({
   const onContactTeamByEmail = useCallback(() => {
     setContactingTeam(true);
     Linking.openURL(`mailto:${SUPPORT_EMAIL}`)
-      .catch(async (error) => {
-        const description = await parseErrorText(error);
-        noticeStore.add({
-          message: t('settings.support.contact.mail.onOpen.fail'),
-          description,
-          type: 'error',
-        });
-        bottomSheetRef.current?.close();
-      })
+      .catch((error) =>
+        noticeStore.addError(error, { message: t('settings.support.contact.mail.onOpen.fail') }),
+      )
       .finally(() => setContactingTeam(false));
   }, []);
 

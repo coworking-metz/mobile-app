@@ -14,7 +14,7 @@ import {
 } from '@/services/theme';
 import useSettingsStore from '@/stores/settings';
 
-const ThemeOptions = () => {
+const ThemeBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
   const { t } = useTranslation();
   const supportedThemes: { label: string; code: AppThemePreference }[] = [
     { label: t('settings.general.theme.options.system'), code: 'system' },
@@ -30,11 +30,11 @@ const ThemeOptions = () => {
   }, []);
 
   return (
-    <View style={tw`flex flex-col w-full gap-1 pb-3 pt-6`}>
-      <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
+    <AppBottomSheet contentContainerStyle={tw`pt-6`} {...props}>
+      <DarklightModeAnimation mode={currentTheme} style={tw`w-full h-28 mt-5`} />
+      <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium my-5`}>
         {t('settings.general.theme.label')}
       </AppText>
-      <DarklightModeAnimation mode={currentTheme} style={tw`w-full h-28 mb-4`} />
       {supportedThemes.map((theme) => (
         <ServiceRow
           description={
@@ -51,14 +51,6 @@ const ThemeOptions = () => {
           onPress={() => onThemePicked(theme.code)}
         />
       ))}
-    </View>
-  );
-};
-
-const ThemeBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
-  return (
-    <AppBottomSheet {...props}>
-      <ThemeOptions />
     </AppBottomSheet>
   );
 };

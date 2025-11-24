@@ -78,6 +78,7 @@ const PresenceGraph = ({
         const nonCompliant = nonCompliantActivity.find(({ date }) => date === item.date);
         return {
           date: item.date,
+          type: item.type,
           selected: item.date === selectedDate,
           count: item.value,
           nonCompliantCount: nonCompliant?.value,
@@ -100,7 +101,7 @@ const PresenceGraph = ({
     (opacity: number, value?: (typeof values)[number]) => {
       // non-empty values are at least 0.15
       if (opacity > 0.15 && value) {
-        const { count, nonCompliantCount, selected } = value;
+        const { count, nonCompliantCount, selected, type } = value;
         if (selected) {
           return `${tw.color('amber-800')}`;
         }
@@ -113,11 +114,19 @@ const PresenceGraph = ({
           }
         }
 
-        if (count >= 1) {
-          return theme.meatBrown;
+        if (type === 'subscription') {
+          if (count >= 1) {
+            return theme.meatBrown;
+          }
+
+          return theme.peachYellow;
         }
 
-        return theme.peachYellow;
+        if (count >= 1) {
+          return theme.blueCrayola;
+        }
+
+        return theme.babyBlueEyes;
       }
 
       // for empty values
@@ -155,7 +164,7 @@ const PresenceGraph = ({
             end={{ x: 1, y: 0 }}
             start={{ x: 0.1, y: 0 }}
             style={[
-              tw`w-48 z-10 absolute left-0 bottom-3.5`,
+              tw`w-64 z-10 absolute left-0 bottom-3.5`,
               { height: (SQUARE_SIZE + SQUARE_GAP) * 7 - SQUARE_GAP },
             ]}>
             <View style={tw`my-auto w-12 ml-9`}>
@@ -211,7 +220,7 @@ const PresenceGraph = ({
               tw.prefixMatch('dark')
                 ? `rgba(255, 255, 255, ${opacity})`
                 : `rgba(0, 0, 0, ${opacity})`,
-            strokeWidth: 2, // optional, default 3
+            strokeWidth: 2, // optional, default 3,
           }}
           endDate={new Date()}
           getMonthLabel={(month) =>

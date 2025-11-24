@@ -166,11 +166,7 @@ const ModalLayout = ({
             tw`absolute top-0 left-0 bottom-0 right-0 border-b-gray-300 dark:border-b-gray-700 border-b-[0.5px]`,
             headerBackgroundStyle,
           ]}>
-          <AppBlurView
-            intensity={64}
-            style={tw`h-full w-full`}
-            tint={tw.prefixMatch('dark') ? 'dark' : 'default'}
-          />
+          <AppBlurView style={tw`h-full w-full`} />
         </Animated.View>
 
         <View
@@ -219,7 +215,7 @@ const ModalLayout = ({
             borderRadius={24}
             color={tw.prefixMatch('dark') ? tw.color('gray-400') : theme.charlestonGreen}
             iconStyle={{ height: 32, width: 32, marginRight: 0 }}
-            name="close"
+            name="window-close"
             size={32}
             style={tw`p-1`}
             underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { includes } from 'lodash';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
@@ -9,7 +10,7 @@ const I18nContext = createContext<{
   language: string | null;
   ready: boolean;
   selectLanguage: () => void;
-}>({ language: null, ready: false, selectLanguage: () => { } });
+}>({ language: null, ready: false, selectLanguage: () => {} });
 
 export const DEFAULT_LANGUAGE = process.env.EXPO_PUBLIC_DEFAULT_LANGUAGE || 'fr';
 
@@ -22,7 +23,8 @@ const useChosenLanguange = (language: string | null, setReady: (ready: boolean) 
 
   useEffect(() => {
     const selectedLanguage = !language || language === SYSTEM_OPTION ? SYSTEM_LANGUAGE : language;
-    const isLanguageSupported = Object.keys(i18n.options.resources || {}).includes(
+    const isLanguageSupported = includes(
+      Object.keys(i18n.options.resources || {}),
       selectedLanguage,
     );
     const appliedLanguage = isLanguageSupported ? selectedLanguage : DEFAULT_LANGUAGE;

@@ -8,7 +8,8 @@
   },
   "detail": {
     "date": "Ce {{date, datetime}}",
-    "time": "de {{startTime}} à {{endTime}}"
+    "time": "de {{startTime}} à {{endTime}}",
+    "until": "jusqu'au {{date, datetime}}"
   },
   "period": {
     "label": "Période",

@@ -1,5 +1,20 @@
 {
   "general": {
+    "home": {
+      "upcomingEventsPeriod": {
+        "description": "Sélectionner la période pour laquelle les événements à venir sont affichés sur l'écran d'accueil.",
+        "hint": "sur l'écran d'accueil",
+        "label": "Prochains événements",
+        "options": {
+          "day_one": "jour",
+          "day_other": "jours",
+          "month_one": "mois",
+          "month_other": "mois",
+          "week_one": "semaine",
+          "week_other": "semaines"
+        }
+      }
+    },
     "language": {
       "label": "Langue",
       "system": {
@@ -68,9 +83,12 @@
   "roles": {
     "value": {
       "admin": "Administrateur⸱rice",
+      "administrator": "Administrateur⸱rice",
       "coworker": "Coworkeur⸱se",
+      "customer": "Coworkeur⸱se",
       "external": "Externe",
-      "guest": "Visiteur⸱se"
+      "guest": "Visiteur⸱se",
+      "inactive": "Inactif⸱ve"
     }
   },
   "root": {
@@ -98,9 +116,6 @@
       },
       "title": "Contacter l'équipe"
     },
-    "help": {
-      "label": "Aide"
-    },
     "review": {
       "description": "Vous aimez Le Poulailler et son application ?\nAidez-nous à les rendre encore meilleurs en partageant votre avis sur leurs pages respectives.\nUn grand merci pour votre soutien ! 🙏",
       "label": "Donner mon avis",
@@ -109,6 +124,9 @@
       "title": "Partagez votre avis !"
     },
     "socials": {
+      "bliiidaNewsletter": {
+        "label": "Newsletter Bliiida"
+      },
       "description": "Suivez-nous sur les réseaux sociaux pour rester informé des dernières nouvelles et mises à jour.",
       "facebook": {
         "label": "Facebook"

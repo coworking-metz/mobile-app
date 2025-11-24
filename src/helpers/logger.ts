@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/react-native';
+// import * as Sentry from '@sentry/react-native';
 import { logger, consoleTransport, sentryTransport } from 'react-native-logs';
 import { APP_ENVIRONMENT } from '@/services/environment';
 
@@ -28,11 +28,11 @@ export const log = logger.createLogger({
         },
       }
     : ({
-        transport: sentryTransport,
-        transportOptions: {
-          SENTRY: Sentry,
-          errorLevels: 'error',
-        },
+        // transport: sentryTransport,
+        // transportOptions: {
+        //   SENTRY: Sentry,
+        //   errorLevels: 'error',
+        // },
       } as never)),
   async: true,
   dateFormat: 'time',

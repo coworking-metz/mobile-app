@@ -1,10 +1,11 @@
-import FloatingSocialsAnimation from '../Animations/FloatingSocialsAnimation';
-import ServiceRow from '../Layout/ServiceRow';
-import { Link } from 'expo-router';
+import ServiceRowLink from '../Layout/ServiceRowLink';
+import { Image } from 'expo-image';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import BliiidaSquareLogo from '@/assets/images/bliiida-square.png';
+import FloatingSocialsAnimation from '@/components/Animations/FloatingSocialsAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import useAuthStore from '@/stores/auth';
@@ -20,95 +21,107 @@ const SocialsBottomSheet = ({
   const authStore = useAuthStore();
 
   return (
-    <AppBottomSheet style={style} onClose={onClose}>
-      <View style={tw`flex flex-col w-full py-6`}>
-        <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-          <FloatingSocialsAnimation speed={0.75} style={tw`h-56 w-full`} />
-        </View>
-        <AppText
-          style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4 px-6`}>
-          {t('settings.support.socials.title')}
-        </AppText>
-        <AppText style={tw`text-left text-base font-normal text-slate-500 w-full my-4 px-6`}>
-          {t('settings.support.socials.description')}
-        </AppText>
-        <Link
-          asChild
-          href="https://us6.campaign-archive.com/home/?u=4406f25257&id=82ab4f380b"
-          target="_blank">
-          <ServiceRow
-            withBottomDivider
-            label={t('settings.support.socials.newsletter.label')}
-            prefixIcon="email-newsletter"
-            style={tw`px-3 mx-3`}
-            suffixIcon="open-in-new"
-          />
-        </Link>
-        {authStore.user?.id && (
-          <Link
-            asChild
-            href="https://signal.group/#CjQKICGvCmD9n9SJSW6z_g5FmRg5rRUj4hWpC1X5XxOexGwrEhDxUfX0r6UQ_blpMGz938M9"
-            target="_blank">
-            <ServiceRow
-              withBottomDivider
-              description="signal.group/#CjQKICGvCmD9n9SJSW6z_g5FmRg5rRUj4hWpC1X5XxOexGwrEhDxUfX0r6UQ_blpMGz938M9"
-              label={t('settings.support.socials.signal.label')}
-              prefixIcon="chat-outline"
-              renderDescription={(description) => (
-                <AppText
-                  numberOfLines={1}
-                  style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
-                  {description}
-                </AppText>
-              )}
-              style={tw`px-3 mx-3`}
-              suffixIcon="open-in-new"
-            />
-          </Link>
-        )}
-        <Link asChild href="https://www.instagram.com/coworkingmetz/" target="_blank">
-          <ServiceRow
-            withBottomDivider
-            description="coworkingmetz"
-            label={t('settings.support.socials.instagram.label')}
-            prefixIcon="instagram"
-            style={tw`px-3 mx-3`}
-            suffixIcon="open-in-new"
-          />
-        </Link>
-        <Link asChild href="https://www.facebook.com/CoworkingMetz/" target="_blank">
-          <ServiceRow
-            withBottomDivider
-            description="CoworkingMetz"
-            label={t('settings.support.socials.facebook.label')}
-            prefixIcon="facebook"
-            style={tw`px-3 mx-3`}
-            suffixIcon="open-in-new"
-          />
-        </Link>
-        <Link asChild href="https://twitter.com/CoworkingMetz" target="_blank">
-          <ServiceRow
-            withBottomDivider
-            description="CoworkingMetz"
-            label={t('settings.support.socials.twitter.label')}
-            prefixIcon="twitter"
-            style={tw`px-3 mx-3`}
-            suffixIcon="open-in-new"
-          />
-        </Link>
-        <Link
-          asChild
-          href="https://fr.linkedin.com/company/le-poulailler-coworking-metz"
-          target="_blank">
-          <ServiceRow
-            description="le-poulailler-coworking-metz"
-            label={t('settings.support.socials.linkedin.label')}
-            prefixIcon="linkedin"
-            style={tw`px-3 mx-3`}
-            suffixIcon="open-in-new"
-          />
-        </Link>
+    <AppBottomSheet contentContainerStyle={tw`pt-6`} style={style} onClose={onClose}>
+      <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
+        <FloatingSocialsAnimation speed={0.75} style={tw`h-56 w-full`} />
       </View>
+      <AppText
+        style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4 px-6`}>
+        {t('settings.support.socials.title')}
+      </AppText>
+      <AppText style={tw`text-left text-base font-normal text-slate-500 w-full my-4 px-6`}>
+        {t('settings.support.socials.description')}
+      </AppText>
+      <ServiceRowLink
+        withBottomDivider
+        href="https://us6.campaign-archive.com/home/?u=4406f25257&id=82ab4f380b"
+        label={t('settings.support.socials.newsletter.label')}
+        prefixIcon="email-newsletter"
+        renderDescription={(d) => (
+          <AppText numberOfLines={1} style={tw`text-sm font-normal text-amber-500`}>
+            {d}
+          </AppText>
+        )}
+        style={tw`px-3 mx-3`}
+        suffixIcon="open-in-new"
+        target="_blank"
+      />
+      <ServiceRowLink
+        withBottomDivider
+        href="https://mailchi.mp/5c18c8c3d655/newsletter-interne-bliiida"
+        label={t('settings.support.socials.bliiidaNewsletter.label')}
+        prefix={
+          <View style={tw`flex flex-row items-center shrink-0 min-h-10`}>
+            <View style={tw`h-6 w-6 bg-gray-700 dark:bg-gray-400 rounded-lg overflow-hidden`}>
+              <Image source={BliiidaSquareLogo} style={[tw`h-full w-full`]} />
+            </View>
+          </View>
+        }
+        prefixIcon="email-newsletter"
+        renderDescription={(d) => (
+          <AppText numberOfLines={1} style={tw`text-sm font-normal text-amber-500`}>
+            {d}
+          </AppText>
+        )}
+        style={tw`px-3 mx-3`}
+        suffixIcon="open-in-new"
+        target="_blank"
+      />
+      {authStore.user?.id && (
+        <ServiceRowLink
+          withBottomDivider
+          href="https://signal.group/#CjQKICGvCmD9n9SJSW6z_g5FmRg5rRUj4hWpC1X5XxOexGwrEhDxUfX0r6UQ_blpMGz938M9"
+          label={t('settings.support.socials.signal.label')}
+          prefixIcon="chat-outline"
+          renderDescription={(d) => (
+            <AppText numberOfLines={1} style={tw`text-sm font-normal text-amber-500`}>
+              {d}
+            </AppText>
+          )}
+          style={tw`px-3 mx-3`}
+          suffixIcon="open-in-new"
+          target="_blank"
+        />
+      )}
+      <ServiceRowLink
+        withBottomDivider
+        description="coworkingmetz"
+        href="https://www.instagram.com/coworkingmetz/"
+        label={t('settings.support.socials.instagram.label')}
+        prefixIcon="instagram"
+        style={tw`px-3 mx-3`}
+        suffixIcon="open-in-new"
+        target="_blank"
+      />
+      <ServiceRowLink
+        withBottomDivider
+        description="CoworkingMetz"
+        href="https://www.facebook.com/CoworkingMetz/"
+        label={t('settings.support.socials.facebook.label')}
+        prefixIcon="facebook"
+        style={tw`px-3 mx-3`}
+        suffixIcon="open-in-new"
+        target="_blank"
+      />
+      <ServiceRowLink
+        withBottomDivider
+        description="CoworkingMetz"
+        href="https://twitter.com/CoworkingMetz"
+        label={t('settings.support.socials.twitter.label')}
+        prefixIcon="twitter"
+        style={tw`px-3 mx-3`}
+        suffixIcon="open-in-new"
+        target="_blank"
+      />
+      <ServiceRowLink
+        description="le-poulailler-coworking-metz"
+        href="https://fr.linkedin.com/company/le-poulailler-coworking-metz"
+        label={t('settings.support.socials.linkedin.label')}
+        prefixIcon="linkedin"
+        style={tw`px-3 mx-3`}
+        suffixIcon="open-in-new"
+        target="_blank"
+      />
     </AppBottomSheet>
   );
 };

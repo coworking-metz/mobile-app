@@ -1,22 +1,16 @@
-import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
-import { useColorScheme } from 'react-native';
-import { useReducedMotion } from 'react-native-reanimated';
-import tw from 'twrnc';
 import FloatingSocials from '@/assets/animations/floating-socials.json';
+import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie } from '@/helpers/colors';
 
 type AnimationProps = Omit<LottieViewProps, 'source'>;
 
 const FloatingSocialsAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
-  { ...props },
+  props,
   ref,
 ) => {
-  const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const isDark = colorScheme === 'dark';
-    const innerColor = (isDark ? tw.color('black') : tw.color('white')) as string; // "#ffffff" originally
     return colouriseLottie(FloatingSocials, {
       // // twitter.Group 1.Fill 1
       // 'assets.1.layers.0.shapes.0.it.1.c.k': innerColor,
@@ -39,7 +33,7 @@ const FloatingSocialsAnimation: ForwardRefRenderFunction<LottieView, AnimationPr
       // // whats.Group 2.Fill 1
       // 'assets.8.layers.0.shapes.1.it.2.c.k': innerColor,
     });
-  }, [colorScheme]);
+  }, []);
 
   return <AppLottieView ref={ref} autoPlay loop progress={0} {...props} source={colorizedSource} />;
 };

@@ -1,6 +1,7 @@
+import AppShimmerText from '../AppShimmerText';
 import React, { ReactNode } from 'react';
 import { type StyleProp, type ViewProps, type ViewStyle } from 'react-native';
-import Animated, { FadeInLeft, FadeOutLeft, type AnimatedProps } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut, type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
 
@@ -9,28 +10,33 @@ const SectionTitle = ({
   count,
   style,
   children,
+  loading,
   ...props
 }: AnimatedProps<ViewProps> & {
   title: string;
   count?: number | null;
   style?: StyleProp<ViewStyle>;
+  loading?: boolean;
   children?: ReactNode;
 }) => {
   return (
     <Animated.View style={[tw`flex flex-row items-center gap-2`, style]} {...props}>
-      <AppText
+      <AppShimmerText
+        active={loading}
+        activeColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('gray-100')}
         ellipsizeMode={'tail'}
         numberOfLines={1}
-        style={tw`text-sm font-normal uppercase text-slate-500 shrink`}>
+        style={tw`text-sm font-normal uppercase text-slate-500 shrink min-h-5.5`}>
         {title}
-      </AppText>
+      </AppShimmerText>
+
       {count && (
         <Animated.View
-          entering={FadeInLeft}
-          exiting={FadeOutLeft}
-          style={tw`bg-gray-400/25 dark:bg-gray-700/50 py-1 px-2 rounded-full`}>
+          entering={FadeIn}
+          exiting={FadeOut}
+          style={tw`flex items-center justify-center overflow-hidden h-5.5 px-1 min-w-5.5 bg-gray-400/25 dark:bg-gray-700/50 rounded-full`}>
           <AppText style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
-            {count}
+            {count ?? 0}
           </AppText>
         </Animated.View>
       )}

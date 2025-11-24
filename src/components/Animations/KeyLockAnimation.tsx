@@ -1,18 +1,12 @@
-import AppLottieView from '@/components/AppLottieView';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
-import { useColorScheme } from 'react-native';
-import tw from 'twrnc';
 import KeysPair from '@/assets/animations/key-lock.json';
-import { colouriseLottie, theme } from '@/helpers/colors';
+import AppLottieView from '@/components/AppLottieView';
+import { colouriseLottie } from '@/helpers/colors';
 
 type AnimationProps = Omit<LottieViewProps, 'source'>;
 
-const KeyLockAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
-  { ...props },
-  ref,
-) => {
-  const colorScheme = useColorScheme();
+const KeyLockAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (props, ref) => {
   const colorizedSource = useMemo(() => {
     return colouriseLottie(KeysPair, {
       // "layers.0.shapes.0.it.1.c.k": "#ffffff",
@@ -99,7 +93,7 @@ const KeyLockAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
       // "layers.12.shapes.7.it.2.c.k": "#f7c759",
       // "layers.12.shapes.8.it.2.c.k": "#edb824",
     });
-  }, [colorScheme]);
+  }, []);
 
   return <AppLottieView ref={ref} autoPlay loop={false} {...props} source={colorizedSource} />;
 };

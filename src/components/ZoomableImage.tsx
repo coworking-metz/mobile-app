@@ -1,36 +1,41 @@
-import AppFader from './AppFader';
+import { AppTopFader } from './AppFader';
+import AppIconButton from './AppIconButton';
 import CarouselPaginationDots from './CarouselPaginationDots';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { isLiquidGlassSupported } from '@callstack/liquid-glass';
 import dayjs from 'dayjs';
 import { Image, type ImageProps } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
-import React, { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  Modal,
-  Platform,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-  useWindowDimensions,
-} from 'react-native';
+import { isNil } from 'lodash';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import { Modal, Platform, TouchableOpacity, View, ViewStyle } from 'react-native';
 import Gallery from 'react-native-awesome-gallery';
 import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
+
+// in case we need to migrate off 'react-native-awesome-gallery'
+// https://github.com/saseungmin/react-native-gesture-image-viewer
 
 type ZoomableImageProps = Omit<ImageProps, 'source'> & {
   source?: string;
   sources?: string[];
+  zoomed?: boolean;
+  children?: ReactNode;
+  onZoomChange?: (zoomed: boolean) => void;
 };
 
-const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableImageProps) => {
+const ZoomableImage = ({
+  source,
+  sources,
+  zoomed,
+  style,
+  children,
+  onZoomChange,
+  ...props
+}: ZoomableImageProps) => {
   const insets = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
   const offset = useSharedValue(0);
-  const [isSelected, setSelected] = useState<boolean>(false);
-  const { t } = useTranslation();
+  const [isGalleryVisible, setGalleryVisible] = useState<boolean>(false);
 
   const sourcesCount = useMemo(() => sources?.length ?? 0, [sources]);
 
@@ -38,9 +43,19 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
     return <View style={style as ViewStyle} />;
   }
 
+  useEffect(() => {
+    onZoomChange?.(isGalleryVisible);
+  }, [isGalleryVisible]);
+
+  useEffect(() => {
+    if (!isNil(zoomed) && isGalleryVisible !== zoomed) {
+      setGalleryVisible(zoomed);
+    }
+  }, [zoomed]);
+
   return (
     <>
-      <TouchableOpacity onPress={() => setSelected(true)}>
+      <TouchableOpacity onPress={() => setGalleryVisible(true)}>
         <Image
           cachePolicy="memory"
           source={{
@@ -56,50 +71,39 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
         statusBarTranslucent
         transparent
         animationType="fade"
-        visible={isSelected}
+        visible={isGalleryVisible}
         {...(Platform.OS === 'android' && { navigationBarTranslucent: true })}>
         {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
         <StatusBar translucent style="light" />
         <View style={tw`flex flex-col h-full w-full bg-black`}>
           <View
             style={[
-              tw`absolute top-0 z-10 flex flex-row items-center justify-end w-full px-4 pb-2`,
+              tw`absolute top-0 z-10 flex flex-row items-center justify-start w-full px-4 pb-2`,
               {
                 paddingTop: insets.top,
                 left: insets.left,
                 right: insets.right,
               },
             ]}>
-            <AppFader
-              position={Fader.position.TOP}
-              size={(insets.top || (Platform.OS === 'android' ? 16 : 0)) + 64}
-              style={tw`absolute inset-x-0 top-0`}
-              tintColor={tw.color('black/25')}
+            <AppTopFader style={tw`absolute inset-x-0 top-0`} tintColor={tw.color('black/25')} />
+
+            <AppIconButton
+              icon="window-close"
+              onPress={() => setGalleryVisible(false)}
+              {...(!isLiquidGlassSupported && { colorScheme: 'dark' })}
             />
+
             {sourcesCount > 1 && (
               <>
-                {/* fake a View with the same size as the close button to properly center pagination dots */}
-                <View style={tw`size-10`} />
                 <CarouselPaginationDots
                   count={sourcesCount}
                   offset={offset}
                   style={tw`mx-auto grow-0`}
-                  width={width}
                 />
+                {/* fake a View with the same size as the close button to properly center pagination dots */}
+                <View style={tw`size-10`} />
               </>
             )}
-            <MaterialCommunityIcons.Button
-              aria-label={t('actions.close')}
-              backgroundColor="rgba(3,10,42,0.4)"
-              borderRadius={24}
-              color={tw.color('gray-200')}
-              iconStyle={tw`mr-0`}
-              name="close"
-              size={32}
-              style={tw`p-1 grow-0 shrink-0`}
-              underlayColor={tw.color('gray-800')}
-              onPress={() => setSelected(false)}
-            />
           </View>
           <Gallery
             data={sources ?? [source]}
@@ -122,12 +126,12 @@ const ZoomableImage = ({ source, sources, style, children, ...props }: ZoomableI
               />
             )}
             onIndexChange={(index) => {
-              offset.value = withTiming(index * width, {
+              offset.value = withTiming(index, {
                 easing: Easing.linear,
                 duration: 300,
               });
             }}
-            onSwipeToClose={() => setSelected(false)}
+            onSwipeToClose={() => setGalleryVisible(false)}
           />
         </View>
       </Modal>

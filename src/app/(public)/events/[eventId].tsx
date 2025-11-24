@@ -1,21 +1,30 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import * as Calendar from 'expo-calendar';
-import { Link, useLocalSearchParams } from 'expo-router';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { isNil } from 'lodash';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LayoutChangeEvent, View } from 'react-native';
+import { LayoutChangeEvent, RefreshControl, TouchableNativeFeedback, View } from 'react-native';
+import {
+  KeyboardAwareScrollView,
+  KeyboardAwareScrollViewProps,
+} from 'react-native-keyboard-controller';
 import openMap from 'react-native-open-maps';
-import { FadeInLeft } from 'react-native-reanimated';
+import Animated, {
+  FadeInLeft,
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
-import AppFader from '@/components/AppFader';
+import AppFader, { AppTopFader } from '@/components/AppFader';
+import AppIconButton from '@/components/AppIconButton';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import ErrorState from '@/components/ErrorState';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
@@ -25,13 +34,44 @@ import { isSilentError } from '@/helpers/error';
 import { useAppPaddingBottom } from '@/helpers/screen';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 
+const NAVIGATION_HEIGHT = 48;
+
+const AnimatedKeyboardAwareScrollView =
+  Animated.createAnimatedComponent<KeyboardAwareScrollViewProps>(KeyboardAwareScrollView);
+
 export default function CalendarEventPage() {
   useDeviceContext(tw);
-  const { eventId, _root } = useLocalSearchParams();
+  const insets = useSafeAreaInsets();
+  const verticalScrollProgress = useSharedValue(0);
+  const router = useRouter();
+
+  const { eventId, _root: withoutBackButton } = useLocalSearchParams();
   const { t } = useTranslation();
   const renderPermissionsBottomSheet = useAppPermissions();
   const [actionHeight, setActionHeight] = useState(0);
   const paddingBottom = useAppPaddingBottom();
+  const [headerHeight, setHeaderHeight] = useState<number>(0);
+  const [isGalleryVisible, setGalleryVisible] = useState(false);
+
+  const navigationHeight = useMemo(() => {
+    return NAVIGATION_HEIGHT + insets.top;
+  }, [insets.top]);
+
+  // https://github.com/facebook/react-native/issues/54183#issuecomment-3467125323
+  const [progressViewOffset, setProgressViewOffset] = useState(0);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setProgressViewOffset(headerHeight);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [headerHeight]);
+
+  const onVerticalScroll = useAnimatedScrollHandler({
+    onScroll: ({ contentOffset }) => {
+      verticalScrollProgress.value = contentOffset.y;
+    },
+  });
 
   const {
     data: calendarEvents,
@@ -45,7 +85,7 @@ export default function CalendarEventPage() {
   });
 
   const event = useMemo<CalendarEvent | null>(() => {
-    return (!isNil(eventId) && (calendarEvents || []).find((e) => `${e.id}` === eventId)) || null;
+    return (!isNil(eventId) && (calendarEvents || [])?.find((e) => `${e.id}` === eventId)) || null;
   }, [calendarEvents, eventId]);
 
   const firstPicture = useMemo(() => {
@@ -78,114 +118,216 @@ export default function CalendarEventPage() {
   }, [event]);
 
   return (
-    <ServiceLayout
-      contentStyle={[tw`pt-4`, actionHeight > 0 && { paddingBottom: actionHeight + 32 }]}
-      title={event?.title || ''}
-      withBackButton={!_root}
-      onRefresh={refetchCalendarEvents}
-      {...(firstUrl && {
-        footer: (
-          <View
-            style={[tw`flex flex-col absolute bottom-0 px-6 w-full`, { paddingBottom }]}
-            onLayout={({ nativeEvent }: LayoutChangeEvent) =>
-              setActionHeight(nativeEvent.layout.height)
-            }>
-            <AppFader
-              position={Fader.position.BOTTOM}
-              size={actionHeight + 32}
-              style={tw`absolute inset-0`}
-              tintColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('gray-50')}
-            />
+    <View style={[tw`flex-1 bg-gray-50 dark:bg-zinc-900 relative`]}>
+      <View style={[tw`absolute inset-0 flex flex-col items-stretch`]}>
+        <Animated.View
+          style={[
+            tw`relative flex flex-col justify-end h-64 max-h-1/3 w-full`,
+            !event?.pictures.length && { height: navigationHeight },
+          ]}
+          onLayout={({ nativeEvent }: LayoutChangeEvent) =>
+            setHeaderHeight(nativeEvent.layout.height)
+          }>
+          {event?.pictures.length && (
+            <View style={tw`absolute inset-0`}>
+              <ZoomableImage
+                contentFit="cover"
+                source={firstPicture}
+                sources={event?.pictures}
+                style={tw`h-full w-full bg-gray-300 dark:bg-zinc-700 `}
+                transition={300}
+                zoomed={isGalleryVisible}
+                onZoomChange={(zoomed) => setGalleryVisible(zoomed)}>
+                {event?.pictures.length && event.pictures.length > 1 && (
+                  <View
+                    style={[
+                      tw`absolute top-1.5 right-5.5 bg-black/70 py-1 px-2 rounded-lg`,
+                      { marginTop: insets.top },
+                    ]}>
+                    <AppText style={tw`text-xs text-gray-200 font-medium`}>
+                      {event.pictures.length}
+                    </AppText>
+                  </View>
+                )}
+              </ZoomableImage>
+            </View>
+          )}
+        </Animated.View>
+      </View>
 
-            <Link asChild href={firstUrl}>
-              <AppRoundedButton style={tw`w-full max-w-md self-center`} suffixIcon="open-in-new">
-                <AppText style={tw`text-base font-medium text-black`}>
-                  {t('actions.takeALook')}
-                </AppText>
-              </AppRoundedButton>
-            </Link>
-          </View>
-        ),
-      })}>
-      <View style={tw`w-full max-w-xl mx-auto grow`}>
-        {event ? (
-          <>
-            <ZoomableImage
-              contentFit="cover"
-              source={firstPicture}
-              sources={event.pictures}
-              style={tw`relative h-44 mx-4 rounded-2xl bg-gray-300 dark:bg-gray-700`}
-              transition={300}>
-              {event.pictures.length > 1 && (
-                <View style={tw`absolute bottom-1.5 right-5.5 bg-black/70 py-1 px-2 rounded-lg`}>
-                  <AppText style={tw`text-xs text-gray-200 font-medium`}>
-                    {event.pictures.length}
+      {/* body */}
+      <AnimatedKeyboardAwareScrollView
+        contentContainerStyle={[tw`flex flex-col min-h-full`]}
+        horizontal={false}
+        keyboardShouldPersistTaps="handled"
+        refreshControl={
+          <RefreshControl
+            progressViewOffset={progressViewOffset}
+            refreshing={isFetchingCalendarEvents}
+            onRefresh={refetchCalendarEvents}
+          />
+        }
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+        style={{ flex: 1 }}
+        onScroll={onVerticalScroll}>
+        {
+          /* transparent view to fake a touch on the header link, should mimic as much as possible the header */
+          <TouchableNativeFeedback onPress={() => setGalleryVisible(true)}>
+            <Animated.View
+              style={[
+                tw`flex flex-col items-end self-center w-full relative`,
+                { height: headerHeight },
+              ]}>
+              {/* <AppTopFader
+                position={Fader.position.BOTTOM}
+                style={tw`absolute inset-x-0 bottom-0`}
+                tintColor={
+                  tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('gray-50') || ''
+                }
+              /> */}
+            </Animated.View>
+          </TouchableNativeFeedback>
+        }
+        <View
+          style={[
+            tw`flex flex-col w-full grow bg-gray-50 dark:bg-zinc-900 relative`,
+            {
+              paddingLeft: insets.left,
+              paddingRight: insets.right,
+              paddingBottom: actionHeight || paddingBottom,
+            },
+          ]}>
+          <View style={tw`w-full max-w-xl mx-auto grow`}>
+            {event ? (
+              <>
+                {event.title && (
+                  <AppText
+                    entering={FadeInLeft.duration(500)}
+                    style={[
+                      tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`,
+                      !!event?.pictures.length && tw`mt-6 mb-4`,
+                    ]}>
+                    {event.title}
+                  </AppText>
+                )}
+                <ServiceRow
+                  withBottomDivider
+                  description={
+                    dayjs(event.start).diff(event.end, 'hours', true) % 24 === 0
+                      ? t('events.detail.until', {
+                          date: new Date(dayjs(event.end).subtract(1, 'second').toString()),
+                          formatParams: {
+                            date: { weekday: 'long', month: 'long', day: 'numeric' },
+                          },
+                        })
+                      : t('events.detail.time', {
+                          startTime: dayjs(event.start).format('LT'),
+                          endTime: dayjs(event.end).format('LT'),
+                        })
+                  }
+                  label={t('events.detail.date', {
+                    date: new Date(event.start),
+                    formatParams: {
+                      date: { weekday: 'long', month: 'long', day: 'numeric' },
+                    },
+                  })}
+                  prefixIcon="calendar-outline"
+                  style={tw`mx-3 px-3`}
+                  suffixIcon="calendar-plus"
+                  onPress={onAddToCalendar}
+                />
+                {event.location ? (
+                  <ServiceRow
+                    withBottomDivider
+                    label={event.location}
+                    prefixIcon="map-marker-outline"
+                    style={tw`mx-3 px-3`}
+                    suffixIcon="directions"
+                    onPress={() => openMap({ query: event.location })}
+                  />
+                ) : null}
+                {event.description ? (
+                  <View style={[tw`mt-3 mx-6`, !!actionHeight && tw`mb-6`]}>
+                    <MarkdownRenderer content={event.description} />
+                  </View>
+                ) : null}
+              </>
+            ) : isFetchingCalendarEvents ? (
+              <View style={tw`h-44 mx-4 overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
+                <LoadingSkeleton height={`100%`} width={`100%`} />
+              </View>
+            ) : calendarEventsError && !isSilentError(calendarEventsError) ? (
+              <ErrorState error={calendarEventsError} title={t('home.calendar.onFetch.fail')} />
+            ) : (
+              <>
+                <View style={tw`flex flex-col items-center justify-end px-4 grow basis-0`}>
+                  <TumbleweedRollingAnimation style={tw`h-56 w-full max-w-xs`} />
+                </View>
+                <View
+                  style={tw`flex flex-col items-center justify-start px-4 gap-2 grow basis-0 max-w-sm mx-auto`}>
+                  <AppText
+                    entering={FadeInLeft.duration(500)}
+                    numberOfLines={1}
+                    style={tw`text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                    {t('notFound.title')}
+                  </AppText>
+                  <AppText
+                    entering={FadeInLeft.duration(500).delay(150)}
+                    numberOfLines={2}
+                    style={tw`text-base font-normal text-center text-slate-500 dark:text-slate-400`}>
+                    {t('notFound.description')}
                   </AppText>
                 </View>
-              )}
-            </ZoomableImage>
-            <ServiceRow
-              withBottomDivider
-              description={t('events.detail.time', {
-                startTime: dayjs(event.start).format('LT'),
-                endTime: dayjs(event.end).format('LT'),
-              })}
-              label={t('events.detail.date', {
-                date: new Date(event.start),
-                formatParams: {
-                  date: { weekday: 'long', month: 'long', day: 'numeric' },
-                },
-              })}
-              prefixIcon="calendar-outline"
-              style={tw`mt-6 mx-3 px-3`}
-              suffixIcon="calendar-plus"
-              onPress={onAddToCalendar}
-            />
-            {event.location ? (
-              <ServiceRow
-                withBottomDivider
-                label={event.location}
-                prefixIcon="map-marker-outline"
-                style={tw`mx-3 px-3`}
-                suffixIcon="directions"
-                onPress={() => openMap({ query: event.location })}
-              />
-            ) : null}
-            {event.description ? (
-              <View style={tw`mt-3 mx-6`}>
-                <MarkdownRenderer content={event.description} />
-              </View>
-            ) : null}
-          </>
-        ) : isFetchingCalendarEvents ? (
-          <View style={tw`h-44 mx-4 overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
-            <LoadingSkeleton height={`100%`} width={`100%`} />
+              </>
+            )}
           </View>
-        ) : calendarEventsError && !isSilentError(calendarEventsError) ? (
-          <ErrorState error={calendarEventsError} title={t('home.calendar.onFetch.fail')} />
-        ) : (
-          <>
-            <View style={tw`flex flex-col items-center justify-end px-4 grow basis-0`}>
-              <TumbleweedRollingAnimation style={tw`h-56 w-full max-w-xs`} />
-            </View>
-            <View
-              style={tw`flex flex-col items-center justify-start px-4 gap-2 grow basis-0 max-w-sm mx-auto`}>
-              <AppText
-                entering={FadeInLeft.duration(500)}
-                numberOfLines={1}
-                style={tw`text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-                {t('notFound.title')}
+        </View>
+      </AnimatedKeyboardAwareScrollView>
+
+      <AppTopFader style={tw`absolute inset-x-0 top-0`} />
+
+      {!withoutBackButton && (
+        <Animated.View
+          style={[
+            tw`absolute top-0 left-0 right-0 z-10`,
+            {
+              paddingTop: insets.top,
+              paddingLeft: insets.left,
+              paddingRight: insets.right,
+            },
+          ]}>
+          <AppIconButton
+            icon="arrow-left"
+            style={tw`ml-4`}
+            onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+          />
+        </Animated.View>
+      )}
+
+      {/* footer */}
+      {firstUrl && (
+        <View
+          style={[tw`flex flex-col absolute bottom-0 px-6 w-full`, { paddingBottom }]}
+          onLayout={({ nativeEvent }: LayoutChangeEvent) =>
+            setActionHeight(nativeEvent.layout.height)
+          }>
+          <AppFader
+            position={Fader.position.BOTTOM}
+            size={actionHeight + 32}
+            style={tw`absolute inset-0`}
+            tintColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('gray-50')}
+          />
+
+          <Link asChild href={firstUrl}>
+            <AppRoundedButton style={tw`w-full max-w-md self-center`} suffixIcon="open-in-new">
+              <AppText style={tw`text-base font-medium text-black`}>
+                {t('actions.takeALook')}
               </AppText>
-              <AppText
-                entering={FadeInLeft.duration(500).delay(150)}
-                numberOfLines={2}
-                style={tw`text-base font-normal text-center text-slate-500 dark:text-slate-400`}>
-                {t('notFound.description')}
-              </AppText>
-            </View>
-          </>
-        )}
-      </View>
-    </ServiceLayout>
+            </AppRoundedButton>
+          </Link>
+        </View>
+      )}
+    </View>
   );
 }

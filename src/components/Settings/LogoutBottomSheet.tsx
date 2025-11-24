@@ -10,8 +10,10 @@ import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTextButton from '@/components/AppTextButton';
-import { useErrorNotification } from '@/helpers/error';
 import { log } from '@/helpers/logger';
+import { HTTP } from '@/services/http';
+import useNoticeStore from '@/stores/notice';
+import useSettingsStore from '@/stores/settings';
 
 const logoutLogger = log.extend(`[logout]`);
 
@@ -23,19 +25,26 @@ const LogoutBottomSheet = ({
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
+  const settingsStore = useSettingsStore();
+  const noticeStore = useNoticeStore();
   const [isLoading, setLoading] = useState<boolean>(false);
   const bottomSheetRef = useRef<AppBottomSheetRef>(null);
-
-  const notifyError = useErrorNotification();
 
   const onLogout = useCallback(() => {
     setLoading(true);
 
     const redirectUriOnSuccess = makeRedirectUri({
-      path: '/home?loggedOut=true',
+      path: '/home',
     });
 
-    const logoutUrl = `https://www.coworking-metz.fr/mon-compte/?logout=true&redirect_to=${redirectUriOnSuccess}`;
+    const logoutUrl = HTTP.getUri({
+      ...(settingsStore.apiBaseUrl && { baseURL: settingsStore.apiBaseUrl }),
+      url: '/api/auth/logout',
+      params: {
+        follow: redirectUriOnSuccess,
+        loggedOut: 'true',
+      },
+    }).toString();
     logoutLogger.debug('Opening logout uri', logoutUrl);
 
     (async () => {
@@ -52,13 +61,11 @@ const LogoutBottomSheet = ({
 
       return Linking.openURL(logoutUrl);
     })()
-      .catch((error) => {
-        notifyError(t('errors.default.message'), error);
-      })
+      .catch((error) => noticeStore.addError(error, { message: t('errors.default.message') }))
       .finally(() => {
         setLoading(false);
       });
-  }, [notifyError, t, bottomSheetRef]);
+  }, [t, bottomSheetRef, settingsStore, noticeStore]);
 
   return (
     <AppBottomSheet ref={bottomSheetRef} style={style} onClose={onClose}>

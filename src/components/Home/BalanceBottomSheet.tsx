@@ -13,6 +13,7 @@ import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import ErrorChip from '@/components/ErrorChip';
 import ServiceRow from '@/components/Layout/ServiceRow';
+import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
 import {
   ApiMemberProfile,
@@ -25,18 +26,17 @@ import useAuthStore from '@/stores/auth';
 
 const BalanceBottomSheet = ({
   loading = false,
-  activeSince,
   style,
   onClose,
 }: {
   loading?: boolean;
-  activeSince?: string;
   style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
   const authStore = useAuthStore();
   const hasBeenActive = useRef(false);
+  const activeSince = useAppState();
 
   const { data: memberProfile, refetch: refetchProfile } = useQuery<ApiMemberProfile>({
     queryKey: ['members', authStore.user?.id],
@@ -89,6 +89,8 @@ const BalanceBottomSheet = ({
         <CouponsAnimation style={tw`h-56 w-full`} />
       </View>
       <AppText
+        accessibilityLabel={t('home.profile.tickets.title')}
+        accessible={true}
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
         {t('home.profile.tickets.title')}
       </AppText>
@@ -99,11 +101,11 @@ const BalanceBottomSheet = ({
       <ServiceRow
         withBottomDivider
         label={t('home.profile.tickets.balance.label')}
-        style={tw`w-full px-0`}>
+        style={tw`w-full px-0 mt-2`}>
         {loading ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
-          <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
+          <View style={tw`flex flex-row justify-end items-end gap-1`}>
             {!isNil(memberProfile?.balance) && memberProfile.balance !== 0 && (
               <AppText
                 numberOfLines={1}
@@ -126,11 +128,11 @@ const BalanceBottomSheet = ({
       <ServiceRow
         description={t('home.profile.tickets.consumed.description')}
         label={t('home.profile.tickets.consumed.label')}
-        style={tw`w-full px-0 mt-2`}>
+        style={tw`w-full px-0 mb-2`}>
         {isFetchingTicketsOrders ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
-          <View style={tw`flex flex-row justify-end items-end gap-1 grow`}>
+          <View style={tw`flex flex-row justify-end items-end gap-1`}>
             {consumedCount != 0 && (
               <AppText
                 numberOfLines={1}

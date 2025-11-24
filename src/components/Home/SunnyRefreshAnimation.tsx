@@ -1,7 +1,8 @@
 import React, { useCallback, useRef } from 'react';
 import { ViewStyle } from 'react-native';
 import { runOnJS, useDerivedValue, type SharedValue } from 'react-native-reanimated';
-import Rive, { Alignment, Fit, type RiveRef } from 'rive-react-native';
+import { Alignment, Fit, type RiveRef } from 'rive-react-native';
+import RiveAnimation from '@/components/RiveAnimation';
 
 const STATE_MACHINE_NAME = 'Pull Release Ani';
 
@@ -67,15 +68,15 @@ const SunnyRefreshAnimation = ({
   }, [completed]);
 
   return (
-    <Rive
+    <RiveAnimation
       ref={riveRef}
       alignment={Alignment.TopCenter}
       artboardName="Scene File"
       fit={Fit.Cover}
-      resourceName="sunny_pull_release"
+      source={require('@/assets/rive/sunny_pull_release.riv')}
       stateMachineName={STATE_MACHINE_NAME}
       style={style}
-    // url="https://public.rive.app/community/runtime-files/3838-8030-pull-release-animation.riv"
+      // url="https://public.rive.app/community/runtime-files/3838-8030-pull-release-animation.riv"
     />
   );
 };

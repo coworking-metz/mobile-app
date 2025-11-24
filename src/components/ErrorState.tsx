@@ -1,7 +1,6 @@
 import ErrorAnimation from './Animations/ErrorAnimation';
 import AppText from './AppText';
 import React, { useEffect, useState, type ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle, type ViewProps } from 'react-native';
 import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -19,7 +18,6 @@ const ErrorState = ({
   style?: StyleProp<ViewStyle>;
   children?: ReactNode;
 }) => {
-  const { t } = useTranslation();
   const [description, setDescription] = useState<string | null>(null);
 
   useEffect(() => {

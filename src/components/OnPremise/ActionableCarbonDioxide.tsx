@@ -31,21 +31,23 @@ const ActionableCarbonDioxide = ({
     <ActionableIcon {...props}>
       <View
         style={tw`z-20 flex items-center justify-center absolute inset-0 -top-2 -left-2 h-12 w-12`}>
-        <AnimatedProgressWheel
-          rounded
-          animateFromValue={0}
-          backgroundColor={
-            (tw.prefixMatch('dark') ? tw.color(`gray-700`) : tw.color(`gray-400`)) as string
-          }
-          color={levelColor as string}
-          duration={1000}
-          easing={Easing.inOut(Easing.ease)}
-          max={1600}
-          progress={level ? level - 400 : level}
-          rotation={'-90deg'}
-          size={48}
-          width={4}
-        />
+        {!props.loading && (
+          <AnimatedProgressWheel
+            rounded
+            animateFromValue={0}
+            backgroundColor={
+              (tw.prefixMatch('dark') ? tw.color(`gray-700`) : tw.color(`gray-400`)) as string
+            }
+            color={levelColor as string}
+            duration={1000}
+            easing={Easing.inOut(Easing.ease)}
+            max={1600}
+            progress={level ? level - 400 : level}
+            rotation={'-90deg'}
+            size={48}
+            width={4}
+          />
+        )}
       </View>
     </ActionableIcon>
   );

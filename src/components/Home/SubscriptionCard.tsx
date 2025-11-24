@@ -1,27 +1,28 @@
+import AppSquircleView from '../AppSquircleView';
 import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
+import useAppState from '@/helpers/app-state';
 import { type ApiMemberSubscription } from '@/services/api/members';
 
 const SubscriptionCard = ({
   subscription,
   loading,
-  activeSince,
   style,
 }: {
   subscription?: ApiMemberSubscription | null;
   loading?: boolean;
-  activeSince?: string;
   style?: StyleProp<ViewStyle>;
 }) => {
   const { t } = useTranslation();
   const isFocus = useIsFocused();
+  const activeSince = useAppState();
 
   const label = useMemo(() => {
     if (!subscription) return t('home.profile.subscription.label.none');
@@ -67,9 +68,9 @@ const SubscriptionCard = ({
   }, [subscription, t, isFocus, activeSince]);
 
   return (
-    <View
+    <AppSquircleView
       style={[
-        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl relative overflow-hidden px-3 pt-2 pb-4`,
+        tw`flex flex-col items-start gap-1 bg-gray-300/60 dark:bg-gray-900/85 rounded-2xl relative overflow-hidden px-3 pt-2 pb-4`,
         style,
       ]}>
       <MaterialCommunityIcons
@@ -112,7 +113,7 @@ const SubscriptionCard = ({
           style={tw`absolute top-3 right-3 z-10`}
         />
       )}
-    </View>
+    </AppSquircleView>
   );
 };
 
