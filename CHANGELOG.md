@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+
+- Upcoming events period start from 1 instead of 0.
+
 ## [2025.11.1] - 2025-11-24
 
 ### Added

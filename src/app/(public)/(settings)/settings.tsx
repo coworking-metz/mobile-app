@@ -72,7 +72,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const pathname = usePathname();
 
   const upcomingEventsPeriodValue = useMemo(() => {
-    if (!upcomingEventsPeriod.count) {
+    if (upcomingEventsPeriod.unit === 'day' && upcomingEventsPeriod.count === 1) {
       const [firstWord] = dayjs().calendar().split(' ');
       if (firstWord) return firstWord;
     }

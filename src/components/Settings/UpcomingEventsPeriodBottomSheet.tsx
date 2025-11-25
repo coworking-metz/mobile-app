@@ -25,7 +25,7 @@ const UpcomingEventsPeriodBottomSheet = (props: Omit<AppBottomSheetProps, 'child
       <View style={tw`flex flex-row items-start justify-center gap-2`}>
         <AppWheelPicker
           enableScrollByTapOnItem
-          data={[...Array(11).keys()].map((index) => ({ label: `${index}`, value: index }))}
+          data={[...Array(10).keys()].map((index) => ({ label: `${index + 1}`, value: index + 1 }))}
           itemTextStyle={tw`text-right pr-2 font-normal text-slate-900 dark:text-gray-200`}
           style={tw`grow shrink basis-0 max-w-40`}
           value={upcomingEventsPeriod.count}

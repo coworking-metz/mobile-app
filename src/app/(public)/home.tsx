@@ -178,6 +178,7 @@ export default function HomeScreen() {
   const upcomingEvents = useMemo(() => {
     const now = dayjs();
     const endOfPeriod = now
+      .subtract(1, 'day')
       .add(settingsStore.upcomingEventsPeriod.count, settingsStore.upcomingEventsPeriod.unit)
       .endOf('day');
     return (
