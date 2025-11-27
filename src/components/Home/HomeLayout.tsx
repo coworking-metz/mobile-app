@@ -173,13 +173,8 @@ export default function HomeLayout({
   }, []);
 
   return (
-    <View
-      style={[
-        tw`w-full bg-gray-100 dark:bg-black grow flex flex-col items-stretch relative`,
-        style,
-      ]}>
+    <View style={[tw`w-full grow flex flex-col items-stretch relative`, style]}>
       {/* <HomeBackground /> */}
-
       {enableAnimations ? (
         <Animated.View style={[tw`absolute top-0 inset-x-0`, refreshAnimationStyles]}>
           <AppSquircleView
@@ -231,7 +226,7 @@ export default function HomeLayout({
           onScroll={scrollHandler}>
           <Animated.View
             style={[
-              tw.style(`flex flex-col items-start justify-start w-full`, {
+              tw.style(`flex flex-col items-start justify-start w-full bg-gray-100 dark:bg-black`, {
                 paddingBottom: paddingBottom + (Platform.OS === 'android' ? 64 : 16),
               }),
               enableAnimations && pullDownStyles,

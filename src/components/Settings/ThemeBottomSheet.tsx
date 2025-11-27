@@ -1,7 +1,7 @@
 import DarklightModeAnimation from './DarklightModeAnimation';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useColorScheme, View } from 'react-native';
+import { useColorScheme } from 'react-native';
 import tw from 'twrnc';
 import AppBottomSheet, { type AppBottomSheetProps } from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';

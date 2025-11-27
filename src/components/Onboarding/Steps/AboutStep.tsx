@@ -28,13 +28,7 @@ const AboutStep = ({ active, containerHeight }: { active: boolean; containerHeig
       requestAnimationFrame(() => animation.current?.play());
       setPlaying(true);
     }
-  }, [animation, active, isPlaying, reduceMotion]);
-
-  useEffect(() => {
-    if (!reduceMotion) {
-      requestAnimationFrame(() => animation.current?.play());
-    }
-  }, [colorScheme, reduceMotion]);
+  }, [animation, colorScheme, active, isPlaying, reduceMotion]);
 
   return (
     <>

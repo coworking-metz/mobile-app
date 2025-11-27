@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useGlobalSearchParams, useRouter } from 'expo-router';
+import { useGlobalSearchParams, usePathname, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { usePostHog } from 'posthog-react-native';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
@@ -127,6 +127,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggingIn, setLoggingIn] = useState<boolean>(false);
   const [isLoggingOut, setLoggingOut] = useState<boolean>(false);
   const posthog = usePostHog();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (isLoggingIn && authStore.accessToken) {
@@ -149,6 +150,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
     }
   }, [authStore.user]);
+
+  useEffect(() => {
+    posthog.screen(pathname);
+  }, [pathname]);
 
   useProtectedRoute(ready, setReady);
 

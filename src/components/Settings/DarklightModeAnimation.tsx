@@ -27,11 +27,19 @@ const DarklightModeAnimation = ({
 
   useEffect(() => {
     if (mode === 'light') {
-      riveRef.current?.setInputState(STATE_MACHINE_NAME, 'isDark', false);
+      setTimeout(() => {
+        requestAnimationFrame(() => {
+          riveRef.current?.setInputState(STATE_MACHINE_NAME, 'isDark', false);
+        });
+      }, 100);
     } else if (mode === 'dark') {
-      riveRef.current?.setInputState(STATE_MACHINE_NAME, 'isDark', true);
+      setTimeout(() => {
+        requestAnimationFrame(() => {
+          riveRef.current?.setInputState(STATE_MACHINE_NAME, 'isDark', true);
+        });
+      }, 100);
     }
-  }, [riveRef.current, mode]);
+  }, [riveRef, mode]);
 
   return (
     <RiveAnimation

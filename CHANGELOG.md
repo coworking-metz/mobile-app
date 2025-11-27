@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+
+- Background color above animation on home screen.
+- Theme animation when opening bottom sheet.
+- Event step animation on onboarding.
+
 ## [2025.11.2] - 2025-11-25
 
 ### Fixed

@@ -29,14 +29,20 @@ const EventsStep = ({ active, containerHeight }: { active: boolean; containerHei
   // trick to fake a loop by reversing the speed when the animation finishes
   const onAnimationFinish = useCallback(() => {
     if (animation.current) {
-      if (speed >= 0) {
+      if (!isNil(animation.current.props.speed) && animation.current.props.speed >= 0) {
         setSpeed(-1);
+        requestAnimationFrame(() => {
+          animation.current?.play();
+        });
       } else {
         setSpeed(1);
+        requestAnimationFrame(() => {
+          animation.current?.reset();
+          animation.current?.play();
+        });
       }
-      animation.current.play();
     }
-  }, [animation, speed]);
+  }, [animation]);
 
   return (
     <>
