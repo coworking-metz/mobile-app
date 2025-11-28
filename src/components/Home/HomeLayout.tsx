@@ -173,7 +173,11 @@ export default function HomeLayout({
   }, []);
 
   return (
-    <View style={[tw`w-full grow flex flex-col items-stretch relative`, style]}>
+    <View
+      style={[
+        tw`w-full grow flex flex-col items-stretch relative bg-gray-100 dark:bg-black`,
+        style,
+      ]}>
       {/* <HomeBackground /> */}
       {enableAnimations ? (
         <Animated.View style={[tw`absolute top-0 inset-x-0`, refreshAnimationStyles]}>
