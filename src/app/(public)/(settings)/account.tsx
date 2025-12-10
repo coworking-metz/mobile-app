@@ -49,14 +49,13 @@ const Account = () => {
     <ServiceLayout contentStyle={tw`pt-6 pb-12`} title={t('account.title')} withBackButton={!_root}>
       <View style={tw`w-full max-w-xl mx-auto`}>
         <View style={tw`flex flex-col relative h-40 w-40 mx-auto`}>
-          <AppSquircleView
-            style={tw`h-full w-full rounded-2xl bg-gray-200 dark:bg-gray-900 overflow-hidden`}>
+          <View style={tw`h-full w-full rounded-2xl bg-gray-200 dark:bg-gray-900 overflow-hidden`}>
             <ZoomableImage
               contentFit="cover"
               source={authStore.user?.picture}
               style={tw`h-full w-full`}
             />
-          </AppSquircleView>
+          </View>
 
           <View
             style={tw`absolute -bottom-3 -right-3 z-10 h-12 w-12 bg-gray-50 dark:bg-zinc-900 rounded-full flex items-center justify-center`}>

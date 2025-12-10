@@ -39,10 +39,6 @@ const ZoomableImage = ({
 
   const sourcesCount = useMemo(() => sources?.length ?? 0, [sources]);
 
-  if (!source) {
-    return <View style={style as ViewStyle} />;
-  }
-
   useEffect(() => {
     onZoomChange?.(isGalleryVisible);
   }, [isGalleryVisible]);
@@ -52,6 +48,10 @@ const ZoomableImage = ({
       setGalleryVisible(zoomed);
     }
   }, [zoomed]);
+
+  if (!source) {
+    return <View style={style as ViewStyle} />;
+  }
 
   return (
     <>
