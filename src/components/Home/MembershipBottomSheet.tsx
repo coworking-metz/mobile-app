@@ -37,11 +37,11 @@ const MembershipBottomSheet = ({
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
-  const user = useAuthStore((s) => s.user);
+  const authStore = useAuthStore();
   const activeSince = useAppState();
 
   const { refetch: refetchProfile } = useQuery({
-    queryKey: ['members', user?.id],
+    queryKey: ['members', authStore.user?.id],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId as string);
@@ -52,10 +52,10 @@ const MembershipBottomSheet = ({
   });
 
   useEffect(() => {
-    if (!!user?.id && !valid) {
+    if (!!authStore.user?.id && !valid) {
       refetchProfile();
     }
-  }, [user, activeSince, valid, refetchProfile]);
+  }, [activeSince, valid]);
 
   return (
     <AppBottomSheet contentContainerStyle={tw`px-6 pt-6`} style={style} onClose={onClose}>
@@ -169,7 +169,7 @@ const MembershipBottomSheet = ({
       {!valid && (
         <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/carte-adherent/`} style={tw`mt-5`}>
           <AppRoundedButton
-            disabled={!user}
+            disabled={!authStore.user}
             style={tw`w-full max-w-md self-center`}
             suffixIcon="open-in-new">
             <AppText style={tw`text-base font-medium text-black`}>

@@ -1,7 +1,7 @@
 import { createAsyncStorage } from './async-storage';
 import createSecureStorage from './secure-storage';
 import useSettingsStore from './settings';
-// import * as Sentry from '@sentry/react-native';
+import * as Sentry from '@sentry/react-native';
 import dayjs from 'dayjs';
 import { create } from 'zustand';
 import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware';
@@ -50,7 +50,7 @@ const useAuthStore = create<AuthState>()(
             set({ isFetchingToken: true });
             refreshTokensPromise = getAccessAndRefreshTokens(get().refreshToken as string)
               .then(async ({ accessToken, refreshToken }) => {
-                await set({ accessToken, refreshToken });
+                await get().setTokens(accessToken, refreshToken);
                 return accessToken;
               })
               .finally(() => {
@@ -70,11 +70,7 @@ const useAuthStore = create<AuthState>()(
           return accessToken;
         },
         clear: async (): Promise<void> => {
-          // Sentry.setUser(null);
-          await set({
-            accessToken: null,
-            refreshToken: null,
-          });
+          await get().setTokens(null, null);
         },
         logout: async (): Promise<void> => {
           await get().clear();
@@ -96,9 +92,14 @@ const useAuthStore = create<AuthState>()(
 useAuthStore.subscribe(
   (state) => state.accessToken,
   (accessToken) => {
-    const user = accessToken ? decodeToken(accessToken) : null;
-    // Sentry.setUser({ email: user?.email });
-    useAuthStore.setState({ user });
+    if (accessToken) {
+      const user = decodeToken(accessToken);
+      Sentry.setUser({ email: user?.email });
+      useAuthStore.setState({ user });
+    } else {
+      Sentry.setUser(null);
+      useAuthStore.setState({ user: null });
+    }
   },
 );
 

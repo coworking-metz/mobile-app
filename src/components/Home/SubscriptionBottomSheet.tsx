@@ -38,7 +38,7 @@ const SubscriptionBottomSheet = ({
 }) => {
   const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
-  const hasBeenActive = useRef(false);
+  const isMounted = useRef(false);
   const activeSince = useAppState();
 
   const { refetch: refetchSubscriptions, error: subscriptionsError } = useQuery({
@@ -53,13 +53,13 @@ const SubscriptionBottomSheet = ({
   });
 
   useEffect(() => {
-    if (!!user?.id && hasBeenActive.current) {
+    if (!!user?.id && isMounted.current) {
       refetchSubscriptions();
     }
-  }, [user, activeSince, refetchSubscriptions]);
+  }, [user, activeSince]);
 
   useEffect(() => {
-    hasBeenActive.current = true;
+    isMounted.current = true;
   }, []);
 
   const [carouselWidth, setCarouselWidth] = useState<number>(0);

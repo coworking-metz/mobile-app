@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Image } from 'expo-image';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as Updates from 'expo-updates';
 import { isNil } from 'lodash';
 import React, { useCallback, useState } from 'react';
@@ -16,7 +16,6 @@ import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { theme } from '@/helpers/colors';
 import { log } from '@/helpers/logger';
-import useResetNavigation from '@/helpers/navigation';
 import { HTTP } from '@/services/http';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -34,7 +33,7 @@ const Advanced = () => {
   const authStore = useAuthStore();
   const settingsStore = useSettingsStore();
   const queryClient = useQueryClient();
-  const resetNavigation = useResetNavigation();
+  const router = useRouter();
   const [isClearingCache, setClearingCache] = useState(false);
   const [isResetting, setResetting] = useState(false);
 
@@ -55,7 +54,7 @@ const Advanced = () => {
               style: 'destructive',
               onPress: async () => {
                 advancedLogger.warn(`Clear refresh token before switching storage`);
-                await useAuthStore.getState().clear();
+                await authStore.clear();
                 advancedLogger.warn(`Switching tokens storage to AsyncStorage`);
                 await useSettingsStore.setState({ areTokensInAsyncStorage: value });
                 Updates.reloadAsync();
@@ -66,7 +65,7 @@ const Advanced = () => {
         );
       } else {
         advancedLogger.warn(`Clear refresh token before switching storage`);
-        await useAuthStore.getState().clear();
+        await authStore.clear();
         advancedLogger.warn(`Switching tokens storage to SecureStorage}`);
         await useSettingsStore.setState({ areTokensInAsyncStorage: value });
         Updates.reloadAsync();
@@ -111,7 +110,7 @@ const Advanced = () => {
           type: 'success',
           timeout: 3000,
         });
-        resetNavigation('/');
+        router.dismissTo('/');
       })
       .catch((error) =>
         noticeStore.addError(error, { message: t('advanced.actions.reset.onReset.fail') }),

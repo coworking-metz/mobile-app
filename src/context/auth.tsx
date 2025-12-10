@@ -1,17 +1,14 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { Image } from 'expo-image';
 import { useGlobalSearchParams, usePathname, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { usePostHog } from 'posthog-react-native';
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { createContext, useContext, useEffect, useState } from 'react';
 import LoginBottomSheet from '@/components/Settings/LoginBottomSheet';
 import LogoutBottomSheet from '@/components/Settings/LogoutBottomSheet';
 import { log } from '@/helpers/logger';
-import useResetNavigation from '@/helpers/navigation';
 import useAuthStore from '@/stores/auth';
-import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
-import useToastStore from '@/stores/toast';
 
 const authLogger = log.extend(`[auth.tsx]`);
 
@@ -32,14 +29,9 @@ export const useAppAuth = () => {
 };
 
 // This hook will protect the route access based on user authentication.
-const useProtectedRoute = (ready: boolean, setReady: (ready: boolean) => void) => {
+const useProtectedRoute = (_ready: boolean, setReady: (ready: boolean) => void) => {
   const router = useRouter();
-  const resetNavigation = useResetNavigation();
-
-  const { t } = useTranslation();
   const authStore = useAuthStore();
-  const toastStore = useToastStore();
-  const noticeStore = useNoticeStore();
   const refreshToken = useAuthStore((state) => state.refreshToken);
   const isAuthStoreHydrated = useAuthStore((state) => state.hydrated);
   const isSettingsStoreHydrated = useSettingsStore((state) => state.hydrated);
@@ -66,57 +58,22 @@ const useProtectedRoute = (ready: boolean, setReady: (ready: boolean) => void) =
       authStore.setTokens(queryAccessToken, queryRefreshToken);
 
       // should reset all queries in cache
-      queryClient.invalidateQueries();
+      Promise.all([queryClient.clear(), Image.clearDiskCache(), Image.clearMemoryCache()]);
 
-      router.setParams({ accessToken: '', refreshToken: '' });
+      router.setParams({ accessToken: undefined, refreshToken: undefined });
       // setting a new refreshToken will re-trigger the useEffect
       // return;
     }
 
     setReady(true);
-  }, [
-    queryRefreshToken,
-    queryAccessToken,
-    isAuthStoreHydrated,
-    isSettingsStoreHydrated,
-    refreshToken,
-  ]);
-
-  const onLoggedOut = useCallback(async () => {
-    return authStore
-      .logout()
-      .then(() =>
-        toastStore.add({
-          message: t('auth.logout.onSuccess.message'),
-          type: 'success',
-          timeout: 3000,
-        }),
-      )
-      .then(() => {
-        // navigate to first screen
-        resetNavigation('/');
-      })
-      .catch((error) => {
-        const title = t('errors.default.message');
-        const toast = toastStore.add({
-          message: title,
-          type: 'error',
-          action: {
-            label: t('actions.more'),
-            onPress: () => {
-              noticeStore.addError(error, {
-                message: title,
-              });
-              toastStore.dismiss(toast.id);
-            },
-          },
-        });
-      });
-  }, [authStore, noticeStore, toastStore, t]);
+  }, [queryRefreshToken, queryAccessToken, isAuthStoreHydrated, isSettingsStoreHydrated]);
 
   useEffect(() => {
     if (loggedOut) {
-      onLoggedOut();
+      authStore.logout().then(() => {
+        router.setParams({ loggedOut: undefined });
+        queryClient.clear();
+      });
     }
   }, [loggedOut]);
 };

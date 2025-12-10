@@ -35,7 +35,7 @@ const BalanceBottomSheet = ({
 }) => {
   const { t } = useTranslation();
   const authStore = useAuthStore();
-  const hasBeenActive = useRef(false);
+  const isMounted = useRef(false);
   const activeSince = useAppState();
 
   const { data: memberProfile, refetch: refetchProfile } = useQuery<ApiMemberProfile>({
@@ -68,14 +68,14 @@ const BalanceBottomSheet = ({
   });
 
   useEffect(() => {
-    if (!!authStore.user?.id && hasBeenActive.current) {
+    if (!!authStore.user?.id && isMounted.current) {
       refetchProfile();
       refetchTicketsOrders();
     }
-  }, [authStore.user, activeSince, refetchProfile]);
+  }, [activeSince]);
 
   useEffect(() => {
-    hasBeenActive.current = true;
+    isMounted.current = true;
   }, []);
 
   const consumedCount = useMemo(() => {
