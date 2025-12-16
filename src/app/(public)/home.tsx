@@ -298,13 +298,20 @@ export default function HomeScreen() {
           <Link asChild href="(settings)">
             <AppPressable>
               <ProfilePicture
-                attending={profile?.attending}
                 loading={isFetching}
                 name={authStore.user?.name}
                 pending={!authStore.user && authStore.isFetchingToken}
                 style={tw`h-12 w-12`}
-                url={authStore.user?.picture}
-              />
+                url={authStore.user?.picture}>
+                {profile?.attending && (
+                  <Animated.View
+                    entering={BounceIn.duration(1000).delay(300)}
+                    exiting={BounceOut.duration(1000)}
+                    style={tw`z-20 h-5 w-5 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -bottom-0.5 -right-0.5`}>
+                    <View style={tw`h-3 w-3 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
+                  </Animated.View>
+                )}
+              </ProfilePicture>
             </AppPressable>
           </Link>
         </View>
