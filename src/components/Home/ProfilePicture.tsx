@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { Image } from 'expo-image';
 import React, { ReactNode, useMemo } from 'react';
 import { StyleProp, TextStyle, View, ViewStyle } from 'react-native';
-import Animated, { BounceIn, BounceOut, FadeIn, FadeOut } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AccountAnimation from '@/components/Animations/AccountAnimation';
 import AppText from '@/components/AppText';
@@ -38,7 +38,6 @@ const ProfilePicture = ({
   name,
   loading = false,
   pending = false,
-  attending,
   style,
   initialsStyle,
   children,
@@ -47,7 +46,6 @@ const ProfilePicture = ({
   name?: string;
   pending?: boolean;
   loading?: boolean;
-  attending?: boolean;
   style?: StyleProp<ViewStyle>;
   initialsStyle?: StyleProp<TextStyle>;
   children?: ReactNode;
@@ -57,7 +55,7 @@ const ProfilePicture = ({
   }, [name]);
 
   return (
-    <View style={[tw`relative`, style]}>
+    <Animated.View style={[tw`relative`, style]}>
       {loading && (
         <LoadingSpinner
           entering={FadeIn.duration(300)}
@@ -107,17 +105,8 @@ const ProfilePicture = ({
         )}
       </Animated.View>
 
-      {attending && (
-        <Animated.View
-          entering={BounceIn.duration(1000).delay(300)}
-          exiting={BounceOut.duration(1000)}
-          style={tw`z-20 h-5 w-5 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -bottom-0.5 -right-0.5`}>
-          <View style={tw`h-3 w-3 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
-        </Animated.View>
-      )}
-
       {children}
-    </View>
+    </Animated.View>
   );
 };
 

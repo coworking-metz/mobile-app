@@ -13,6 +13,8 @@ import {
   type LayoutChangeEvent,
 } from 'react-native';
 import Animated, {
+  BounceIn,
+  BounceOut,
   FadeInLeft,
   FadeInRight,
   interpolate,
@@ -223,13 +225,20 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           }}>
           <View style={tw`flex flex-col items-start gap-4 px-4 pb-6`}>
             <ProfilePicture
-              attending={profile?.attending}
               initialsStyle={tw`text-4xl pt-2`}
               name={authStore.user?.name}
               pending={!authStore.user && authStore.isFetchingToken}
               style={{ width: PICTURE_SIZE, height: PICTURE_SIZE }}
-              url={authStore.user?.picture}
-            />
+              url={authStore.user?.picture}>
+              {profile?.attending && (
+                <Animated.View
+                  entering={BounceIn.duration(1000).delay(300)}
+                  exiting={BounceOut.duration(1000)}
+                  style={tw`z-20 h-5 w-5 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -bottom-0.5 -right-0.5`}>
+                  <View style={tw`h-3 w-3 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
+                </Animated.View>
+              )}
+            </ProfilePicture>
             <View style={tw`flex flex-row justify-between w-full`}>
               <View style={tw`flex flex-col ml-2 shrink basis-0 grow`}>
                 <AppText
