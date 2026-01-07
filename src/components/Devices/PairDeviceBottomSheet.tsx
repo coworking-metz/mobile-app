@@ -9,7 +9,6 @@ import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
-import ReadMore from 'react-native-read-more-text';
 import { FadeIn, FadeInLeft, FadeOutRight } from 'react-native-reanimated';
 import { toast } from 'sonner-native';
 import tw from 'twrnc';
@@ -27,6 +26,7 @@ import {
   getMemberDevice,
 } from '@/services/api/members';
 import { getDeviceInfo, isDeviceInfoAvailable, ProbeDevice } from '@/services/api/probe';
+import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
@@ -189,7 +189,7 @@ const PairDeviceBottomSheet = ({
         ]);
         setAddedDevice(newDevice);
         queryClient.invalidateQueries({
-          queryKey: ['members', authStore.user?.id, 'devices'],
+          queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
           exact: true,
         });
 
@@ -198,7 +198,7 @@ const PairDeviceBottomSheet = ({
           newDevice._id as string,
         );
         queryClient.invalidateQueries({
-          queryKey: ['members', authStore.user?.id, 'devices'],
+          queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
           exact: true,
         });
         resolve(attendingDevice as never);
@@ -385,29 +385,12 @@ const PairDeviceBottomSheet = ({
             )}
           </View>
         )}
-        <ReadMore
-          numberOfLines={3}
-          renderRevealedFooter={(handlePress) => (
-            <AppText
-              style={tw`text-base font-normal text-amber-500 text-left`}
-              onPress={handlePress}>
-              {t('actions.hide')}
-            </AppText>
-          )}
-          renderTruncatedFooter={(handlePress) => (
-            <AppText
-              style={tw`text-base font-normal text-amber-500 text-left`}
-              onPress={handlePress}>
-              {t('actions.readMore')}
-            </AppText>
-          )}>
-          <AppText
-            entering={FadeInLeft.duration(300)}
-            exiting={FadeOutRight.duration(300)}
-            style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400 w-full`}>
-            {t('devices.add.pair.description')}
-          </AppText>
-        </ReadMore>
+        <AppText
+          entering={FadeInLeft.duration(300)}
+          exiting={FadeOutRight.duration(300)}
+          style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400 w-full`}>
+          {t('devices.add.pair.description')}
+        </AppText>
         <ReachableService pending={isReachingService} reachable={isServiceReachable} />
         <AppRoundedButton
           disabled={isAnimating}

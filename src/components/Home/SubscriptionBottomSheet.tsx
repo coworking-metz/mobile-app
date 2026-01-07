@@ -21,6 +21,7 @@ import { isSilentError } from '@/helpers/error';
 import i18n from '@/i18n';
 import { getMemberSubscriptions, type ApiMemberSubscription } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
+import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 
 const SubscriptionBottomSheet = ({
@@ -37,12 +38,12 @@ const SubscriptionBottomSheet = ({
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
-  const user = useAuthStore((s) => s.user);
+  const authStore = useAuthStore();
   const isMounted = useRef(false);
   const activeSince = useAppState();
 
   const { refetch: refetchSubscriptions, error: subscriptionsError } = useQuery({
-    queryKey: ['members', user?.id, 'subscriptions'],
+    queryKey: membersQueryKeys.subscriptionsById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberSubscriptions(userId as string);
@@ -53,10 +54,10 @@ const SubscriptionBottomSheet = ({
   });
 
   useEffect(() => {
-    if (!!user?.id && isMounted.current) {
+    if (!!authStore.user?.id && isMounted.current) {
       refetchSubscriptions();
     }
-  }, [user, activeSince]);
+  }, [authStore, activeSince]);
 
   useEffect(() => {
     isMounted.current = true;
@@ -274,7 +275,7 @@ const SubscriptionBottomSheet = ({
       <View style={[tw`mx-6 mt-2`, sortedSubscriptions.length > 1 && tw`mt-6`]}>
         <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/pass-resident/`}>
           <AppRoundedButton
-            disabled={!user}
+            disabled={!authStore.user}
             style={tw`w-full max-w-md self-center`}
             suffixIcon="open-in-new">
             <AppText style={tw`text-base font-medium text-black`}>

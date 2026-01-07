@@ -129,10 +129,10 @@ export const getHelloActivity = () =>
 export const isMembershipNonCompliant = (member: ApiMemberProfile) => {
   return Boolean(
     member.membershipOk === false &&
-      member.lastSeen &&
-      dayjs(member.lastSeen).isSame(dayjs(), 'year') &&
-      (!member.lastMembership ||
-        dayjs(member.lastSeen).isAfter(dayjs().year(member.lastMembership).endOf('year'), 'year')),
+    member.lastSeen &&
+    dayjs(member.lastSeen).isSame(dayjs(), 'year') &&
+    (!member.lastMembership ||
+      dayjs(member.lastSeen).isAfter(dayjs().year(member.lastMembership).endOf('year'), 'year')),
   );
 };
 
@@ -168,13 +168,6 @@ export const getMemberDevice = async (
   deviceId: string,
 ): Promise<ApiMemberDevice> => {
   return HTTP.get(`/api/members/${memberId}/devices/${deviceId}`).then(({ data }) => data);
-};
-
-export const updateMemberDevicesMacAddresses = async (
-  memberId: string,
-  macAddresses: string[],
-): Promise<string[]> => {
-  return HTTP.put(`/api/members/${memberId}/mac-addresses`, macAddresses).then(({ data }) => data);
 };
 
 export const addMemberDevice = async (

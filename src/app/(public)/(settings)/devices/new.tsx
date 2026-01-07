@@ -23,6 +23,7 @@ import {
 import { handleSilentError } from '@/helpers/error';
 import { addMemberDevice, ApiMemberDevice, DeviceType } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
+import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useToastStore from '@/stores/toast';
@@ -75,11 +76,15 @@ const NewDevice = () => {
           timeout: 3000,
         });
         queryClient.invalidateQueries({
-          queryKey: ['members', authStore.user?.id, 'devices'],
+          queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
           exact: true,
         });
         queryClient.invalidateQueries({
-          queryKey: ['members', authStore.user?.id],
+          queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
+          exact: true,
+        });
+        queryClient.invalidateQueries({
+          queryKey: membersQueryKeys.attending(),
           exact: true,
         });
         router.canGoBack() ? router.back() : router.replace('/devices');

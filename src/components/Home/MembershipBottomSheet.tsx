@@ -17,6 +17,7 @@ import { theme } from '@/helpers/colors';
 
 import { getMemberProfile } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
+import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 
 const MembershipBottomSheet = ({
@@ -41,7 +42,7 @@ const MembershipBottomSheet = ({
   const activeSince = useAppState();
 
   const { refetch: refetchProfile } = useQuery({
-    queryKey: ['members', authStore.user?.id],
+    queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId as string);

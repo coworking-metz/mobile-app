@@ -18,6 +18,7 @@ import WifiBottomSheet from './WifiBottomSheet';
 import { useQuery } from '@tanstack/react-query';
 import { createContext, useContext, useState } from 'react';
 import { getOnPremiseState, OnPremiseFlexDesk } from '@/services/api/services';
+import { onPremiseQueryKeys } from '@/services/query';
 
 type SelectedFlexDesk = OnPremiseFlexDesk & { id: string };
 
@@ -119,9 +120,8 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
   const [isGroupWorkSelected, setGroupWorkSelected] = useState<boolean>(false);
 
   const { data: onPremiseState, isFetching: isFetchingOnPremiseState } = useQuery({
-    queryKey: ['on-premise-state'],
+    queryKey: onPremiseQueryKeys.state(),
     queryFn: getOnPremiseState,
-    retry: false,
   });
 
   return (

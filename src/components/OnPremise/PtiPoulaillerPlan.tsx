@@ -14,6 +14,7 @@ import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAni
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState } from '@/services/api/services';
+import { onPremiseQueryKeys } from '@/services/query';
 
 const PtiPoulaillerPlan = ({
   style,
@@ -48,9 +49,8 @@ const PtiPoulaillerPlan = ({
     error: onPremiseStateError,
     refetch: refetchOnPremiseState,
   } = useQuery({
-    queryKey: ['on-premise-state'],
+    queryKey: onPremiseQueryKeys.state(),
     queryFn: getOnPremiseState,
-    retry: false,
   });
 
   const colorScheme = useColorScheme();

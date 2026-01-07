@@ -11,8 +11,8 @@
   },
   "members": {
     "debt": {
-      "ticket_one": "{{count}} ticket indebted",
-      "ticket_other": "{{count}} ticket indebted",
+      "ticket_one": "{{count}} ticket missing",
+      "ticket_other": "{{count}} ticket missing",
       "ticket_zero": "Insufficient balance (0 tickets)"
     },
     "membership": {

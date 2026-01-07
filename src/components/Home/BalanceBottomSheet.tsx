@@ -22,6 +22,7 @@ import {
   isMemberBalanceInsufficient,
 } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
+import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 
 const BalanceBottomSheet = ({
@@ -39,7 +40,7 @@ const BalanceBottomSheet = ({
   const activeSince = useAppState();
 
   const { data: memberProfile, refetch: refetchProfile } = useQuery<ApiMemberProfile>({
-    queryKey: ['members', authStore.user?.id],
+    queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId as string);
@@ -55,14 +56,13 @@ const BalanceBottomSheet = ({
     error: ticketsOrdersError,
     refetch: refetchTicketsOrders,
   } = useQuery({
-    queryKey: ['members', authStore.user?.id, 'tickets'],
+    queryKey: membersQueryKeys.ticketsById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberTickets(userId);
       }
       throw new Error(t('account.profile.onFetch.missing'));
     },
-    retry: false,
     refetchOnMount: false,
     enabled: !!authStore.user?.id,
   });

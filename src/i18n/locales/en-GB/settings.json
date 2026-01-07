@@ -60,21 +60,21 @@
         "debt": {
           "description": "Overconsumption occurs when your balance is depleted.",
           "unit": {
-            "ticket_one": " indebted",
-            "ticket_other": " indebted",
-            "ticket_zero": " indebted"
+            "ticket_one": " missing",
+            "ticket_other": " missing",
+            "ticket_zero": " missing"
           },
           "with": {
-            "ticket_one": " with\n{{count}} indebted",
-            "ticket_other": " with\n{{count}} indebted",
-            "ticket_zero": " with\n{{count}} indebted"
+            "ticket_one": " with\n{{count}} missing",
+            "ticket_other": " with\n{{count}} missing",
+            "ticket_zero": " with\n{{count}} missing"
           }
         },
         "description": "Coverage is automatically computed based on subscriptions and attendance.\n\nFor attendance:\n- less than 5 hours is equivalent to half a day,\n- beyond 5 hours is equivalent to a full day.\n\nOne ticket covers 2 half-days.\nA subscription covers a rolling 30-day period from a start date.",
         "overconsumed": {
           "value": {
-            "ticketFull": "1 ticket indebted",
-            "ticketHalf": "0.5 tickets indebted"
+            "ticketFull": "1 ticket missing",
+            "ticketHalf": "0.5 tickets missing"
           }
         },
         "type": {

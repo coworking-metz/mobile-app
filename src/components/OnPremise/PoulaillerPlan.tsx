@@ -17,6 +17,7 @@ import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
 import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState } from '@/services/api/services';
+import { onPremiseQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 
 const PoulaillerPlan = ({
@@ -71,9 +72,8 @@ const PoulaillerPlan = ({
     error: onPremiseStateError,
     refetch: refetchOnPremiseState,
   } = useQuery({
-    queryKey: ['on-premise-state'],
+    queryKey: onPremiseQueryKeys.state(),
     queryFn: getOnPremiseState,
-    retry: false,
   });
 
   const colorScheme = useColorScheme();

@@ -16,8 +16,10 @@ import ServiceRow from '@/components/Layout/ServiceRow';
 import ZoomableImage from '@/components/ZoomableImage';
 import { useAppAuth } from '@/context/auth';
 import { isSilentError } from '@/helpers/error';
+import { members } from '@/i18n/locales/en-GB';
 import { getMemberProfile } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
+import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 
 const Account = () => {
@@ -33,14 +35,13 @@ const Account = () => {
     error: profileError,
     refetch: refetchProfile,
   } = useQuery({
-    queryKey: ['members', authStore.user?.id],
+    queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId);
       }
       throw new Error(t('account.profile.onFetch.missing'));
     },
-    retry: false,
     refetchOnMount: false,
     enabled: !!authStore.user?.id,
   });
