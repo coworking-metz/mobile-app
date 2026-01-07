@@ -213,8 +213,8 @@
         "label": "Overall consumption",
         "unknown": "Unknown"
       },
-      "depleted_one": "indebted",
-      "depleted_other": "indebted",
+      "depleted_one": "missing",
+      "depleted_other": "missing",
       "description": "Tickets have unlimited validity, and each ticket is equivalent to two half-days.\nPresence of less than 5 hours in a day corresponds to half a day.",
       "label": "Individual\ntickets",
       "onFetch": {

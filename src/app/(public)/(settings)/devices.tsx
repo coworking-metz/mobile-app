@@ -19,6 +19,7 @@ import { useAppNewDevice } from '@/context/new-device';
 import { getDeviceTypeIcon } from '@/helpers/device';
 import { isSilentError } from '@/helpers/error';
 import { ApiMemberDevice, DeviceType, getMemberDevices } from '@/services/api/members';
+import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 
 const Devices = () => {
@@ -35,7 +36,7 @@ const Devices = () => {
     error: devicesError,
     refetch: refetchDevices,
   } = useQuery({
-    queryKey: ['members', authStore.user?.id, 'devices'],
+    queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberDevices(userId);
@@ -43,8 +44,6 @@ const Devices = () => {
       throw new Error(t('account.profile.onFetch.missing'));
     },
     enabled: !!authStore.user?.id,
-    retry: false,
-    staleTime: 300_000,
   });
 
   return (

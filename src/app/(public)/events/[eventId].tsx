@@ -33,6 +33,7 @@ import { useAppPermissions } from '@/context/permissions';
 import { isSilentError } from '@/helpers/error';
 import { useAppPaddingBottom } from '@/helpers/screen';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
+import { eventsQueryKeys } from '@/services/query';
 
 const NAVIGATION_HEIGHT = 48;
 
@@ -79,7 +80,7 @@ export default function CalendarEventPage() {
     error: calendarEventsError,
     refetch: refetchCalendarEvents,
   } = useQuery({
-    queryKey: ['calendarEvents'],
+    queryKey: eventsQueryKeys.all(),
     queryFn: getCalendarEvents,
     refetchOnMount: false,
   });

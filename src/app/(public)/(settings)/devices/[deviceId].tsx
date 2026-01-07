@@ -33,6 +33,7 @@ import {
   updateMemberDevice,
 } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
+import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useToastStore from '@/stores/toast';
@@ -64,15 +65,13 @@ const DeviceDetail = () => {
     error: devicesError,
     refetch: refetchDevices,
   } = useQuery({
-    queryKey: ['members', authStore.user?.id, 'devices'],
+    queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberDevices(userId);
       }
       throw new Error(t('account.profile.onFetch.missing'));
     },
-    retry: false,
-    staleTime: 300_000,
     enabled: !!authStore.user?.id,
   });
 
@@ -106,11 +105,15 @@ const DeviceDetail = () => {
           timeout: 3000,
         });
         queryClient.invalidateQueries({
-          queryKey: ['members', authStore.user?.id, 'devices'],
+          queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
           exact: true,
         });
         queryClient.invalidateQueries({
-          queryKey: ['members', authStore.user?.id],
+          queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
+          exact: true,
+        });
+        queryClient.invalidateQueries({
+          queryKey: membersQueryKeys.attending(),
           exact: true,
         });
         router.canGoBack() ? router.back() : router.replace('/devices');
@@ -143,11 +146,15 @@ const DeviceDetail = () => {
           timeout: 3000,
         });
         queryClient.invalidateQueries({
-          queryKey: ['members', authStore.user?.id, 'devices'],
+          queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
           exact: true,
         });
         queryClient.invalidateQueries({
-          queryKey: ['members', authStore.user?.id],
+          queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
+          exact: true,
+        });
+        queryClient.invalidateQueries({
+          queryKey: membersQueryKeys.attending(),
           exact: true,
         });
         router.canGoBack() ? router.back() : router.replace('/devices');

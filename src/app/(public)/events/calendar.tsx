@@ -16,6 +16,7 @@ import ServiceLayout from '@/components/Layout/ServiceLayout';
 import { SelectableChip } from '@/components/SelectableChip';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
+import { eventsQueryKeys } from '@/services/query';
 
 const SORTS = ['descending', 'ascending'] as const;
 export type SortType = (typeof SORTS)[number];
@@ -40,7 +41,7 @@ const Calendar = ({ from }: { from?: string }) => {
     error: calendarEventsError,
     refetch: refetchCalendarEvents,
   } = useQuery({
-    queryKey: ['calendarEvents'],
+    queryKey: eventsQueryKeys.all(),
     queryFn: getCalendarEvents,
     refetchOnMount: false,
     refetchOnWindowFocus: false,

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { isNil, uniq } from 'lodash';
+import { isNil } from 'lodash';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle, useColorScheme, type LayoutChangeEvent } from 'react-native';
@@ -21,13 +21,14 @@ import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
 import { getPhoneBoothsOccupation } from '@/services/api/services';
+import { onPremiseQueryKeys } from '@/services/query';
 
 const BAR_WIDTH = 32;
 const BAR_SPACING = 2;
 // week should start on monday
 const WEEK_DAYS_INDEXES = [...Array(7).keys()].map((index) => (index + 1) % 7);
-const DEFAULT_FIRST_HOUR_WITH_OCCUPATION = 6;
-const DEFAULT_LAST_HOUR_WITH_OCCUPATION = 20;
+const FIRST_HOUR_WITH_OCCUPATION = 6;
+const LAST_HOUR_WITH_OCCUPATION = 20;
 
 const PhoneBoothBottomSheet = ({
   blueOccupied = null,
@@ -53,36 +54,9 @@ const PhoneBoothBottomSheet = ({
     error: occupationError,
     refetch: refetchOccupationPerBooth,
   } = useQuery({
-    queryKey: ['phone-booths-occupation'],
+    queryKey: onPremiseQueryKeys.phoneBoothsOccupation(),
     queryFn: () => getPhoneBoothsOccupation(),
-    retry: false,
   });
-
-  const allHours = useMemo(() => {
-    if (!occupationPerBooth) return [];
-    return uniq(
-      [...occupationPerBooth.blue.occupation, ...occupationPerBooth.orange.occupation].reduce(
-        (acc, { averageMinutesByUTCHour }) => [
-          ...acc,
-          ...Object.entries(averageMinutesByUTCHour || {})
-            .filter(([_, value]) => !!value)
-            .map(([hour]) => Number(hour)),
-        ],
-        [] as number[],
-      ),
-    );
-  }, [occupationPerBooth]);
-
-  const firstHourWithOccupation = useMemo(
-    // () => (allHours.length ? Math.min(...allHours) : DEFAULT_FIRST_HOUR_WITH_OCCUPATION),
-    () => DEFAULT_FIRST_HOUR_WITH_OCCUPATION,
-    [allHours],
-  );
-  const lastHourWithOccupation = useMemo(
-    // () => (allHours.length ? Math.max(...allHours) : DEFAULT_LAST_HOUR_WITH_OCCUPATION),
-    () => DEFAULT_LAST_HOUR_WITH_OCCUPATION,
-    [allHours],
-  );
 
   const getOccupationFromDayIndex = useCallback(
     (dayIndex: number) => {
@@ -95,25 +69,25 @@ const PhoneBoothBottomSheet = ({
 
       // from 7AM to 11PM
       return Array.from(
-        { length: lastHourWithOccupation - firstHourWithOccupation + 1 },
+        { length: LAST_HOUR_WITH_OCCUPATION - FIRST_HOUR_WITH_OCCUPATION + 1 },
         (_, index) => ({
           date: dayjs()
             .utc()
-            .set('hour', firstHourWithOccupation + index)
+            .set('hour', FIRST_HOUR_WITH_OCCUPATION + index)
             .toISOString(),
           values: [
-            todayBlueOccupation?.averageMinutesByUTCHour[firstHourWithOccupation + index] || 0,
-            todayOrangeOccupation?.averageMinutesByUTCHour[firstHourWithOccupation + index] || 0,
+            todayBlueOccupation?.averageMinutesByUTCHour[FIRST_HOUR_WITH_OCCUPATION + index] || 0,
+            todayOrangeOccupation?.averageMinutesByUTCHour[FIRST_HOUR_WITH_OCCUPATION + index] || 0,
           ],
         }),
       );
     },
-    [occupationPerBooth, firstHourWithOccupation, lastHourWithOccupation],
+    [occupationPerBooth],
   );
 
   const barWidth = useMemo(
-    () => carouselWidth / (lastHourWithOccupation - firstHourWithOccupation + BAR_SPACING),
-    [carouselWidth, lastHourWithOccupation, firstHourWithOccupation],
+    () => carouselWidth / (LAST_HOUR_WITH_OCCUPATION - FIRST_HOUR_WITH_OCCUPATION + BAR_SPACING),
+    [carouselWidth],
   );
 
   return (

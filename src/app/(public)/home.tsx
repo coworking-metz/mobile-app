@@ -56,6 +56,7 @@ import {
   getMemberSubscriptions,
   isMemberBalanceInsufficient,
 } from '@/services/api/members';
+import { eventsQueryKeys, membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
@@ -86,9 +87,8 @@ export default function HomeScreen() {
     error: currentMembersError,
     dataUpdatedAt: currentMembersUpdatedAt,
   } = useQuery({
-    queryKey: ['currentMembers'],
+    queryKey: membersQueryKeys.attending(),
     queryFn: getCurrentMembers,
-    retry: false,
   });
 
   const {
@@ -98,14 +98,13 @@ export default function HomeScreen() {
     refetch: refetchProfile,
     error: profileError,
   } = useQuery({
-    queryKey: ['members', authStore.user?.id],
+    queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId);
       }
       throw new Error(t('account.profile.onFetch.missing'));
     },
-    retry: false,
     enabled: !!authStore.user?.id,
   });
 
@@ -115,14 +114,13 @@ export default function HomeScreen() {
     isFetching: isFetchingDevices,
     refetch: refetchDevices,
   } = useQuery({
-    queryKey: ['members', authStore.user?.id, 'devices'],
+    queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberDevices(userId);
       }
       throw new Error(t('account.profile.onFetch.missing'));
     },
-    retry: false,
   });
 
   const isTodayBirthday = useMemo(() => {
@@ -137,14 +135,13 @@ export default function HomeScreen() {
     refetch: refetchSubscriptions,
     error: subscriptionsError,
   } = useQuery({
-    queryKey: ['members', authStore.user?.id, 'subscriptions'],
+    queryKey: membersQueryKeys.subscriptionsById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberSubscriptions(userId);
       }
       throw new Error(t('account.profile.onFetch.missing'));
     },
-    retry: false,
     enabled: !!authStore.user?.id,
   });
 
@@ -170,9 +167,8 @@ export default function HomeScreen() {
     refetch: refetchCalendarEvents,
     error: calendarEventsError,
   } = useQuery({
-    queryKey: ['calendarEvents'],
+    queryKey: eventsQueryKeys.all(),
     queryFn: getCalendarEvents,
-    retry: false,
   });
 
   const upcomingEvents = useMemo(() => {

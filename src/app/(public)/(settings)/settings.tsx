@@ -47,6 +47,7 @@ import useAppScreen from '@/helpers/screen';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
 import { getHelloActivity, getMemberActivity, getMemberProfile } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
+import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 
@@ -93,14 +94,13 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     error: activityError,
     refetch: refetchActivity,
   } = useQuery({
-    queryKey: ['members', authStore.user?.id, 'activity'],
+    queryKey: membersQueryKeys.activityById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberActivity(userId);
       }
       return getHelloActivity();
     },
-    retry: false,
     refetchOnMount: false,
   });
 
@@ -110,14 +110,13 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     error: profileError,
     refetch: refetchProfile,
   } = useQuery({
-    queryKey: ['members', authStore.user?.id],
+    queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId);
       }
       throw new Error(t('account.profile.onFetch.missing'));
     },
-    retry: false,
     refetchOnMount: false,
     enabled: !!authStore.user?.id,
   });

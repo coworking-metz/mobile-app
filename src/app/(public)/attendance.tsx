@@ -20,6 +20,7 @@ import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
 import useAppScreen from '@/helpers/screen';
 import { ApiLocation, ApiMemberProfile, getCurrentMembers } from '@/services/api/members';
+import { membersQueryKeys } from '@/services/query';
 
 type AttendingLocation = ApiLocation | '';
 
@@ -52,9 +53,8 @@ const Attendance = () => {
     error: currentMembersError,
     dataUpdatedAt: currentMembersUpdatedAt,
   } = useQuery({
-    queryKey: ['currentMembers'],
+    queryKey: membersQueryKeys.attending(),
     queryFn: getCurrentMembers,
-    retry: false,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,

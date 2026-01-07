@@ -26,6 +26,7 @@ import { UpcomingEventsProvider } from '@/context/upcoming-events';
 import { IS_DEV } from '@/services/environment';
 import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
+import { QUERY_CLIENT_CONFIG } from '@/services/query';
 import { AppThemeBackground } from '@/services/theme';
 
 const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
@@ -33,7 +34,7 @@ const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient(QUERY_CLIENT_CONFIG);
 
 const RootLayout = () => {
   useDeviceContext(tw);
