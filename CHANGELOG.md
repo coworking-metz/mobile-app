@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Changed
+
+- Reload profile and attending members upon successfully pairing a new device.
+
 ### Fixed
 
 - Prevent crash when logging out.

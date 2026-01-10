@@ -11,7 +11,7 @@ import { useReducedMotion } from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import NoticeBottomSheet from '@/components/NoticeBottomSheet';
-import ToastMessage from '@/components/ToastMessage';
+import ToastMessages from '@/components/ToastMessages';
 import { AuthProvider } from '@/context/auth';
 import { ContactProvider } from '@/context/contact';
 import { I18nProvider } from '@/context/i18n';
@@ -174,7 +174,7 @@ const RootLayout = () => {
                           </SocialsProvider>
                         </ThemeProvider>
 
-                        <ToastMessage />
+                        <ToastMessages />
                         <NoticeBottomSheet />
                         {Platform.OS === 'android' ? (
                           <AppThemeBackground

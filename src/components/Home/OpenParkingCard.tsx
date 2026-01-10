@@ -63,12 +63,13 @@ const OpenParkingCard = ({
     if (!lastWarning || dayjs().diff(lastWarning) > WARN_ON_SUCCESSIVE_TAPS_INTEVAL_IN_MS) {
       setTapHistory([...tapHistory, new Date().toISOString()]);
     }
+
     setLoading(true);
     openParkingGate()
       .then(({ closed }) => {
         const timeleftInMs = Date.parse(closed) - Date.now();
         const timeleftBeforeLockInMs =
-          (timeleftInMs > 0 ? timeleftInMs : 2 * FILL_BACKGROUND_ANIMATION_DURATION_IN_MS) -
+          Math.max(timeleftInMs, 2 * FILL_BACKGROUND_ANIMATION_DURATION_IN_MS) -
           FILL_BACKGROUND_ANIMATION_DURATION_IN_MS;
         setTimeLeft(timeleftBeforeLockInMs);
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
