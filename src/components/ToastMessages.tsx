@@ -35,7 +35,7 @@ const getToastIconColor = (type?: ToastType, currentTheme?: ColorSchemeName) => 
   }
 };
 
-const ToastMessage = () => {
+const ToastMessages = () => {
   const insets = useSafeAreaInsets();
   const toastStore = useToastStore();
   const colorScheme = useColorScheme();
@@ -75,4 +75,4 @@ const ToastMessage = () => {
   return <Toaster offset={(insets.top || 0) + 8} position="top-center" theme="dark" />;
 };
 
-export default ToastMessage;
+export default ToastMessages;

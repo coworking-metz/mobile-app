@@ -69,7 +69,7 @@ const UnlockCard = ({
       .then(({ locked }) => {
         const timeleftInMs = Date.parse(locked) - Date.now();
         const timeleftBeforeLockInMs =
-          (timeleftInMs > 0 ? timeleftInMs : 2 * FILL_BACKGROUND_ANIMATION_DURATION_IN_MS) -
+          Math.max(timeleftInMs, 2 * FILL_BACKGROUND_ANIMATION_DURATION_IN_MS) -
           FILL_BACKGROUND_ANIMATION_DURATION_IN_MS;
         setTimeLeft(timeleftBeforeLockInMs);
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);

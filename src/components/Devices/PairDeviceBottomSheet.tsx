@@ -293,6 +293,12 @@ const PairDeviceBottomSheet = ({
           }
         },
       });
+
+      // refresh attending members and profile to be consistent
+      queryClient.invalidateQueries({
+        queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
+      });
+      queryClient.invalidateQueries({ queryKey: membersQueryKeys.attending() });
     }
   }, [verifiedDevice, noticeStore, t, bottomSheetRef, queryClient, settingsStore, toastStore]);
 

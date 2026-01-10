@@ -79,7 +79,9 @@ const Advanced = () => {
     Promise.all([
       Image.clearDiskCache(),
       Image.clearMemoryCache(),
-      authStore.refreshAccessToken().then(() => queryClient.resetQueries()),
+      (!!authStore.user ? authStore.refreshAccessToken() : Promise.resolve()).then(() =>
+        queryClient.resetQueries(),
+      ),
     ])
       .then(() => {
         toastStore.add({
