@@ -53,7 +53,7 @@ const WifiBottomSheet = ({
       style={style}
       onClose={onClose}>
       <View style={tw`flex items-center justify-center h-40 overflow-visible mb-2`}>
-        <WifiNetworkAnimation autoPlay loop={false} style={tw`w-full h-64`} />
+        <WifiNetworkAnimation autoPlay loop={false} style={tw`w-full h-full`} />
       </View>
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
@@ -93,7 +93,7 @@ const WifiBottomSheet = ({
               </AppText>
             </Animated.View>
           ) : (
-            <Animated.View exiting={FadeOutDown} style={tw`w-full`}>
+            <Animated.View exiting={FadeOutDown} style={tw`w-full mt-3`}>
               <AppRoundedButton
                 disabled={!user?.capabilities?.includes('WIFI_CREDENTIALS_ACCESS')}
                 loading={isLoading}

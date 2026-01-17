@@ -21,7 +21,7 @@
     }
   },
   "onFetch": {
-    "fail": "Impossible d'actualiser la liste des présents"
+    "fail": "Impossible d'actualiser\nla liste des présents"
   },
   "title_one": "Présent",
   "title_other": "{{count}} présents",

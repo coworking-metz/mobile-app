@@ -5,7 +5,7 @@ import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import ZoomableImage from '@/components/ZoomableImage';
-import { getMarkdownStyles, MarkdownStyles } from '@/services/docs';
+import { getMarkdownStyles, MarkdownStyles } from '@/services/markdown';
 
 const MarkdownRenderer = ({ content, style }: { content: string; style?: MarkdownStyles }) => {
   useDeviceContext(tw);

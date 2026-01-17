@@ -28,6 +28,7 @@ import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
 import { QUERY_CLIENT_CONFIG } from '@/services/query';
 import { AppThemeBackground } from '@/services/theme';
+import { OnPremiseProvider } from '@/components/OnPremise/OnPremiseContext';
 
 const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 
@@ -92,100 +93,109 @@ const RootLayout = () => {
                             <NewDeviceProvider>
                               <PresenceProvider>
                                 <UpcomingEventsProvider>
-                                  <Stack
-                                    screenOptions={{
-                                      headerShown: false,
-                                      contentStyle: {
-                                        backgroundColor: 'transparent',
-                                      },
-                                      // navigationBarTranslucent: true,
-                                      ...(reduceMotion && {
-                                        animation: 'fade',
-                                      }),
-                                    }}>
-                                    <Stack.Screen
-                                      name="index"
-                                      options={{
-                                        animationTypeForReplace: 'pop',
-                                        animation: 'fade',
+                                  <OnPremiseProvider>
+                                    <Stack
+                                      screenOptions={{
+                                        headerShown: false,
                                         contentStyle: {
                                           backgroundColor: 'transparent',
                                         },
-                                      }}
-                                    />
-                                    <Stack.Screen
-                                      name="[...missing]"
-                                      options={{
-                                        headerShown: false,
-                                      }}
-                                    />
-
-                                    <Stack.Screen
-                                      name="(public)/onboarding"
-                                      options={{
-                                        headerShown: false,
-                                        animation: reduceMotion
-                                          ? 'fade_from_bottom'
-                                          : 'slide_from_bottom',
-                                      }}
-                                    />
-
-                                    <Stack.Screen
-                                      name="(public)/home"
-                                      options={{
-                                        headerShown: false,
-                                        animationTypeForReplace: 'pop',
-                                      }}
-                                    />
-
-                                    <Stack.Screen
-                                      name="(public)/on-premise"
-                                      options={{
-                                        headerShown: false,
-                                      }}
-                                    />
-                                    <Stack.Screen
-                                      name="(public)/attendance"
-                                      options={{
-                                        headerShown: false,
-                                      }}
-                                    />
-
-                                    <Stack.Screen
-                                      name="(public)/events"
-                                      options={{
-                                        headerShown: false,
-                                      }}
-                                    />
-
-                                    <Stack.Screen
-                                      name="(public)/chat"
-                                      options={{
-                                        presentation: 'modal',
-                                        ...(Platform.OS === 'android' && {
-                                          animation: 'slide_from_bottom',
+                                        // navigationBarTranslucent: true,
+                                        ...(reduceMotion && {
+                                          animation: 'fade',
                                         }),
-                                      }}
-                                    />
-                                  </Stack>
+                                      }}>
+                                      <Stack.Screen
+                                        name="index"
+                                        options={{
+                                          animationTypeForReplace: 'pop',
+                                          animation: 'fade',
+                                          contentStyle: {
+                                            backgroundColor: 'transparent',
+                                          },
+                                        }}
+                                      />
+                                      <Stack.Screen
+                                        name="[...missing]"
+                                        options={{
+                                          headerShown: false,
+                                        }}
+                                      />
+
+                                      <Stack.Screen
+                                        name="(public)/onboarding"
+                                        options={{
+                                          headerShown: false,
+                                          animation: reduceMotion
+                                            ? 'fade_from_bottom'
+                                            : 'slide_from_bottom',
+                                        }}
+                                      />
+
+                                      <Stack.Screen
+                                        name="(public)/home"
+                                        options={{
+                                          headerShown: false,
+                                          animationTypeForReplace: 'pop',
+                                        }}
+                                      />
+
+                                      <Stack.Screen
+                                        name="(public)/on-premise"
+                                        options={{
+                                          headerShown: false,
+                                        }}
+                                      />
+                                      <Stack.Screen
+                                        name="(public)/attendance"
+                                        options={{
+                                          headerShown: false,
+                                        }}
+                                      />
+
+                                      <Stack.Screen
+                                        name="(public)/events"
+                                        options={{
+                                          headerShown: false,
+                                        }}
+                                      />
+
+                                      <Stack.Screen
+                                        name="(public)/messages"
+                                        options={{
+                                          headerShown: false,
+                                        }}
+                                      />
+
+                                      <Stack.Screen
+                                        name="(public)/chat"
+                                        options={{
+                                          presentation: 'modal',
+                                          ...(Platform.OS === 'android' && {
+                                            animation: 'slide_from_bottom',
+                                          }),
+                                        }}
+                                      />
+                                    </Stack>
+                                  </OnPremiseProvider>
                                 </UpcomingEventsProvider>
                               </PresenceProvider>
                             </NewDeviceProvider>
                           </SocialsProvider>
                         </ThemeProvider>
-
-                        <ToastMessages />
-                        <NoticeBottomSheet />
-                        {Platform.OS === 'android' ? (
-                          <AppThemeBackground
-                            dark={tw.color('black') as string}
-                            light={tw.color('transparent') as string}
-                          />
-                        ) : null}
-                        <StatusBar translucent />
                       </ReviewProvider>
                     </PermissionsProvider>
                   </ContactProvider>
+
+                  <ToastMessages />
+                  <NoticeBottomSheet />
+                  {Platform.OS === 'android' ? (
+                    <AppThemeBackground
+                      dark={tw.color('black') as string}
+                      light={tw.color('transparent') as string}
+                    />
+                  ) : null}
+                  <StatusBar translucent />
                 </AuthProvider>
               </QueryClientProvider>
             </I18nProvider>

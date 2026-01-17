@@ -25,6 +25,9 @@ export const membersQueryKeys = {
   subscriptionsById: (id: string) => [...membersQueryKeys.byId(id), 'subscriptions'] as const,
   membershipsById: (id: string) => [...membersQueryKeys.byId(id), 'memberships'] as const,
   devicesById: (id: string) => [...membersQueryKeys.byId(id), 'devices'] as const,
+  allMessagesById: (id: string) => [...membersQueryKeys.byId(id), 'messages'] as const,
+  messageById: (id: string, messageId: string) =>
+    [...membersQueryKeys.allMessagesById(id), `${messageId}`] as const,
 };
 
 export const onPremiseQueryKeys = {

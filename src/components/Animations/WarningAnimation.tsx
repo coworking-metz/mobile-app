@@ -1,5 +1,5 @@
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
-import React, { type ForwardRefRenderFunction, useMemo } from 'react';
+import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import tw from 'twrnc';
 import SystemOutlineWarningIntro from '@/assets/animations/lordicon/system-outline-warning-intro.json';
 import AppLottieView from '@/components/AppLottieView';
@@ -34,4 +34,4 @@ const WarningAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
   return <AppLottieView ref={ref} autoPlay loop={false} {...props} source={colorizedSource} />;
 };
 
-export default WarningAnimation;
+export default forwardRef(WarningAnimation);

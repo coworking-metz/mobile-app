@@ -61,8 +61,6 @@ const useProtectedRoute = (_ready: boolean, setReady: (ready: boolean) => void) 
       Promise.all([queryClient.clear(), Image.clearDiskCache(), Image.clearMemoryCache()]);
 
       router.setParams({ accessToken: undefined, refreshToken: undefined });
-      // setting a new refreshToken will re-trigger the useEffect
-      // return;
     }
 
     setReady(true);

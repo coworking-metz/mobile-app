@@ -1,5 +1,6 @@
 import { AppTopFader } from '../AppFader';
 import AppIconButton from '../AppIconButton';
+import LoadingProgressBar from '../LoadingProgressBar';
 import { MenuAction, MenuView } from '@react-native-menu/menu';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useState, type ReactNode } from 'react';
@@ -40,7 +41,7 @@ const ServiceLayout = ({
   contentStyle,
   onRefresh,
 }: {
-  title: string;
+  title?: string;
   description?: string;
   loading?: boolean;
   actions?: (MenuAction & {
@@ -114,7 +115,7 @@ const ServiceLayout = ({
           }>
           {header ?? (
             <>
-              {loading ? (
+              {loading && !title ? (
                 <LoadingSkeleton height={40} width={172} />
               ) : (
                 <AppText
@@ -137,7 +138,7 @@ const ServiceLayout = ({
 
         <AnimatedKeyboardAwareScrollView
           contentContainerStyle={[
-            tw`flex flex-col min-h-full`,
+            tw`relative flex flex-col min-h-full`,
             { paddingTop: NAVIGATION_HEIGHT + headerHeight + insets.top },
           ]}
           horizontal={false}
@@ -165,6 +166,7 @@ const ServiceLayout = ({
               },
               contentStyle,
             ]}>
+            {loading && <LoadingProgressBar style={tw`absolute top-0 inset-x-0`} />}
             {children}
           </View>
         </AnimatedKeyboardAwareScrollView>

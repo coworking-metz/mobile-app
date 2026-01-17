@@ -188,3 +188,34 @@ export const updateMemberDevice = async (
 export const deleteMemberDevice = async (memberId: string, deviceId: string): Promise<void> => {
   return HTTP.delete(`/api/members/${memberId}/devices/${deviceId}`).then(({ data }) => data);
 };
+
+export enum ApiMessageType {
+  USER_GENERATED = 'USER_GENERATED',
+}
+
+export interface ApiMessage {
+  _id: string;
+  title?: string;
+  body: string;
+  published: string;
+  delivered?: string;
+  read?: string;
+  type: ApiMessageType;
+  author?: {
+    firstName?: string;
+    lastName?: string;
+    wpUserId?: number;
+    thumbnail?: string;
+  };
+}
+
+export const getMemberMessages = async (memberId: string): Promise<ApiMessage[]> => {
+  return HTTP.get(`/api/members/${memberId}/messages`).then(({ data }) => data);
+};
+
+export const getMemberMessage = async (
+  memberId: string,
+  messageId: string,
+): Promise<ApiMessage> => {
+  return HTTP.get(`/api/members/${memberId}/messages/${messageId}`).then(({ data }) => data);
+};

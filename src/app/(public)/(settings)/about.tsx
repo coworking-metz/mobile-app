@@ -109,14 +109,14 @@ const About = () => {
         </AppText>
         <ServiceRowLink
           withBottomDivider
-          href="https://gitlab.com/coworking-metz-poulailler/"
-          label={t('about.opensource.gitlab.label')}
+          href="https://github.com/coworking-metz"
+          label={t('about.opensource.github.label')}
           style={tw`px-3 mx-3`}
           target="_blank"
         />
         <ServiceRowLink
-          href="https://github.com/coworking-metz"
-          label={t('about.opensource.github.label')}
+          href="https://gitlab.com/coworking-metz-poulailler/"
+          label={t('about.opensource.gitlab.label')}
           style={tw`px-3 mx-3`}
           target="_blank"
         />

@@ -20,6 +20,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { toast } from 'sonner-native';
 import tw, { useDeviceContext } from 'twrnc';
+import AppIconButton from '@/components/AppIconButton';
 import AppPressable from '@/components/AppPressable';
 import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBadge';
@@ -52,10 +53,12 @@ import { getCalendarEvents } from '@/services/api/calendar';
 import {
   getCurrentMembers,
   getMemberDevices,
+  getMemberMessages,
   getMemberProfile,
   getMemberSubscriptions,
   isMemberBalanceInsufficient,
 } from '@/services/api/members';
+import { IS_DEV } from '@/services/environment';
 import { eventsQueryKeys, membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
@@ -121,6 +124,21 @@ export default function HomeScreen() {
       }
       throw new Error(t('account.profile.onFetch.missing'));
     },
+  });
+
+  const {
+    isFetching: isFetchingMessages,
+    data: messages,
+    refetch: refetchMessages,
+  } = useQuery({
+    queryKey: membersQueryKeys.allMessagesById(authStore.user?.id ?? ''),
+    queryFn: ({ queryKey: [_, userId] }) => {
+      if (userId) {
+        return getMemberMessages(userId);
+      }
+      throw new Error(t('messages.onFetch.missing'));
+    },
+    enabled: !!authStore.user?.id,
   });
 
   const isTodayBirthday = useMemo(() => {
@@ -190,6 +208,7 @@ export default function HomeScreen() {
       authStore.user?.id && refetchProfile(),
       authStore.user?.id && refetchSubscriptions(),
       authStore.user?.id && refetchDevices(),
+      authStore.user?.id && refetchMessages(),
       refetchCurrentMembers(),
       refetchCalendarEvents(),
     ]);
@@ -215,7 +234,8 @@ export default function HomeScreen() {
       isFetchingProfile ||
       isFetchingSubscriptions ||
       isFetchingCalendarEvents ||
-      isFetchingDevices
+      isFetchingDevices ||
+      isFetchingMessages
     );
   }, [
     isFetchingCurrentMembers,
@@ -223,6 +243,7 @@ export default function HomeScreen() {
     isFetchingSubscriptions,
     isFetchingCalendarEvents,
     isFetchingDevices,
+    isFetchingMessages,
   ]);
 
   useEffect(() => {
@@ -290,7 +311,33 @@ export default function HomeScreen() {
           onRefresh={onRefresh}
         />
 
-        <View style={tw`flex flex-col items-end shrink grow basis-0`}>
+        <View style={tw`flex flex-row items-center justify-end gap-2 shrink grow basis-0`}>
+          {authStore.user?.id && (IS_DEV || messages?.length) && (
+            <Animated.View
+              entering={BounceIn.duration(1000).delay(300)}
+              exiting={BounceOut.duration(1000)}
+              style={tw`relative`}>
+              <Link asChild href={'/messages'}>
+                <AppIconButton
+                  icon="bullhorn-outline"
+                  iconSize={24}
+                  iconStyle={tw`p-2 -rotate-10`}
+                  loading={isFetchingMessages}
+                  radius={0}
+                />
+              </Link>
+
+              {messages?.some(({ read }) => !read) && (
+                <Animated.View
+                  entering={BounceIn.duration(1000).delay(300)}
+                  exiting={BounceOut.duration(1000)}
+                  style={tw`z-20 h-5 w-5 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -top-1.5 -right-1.5`}>
+                  <View style={tw`h-3 w-3 bg-blue-600 dark:bg-blue-700 rounded-full`} />
+                </Animated.View>
+              )}
+            </Animated.View>
+          )}
+
           <Link asChild href="(settings)">
             <AppPressable>
               <ProfilePicture

@@ -1,5 +1,6 @@
 import ActionableLight from './ActionableLight';
 import { useOnPremise } from './OnPremiseContext';
+import LoadingProgressBar from '../LoadingProgressBar';
 import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -116,6 +117,10 @@ const PoulaillerPlan = ({
             onLoadEnd={() => setFloorplanLoaded(true)}
           />
         ) : null}
+
+        {isFetchingOnPremiseState && (
+          <LoadingProgressBar style={tw`absolute top-0 inset-x-0 z-1`} />
+        )}
 
         {!hasFloorplanLoaded ? (
           <VerticalLoadingAnimation

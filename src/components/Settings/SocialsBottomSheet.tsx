@@ -1,13 +1,13 @@
-import ServiceRowLink from '../Layout/ServiceRowLink';
 import { Image } from 'expo-image';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import BliiidaSquareLogo from '@/assets/images/bliiida-square.png';
-import FloatingSocialsAnimation from '@/components/Animations/FloatingSocialsAnimation';
+import SocialMediaReactionsAnimation from '@/components/Animations/SocialMediaReactionsAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
+import ServiceRowLink from '@/components/Layout/ServiceRowLink';
 import useAuthStore from '@/stores/auth';
 
 const SocialsBottomSheet = ({
@@ -23,7 +23,7 @@ const SocialsBottomSheet = ({
   return (
     <AppBottomSheet contentContainerStyle={tw`pt-6`} style={style} onClose={onClose}>
       <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-        <FloatingSocialsAnimation speed={0.75} style={tw`h-56 w-full`} />
+        <SocialMediaReactionsAnimation style={tw`h-56 w-full`} />
       </View>
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4 px-6`}>

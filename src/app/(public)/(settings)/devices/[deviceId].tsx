@@ -187,10 +187,6 @@ const DeviceDetail = () => {
           attributes: {
             destructive: true,
           },
-          image: Platform.select({
-            ios: 'trash',
-            android: 'ic_menu_delete',
-          }),
           onPress: () => setShouldDelete(true),
         },
       ]}

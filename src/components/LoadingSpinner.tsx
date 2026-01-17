@@ -15,7 +15,7 @@ const LoadingSpinner = ({
   style,
   beamSize = 4,
   ...props
-}: AnimatedProps<{ style?: StyleProp<ViewStyle> }> & { beamSize?: 2 | 4 | 8 }): JSX.Element => {
+}: AnimatedProps<{ style?: StyleProp<ViewStyle> }> & { beamSize?: 2 | 4 | 8 }) => {
   const rotation = useSharedValue(0);
   const animatedStyle = useAnimatedStyle(
     () => ({
