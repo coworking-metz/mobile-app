@@ -90,7 +90,7 @@ const ZoomableImage = ({
             <AppIconButton
               icon="window-close"
               onPress={() => setGalleryVisible(false)}
-              {...(!isLiquidGlassSupported && { colorScheme: 'dark' })}
+              {...(!isLiquidGlassSupported && { theme: 'dark' })}
             />
 
             {sourcesCount > 1 && (

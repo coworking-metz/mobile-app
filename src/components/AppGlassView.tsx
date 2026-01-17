@@ -6,11 +6,13 @@ import tw from 'twrnc';
 
 const AppGlassView = ({
   children,
+  radius = 5,
   style,
   interactive = false,
   colorScheme,
 }: {
   children: React.ReactNode;
+  radius?: number;
   interactive?: boolean;
   style?: StyleProp<ViewStyle>;
   colorScheme?: 'light' | 'dark';
@@ -24,7 +26,10 @@ const AppGlassView = ({
   }
 
   return (
-    <AppBlurView style={style} type={colorScheme ?? (tw.prefixMatch('dark') ? 'dark' : 'light')}>
+    <AppBlurView
+      radius={radius}
+      style={style}
+      type={colorScheme ?? (tw.prefixMatch('dark') ? 'dark' : 'light')}>
       {children}
     </AppBlurView>
   );

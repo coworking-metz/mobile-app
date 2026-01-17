@@ -1,48 +1,66 @@
 import { isLiquidGlassSupported } from '@callstack/liquid-glass';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
-import { PlatformColor, StyleProp, ViewStyle } from 'react-native';
+import { PlatformColor, StyleProp, useColorScheme, ViewStyle } from 'react-native';
 import { FadeIn, FadeOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import AppGlassView from '@/components/AppGlassView';
 import AppPressable, { AppPressableRef } from '@/components/AppPressable';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { theme } from '@/helpers/colors';
+import { theme as colorTheme } from '@/helpers/colors';
 
 const LIGHT_COLOR = tw.color('gray-200');
-const DARK_COLOR = theme.charlestonGreen;
+const DARK_COLOR = colorTheme.charlestonGreen;
 
 export type AppIconButtonProps = {
   icon: keyof typeof mdiGlyphMap;
+  iconSize?: number;
+  iconStyle?: StyleProp<ViewStyle>;
   active?: boolean;
   disabled?: boolean;
   loading?: boolean;
-  colorScheme?: 'light' | 'dark';
+  theme?: 'light' | 'dark';
+  radius?: number;
   style?: StyleProp<ViewStyle>;
   onPress?: () => void;
 };
 
 const AppIconButton: ForwardRefRenderFunction<AppPressableRef, AppIconButtonProps> = (
-  { colorScheme, icon, style, active = false, disabled = false, loading = false, onPress },
+  {
+    theme,
+    icon,
+    iconSize = 32,
+    iconStyle,
+    style,
+    active = false,
+    disabled = false,
+    loading = false,
+    radius = 3,
+    onPress,
+  },
   ref,
 ) => {
+  const colorScheme = useColorScheme();
+  const appliedTheme = useMemo(() => {
+    return theme ?? colorScheme;
+  }, [theme, colorScheme]);
   const iconColor = useMemo(() => {
     if (active) {
       return DARK_COLOR;
     }
-    if (colorScheme === 'light') {
+    if (theme === 'light') {
       return DARK_COLOR;
     }
-    if (colorScheme === 'dark') {
+    if (theme === 'dark') {
       return LIGHT_COLOR;
     }
     return isLiquidGlassSupported
       ? PlatformColor('label')
-      : tw.prefixMatch('dark')
+      : colorScheme === 'dark'
         ? LIGHT_COLOR
         : DARK_COLOR;
-  }, [active, colorScheme]);
+  }, [active, colorScheme, theme]);
 
   return (
     <AppPressable
@@ -53,11 +71,12 @@ const AppIconButton: ForwardRefRenderFunction<AppPressableRef, AppIconButtonProp
       {...(!disabled && { onPress })}>
       <AppGlassView
         interactive
-        colorScheme={colorScheme}
+        colorScheme={theme}
+        radius={radius}
         style={[
           tw`flex items-center justify-center h-10 w-10 rounded-full relative`,
-          !isLiquidGlassSupported &&
-            tw`border-[0.5px] border-gray-300 dark:border-gray-700 overflow-hidden`,
+          !isLiquidGlassSupported && tw`border-[0.5px] overflow-hidden`,
+          appliedTheme === 'light' ? tw`border-gray-300` : tw`border-gray-700`,
           disabled && tw`opacity-50`,
         ]}>
         {loading && (
@@ -69,12 +88,12 @@ const AppIconButton: ForwardRefRenderFunction<AppPressableRef, AppIconButtonProp
           />
         )}
         <MaterialCommunityIcons
-          backgroundColor={active ? theme.meatBrown : 'transparent'}
+          backgroundColor={active ? colorTheme.meatBrown : 'transparent'}
           color={iconColor}
           iconStyle={{ marginRight: 0 }}
           name={icon}
-          size={32}
-          style={tw`p-1 shrink-0 overflow-hidden rounded-full`}
+          size={iconSize}
+          style={[tw`p-1 shrink-0 overflow-hidden rounded-full`, iconStyle]}
         />
       </AppGlassView>
     </AppPressable>

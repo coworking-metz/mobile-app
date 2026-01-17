@@ -12,7 +12,7 @@ import { StyleProp, View, ViewStyle } from 'react-native';
 import { FadeIn, FadeInLeft, FadeOutRight } from 'react-native-reanimated';
 import { toast } from 'sonner-native';
 import tw from 'twrnc';
-import WifiNetworkAnimation from '@/components/Animations/WifiNetworkAnimation';
+import WifiScanningAnimation from '@/components/Animations/WifiScanningAnimation';
 import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
@@ -321,7 +321,7 @@ const PairDeviceBottomSheet = ({
     <AppBottomSheet ref={bottomSheetRef} style={style} onClose={onCancel}>
       <View style={tw`flex flex-col w-full gap-4 px-6 pt-6`}>
         <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-          <WifiNetworkAnimation
+          <WifiScanningAnimation
             ref={animation}
             autoPlay={false}
             loop={false}

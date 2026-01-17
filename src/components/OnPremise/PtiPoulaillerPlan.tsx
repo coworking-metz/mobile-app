@@ -1,6 +1,7 @@
 import { useOnPremise } from './OnPremiseContext';
 import AppText from '../AppText';
 import ErrorBadge from '../ErrorBadge';
+import LoadingProgressBar from '../LoadingProgressBar';
 import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -96,6 +97,10 @@ const PtiPoulaillerPlan = ({
           />
         ) : null}
 
+        {isFetchingOnPremiseState && (
+          <LoadingProgressBar style={tw`absolute top-0 inset-x-0 z-1`} />
+        )}
+
         {!hasFloorplanLoaded ? (
           <VerticalLoadingAnimation
             color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
@@ -108,7 +113,7 @@ const PtiPoulaillerPlan = ({
               exiting={BounceOut.duration(750)}
               icon="television-guide"
               selected={isTelevisionSelected}
-              style={tw`top-[71%] left-[53%]`}
+              style={tw`top-[71%] left-[50%]`}
               onPress={selectTelevision}
             />
 

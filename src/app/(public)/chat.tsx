@@ -155,13 +155,13 @@ const Chat = () => {
       ) : null}
 
       <AppIconButton
-        colorScheme="light"
         icon="window-close"
         style={tw.style(
           `absolute z-20 mr-4`,
           { right: insets.right },
           Platform.OS === 'ios' ? tw`mt-3` : { top: insets.top + 4 },
         )}
+        theme="light"
         onPress={() => (router.canDismiss() ? router.dismiss() : router.navigate('/home'))}
       />
     </View>

@@ -46,7 +46,7 @@ const ActionableIcon = ({
         active
           ? { backgroundColor: theme.meatBrown }
           : tw`bg-gray-200 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-85`,
-        selected && tw.style(`border-2 border-gray-500 dark:border-gray-400`),
+        selected && tw.style(`ios:border-2 ios:border-gray-500 ios:dark:border-gray-400`),
         style,
       ]}
       {...props}>

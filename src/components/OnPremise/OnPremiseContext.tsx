@@ -194,11 +194,11 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
 
       {isCarbonDioxideSelected && (
         <CarbonDioxideBottomSheet
-          humidityLevel={onPremiseState?.sensors?.humidity.level || 0}
-          level={onPremiseState?.sensors?.carbonDioxide.level || 90}
+          humidityLevel={onPremiseState?.sensors?.humidity.level ?? 0}
+          level={onPremiseState?.sensors?.carbonDioxide.level ?? 0}
           loading={isFetchingOnPremiseState}
-          noiseLevel={onPremiseState?.sensors?.noise.level || 0}
-          temperatureLevel={onPremiseState?.sensors?.temperature.level || 0}
+          noiseLevel={onPremiseState?.sensors?.noise.level ?? 0}
+          temperatureLevel={onPremiseState?.sensors?.temperature.level ?? 0}
           onClose={() => setCarbonDioxideSelected(false)}
         />
       )}

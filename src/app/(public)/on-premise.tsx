@@ -8,7 +8,6 @@ import tw, { useDeviceContext } from 'twrnc';
 import { AppTopFader } from '@/components/AppFader';
 import AppIconButton from '@/components/AppIconButton';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
-import { OnPremiseProvider } from '@/components/OnPremise/OnPremiseContext';
 import PoulaillerPlan from '@/components/OnPremise/PoulaillerPlan';
 import PtiPoulaillerPlan from '@/components/OnPremise/PtiPoulaillerPlan';
 import useAppScreen from '@/helpers/screen';
@@ -116,7 +115,7 @@ const OnPremise = () => {
 
           <AppIconButton
             active={areInformationsVisible}
-            icon={areInformationsVisible ? 'help-circle' : 'help-circle-outline'}
+            icon="dots-horizontal"
             style={tw`h-10 w-10`}
             onPress={() => {
               setLightsVisible(false);
@@ -126,45 +125,43 @@ const OnPremise = () => {
         </View>
       </Animated.View>
 
-      <OnPremiseProvider>
-        {layoutWidth ? (
-          <Animated.ScrollView
-            ref={horizontalScrollView}
-            horizontal
-            contentContainerStyle={tw`flex flex-row items-stretch`}
-            pagingEnabled={!isWide}
+      {layoutWidth ? (
+        <Animated.ScrollView
+          ref={horizontalScrollView}
+          horizontal
+          contentContainerStyle={tw`flex flex-row items-stretch`}
+          pagingEnabled={!isWide}
+          scrollEventThrottle={16}
+          showsHorizontalScrollIndicator={false}
+          onScroll={onHorizontalScroll}>
+          <ScrollView
+            contentContainerStyle={[
+              isWide && tw`max-w-lg`,
+              { paddingTop: headerHeight, width: isWide ? layoutWidth / 2 : layoutWidth },
+            ]}
+            horizontal={false}
             scrollEventThrottle={16}
-            showsHorizontalScrollIndicator={false}
-            onScroll={onHorizontalScroll}>
-            <ScrollView
-              contentContainerStyle={[
-                isWide && tw`max-w-md`,
-                { paddingTop: headerHeight, width: layoutWidth },
-              ]}
-              horizontal={false}
-              scrollEventThrottle={16}
-              showsVerticalScrollIndicator={false}>
-              <PoulaillerPlan
-                withInformations={areInformationsVisible}
-                withLights={areLightsVisible}
-              />
-            </ScrollView>
-            <ScrollView
-              contentContainerStyle={[
-                isWide && tw`max-w-md`,
-                { paddingTop: headerHeight, width: layoutWidth },
-              ]}
-              horizontal={false}
-              scrollEventThrottle={16}
-              showsVerticalScrollIndicator={false}>
-              <PtiPoulaillerPlan
-                withInformations={areInformationsVisible}
-                withLights={areLightsVisible}
-              />
-            </ScrollView>
-          </Animated.ScrollView>
-        ) : null}
-      </OnPremiseProvider>
+            showsVerticalScrollIndicator={false}>
+            <PoulaillerPlan
+              withInformations={areInformationsVisible}
+              withLights={areLightsVisible}
+            />
+          </ScrollView>
+          <ScrollView
+            contentContainerStyle={[
+              isWide && tw`max-w-lg`,
+              { paddingTop: headerHeight, width: isWide ? layoutWidth / 2 : layoutWidth },
+            ]}
+            horizontal={false}
+            scrollEventThrottle={16}
+            showsVerticalScrollIndicator={false}>
+            <PtiPoulaillerPlan
+              withInformations={areInformationsVisible}
+              withLights={areLightsVisible}
+            />
+          </ScrollView>
+        </Animated.ScrollView>
+      ) : null}
     </View>
   );
 };

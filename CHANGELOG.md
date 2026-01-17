@@ -7,13 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Read messages.
+- Progress bar on screens fetching data.
+
 ### Changed
 
 - Reload profile and attending members upon successfully pairing a new device.
+- Social icon and animation.
 
 ### Fixed
 
 - Prevent crash when logging out.
+- (Android) Properly align carbon dioxide level.
+- (Android) Keep floor plan button icon visible once selected.
 
 ## [2025.11.3] - 2025-11-27
 

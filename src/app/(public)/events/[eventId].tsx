@@ -26,6 +26,7 @@ import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import ErrorState from '@/components/ErrorState';
 import ServiceRow from '@/components/Layout/ServiceRow';
+import LoadingProgressBar from '@/components/LoadingProgressBar';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import ZoomableImage from '@/components/ZoomableImage';
@@ -154,6 +155,17 @@ export default function CalendarEventPage() {
             </View>
           )}
         </Animated.View>
+
+        {isFetchingCalendarEvents && (
+          <LoadingProgressBar
+            style={[
+              tw`absolute inset-x-0`,
+              {
+                top: headerHeight,
+              },
+            ]}
+          />
+        )}
       </View>
 
       {/* body */}

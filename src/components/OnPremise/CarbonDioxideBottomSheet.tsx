@@ -4,7 +4,6 @@ import { SegmentedArc } from '@shipt/segmented-arc-for-react-native';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
-import ReadMore from 'react-native-read-more-text';
 import Animated, {
   Easing,
   FadeInUp,
@@ -128,7 +127,7 @@ const CarbonDioxideBottomSheet = ({
           showArcRanges
           animationDelay={300}
           animationDuration={ANIMATION_DURATION}
-          capInnerColor={tw.prefixMatch('dark') ? tw.color('white') : tw.color('zinc-900')}
+          capInnerColor={levelColor}
           capOuterColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
           fillValue={((level - 400) / 1600) * 100}
           isAnimated={true}
@@ -148,7 +147,7 @@ const CarbonDioxideBottomSheet = ({
               </View>
             ) : (
               <ReanimatedText
-                style={tw`text-4xl font-semibold text-slate-900 dark:text-gray-200 ios:-mb-1 android:h-10 android:pr-1`}
+                style={tw`text-4xl font-semibold text-slate-900 dark:text-gray-200 ios:-mb-1 android:h-10 grow text-right`}
                 text={formattedAnimatedLevel}
               />
             )}
@@ -162,7 +161,7 @@ const CarbonDioxideBottomSheet = ({
       </View>
       <Animated.View
         entering={FadeInUp.duration(1000).delay(900)}
-        style={tw`self-start flex flex-row mx-auto items-center gap-1.5 px-2 py-1 rounded-full border-[0.5px] border-gray-300 dark:border-gray-700`}>
+        style={tw`self-start flex flex-row mx-auto items-center gap-1.5`}>
         <View style={[tw`h-2 w-2 rounded-full`, { backgroundColor: levelColor }]} />
         {loading ? (
           <View
@@ -177,22 +176,9 @@ const CarbonDioxideBottomSheet = ({
           </AppText>
         )}
       </Animated.View>
-      <ReadMore
-        numberOfLines={2}
-        renderRevealedFooter={(handlePress) => (
-          <AppText style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
-            {t('actions.hide')}
-          </AppText>
-        )}
-        renderTruncatedFooter={(handlePress) => (
-          <AppText style={tw`text-base font-normal text-amber-500 text-left`} onPress={handlePress}>
-            {t('actions.readMore')}
-          </AppText>
-        )}>
-        <AppText style={tw`text-left text-base font-normal text-slate-500`}>
-          {t('onPremise.climate.carbonDioxide.description')}
-        </AppText>
-      </ReadMore>
+      <AppText style={tw`text-left text-base font-normal text-slate-500`}>
+        {t('onPremise.climate.carbonDioxide.description')}
+      </AppText>
 
       <View style={tw`flex flex-col w-full`}>
         <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>

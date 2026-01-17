@@ -6,7 +6,7 @@ import tw, { useDeviceContext } from 'twrnc';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
-import { fetchLocalMarkdown } from '@/services/docs';
+import { fetchLocalMarkdown } from '@/services/markdown';
 
 const Changes = () => {
   useDeviceContext(tw);

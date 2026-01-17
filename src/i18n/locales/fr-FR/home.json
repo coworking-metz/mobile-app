@@ -68,7 +68,7 @@
   "people": {
     "capacity": " sur {{total}}",
     "onFetch": {
-      "fail": "Impossible d'actualiser l'occupation actuelle"
+      "fail": "Impossible d'actualiser\nl'occupation actuelle"
     },
     "present_one": [
       "Il y a une personne sur place",

@@ -45,7 +45,7 @@
       "activity_other": "journées",
       "activity_zero": "Rien\nencore",
       "onFetch": {
-        "fail": "Impossible d'actualiser la présence"
+        "fail": "Impossible d'actualiser\nla présence"
       },
       "selected": {
         "coverage": {
@@ -127,7 +127,7 @@
       "bliiidaNewsletter": {
         "label": "Newsletter Bliiida"
       },
-      "description": "Suivez-nous sur les réseaux sociaux pour rester informé des dernières nouvelles et mises à jour.",
+      "description": "Retrouvez-nous sur les réseaux sociaux pour rester informé des dernières nouvelles.",
       "facebook": {
         "label": "Facebook"
       },

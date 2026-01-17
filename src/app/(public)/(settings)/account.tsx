@@ -30,8 +30,9 @@ const Account = () => {
   const { logout } = useAppAuth();
 
   const {
-    data: profile,
+    isPending: isPendingProfile,
     isFetching: isFetchingProfile,
+    data: profile,
     error: profileError,
     refetch: refetchProfile,
   } = useQuery({
@@ -47,7 +48,12 @@ const Account = () => {
   });
 
   return (
-    <ServiceLayout contentStyle={tw`pt-6 pb-12`} title={t('account.title')} withBackButton={!_root}>
+    <ServiceLayout
+      contentStyle={tw`pt-6 pb-12`}
+      loading={isFetchingProfile}
+      title={t('account.title')}
+      withBackButton={!_root}
+      onRefresh={refetchProfile}>
       <View style={tw`w-full max-w-xl mx-auto`}>
         <View style={tw`flex flex-col relative h-40 w-40 mx-auto`}>
           <View style={tw`h-full w-full rounded-2xl bg-gray-200 dark:bg-gray-900 overflow-hidden`}>
@@ -94,7 +100,7 @@ const Account = () => {
         <ServiceRow
           withBottomDivider
           label={t('account.profile.firstname.label')}
-          loading={isFetchingProfile}
+          loading={isPendingProfile}
           style={tw`px-3 mx-3`}>
           <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
             {profile?.firstName}
@@ -103,7 +109,7 @@ const Account = () => {
         <ServiceRow
           withBottomDivider
           label={t('account.profile.lastname.label')}
-          loading={isFetchingProfile}
+          loading={isPendingProfile}
           style={tw`px-3 mx-3`}>
           <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
             {profile?.lastName}
@@ -112,7 +118,7 @@ const Account = () => {
         <ServiceRow
           withBottomDivider
           label={t('account.profile.birthdate.label')}
-          loading={isFetchingProfile}
+          loading={isPendingProfile}
           style={tw`px-3 mx-3`}>
           <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
             {profile?.birthDate && dayjs(profile.birthDate).format('LL')}
@@ -120,7 +126,7 @@ const Account = () => {
         </ServiceRow>
         <ServiceRow
           label={t('account.profile.email.label')}
-          loading={isFetchingProfile}
+          loading={isPendingProfile}
           style={tw`px-3 mx-3`}>
           <AppText
             ellipsizeMode={'middle'}

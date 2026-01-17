@@ -20,10 +20,10 @@ const AppTextField: ForwardRefRenderFunction<TextFieldRef, AppTextFieldProps> = 
       color={{
         default: colorScheme === 'dark' ? tw.color('gray-100') : tw.color('gray-900'),
         error: tw.color('red-500'),
-        disabled: tw.color('gray-400'),
+        disabled: tw.color('zinc-400'),
       }}
       dynamicFieldStyle={({ isFocused, isValid }) => [
-        tw`border-gray-400 dark:border-gray-700`,
+        tw`border-zinc-400 dark:border-zinc-700`,
         isFocused && tw`border-amber-500`,
         !isValid && tw`border-red-500`,
       ]}

@@ -3,9 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
 import { Link, usePathname, useRouter } from 'expo-router';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  RefreshControl,
   StyleProp,
   TouchableNativeFeedback,
   View,
@@ -32,6 +33,7 @@ import ProfilePicture from '@/components/Home/ProfilePicture';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import ServiceRowLink from '@/components/Layout/ServiceRowLink';
+import LoadingProgressBar from '@/components/LoadingProgressBar';
 import PresenceGraph from '@/components/Settings/PresenceGraph';
 import ThemePicker from '@/components/Settings/ThemePicker';
 import { useAppAuth } from '@/context/auth';
@@ -89,8 +91,9 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   }, [upcomingEventsPeriod.count, upcomingEventsPeriod.unit, t]);
 
   const {
-    data: activity,
+    isPending: isPendingActivity,
     isFetching: isFetchingActivity,
+    data: activity,
     error: activityError,
     refetch: refetchActivity,
   } = useQuery({
@@ -105,8 +108,9 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   });
 
   const {
-    data: profile,
+    isPending: isPendingProfile,
     isFetching: isFetchingProfile,
+    data: profile,
     error: profileError,
     refetch: refetchProfile,
   } = useQuery({
@@ -161,6 +165,16 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
       pointerEvents: pointerEvents > 0 ? 'auto' : 'none',
     };
   }, [verticalScrollProgress, headerHeight]);
+
+  // https://github.com/facebook/react-native/issues/54183#issuecomment-3467125323
+  const [progressViewOffset, setProgressViewOffset] = useState(0);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setProgressViewOffset(20 + headerHeight + insets.top);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [headerHeight, insets.top]);
 
   const nonCompliantActivity = useMemo(() => {
     const balance = profile?.balance || 0;
@@ -310,6 +324,13 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           },
         ]}
         horizontal={false}
+        refreshControl={
+          <RefreshControl
+            progressViewOffset={progressViewOffset}
+            refreshing={isFetchingActivity}
+            onRefresh={refetchActivity}
+          />
+        }
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         style={tw`flex-1 z-10 grow shrink`}
@@ -330,12 +351,15 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
 
         <View
           style={[
-            tw`flex flex-col w-full py-6 bg-gray-50 dark:bg-zinc-900`,
+            tw`flex flex-col w-full py-6 bg-gray-50 dark:bg-zinc-900 relative`,
             {
               paddingLeft: insets.left,
               paddingRight: insets.right,
             },
           ]}>
+          {(isFetchingActivity || isFetchingProfile) && (
+            <LoadingProgressBar style={tw`absolute top-0 inset-x-0`} />
+          )}
           <SectionTitle
             loading={isFetchingActivity || isFetchingProfile}
             style={tw`mx-6`}
@@ -376,7 +400,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           <PresenceGraph
             activity={activity}
             activityCount={profile?.totalActivity}
-            loading={isFetchingActivity || isFetchingProfile}
+            loading={isPendingActivity}
             minimumSquares={!!authStore.user?.id ? 45 : 144}
             nonCompliantActivity={nonCompliantActivity}
             selectedDate={selectedActivity?.date}
@@ -467,7 +491,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           <ServiceRow
             withBottomDivider
             label={t('settings.support.socials.label')}
-            prefixIcon="message-badge-outline"
+            prefixIcon="heart-circle-outline"
             style={tw`px-3 mx-3`}
             suffixIcon="chevron-right"
             onPress={socialise}

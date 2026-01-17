@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AppIconButton from '../AppIconButton';
 import dayjs from 'dayjs';
 import { LinearGradient } from 'expo-linear-gradient';
 import { capitalize } from 'lodash';
@@ -168,17 +168,7 @@ const PresenceGraph = ({
               { height: (SQUARE_SIZE + SQUARE_GAP) * 7 - SQUARE_GAP },
             ]}>
             <View style={tw`my-auto w-12 ml-9`}>
-              <MaterialCommunityIcons.Button
-                backgroundColor="transparent"
-                borderRadius={40}
-                color={tw.color('gray-500')}
-                iconStyle={{ marginRight: 0 }}
-                name="chevron-left-circle"
-                size={40}
-                style={tw`p-1`}
-                underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
-                onPress={() => setAllDatesVisible(true)}
-              />
+              <AppIconButton icon="chevron-double-left" onPress={() => setAllDatesVisible(true)} />
             </View>
           </LinearGradient>
         ) : withDescription ? (

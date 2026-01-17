@@ -13,6 +13,7 @@ import AppText from '@/components/AppText';
 import MemberBottomSheet from '@/components/Attendance/MemberBottomSheet';
 import MemberCard from '@/components/Attendance/MemberCard';
 import ErrorBadge from '@/components/ErrorBadge';
+import ErrorState from '@/components/ErrorState';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
@@ -123,10 +124,11 @@ const Attendance = () => {
           />
         )
       }
+      loading={isFetchingCurrentMembers}
       title={t('attendance.title', { count: currentMembers?.length ?? 0 })}
       onRefresh={refetchCurrentMembers}>
-      <View style={tw`flex flex-row items-center gap-2 min-h-6 px-6`}>
-        {!isNil(durationSinceLastFetch) ? (
+      {!isNil(durationSinceLastFetch) ? (
+        <View style={tw`flex flex-row items-center gap-2 min-h-6 px-6`}>
           <AppText
             entering={FadeInLeft.duration(300)}
             exiting={FadeOutLeft.duration(300)}
@@ -138,33 +140,18 @@ const Attendance = () => {
                 : dayjs(currentMembersUpdatedAt).fromNow(),
             )}
           </AppText>
-        ) : null}
-        {currentMembersError && !isSilentError(currentMembersError) ? (
-          <ErrorBadge
-            error={currentMembersError}
-            title={t('attendance.onFetch.fail')}
-            onRetry={refetchCurrentMembers}
-          />
-        ) : null}
-      </View>
+          {currentMembersError && !isSilentError(currentMembersError) ? (
+            <ErrorBadge
+              error={currentMembersError}
+              title={t('attendance.onFetch.fail')}
+              onRetry={refetchCurrentMembers}
+            />
+          ) : null}
+        </View>
+      ) : null}
 
       <View style={tw`flex flex-col gap-12`}>
-        {isPendingCurrentMembers ? (
-          <View style={tw`flex flex-col gap-2 px-4`}>
-            <View style={tw`pl-2`}>
-              <LoadingSkeleton height={24} width={128} />
-            </View>
-            {[0, 1, 2, 3].map((index) => (
-              <Animated.View
-                entering={FadeInLeft.duration(500).delay(150 * index)}
-                exiting={FadeOutLeft.duration(300)}
-                key={index}
-                style={tw`flex flex-col`}>
-                <MemberCard pending />
-              </Animated.View>
-            ))}
-          </View>
-        ) : groupedMembersByLocation.length ? (
+        {groupedMembersByLocation.length ? (
           groupedMembersByLocation.map((group) => (
             <View key={group.location} style={tw`flex flex-col gap-2 px-4`}>
               <SectionTitle
@@ -207,6 +194,23 @@ const Attendance = () => {
               </View>
             </View>
           ))
+        ) : isPendingCurrentMembers ? (
+          <View style={tw`flex flex-col gap-2 px-4`}>
+            <View style={tw`pl-2`}>
+              <LoadingSkeleton height={24} width={128} />
+            </View>
+            {[0, 1, 2, 3].map((index) => (
+              <Animated.View
+                entering={FadeInLeft.duration(500).delay(150 * index)}
+                exiting={FadeOutLeft.duration(300)}
+                key={index}
+                style={tw`flex flex-col`}>
+                <MemberCard pending />
+              </Animated.View>
+            ))}
+          </View>
+        ) : currentMembersError && !isSilentError(currentMembersError) ? (
+          <ErrorState error={currentMembersError} title={t('attendance.onFetch.fail')} />
         ) : (
           <View
             style={tw`flex flex-col px-4 gap-2 grow basis-0 justify-start mx-auto w-full max-w-sm`}>

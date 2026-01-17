@@ -37,6 +37,7 @@ const Calendar = ({ from }: { from?: string }) => {
 
   const {
     data: calendarEvents,
+    isFetching: isFetchingCalendarEvents,
     isLoading: isLoadingCalendarEvents,
     error: calendarEventsError,
     refetch: refetchCalendarEvents,
@@ -96,6 +97,7 @@ const Calendar = ({ from }: { from?: string }) => {
       <ServiceLayout
         contentStyle={tw`py-4`}
         from={from}
+        loading={isFetchingCalendarEvents}
         title={t('events.calendar.title')}
         onRefresh={refetchCalendarEvents}>
         <ScrollView
