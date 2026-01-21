@@ -30,9 +30,9 @@ const Devices = () => {
   const { pairDevice } = useAppNewDevice();
 
   const {
-    data: devices,
     isPending: isPendingDevices,
     isFetching: isFetchingDevices,
+    data: devices,
     error: devicesError,
     refetch: refetchDevices,
   } = useQuery({
@@ -49,6 +49,7 @@ const Devices = () => {
   return (
     <ServiceLayout
       contentStyle={tw`pt-4`}
+      loading={isFetchingDevices}
       title={t('devices.title')}
       withBackButton={!_root}
       onRefresh={refetchDevices}>
@@ -142,7 +143,7 @@ const DeviceCard = ({
       entering={FadeIn.duration(300)}
       exiting={FadeOut.duration(300)}
       style={[
-        tw`flex flex-col items-start py-4 pl-4 rounded-2xl min-h-20 relative bg-gray-200 dark:bg-gray-800/80`,
+        tw`flex flex-col items-start py-4 pl-4 rounded-2xl min-h-20 relative bg-gray-200 dark:bg-neutral-800/80`,
         style,
       ]}>
       {pending ? (
@@ -160,7 +161,7 @@ const DeviceCard = ({
         </>
       ) : (
         <>
-          <View style={tw`bg-slate-300 dark:bg-gray-700 rounded-full p-2 z-20`}>
+          <View style={tw`bg-gray-300 dark:bg-zinc-900/80 rounded-full p-2 z-20`}>
             <View style={tw`flex relative h-8 w-8 shrink-0`}>
               {loading ? (
                 <HorizontalLoadingAnimation

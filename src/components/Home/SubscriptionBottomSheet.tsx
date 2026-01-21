@@ -224,7 +224,7 @@ const SubscriptionBottomSheet = ({
                         <View
                           style={[
                             tw`px-2.5 py-0.5 rounded-full`,
-                            item.savingsOverTickets < 0 && tw`bg-gray-100 dark:bg-gray-700`,
+                            item.savingsOverTickets < 0 && tw`bg-gray-100 dark:bg-zinc-700`,
                             item.savingsOverTickets > 0 && tw`bg-green-100 dark:bg-green-900`,
                           ]}>
                           <AppText

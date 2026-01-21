@@ -149,7 +149,7 @@ const AttendanceCount = ({
                       exiting={FadeOutRight.duration(500).delay(500)}
                       style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden -ml-4`}>
                       <View
-                        style={tw`h-8 w-8 flex justify-center items-center rounded-full overflow-hidden bg-gray-200 dark:bg-gray-900`}>
+                        style={tw`h-8 w-8 flex justify-center items-center rounded-full overflow-hidden bg-gray-200 dark:bg-zinc-900`}>
                         <AppText style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
                           +{members.length - (MAX_MEMBERS_PICTURES - 1)}
                         </AppText>

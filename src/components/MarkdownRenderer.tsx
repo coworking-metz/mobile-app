@@ -28,7 +28,7 @@ const MarkdownRenderer = ({ content, style }: { content: string; style?: Markdow
                 contentFit="cover"
                 key={node.key}
                 source={node.attributes.src}
-                style={tw`w-full h-full rounded-2xl bg-gray-200 dark:bg-gray-900`}
+                style={tw`w-full h-full rounded-2xl bg-gray-200 dark:bg-zinc-900`}
                 transition={300}
               />
             </View>

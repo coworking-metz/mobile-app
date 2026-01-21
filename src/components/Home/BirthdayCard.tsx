@@ -1,4 +1,5 @@
 import GiftCard from './GiftCard';
+import AppSquircleView from '../AppSquircleView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { isNil } from 'lodash';
 import React from 'react';
@@ -18,14 +19,13 @@ const BirthdayCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
   }
 
   return (
-    <Animated.View
-      entering={FadeIn.duration(500)}
+    <AppSquircleView
       style={[
-        tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl px-3 pt-2 pb-4`,
+        tw`flex flex-col items-start gap-1 bg-gray-300/60 dark:bg-zinc-900/85 rounded-2xl px-3 pt-2 pb-4`,
         style,
       ]}>
       <MaterialCommunityIcons
-        color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
+        color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
         name="cake"
         size={40}
       />
@@ -40,7 +40,7 @@ const BirthdayCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
       <AppText style={tw`mt-auto text-2xl font-normal text-gray-400 dark:text-slate-600`}>
         🥳
       </AppText>
-    </Animated.View>
+    </AppSquircleView>
   );
 };
 

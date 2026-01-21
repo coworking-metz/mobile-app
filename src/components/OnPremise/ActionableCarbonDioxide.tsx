@@ -36,7 +36,9 @@ const ActionableCarbonDioxide = ({
             rounded
             animateFromValue={0}
             backgroundColor={
-              (tw.prefixMatch('dark') ? tw.color(`gray-700`) : tw.color(`gray-400`)) as string
+              (tw.prefixMatch('dark')
+                ? tw.color(`neutral-200/10`)
+                : tw.color(`neutral-900/10`)) as string
             }
             color={levelColor as string}
             duration={1000}

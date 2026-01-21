@@ -59,7 +59,7 @@ export const getMarkdownStyles = (tw: TailwindFn) =>
       tw`my-2 text-xl tracking-tight font-medium text-slate-800 dark:text-slate-200`,
     ),
     code_inline: withAppFontFamily(
-      tw`font-mono text-slate-900 dark:text-gray-200 bg-gray-200 dark:bg-gray-800`,
+      tw`font-mono text-slate-900 dark:text-gray-200 bg-gray-200 dark:bg-zinc-800`,
     ),
     link: withAppFontFamily(tw`text-amber-500 no-underline`),
     hr: tw`border-b-gray-300 dark:border-b-neutral-600 border-b-[1px]`,

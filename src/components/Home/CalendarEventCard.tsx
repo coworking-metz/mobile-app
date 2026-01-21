@@ -93,7 +93,7 @@ const CalendarEventCard = ({
 
   return (
     <View style={[tw`relative`, style]}>
-      <AppSquircleView style={tw`rounded-3xl overflow-hidden bg-gray-300 dark:bg-gray-700`}>
+      <AppSquircleView style={tw`rounded-3xl overflow-hidden bg-gray-300 dark:bg-zinc-700`}>
         <ImageBackground
           cachePolicy="memory"
           contentFit="cover"

@@ -65,7 +65,7 @@ const ProfilePicture = ({
       )}
 
       <Animated.View
-        style={tw`z-10 absolute rounded-3xl inset-0.5 bg-gray-300 dark:bg-gray-700 overflow-hidden`}>
+        style={tw`z-10 absolute rounded-3xl inset-0.5 bg-gray-300 dark:bg-zinc-700 overflow-hidden`}>
         {pending ? <LoadingSkeleton height={`100%`} width={`100%`} /> : null}
 
         {url ? (
@@ -101,7 +101,7 @@ const ProfilePicture = ({
             </AppText>
           </View>
         ) : (
-          <AccountAnimation autoPlay style={tw`h-full w-full bg-gray-200 dark:bg-gray-300`} />
+          <AccountAnimation autoPlay style={tw`h-full w-full bg-gray-200 dark:bg-zinc-300`} />
         )}
       </Animated.View>
 

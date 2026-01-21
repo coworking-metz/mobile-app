@@ -43,10 +43,8 @@ const ActionableIcon = ({
       style={[
         tw`absolute z-10 h-12 w-12 flex items-center justify-center rounded-full overflow-hidden`,
         tw`-mt-6 -ml-6`, // to properly center the button
-        active
-          ? { backgroundColor: theme.meatBrown }
-          : tw`bg-gray-200 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-85`,
-        selected && tw.style(`ios:border-2 ios:border-gray-500 ios:dark:border-gray-400`),
+        active ? { backgroundColor: theme.meatBrown } : tw`bg-opacity-75 dark:bg-opacity-85`,
+        selected && tw.style(`ios:border-2 ios:border-neutral-600 ios:dark:border-neutral-500`),
         style,
       ]}
       {...props}>
@@ -62,19 +60,25 @@ const ActionableIcon = ({
       <AppPressable disabled={disabled} onPress={onPress}>
         <Animated.View style={iconStyle}>
           <MaterialCommunityIcons
-            backgroundColor="transparent"
             borderRadius={24}
-            color={active ? theme.charlestonGreen : tw.color('gray-500')}
+            color={
+              active
+                ? theme.charlestonGreen
+                : tw.prefixMatch('dark')
+                  ? tw.color('neutral-500')
+                  : tw.color('neutral-700')
+            }
             iconStyle={{ marginRight: 0 }}
             name={active ? activeIcon : icon}
             size={32}
             style={[tw`shrink-0`, disabled && tw`opacity-70`, pending && tw`opacity-0`]}
-            underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
           />
         </Animated.View>
         {pending && (
           <HorizontalLoadingAnimation
-            color={!active && tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
+            color={
+              !active && tw.prefixMatch('dark') ? tw.color('neutral-500') : tw.color('neutral-700')
+            }
             style={tw`absolute w-10 h-10 -m-1`}
           />
         )}
