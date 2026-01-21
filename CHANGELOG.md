@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Reload profile and attending members upon successfully pairing a new device.
 - Social icon and animation.
+- Dark mode tone.
 
 ### Fixed
 

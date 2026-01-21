@@ -1,3 +1,4 @@
+import AppSquircleView from '../AppSquircleView';
 import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
@@ -20,13 +21,13 @@ const DevicesCard = ({
 
   return (
     <View style={[tw`flex flex-row items-stretch relative`]}>
-      <Animated.View
+      <AppSquircleView
         style={[
-          tw`flex flex-col items-start gap-1 bg-gray-200 dark:bg-gray-900 rounded-2xl relative px-3 pt-2 pb-4`,
+          tw`flex flex-col items-start gap-1 bg-gray-300/60 dark:bg-zinc-900/85 rounded-2xl relative px-3 pt-2 pb-4`,
           style,
         ]}>
         <MaterialCommunityIcons
-          color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
+          color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
           name="devices"
           size={40}
         />
@@ -51,7 +52,7 @@ const DevicesCard = ({
             {t('home.profile.devices.count', { count: count ?? 0 })}
           </AppText>
         )}
-      </Animated.View>
+      </AppSquircleView>
 
       {count === 0 && (
         <Animated.View

@@ -45,8 +45,8 @@ const ActionablePhoneBooths = ({
   return (
     <AppBlurView
       style={[
-        tw`absolute z-10 h-12 w-24 flex items-stretch rounded-full overflow-hidden bg-gray-200 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-85`,
-        selected && tw.style(`border-2 border-gray-500 dark:border-gray-400`),
+        tw`absolute z-10 h-12 w-24 flex items-stretch rounded-full overflow-hidden bg-opacity-75 dark:bg-opacity-85`,
+        selected && tw.style(`ios:border-2 ios:border-neutral-600 ios:dark:border-neutral-500`),
         style,
       ]}
       {...props}>
@@ -55,8 +55,8 @@ const ActionablePhoneBooths = ({
           <HorizontalLoadingAnimation
             color={
               !isFirstPhoneBoothSelected && tw.prefixMatch('dark')
-                ? tw.color('gray-200')
-                : tw.color('gray-700')
+                ? tw.color('neutral-500')
+                : tw.color('neutral-700')
             }
             style={tw`w-10 h-10 m-auto`}
           />
@@ -68,9 +68,14 @@ const ActionablePhoneBooths = ({
                 isFirstPhoneBoothSelected && { backgroundColor: theme.meatBrown },
               ]}>
               <MaterialCommunityIcons
-                backgroundColor="transparent"
                 borderRadius={24}
-                color={isFirstPhoneBoothSelected ? theme.charlestonGreen : tw.color('gray-500')}
+                color={
+                  isFirstPhoneBoothSelected
+                    ? theme.charlestonGreen
+                    : tw.prefixMatch('dark')
+                      ? tw.color('neutral-500')
+                      : tw.color('neutral-700')
+                }
                 iconStyle={{ marginRight: 0 }}
                 name={
                   isNil(isFirstPhoneBoothSelected)
@@ -81,7 +86,6 @@ const ActionablePhoneBooths = ({
                 }
                 size={32}
                 style={[tw`shrink-0`, disabled && tw`opacity-70`, loading && tw`opacity-0`]}
-                underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
               />
             </Animated.View>
             <Animated.View
@@ -90,9 +94,14 @@ const ActionablePhoneBooths = ({
                 isSecondPhoneBoothSelected && { backgroundColor: theme.meatBrown },
               ]}>
               <MaterialCommunityIcons
-                backgroundColor="transparent"
                 borderRadius={24}
-                color={isSecondPhoneBoothSelected ? theme.charlestonGreen : tw.color('gray-500')}
+                color={
+                  isSecondPhoneBoothSelected
+                    ? theme.charlestonGreen
+                    : tw.prefixMatch('dark')
+                      ? tw.color('neutral-500')
+                      : tw.color('neutral-700')
+                }
                 iconStyle={{ marginRight: 0 }}
                 name={
                   isNil(isSecondPhoneBoothSelected)
@@ -103,7 +112,6 @@ const ActionablePhoneBooths = ({
                 }
                 size={32}
                 style={[tw`shrink-0`, disabled && tw`opacity-70`, loading && tw`opacity-0`]}
-                underlayColor={tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('gray-200')}
               />
             </Animated.View>
           </Animated.View>

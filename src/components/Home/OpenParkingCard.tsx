@@ -159,20 +159,20 @@ const OpenParkingCard = ({
       <AppSquircleView
         style={[
           tw.style(
-            `flex flex-col items-start gap-4 pl-4 py-4 rounded-3xl min-h-20 overflow-hidden relative bg-gray-200 dark:bg-gray-900`,
+            `flex flex-col items-start gap-4 pl-4 py-4 rounded-3xl min-h-20 overflow-hidden relative bg-gray-300/60 dark:bg-zinc-900/85`,
             disabled && `opacity-60`,
           ),
           style,
         ]}>
         <Animated.View
           style={[
-            tw`absolute top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-800 w-full`,
+            tw`absolute top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-zinc-800 w-full`,
             backgroundStyle,
           ]}
         />
         <Animated.View
           style={[
-            tw`bg-gray-300 dark:bg-gray-700 rounded-full p-2 z-20`,
+            tw`bg-gray-300 dark:bg-zinc-800 rounded-full p-2 z-20`,
             isUnlocked && {
               backgroundColor: tw.prefixMatch('dark') ? tw.color('yellow-600') : theme.meatBrown,
             },

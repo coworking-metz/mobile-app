@@ -56,7 +56,7 @@ const Account = () => {
       onRefresh={refetchProfile}>
       <View style={tw`w-full max-w-xl mx-auto`}>
         <View style={tw`flex flex-col relative h-40 w-40 mx-auto`}>
-          <View style={tw`h-full w-full rounded-2xl bg-gray-200 dark:bg-gray-900 overflow-hidden`}>
+          <View style={tw`h-full w-full rounded-2xl bg-gray-200 dark:bg-zinc-900 overflow-hidden`}>
             <ZoomableImage
               contentFit="cover"
               source={authStore.user?.picture}
@@ -68,9 +68,9 @@ const Account = () => {
             style={tw`absolute -bottom-3 -right-3 z-10 h-12 w-12 bg-gray-50 dark:bg-zinc-900 rounded-full flex items-center justify-center`}>
             <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/polaroid/`}>
               <AppPressable
-                style={tw`bg-gray-400/50 dark:bg-gray-600/50 rounded-full flex items-center justify-center h-9 w-9`}>
+                style={tw`bg-gray-400/50 dark:bg-zinc-600/40 rounded-full flex items-center justify-center h-9 w-9`}>
                 <MaterialCommunityIcons
-                  color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
+                  color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('neutral-700')}
                   iconStyle={{ height: 12, width: 12, marginRight: 0 }}
                   name="pencil"
                   size={20}

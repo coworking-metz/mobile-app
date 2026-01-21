@@ -34,7 +34,7 @@ const SectionTitle = ({
         <Animated.View
           entering={FadeIn}
           exiting={FadeOut}
-          style={tw`flex items-center justify-center overflow-hidden h-5.5 px-1 min-w-5.5 bg-gray-400/25 dark:bg-gray-700/50 rounded-full`}>
+          style={tw`flex items-center justify-center overflow-hidden h-5.5 px-1 min-w-5.5 bg-gray-400/25 dark:bg-zinc-700/50 rounded-full`}>
           <AppText style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
             {count ?? 0}
           </AppText>

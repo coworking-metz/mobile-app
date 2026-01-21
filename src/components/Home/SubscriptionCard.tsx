@@ -70,11 +70,11 @@ const SubscriptionCard = ({
   return (
     <AppSquircleView
       style={[
-        tw`flex flex-col items-start gap-1 bg-gray-300/60 dark:bg-gray-900/85 rounded-2xl relative overflow-hidden px-3 pt-2 pb-4`,
+        tw`flex flex-col items-start gap-1 bg-gray-300/60 dark:bg-zinc-900/85 rounded-2xl relative overflow-hidden px-3 pt-2 pb-4`,
         style,
       ]}>
       <MaterialCommunityIcons
-        color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
+        color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
         name={
           subscription && !dayjs().startOf('day').isAfter(subscription.ended)
             ? 'calendar-month'

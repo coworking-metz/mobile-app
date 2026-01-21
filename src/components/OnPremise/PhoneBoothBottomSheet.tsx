@@ -223,7 +223,7 @@ const PhoneBoothBottomSheet = ({
                     stacks: { value: number }[];
                   }) => (
                     <View
-                      style={tw`flex flex-row justify-center bg-gray-300 dark:bg-gray-700 py-1 rounded w-10 overflow-hidden mb-1 -ml-2 z-20`}>
+                      style={tw`flex flex-row justify-center bg-gray-300 dark:bg-zinc-700 py-1 rounded w-10 overflow-hidden mb-1 -ml-2 z-20`}>
                       <AppText
                         numberOfLines={1}
                         style={tw`text-xs text-center text-slate-900 dark:text-gray-200 font-medium`}>

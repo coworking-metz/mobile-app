@@ -22,7 +22,7 @@ const GiftCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
         setWidth(nativeEvent.layout.width);
       }}>
       <AppGlowingBorder
-        backgroundColor={tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-200')}
+        backgroundColor={tw.prefixMatch('dark') ? tw.color('zinc-900/85') : tw.color('gray-300/60')}
         height={height}
         style={tw`absolute top-0 left-0`}
         width={width}
@@ -31,7 +31,7 @@ const GiftCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
       <View
         style={tw`flex flex-col items-start grow overflow-hidden gap-1 relative pl-3 pr-0 pt-2 pb-4`}>
         <MaterialCommunityIcons
-          color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
+          color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
           name="gift"
           size={40}
         />

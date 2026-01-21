@@ -59,9 +59,9 @@ const DeviceDetail = () => {
   const [isDeleting, setDeleting] = useState(false);
 
   const {
-    data: devices,
     isPending: isPendingDevices,
     isFetching: isFetchingDevices,
+    data: devices,
     error: devicesError,
     refetch: refetchDevices,
   } = useQuery({
@@ -216,7 +216,7 @@ const DeviceDetail = () => {
           </AppBottomSheet>
         ) : null
       }
-      loading={isPendingDevices}
+      loading={isFetchingDevices}
       title={device?.name ?? device?.macAddress ?? ''}
       onRefresh={refetchDevices}>
       <View style={tw`flex flex-col grow px-3 w-full max-w-xl mx-auto`}>
@@ -289,8 +289,8 @@ const DeviceDetail = () => {
             {t('devices.detail.type.label')}
           </AppText>
           <SegmentedControl
-            activeTabColor={tw.prefixMatch('dark') ? tw.color('slate-700') : tw.color('white')}
-            style={tw`basis-0 bg-gray-200 dark:bg-slate-800 w-full`}
+            activeTabColor={tw.prefixMatch('dark') ? tw.color('zinc-700') : tw.color('white')}
+            style={tw`basis-0 bg-gray-200 dark:bg-zinc-800 w-full`}
             tabs={DEVICE_TYPES.map((deviceType) => (
               <View key={`device-type-${deviceType}`} style={tw`flex flex-col items-center gap-1`}>
                 <MaterialCommunityIcons

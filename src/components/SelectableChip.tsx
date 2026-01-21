@@ -22,7 +22,7 @@ export const SelectableChip = ({
           tw`flex flex-row items-center justify-center px-4 py-2 rounded-full border-[1px]`,
           selected
             ? tw`bg-amber-50 border-amber-700 dark:bg-amber-950 dark:border-amber-500`
-            : tw`bg-gray-200 dark:bg-gray-800/80 border-transparent`,
+            : tw`bg-gray-200 dark:bg-zinc-800/80 border-transparent`,
         ]}>
         <AppText
           style={[

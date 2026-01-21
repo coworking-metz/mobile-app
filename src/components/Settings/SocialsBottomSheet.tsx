@@ -52,7 +52,7 @@ const SocialsBottomSheet = ({
         label={t('settings.support.socials.bliiidaNewsletter.label')}
         prefix={
           <View style={tw`flex flex-row items-center shrink-0 min-h-10`}>
-            <View style={tw`h-6 w-6 bg-gray-700 dark:bg-gray-400 rounded-lg overflow-hidden`}>
+            <View style={tw`h-6 w-6 bg-gray-700 dark:bg-zinc-400 rounded-lg overflow-hidden`}>
               <Image source={BliiidaSquareLogo} style={[tw`h-full w-full`]} />
             </View>
           </View>

@@ -76,8 +76,9 @@ export default function CalendarEventPage() {
   });
 
   const {
-    data: calendarEvents,
+    isPending: isPendingCalendarEvents,
     isFetching: isFetchingCalendarEvents,
+    data: calendarEvents,
     error: calendarEventsError,
     refetch: refetchCalendarEvents,
   } = useQuery({
@@ -191,15 +192,7 @@ export default function CalendarEventPage() {
               style={[
                 tw`flex flex-col items-end self-center w-full relative`,
                 { height: headerHeight },
-              ]}>
-              {/* <AppTopFader
-                position={Fader.position.BOTTOM}
-                style={tw`absolute inset-x-0 bottom-0`}
-                tintColor={
-                  tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('gray-50') || ''
-                }
-              /> */}
-            </Animated.View>
+              ]}></Animated.View>
           </TouchableNativeFeedback>
         }
         <View
@@ -266,8 +259,9 @@ export default function CalendarEventPage() {
                   </View>
                 ) : null}
               </>
-            ) : isFetchingCalendarEvents ? (
-              <View style={tw`h-44 mx-4 overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
+            ) : isPendingCalendarEvents ? (
+              <View
+                style={tw`h-8 m-4 w-64 overflow-hidden rounded-2xl bg-gray-200 dark:bg-zinc-900`}>
                 <LoadingSkeleton height={`100%`} width={`100%`} />
               </View>
             ) : calendarEventsError && !isSilentError(calendarEventsError) ? (

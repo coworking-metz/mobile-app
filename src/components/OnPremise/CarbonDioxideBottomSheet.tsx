@@ -141,8 +141,7 @@ const CarbonDioxideBottomSheet = ({
           style={tw`absolute bottom-0 left-0 right-0 w-full flex flex-col items-center justify-center`}>
           <View style={tw`flex flex-row items-end gap-1.5 justify-end w-full mx-auto max-w-40`}>
             {loading ? (
-              <View
-                style={tw`h-8 mb-0.5 w-24 overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
+              <View style={tw`h-8 mb-0.5 w-24 overflow-hidden rounded-2xl`}>
                 <LoadingSkeleton height={`100%`} width={`100%`} />
               </View>
             ) : (
@@ -164,8 +163,7 @@ const CarbonDioxideBottomSheet = ({
         style={tw`self-start flex flex-row mx-auto items-center gap-1.5`}>
         <View style={[tw`h-2 w-2 rounded-full`, { backgroundColor: levelColor }]} />
         {loading ? (
-          <View
-            style={tw`h-4 my-0.5 w-32 overflow-hidden rounded-2xl bg-gray-200 dark:bg-gray-900`}>
+          <View style={tw`h-4 my-0.5 w-32 overflow-hidden rounded-2xl`}>
             <LoadingSkeleton height={`100%`} width={`100%`} />
           </View>
         ) : (
