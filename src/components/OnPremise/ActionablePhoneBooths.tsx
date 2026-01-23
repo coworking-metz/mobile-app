@@ -15,7 +15,7 @@ const ActionablePhoneBooths = ({
   activeIcon = icon,
   unknownIcon = icon,
   actives = [false, false],
-  selected = false,
+  // selected = false,
   disabled = false,
   loading,
   onPress,
@@ -26,7 +26,7 @@ const ActionablePhoneBooths = ({
   icon: keyof typeof mdiGlyphMap;
   unknownIcon?: keyof typeof mdiGlyphMap;
   actives?: (boolean | null)[];
-  selected?: boolean;
+  // selected?: boolean;
   disabled?: boolean;
   loading?: boolean;
   onPress?: () => void;
@@ -46,7 +46,7 @@ const ActionablePhoneBooths = ({
     <AppBlurView
       style={[
         tw`absolute z-10 h-12 w-24 flex items-stretch rounded-full overflow-hidden bg-opacity-75 dark:bg-opacity-85`,
-        selected && tw.style(`ios:border-2 ios:border-neutral-600 ios:dark:border-neutral-500`),
+        // selected && tw.style(`ios:border-2 ios:border-neutral-600 ios:dark:border-neutral-500`),
         style,
       ]}
       {...props}>

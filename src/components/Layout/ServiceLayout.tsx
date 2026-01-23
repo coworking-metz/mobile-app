@@ -120,7 +120,6 @@ const ServiceLayout = ({
               ) : (
                 <AppText
                   entering={FadeInLeft.duration(500)}
-                  numberOfLines={2}
                   style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
                   {title}
                 </AppText>

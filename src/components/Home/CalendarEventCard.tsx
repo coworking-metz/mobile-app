@@ -16,25 +16,30 @@ import useAppState from '@/helpers/app-state';
 import { theme } from '@/helpers/colors';
 import { type CalendarEvent } from '@/services/api/calendar';
 
-const AmourFoodIcon = () => {
+export const AmourFoodIcon = ({ style }: { style?: StyleProp<ViewStyle> }) => {
   return (
-    <View style={tw`h-10 w-10 bg-white rounded-lg overflow-hidden p-1`}>
+    <View style={[tw`h-10 w-10 bg-white rounded-lg overflow-hidden p-1`, style]}>
       <Image source={AmourFoodSquareLogo} style={[tw`h-full w-full`]} />
     </View>
   );
 };
 
-const CoworkingIcon = () => {
+export const CoworkingIcon = ({ style }: { style?: StyleProp<ViewStyle> }) => {
   return (
-    <View style={[tw`h-10 w-10 rounded-lg overflow-hidden`, { backgroundColor: theme.meatBrown }]}>
+    <View
+      style={[
+        tw`h-10 w-10 rounded-lg overflow-hidden`,
+        { backgroundColor: theme.meatBrown },
+        style,
+      ]}>
       <Image source={CoworkingLogo} style={[tw`h-full w-full`]} />
     </View>
   );
 };
 
-const BliiidaIcon = () => {
+export const BliiidaIcon = ({ style }: { style?: StyleProp<ViewStyle> }) => {
   return (
-    <View style={tw`h-10 w-10 bg-black rounded-lg overflow-hidden p-0.5`}>
+    <View style={[tw`h-10 w-10 bg-black rounded-lg overflow-hidden p-0.5`, style]}>
       <Image source={BliiidaSquareLogo} style={[tw`h-full w-full`]} />
     </View>
   );

@@ -1,6 +1,5 @@
-import AppSquircleView from '../AppSquircleView';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
+import { Image } from 'expo-image';
 import { compact } from 'lodash';
 import { forwardRef, ForwardRefRenderFunction, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,10 +12,11 @@ import {
 } from 'react-native';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
+import CoworkingLogo from '@/assets/images/icon/icon-light-1024.png';
+import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
-import { theme } from '@/helpers/colors';
 import { ApiMessage } from '@/services/api/members';
 
 export type MessageCardProps = TouchableHighlightProps & {
@@ -78,14 +78,7 @@ const MessageCard: ForwardRefRenderFunction<typeof TouchableHighlight, MessageCa
             ) : (
               <AppSquircleView
                 style={tw`h-12 w-12 rounded-xl overflow-hidden flex items-center justify-center bg-zinc-300 dark:bg-zinc-700`}>
-                <MaterialCommunityIcons
-                  backgroundColor="transparent"
-                  color={tw.prefixMatch('dark') ? tw.color('gray-200') : theme.charlestonGreen}
-                  iconStyle={{ marginRight: 0 }}
-                  name="bullhorn-outline"
-                  size={32}
-                  style={[tw``]}
-                />
+                <Image source={CoworkingLogo} style={[tw`h-full w-full`]} />
               </AppSquircleView>
             )}
 

@@ -1,9 +1,8 @@
-import AppShimmerText from '../AppShimmerText';
 import { Link } from 'expo-router';
 import { sample } from 'lodash';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TouchableOpacity, View, type ViewProps } from 'react-native';
+import { View, type ViewProps } from 'react-native';
 import Animated, {
   Easing,
   FadeInRight,
@@ -15,6 +14,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppPressable from '@/components/AppPressable';
+import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBadge';
 import ProfilePicture from '@/components/Home/ProfilePicture';
@@ -72,6 +73,10 @@ const AttendanceCount = ({
     return `${count.value.toFixed(0)}`;
   }, [count]);
 
+  const remainingMembersCount = useDerivedValue(() => {
+    return `+${(count.value - (MAX_MEMBERS_PICTURES - 1)).toFixed(0)}`;
+  }, [count]);
+
   const attendanceText = useMemo(() => {
     const text = t('home.people.present', { count: members.length, returnObjects: true });
     return Array.isArray(text) ? sample(text) : text;
@@ -103,7 +108,7 @@ const AttendanceCount = ({
       </View>
 
       <Link asChild href="/attendance">
-        <TouchableOpacity>
+        <AppPressable>
           <View style={tw`flex flex-row items-center min-h-8 gap-1`}>
             {loading ? (
               <Animated.View exiting={FadeOut.duration(150)}>
@@ -121,7 +126,7 @@ const AttendanceCount = ({
 
             {otherMembers.length ? (
               <Animated.View style={tw`shrink-0 ml-auto`}>
-                <View style={tw`flex flex-row items-center pl-4 grow h-8 overflow-hidden`}>
+                <View style={tw`flex flex-row items-center pl-4 grow h-8 `}>
                   {otherMembers
                     .slice(
                       0,
@@ -134,7 +139,7 @@ const AttendanceCount = ({
                         entering={FadeInRight.duration(750).delay(100 * index)}
                         exiting={FadeOutRight.duration(500).delay(100 * index)}
                         key={`member-${member.picture}-${index}`}
-                        style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-0.5 rounded-full h-10 w-10 overflow-hidden -ml-4`}>
+                        style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-0.5 rounded-full h-10 w-10 -ml-4`}>
                         <ProfilePicture
                           initialsStyle={tw`text-sm font-semibold`}
                           name={[member.firstName, member.lastName].filter(Boolean).join(' ')}
@@ -147,12 +152,14 @@ const AttendanceCount = ({
                     <Animated.View
                       entering={FadeInRight.duration(750).delay(500)}
                       exiting={FadeOutRight.duration(500).delay(500)}
-                      style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 overflow-hidden -ml-4`}>
+                      style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 -ml-4`}>
                       <View
-                        style={tw`h-8 w-8 flex justify-center items-center rounded-full overflow-hidden bg-gray-200 dark:bg-zinc-900`}>
-                        <AppText style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
-                          +{members.length - (MAX_MEMBERS_PICTURES - 1)}
-                        </AppText>
+                        style={tw`h-8 w-8 flex justify-center items-center rounded-full bg-gray-200 dark:bg-zinc-900`}>
+                        <ReanimatedText
+                          numberOfLines={1}
+                          style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}
+                          text={remainingMembersCount}
+                        />
                       </View>
                     </Animated.View>
                   ) : null}
@@ -160,7 +167,7 @@ const AttendanceCount = ({
               </Animated.View>
             ) : null}
           </View>
-        </TouchableOpacity>
+        </AppPressable>
       </Link>
     </View>
   );

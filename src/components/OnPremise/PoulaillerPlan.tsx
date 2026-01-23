@@ -68,8 +68,9 @@ const PoulaillerPlan = ({
   } = useOnPremise();
 
   const {
-    data: onPremiseState,
+    isPending: isPendingOnPremiseState,
     isFetching: isFetchingOnPremiseState,
+    data: onPremiseState,
     error: onPremiseStateError,
     refetch: refetchOnPremiseState,
   } = useQuery({
@@ -222,6 +223,7 @@ const PoulaillerPlan = ({
               id="1"
               key="light-1"
               loading={isFetchingOnPremiseState}
+              pending={isPendingOnPremiseState}
               style={tw`top-[22%] left-[32%]`}
             />
             <ActionableLight
@@ -230,6 +232,7 @@ const PoulaillerPlan = ({
               id="2"
               key="light-2"
               loading={isFetchingOnPremiseState}
+              pending={isPendingOnPremiseState}
               style={tw`top-[22%] left-[65%]`}
             />
             <ActionableLight
@@ -238,6 +241,7 @@ const PoulaillerPlan = ({
               id="3"
               key="light-3"
               loading={isFetchingOnPremiseState}
+              pending={isPendingOnPremiseState}
               style={tw`top-[40%] left-[32%]`}
             />
             <ActionableLight
@@ -246,6 +250,7 @@ const PoulaillerPlan = ({
               id="4"
               key="light-4"
               loading={isFetchingOnPremiseState}
+              pending={isPendingOnPremiseState}
               style={tw`top-[40%] left-[65%]`}
             />
             <ActionableLight
@@ -254,6 +259,7 @@ const PoulaillerPlan = ({
               id="5"
               key="light-5"
               loading={isFetchingOnPremiseState}
+              pending={isPendingOnPremiseState}
               style={tw`top-[68%] left-[32%]`}
             />
             <ActionableLight
@@ -262,6 +268,7 @@ const PoulaillerPlan = ({
               id="6"
               key="light-6"
               loading={isFetchingOnPremiseState}
+              pending={isPendingOnPremiseState}
               style={tw`top-[68%] left-[65%]`}
             />
           </>
@@ -276,6 +283,7 @@ const PoulaillerPlan = ({
               icon="lock"
               key="deck-door"
               loading={isFetchingOnPremiseState}
+              pending={isPendingOnPremiseState}
               selected={isDeckDoorSelected}
               style={tw`top-[50%] left-[82%]`}
               onPress={selectDeckDoor}
@@ -307,7 +315,7 @@ const PoulaillerPlan = ({
               exiting={BounceOut.duration(750)}
               icon="door-open"
               key="phone-booths"
-              loading={isFetchingOnPremiseState}
+              loading={isPendingOnPremiseState}
               selected={isPhoneBoothSelected}
               style={tw`top-[82%] left-[12%] w-[25%] min-w-26`}
               unknownIcon="door"

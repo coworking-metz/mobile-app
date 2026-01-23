@@ -45,8 +45,9 @@ const PtiPoulaillerPlan = ({
   } = useOnPremise();
 
   const {
-    data: onPremiseState,
+    isPending: isPendingOnPremiseState,
     isFetching: isFetchingOnPremiseState,
+    data: onPremiseState,
     error: onPremiseStateError,
     refetch: refetchOnPremiseState,
   } = useQuery({
@@ -138,6 +139,7 @@ const PtiPoulaillerPlan = ({
               icon="desk"
               key="flex-desk-a"
               loading={isFetchingOnPremiseState}
+              pending={isPendingOnPremiseState}
               selected={selectedFlexDesk?.id === 'a'}
               style={tw`top-[25%] left-[43%]`}
               onPress={() =>
@@ -152,6 +154,7 @@ const PtiPoulaillerPlan = ({
               icon="desk"
               key="flex-desk-b"
               loading={isFetchingOnPremiseState}
+              pending={isPendingOnPremiseState}
               selected={selectedFlexDesk?.id === 'b'}
               style={tw`top-[25%] left-[30%]`}
               onPress={() =>
@@ -164,7 +167,6 @@ const PtiPoulaillerPlan = ({
               exiting={BounceOut.duration(750)}
               icon="key-chain-variant"
               key="key-box"
-              selected={isPtiPoulaillerKeyBoxSelected}
               style={tw`top-[82%] left-[22%]`}
               onPress={selectPtiPoulaillerKeyBox}
             />
@@ -174,8 +176,7 @@ const PtiPoulaillerPlan = ({
               exiting={BounceOut.duration(750)}
               icon="sun-thermometer"
               key="climate"
-              loading={isFetchingOnPremiseState}
-              selected={isPtiPoulaillerClimateSelected}
+              loading={isPendingOnPremiseState}
               style={tw`top-[68%] left-[45%]`}
               onPress={selectPtiPoulaillerClimate}
             />

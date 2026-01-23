@@ -17,13 +17,18 @@ const UnlockAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
     const colorApplied =
       color ||
       ((colorScheme === 'dark' ? tw.color('emerald-700') : tw.color('emerald-600')) as string);
+    const handleColor = (
+      colorScheme === 'dark' ? tw.color('zinc-600') : tw.color('gray-600')
+    ) as string;
     return colouriseLottie(UnlockSuccess, {
       // // keyhole Outlines.Group 1.Fill 1
       // "layers.0.shapes.0.it.1.c.k.0.s": "#455a64",
+      'layers.0.shapes.0.it.1.c.k.0.s': handleColor,
       // // keyhole Outlines.Group 1.Fill 1
       // "layers.0.shapes.0.it.1.c.k.0.e": "#ffffff",
       // // keyhole Outlines.Group 2.Fill 1
-      // "layers.0.shapes.1.it.1.c.k": "#455a64",
+      // 'layers.0.shapes.1.it.1.c.k': "#455a64",
+      'layers.0.shapes.1.it.1.c.k': handleColor,
       // // Tick Outlines.Group 1.Stroke 1
       // "layers.1.shapes.0.it.2.c.k": "#ffffff",
       // // Shape Layer 2.Fill 1
@@ -38,6 +43,7 @@ const UnlockAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
       'layers.4.shapes.1.c.k.0.e': colorApplied,
       // // Lock Handle Outlines.Group 1.Stroke 1
       // "layers.5.shapes.0.it.1.c.k": "#455a64",
+      'layers.5.shapes.0.it.1.c.k': handleColor,
     });
   }, [color, colorScheme]);
 
