@@ -35,14 +35,17 @@ export type ApiUser = {
 
 const authLogger = log.extend(`[auth]`);
 
-export const getAccessAndRefreshTokens = async (refreshToken: string): Promise<ApiTokens> => {
+export const getAccessAndRefreshTokens = async (
+  refreshToken: string,
+  accessToken: string,
+): Promise<ApiTokens> => {
   const apiBaseUrl = useSettingsStore.getState().apiBaseUrl || API_BASE_URL;
   // refreshing tokens should have its own axios config
   // and should not be cancelled
   return axios
     .post(
       '/api/auth/tokens',
-      { refreshToken },
+      { refreshToken, accessToken },
       {
         baseURL: apiBaseUrl,
         timeout: 30_000,
