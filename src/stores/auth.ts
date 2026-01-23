@@ -48,7 +48,10 @@ const useAuthStore = create<AuthState>()(
           if (!refreshTokensPromise) {
             authLogger.debug('Refreshing access token');
             set({ isFetchingToken: true });
-            refreshTokensPromise = getAccessAndRefreshTokens(get().refreshToken as string)
+            refreshTokensPromise = getAccessAndRefreshTokens(
+              get().refreshToken as string,
+              get().accessToken as string,
+            )
               .then(async ({ accessToken, refreshToken }) => {
                 await get().setTokens(accessToken, refreshToken);
                 return accessToken;
