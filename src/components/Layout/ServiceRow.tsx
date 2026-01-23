@@ -46,7 +46,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
       ref={ref as never}
       disabled={disabled || loading || !onPress}
       style={[
-        tw`flex flex-col px-2 rounded-xl`,
+        tw`flex flex-col px-2 rounded-2xl`,
         selected && tw`bg-gray-200/75 dark:bg-zinc-800/75`,
         style,
       ]}

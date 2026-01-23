@@ -20,7 +20,7 @@ const AuthContext = createContext<{
 }>({ isFetchingToken: false, ready: false });
 
 SplashScreen.setOptions({
-  duration: 400,
+  duration: 300,
   fade: true,
 });
 

@@ -1,14 +1,14 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
+import { Image } from 'expo-image';
 import { useLocalSearchParams } from 'expo-router';
 import { compact } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { View } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
+import CoworkingLogo from '@/assets/images/icon/icon-light-1024.png';
 import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
 import Divider from '@/components/Divider';
@@ -17,7 +17,6 @@ import ProfilePicture from '@/components/Home/ProfilePicture';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
-import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
 import { ApiMessage, getMemberMessage, getMemberMessages } from '@/services/api/members';
 import { membersQueryKeys } from '@/services/query';
@@ -106,14 +105,7 @@ export default function MessageScreen() {
             ) : (
               <AppSquircleView
                 style={tw`h-12 w-12 rounded-xl overflow-hidden flex items-center justify-center bg-zinc-300 dark:bg-zinc-700`}>
-                <MaterialCommunityIcons
-                  backgroundColor="transparent"
-                  color={tw.prefixMatch('dark') ? tw.color('gray-200') : theme.charlestonGreen}
-                  iconStyle={{ marginRight: 0 }}
-                  name="bullhorn-outline"
-                  size={32}
-                  style={[tw``]}
-                />
+                <Image source={CoworkingLogo} style={[tw`h-full w-full`]} />
               </AppSquircleView>
             )}
 

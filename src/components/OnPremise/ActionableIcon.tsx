@@ -43,8 +43,10 @@ const ActionableIcon = ({
       style={[
         tw`absolute z-10 h-12 w-12 flex items-center justify-center rounded-full overflow-hidden`,
         tw`-mt-6 -ml-6`, // to properly center the button
-        active ? { backgroundColor: theme.meatBrown } : tw`bg-opacity-75 dark:bg-opacity-85`,
-        selected && tw.style(`ios:border-2 ios:border-neutral-600 ios:dark:border-neutral-500`),
+        active
+          ? { backgroundColor: theme.meatBrown }
+          : tw`bg-gray-200/30 dark:bg-gray-900/30 bg-opacity-75 dark:bg-opacity-85`,
+        // selected && tw.style(`ios:border-2 ios:border-neutral-600 ios:dark:border-neutral-500`),
         style,
       ]}
       {...props}>

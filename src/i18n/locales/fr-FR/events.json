@@ -7,7 +7,21 @@
     "title": "Évènements"
   },
   "detail": {
+    "author": {
+      "byCalendar": {
+        "AMOUR_FOOD": "l'Amour Food",
+        "BLIIIDA": "Bliiida",
+        "COWORKING": "Coworking Metz"
+      },
+      "label": "Organisé par {{author}}"
+    },
     "date": "Ce {{date, datetime}}",
+    "description": {
+      "empty": {
+        "description": "Peut-être est-elle en cours de rédaction ?",
+        "title": "Aucune description\npour l'instant"
+      }
+    },
     "time": "de {{startTime}} à {{endTime}}",
     "until": "jusqu'au {{date, datetime}}"
   },

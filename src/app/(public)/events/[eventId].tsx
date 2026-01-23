@@ -11,6 +11,7 @@ import {
   KeyboardAwareScrollViewProps,
 } from 'react-native-keyboard-controller';
 import openMap from 'react-native-open-maps';
+import ReadMore from 'react-native-read-more-text';
 import Animated, {
   FadeInLeft,
   useAnimatedScrollHandler,
@@ -19,12 +20,14 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
+import HandwrittenParchmentAnimation from '@/components/Animations/HandwrittenParchmentAnimation';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import AppFader, { AppTopFader } from '@/components/AppFader';
 import AppIconButton from '@/components/AppIconButton';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import ErrorState from '@/components/ErrorState';
+import { AmourFoodIcon, BliiidaIcon, CoworkingIcon } from '@/components/Home/CalendarEventCard';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingProgressBar from '@/components/LoadingProgressBar';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
@@ -91,6 +94,18 @@ export default function CalendarEventPage() {
     return (!isNil(eventId) && (calendarEvents || [])?.find((e) => `${e.id}` === eventId)) || null;
   }, [calendarEvents, eventId]);
 
+  const eventIcon = useMemo(() => {
+    switch (event?.calendar) {
+      case 'AMOUR_FOOD':
+        return <AmourFoodIcon style={tw`h-6 w-6 self-center rounded-md`} />;
+      case 'COWORKING':
+        return <CoworkingIcon style={tw`h-6 w-6 self-center rounded-md`} />;
+      case 'BLIIIDA':
+        return <BliiidaIcon style={tw`h-6 w-6 self-center rounded-md`} />;
+    }
+    return null;
+  }, [event]);
+
   const firstPicture = useMemo(() => {
     const [first] = event?.pictures || [];
     return first;
@@ -131,7 +146,7 @@ export default function CalendarEventPage() {
           onLayout={({ nativeEvent }: LayoutChangeEvent) =>
             setHeaderHeight(nativeEvent.layout.height)
           }>
-          {event?.pictures.length && (
+          {event?.pictures.length ? (
             <View style={tw`absolute inset-0`}>
               <ZoomableImage
                 contentFit="cover"
@@ -154,7 +169,7 @@ export default function CalendarEventPage() {
                 )}
               </ZoomableImage>
             </View>
-          )}
+          ) : null}
         </Animated.View>
 
         {isFetchingCalendarEvents && (
@@ -207,16 +222,43 @@ export default function CalendarEventPage() {
           <View style={tw`w-full max-w-xl mx-auto grow`}>
             {event ? (
               <>
-                {event.title && (
-                  <AppText
+                {event.title ? (
+                  <Animated.View
                     entering={FadeInLeft.duration(500)}
-                    style={[
-                      tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`,
-                      !!event?.pictures.length && tw`mt-6 mb-4`,
-                    ]}>
-                    {event.title}
-                  </AppText>
-                )}
+                    style={[tw`mx-6`, !!event?.pictures.length && tw`mt-6 mb-4`]}>
+                    <ReadMore
+                      numberOfLines={2}
+                      renderRevealedFooter={(handlePress) => (
+                        <AppText
+                          style={tw`text-base font-normal text-amber-500 text-left`}
+                          onPress={handlePress}>
+                          {t('actions.hide')}
+                        </AppText>
+                      )}
+                      renderTruncatedFooter={(handlePress) => (
+                        <AppText
+                          style={tw`text-base font-normal text-amber-500 text-left`}
+                          onPress={handlePress}>
+                          {t('actions.readMore')}
+                        </AppText>
+                      )}>
+                      <AppText
+                        style={[
+                          tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`,
+                        ]}>
+                        {event.title}
+                      </AppText>
+                    </ReadMore>
+                  </Animated.View>
+                ) : null}
+                <ServiceRow
+                  withBottomDivider
+                  label={t('events.detail.author.label', {
+                    author: t(`events.detail.author.byCalendar.${event.calendar}`),
+                  })}
+                  prefix={eventIcon}
+                  style={tw`mx-3 px-3`}
+                />
                 <ServiceRow
                   withBottomDivider
                   description={
@@ -257,7 +299,19 @@ export default function CalendarEventPage() {
                   <View style={[tw`mt-3 mx-6`, !!actionHeight && tw`mb-6`]}>
                     <MarkdownRenderer content={event.description} />
                   </View>
-                ) : null}
+                ) : (
+                  <Animated.View style={tw`flex flex-col items-center mx-6`}>
+                    <HandwrittenParchmentAnimation autoPlay loop style={tw`h-64 w-full`} />
+                    <AppText
+                      style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                      {t('events.detail.description.empty.title')}
+                    </AppText>
+                    <AppText
+                      style={tw`text-base text-center font-normal text-slate-500 dark:text-slate-400 mt-3`}>
+                      {t('events.detail.description.empty.description')}
+                    </AppText>
+                  </Animated.View>
+                )}
               </>
             ) : isPendingCalendarEvents ? (
               <View

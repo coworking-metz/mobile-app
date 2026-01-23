@@ -19,7 +19,7 @@ const ActionableLight = ({
 }: {
   id: string;
   active?: boolean;
-} & Omit<ActionableIconProps, 'icon' | 'activeIcon' | 'iconStyle' | 'pending' | 'onPress'>) => {
+} & Omit<ActionableIconProps, 'icon' | 'activeIcon' | 'iconStyle' | 'onPress'>) => {
   const toastStore = useToastStore();
   const [isActive, setActive] = useState(active);
   const [isUpdating, setUpdating] = useState(false);

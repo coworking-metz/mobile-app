@@ -14,6 +14,7 @@ import { handleSilentError } from '@/helpers/error';
 import { getStorageKeyBoxCode } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
+import CatInABoxAnimation from '../Animations/CatInABoxAnimation';
 
 const StorageKeyBoxBottomSheet = ({
   style,
@@ -49,7 +50,7 @@ const StorageKeyBoxBottomSheet = ({
       contentContainerStyle={tw`flex flex-col items-stretch gap-4 px-6 pt-6`}
       style={style}
       onClose={onClose}>
-      <KeysPairAnimation loop={false} style={tw`w-full h-[144px]`} />
+      <CatInABoxAnimation autoPlay loop={false} style={tw`w-full h-[144px]`} />
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.keyBoxes.storage.label')}

@@ -24,13 +24,13 @@ const MembershipFormAnimation: ForwardRefRenderFunction<LottieView, AnimationPro
       tw.prefixMatch('dark') ? tw.color('emerald-600') : tw.color('emerald-500')
     ) as string;
     const paperColor = (
-      tw.prefixMatch('dark') ? tw.color('gray-800') : tw.color('slate-300')
+      tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-300')
     ) as string; // '#d9dfff'
     const backPaperColor = (
-      tw.prefixMatch('dark') ? tw.color('gray-900') : tw.color('gray-100')
+      tw.prefixMatch('dark') ? tw.color('zinc-950') : tw.color('gray-100')
     ) as string; // '#eef1ff'
     const linesColor = (
-      tw.prefixMatch('dark') ? tw.color('gray-600') : tw.color('white')
+      tw.prefixMatch('dark') ? tw.color('neutral-600') : tw.color('white')
     ) as string; // '#ffffff'
     const documentIndex = active ? 2 : valid ? 1 : 0;
     return colouriseLottie(
