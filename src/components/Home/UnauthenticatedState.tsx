@@ -20,7 +20,6 @@ const UnauthenticatedState = ({
   return (
     <Animated.View style={[tw`flex flex-col gap-4 items-center`, style]} {...props}>
       <Image
-        blurRadius={16}
         contentFit="contain"
         contentPosition="left center"
         source={unlock}

@@ -56,7 +56,6 @@ const PoulaillerPlan = ({
     isCarbonDioxideSelected,
     isDeckDoorSelected,
     isDeckKeyBoxSelected,
-    isPhoneBoothSelected,
     isPoulaillerKeyBoxSelected,
     isStorageKeyBoxSelected,
     isCoffeeMachineSelected,
@@ -111,8 +110,7 @@ const PoulaillerPlan = ({
         ]}>
         {imageHeight && imageWidth ? (
           <Image
-            blurRadius={!hasFloorplanLoaded ? 16 : 0}
-            cachePolicy="memory"
+            cachePolicy="memory-disk"
             source={backgroundImage}
             style={[tw`w-full relative`, { aspectRatio: imageWidth / imageHeight }]}
             onLoadEnd={() => setFloorplanLoaded(true)}
@@ -300,10 +298,6 @@ const PoulaillerPlan = ({
               onPress={selectDeckKeyBox}
             />
 
-            {/* Fans */}
-            {/* <ActionableFan active id="1" style={tw`top-[19%] left-[11%]`} />
-              <ActionableFan id="2" style={tw`top-[46%] left-[11%]`} /> */}
-
             {/* Phone booths */}
             <ActionablePhoneBooths
               activeIcon="door-closed"
@@ -316,7 +310,6 @@ const PoulaillerPlan = ({
               icon="door-open"
               key="phone-booths"
               loading={isPendingOnPremiseState}
-              selected={isPhoneBoothSelected}
               style={tw`top-[82%] left-[12%] w-[25%] min-w-26`}
               unknownIcon="door"
               onPress={selectPhoneBooth}

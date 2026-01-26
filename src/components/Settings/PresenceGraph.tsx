@@ -22,7 +22,6 @@ const PresenceGraph = ({
   selectedDate,
   loading = false,
   activity = [],
-  nonCompliantActivity = [],
   activityCount = 0,
   minimumSquares = MINIMUM_SQUARES,
   withDescription = false,
@@ -31,7 +30,6 @@ const PresenceGraph = ({
 }: {
   selectedDate?: string;
   loading?: boolean;
-  nonCompliantActivity?: ApiMemberActivity[];
   activity?: ApiMemberActivity[];
   activityCount?: number;
   minimumSquares?: number;
@@ -74,17 +72,13 @@ const PresenceGraph = ({
   const values = useMemo(() => {
     return activity
       .filter(({ value }) => !!value)
-      .map((item) => {
-        const nonCompliant = nonCompliantActivity.find(({ date }) => date === item.date);
-        return {
-          date: item.date,
-          type: item.type,
-          selected: item.date === selectedDate,
-          count: item.value,
-          nonCompliantCount: nonCompliant?.value,
-        };
-      });
-  }, [activity, selectedDate, nonCompliantActivity]);
+      .map((item) => ({
+        date: item.date,
+        type: item.type,
+        count: item.value,
+        coverage: item.coverage,
+      }));
+  }, [activity]);
 
   /**
    * Because lib authors are some kind of shenanigans,
@@ -98,16 +92,16 @@ const PresenceGraph = ({
    * and pass the value alongside the opacity.
    */
   const getSquareColor = useCallback(
-    (opacity: number, value?: (typeof values)[number]) => {
+    (opacity: number, item?: (typeof values)[number]) => {
       // non-empty values are at least 0.15
-      if (opacity > 0.15 && value) {
-        const { count, nonCompliantCount, selected, type } = value;
-        if (selected) {
+      if (opacity > 0.15 && item) {
+        const { count, coverage, date, type } = item;
+        if (date === selectedDate) {
           return `${tw.color('amber-800')}`;
         }
 
-        if (nonCompliantCount) {
-          if (nonCompliantCount > 0.5) {
+        if (coverage?.debt?.value) {
+          if (coverage.debt.value > 0.5) {
             return `${tw.color('red-700')}`;
           } else {
             return `${tw.color('red-300')}`;
@@ -135,7 +129,7 @@ const PresenceGraph = ({
       }
       return `rgba(128, 128, 128, 0.1)`;
     },
-    [values, colorScheme],
+    [values, colorScheme, selectedDate],
   );
 
   return loading ? (
