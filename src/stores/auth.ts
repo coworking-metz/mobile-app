@@ -127,7 +127,7 @@ const unsubscribe = useSettingsStore.subscribe(
             return (_hydratedState, error) => {
               if (error) {
                 authLogger.error(`Unable to hydrate auth storage`, error);
-                // Sentry.captureException(error);
+                Sentry.captureException(error);
               } else {
                 authLogger.info(`Auth storage hydrated`);
                 useAuthStore.setState({ hydrated: true });

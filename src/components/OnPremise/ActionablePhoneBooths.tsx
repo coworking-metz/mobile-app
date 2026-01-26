@@ -55,7 +55,7 @@ const ActionablePhoneBooths = ({
           <HorizontalLoadingAnimation
             color={
               !isFirstPhoneBoothSelected && tw.prefixMatch('dark')
-                ? tw.color('neutral-500')
+                ? tw.color('neutral-400')
                 : tw.color('neutral-700')
             }
             style={tw`w-10 h-10 m-auto`}
@@ -73,7 +73,7 @@ const ActionablePhoneBooths = ({
                   isFirstPhoneBoothSelected
                     ? theme.charlestonGreen
                     : tw.prefixMatch('dark')
-                      ? tw.color('neutral-500')
+                      ? tw.color('neutral-400')
                       : tw.color('neutral-700')
                 }
                 iconStyle={{ marginRight: 0 }}
@@ -99,7 +99,7 @@ const ActionablePhoneBooths = ({
                   isSecondPhoneBoothSelected
                     ? theme.charlestonGreen
                     : tw.prefixMatch('dark')
-                      ? tw.color('neutral-500')
+                      ? tw.color('neutral-400')
                       : tw.color('neutral-700')
                 }
                 iconStyle={{ marginRight: 0 }}
