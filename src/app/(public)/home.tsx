@@ -138,7 +138,7 @@ export default function HomeScreen() {
       }
       throw new Error(t('messages.onFetch.missing'));
     },
-    enabled: !!authStore.user?.id,
+    enabled: IS_DEV && !!authStore.user?.id,
   });
 
   const isTodayBirthday = useMemo(() => {

@@ -67,7 +67,7 @@ const ActionableIcon = ({
               active
                 ? theme.charlestonGreen
                 : tw.prefixMatch('dark')
-                  ? tw.color('neutral-500')
+                  ? tw.color('neutral-400')
                   : tw.color('neutral-700')
             }
             iconStyle={{ marginRight: 0 }}
@@ -79,7 +79,7 @@ const ActionableIcon = ({
         {pending && (
           <HorizontalLoadingAnimation
             color={
-              !active && tw.prefixMatch('dark') ? tw.color('neutral-500') : tw.color('neutral-700')
+              !active && tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('neutral-700')
             }
             style={tw`absolute w-10 h-10 -m-1`}
           />

@@ -1,4 +1,4 @@
-// import * as Sentry from '@sentry/react-native';
+import * as Sentry from '@sentry/react-native';
 import * as SecureStore from 'expo-secure-store';
 import { type StateStorage } from 'zustand/middleware';
 import { log } from '@/helpers/logger';
@@ -10,7 +10,7 @@ const setSecureItem = async (name: string, value: string): Promise<void> => {
   try {
     await SecureStore.setItemAsync(name, value);
   } catch (error) {
-    // Sentry.captureException(error);
+    Sentry.captureException(error);
   }
 };
 
@@ -18,7 +18,7 @@ const deleteSecureItem = async (name: string): Promise<void> => {
   try {
     await SecureStore.deleteItemAsync(name);
   } catch (error) {
-    // Sentry.captureException(error);
+    Sentry.captureException(error);
   }
 };
 
@@ -37,9 +37,9 @@ const retrieveSecureItem = async (name: string): Promise<string | null> => {
     }
   }
   // log to Sentry if keeps failing
-  // Sentry.captureMessage(`Unable to retrieve ${name} from secure storage`, {
-  //   level: 'error',
-  // });
+  Sentry.captureMessage(`Unable to retrieve ${name} from secure storage`, {
+    level: 'error',
+  });
   await deleteSecureItem(name);
   return null;
 };
