@@ -15,7 +15,6 @@ const ActionablePhoneBooths = ({
   activeIcon = icon,
   unknownIcon = icon,
   actives = [false, false],
-  // selected = false,
   disabled = false,
   loading,
   onPress,
@@ -26,7 +25,6 @@ const ActionablePhoneBooths = ({
   icon: keyof typeof mdiGlyphMap;
   unknownIcon?: keyof typeof mdiGlyphMap;
   actives?: (boolean | null)[];
-  // selected?: boolean;
   disabled?: boolean;
   loading?: boolean;
   onPress?: () => void;

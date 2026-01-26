@@ -47,10 +47,23 @@ export const getMemberProfile = async (memberId: string | number): Promise<ApiMe
 
 export type AttendanceType = 'subscription' | 'ticket';
 
+export interface AttendanceCoverage {
+  subscriptions?: ApiMemberSubscription[];
+  tickets?: {
+    count: number;
+    amount: number;
+  };
+  debt?: {
+    value: number;
+    amount: number;
+  };
+}
+
 export type ApiMemberActivity = {
   date: string;
   value: number;
   type: AttendanceType;
+  coverage?: AttendanceCoverage;
 };
 
 export const getMemberActivity = async (

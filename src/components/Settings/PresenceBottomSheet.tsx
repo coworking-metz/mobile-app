@@ -1,8 +1,8 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, useColorScheme, View, ViewStyle } from 'react-native';
 import AnimatedProgressWheel from 'react-native-progress-wheel';
 import { Easing } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -14,16 +14,32 @@ import { type ApiMemberActivity } from '@/services/api/members';
 
 const PresenceBottomSheet = ({
   activity,
-  nonCompliant,
   style,
   onClose,
 }: {
   activity: ApiMemberActivity;
-  nonCompliant?: ApiMemberActivity;
   style?: StyleProp<ViewStyle>;
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
+  const colorScheme = useColorScheme();
+
+  const ringBackgroundColor = useMemo(() => {
+    if (activity.coverage?.debt) {
+      return colorScheme === 'dark' ? tw.color('amber-950') : tw.color('rose-200');
+    }
+    if (activity.type === 'subscription') {
+      return colorScheme === 'dark' ? tw.color('yellow-950') : tw.color('amber-100');
+    }
+    return colorScheme === 'dark' ? tw.color('blue-950') : tw.color('sky-100');
+  }, [activity, colorScheme]);
+
+  const ringColor = useMemo(() => {
+    if (activity.coverage?.debt) {
+      return colorScheme === 'dark' ? tw.color('red-700') : tw.color('red-600');
+    }
+    return activity.type === 'subscription' ? theme.meatBrown : theme.blueCrayola;
+  }, [activity, colorScheme]);
 
   return (
     <AppBottomSheet contentContainerStyle={tw`pt-6 px-6`} style={style} onClose={onClose}>
@@ -36,8 +52,8 @@ const PresenceBottomSheet = ({
           rounded
           showProgressLabel
           animateFromValue={0}
-          backgroundColor={(tw.prefixMatch('dark') ? '#413619' : '#FBF0D2') as string}
-          color={theme.meatBrown}
+          backgroundColor={ringBackgroundColor as string}
+          color={ringColor as string}
           duration={activity.value === 1 ? 2000 : 1500}
           easing={Easing.inOut(Easing.ease)}
           labelStyle={tw`text-slate-900 dark:text-gray-200 text-center text-3xl font-bold`}
@@ -61,7 +77,9 @@ const PresenceBottomSheet = ({
         <AppText
           style={[
             tw`font-normal text-slate-500 dark:text-slate-400 text-right`,
-            nonCompliant && nonCompliant.value !== activity.value ? tw`text-sm` : tw`text-base`,
+            activity.coverage?.debt && activity.coverage?.debt.value !== activity.value
+              ? tw`text-sm`
+              : tw`text-base`,
           ]}>
           {
             /* eslint-disable prettier/prettier */
@@ -69,9 +87,9 @@ const PresenceBottomSheet = ({
               ? t('settings.profile.presence.selected.coverage.value.subscription')
               : t('settings.profile.presence.selected.coverage.value.ticket', {
                 count: activity.value,
-                suffix: nonCompliant
-                  ? t(`settings.profile.presence.selected.debt.${nonCompliant.value !== activity.value ? 'with' : 'unit'}.ticket`,
-                    { count: nonCompliant.value },
+                suffix: activity.coverage?.debt
+                  ? t(`settings.profile.presence.selected.debt.${activity.coverage?.debt.value !== activity.value ? 'with' : 'unit'}.ticket`,
+                    { count: activity.coverage?.debt.value },
                   )
                   : '',
               })
@@ -84,7 +102,7 @@ const PresenceBottomSheet = ({
         {t('settings.profile.presence.selected.description')}
       </AppText>
 
-      {nonCompliant && (
+      {activity.coverage?.debt && (
         <View style={tw`flex flex-row items-start flex-gap-2 mt-4 w-full overflow-hidden`}>
           <MaterialCommunityIcons
             color={tw.color('yellow-500')}

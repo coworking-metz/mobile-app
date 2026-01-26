@@ -39,8 +39,6 @@ const PtiPoulaillerPlan = ({
     selectTelevision,
     isWifiSelected,
     isTelevisionSelected,
-    isPtiPoulaillerClimateSelected,
-    isPtiPoulaillerKeyBoxSelected,
     selectedFlexDesk,
   } = useOnPremise();
 
@@ -90,8 +88,7 @@ const PtiPoulaillerPlan = ({
         ]}>
         {imageHeight && imageWidth ? (
           <Image
-            blurRadius={!hasFloorplanLoaded ? 16 : 0}
-            cachePolicy="memory"
+            cachePolicy="memory-disk"
             source={backgroundImage}
             style={[tw`w-full relative`, { aspectRatio: imageWidth / imageHeight }]}
             onLoadEnd={() => setFloorplanLoaded(true)}

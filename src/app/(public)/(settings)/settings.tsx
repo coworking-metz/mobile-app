@@ -108,7 +108,6 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   });
 
   const {
-    isPending: isPendingProfile,
     isFetching: isFetchingProfile,
     data: profile,
     error: profileError,
@@ -176,44 +175,12 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     return () => clearTimeout(timeout);
   }, [headerHeight, insets.top]);
 
-  const nonCompliantActivity = useMemo(() => {
-    const balance = profile?.balance || 0;
-    if (balance < 0 && activity?.length) {
-      const ticketActivities = activity
-        .filter(({ type }) => type === 'ticket')
-        .sort((a, b) => dayjs(b.date).diff(a.date));
-
-      let remainingDebt = Math.abs(balance);
-      const nonCompliantAttendance = [];
-      for (const { date, value, type } of ticketActivities) {
-        if (remainingDebt <= 0) {
-          break;
-        }
-
-        const debt = value > remainingDebt ? remainingDebt : value;
-        nonCompliantAttendance.push({
-          date,
-          value: debt,
-          type,
-        });
-        remainingDebt -= debt;
-      }
-
-      return nonCompliantAttendance;
-    }
-
-    return [];
-  }, [activity, profile]);
-
   const onDateSelect = useCallback(
     (selectedDate: string) => {
       const activityFound = activity?.find(({ date }) => selectedDate === date);
       if (activityFound) {
         impactAsync(ImpactFeedbackStyle.Light);
-        selectActivity(
-          activityFound,
-          nonCompliantActivity.find(({ date }) => dayjs(date).isSame(activityFound.date)),
-        );
+        selectActivity(activityFound);
       }
     },
     [selectActivity, activity],
@@ -402,7 +369,6 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             activityCount={profile?.totalActivity}
             loading={isPendingActivity}
             minimumSquares={!!authStore.user?.id ? 45 : 144}
-            nonCompliantActivity={nonCompliantActivity}
             selectedDate={selectedActivity?.date}
             style={tw`grow-0`}
             withDescription={!!profile}
