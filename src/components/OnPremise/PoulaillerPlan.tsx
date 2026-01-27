@@ -12,10 +12,10 @@ import floorPlanNight from '@/assets/images/floorplans/floorplan-poulailler-01-1
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
 import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBadge';
+import LoadingProgressBar from '@/components/LoadingProgressBar';
 import ActionableCarbonDioxide from '@/components/OnPremise/ActionableCarbonDioxide';
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
-import LoadingProgressBar from '@/componentsLoadingProgressBar';
 import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState } from '@/services/api/services';
 import { onPremiseQueryKeys } from '@/services/query';

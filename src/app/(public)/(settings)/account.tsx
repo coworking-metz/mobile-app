@@ -54,7 +54,7 @@ const Account = () => {
       onRefresh={refetchProfile}>
       <View style={tw`w-full max-w-xl mx-auto`}>
         <View style={tw`flex flex-col relative h-40 w-40 mx-auto`}>
-          <View style={tw`h-full w-full rounded-2xl bg-gray-200 dark:bg-zinc-900 overflow-hidden`}>
+          <View style={tw`h-full w-full rounded-2xl bg-gray-200 dark:bg-zinc-950 overflow-hidden`}>
             <ZoomableImage
               contentFit="cover"
               source={authStore.user?.picture}

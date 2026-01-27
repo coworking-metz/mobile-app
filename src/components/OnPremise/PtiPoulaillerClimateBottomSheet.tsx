@@ -6,7 +6,7 @@ import HappySunAnimation from '@/components/Animations/HappySunAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import ServiceRow from '@/components/Layout/ServiceRow';
-import LoadingSkeleton from '@/componentsLoadingSkeleton';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 const PtiPoulaillerClimateBottomSheet = ({
   loading = false,
