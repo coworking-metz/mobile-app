@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
-import ServiceRow, { type ServiceRowProps } from '@/componentsLayout/ServiceRow';
+import ServiceRow, { type ServiceRowProps } from '@/components/Layout/ServiceRow';
 import { useAppThemePreference } from '@/services/theme';
 
 const ThemePicker = (props: Omit<ServiceRowProps, 'label' | 'prefixIcon'>) => {

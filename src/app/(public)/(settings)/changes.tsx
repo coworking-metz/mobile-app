@@ -1,8 +1,8 @@
+import Changelog from '../../../../CHANGELOG.md';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
-import Changelog from '@/CHANGELOG.md';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
