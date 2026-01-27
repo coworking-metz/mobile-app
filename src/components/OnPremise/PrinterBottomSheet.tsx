@@ -1,5 +1,3 @@
-import AppFader from '../AppFader';
-import AppTextLink from '../AppTextLink';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
@@ -7,7 +5,9 @@ import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import PaperPrintingAnimation from '@/components/Animations/PaperPrintingAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
+import AppFader from '@/components/AppFader';
 import AppText from '@/components/AppText';
+import AppTextLink from '@/components/AppTextLink';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
 
 const PrinterBottomSheet = ({

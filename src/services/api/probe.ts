@@ -1,5 +1,5 @@
-import { PROBE_BASE_URL } from '../environment';
 import axios from 'axios';
+import { PROBE_BASE_URL } from '@/services/environment';
 
 export interface ProbeDevice {
   ip: string;

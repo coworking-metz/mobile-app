@@ -50,9 +50,9 @@ export default function MessageScreen() {
     refetch: refetchFullMessage,
   } = useQuery({
     queryKey: membersQueryKeys.messageById(authStore.user?.id ?? '', messageId as string),
-    queryFn: ({ queryKey: [_membersPath, userId, _messagesPath, messageId] }) => {
+    queryFn: ({ queryKey: [_membersPath, userId, _messagesPath, keyMessageId] }) => {
       if (userId) {
-        return getMemberMessage(userId, messageId);
+        return getMemberMessage(userId, keyMessageId);
       }
       throw new Error(t('messages.onFetch.missing'));
     },

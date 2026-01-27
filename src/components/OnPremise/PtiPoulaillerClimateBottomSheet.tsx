@@ -1,4 +1,3 @@
-import LoadingSkeleton from '../LoadingSkeleton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
@@ -7,6 +6,7 @@ import HappySunAnimation from '@/components/Animations/HappySunAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import ServiceRow from '@/components/Layout/ServiceRow';
+import LoadingSkeleton from '@/componentsLoadingSkeleton';
 
 const PtiPoulaillerClimateBottomSheet = ({
   loading = false,

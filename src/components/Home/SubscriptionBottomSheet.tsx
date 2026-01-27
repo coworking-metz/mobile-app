@@ -1,5 +1,3 @@
-import SectionTitle from '../Layout/SectionTitle';
-import LoadingSkeleton from '../LoadingSkeleton';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
@@ -15,7 +13,9 @@ import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
 import ErrorChip from '@/components/ErrorChip';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import useAppState from '@/helpers/app-state';
 import { formatAmount } from '@/helpers/currency';
 import { isSilentError } from '@/helpers/error';

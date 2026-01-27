@@ -1,6 +1,4 @@
-import AppText from './AppText';
 import AppTextLink from './AppTextLink';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Markdown from '@ronradtke/react-native-markdown-display';
 import * as Linking from 'expo-linking';
 import { merge } from 'lodash';
@@ -8,7 +6,6 @@ import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import ZoomableImage from '@/components/ZoomableImage';
-import { theme } from '@/helpers/colors';
 import { getMarkdownStyles, MarkdownStyles } from '@/services/markdown';
 
 const MarkdownRenderer = ({ content, style }: { content: string; style?: MarkdownStyles }) => {

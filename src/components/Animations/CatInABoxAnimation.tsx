@@ -1,7 +1,6 @@
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
-import tw from 'twrnc';
 import CatInABox from '@/assets/animations/cat-in-a-box.json';
 import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie } from '@/helpers/colors';
@@ -11,8 +10,6 @@ type AnimationProps = Omit<LottieViewProps, 'source'>;
 const CatInABoxAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (props, ref) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const isDark = colorScheme === 'dark';
-    const backgroundColor = (isDark ? tw.color('zinc-900') : tw.color('white')) as string;
     return colouriseLottie(CatInABox, {
       // // blink 2.Shape 1.Stroke 1
       // "assets.0.layers.0.shapes.0.it.1.c.k": "#ffffff",

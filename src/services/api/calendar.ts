@@ -1,4 +1,4 @@
-import { HTTP } from '../http';
+import { HTTP } from '@/services/http';
 
 export interface CalendarEvent {
   id: string;

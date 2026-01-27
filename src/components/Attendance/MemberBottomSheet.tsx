@@ -1,6 +1,3 @@
-import SectionTitle from '../Layout/SectionTitle';
-import ServiceRow from '../Layout/ServiceRow';
-import ZoomableImage from '../ZoomableImage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { useRouter } from 'expo-router';
@@ -10,6 +7,9 @@ import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
+import SectionTitle from '@/components/Layout/SectionTitle';
+import ServiceRow from '@/components/Layout/ServiceRow';
+import ZoomableImage from '@/components/ZoomableImage';
 import { ApiMemberProfile } from '@/services/api/members';
 
 const MemberBottomSheet = ({

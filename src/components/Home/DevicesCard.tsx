@@ -1,12 +1,12 @@
-import AppSquircleView from '../AppSquircleView';
-import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewProps, ViewStyle } from 'react-native';
 import Animated, { AnimatedProps, BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 const DevicesCard = ({
   count,

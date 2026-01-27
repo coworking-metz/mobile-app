@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 import SegmentedControl from 'react-native-segmented-control-2';
 import { TextFieldRef } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
@@ -59,7 +59,6 @@ const DeviceDetail = () => {
   const [isDeleting, setDeleting] = useState(false);
 
   const {
-    isPending: isPendingDevices,
     isFetching: isFetchingDevices,
     data: devices,
     error: devicesError,

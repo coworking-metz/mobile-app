@@ -1,10 +1,10 @@
-import AppTextButton from '../AppTextButton';
-import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Device from 'expo-device';
 import * as Haptics from 'expo-haptics';
+import * as Network from 'expo-network';
 import { Link } from 'expo-router';
+import { includes } from 'lodash';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,8 @@ import WifiScanningAnimation from '@/components/Animations/WifiScanningAnimation
 import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
+import AppTextButton from '@/components/AppTextButton';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { useAppReview } from '@/context/review';
 import { AppErrorCode, handleSilentError } from '@/helpers/error';
 import { log } from '@/helpers/logger';
@@ -305,9 +307,19 @@ const PairDeviceBottomSheet = ({
   useEffect(() => {
     animation.current?.pause();
     setReachingService(true);
-    isDeviceInfoAvailable()
-      .then(() => {
-        setServiceReachable(true);
+    Network.getNetworkStateAsync()
+      .then((networkState) => {
+        if (
+          networkState.isConnected &&
+          includes(
+            [Network.NetworkStateType.ETHERNET, Network.NetworkStateType.WIFI],
+            networkState.type,
+          )
+        ) {
+          return isDeviceInfoAvailable().then(() => {
+            setServiceReachable(true);
+          });
+        }
       })
       .catch(() => {
         setServiceReachable(false);

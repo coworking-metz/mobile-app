@@ -1,4 +1,3 @@
-import AppSquircleView from '../AppSquircleView';
 import * as Haptics from 'expo-haptics';
 import { useNavigation } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
@@ -23,6 +22,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import { AppTopFader } from '@/components/AppFader';
+import AppSquircleView from '@/components/AppSquircleView';
 import SpaceshipRefreshAnimation from '@/components/Home/SpaceshipRefreshAnimation';
 import SunnyRefreshAnimation from '@/components/Home/SunnyRefreshAnimation';
 import useAppScreen, { useAppPaddingBottom } from '@/helpers/screen';

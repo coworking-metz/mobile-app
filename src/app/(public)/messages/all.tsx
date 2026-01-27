@@ -13,7 +13,6 @@ import LoveLetterAnimation from '@/components/Animations/LoveLetterAnimation';
 import AppText from '@/components/AppText';
 import AppTextField from '@/components/AppTextField';
 import ErrorState from '@/components/ErrorState';
-import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import MessageCard from '@/components/Messages/MessageCard';
 import { theme } from '@/helpers/colors';

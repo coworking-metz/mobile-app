@@ -1,8 +1,8 @@
+import LottieView, { type LottieViewProps } from 'lottie-react-native';
+import { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import PizzaIngrediants from '@/assets/animations/pizza-ingrediants.json';
 import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie } from '@/helpers/colors';
-import LottieView, { type LottieViewProps } from 'lottie-react-native';
-import { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 
 type AnimationProps = Omit<LottieViewProps, 'source'>;
 

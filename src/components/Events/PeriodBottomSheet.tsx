@@ -1,4 +1,3 @@
-import SectionTitle from '../Layout/SectionTitle';
 import { useBottomSheet } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
 import React, { useCallback } from 'react';
@@ -7,6 +6,7 @@ import { View } from 'react-native';
 import tw from 'twrnc';
 import AppBottomSheet, { type AppBottomSheetProps } from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { type CalendarEvent } from '@/services/api/calendar';
 

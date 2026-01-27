@@ -1,4 +1,3 @@
-import AppTextLink from '../AppTextLink';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle } from 'react-native';
@@ -6,6 +5,7 @@ import tw from 'twrnc';
 import CoffeeMachineAnimation from '@/components/Animations/CoffeeMachineAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
+import AppTextLink from '@/components/AppTextLink';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
 
 const CoffeeMachineBottomSheet = ({

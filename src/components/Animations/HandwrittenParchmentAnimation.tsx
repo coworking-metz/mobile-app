@@ -13,7 +13,6 @@ const HandwrittenParchmentAnimation: ForwardRefRenderFunction<LottieView, Animat
 ) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const isDark = colorScheme === 'dark';
     return colouriseLottie(HandwrittenParchment, {});
   }, [colorScheme]);
 

@@ -1,4 +1,3 @@
-import AppPressable from '../AppPressable';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { isNil } from 'lodash';
 import React, { useMemo } from 'react';
@@ -8,6 +7,7 @@ import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import AppBlurView, { AppBlurViewProps } from '@/components/AppBlurView';
+import AppPressable from '@/components/AppPressable';
 import { theme } from '@/helpers/colors';
 
 const ActionablePhoneBooths = ({

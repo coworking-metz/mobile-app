@@ -1,6 +1,6 @@
 import { isNil } from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { LayoutChangeEvent, StyleProp, View, ViewStyle } from 'react-native';
+import { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native';
 import Animated, {
   AnimatedProps,
   Easing,

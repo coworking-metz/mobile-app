@@ -1,5 +1,3 @@
-import AppSquircleView from '../AppSquircleView';
-import LoadingSkeleton from '../LoadingSkeleton';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
@@ -7,7 +5,9 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import useAppState from '@/helpers/app-state';
 import { type ApiMemberSubscription } from '@/services/api/members';
 
