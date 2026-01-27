@@ -1,4 +1,3 @@
-import CatInABoxAnimation from '../Animations/CatInABoxAnimation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useState } from 'react';
@@ -7,7 +6,7 @@ import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { FadeIn, FadeOutDown } from 'react-native-reanimated';
 import { RandomReveal } from 'react-random-reveal';
 import tw from 'twrnc';
-import KeysPairAnimation from '@/components/Animations/KeysPairAnimation';
+import CatInABoxAnimation from '@/components/Animations/CatInABoxAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';

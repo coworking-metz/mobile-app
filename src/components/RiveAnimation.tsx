@@ -26,7 +26,7 @@ export type RiveSourceResult =
   | { url: string; resourceName?: never }
   | { resourceName: string; url?: never };
 
-export function getRiveSource(source: any): RiveSourceResult {
+export function getRiveSource(source: never): RiveSourceResult {
   const { uri } = Image.resolveAssetSource(source);
 
   // 1. Remote file (http/https) → url
@@ -47,7 +47,7 @@ export function getRiveSource(source: any): RiveSourceResult {
 }
 
 type WrapperProps = Omit<React.ComponentProps<typeof Rive>, 'url' | 'resourceName'> & {
-  source: any;
+  source: never;
 };
 
 const RiveAnimation: ForwardRefRenderFunction<RiveRef, WrapperProps> = (

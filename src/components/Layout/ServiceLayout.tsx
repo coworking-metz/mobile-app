@@ -1,6 +1,3 @@
-import { AppTopFader } from '../AppFader';
-import AppIconButton from '../AppIconButton';
-import LoadingProgressBar from '../LoadingProgressBar';
 import { MenuAction, MenuView } from '@react-native-menu/menu';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useState, type ReactNode } from 'react';
@@ -18,7 +15,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
+import { AppTopFader } from '@/components/AppFader';
+import AppIconButton from '@/components/AppIconButton';
 import AppText from '@/components/AppText';
+import LoadingProgressBar from '@/components/LoadingProgressBar';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { useAppPaddingBottom } from '@/helpers/screen';
 

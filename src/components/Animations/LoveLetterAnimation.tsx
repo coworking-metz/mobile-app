@@ -3,15 +3,13 @@ import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react
 import { useColorScheme } from 'react-native';
 import LoveLetter from '@/assets/animations/love-letter.json';
 import AppLottieView from '@/components/AppLottieView';
-import { colouriseLottie, theme } from '@/helpers/colors';
+import { colouriseLottie } from '@/helpers/colors';
 
 type AnimationProps = Omit<LottieViewProps, 'source'>;
 
 const LoveLetterAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (props, ref) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const activeColor = theme.blueCrayola; // originally #000000
-
     return colouriseLottie(LoveLetter, {
       // // right line.Group 1.Stroke 1
       // 'layers.0.shapes.0.it.1.c.k': '#512112',

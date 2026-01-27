@@ -1,6 +1,3 @@
-import AppRoundedButton from '../AppRoundedButton';
-import AppTextLink from '../AppTextLink';
-import SectionTitle from '../Layout/SectionTitle';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useState } from 'react';
@@ -11,7 +8,10 @@ import { RandomReveal } from 'react-random-reveal';
 import tw from 'twrnc';
 import WifiNetworkAnimation from '@/components/Animations/WifiNetworkAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
+import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
+import AppTextLink from '@/components/AppTextLink';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import { handleSilentError } from '@/helpers/error';
 import { getWifiCredentials } from '@/services/api/services';
 import { WORDPRESS_BASE_URL } from '@/services/environment';

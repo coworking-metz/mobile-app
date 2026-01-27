@@ -1,4 +1,3 @@
-import LoadingSkeleton from '../LoadingSkeleton';
 import dayjs from 'dayjs';
 import React, { forwardRef, ForwardRefRenderFunction, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +12,7 @@ import Animated, { BounceOut, FadeInLeft, FadeOutDown } from 'react-native-reani
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
 import ProfilePicture from '@/components/Home/ProfilePicture';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import {
   ApiMemberProfile,
   isMemberBalanceInsufficient,

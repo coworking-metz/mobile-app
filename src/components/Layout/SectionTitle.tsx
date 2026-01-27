@@ -1,8 +1,8 @@
-import AppShimmerText from '../AppShimmerText';
 import React, { ReactNode } from 'react';
 import { type StyleProp, type ViewProps, type ViewStyle } from 'react-native';
 import Animated, { FadeIn, FadeOut, type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
 
 const SectionTitle = ({

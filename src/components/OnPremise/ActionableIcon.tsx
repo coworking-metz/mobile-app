@@ -1,4 +1,3 @@
-import LoadingSpinner from '../LoadingSpinner';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { type ReactNode } from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
@@ -8,6 +7,7 @@ import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vecto
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import AppBlurView, { AppBlurViewProps } from '@/components/AppBlurView';
 import AppPressable from '@/components/AppPressable';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import { theme } from '@/helpers/colors';
 
 export type ActionableIconProps = AppBlurViewProps & {
@@ -28,7 +28,6 @@ const ActionableIcon = ({
   icon,
   activeIcon = icon,
   active = false,
-  selected = false,
   disabled = false,
   loading,
   pending,

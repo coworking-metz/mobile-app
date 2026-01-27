@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import { Image } from 'expo-image';
 import { compact } from 'lodash';
 import { forwardRef, ForwardRefRenderFunction, ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   StyleProp,
   TouchableHighlight,

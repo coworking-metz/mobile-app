@@ -1,12 +1,11 @@
 import GiftCard from './GiftCard';
-import AppSquircleView from '../AppSquircleView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { isNil } from 'lodash';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle } from 'react-native';
-import Animated, { FadeIn } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
 import useSettingsStore from '@/stores/settings';
 

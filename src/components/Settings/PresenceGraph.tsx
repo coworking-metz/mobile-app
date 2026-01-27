@@ -1,4 +1,3 @@
-import AppIconButton from '../AppIconButton';
 import dayjs from 'dayjs';
 import { LinearGradient } from 'expo-linear-gradient';
 import { capitalize } from 'lodash';
@@ -9,6 +8,7 @@ import { ContributionGraph } from 'react-native-chart-kit';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
+import AppIconButton from '@/components/AppIconButton';
 import AppText from '@/components/AppText';
 import { theme } from '@/helpers/colors';
 import { type ApiMemberActivity } from '@/services/api/members';

@@ -1,6 +1,5 @@
 import ActionableLight from './ActionableLight';
 import { useOnPremise } from './OnPremiseContext';
-import LoadingProgressBar from '../LoadingProgressBar';
 import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -16,6 +15,7 @@ import ErrorBadge from '@/components/ErrorBadge';
 import ActionableCarbonDioxide from '@/components/OnPremise/ActionableCarbonDioxide';
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
+import LoadingProgressBar from '@/componentsLoadingProgressBar';
 import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState } from '@/services/api/services';
 import { onPremiseQueryKeys } from '@/services/query';

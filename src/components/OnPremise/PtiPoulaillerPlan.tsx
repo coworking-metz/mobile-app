@@ -1,7 +1,4 @@
 import { useOnPremise } from './OnPremiseContext';
-import AppText from '../AppText';
-import ErrorBadge from '../ErrorBadge';
-import LoadingProgressBar from '../LoadingProgressBar';
 import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -12,6 +9,9 @@ import tw, { useDeviceContext } from 'twrnc';
 import floorPlanPtiPoulaillerDay from '@/assets/images/floorplans/floorplan-pti-poulailler-01-06-2023-19-00.png';
 import floorPlanPtiPoulaillerNight from '@/assets/images/floorplans/floorplan-pti-poulailler-01-06-2023-22-30.png';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
+import AppText from '@/components/AppText';
+import ErrorBadge from '@/components/ErrorBadge';
+import LoadingProgressBar from '@/components/LoadingProgressBar';
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState } from '@/services/api/services';

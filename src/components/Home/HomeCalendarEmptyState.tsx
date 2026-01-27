@@ -1,5 +1,4 @@
 import CalendarEmptyState from './CalendarEmptyState';
-import { PeriodType } from '../Events/PeriodBottomSheet';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import { sample } from 'lodash';
@@ -9,6 +8,7 @@ import { StyleProp, ViewStyle, type ViewProps } from 'react-native';
 import { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
+import { PeriodType } from '@/components/Events/PeriodBottomSheet';
 import { CalendarEvent } from '@/services/api/calendar';
 
 const HomeCalendarEmptyState = ({

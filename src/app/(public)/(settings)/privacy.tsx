@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Switch } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
-import AppText from '@/components/AppText';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
