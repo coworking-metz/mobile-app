@@ -200,7 +200,7 @@ const DeviceDetail = () => {
                 {t('devices.detail.delete.title')}
               </AppText>
               <AppText
-                style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400`}>
+                style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
                 {t('devices.detail.delete.description')}
               </AppText>
               <AppRoundedButton
@@ -279,13 +279,13 @@ const DeviceDetail = () => {
               ]}
               defaults={t('devices.detail.macAddress.locallyAdministered')}
               parent={AppText}
-              style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400 shrink grow basis-0`}
+              style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}
             />
           </View>
         )}
 
         <View style={tw`flex flex-col items-start gap-1 mx-3`}>
-          <AppText style={tw`text-base leading-5 font-normal dark:text-gray-200`}>
+          <AppText style={tw`text-base leading-5 font-normal text-gray-800 dark:text-neutral-500`}>
             {t('devices.detail.type.label')}
           </AppText>
           <SegmentedControl
@@ -302,7 +302,7 @@ const DeviceDetail = () => {
                 />
                 <AppText
                   numberOfLines={1}
-                  style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
+                  style={tw`text-base font-normal text-slate-600 dark:text-neutral-400 grow`}>
                   {t(`devices.detail.type.value.${deviceType}`)}
                 </AppText>
               </View>
@@ -330,7 +330,7 @@ const DeviceDetail = () => {
             </AppText>
           ) : (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
               {t(`devices.detail.location.nowhere`)}
             </AppText>
           )}

@@ -102,7 +102,8 @@ const Account = () => {
           label={t('account.profile.firstname.label')}
           loading={isPendingProfile}
           style={tw`px-3 mx-3`}>
-          <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+          <AppText
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
             {profile?.firstName}
           </AppText>
         </ServiceRow>
@@ -111,7 +112,8 @@ const Account = () => {
           label={t('account.profile.lastname.label')}
           loading={isPendingProfile}
           style={tw`px-3 mx-3`}>
-          <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+          <AppText
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
             {profile?.lastName}
           </AppText>
         </ServiceRow>
@@ -120,7 +122,8 @@ const Account = () => {
           label={t('account.profile.birthdate.label')}
           loading={isPendingProfile}
           style={tw`px-3 mx-3`}>
-          <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+          <AppText
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
             {profile?.birthDate && dayjs(profile.birthDate).format('LL')}
           </AppText>
         </ServiceRow>
@@ -131,7 +134,7 @@ const Account = () => {
           <AppText
             ellipsizeMode={'middle'}
             numberOfLines={1}
-            style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right grow ml-auto max-w-4/5`}>
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right grow ml-auto max-w-4/5`}>
             {profile?.email}
           </AppText>
         </ServiceRow>

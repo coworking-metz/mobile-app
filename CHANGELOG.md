@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Progress bar on screens fetching data.
+- Author on event screen.
+- Suffix icon on links forwarding outside.
+- Access WiFi credentials on floor plan.
 
 ### Changed
 

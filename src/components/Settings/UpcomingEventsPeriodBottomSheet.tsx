@@ -19,14 +19,15 @@ const UpcomingEventsPeriodBottomSheet = (props: Omit<AppBottomSheetProps, 'child
       <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mt-6`}>
         {t('settings.general.home.upcomingEventsPeriod.label')}
       </AppText>
-      <AppText style={tw`text-left text-base font-normal text-slate-500 mt-5 -mb-5`}>
+      <AppText
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-5 -mb-5`}>
         {t('settings.general.home.upcomingEventsPeriod.description')}
       </AppText>
       <View style={tw`flex flex-row items-start justify-center gap-2`}>
         <AppWheelPicker
           enableScrollByTapOnItem
           data={[...Array(10).keys()].map((index) => ({ label: `${index + 1}`, value: index + 1 }))}
-          itemTextStyle={tw`text-right pr-2 font-normal text-slate-900 dark:text-gray-200`}
+          itemTextStyle={tw`text-right pr-2 font-medium text-slate-900 dark:text-gray-200`}
           style={tw`grow shrink basis-0 max-w-40`}
           value={upcomingEventsPeriod.count}
           onValueChanging={({ item: { value } }) =>
@@ -59,7 +60,7 @@ const UpcomingEventsPeriodBottomSheet = (props: Omit<AppBottomSheetProps, 'child
               value: 'month',
             },
           ]}
-          itemTextStyle={tw`text-left pl-2 font-normal text-slate-500 dark:text-slate-400`}
+          itemTextStyle={tw`text-left pl-2 font-normal text-slate-600 dark:text-neutral-400`}
           style={tw`grow shrink basis-0 max-w-40`}
           value={upcomingEventsPeriod.unit}
           onValueChanged={({ item: { value } }) =>

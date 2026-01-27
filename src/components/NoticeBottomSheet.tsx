@@ -59,7 +59,7 @@ const NoticeBottomSheet = () => {
         </AppText>
         {mostRecentUndismissedNotice.description ? (
           <AppText
-            style={tw`mt-2 text-center text-xl font-normal text-slate-500 dark:text-slate-400`}>
+            style={tw`mt-2 text-center text-xl font-normal text-slate-500 dark:text-neutral-500`}>
             {mostRecentUndismissedNotice.description}
           </AppText>
         ) : null}

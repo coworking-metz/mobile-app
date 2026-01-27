@@ -110,7 +110,7 @@ const Devices = () => {
             {t('devices.empty.title')}
           </AppText>
           <AppText
-            style={tw`text-base text-center font-normal text-slate-500 dark:text-slate-400 mb-auto`}>
+            style={tw`text-base text-center font-normal text-slate-500 dark:text-neutral-500 mb-auto`}>
             {t('devices.empty.description')}
           </AppText>
           <AppRoundedButton
@@ -188,7 +188,7 @@ const DeviceCard = ({
           {device?.heartbeat && (
             <AppText
               numberOfLines={1}
-              style={tw`text-base text-left font-normal text-slate-500 dark:text-slate-400`}>
+              style={tw`text-base text-left font-normal text-slate-500 dark:text-neutral-500`}>
               {dayjs(device.heartbeat).fromNow()}
             </AppText>
           )}
@@ -214,7 +214,7 @@ const NewDeviceCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
     <View
       // eslint-disable-next-line tailwindcss/no-custom-classname
       style={[
-        tw`flex flex-col items-start gap-4 px-4 py-4 rounded-2xl border-gray-400`,
+        tw`flex flex-col items-start gap-4 px-4 py-4 rounded-2xl border-gray-400 dark:border-stone-500`,
         {
           borderStyle: 'dashed',
           borderWidth: 2,
@@ -222,7 +222,7 @@ const NewDeviceCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
         style,
       ]}>
       <MaterialCommunityIcons
-        color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
+        color={tw.prefixMatch('dark') ? tw.color('stone-400') : tw.color('gray-700')}
         name={'plus-circle-outline'}
         size={44}
         style={tw`shrink-0 grow-0`}

@@ -32,7 +32,7 @@ export default function RootMessages() {
         <AppText
           entering={FadeInLeft.duration(500).delay(150)}
           numberOfLines={2}
-          style={tw`text-base text-center text-slate-500 dark:text-slate-400`}>
+          style={tw`text-base text-center text-slate-500 dark:text-neutral-500`}>
           {t('messages.root.description')}
         </AppText>
       </View>

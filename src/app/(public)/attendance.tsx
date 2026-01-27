@@ -133,7 +133,7 @@ const Attendance = () => {
             entering={FadeInLeft.duration(300)}
             exiting={FadeOutLeft.duration(300)}
             numberOfLines={1}
-            style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
+            style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
             {capitalize(
               durationSinceLastFetch > 3_600
                 ? dayjs(currentMembersUpdatedAt).calendar()
@@ -226,7 +226,7 @@ const Attendance = () => {
             <AppText
               entering={FadeInLeft.duration(500).delay(150)}
               numberOfLines={2}
-              style={tw`text-base text-center text-slate-500 dark:text-slate-400`}>
+              style={tw`text-base text-center text-slate-500 dark:text-neutral-500`}>
               {emptyDescription}
             </AppText>
           </View>

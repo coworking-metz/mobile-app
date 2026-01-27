@@ -63,7 +63,7 @@ const ServicesStep = ({ containerHeight }: { active: boolean; containerHeight?: 
           style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
           {t('onboarding.services.title')}
         </AppText>
-        <AppText style={tw`mt-4 text-base font-normal text-gray-500 mx-6`}>
+        <AppText style={tw`mt-4 text-base font-normal text-slate-500 dark:text-neutral-500 mx-6`}>
           {t('onboarding.services.description')}
         </AppText>
         <View style={tw`w-full`}>

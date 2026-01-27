@@ -28,13 +28,13 @@ const AppTextField: ForwardRefRenderFunction<TextFieldRef, AppTextFieldProps> = 
         !isValid && tw`border-red-500`,
       ]}
       labelColor={{
-        default: colorScheme === 'dark' ? tw.color('gray-200') : tw.color('gray-800'),
+        default: colorScheme === 'dark' ? tw.color('neutral-500') : tw.color('gray-800'),
         focus: tw.color('amber-500'),
         error: tw.color('red-500'),
         disabled: tw.color('gray-400'),
       }}
       labelStyle={tw`text-base`}
-      placeholderTextColor={colorScheme === 'dark' ? tw.color('gray-500') : tw.color('gray-400')}
+      placeholderTextColor={colorScheme === 'dark' ? tw.color('neutral-500') : tw.color('gray-400')}
       preset="outline"
       {...(loading && {
         trailingAccessory: (

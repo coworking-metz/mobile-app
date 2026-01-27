@@ -33,7 +33,8 @@ const FlexDeskBottomSheet = ({
         {t('onPremise.flexDesk.label')}
       </AppText>
 
-      <AppText style={tw`text-left text-base font-normal text-slate-500 mt-6`}>
+      <AppText
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6`}>
         {t('onPremise.flexDesk.description')}
       </AppText>
 
@@ -41,7 +42,8 @@ const FlexDeskBottomSheet = ({
         {loading ? (
           <LoadingSkeleton height={24} width={128} />
         ) : (
-          <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+          <AppText
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
             {isNil(occupied)
               ? t('onPremise.flexDesk.occupancy.value.unknown')
               : occupied

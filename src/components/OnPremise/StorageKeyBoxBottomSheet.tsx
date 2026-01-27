@@ -1,3 +1,4 @@
+import CatInABoxAnimation from '../Animations/CatInABoxAnimation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useState } from 'react';
@@ -14,7 +15,6 @@ import { handleSilentError } from '@/helpers/error';
 import { getStorageKeyBoxCode } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
-import CatInABoxAnimation from '../Animations/CatInABoxAnimation';
 
 const StorageKeyBoxBottomSheet = ({
   style,
@@ -55,7 +55,7 @@ const StorageKeyBoxBottomSheet = ({
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.keyBoxes.storage.label')}
       </AppText>
-      <AppText style={tw`text-left text-base font-normal text-slate-500`}>
+      <AppText style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('onPremise.keyBoxes.storage.description')}
       </AppText>
 

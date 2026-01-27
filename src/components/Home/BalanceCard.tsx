@@ -37,7 +37,7 @@ const BalanceCard = ({
         <AppText
           ellipsizeMode={'clip'}
           numberOfLines={2}
-          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
+          style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 grow`}>
           {t('home.profile.tickets.label')}
         </AppText>
         {loading ? (
@@ -57,7 +57,7 @@ const BalanceCard = ({
               style={[
                 tw`font-normal flex-shrink`,
                 count != 0
-                  ? tw`text-sm leading-[1.625rem] ml-0.5 text-slate-500 dark:text-slate-400`
+                  ? tw`text-sm leading-[1.625rem] ml-0.5 text-slate-500 dark:text-neutral-500`
                   : tw`text-2xl text-gray-400 dark:text-slate-600`,
               ]}>
               {count < 0

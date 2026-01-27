@@ -165,7 +165,7 @@ const NewDevice = () => {
               ]}
               defaults={t('devices.detail.macAddress.locallyAdministered')}
               parent={AppText}
-              style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400 shrink grow basis-0`}
+              style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}
             />
           </View>
         )}
@@ -188,7 +188,7 @@ const NewDevice = () => {
                 />
                 <AppText
                   numberOfLines={1}
-                  style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
+                  style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 grow`}>
                   {t(`devices.detail.type.value.${deviceType}`)}
                 </AppText>
               </View>

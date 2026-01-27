@@ -14,7 +14,7 @@ import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import { handleSilentError } from '@/helpers/error';
 import { getWifiCredentials } from '@/services/api/services';
-import { IS_DEV, WORDPRESS_BASE_URL } from '@/services/environment';
+import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 
@@ -72,55 +72,48 @@ const WifiBottomSheet = ({
         ]}
         defaults={t('onPremise.wifi.description')}
         parent={AppText}
-        style={tw`text-left text-base font-normal text-slate-500 mt-6`}
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6`}
       />
 
-      {IS_DEV && (
-        <>
-          {ssid || password ? (
-            <Animated.View entering={FadeIn.delay(100)} style={tw`my-6 flex flex-col`}>
-              <SectionTitle title={t('onPremise.wifi.credentials.ssid.label')} />
-              <AppText style={tw`text-left text-slate-900 dark:text-gray-200 text-2xl font-bold`}>
-                {ssid && <RandomReveal isPlaying characters={ssid} duration={2} />}
-              </AppText>
+      {ssid || password ? (
+        <Animated.View entering={FadeIn.delay(100)} style={tw`my-6 flex flex-col`}>
+          <SectionTitle title={t('onPremise.wifi.credentials.ssid.label')} />
+          <AppText style={tw`text-left text-slate-900 dark:text-gray-200 text-2xl font-bold`}>
+            {ssid && <RandomReveal isPlaying characters={ssid} duration={2} />}
+          </AppText>
 
-              <SectionTitle
-                style={tw`mt-3`}
-                title={t('onPremise.wifi.credentials.password.label')}
-              />
-              <AppText style={tw`text-left text-slate-900 dark:text-gray-200 text-2xl font-bold`}>
-                {password && <RandomReveal isPlaying characters={password} duration={2} />}
-              </AppText>
-            </Animated.View>
-          ) : (
-            <Animated.View exiting={FadeOutDown} style={tw`w-full mt-3`}>
-              <AppRoundedButton
-                disabled={!user?.capabilities?.includes('WIFI_CREDENTIALS_ACCESS')}
-                loading={isLoading}
-                style={tw`mt-3 w-full max-w-md self-center`}
-                onPress={onFetchPassword}>
-                <AppText style={tw`text-base font-medium`}>
-                  {t('onPremise.wifi.credentials.fetch')}
-                </AppText>
-              </AppRoundedButton>
-            </Animated.View>
-          )}
+          <SectionTitle style={tw`mt-3`} title={t('onPremise.wifi.credentials.password.label')} />
+          <AppText style={tw`text-left text-slate-900 dark:text-gray-200 text-2xl font-bold`}>
+            {password && <RandomReveal isPlaying characters={password} duration={2} />}
+          </AppText>
+        </Animated.View>
+      ) : (
+        <Animated.View exiting={FadeOutDown} style={tw`w-full mt-3`}>
+          <AppRoundedButton
+            disabled={!user?.capabilities?.includes('WIFI_CREDENTIALS_ACCESS')}
+            loading={isLoading}
+            style={tw`mt-3 w-full max-w-md self-center`}
+            onPress={onFetchPassword}>
+            <AppText style={tw`text-base font-medium`}>
+              {t('onPremise.wifi.credentials.fetch')}
+            </AppText>
+          </AppRoundedButton>
+        </Animated.View>
+      )}
 
-          {!user?.capabilities?.includes('WIFI_CREDENTIALS_ACCESS') && (
-            <View style={tw`flex flex-row items-start flex-gap-2 mt-3 overflow-hidden`}>
-              <MaterialCommunityIcons
-                color={tw.color('yellow-500')}
-                iconStyle={tw`h-6 w-6 mr-0`}
-                name="alert"
-                size={24}
-                style={tw`shrink-0 grow-0`}
-              />
-              <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
-                {t('onPremise.wifi.credentials.missingCapability')}
-              </AppText>
-            </View>
-          )}
-        </>
+      {!user?.capabilities?.includes('WIFI_CREDENTIALS_ACCESS') && (
+        <View style={tw`flex flex-row items-start flex-gap-2 mt-3 overflow-hidden`}>
+          <MaterialCommunityIcons
+            color={tw.color('yellow-500')}
+            iconStyle={tw`h-6 w-6 mr-0`}
+            name="alert"
+            size={24}
+            style={tw`shrink-0 grow-0`}
+          />
+          <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
+            {t('onPremise.wifi.credentials.missingCapability')}
+          </AppText>
+        </View>
       )}
     </AppBottomSheet>
   );

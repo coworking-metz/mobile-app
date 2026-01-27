@@ -46,8 +46,6 @@ const MessageCard: ForwardRefRenderFunction<typeof TouchableHighlight, MessageCa
   },
   ref,
 ) => {
-  const { t } = useTranslation();
-
   return (
     <TouchableHighlight
       ref={ref as never}
@@ -61,8 +59,10 @@ const MessageCard: ForwardRefRenderFunction<typeof TouchableHighlight, MessageCa
             <View style={tw`h-12 w-12 rounded-full overflow-hidden`}>
               <LoadingSkeleton height={`100%`} width={`100%`} />
             </View>
-            <View style={tw`flex flex-col items-start justify-center min-h-12 self-stretch`}>
+            <View
+              style={tw`flex flex-col gap-2 items-start justify-center min-h-12 ml-3 self-stretch`}>
               <LoadingSkeleton height={24} width={128} />
+              <LoadingSkeleton height={18} width={192} />
             </View>
           </>
         ) : (

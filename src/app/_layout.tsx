@@ -11,6 +11,7 @@ import { useReducedMotion } from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import NoticeBottomSheet from '@/components/NoticeBottomSheet';
+import { OnPremiseProvider } from '@/components/OnPremise/OnPremiseContext';
 import ToastMessages from '@/components/ToastMessages';
 import { AuthProvider } from '@/context/auth';
 import { ContactProvider } from '@/context/contact';
@@ -28,7 +29,6 @@ import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
 import { QUERY_CLIENT_CONFIG } from '@/services/query';
 import { AppThemeBackground } from '@/services/theme';
-import { OnPremiseProvider } from '@/components/OnPremise/OnPremiseContext';
 
 const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 

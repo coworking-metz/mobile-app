@@ -8,11 +8,37 @@
       "description": "Le taux de CO2 est un indicateur de la qualité de l'air. Un taux élevé peut entraîner des maux de tête, de la fatigue et une diminution de la concentration.\n\nIl est recommandé de ventiler l'espace lorsque le taux de CO2 dépasse 1000 ppm.",
       "label": "Taux de CO2",
       "level": {
-        "excessive": "Plus le choix : il faut ouvrir les fenêtres 🥴",
-        "high": "Il est préférable d'aérer 😵‍💫",
-        "low": "Tout va bien 😌",
-        "normal": "C'est encore acceptable 🙂",
-        "unknown": "Le taux n'a pas pu être relevé 🤷‍♀️"
+        "excessive": [
+          "Il est urgent de renouveler l'air",
+          "L'air est clairement saturé",
+          "La qualité de l'air est très mauvaise",
+          "Plus le choix : il faut ouvrir les fenêtres",
+          "Respirer devient pénible"
+        ],
+        "high": [
+          "Il est préférable d'aérer",
+          "L'air se dégrade progressivement",
+          "La concentration commence à être élevée",
+          "Un renouvellement de l'air est recommandé"
+        ],
+        "low": [
+          "Conditions optimales",
+          "L'air est de bonne qualité",
+          "Respiration confortable",
+          "Tout va bien"
+        ],
+        "medium": [
+          "C'est encore acceptable",
+          "La qualité de l'air est correcte",
+          "La situation reste sous contrôle",
+          "Le niveau reste dans la norme",
+          "Rien d'alarmant pour le moment"
+        ],
+        "unknown": [
+          "Donnée indisponible",
+          "Impossible de mesurer la qualité de l'air",
+          "Le taux n'a pas pu être relevé"
+        ]
       }
     },
     "description": "L'ambiance de la pièce est surveillée en temps réel pour garantir votre confort.",
@@ -150,7 +176,7 @@
     }
   },
   "printer": {
-    "description": "L'imprimante est accessible sur le réseau ou par e-mail à l'adresse indiquée à proximité.\nL'usage reste modéré (environ 30 pages par mois).\n\nUne participation est demandée en cas d'impression régulière, disponible dans <0>la boutique</0>.",
+    "description": "L'imprimante est accessible sur le réseau ou depuis <0>votre compte</0>.\nL'usage reste modéré (environ 30 pages par mois).\n\nUne participation est demandée en cas d'impression régulière, disponible dans <1>la boutique</1>.",
     "label": "Imprimante"
   },
   "television": {

@@ -246,7 +246,7 @@ const SwipeableButton = ({
       </GestureDetector>
       <AppText
         style={[
-          tw`absolute insets-0 ml-10 text-base text-center font-medium text-slate-500 dark:text-slate-400`,
+          tw`ml-10 text-base text-center font-medium text-slate-500 dark:text-neutral-500`,
           placeholderAnimatedStyle,
         ]}>
         {placeholder}

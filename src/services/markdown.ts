@@ -49,7 +49,7 @@ export type MarkdownStyles = StyleSheet.NamedStyles<{
 
 export const getMarkdownStyles = (tw: TailwindFn) =>
   ({
-    body: withAppFontFamily(tw`text-base text-gray-500`),
+    body: withAppFontFamily(tw`text-base text-gray-500 dark:text-neutral-500`),
     strong: withAppFontFamily(tw`font-semibold text-slate-900 dark:text-gray-200`),
     heading1: withAppFontFamily(
       tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`,

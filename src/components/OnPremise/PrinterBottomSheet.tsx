@@ -1,6 +1,5 @@
 import AppFader from '../AppFader';
 import AppTextLink from '../AppTextLink';
-import { Link } from 'expo-router';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
@@ -43,6 +42,12 @@ const PrinterBottomSheet = ({
       <Trans
         components={[
           <AppTextLink
+            href={`${WORDPRESS_BASE_URL}/print/`}
+            key="print-from-account-link"
+            style={tw`text-amber-500`}
+            target="_blank"
+          />,
+          <AppTextLink
             href={`${WORDPRESS_BASE_URL}/boutique/impressions/`}
             key="print-contribution-link"
             style={tw`text-amber-500`}
@@ -51,7 +56,7 @@ const PrinterBottomSheet = ({
         ]}
         defaults={t('onPremise.printer.description')}
         parent={AppText}
-        style={tw`text-left text-base font-normal text-slate-500 mt-6`}
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6`}
       />
     </AppBottomSheet>
   );

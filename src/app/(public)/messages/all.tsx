@@ -24,13 +24,7 @@ import useAuthStore from '@/stores/auth';
 
 const CHARACTERS_BEFORE_HIGHLIGHT = 16;
 const MAX_DESCRIPTION_LENGTH = 80;
-const fuzzy = new uFuzzy({
-  intraMode: 1,
-  intraIns: 1,
-  intraSub: 1,
-  intraTrn: 1,
-  intraDel: 1,
-});
+const fuzzy = new uFuzzy();
 
 const markdownHighlighter = (part: string, matched: boolean) => (matched ? `**${part}**` : part);
 
@@ -85,16 +79,12 @@ const AllMessages = ({ from }: { from?: string }) => {
           const message = allMessagesWithMarkdownRendered[itemIndex];
           const ranges = info.ranges[infoIndex];
           const [start] = ranges;
-          const [end] = ranges.slice(-1);
-          console.log({ ranges });
 
           const description = uFuzzy.highlight(
             message.description,
             info.ranges[infoIndex],
             markdownHighlighter,
           );
-
-          console.log({ description });
 
           return {
             ...message,
@@ -114,7 +104,6 @@ const AllMessages = ({ from }: { from?: string }) => {
     <>
       <ServiceLayout
         contentStyle={tw`py-4`}
-        description={t('messages.list.description')}
         from={from}
         loading={isFetchingMessages}
         title={t('messages.list.title')}
@@ -162,12 +151,13 @@ const AllMessages = ({ from }: { from?: string }) => {
                 <Link asChild href={`/messages/${message._id}`} key={`message-card-${message._id}`}>
                   <MessageCard
                     author={message.author}
+                    loading={isFetchingMessages}
                     published={message.published}
                     renderDescription={() =>
                       search ? (
                         <Markdown
                           style={{
-                            body: tw`text-sm text-slate-500 dark:text-slate-400`,
+                            body: tw`text-sm text-slate-500 dark:text-neutral-500`,
                             strong: tw`font-semibold text-gray-900 dark:text-gray-100`,
                             paragraph: tw`mt-1`, // https://github.com/iamacup/react-native-markdown-display/issues/155#issuecomment-1034175229
                           }}>
@@ -179,7 +169,7 @@ const AllMessages = ({ from }: { from?: string }) => {
                       ) : (
                         <AppText
                           numberOfLines={2}
-                          style={tw`mt-1 text-sm text-slate-500 dark:text-slate-400`}>
+                          style={tw`mt-1 text-sm text-slate-500 dark:text-neutral-500`}>
                           {message.description}
                         </AppText>
                       )
@@ -197,8 +187,8 @@ const AllMessages = ({ from }: { from?: string }) => {
             </>
           ) : isPendingMessages ? (
             <>
-              <CalendarEventCard loading style={tw`h-44`} />
-              <CalendarEventCard loading style={tw`h-44 mt-8`} />
+              <MessageCard pending style={tw`h-44`} />
+              <MessageCard pending style={tw`h-44 mt-8`} />
             </>
           ) : messagesError && !isSilentError(messagesError) ? (
             <ErrorState error={messagesError} title={t('messages.list.onFetch.fail')} />
@@ -206,7 +196,7 @@ const AllMessages = ({ from }: { from?: string }) => {
             <Animated.View style={tw`flex flex-col items-center w-full h-full mt-4`}>
               <LoveLetterAnimation autoPlay loop={false} style={tw`h-56 -my-12 w-full`} />
               <AppText
-                style={tw`text-base text-center font-normal text-slate-500 dark:text-slate-400`}>
+                style={tw`text-base text-center font-normal text-slate-500 dark:text-neutral-500`}>
                 {t('messages.list.empty')}
               </AppText>
             </Animated.View>

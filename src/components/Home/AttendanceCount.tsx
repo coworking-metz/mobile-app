@@ -94,7 +94,7 @@ const AttendanceCount = ({
           />
         </LoadingSkeleton>
         <AppText
-          style={tw`text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-slate-400 h-12 android:min-w-28`}>
+          style={tw`text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-neutral-500 h-12 android:min-w-28`}>
           {t('home.people.capacity', { total: total })}
         </AppText>
         {error ? (
@@ -119,7 +119,7 @@ const AttendanceCount = ({
                 active={fetching}
                 activeColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
                 numberOfLines={1}
-                style={tw`shrink grow text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                style={tw`shrink grow text-xl font-normal text-slate-500 dark:text-neutral-500`}>
                 {attendanceText}
               </AppShimmerText>
             )}
@@ -157,7 +157,7 @@ const AttendanceCount = ({
                         style={tw`h-8 w-8 flex justify-center items-center rounded-full bg-gray-200 dark:bg-zinc-900`}>
                         <ReanimatedText
                           numberOfLines={1}
-                          style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}
+                          style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}
                           text={remainingMembersCount}
                         />
                       </View>

@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import { Switch } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { useAppPermissions } from '@/context/permissions';
@@ -37,9 +38,7 @@ const Privacy = () => {
       title={t('privacy.title')}
       withBackButton={!_root}>
       <View style={tw`w-full max-w-xl mx-auto`}>
-        <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6`}>
-          {t('privacy.permissions.title')}
-        </AppText>
+        <SectionTitle style={tw`mx-6`} title={t('privacy.permissions.title')} />
         <ServiceRow
           description={t('privacy.permissions.calendar.description')}
           label={t('privacy.permissions.calendar.label')}

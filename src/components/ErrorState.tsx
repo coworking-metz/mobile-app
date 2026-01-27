@@ -36,7 +36,7 @@ const ErrorState = ({
         style={tw`text-center text-2xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {title}
       </AppText>
-      <AppText style={tw`text-center text-xl font-normal text-slate-500 dark:text-slate-400`}>
+      <AppText style={tw`text-center text-xl font-normal text-slate-500 dark:text-neutral-500`}>
         {description}
       </AppText>
       {children}

@@ -1,4 +1,4 @@
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, useColorScheme, View, ViewStyle } from 'react-native';
 import Animated, {
   SharedValue,
   interpolate,
@@ -19,15 +19,19 @@ const PaginationDot = ({
   index: number;
   animationValue: SharedValue<number>;
 }) => {
+  const colorScheme = useColorScheme();
   const inputRange = [index - 1, index, index + 1];
 
   const sizeInputRange = [index - 3, index - 2, index - 1, index, index + 1, index + 2, index + 3];
 
   const animatedStyles = useAnimatedStyle(() => {
+    const isDark = colorScheme === 'dark';
     const colour = interpolateColor(
       animationValue.value,
       inputRange,
-      [theme.silverSand, '#C27803', theme.silverSand],
+      isDark
+        ? [theme.onyx, '#C27803', theme.onyx]
+        : [theme.silverSand, '#C27803', theme.silverSand], // TODO: fix crash when using tw.color
       'RGB',
     );
 
@@ -66,7 +70,7 @@ const PaginationDot = ({
       width,
       backgroundColor: colour,
     };
-  });
+  }, [colorScheme]);
 
   return (
     <Animated.View

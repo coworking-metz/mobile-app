@@ -29,7 +29,8 @@ const SocialsBottomSheet = ({
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4 px-6`}>
         {t('settings.support.socials.title')}
       </AppText>
-      <AppText style={tw`text-left text-base font-normal text-slate-500 w-full my-4 px-6`}>
+      <AppText
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full my-4 px-6`}>
         {t('settings.support.socials.description')}
       </AppText>
       <ServiceRowLink

@@ -351,7 +351,7 @@ const PairDeviceBottomSheet = ({
                   <AppText
                     entering={FadeIn.duration(1000)}
                     exiting={FadeOutRight.duration(500)}
-                    style={tw`text-center text-xs font-normal text-slate-500 dark:text-slate-400`}>
+                    style={tw`text-center text-xs font-normal text-slate-500 dark:text-neutral-500`}>
                     {t('devices.add.onFetchDeviceInfo.attempts', {
                       count: fetchDeviveInfoAttemptsCount,
                       max: FETCH_DEVICE_INFO_MAX_ATTEMPTS_COUNT,
@@ -380,7 +380,7 @@ const PairDeviceBottomSheet = ({
                 {verifyingAttemptsCount > 1 && (
                   <AppText
                     entering={FadeIn.duration(1000)}
-                    style={tw`text-center text-xs font-normal text-slate-500 dark:text-slate-400`}>
+                    style={tw`text-center text-xs font-normal text-slate-500 dark:text-neutral-500`}>
                     {t('devices.add.onVerifyDevice.attempts', {
                       count: verifyingAttemptsCount,
                       max: VERIFY_ATTENDING_DEVICE_MAX_ATTEMPTS_COUNT,
@@ -394,7 +394,7 @@ const PairDeviceBottomSheet = ({
         <AppText
           entering={FadeInLeft.duration(300)}
           exiting={FadeOutRight.duration(300)}
-          style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400 w-full`}>
+          style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full`}>
           {t('devices.add.pair.description')}
         </AppText>
         <ReachableService pending={isReachingService} reachable={isServiceReachable} />
@@ -467,7 +467,7 @@ const ReachableService = ({
         <View style={tw`flex flex-row items-center min-h-6 shrink grow basis-0`}>
           <AppText
             entering={FadeIn.duration(300)}
-            style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400`}>
+            style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
             {reachable ? t('devices.add.pair.reachable') : t('devices.add.pair.unreachable')}
           </AppText>
         </View>

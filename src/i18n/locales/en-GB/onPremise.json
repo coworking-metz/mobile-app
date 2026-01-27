@@ -8,11 +8,38 @@
       "description": "The CO2 level is an indicator of air quality. A high level can cause headaches, fatigue and a decrease in concentration.\n\nIt is recommended to ventilate the workspace when the CO2 level exceeds 1000 ppm.",
       "label": "CO2 level",
       "level": {
-        "excessive": "No choice: windows need to be opened 🥴",
-        "high": "It's better to ventilate 😵‍💫",
-        "low": "Everything is fine 😌",
-        "normal": "Still acceptable 🙂",
-        "unknown": "The level could not be retrieved 🤷‍♀️"
+        "excessive": [
+          "Air quality is very poor",
+          "Breathing is becoming difficult",
+          "Immediate ventilation is required",
+          "No choice: windows need to be opened",
+          "The air is clearly saturated"
+        ],
+        "high": [
+          "Air quality is gradually degrading",
+          "Air renewal is recommended",
+          "It's better to ventilate",
+          "Opening a window would help",
+          "The concentration is getting too high"
+        ],
+        "low": [
+          "Air quality is good",
+          "Comfortable to breathe",
+          "Everything is fine",
+          "Optimal conditions"
+        ],
+        "medium": [
+          "Air quality is decent",
+          "Levels are within the normal range",
+          "Nothing alarming for now",
+          "Still acceptable",
+          "The situation remains under control"
+        ],
+        "unknown": [
+          "Data unavailable",
+          "The level could not be retrieved",
+          "Unable to measure air quality"
+        ]
       }
     },
     "description": "The room's atmosphere is monitored in real time to ensure your comfort.",
@@ -151,7 +178,7 @@
     }
   },
   "printer": {
-    "description": "The printer is accessible on the network or by e-mail to the address indicated nearby.\nUsage should remain occasional and reasonable.\n\nA contribution is requested in case of regular printing, available in <0>the shop</0>.",
+    "description": "The printer is accessible on the network or from <0>your account</0>.\nUsage should remain occasional and reasonable.\n\nA contribution is requested in case of regular printing, available in <1>the shop</1>.",
     "label": "Printer"
   },
   "television": {

@@ -157,15 +157,21 @@ export default function CalendarEventPage() {
                 zoomed={isGalleryVisible}
                 onZoomChange={(zoomed) => setGalleryVisible(zoomed)}>
                 {event?.pictures.length && event.pictures.length > 1 && (
-                  <View
-                    style={[
-                      tw`absolute top-1.5 right-5.5 bg-black/70 py-1 px-2 rounded-lg`,
-                      { marginTop: insets.top },
-                    ]}>
-                    <AppText style={tw`text-xs text-gray-200 font-medium`}>
-                      {event.pictures.length}
-                    </AppText>
-                  </View>
+                  <>
+                    <View
+                      style={[
+                        tw`absolute bottom-4 right-3 bg-black border border-transparent h-6 w-6 rounded-md`,
+                      ]}
+                    />
+                    <View
+                      style={[
+                        tw`absolute bottom-3.5 right-3.5 flex items-center justify-center bg-black border border-gray-600 h-6 w-6 rounded-md`,
+                      ]}>
+                      <AppText style={tw`text-xs text-gray-200 font-medium`}>
+                        {event.pictures.length}
+                      </AppText>
+                    </View>
+                  </>
                 )}
               </ZoomableImage>
             </View>
@@ -207,7 +213,8 @@ export default function CalendarEventPage() {
               style={[
                 tw`flex flex-col items-end self-center w-full relative`,
                 { height: headerHeight },
-              ]}></Animated.View>
+              ]}
+            />
           </TouchableNativeFeedback>
         }
         <View
@@ -253,9 +260,7 @@ export default function CalendarEventPage() {
                 ) : null}
                 <ServiceRow
                   withBottomDivider
-                  label={t('events.detail.author.label', {
-                    author: t(`events.detail.author.byCalendar.${event.calendar}`),
-                  })}
+                  label={t(`events.detail.author.byCalendar.${event.calendar}`)}
                   prefix={eventIcon}
                   style={tw`mx-3 px-3`}
                 />
@@ -307,7 +312,7 @@ export default function CalendarEventPage() {
                       {t('events.detail.description.empty.title')}
                     </AppText>
                     <AppText
-                      style={tw`text-base text-center font-normal text-slate-500 dark:text-slate-400 mt-3`}>
+                      style={tw`text-base text-center font-normal text-slate-500 dark:text-neutral-500 mt-3`}>
                       {t('events.detail.description.empty.description')}
                     </AppText>
                   </Animated.View>
@@ -336,7 +341,7 @@ export default function CalendarEventPage() {
                   <AppText
                     entering={FadeInLeft.duration(500).delay(150)}
                     numberOfLines={2}
-                    style={tw`text-base font-normal text-center text-slate-500 dark:text-slate-400`}>
+                    style={tw`text-base font-normal text-center text-slate-500 dark:text-neutral-500`}>
                     {t('notFound.description')}
                   </AppText>
                 </View>

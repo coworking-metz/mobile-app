@@ -94,7 +94,8 @@ const BalanceBottomSheet = ({
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
         {t('home.profile.tickets.title')}
       </AppText>
-      <AppText style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
+      <AppText
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full mt-4`}>
         {t('home.profile.tickets.description')}
       </AppText>
 
@@ -115,7 +116,7 @@ const BalanceBottomSheet = ({
             )}
             <AppText
               numberOfLines={1}
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {isNil(memberProfile?.balance)
                 ? t('home.profile.tickets.unknown')
                 : memberProfile.balance >= 0
@@ -142,7 +143,7 @@ const BalanceBottomSheet = ({
             )}
             <AppText
               numberOfLines={1}
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {!isNil(consumedCount)
                 ? t('home.profile.tickets.consumed.count', { count: consumedCount })
                 : t('home.profile.tickets.consumed.unknown')}
@@ -167,7 +168,8 @@ const BalanceBottomSheet = ({
             size={24}
             style={tw`shrink-0 grow-0`}
           />
-          <AppText style={tw`text-left text-base font-normal text-slate-500 shrink grow basis-0`}>
+          <AppText
+            style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
             {t('home.profile.tickets.balance.onDepleted', {
               count: Math.abs(memberProfile.balance),
             })}

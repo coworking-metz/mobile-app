@@ -29,7 +29,7 @@ const AppRoundedButton: ForwardRefRenderFunction<AppPressableRef, AppRoundedButt
         style={[
           tw.style(
             `flex flex-row justify-center items-center min-h-14 px-6 rounded-[1.5rem] relative overflow-hidden`,
-            disabled && `bg-neutral-200 dark:bg-neutral-400 opacity-50`,
+            disabled && `bg-neutral-200 dark:bg-stone-400 opacity-50`,
           ),
           style,
         ]}>

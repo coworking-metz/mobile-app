@@ -201,13 +201,13 @@ const UnlockCard = ({
           <View style={tw`flex flex-col items-start z-20 w-full`}>
             <AppText
               numberOfLines={1}
-              style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+              style={tw`text-xl font-normal text-slate-500 dark:text-neutral-500`}>
               {t('home.intercom.onUnlocked.firstLine')}
             </AppText>
             <View style={tw`flex flex-row items-end gap-1`}>
               <AppText
                 numberOfLines={1}
-                style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                style={tw`text-xl font-normal text-slate-500 dark:text-neutral-500`}>
                 {t('home.intercom.onUnlocked.secondLine')}
               </AppText>
               <ReanimatedText
@@ -216,7 +216,7 @@ const UnlockCard = ({
               />
               <AppText
                 numberOfLines={1}
-                style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                style={tw`text-xl font-normal text-slate-500 dark:text-neutral-500`}>
                 {t('home.intercom.onUnlocked.suffix')}
               </AppText>
             </View>

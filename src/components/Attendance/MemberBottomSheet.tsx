@@ -1,3 +1,4 @@
+import SectionTitle from '../Layout/SectionTitle';
 import ServiceRow from '../Layout/ServiceRow';
 import ZoomableImage from '../ZoomableImage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -46,17 +47,13 @@ const MemberBottomSheet = ({
                 {member.firstName}
               </AppText>
               <AppText
-                style={tw`text-left text-xl font-bold tracking-tight text-slate-500 dark:text-slate-400`}>
+                style={tw`text-left text-xl font-bold tracking-tight text-slate-500 dark:text-neutral-400`}>
                 {member.lastName}
               </AppText>
             </View>
           </View>
 
-          <View style={tw`flex flex-row gap-2 min-h-6 mt-6 px-6`}>
-            <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
-              {t('members.profile.title')}
-            </AppText>
-          </View>
+          <SectionTitle style={tw`mt-6 mx-6`} title={t('members.profile.title')} />
 
           {member.created && (
             <ServiceRow
@@ -65,7 +62,7 @@ const MemberBottomSheet = ({
               prefixIcon="medal-outline"
               style={tw`px-3 mx-3`}>
               <AppText
-                style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+                style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
                 {dayjs(member.created).format('YYYY')}
               </AppText>
             </ServiceRow>
@@ -102,7 +99,7 @@ const MemberBottomSheet = ({
               />
 
               <AppText
-                style={tw`text-left text-base font-normal text-slate-500 dark:text-slate-400 shrink grow basis-0`}>
+                style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
                 {t('members.profile.anonymous.description')}
               </AppText>
             </View>
