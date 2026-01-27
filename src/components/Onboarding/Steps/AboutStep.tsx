@@ -55,12 +55,12 @@ const AboutStep = ({ active, containerHeight }: { active: boolean; containerHeig
         </AppText>
         <AppText
           entering={FadeInLeft.duration(750).delay(300)}
-          style={tw`text-xl font-normal text-slate-500 dark:text-slate-400 mx-6`}>
+          style={tw`text-xl font-medium text-slate-600 dark:text-neutral-400 mx-6`}>
           {t('onboarding.about.headline')}
         </AppText>
         <AppText
           entering={FadeInDown.duration(750).delay(500)}
-          style={tw`mt-4 text-base font-normal text-gray-500 mx-6`}>
+          style={tw`mt-4 text-base font-normal text-slate-500 dark:text-neutral-500 mx-6`}>
           {t('onboarding.about.description')}
         </AppText>
         <Animated.View entering={FadeInDown.duration(750).delay(500)} style={tw`w-full`}>

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import ServiceRowLink from '@/components/Layout/ServiceRowLink';
@@ -23,11 +24,10 @@ const About = () => {
       title={t('about.title')}
       withBackButton={!_root}>
       <View style={tw`w-full max-w-xl mx-auto mb-6`}>
-        <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6`}>
-          {t('about.legal.title')}
-        </AppText>
+        <SectionTitle style={tw`mx-6`} title={t('about.legal.title')} />
         <ServiceRow withBottomDivider label={t('about.legal.license.label')} style={tw`px-3 mx-3`}>
-          <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+          <AppText
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
             MIT
           </AppText>
         </ServiceRow>
@@ -45,14 +45,13 @@ const About = () => {
           target="_blank"
         />
 
-        <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
-          {t('about.technical.title')}
-        </AppText>
+        <SectionTitle style={tw`mx-6 mt-6`} title={t('about.technical.title')} />
         <ServiceRow
           withBottomDivider
           label={t('about.technical.environment.label')}
           style={tw`px-3 mx-3`}>
-          <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+          <AppText
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
             {APP_ENVIRONMENT}
           </AppText>
         </ServiceRow>
@@ -70,19 +69,19 @@ const About = () => {
           withBottomDivider
           label={t('about.technical.buildDate.label')}
           style={tw`px-3 mx-3`}>
-          <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+          <AppText
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
             {dayjs(Constants.expoConfig?.extra?.buildDate).format('L LT')}
           </AppText>
         </ServiceRow>
         <ServiceRow label={t('about.technical.executionEnvironment.label')} style={tw`px-3 mx-3`}>
-          <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+          <AppText
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
             {Constants.executionEnvironment}
           </AppText>
         </ServiceRow>
 
-        <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
-          {t('about.credits.title')}
-        </AppText>
+        <SectionTitle style={tw`mx-6 mt-6`} title={t('about.credits.title')} />
         <ServiceRowLink
           withBottomDivider
           href="https://lottiefiles.com/page/license"
@@ -104,9 +103,7 @@ const About = () => {
           target="_blank"
         />
 
-        <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
-          {t('about.opensource.title')}
-        </AppText>
+        <SectionTitle style={tw`mx-6 mt-6`} title={t('about.opensource.title')} />
         <ServiceRowLink
           withBottomDivider
           href="https://github.com/coworking-metz"

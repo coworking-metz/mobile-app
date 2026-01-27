@@ -39,7 +39,7 @@ const MembershipCard = ({
         <AppText
           ellipsizeMode={'clip'}
           numberOfLines={2}
-          style={tw`text-base font-normal text-slate-500 dark:text-slate-400 grow`}>
+          style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 grow`}>
           {t('home.profile.membership.label')}
         </AppText>
         {loading ? (

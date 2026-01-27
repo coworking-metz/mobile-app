@@ -39,7 +39,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
   },
   ref,
 ) => {
-  const iconColor = tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700');
+  const iconColor = tw.prefixMatch('dark') ? tw.color('stone-400') : tw.color('gray-700');
 
   return (
     <TouchableHighlight
@@ -81,7 +81,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
             ) : description ? (
               <AppText
                 style={[
-                  tw`text-sm font-normal text-slate-500 dark:text-slate-400`,
+                  tw`text-sm font-normal text-slate-500 dark:text-neutral-500`,
                   disabled && tw`opacity-40`,
                 ]}>
                 {description}

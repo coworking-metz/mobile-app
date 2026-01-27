@@ -42,7 +42,7 @@ const GiftCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
         <AppText
           ellipsizeMode={'clip'}
           numberOfLines={2}
-          style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+          style={tw`text-base font-normal text-slate-500 dark:text-neutral-500`}>
           {t('home.profile.gift.description')}
         </AppText>
       </View>

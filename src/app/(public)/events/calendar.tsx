@@ -12,6 +12,7 @@ import ErrorState from '@/components/ErrorState';
 import PeriodBottomSheet, { type PeriodType } from '@/components/Events/PeriodBottomSheet';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import { SelectableChip } from '@/components/SelectableChip';
 import { isSilentError } from '@/helpers/error';
@@ -144,12 +145,13 @@ const Calendar = ({ from }: { from?: string }) => {
             <>
               {filteredEventsGroups.map(([date, events]) => (
                 <View key={`calendar-group-${date}`} style={tw`flex flex-col gap-4`}>
-                  <AppText
+                  <SectionTitle
                     entering={FadeInLeft.duration(300)}
                     exiting={FadeOut.duration(300)}
-                    style={tw`text-sm font-normal uppercase text-slate-500 mx-2`}>
-                    {dayjs(date).format('dddd LL')}
-                  </AppText>
+                    loading={isFetchingCalendarEvents}
+                    style={tw`mx-2`}
+                    title={dayjs(date).format('dddd LL')}
+                  />
                   {events.map((event) => (
                     <Link
                       asChild
@@ -182,7 +184,7 @@ const Calendar = ({ from }: { from?: string }) => {
                     {t('events.calendar.onEnd.title')}
                   </AppText>
                   <AppText
-                    style={tw`text-base text-center font-normal text-slate-500 dark:text-slate-400 mb-auto`}>
+                    style={tw`text-base text-center font-normal text-slate-500 dark:text-neutral-500 mb-auto`}>
                     {t('events.calendar.onEnd.description')}
                   </AppText>
                 </Animated.View>

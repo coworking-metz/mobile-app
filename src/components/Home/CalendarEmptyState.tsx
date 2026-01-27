@@ -18,7 +18,7 @@ const CalendarEmptyState = ({
   return (
     <Animated.View style={[tw`flex flex-col items-center`, style]} {...props}>
       <LoveCalendarAnimation style={tw`h-32 w-full`} />
-      <AppText style={tw`text-base text-center font-normal text-slate-500 dark:text-slate-400`}>
+      <AppText style={tw`text-base text-center font-normal text-slate-500 dark:text-neutral-500`}>
         {description}
       </AppText>
       {children}

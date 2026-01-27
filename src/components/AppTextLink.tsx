@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Link, WebAnchorProps } from 'expo-router';
 import { forwardRef, ForwardRefRenderFunction } from 'react';
 import { StyleProp, TextProps, TextStyle } from 'react-native';
@@ -21,6 +22,12 @@ const AppTextLink: ForwardRefRenderFunction<AnimatedText, AppTextProps> = (
         style={withAppFontFamily(style as StyleProp<TextStyle>)}
         {...otherProps}>
         {children}
+        {!href.startsWith('/') && (
+          <>
+            {' '}
+            <MaterialCommunityIcons name="open-in-new" size={20} />
+          </>
+        )}
       </Animated.Text>
     </Link>
   );

@@ -177,7 +177,7 @@ const PresenceGraph = ({
               </AppText>
               {!!activityCount && (
                 <AppText
-                  style={tw`font-normal text-sm leading-6 text-slate-500 dark:text-slate-400`}>
+                  style={tw`font-normal text-sm leading-6 text-slate-500 dark:text-neutral-500`}>
                   {t('settings.profile.presence.activity', {
                     count: activityCount,
                   })}
@@ -185,7 +185,7 @@ const PresenceGraph = ({
               )}
             </View>
             {firstActivityDate && (
-              <AppText style={tw`font-normal text-sm text-slate-500 dark:text-slate-400`}>
+              <AppText style={tw`font-normal text-sm text-slate-500 dark:text-neutral-500`}>
                 {t('settings.profile.presence.since', {
                   date: dayjs(firstActivityDate).format('ll'),
                 })}
@@ -238,7 +238,7 @@ const PresenceGraph = ({
               <AppText
                 key={`contribution-graph-week-day-${index}`}
                 style={[
-                  tw`text-center font-normal text-slate-500 dark:text-slate-400`,
+                  tw`text-center font-normal text-slate-500 dark:text-neutral-500`,
                   { height: SQUARE_SIZE },
                 ]}>
                 {capitalize(dayjs().set('day', index).format('dd').slice(0, 1))}

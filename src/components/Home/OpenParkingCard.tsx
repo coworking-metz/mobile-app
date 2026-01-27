@@ -197,13 +197,13 @@ const OpenParkingCard = ({
           <View style={tw`flex flex-col z-20`}>
             <AppText
               numberOfLines={1}
-              style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+              style={tw`text-xl font-normal text-slate-500 dark:text-neutral-500`}>
               {t('home.parking.onUnlocked.firstLine')}
             </AppText>
             <View style={tw`flex flex-row items-end gap-1`}>
               <AppText
                 numberOfLines={1}
-                style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                style={tw`text-xl font-normal text-slate-500 dark:text-neutral-500`}>
                 {t('home.parking.onUnlocked.secondLine')}
               </AppText>
               <ReanimatedText
@@ -212,7 +212,7 @@ const OpenParkingCard = ({
               />
               <AppText
                 numberOfLines={1}
-                style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                style={tw`text-xl font-normal text-slate-500 dark:text-neutral-500`}>
                 {t('home.parking.onUnlocked.suffix')}
               </AppText>
             </View>

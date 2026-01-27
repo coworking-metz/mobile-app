@@ -67,7 +67,8 @@ const MembershipBottomSheet = ({
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
         {t('home.profile.membership.title')}
       </AppText>
-      <AppText style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
+      <AppText
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full mt-4`}>
         {t('home.profile.membership.description')}
       </AppText>
 
@@ -78,7 +79,8 @@ const MembershipBottomSheet = ({
         {loading ? (
           <LoadingSkeleton height={24} width={128} />
         ) : (
-          <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+          <AppText
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
             {valid
               ? t('home.profile.membership.status.valid', { year: lastMembershipYear })
               : lastMembershipYear
@@ -106,7 +108,7 @@ const MembershipBottomSheet = ({
             )}
             <AppText
               numberOfLines={1}
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {t('home.profile.membership.activity.days', {
                 count: activityOverLast6Months ?? 0,
               })}
@@ -119,7 +121,8 @@ const MembershipBottomSheet = ({
         {loading ? (
           <LoadingSkeleton height={24} width={128} />
         ) : (
-          <AppText style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+          <AppText
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
             {active && valid
               ? t('home.profile.membership.grade.active.label')
               : valid
@@ -145,7 +148,8 @@ const MembershipBottomSheet = ({
               size={24}
               style={tw`shrink-0 grow-0`}
             />
-            <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
+            <AppText
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
               {active
                 ? t('home.profile.membership.grade.active.description')
                 : t('home.profile.membership.grade.standard.description')}
@@ -160,7 +164,8 @@ const MembershipBottomSheet = ({
               size={24}
               style={tw`shrink-0 grow-0`}
             />
-            <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
+            <AppText
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
               {t('home.profile.membership.required')}
             </AppText>
           </>

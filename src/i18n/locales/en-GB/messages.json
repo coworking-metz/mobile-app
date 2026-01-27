@@ -1,6 +1,5 @@
 {
   "listEn": {
-    "description": "All the important messages not to be missed.",
     "empty": {
       "description": "For the moment, but it won't be long.",
       "title": "No messages"
@@ -8,7 +7,7 @@
     "search": {
       "placeholder": "Search"
     },
-    "title": "Announcements"
+    "title": "Messages"
   },
   "root": {
     "description": "",

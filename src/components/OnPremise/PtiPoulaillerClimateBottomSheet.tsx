@@ -33,7 +33,8 @@ const PtiPoulaillerClimateBottomSheet = ({
         style={tw`text-center self-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.climate.label')}
       </AppText>
-      <AppText style={tw`text-left text-base font-normal text-slate-500 mt-6`}>
+      <AppText
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6`}>
         {t('onPremise.climate.description')}
       </AppText>
 
@@ -46,7 +47,7 @@ const PtiPoulaillerClimateBottomSheet = ({
             <LoadingSkeleton height={24} width={48} />
           ) : (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
               {t('onPremise.climate.temperature.level', { level: temperatureLevel })}
             </AppText>
           )}
@@ -56,7 +57,7 @@ const PtiPoulaillerClimateBottomSheet = ({
             <LoadingSkeleton height={24} width={48} />
           ) : (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
               {t('onPremise.climate.humidity.level', { level: humidityLevel })}
             </AppText>
           )}

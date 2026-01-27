@@ -32,7 +32,7 @@ const UnauthenticatedState = ({
           </AppText>
         </TouchableNativeFeedback>
         <AppText
-          style={tw`text-base text-left max-w-80 font-normal text-slate-500 dark:text-slate-400`}>
+          style={tw`text-base text-left max-w-80 font-normal text-slate-500 dark:text-neutral-500`}>
           {t('auth.onUnauthenticated.description')}
         </AppText>
       </View>

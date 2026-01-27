@@ -42,7 +42,7 @@ const StaleDataText = ({
   }
 
   return loading ? (
-    <AppText numberOfLines={1} style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
+    <AppText numberOfLines={1} style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
       {loadingText}
     </AppText>
   ) : (
@@ -53,7 +53,7 @@ const StaleDataText = ({
         style={tw`flex flex-col items-start gap-1 shrink grow basis-0`}>
         <AppText
           numberOfLines={1}
-          style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
+          style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
           {capitalize(
             dayjs().diff(lastFetch, 'minutes') > 60
               ? dayjs(lastFetch).calendar()

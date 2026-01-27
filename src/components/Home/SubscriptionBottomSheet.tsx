@@ -1,3 +1,4 @@
+import SectionTitle from '../Layout/SectionTitle';
 import LoadingSkeleton from '../LoadingSkeleton';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
@@ -119,7 +120,8 @@ const SubscriptionBottomSheet = ({
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
           {t('home.profile.subscription.title')}
         </AppText>
-        <AppText style={tw`text-left text-base font-normal text-slate-500 mt-4 mb-2`}>
+        <AppText
+          style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-4 mb-2`}>
           {t('home.profile.subscription.description')}
         </AppText>
       </View>
@@ -140,10 +142,7 @@ const SubscriptionBottomSheet = ({
                 loop={false}
                 renderItem={({ item }) => (
                   <View style={[tw`flex flex-col px-6 grow pb-3`, { width: carouselWidth }]}>
-                    <AppText
-                      style={tw`text-left text-sm font-normal uppercase text-slate-500 mt-1`}>
-                      {getHeader(item)}
-                    </AppText>
+                    <SectionTitle loading={loading} style={tw`mt-1`} title={getHeader(item)} />
                     <ServiceRow
                       withBottomDivider
                       label={t('home.profile.subscription.period.label')}
@@ -153,7 +152,7 @@ const SubscriptionBottomSheet = ({
                       ) : (
                         <AppText
                           numberOfLines={2}
-                          style={tw`text-sm font-normal text-slate-500 dark:text-slate-400 text-right`}>
+                          style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500 text-right`}>
                           {t('home.profile.subscription.period.value', {
                             started: dayjs(item.started).format('dddd ll'),
                             ended: dayjs(item.ended).format('dddd ll'),
@@ -180,7 +179,7 @@ const SubscriptionBottomSheet = ({
                           )}
                           <AppText
                             numberOfLines={1}
-                            style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+                            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500`}>
                             {t('home.profile.subscription.attendance.count', {
                               count: item.attendanceCount,
                             })}
@@ -206,7 +205,7 @@ const SubscriptionBottomSheet = ({
                           )}
                           <AppText
                             numberOfLines={1}
-                            style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+                            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500`}>
                             {t('home.profile.subscription.activity.count', {
                               count: item.activityCount,
                             })}
@@ -230,7 +229,7 @@ const SubscriptionBottomSheet = ({
                           <AppText
                             numberOfLines={1}
                             style={[
-                              tw`text-base font-semibold text-slate-900 dark:text-gray-200`,
+                              tw`text-base font-semibold leading-5 text-slate-900 dark:text-gray-200`,
                               item.savingsOverTickets < 0 && tw`text-gray-800 dark:text-gray-300`,
                               item.savingsOverTickets > 0 && tw`text-green-800 dark:text-green-300`,
                             ]}>

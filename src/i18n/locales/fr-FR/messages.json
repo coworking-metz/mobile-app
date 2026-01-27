@@ -1,6 +1,5 @@
 {
   "list": {
-    "description": "Tous les messages importants à ne pas manquer.",
     "empty": {
       "description": "Pour le moment, mais ça ne saurait tarder.",
       "title": "Aucun message"
@@ -8,7 +7,7 @@
     "search": {
       "placeholder": "Rechercher"
     },
-    "title": "Annonces"
+    "title": "Messages"
   },
   "root": {
     "description": "",

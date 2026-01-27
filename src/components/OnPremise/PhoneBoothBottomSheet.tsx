@@ -121,15 +121,13 @@ const PhoneBoothBottomSheet = ({
               {t('actions.readMore')}
             </AppText>
           )}>
-          <AppText style={tw`text-left text-base font-normal text-slate-500`}>
+          <AppText style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
             {t('onPremise.phoneBooths.description')}
           </AppText>
         </ReadMore>
 
         <View style={tw`flex flex-col w-full mt-2`}>
-          <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
-            {t('onPremise.phoneBooths.state.label')}
-          </AppText>
+          <SectionTitle loading={loading} title={t('onPremise.phoneBooths.state.label')} />
           <ServiceRow
             withBottomDivider
             label={t('onPremise.phoneBooths.state.blue.occupation.label')}
@@ -173,7 +171,10 @@ const PhoneBoothBottomSheet = ({
         </View>
       </View>
 
-      <SectionTitle style={tw`mx-4`} title={t('onPremise.phoneBooths.graph.label')}>
+      <SectionTitle
+        loading={loading}
+        style={tw`mx-4`}
+        title={t('onPremise.phoneBooths.graph.label')}>
         {occupationError && !isSilentError(occupationError) ? (
           <ErrorBadge
             error={occupationError}

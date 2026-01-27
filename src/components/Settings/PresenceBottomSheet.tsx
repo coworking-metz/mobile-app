@@ -25,13 +25,7 @@ const PresenceBottomSheet = ({
   const colorScheme = useColorScheme();
 
   const ringBackgroundColor = useMemo(() => {
-    if (activity.coverage?.debt) {
-      return colorScheme === 'dark' ? tw.color('amber-950') : tw.color('rose-200');
-    }
-    if (activity.type === 'subscription') {
-      return colorScheme === 'dark' ? tw.color('yellow-950') : tw.color('amber-100');
-    }
-    return colorScheme === 'dark' ? tw.color('blue-950') : tw.color('sky-100');
+    return colorScheme === 'dark' ? tw.color('stone-800') : tw.color('gray-100');
   }, [activity, colorScheme]);
 
   const ringColor = useMemo(() => {
@@ -66,7 +60,7 @@ const PresenceBottomSheet = ({
               ? t('settings.profile.presence.selected.unit.full')
               : t('settings.profile.presence.selected.unit.half')
           }
-          subtitleStyle={tw`max-w-20 text-center text-xs font-normal text-slate-500 dark:text-slate-400`}
+          subtitleStyle={tw`max-w-20 text-center text-xs font-normal text-slate-500 dark:text-neutral-500`}
           width={12}
         />
       </View>
@@ -76,7 +70,7 @@ const PresenceBottomSheet = ({
         style={tw`w-full px-0 mt-2`}>
         <AppText
           style={[
-            tw`font-normal text-slate-500 dark:text-slate-400 text-right`,
+            tw`font-normal text-slate-500 dark:text-neutral-500 text-right`,
             activity.coverage?.debt && activity.coverage?.debt.value !== activity.value
               ? tw`text-sm`
               : tw`text-base`,
@@ -98,7 +92,8 @@ const PresenceBottomSheet = ({
         </AppText>
       </ServiceRow>
 
-      <AppText style={tw`text-left text-base font-normal text-slate-500 w-full`}>
+      <AppText
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full`}>
         {t('settings.profile.presence.selected.description')}
       </AppText>
 
@@ -111,7 +106,8 @@ const PresenceBottomSheet = ({
             size={24}
             style={tw`shrink-0 grow-0`}
           />
-          <AppText style={tw`text-left text-base font-normal text-slate-500 shrink grow basis-0`}>
+          <AppText
+            style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
             {t('settings.profile.presence.selected.debt.description')}
           </AppText>
         </View>

@@ -26,7 +26,8 @@ const AirConditioningBottomSheet = ({
         {t('onPremise.airConditioning.label')}
       </AppText>
 
-      <AppText style={tw`text-left text-base font-normal text-slate-500 mt-6`}>
+      <AppText
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6`}>
         {t('onPremise.airConditioning.description')}
       </AppText>
     </AppBottomSheet>

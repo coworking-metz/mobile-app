@@ -60,10 +60,10 @@ const ActivityStep = ({ containerHeight }: { active: boolean; containerHeight?: 
           style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
           {t('onboarding.activity.title')}
         </AppText>
-        <AppText style={tw`text-xl font-normal text-slate-500 dark:text-slate-400 mx-6`}>
+        <AppText style={tw`text-xl font-medium text-slate-600 dark:text-neutral-400 mx-6`}>
           {t('onboarding.activity.headline')}
         </AppText>
-        <AppText style={tw`mt-4 text-base font-normal text-gray-500 mx-6`}>
+        <AppText style={tw`mt-4 text-base font-normal text-slate-500 dark:text-neutral-500 mx-6`}>
           {t('onboarding.activity.description')}
         </AppText>
       </View>

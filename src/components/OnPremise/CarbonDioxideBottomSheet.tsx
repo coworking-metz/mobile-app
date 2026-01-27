@@ -1,6 +1,5 @@
-import LoadingSkeleton from '../LoadingSkeleton';
-import ReanimatedText from '../ReanimatedText';
 import { SegmentedArc } from '@shipt/segmented-arc-for-react-native';
+import { sample } from 'lodash';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
@@ -15,7 +14,10 @@ import Animated, {
 import tw from 'twrnc';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
+import ReanimatedText from '@/components/ReanimatedText';
 import { CARBON_DIOXIDE_RANGES } from '@/services/api/services';
 
 const ANIMATION_DURATION = 1_000;
@@ -85,27 +87,28 @@ const CarbonDioxideBottomSheet = ({
   }, [animatedLevel]);
 
   const levelDescription = useMemo(() => {
-    if (!level) return t('onPremise.climate.carbonDioxide.level.unknown');
-    const [_, normal, high, excessive] = ranges;
-    if (level < Number(normal)) {
-      return t('onPremise.climate.carbonDioxide.level.low');
+    if (!level)
+      return sample(t('onPremise.climate.carbonDioxide.level.unknown', { returnObjects: true }));
+    const [_, medium, high, excessive] = ranges;
+    if (level < Number(medium)) {
+      return sample(t('onPremise.climate.carbonDioxide.level.low', { returnObjects: true }));
     } else if (level < Number(high)) {
-      return t('onPremise.climate.carbonDioxide.level.normal');
+      return sample(t('onPremise.climate.carbonDioxide.level.medium', { returnObjects: true }));
     } else if (level < Number(excessive)) {
-      return t('onPremise.climate.carbonDioxide.level.high');
+      return sample(t('onPremise.climate.carbonDioxide.level.high', { returnObjects: true }));
     } else {
-      return t('onPremise.climate.carbonDioxide.level.excessive');
+      return sample(t('onPremise.climate.carbonDioxide.level.excessive', { returnObjects: true }));
     }
   }, [t, ranges, level]);
 
   const levelColor = useMemo(() => {
     if (!level) return tw.color('gray-400/25');
-    const [_, normal, high, excessive] = ranges;
-    const [lowSegment, normalSegment, highSegment, excessiveSegment] = segments;
-    if (level < Number(normal)) {
+    const [_, medium, high, excessive] = ranges;
+    const [lowSegment, mediumSegment, highSegment, excessiveSegment] = segments;
+    if (level < Number(medium)) {
       return lowSegment.filledColor;
     } else if (level < Number(high)) {
-      return normalSegment.filledColor;
+      return mediumSegment.filledColor;
     } else if (level < Number(excessive)) {
       return highSegment.filledColor;
     } else {
@@ -133,7 +136,7 @@ const CarbonDioxideBottomSheet = ({
           isAnimated={true}
           key={`segmented-arc-${level}`}
           ranges={ranges}
-          rangesTextColor={tw.prefixMatch('dark') ? tw.color('slate-400') : tw.color('slate-500')}
+          rangesTextColor={tw.prefixMatch('dark') ? tw.color('neutral-500') : tw.color('slate-500')}
           rangesTextStyle={tw`text-xs font-normal`}
           segments={segments}
         />
@@ -152,7 +155,7 @@ const CarbonDioxideBottomSheet = ({
             )}
             <AppText
               numberOfLines={1}
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500`}>
               ppm
             </AppText>
           </View>
@@ -174,14 +177,12 @@ const CarbonDioxideBottomSheet = ({
           </AppText>
         )}
       </Animated.View>
-      <AppText style={tw`text-left text-base font-normal text-slate-500`}>
+      <AppText style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('onPremise.climate.carbonDioxide.description')}
       </AppText>
 
       <View style={tw`flex flex-col w-full`}>
-        <AppText style={tw`text-sm font-normal uppercase text-slate-500`}>
-          {t('onPremise.climate.label')}
-        </AppText>
+        <SectionTitle loading={loading} title={t('onPremise.climate.label')} />
         <ServiceRow
           withBottomDivider
           label={t('onPremise.climate.temperature.label')}
@@ -190,7 +191,7 @@ const CarbonDioxideBottomSheet = ({
             <LoadingSkeleton height={24} width={48} />
           ) : (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
               {t('onPremise.climate.temperature.level', { level: temperatureLevel })}
             </AppText>
           )}
@@ -203,7 +204,7 @@ const CarbonDioxideBottomSheet = ({
             <LoadingSkeleton height={24} width={48} />
           ) : (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
               {t('onPremise.climate.humidity.level', { level: humidityLevel })}
             </AppText>
           )}
@@ -213,7 +214,7 @@ const CarbonDioxideBottomSheet = ({
             <LoadingSkeleton height={24} width={48} />
           ) : (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-slate-400 text-right`}>
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
               {t('onPremise.climate.noise.level', { level: noiseLevel })}
             </AppText>
           )}

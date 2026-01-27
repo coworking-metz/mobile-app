@@ -230,7 +230,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                   ellipsizeMode={'tail'}
                   entering={FadeInLeft.duration(500).delay(150)}
                   numberOfLines={!authStore.user ? 2 : 1}
-                  style={tw`text-xl font-normal text-slate-500 dark:text-slate-400`}>
+                  style={tw`text-xl font-normal text-slate-500 dark:text-neutral-500`}>
                   {authStore.user ? authStore.user.email : t('auth.login.headline')}
                 </AppText>
 
@@ -241,7 +241,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                     {authStore.user?.roles.map((role) => (
                       <AppText
                         key={`role-${role}`}
-                        style={tw`flex items-center rounded-md overflow-hidden bg-amber-200/50 dark:bg-amber-100/80 px-2.5 py-0.5 text-sm font-medium text-amber-800 dark:text-amber-900`}>
+                        style={tw`flex items-center rounded-md overflow-hidden bg-amber-200/50 dark:bg-orange-50/10 px-2.5 py-0.5 text-sm font-medium text-amber-800 dark:text-yellow-700`}>
                         {t(`settings.roles.value.${role}`)}
                       </AppText>
                     ))}
@@ -250,7 +250,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               </View>
 
               <MaterialCommunityIcons
-                color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
+                color={tw.prefixMatch('dark') ? tw.color('stone-400') : tw.color('gray-700')}
                 iconStyle={{ height: 32, width: 32, marginRight: 0 }}
                 name="chevron-right"
                 size={32}
@@ -352,7 +352,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 <View style={tw`h-2.5 w-2.5 bg-red-600 dark:bg-red-700 rounded-full`} />
                 <AppText
                   numberOfLines={1}
-                  style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
+                  style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
                   {t('settings.profile.presence.selected.coverage.value.ticket', {
                     count: Math.abs(profile.balance),
                     suffix: t(`settings.profile.presence.selected.debt.unit.ticket`, {
@@ -457,7 +457,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           <ServiceRow
             withBottomDivider
             label={t('settings.support.socials.label')}
-            prefixIcon="heart-circle-outline"
+            prefixIcon="heart-outline"
             style={tw`px-3 mx-3`}
             suffixIcon="chevron-right"
             onPress={socialise}
@@ -465,7 +465,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           <ServiceRow
             withBottomDivider
             label={t('settings.support.contact.title')}
-            prefixIcon="help-circle-outline"
+            prefixIcon="chat-question-outline"
             style={tw`px-3 mx-3`}
             suffixIcon="chevron-right"
             onPress={contact}

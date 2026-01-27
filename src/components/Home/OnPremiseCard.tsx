@@ -50,7 +50,7 @@ const OnPremiseCard: ForwardRefRenderFunction<
           {location && (
             <AppText
               numberOfLines={1}
-              style={tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-slate-400`}>
+              style={tw`flex flex-row items-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {location}
             </AppText>
           )}

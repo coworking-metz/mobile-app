@@ -1,3 +1,4 @@
+import SectionTitle from '../Layout/SectionTitle';
 import { useBottomSheet } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
 import React, { useCallback } from 'react';
@@ -91,9 +92,8 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
       <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
         {t('events.period.label')}
       </AppText>
-      <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
-        {t('events.period.previous.label')}
-      </AppText>
+      <SectionTitle style={tw`mt-6 mx-6`} title={t('events.period.previous.label')} />
+
       <ServiceRow
         description={getPeriodDescription('past')}
         label={t(`events.period.options.past.label`)}
@@ -107,9 +107,7 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
         </View>
       </ServiceRow>
 
-      <AppText style={tw`text-sm font-normal uppercase text-slate-500 mx-6 mt-6`}>
-        {t('events.period.next.label')}
-      </AppText>
+      <SectionTitle style={tw`mt-6 mx-6`} title={t('events.period.next.label')} />
       {PERIODS.filter((p) => p !== 'past').map((period) => (
         <ServiceRow
           description={getPeriodDescription(period)}

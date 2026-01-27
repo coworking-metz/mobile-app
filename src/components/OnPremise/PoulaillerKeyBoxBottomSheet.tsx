@@ -52,7 +52,7 @@ const PoulaillerKeyBoxBottomSheet = ({
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.keyBoxes.poulailler.label')}
       </AppText>
-      <AppText style={tw`text-left text-base font-normal text-slate-500`}>
+      <AppText style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('onPremise.keyBoxes.poulailler.description')}
       </AppText>
 

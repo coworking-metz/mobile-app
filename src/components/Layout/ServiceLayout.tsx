@@ -127,7 +127,7 @@ const ServiceLayout = ({
               {description ? (
                 <AppText
                   entering={FadeInLeft.duration(500).delay(150)}
-                  style={tw`text-xl tracking-tight font-normal text-slate-500 dark:text-slate-400`}>
+                  style={tw`text-xl tracking-tight font-normal text-slate-500 dark:text-neutral-500`}>
                   {description}
                 </AppText>
               ) : null}

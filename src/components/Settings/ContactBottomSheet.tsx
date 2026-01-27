@@ -45,7 +45,8 @@ const ContactBottomSheet = ({
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
         {t('settings.support.contact.title')}
       </AppText>
-      <AppText style={tw`text-left text-base font-normal text-slate-500 w-full mt-4`}>
+      <AppText
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full mt-4`}>
         {t('settings.support.contact.description')}
       </AppText>
       {/**

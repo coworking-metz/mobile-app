@@ -70,7 +70,7 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
                 </AppText>
                 <AppText
                   numberOfLines={1}
-                  style={tw`text-base font-semibold text-slate-500 dark:text-slate-400`}>
+                  style={tw`text-base font-semibold text-slate-500 dark:text-neutral-400`}>
                   {member.lastName}
                 </AppText>
               </View>
@@ -79,7 +79,7 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
                   entering={FadeInLeft.duration(1000)}
                   exiting={FadeOutDown.duration(1000)}
                   numberOfLines={1}
-                  style={tw`text-sm font-normal text-slate-500 dark:text-slate-400`}>
+                  style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
                   {dayjs(member.lastSeen).fromNow()}
                 </AppText>
               )}
@@ -88,7 +88,7 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
                   <View style={tw`h-2 w-2 bg-red-600 dark:bg-red-700 rounded-full`} />
                   <AppText
                     numberOfLines={1}
-                    style={tw`text-sm font-normal text-slate-500 dark:text-slate-400 grow`}>
+                    style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500 grow`}>
                     {member.lastMembership
                       ? t(`attendance.members.membership.last`, { year: member.lastMembership })
                       : t(`attendance.members.membership.none`)}
@@ -100,7 +100,7 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
                   <View style={tw`h-2 w-2 bg-red-600 dark:bg-red-700 rounded-full`} />
                   <AppText
                     numberOfLines={1}
-                    style={tw`text-sm font-normal text-slate-500 dark:text-slate-400 grow`}>
+                    style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500 grow`}>
                     {t('attendance.members.debt.ticket', {
                       count: Math.abs(member.balance),
                     })}
