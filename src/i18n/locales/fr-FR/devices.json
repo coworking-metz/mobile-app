@@ -29,9 +29,8 @@
     "pair": {
       "description": "Cet appareil va interroger notre service sur place pour détecter et récupérer les informations nécessaires.\nSi vous rencontrez un problème ou que vous souhaitez ajouter un autre appareil, vous pouvez le saisir manuellement.",
       "label": "Associer cet appareil",
-      "reachable": "Service joignable.",
-      "start": "Détecter automatiquement",
-      "unreachable": "Vous devez être connecté au réseau Wi-Fi du Poulailler pour détecter cet appareil."
+      "localNetworkPermissions": "Vous devez être connecté au réseau Wi-Fi du Poulailler et autoriser <0>l'accès au réseau local</0> pour détecter automatiquement cet appareil.",
+      "start": "Détecter automatiquement"
     }
   },
   "detail": {

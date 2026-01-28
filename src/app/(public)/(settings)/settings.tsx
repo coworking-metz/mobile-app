@@ -295,7 +295,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           <RefreshControl
             progressViewOffset={progressViewOffset}
             refreshing={isFetchingActivity}
-            onRefresh={refetchActivity}
+            onRefresh={() => Promise.all([refetchActivity(), refetchProfile()])}
           />
         }
         scrollEventThrottle={16}

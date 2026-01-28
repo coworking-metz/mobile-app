@@ -29,9 +29,8 @@
     "pair": {
       "description": "This device will query our on-site service to detect and retrieve the necessary information.\nIf you encounter a problem or want to add another device, you can enter it manually.",
       "label": "Pair this device",
-      "reachable": "Service reachable.",
-      "start": "Detect automatically",
-      "unreachable": "You must be connected to the Poulailler Wi-Fi network to detect this device."
+      "localNetworkPermissions": "You must be connected to the Poulailler Wi-Fi network and allow <0>local network access</0> to automatically detect this device.",
+      "start": "Detect automatically"
     }
   },
   "detail": {

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Changed
+
+- Explain local network permissions in order to automatically pair a device.
+
 ## [2026.1.1] - 2026-01-27
 
 ### Added

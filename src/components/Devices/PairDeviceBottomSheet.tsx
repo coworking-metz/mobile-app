@@ -2,23 +2,19 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Device from 'expo-device';
 import * as Haptics from 'expo-haptics';
-import * as Network from 'expo-network';
+import * as Linking from 'expo-linking';
 import { Link } from 'expo-router';
-import { includes } from 'lodash';
 import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import { FadeIn, FadeInLeft, FadeOutRight } from 'react-native-reanimated';
-import { toast } from 'sonner-native';
 import tw from 'twrnc';
 import WifiScanningAnimation from '@/components/Animations/WifiScanningAnimation';
 import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTextButton from '@/components/AppTextButton';
-import LoadingSkeleton from '@/components/LoadingSkeleton';
-import { useAppReview } from '@/context/review';
 import { AppErrorCode, handleSilentError } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import {
@@ -27,7 +23,7 @@ import {
   DeviceType,
   getMemberDevice,
 } from '@/services/api/members';
-import { getDeviceInfo, isDeviceInfoAvailable, ProbeDevice } from '@/services/api/probe';
+import { getDeviceInfo, ProbeDevice } from '@/services/api/probe';
 import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -52,13 +48,10 @@ const PairDeviceBottomSheet = ({
   const noticeStore = useNoticeStore();
   const toastStore = useToastStore();
   const settingsStore = useSettingsStore();
-  const review = useAppReview();
   const animation = useRef<LottieView>(null);
   const bottomSheetRef = useRef<AppBottomSheetRef>(null);
   const queryClient = useQueryClient();
 
-  const [isReachingService, setReachingService] = useState<boolean>(false);
-  const [isServiceReachable, setServiceReachable] = useState<boolean>(false);
   const [fetchDeviveInfoAttemptsCount, setFetchDeviveInfoAttemptsCount] = useState<number>(0);
   const [fetchDeviceTimeoutHandle, setFetchDeviceTimeoutHandle] = useState<NodeJS.Timeout | null>(
     null,
@@ -149,7 +142,7 @@ const PairDeviceBottomSheet = ({
     [abortController],
   );
 
-  const onStart = useCallback(() => {
+  const onStart = useCallback(async () => {
     startAnimation();
 
     const fetchAddThenVerify: Promise<ApiMemberDevice> = new Promise((resolve, reject) => {
@@ -278,22 +271,6 @@ const PairDeviceBottomSheet = ({
           name: verifiedDevice.name || verifiedDevice.macAddress,
         }),
         type: 'success',
-        onClose: () => {
-          if (!settingsStore.hasBeenInvitedToReview) {
-            useSettingsStore.setState({ hasBeenInvitedToReview: true });
-            toastStore.add({
-              message: t('review.onInvite.message'),
-              type: 'info',
-              action: {
-                label: t('review.onInvite.confirm'),
-                onPress: async () => {
-                  toast.dismiss();
-                  review();
-                },
-              },
-            });
-          }
-        },
       });
 
       // refresh attending members and profile to be consistent
@@ -305,28 +282,8 @@ const PairDeviceBottomSheet = ({
   }, [verifiedDevice, noticeStore, t, bottomSheetRef, queryClient, settingsStore, toastStore]);
 
   useEffect(() => {
+    animation.current?.reset();
     animation.current?.pause();
-    setReachingService(true);
-    Network.getNetworkStateAsync()
-      .then((networkState) => {
-        if (
-          networkState.isConnected &&
-          includes(
-            [Network.NetworkStateType.ETHERNET, Network.NetworkStateType.WIFI],
-            networkState.type,
-          )
-        ) {
-          return isDeviceInfoAvailable().then(() => {
-            setServiceReachable(true);
-          });
-        }
-      })
-      .catch(() => {
-        setServiceReachable(false);
-      })
-      .finally(() => {
-        setReachingService(false);
-      });
   }, []);
 
   return (
@@ -409,7 +366,28 @@ const PairDeviceBottomSheet = ({
           style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full`}>
           {t('devices.add.pair.description')}
         </AppText>
-        <ReachableService pending={isReachingService} reachable={isServiceReachable} />
+        <View style={tw`flex flex-row items-start flex-gap-2 w-full overflow-hidden`}>
+          <MaterialCommunityIcons
+            color={tw.color('blue-600')}
+            iconStyle={tw`h-6 w-6 mr-0`}
+            name="information"
+            size={24}
+            style={tw`shrink-0 grow-0`}
+          />
+          <Trans
+            components={[
+              <AppText
+                key="open-settings"
+                style={tw`text-amber-500`}
+                onPress={Linking.openSettings}
+              />,
+            ]}
+            defaults={t('devices.add.pair.localNetworkPermissions')}
+            parent={AppText}
+            style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}
+          />
+        </View>
+
         <AppRoundedButton
           disabled={isAnimating}
           style={tw`mt-2 w-full max-w-md self-center`}
@@ -435,56 +413,6 @@ const PairDeviceBottomSheet = ({
         </Link>
       </View>
     </AppBottomSheet>
-  );
-};
-
-const ReachableService = ({
-  reachable,
-  pending,
-  style,
-}: {
-  reachable?: boolean;
-  pending?: boolean;
-  style?: StyleProp<ViewStyle>;
-}) => {
-  const { t } = useTranslation();
-
-  return (
-    <View style={[tw`flex flex-row items-start flex-gap-2 w-full overflow-hidden`, style]}>
-      {pending ? (
-        <View style={tw`rounded-full overflow-hidden`}>
-          <LoadingSkeleton height={24} width={24} />
-        </View>
-      ) : (
-        <MaterialCommunityIcons
-          color={
-            reachable
-              ? tw.prefixMatch('dark')
-                ? tw.color('emerald-700')
-                : tw.color('emerald-600')
-              : tw.color('yellow-500')
-          }
-          iconStyle={tw`h-6 w-6 mr-0`}
-          name={reachable ? 'check-circle' : 'alert'}
-          size={24}
-          style={tw`shrink-0 grow-0`}
-        />
-      )}
-
-      {pending ? (
-        <View style={tw`flex flex-col gap-1 mt-1`}>
-          <LoadingSkeleton height={18} width={172} />
-        </View>
-      ) : (
-        <View style={tw`flex flex-row items-center min-h-6 shrink grow basis-0`}>
-          <AppText
-            entering={FadeIn.duration(300)}
-            style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
-            {reachable ? t('devices.add.pair.reachable') : t('devices.add.pair.unreachable')}
-          </AppText>
-        </View>
-      )}
-    </View>
   );
 };
 
