@@ -208,7 +208,7 @@ export default function HomeScreen() {
       authStore.user?.id && refetchProfile(),
       authStore.user?.id && refetchSubscriptions(),
       authStore.user?.id && refetchDevices(),
-      authStore.user?.id && refetchMessages(),
+      IS_DEV && authStore.user?.id && refetchMessages(),
       refetchCurrentMembers(),
       refetchCalendarEvents(),
     ]);
