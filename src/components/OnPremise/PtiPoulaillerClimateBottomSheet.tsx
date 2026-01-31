@@ -1,3 +1,4 @@
+import { isNil } from 'lodash';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
@@ -10,8 +11,8 @@ import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 const PtiPoulaillerClimateBottomSheet = ({
   loading = false,
-  temperatureLevel = 0,
-  humidityLevel = 0,
+  temperatureLevel,
+  humidityLevel,
   style,
   onClose,
 }: {
@@ -45,22 +46,22 @@ const PtiPoulaillerClimateBottomSheet = ({
           style={tw`w-full px-0`}>
           {loading ? (
             <LoadingSkeleton height={24} width={48} />
-          ) : (
+          ) : !isNil(temperatureLevel) ? (
             <AppText
               style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
               {t('onPremise.climate.temperature.level', { level: temperatureLevel })}
             </AppText>
-          )}
+          ) : null}
         </ServiceRow>
         <ServiceRow label={t('onPremise.climate.humidity.label')} style={tw`w-full px-0`}>
           {loading ? (
             <LoadingSkeleton height={24} width={48} />
-          ) : (
+          ) : !isNil(humidityLevel) ? (
             <AppText
               style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
               {t('onPremise.climate.humidity.level', { level: humidityLevel })}
             </AppText>
-          )}
+          ) : null}
         </ServiceRow>
       </View>
     </AppBottomSheet>

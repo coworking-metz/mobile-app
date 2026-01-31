@@ -9,6 +9,7 @@ import { View } from 'react-native';
 import Animated, { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import EmptyOfficeAnimation from '@/components/Animations/EmptyOfficeAnimation';
+import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
 import MemberBottomSheet from '@/components/Attendance/MemberBottomSheet';
 import MemberCard from '@/components/Attendance/MemberCard';
@@ -129,7 +130,8 @@ const Attendance = () => {
       onRefresh={refetchCurrentMembers}>
       {!isNil(durationSinceLastFetch) ? (
         <View style={tw`flex flex-row items-center gap-2 min-h-6 px-6`}>
-          <AppText
+          <AppShimmerText
+            active={isFetchingCurrentMembers}
             entering={FadeInLeft.duration(300)}
             exiting={FadeOutLeft.duration(300)}
             numberOfLines={1}
@@ -139,7 +141,7 @@ const Attendance = () => {
                 ? dayjs(currentMembersUpdatedAt).calendar()
                 : dayjs(currentMembersUpdatedAt).fromNow(),
             )}
-          </AppText>
+          </AppShimmerText>
           {currentMembersError &&
           !isSilentError(currentMembersError) &&
           !isFetchingCurrentMembers ? (

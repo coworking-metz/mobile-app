@@ -58,7 +58,7 @@ const BalanceCard = ({
                 tw`font-normal flex-shrink`,
                 count != 0
                   ? tw`text-sm leading-[1.625rem] ml-0.5 text-slate-500 dark:text-neutral-500`
-                  : tw`text-2xl text-gray-400 dark:text-slate-600`,
+                  : tw`text-2xl text-gray-400 dark:text-neutral-700`,
               ]}>
               {count < 0
                 ? t('home.profile.tickets.depleted', { count: count })

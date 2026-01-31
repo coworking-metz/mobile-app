@@ -1,6 +1,6 @@
 import MaskedView from '@react-native-masked-view/masked-view';
 import { ReactNode, useMemo, useState } from 'react';
-import { StyleSheet, TextStyle, type StyleProp } from 'react-native';
+import { StyleSheet, TextStyle, View, type StyleProp } from 'react-native';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppText, { AppTextProps } from '@/components/AppText';
@@ -33,15 +33,16 @@ const AppShimmerText = ({
         </AppText>
       }
       style={[tw`relative overflow-hidden`]}>
-      <AppText
-        style={[style, active && { opacity: 0 }]}
+      <View
+        style={[active && tw`opacity-0`]}
         onLayout={(e) => {
           setHeight(e.nativeEvent.layout.height);
           setWidth(e.nativeEvent.layout.width);
-        }}
-        {...props}>
-        {children}
-      </AppText>
+        }}>
+        <AppText style={style} {...props}>
+          {children}
+        </AppText>
+      </View>
 
       {active && (
         <Animated.View
