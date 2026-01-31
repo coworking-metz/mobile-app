@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
 import { Link, usePathname, useRouter } from 'expo-router';
+import { compact } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -112,6 +113,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     data: profile,
     error: profileError,
     refetch: refetchProfile,
+    isEnabled: isProfileEnabled,
   } = useQuery({
     queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
@@ -295,7 +297,9 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           <RefreshControl
             progressViewOffset={progressViewOffset}
             refreshing={isFetchingActivity}
-            onRefresh={() => Promise.all([refetchActivity(), refetchProfile()])}
+            onRefresh={() =>
+              Promise.all(compact([refetchActivity(), isProfileEnabled && refetchProfile()]))
+            }
           />
         }
         scrollEventThrottle={16}
@@ -331,13 +335,13 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             loading={isFetchingActivity || isFetchingProfile}
             style={tw`mx-6`}
             title={t('settings.profile.presence.title')}>
-            {activityError && !isSilentError(activityError) ? (
+            {activityError && !isSilentError(activityError) && !isFetchingActivity ? (
               <ErrorBadge
                 error={activityError}
                 title={t('settings.profile.presence.onFetch.fail')}
                 onRetry={refetchActivity}
               />
-            ) : profileError && !isSilentError(profileError) ? (
+            ) : profileError && !isSilentError(profileError) && !isFetchingProfile ? (
               <ErrorBadge
                 error={profileError}
                 title={t('home.profile.onFetch.fail')}

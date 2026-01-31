@@ -35,11 +35,11 @@ const LoginAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (pr
         'layers.2.shapes.0.it.1.c.k': theme.miramonYellow,
         // Password Box.Password Box.Fill 1
         'layers.3.shapes.0.it.1.c.k': (colorScheme === 'dark'
-          ? tw.color('gray-500')
+          ? tw.color('neutral-500')
           : tw.color('white')) as string,
         // User name Box.User name Box.Fill 1
         'layers.4.shapes.0.it.1.c.k': (colorScheme === 'dark'
-          ? tw.color('gray-500')
+          ? tw.color('neutral-500')
           : tw.color('white')) as string,
         // Use icon.Group 1.Fill 1
         'layers.5.shapes.0.it.1.c.k': theme.miramonYellow,
@@ -57,7 +57,7 @@ const LoginAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (pr
         'layers.6.shapes.2.it.1.c.k': tw.color('green-500') as string,
         // Tab.Tab.Fill 1
         'layers.7.shapes.0.it.1.c.k': (colorScheme === 'dark'
-          ? tw.color('slate-800')
+          ? tw.color('zinc-800')
           : tw.color('gray-200')) as string,
       }),
     [colorScheme],

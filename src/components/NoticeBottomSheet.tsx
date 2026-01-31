@@ -1,8 +1,6 @@
 import ErrorAnimation from './Animations/ErrorAnimation';
-import HorizontalLoadingAnimation from './Animations/HorizontalLoadingAnimation';
 import InfoAnimation from './Animations/InfoAnimation';
 import SuccessAnimation from './Animations/SuccessAnimation';
-import UnlockAnimation from './Animations/UnlockAnimation';
 import WarningAnimation from './Animations/WarningAnimation';
 import AppBottomSheet, { AppBottomSheetRef } from './AppBottomSheet';
 import AppRoundedButton from './AppRoundedButton';
@@ -21,8 +19,6 @@ const NoticeBottomSheet = () => {
 
   const getAnimation = (type?: NoticeType) => {
     switch (type) {
-      case 'loading':
-        return <HorizontalLoadingAnimation style={tw`h-full w-full`} />;
       case 'error':
         return <ErrorAnimation style={tw`h-full w-full`} />;
       case 'warning':
@@ -31,8 +27,6 @@ const NoticeBottomSheet = () => {
         return <SuccessAnimation style={tw`h-full w-full`} />;
       case 'info':
         return <InfoAnimation style={tw`h-full w-full`} />;
-      case 'unlock':
-        return <UnlockAnimation style={tw`h-full w-full`} />;
       default:
         return <></>;
     }

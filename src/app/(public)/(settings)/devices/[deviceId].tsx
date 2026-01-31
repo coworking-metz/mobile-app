@@ -219,14 +219,14 @@ const DeviceDetail = () => {
       title={device?.name ?? device?.macAddress ?? ''}
       onRefresh={refetchDevices}>
       <View style={tw`flex flex-col grow px-3 w-full max-w-xl mx-auto`}>
-        {devicesError && (
+        {devicesError ? (
           <ErrorChip
             error={devicesError}
             label={t('devices.onFetch.fail')}
             style={tw`mb-4 mx-3 self-start`}
             onRetry={refetchDevices}
           />
-        )}
+        ) : null}
         <AppTextField
           ref={nameField}
           enableErrors

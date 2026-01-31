@@ -80,7 +80,7 @@ const Account = () => {
         </View>
 
         <SectionTitle style={tw`mx-6 mt-8`} title={t('account.profile.title')}>
-          {profileError && !isSilentError(profileError) ? (
+          {profileError && !isSilentError(profileError) && !isFetchingProfile ? (
             <ErrorBadge
               error={profileError}
               title={t('account.profile.onFetch.fail')}

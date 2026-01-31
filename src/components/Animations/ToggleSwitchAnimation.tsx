@@ -16,7 +16,7 @@ const ToggleSwitchAnimation: ForwardRefRenderFunction<LottieView, AnimationProps
   const colorizedSource = useMemo(() => {
     const isDark = colorScheme === 'dark';
     const enabledSwitchColor = theme.meatBrown;
-    const disabledSwitchColor = (isDark ? tw.color('slate-500') : tw.color('slate-400')) as string;
+    const disabledSwitchColor = (isDark ? tw.color('zinc-500') : tw.color('slate-400')) as string;
     const borderColor = (isDark ? tw.color('gray-200') : tw.color('gray-800')) as string;
     const cursorColor = (isDark ? tw.color('gray-200') : tw.color('gray-800')) as string;
     return colouriseLottie(ToggleSwitch, {

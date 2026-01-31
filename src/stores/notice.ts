@@ -4,7 +4,7 @@ import { create } from 'zustand';
 import { AppRoundedButtonProps } from '@/components/AppRoundedButton';
 import { AnyError, parseErrorText } from '@/helpers/error';
 
-export type NoticeType = 'info' | 'success' | 'warning' | 'error' | 'loading' | 'unlock';
+export type NoticeType = 'info' | 'success' | 'warning' | 'error';
 
 export type NoticeAction = Pick<AppRoundedButtonProps, 'onPress' | 'suffixIcon'> & {
   label: string;

@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import { sample } from 'lodash';
 import React, { useEffect, useMemo } from 'react';
@@ -21,20 +22,15 @@ import ErrorBadge from '@/components/ErrorBadge';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import ReanimatedText from '@/components/ReanimatedText';
-import { AnyError } from '@/helpers/error';
-import { type ApiMemberProfile } from '@/services/api/members';
+import { AnyError, isSilentError } from '@/helpers/error';
+import { getCurrentMembers, type ApiMemberProfile } from '@/services/api/members';
+import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 
 const MAX_MEMBERS_PICTURES = 5;
+const TOTAL_CAPACITY = 40;
 
 const AttendanceCount = ({
-  lastFetch,
-  members = [],
-  total = 0,
-  loading,
-  fetching,
-  error,
-  onRetry,
   style,
 }: {
   lastFetch?: number;
@@ -50,24 +46,36 @@ const AttendanceCount = ({
   const user = useAuthStore((s) => s.user);
   const count = useSharedValue<number>(0);
 
+  const {
+    isPending: isPendingCurrentMembers,
+    isFetching: isFetchingCurrentMembers,
+    data: currentMembers,
+    refetch: refetchCurrentMembers,
+    error: currentMembersError,
+    dataUpdatedAt: currentMembersUpdatedAt,
+  } = useQuery({
+    queryKey: membersQueryKeys.attending(),
+    queryFn: getCurrentMembers,
+  });
+
   const otherMembers = useMemo(() => {
     return (
-      members
+      (currentMembers ?? [])
         // have at least a name to render initials
         .filter((member) => member.firstName || member.lastName)
         .filter(({ _id }) => !user?.id || _id !== user?.id)
     );
-  }, [members, user]);
+  }, [currentMembers, user]);
 
   useEffect(() => {
-    const newCount = members.length;
+    const newCount = currentMembers?.length ?? 0;
     const duration = 64 * Math.abs(count.value - newCount);
     count.value = withTiming(newCount, {
       duration: Math.min(Math.max(duration, 1_000), 4_000),
       easing: Easing.inOut(Easing.cubic),
       reduceMotion: ReduceMotion.System,
     });
-  }, [members]);
+  }, [currentMembers]);
 
   const membersCount = useDerivedValue(() => {
     return `${count.value.toFixed(0)}`;
@@ -78,14 +86,17 @@ const AttendanceCount = ({
   }, [count]);
 
   const attendanceText = useMemo(() => {
-    const text = t('home.people.present', { count: members.length, returnObjects: true });
+    const text = t('home.people.present', {
+      count: currentMembers?.length ?? 0,
+      returnObjects: true,
+    });
     return Array.isArray(text) ? sample(text) : text;
-  }, [t, members.length, lastFetch]);
+  }, [t, currentMembers?.length, currentMembersUpdatedAt]);
 
   return (
     <View style={[tw`flex flex-col justify-end h-32 w-full`, style]}>
       <View style={tw`flex flex-row w-full items-end mb-5`}>
-        <LoadingSkeleton radius={16} show={loading}>
+        <LoadingSkeleton radius={16} show={isPendingCurrentMembers}>
           <ReanimatedText
             style={[
               tw`text-8xl leading-[6rem] font-bold text-slate-900 dark:text-gray-200 min-w-[3rem] ios:-mb-4.5 android:pr-3 android:h-28 android:-mb-2`,
@@ -95,14 +106,14 @@ const AttendanceCount = ({
         </LoadingSkeleton>
         <AppText
           style={tw`text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-neutral-500 h-12 android:min-w-28`}>
-          {t('home.people.capacity', { total: total })}
+          {t('home.people.capacity', { total: TOTAL_CAPACITY })}
         </AppText>
-        {error ? (
+        {currentMembersError && !isSilentError(currentMembersError) && !isFetchingCurrentMembers ? (
           <ErrorBadge
-            error={error}
+            error={currentMembersError}
             style={tw`ml-3`}
             title={t('home.people.onFetch.fail')}
-            onRetry={onRetry}
+            onRetry={refetchCurrentMembers}
           />
         ) : null}
       </View>
@@ -110,13 +121,13 @@ const AttendanceCount = ({
       <Link asChild href="/attendance">
         <AppPressable>
           <View style={tw`flex flex-row items-center min-h-8 gap-1`}>
-            {loading ? (
+            {isPendingCurrentMembers ? (
               <Animated.View exiting={FadeOut.duration(150)}>
                 <LoadingSkeleton height={24} width={172} />
               </Animated.View>
             ) : (
               <AppShimmerText
-                active={fetching}
+                active={isFetchingCurrentMembers}
                 activeColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
                 numberOfLines={1}
                 style={tw`shrink grow text-xl font-normal text-slate-500 dark:text-neutral-500`}>
@@ -130,7 +141,7 @@ const AttendanceCount = ({
                   {otherMembers
                     .slice(
                       0,
-                      members.length > MAX_MEMBERS_PICTURES
+                      (currentMembers?.length ?? 0) > MAX_MEMBERS_PICTURES
                         ? MAX_MEMBERS_PICTURES - 1
                         : MAX_MEMBERS_PICTURES,
                     )
@@ -148,7 +159,7 @@ const AttendanceCount = ({
                         />
                       </Animated.View>
                     ))}
-                  {members.length > MAX_MEMBERS_PICTURES ? (
+                  {(currentMembers?.length ?? 0) > MAX_MEMBERS_PICTURES ? (
                     <Animated.View
                       entering={FadeInRight.duration(750).delay(500)}
                       exiting={FadeOutRight.duration(500).delay(500)}

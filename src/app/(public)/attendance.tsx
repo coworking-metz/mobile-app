@@ -140,7 +140,9 @@ const Attendance = () => {
                 : dayjs(currentMembersUpdatedAt).fromNow(),
             )}
           </AppText>
-          {currentMembersError && !isSilentError(currentMembersError) ? (
+          {currentMembersError &&
+          !isSilentError(currentMembersError) &&
+          !isFetchingCurrentMembers ? (
             <ErrorBadge
               error={currentMembersError}
               title={t('attendance.onFetch.fail')}

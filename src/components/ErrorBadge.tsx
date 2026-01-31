@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import ErrorAnimation from './Animations/ErrorAnimation';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, type StyleProp, type ViewStyle } from 'react-native';
@@ -38,11 +38,7 @@ const ErrorBadge = ({
 
   return (
     <TouchableOpacity style={style} onPress={onPress}>
-      <MaterialCommunityIcons
-        color={tw.prefixMatch('dark') ? tw.color('red-700') : tw.color('red-700')}
-        name={'alert-circle-outline'}
-        size={20}
-      />
+      <ErrorAnimation style={tw`h-5 w-5`} />
     </TouchableOpacity>
   );
 };

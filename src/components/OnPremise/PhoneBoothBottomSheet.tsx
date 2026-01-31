@@ -175,7 +175,7 @@ const PhoneBoothBottomSheet = ({
         loading={loading}
         style={tw`mx-4`}
         title={t('onPremise.phoneBooths.graph.label')}>
-        {occupationError && !isSilentError(occupationError) ? (
+        {occupationError && !isSilentError(occupationError) && !isFetchingOccupation ? (
           <ErrorBadge
             error={occupationError}
             title={t('onPremise.phoneBooths.onFetch.fail')}
@@ -261,12 +261,17 @@ const PhoneBoothBottomSheet = ({
                         ...(itemIndex % 3 === 0 && {
                           label: dayjs(item.date).local().format('HH[h]'),
                         }),
-                        labelTextStyle: [tw`text-slate-500 text-left`, { width: BAR_WIDTH }],
+                        labelTextStyle: [
+                          tw`text-slate-500 dark:text-neutral-500 text-left`,
+                          { width: BAR_WIDTH },
+                        ],
                       } as stackDataItem,
                     ];
                   }, [])}
                   width={carouselWidth - 6}
-                  xAxisColor={tw.color('slate-400')?.toString()}
+                  xAxisColor={
+                    tw.prefixMatch('dark') ? tw.color('neutral-700') : tw.color('slate-400')
+                  }
                   yAxisColor={'transparent'}
                   yAxisExtraHeight={12}
                   yAxisLabelWidth={0}

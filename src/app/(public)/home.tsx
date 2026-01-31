@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { NetworkStateType, useNetworkState } from 'expo-network';
 import { Link } from 'expo-router';
-import { includes, sample } from 'lodash';
+import { compact, includes, sample } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
@@ -83,11 +83,8 @@ export default function HomeScreen() {
   const contact = useAppContact();
 
   const {
-    data: currentMembers,
-    isLoading: isLoadingCurrentMembers,
     isFetching: isFetchingCurrentMembers,
     refetch: refetchCurrentMembers,
-    error: currentMembersError,
     dataUpdatedAt: currentMembersUpdatedAt,
   } = useQuery({
     queryKey: membersQueryKeys.attending(),
@@ -100,6 +97,7 @@ export default function HomeScreen() {
     isFetching: isFetchingProfile,
     refetch: refetchProfile,
     error: profileError,
+    isEnabled: isProfileEnabled,
   } = useQuery({
     queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
@@ -116,6 +114,7 @@ export default function HomeScreen() {
     isPending: isPendingDevices,
     isFetching: isFetchingDevices,
     refetch: refetchDevices,
+    isEnabled: areDevicesEnabled,
   } = useQuery({
     queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
@@ -124,12 +123,14 @@ export default function HomeScreen() {
       }
       throw new Error(t('account.profile.onFetch.missing'));
     },
+    enabled: !!authStore.user?.id,
   });
 
   const {
     isFetching: isFetchingMessages,
     data: messages,
     refetch: refetchMessages,
+    isEnabled: areMessagesEnabled,
   } = useQuery({
     queryKey: membersQueryKeys.allMessagesById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
@@ -152,6 +153,7 @@ export default function HomeScreen() {
     isFetching: isFetchingSubscriptions,
     refetch: refetchSubscriptions,
     error: subscriptionsError,
+    isEnabled: areSubscriptionsEnabled,
   } = useQuery({
     queryKey: membersQueryKeys.subscriptionsById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
@@ -204,14 +206,16 @@ export default function HomeScreen() {
   }, [calendarEvents, activeSince, settingsStore.upcomingEventsPeriod]);
 
   const onRefresh = useCallback(() => {
-    return Promise.all([
-      authStore.user?.id && refetchProfile(),
-      authStore.user?.id && refetchSubscriptions(),
-      authStore.user?.id && refetchDevices(),
-      IS_DEV && authStore.user?.id && refetchMessages(),
-      refetchCurrentMembers(),
-      refetchCalendarEvents(),
-    ]);
+    return Promise.all(
+      compact([
+        refetchCurrentMembers(),
+        refetchCalendarEvents(),
+        isProfileEnabled && refetchProfile(),
+        areSubscriptionsEnabled && refetchSubscriptions(),
+        areDevicesEnabled && refetchDevices(),
+        areMessagesEnabled && refetchMessages(),
+      ]),
+    );
   }, [authStore.user, settingsStore]);
 
   const onSuccessiveTaps = useCallback(() => {
@@ -366,18 +370,7 @@ export default function HomeScreen() {
           tw`flex flex-col self-stretch gap-2 pl-6 pr-4`,
           isWide && tw`mx-auto w-full max-w-2xl`,
         ]}>
-        <AttendanceCount
-          error={
-            currentMembersError && !isSilentError(currentMembersError) ? currentMembersError : null
-          }
-          fetching={isFetchingCurrentMembers}
-          lastFetch={currentMembersUpdatedAt}
-          loading={isLoadingCurrentMembers}
-          members={currentMembers}
-          style={tw`mt-4`}
-          total={40}
-          onRetry={refetchCurrentMembers}
-        />
+        <AttendanceCount style={tw`mt-4`} />
       </Animated.View>
 
       {authStore.user?.onboarding && (
@@ -395,13 +388,15 @@ export default function HomeScreen() {
           loading={isFetchingProfile || isFetchingSubscriptions}
           style={[tw`self-stretch mt-9 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
           title={t('home.profile.label')}>
-          {profileError && !isSilentError(profileError) ? (
+          {profileError && !isSilentError(profileError) && !isFetchingProfile ? (
             <ErrorBadge
               error={profileError}
               title={t('home.profile.onFetch.fail')}
               onRetry={refetchProfile}
             />
-          ) : subscriptionsError && !isSilentError(subscriptionsError) ? (
+          ) : subscriptionsError &&
+            !isSilentError(subscriptionsError) &&
+            !isFetchingSubscriptions ? (
             <ErrorBadge
               error={subscriptionsError}
               title={t('home.profile.subscription.onFetch.fail')}
@@ -479,7 +474,7 @@ export default function HomeScreen() {
         loading={isFetchingCalendarEvents}
         style={[tw`self-stretch mt-9 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
         title={t('home.calendar.label')}>
-        {calendarEventsError && !isSilentError(calendarEventsError) ? (
+        {calendarEventsError && !isSilentError(calendarEventsError) && !isFetchingCalendarEvents ? (
           <ErrorBadge
             error={calendarEventsError}
             title={t('home.calendar.onFetch.fail')}

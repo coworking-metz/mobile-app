@@ -94,14 +94,14 @@ const PoulaillerPlan = ({
         <AppText style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.location.poulailler')}
         </AppText>
-        {onPremiseStateError && !isSilentError(onPremiseStateError) && (
+        {onPremiseStateError && !isSilentError(onPremiseStateError) && !isFetchingOnPremiseState ? (
           <ErrorBadge
             error={onPremiseStateError}
             style={tw`shrink-0 mb-2`}
             title={t('onPremise.onFetch.fail')}
             onRetry={refetchOnPremiseState}
           />
-        )}
+        ) : null}
       </View>
       <View
         style={[

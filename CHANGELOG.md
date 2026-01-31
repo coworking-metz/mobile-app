@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Changed
+
+- Animate error badge icon.
+
 ## [2026.1.2] - 2026-01-28
 
 ### Changed

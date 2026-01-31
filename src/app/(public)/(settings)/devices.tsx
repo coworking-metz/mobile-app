@@ -53,14 +53,14 @@ const Devices = () => {
       title={t('devices.title')}
       withBackButton={!_root}
       onRefresh={refetchDevices}>
-      {devicesError && !isSilentError(devicesError) && (
+      {devicesError && !isSilentError(devicesError) ? (
         <ErrorChip
           error={devicesError}
           label={t('devices.onFetch.fail')}
           style={tw`mx-6 mb-4 self-start`}
           onRetry={refetchDevices}
         />
-      )}
+      ) : null}
       {isPendingDevices ? (
         <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-4`}>
           {[0].map((index) => (
