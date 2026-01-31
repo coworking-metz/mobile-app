@@ -1,7 +1,8 @@
+import { useQuery } from '@tanstack/react-query';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { includes } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { ScrollView, View, type LayoutChangeEvent } from 'react-native';
+import { RefreshControl, ScrollView, View, type LayoutChangeEvent } from 'react-native';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
@@ -11,7 +12,9 @@ import CarouselPaginationDots from '@/components/CarouselPaginationDots';
 import PoulaillerPlan from '@/components/OnPremise/PoulaillerPlan';
 import PtiPoulaillerPlan from '@/components/OnPremise/PtiPoulaillerPlan';
 import useAppScreen from '@/helpers/screen';
+import { getOnPremiseState } from '@/services/api/services';
 import { IS_DEV } from '@/services/environment';
+import { onPremiseQueryKeys } from '@/services/query';
 
 const SUPPORTED_LOCATIONS = ['poulailler', 'pti-poulailler'];
 
@@ -26,8 +29,23 @@ const OnPremise = () => {
   const [layoutWidth, setLayoutWidth] = useState(0);
   const [headerHeight, setHeaderHeight] = useState(0);
 
+  // https://github.com/facebook/react-native/issues/54183#issuecomment-3467125323
+  const [progressViewOffset, setProgressViewOffset] = useState(0);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setProgressViewOffset(headerHeight - 16);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [headerHeight]);
+
   const offset = useSharedValue(0);
   const horizontalScrollView = useRef<Animated.ScrollView>(null);
+
+  const { isFetching: isFetchingOnPremiseState, refetch: refetchOnPremiseState } = useQuery({
+    queryKey: onPremiseQueryKeys.state(),
+    queryFn: getOnPremiseState,
+  });
 
   const onHorizontalScroll = useAnimatedScrollHandler(
     {
@@ -140,6 +158,13 @@ const OnPremise = () => {
               { paddingTop: headerHeight, width: isWide ? layoutWidth / 2 : layoutWidth },
             ]}
             horizontal={false}
+            refreshControl={
+              <RefreshControl
+                progressViewOffset={progressViewOffset}
+                refreshing={isFetchingOnPremiseState}
+                onRefresh={refetchOnPremiseState}
+              />
+            }
             scrollEventThrottle={16}
             showsVerticalScrollIndicator={false}>
             <PoulaillerPlan
@@ -153,6 +178,13 @@ const OnPremise = () => {
               { paddingTop: headerHeight, width: isWide ? layoutWidth / 2 : layoutWidth },
             ]}
             horizontal={false}
+            refreshControl={
+              <RefreshControl
+                progressViewOffset={progressViewOffset}
+                refreshing={isFetchingOnPremiseState}
+                onRefresh={refetchOnPremiseState}
+              />
+            }
             scrollEventThrottle={16}
             showsVerticalScrollIndicator={false}>
             <PtiPoulaillerPlan

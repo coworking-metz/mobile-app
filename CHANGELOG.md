@@ -7,10 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Link to WiFi credentials bottom sheet on pairing a new device.
+- Pull to refresh on floor plans screen.
+
 ### Changed
 
 - Animate error badge icon.
-- Link to WiFi credentials bottom sheet on pairing a new device.
 
 ## [2026.1.2] - 2026-01-28
 

@@ -1,3 +1,4 @@
+import ActionableLight from './ActionableLight';
 import { useOnPremise } from './OnPremiseContext';
 import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
@@ -125,7 +126,44 @@ const PtiPoulaillerPlan = ({
             />
           </>
         ) : withLights ? (
-          <></>
+          <>
+            <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              id="1"
+              key="light-1"
+              loading={isFetchingOnPremiseState}
+              pending={isPendingOnPremiseState}
+              style={tw`top-[32%] left-[32%]`}
+            />
+            <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              id="2"
+              key="light-2"
+              loading={isFetchingOnPremiseState}
+              pending={isPendingOnPremiseState}
+              style={tw`top-[32%] left-[65%]`}
+            />
+            <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              id="5"
+              key="light-5"
+              loading={isFetchingOnPremiseState}
+              pending={isPendingOnPremiseState}
+              style={tw`top-[65%] left-[32%]`}
+            />
+            <ActionableLight
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              id="6"
+              key="light-6"
+              loading={isFetchingOnPremiseState}
+              pending={isPendingOnPremiseState}
+              style={tw`top-[65%] left-[65%]`}
+            />
+          </>
         ) : (
           <>
             {/* Flexispot A */}
