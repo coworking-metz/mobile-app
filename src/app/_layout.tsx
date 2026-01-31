@@ -89,11 +89,11 @@ const RootLayout = () => {
                     <PermissionsProvider>
                       <ReviewProvider>
                         <ThemeProvider>
-                          <SocialsProvider>
-                            <NewDeviceProvider>
-                              <PresenceProvider>
-                                <UpcomingEventsProvider>
-                                  <OnPremiseProvider>
+                          <OnPremiseProvider>
+                            <SocialsProvider>
+                              <NewDeviceProvider>
+                                <PresenceProvider>
+                                  <UpcomingEventsProvider>
                                     <Stack
                                       screenOptions={{
                                         headerShown: false,
@@ -177,11 +177,11 @@ const RootLayout = () => {
                                         }}
                                       />
                                     </Stack>
-                                  </OnPremiseProvider>
-                                </UpcomingEventsProvider>
-                              </PresenceProvider>
-                            </NewDeviceProvider>
-                          </SocialsProvider>
+                                  </UpcomingEventsProvider>
+                                </PresenceProvider>
+                              </NewDeviceProvider>
+                            </SocialsProvider>
+                          </OnPremiseProvider>
                         </ThemeProvider>
                       </ReviewProvider>
                     </PermissionsProvider>

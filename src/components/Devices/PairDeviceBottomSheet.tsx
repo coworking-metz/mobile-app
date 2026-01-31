@@ -1,3 +1,4 @@
+import { useOnPremise } from '../OnPremise/OnPremiseContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Device from 'expo-device';
@@ -51,6 +52,7 @@ const PairDeviceBottomSheet = ({
   const animation = useRef<LottieView>(null);
   const bottomSheetRef = useRef<AppBottomSheetRef>(null);
   const queryClient = useQueryClient();
+  const { selectWifi } = useOnPremise();
 
   const [fetchDeviveInfoAttemptsCount, setFetchDeviveInfoAttemptsCount] = useState<number>(0);
   const [fetchDeviceTimeoutHandle, setFetchDeviceTimeoutHandle] = useState<NodeJS.Timeout | null>(
@@ -376,6 +378,7 @@ const PairDeviceBottomSheet = ({
           />
           <Trans
             components={[
+              <AppText key="wifi-network" style={tw`text-amber-500`} onPress={selectWifi} />,
               <AppText
                 key="open-settings"
                 style={tw`text-amber-500`}

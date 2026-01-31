@@ -90,7 +90,7 @@ const LogoutBottomSheet = ({
           <AppText style={tw`text-base text-black font-medium`}>{t('actions.logout')}</AppText>
         </AppRoundedButton>
         <Link asChild replace href={`/home?loggedOut=true`}>
-          <AppTextButton style={tw`mt-4`} onPress={onClose}>
+          <AppTextButton style={tw`mt-4`} onPress={bottomSheetRef.current?.close}>
             <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
               {t('auth.logout.forceLogout')}
             </AppText>

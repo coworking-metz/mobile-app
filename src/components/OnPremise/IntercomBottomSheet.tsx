@@ -27,7 +27,7 @@ const IntercomBottomSheet = ({
       </AppText>
 
       <AppText
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6`}>
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6 mb-3`}>
         {t('onPremise.intercom.description')}
       </AppText>
     </AppBottomSheet>
