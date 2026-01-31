@@ -1,3 +1,4 @@
+import AppShimmerText from '../AppShimmerText';
 import { useOnPremise } from '../OnPremise/OnPremiseContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQueryClient } from '@tanstack/react-query';
@@ -9,7 +10,7 @@ import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
-import { FadeIn, FadeInLeft, FadeOutRight } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInLeft, FadeOut, FadeOutRight } from 'react-native-reanimated';
 import tw from 'twrnc';
 import WifiScanningAnimation from '@/components/Animations/WifiScanningAnimation';
 import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
@@ -303,15 +304,11 @@ const PairDeviceBottomSheet = ({
             onAnimationFinish={onAnimationFinish}
           />
         </View>
-        {!isAnimating && (
-          <AppText
-            exiting={FadeOutRight.duration(500)}
-            style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-            {t('devices.add.pair.label')}
-          </AppText>
-        )}
-        {isAnimating && (
-          <View style={tw`flex flex-col gap-1`}>
+        {isAnimating ? (
+          <Animated.View
+            entering={FadeIn.duration(500)}
+            exiting={FadeOut.duration(500)}
+            style={tw`flex flex-col gap-1`}>
             {!macAddress && (
               <>
                 <AppText
@@ -321,7 +318,8 @@ const PairDeviceBottomSheet = ({
                   {t('devices.add.onFetchDeviceInfo.pending')}
                 </AppText>
                 {fetchDeviveInfoAttemptsCount > 1 && (
-                  <AppText
+                  <AppShimmerText
+                    active
                     entering={FadeIn.duration(1000)}
                     exiting={FadeOutRight.duration(500)}
                     style={tw`text-center text-xs font-normal text-slate-500 dark:text-neutral-500`}>
@@ -329,7 +327,7 @@ const PairDeviceBottomSheet = ({
                       count: fetchDeviveInfoAttemptsCount,
                       max: FETCH_DEVICE_INFO_MAX_ATTEMPTS_COUNT,
                     })}
-                  </AppText>
+                  </AppShimmerText>
                 )}
               </>
             )}
@@ -351,18 +349,26 @@ const PairDeviceBottomSheet = ({
                   {t('devices.add.onVerifyDevice.pending')}
                 </AppText>
                 {verifyingAttemptsCount > 1 && (
-                  <AppText
+                  <AppShimmerText
+                    active
                     entering={FadeIn.duration(1000)}
                     style={tw`text-center text-xs font-normal text-slate-500 dark:text-neutral-500`}>
                     {t('devices.add.onVerifyDevice.attempts', {
                       count: verifyingAttemptsCount,
                       max: VERIFY_ATTENDING_DEVICE_MAX_ATTEMPTS_COUNT,
                     })}
-                  </AppText>
+                  </AppShimmerText>
                 )}
               </>
             )}
-          </View>
+          </Animated.View>
+        ) : (
+          <AppText
+            entering={FadeIn.duration(500)}
+            exiting={FadeOutRight.duration(500)}
+            style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+            {t('devices.add.pair.label')}
+          </AppText>
         )}
         <AppText
           entering={FadeInLeft.duration(300)}

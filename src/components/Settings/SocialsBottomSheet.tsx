@@ -1,9 +1,8 @@
-import { Image } from 'expo-image';
+import { BliiidaIcon, CoworkingIcon } from '../Home/CalendarEventCard';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
-import BliiidaSquareLogo from '@/assets/images/bliiida-square.png';
 import SocialMediaReactionsAnimation from '@/components/Animations/SocialMediaReactionsAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
@@ -23,7 +22,10 @@ const SocialsBottomSheet = ({
   return (
     <AppBottomSheet contentContainerStyle={tw`pt-6`} style={style} onClose={onClose}>
       <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-        <SocialMediaReactionsAnimation style={tw`h-56 w-full`} />
+        <SocialMediaReactionsAnimation
+          backgroundColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
+          style={tw`h-56 w-full`}
+        />
       </View>
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4 px-6`}>
@@ -37,7 +39,11 @@ const SocialsBottomSheet = ({
         withBottomDivider
         href="https://us6.campaign-archive.com/home/?u=4406f25257&id=82ab4f380b"
         label={t('settings.support.socials.newsletter.label')}
-        prefixIcon="email-newsletter"
+        prefix={
+          <View style={tw`flex flex-row items-center shrink-0 min-h-10`}>
+            <CoworkingIcon style={tw`h-6 w-6 p-0`} />
+          </View>
+        }
         renderDescription={(d) => (
           <AppText numberOfLines={1} style={tw`text-sm font-normal text-amber-500`}>
             {d}
@@ -53,9 +59,7 @@ const SocialsBottomSheet = ({
         label={t('settings.support.socials.bliiidaNewsletter.label')}
         prefix={
           <View style={tw`flex flex-row items-center shrink-0 min-h-10`}>
-            <View style={tw`h-6 w-6 bg-gray-700 dark:bg-zinc-400 rounded-lg overflow-hidden`}>
-              <Image source={BliiidaSquareLogo} style={[tw`h-full w-full`]} />
-            </View>
+            <BliiidaIcon style={tw`h-6 w-6 p-0`} />
           </View>
         }
         prefixIcon="email-newsletter"
