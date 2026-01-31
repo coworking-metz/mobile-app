@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [2026.1.3] - 2026-01-31
+
 ### Added
 
 - Link to WiFi credentials bottom sheet on pairing a new device.
@@ -527,7 +529,8 @@ Initial release with the following features:
 - services like opening the gate,
 - user attendance history.
 
-[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2026.1.2...main
+[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2026.1.3...main
+[2026.1.3]: https://github.com/coworking-metz/mobile-app/compare/2026.1.2...2026.1.3
 [2026.1.2]: https://github.com/coworking-metz/mobile-app/compare/2026.1.1...2026.1.2
 [2026.1.1]: https://github.com/coworking-metz/mobile-app/compare/2025.11.3...2026.1.1
 [2025.11.3]: https://github.com/coworking-metz/mobile-app/compare/2025.11.2...2025.11.3
