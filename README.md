@@ -31,7 +31,7 @@ npm i
 ### Start the project
 
 ```bash
-npm start
+npm run dev
 ```
 
 ### Mock the API
@@ -55,6 +55,11 @@ npm i -g eas
 ### Build iOS locally
 
 ```bash
+npm run build:ios -- -- --device YOUR_DEVICE_NAME
+```
+
+otherwise, you can manually do it:
+```bash
 SENTRY_DISABLE_AUTO_UPLOAD=true eas build --profile preview --platform ios --local
 ```
 Then:
@@ -65,6 +70,11 @@ Then:
 
 ### Build Android locally
 
+```bash
+npm run build:android
+```
+
+otherwise, you can manually do it:
 ```bash
 SENTRY_DISABLE_AUTO_UPLOAD=true eas build --profile preview --platform android --local
 adb install build-*.apk
@@ -92,7 +102,7 @@ git push origin --tags
 ### Build for production
 
 ```bash
-eas build --profile production --platform all
+npm run deploy
 ```
 
 ### Submit to the App Store and Play Store

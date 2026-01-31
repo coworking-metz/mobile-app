@@ -48,6 +48,7 @@ const ActionableIcon = ({
         // selected && tw.style(`ios:border-2 ios:border-neutral-600 ios:dark:border-neutral-500`),
         style,
       ]}
+      {...(active && { type: 'light' })}
       {...props}>
       {loading && (
         <LoadingSpinner

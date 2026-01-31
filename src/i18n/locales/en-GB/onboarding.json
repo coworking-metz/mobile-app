@@ -6,7 +6,7 @@
   },
   "activity": {
     "description": "To anticipate the availability of the open space, which is open from 7 am to 11 pm, track the real-time number of coworkers present and check forecasts for the upcoming hours and days.\n\nYour personal history, as well as the details of your subscription and tickets, are also available at a glance.",
-    "headline": "From yesterday, today, and tomorrow",
+    "headline": "From yesterday, today, and\u00A0tomorrow",
     "title": "Check activity"
   },
   "events": {
@@ -15,6 +15,6 @@
   },
   "services": {
     "description": "Whether on foot, by bike, or by car, you have full control to access the place. Open the parking gate or unlock the pedestrian entrance whenever you want.\n\nAnd because we like to offer you options, you can also personalize your experience.\nWhich ambiance do you prefer?",
-    "title": "Come as you please"
+    "title": "Come as you\u00A0please"
   }
 }
