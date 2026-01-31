@@ -415,7 +415,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           <ServiceRow
             withBottomDivider
             label={t('settings.general.language.label')}
-            prefixIcon="alphabetical"
+            prefixIcon="translate"
             style={tw`px-3 mx-3`}
             onPress={selectLanguage}>
             <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
