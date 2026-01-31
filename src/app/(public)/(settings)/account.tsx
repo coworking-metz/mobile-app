@@ -12,6 +12,7 @@ import ErrorBadge from '@/components/ErrorBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import ZoomableImage from '@/components/ZoomableImage';
 import { useAppAuth } from '@/context/auth';
 import { isSilentError } from '@/helpers/error';
@@ -79,7 +80,10 @@ const Account = () => {
           </View>
         </View>
 
-        <SectionTitle style={tw`mx-6 mt-8`} title={t('account.profile.title')}>
+        <SectionTitle
+          loading={isFetchingProfile}
+          style={tw`mx-6 mt-8`}
+          title={t('account.profile.title')}>
           {profileError && !isSilentError(profileError) && !isFetchingProfile ? (
             <ErrorBadge
               error={profileError}
@@ -98,43 +102,53 @@ const Account = () => {
         <ServiceRow
           withBottomDivider
           label={t('account.profile.firstname.label')}
-          loading={isPendingProfile}
           style={tw`px-3 mx-3`}>
-          <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
-            {profile?.firstName}
-          </AppText>
+          {isPendingProfile ? (
+            <LoadingSkeleton show height={28} width={Math.random() * 48 + 96} />
+          ) : (
+            <AppText
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+              {profile?.firstName}
+            </AppText>
+          )}
         </ServiceRow>
         <ServiceRow
           withBottomDivider
           label={t('account.profile.lastname.label')}
-          loading={isPendingProfile}
           style={tw`px-3 mx-3`}>
-          <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
-            {profile?.lastName}
-          </AppText>
+          {isPendingProfile ? (
+            <LoadingSkeleton show height={28} width={Math.random() * 48 + 96} />
+          ) : (
+            <AppText
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+              {profile?.lastName}
+            </AppText>
+          )}
         </ServiceRow>
         <ServiceRow
           withBottomDivider
           label={t('account.profile.birthdate.label')}
-          loading={isPendingProfile}
           style={tw`px-3 mx-3`}>
-          <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
-            {profile?.birthDate && dayjs(profile.birthDate).format('LL')}
-          </AppText>
+          {isPendingProfile ? (
+            <LoadingSkeleton show height={28} width={96} />
+          ) : (
+            <AppText
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+              {profile?.birthDate ? dayjs(profile.birthDate).format('LL') : null}
+            </AppText>
+          )}
         </ServiceRow>
-        <ServiceRow
-          label={t('account.profile.email.label')}
-          loading={isPendingProfile}
-          style={tw`px-3 mx-3`}>
-          <AppText
-            ellipsizeMode={'middle'}
-            numberOfLines={1}
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right grow ml-auto max-w-4/5`}>
-            {profile?.email}
-          </AppText>
+        <ServiceRow label={t('account.profile.email.label')} style={tw`px-3 mx-3`}>
+          {isPendingProfile ? (
+            <LoadingSkeleton show height={28} width={Math.random() * 64 + 144} />
+          ) : (
+            <AppText
+              ellipsizeMode={'middle'}
+              numberOfLines={1}
+              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right grow ml-auto max-w-4/5`}>
+              {profile?.email ?? authStore.user?.email}
+            </AppText>
+          )}
         </ServiceRow>
 
         <ServiceRow

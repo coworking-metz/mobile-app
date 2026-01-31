@@ -52,7 +52,7 @@ const MembershipCard = ({
               tw`text-2xl font-normal w-full`,
               lastMembershipYear
                 ? tw`text-slate-900 dark:text-gray-200`
-                : tw`text-gray-400 dark:text-slate-600`,
+                : tw`text-gray-400 dark:text-neutral-700`,
             ]}>
             {lastMembershipYear || t('home.profile.membership.status.none')}
           </AppText>

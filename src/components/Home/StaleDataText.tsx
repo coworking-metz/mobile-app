@@ -1,4 +1,5 @@
 import PullToRefreshHint from './PullToRefreshHint';
+import AppShimmerText from '../AppShimmerText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
@@ -51,7 +52,8 @@ const StaleDataText = ({
         entering={FadeInUp.duration(300)}
         exiting={FadeOutUp.duration(300)}
         style={tw`flex flex-col items-start gap-1 shrink grow basis-0`}>
-        <AppText
+        <AppShimmerText
+          active={loading}
           numberOfLines={1}
           style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
           {capitalize(
@@ -59,7 +61,7 @@ const StaleDataText = ({
               ? dayjs(lastFetch).calendar()
               : dayjs(lastFetch).fromNow(),
           )}
-        </AppText>
+        </AppShimmerText>
         <TouchableOpacity style={tw`flex flex-row items-center gap-1`} onPress={onRefresh}>
           <AppText style={tw`text-sm font-normal leading-5 grow-0 text-amber-500`}>
             {t('home.refresh.label')}

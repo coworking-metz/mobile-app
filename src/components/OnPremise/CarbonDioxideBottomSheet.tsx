@@ -1,5 +1,5 @@
 import { SegmentedArc } from '@shipt/segmented-arc-for-react-native';
-import { sample } from 'lodash';
+import { isNil, sample } from 'lodash';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
@@ -24,10 +24,10 @@ const ANIMATION_DURATION = 1_000;
 
 const CarbonDioxideBottomSheet = ({
   loading = false,
-  level = 10,
-  temperatureLevel = 0,
-  humidityLevel = 0,
-  noiseLevel = 0,
+  level,
+  temperatureLevel,
+  humidityLevel,
+  noiseLevel,
   style,
   onClose,
 }: {
@@ -75,11 +75,13 @@ const CarbonDioxideBottomSheet = ({
   const ranges = [...CARBON_DIOXIDE_RANGES.map((rangeAsNumber) => `${rangeAsNumber}`), ''];
 
   useEffect(() => {
-    animatedLevel.value = withTiming(level, {
-      duration: ANIMATION_DURATION,
-      easing: Easing.inOut(Easing.cubic),
-      reduceMotion: ReduceMotion.System,
-    });
+    if (!isNil(level)) {
+      animatedLevel.value = withTiming(level, {
+        duration: ANIMATION_DURATION,
+        easing: Easing.inOut(Easing.cubic),
+        reduceMotion: ReduceMotion.System,
+      });
+    }
   }, [level]);
 
   const formattedAnimatedLevel = useDerivedValue(() => {
@@ -132,7 +134,7 @@ const CarbonDioxideBottomSheet = ({
           animationDuration={ANIMATION_DURATION}
           capInnerColor={levelColor}
           capOuterColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
-          fillValue={((level - 400) / 1600) * 100}
+          fillValue={(((level ?? 0) - 400) / 1600) * 100}
           isAnimated={true}
           key={`segmented-arc-${level}`}
           ranges={ranges}
@@ -147,11 +149,16 @@ const CarbonDioxideBottomSheet = ({
               <View style={tw`h-8 mb-0.5 w-24 overflow-hidden rounded-2xl`}>
                 <LoadingSkeleton height={`100%`} width={`100%`} />
               </View>
-            ) : (
+            ) : !isNil(level) ? (
               <ReanimatedText
                 style={tw`text-4xl font-semibold text-slate-900 dark:text-gray-200 ios:-mb-1 android:h-10 grow text-right`}
                 text={formattedAnimatedLevel}
               />
+            ) : (
+              <AppText
+                style={tw`text-4xl font-semibold text-slate-900 dark:text-gray-200 ios:-mb-1 android:h-10 grow text-right`}>
+                ?
+              </AppText>
             )}
             <AppText
               numberOfLines={1}
@@ -189,12 +196,12 @@ const CarbonDioxideBottomSheet = ({
           style={tw`w-full px-0`}>
           {loading ? (
             <LoadingSkeleton height={24} width={48} />
-          ) : (
+          ) : !isNil(temperatureLevel) ? (
             <AppText
               style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
               {t('onPremise.climate.temperature.level', { level: temperatureLevel })}
             </AppText>
-          )}
+          ) : null}
         </ServiceRow>
         <ServiceRow
           withBottomDivider
@@ -202,22 +209,22 @@ const CarbonDioxideBottomSheet = ({
           style={tw`w-full px-0`}>
           {loading ? (
             <LoadingSkeleton height={24} width={48} />
-          ) : (
+          ) : !isNil(humidityLevel) ? (
             <AppText
               style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
               {t('onPremise.climate.humidity.level', { level: humidityLevel })}
             </AppText>
-          )}
+          ) : null}
         </ServiceRow>
         <ServiceRow label={t('onPremise.climate.noise.label')} style={tw`w-full px-0`}>
           {loading ? (
             <LoadingSkeleton height={24} width={48} />
-          ) : (
+          ) : !isNil(noiseLevel) ? (
             <AppText
               style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
               {t('onPremise.climate.noise.level', { level: noiseLevel })}
             </AppText>
-          )}
+          ) : null}
         </ServiceRow>
       </View>
     </AppBottomSheet>

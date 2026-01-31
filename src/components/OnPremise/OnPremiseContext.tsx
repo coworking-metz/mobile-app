@@ -194,20 +194,20 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
 
       {isCarbonDioxideSelected && (
         <CarbonDioxideBottomSheet
-          humidityLevel={onPremiseState?.sensors?.humidity.level ?? 0}
-          level={onPremiseState?.sensors?.carbonDioxide.level ?? 0}
+          humidityLevel={onPremiseState?.sensors?.humidity.level}
+          level={onPremiseState?.sensors?.carbonDioxide.level}
           loading={isFetchingOnPremiseState}
-          noiseLevel={onPremiseState?.sensors?.noise.level ?? 0}
-          temperatureLevel={onPremiseState?.sensors?.temperature.level ?? 0}
+          noiseLevel={onPremiseState?.sensors?.noise.level}
+          temperatureLevel={onPremiseState?.sensors?.temperature.level}
           onClose={() => setCarbonDioxideSelected(false)}
         />
       )}
 
       {isPtiPoulaillerClimateSelected && (
         <PtiPoulaillerClimateBottomSheet
-          humidityLevel={onPremiseState?.sensors?.humidity.ptiPoulaillerLevel || 0}
+          humidityLevel={onPremiseState?.sensors?.humidity.ptiPoulaillerLevel}
           loading={isFetchingOnPremiseState}
-          temperatureLevel={onPremiseState?.sensors?.temperature.ptiPoulaillerLevel || 0}
+          temperatureLevel={onPremiseState?.sensors?.temperature.ptiPoulaillerLevel}
           onClose={() => setPtiPoulaillerClimateSelected(false)}
         />
       )}

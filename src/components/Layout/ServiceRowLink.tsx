@@ -1,9 +1,9 @@
-import ServiceRow, { ServiceRowProps } from './ServiceRow';
 import { Link, WebAnchorProps } from 'expo-router';
 import React, { forwardRef, type ForwardRefRenderFunction } from 'react';
 import { TouchableHighlight } from 'react-native';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
+import ServiceRow, { ServiceRowProps } from '@/components/Layout/ServiceRow';
 
 const ServiceRowLink: ForwardRefRenderFunction<
   typeof TouchableHighlight,
