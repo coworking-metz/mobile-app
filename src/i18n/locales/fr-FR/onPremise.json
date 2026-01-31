@@ -111,7 +111,7 @@
     },
     "missingCapability": "Ouvrir la boîte à clés requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10 journées d'activité.",
     "poulailler": {
-      "description": "La boîte à clés vous permet de récupérer les clés de l'espace et :\n- d'ouvrir celui-ci lorsque vous êtes le premier arrivé,\n- de le fermer lorsque vous êtes le dernier à partir.\n\nElle est située à coté de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
+      "description": "La boîte à clés vous permet de récupérer les clés de l'espace pour :\n\t• ouvrir celui-ci lorsque vous êtes le premier\u00A0arrivé;\n\t• le fermer lorsque vous êtes le dernier à\u00A0partir.\n\nElle est située à gauche de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
       "fetch": "Obtenir le code",
       "label": "Ouvrir la boîte à clé du\u00A0Poulailler",
       "onFetch": {
@@ -119,7 +119,7 @@
       }
     },
     "ptiPoulailler": {
-      "description": "La boîte à clés vous permet de récupérer les clés de l'espace et :\n- d'ouvrir celui-ci lorsque vous êtes le premier arrivé,\n- de le fermer lorsque vous êtes le dernier à partir.\n\nElle est située à coté de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
+      "description": "La boîte à clés vous permet de récupérer les clés de l'espace pour :\n\t• ouvrir celui-ci lorsque vous êtes le premier\u00A0arrivé;\n\t• le fermer lorsque vous êtes le dernier à\u00A0partir.\n\nElle est située à droite de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
       "fetch": "Obtenir le code",
       "label": "Ouvrir la boîte à clés du\u00A0P'ti\u00A0Poulailler",
       "onFetch": {

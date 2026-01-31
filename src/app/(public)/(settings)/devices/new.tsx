@@ -171,11 +171,11 @@ const NewDevice = () => {
         )}
 
         <View style={tw`flex flex-col items-start gap-1 mb-6`}>
-          <AppText style={tw`text-base leading-5 font-normal dark:text-gray-200`}>
+          <AppText style={tw`text-base leading-5 font-normal text-gray-800 dark:text-neutral-500`}>
             {t('devices.detail.type.label')}
           </AppText>
           <SegmentedControl
-            activeTabColor={tw.prefixMatch('dark') ? tw.color('zinc-700') : tw.color('white')}
+            activeTabColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
             style={tw`basis-0 bg-gray-200 dark:bg-zinc-800 w-full`}
             tabs={DEVICE_TYPES.map((deviceType) => (
               <View key={`device-type-${deviceType}`} style={tw`flex flex-col items-center gap-1`}>
@@ -188,7 +188,7 @@ const NewDevice = () => {
                 />
                 <AppText
                   numberOfLines={1}
-                  style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 grow`}>
+                  style={tw`text-base font-normal text-slate-600 dark:text-neutral-400 grow`}>
                   {t(`devices.detail.type.value.${deviceType}`)}
                 </AppText>
               </View>

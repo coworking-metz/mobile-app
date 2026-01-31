@@ -112,7 +112,7 @@
     },
     "missingCapability": "Opening the key box requires a bit of seniority.\nYou will be able to do it once you have acquired 10 days of activity.",
     "poulailler": {
-      "description": "The key box allows you to retrieve the shared office keys and:\n- open it when you are the first to arrive,\n- close it when you are the last to leave.\n\nIt is located next to the entrance door and a code is required to open it.",
+      "description": "This key box allows you to retrieve the shared office keys in order to:\n\t• open it when you are the first to arrive,\n\t• close it when you are the last to leave.\n\nIt is located on the left of the entrance door and a code is required to open it.",
       "fetch": "Retrieve code",
       "label": "Access Poulailler keys",
       "onFetch": {
@@ -120,7 +120,7 @@
       }
     },
     "ptiPoulailler": {
-      "description": "The key box allows you to retrieve the shared office keys and:\n- open it when you are the first to arrive,\n- close it when you are the last to leave.\n\nIt is located next to the entrance door and a code is required to open it.",
+      "description": "This key box allows you to retrieve the shared office keys in order to:\n\t• open it when you are the first to arrive,\n\t• close it when you are the last to leave.\n\nIt is located on the right of the entrance door and a code is required to open it.",
       "fetch": "Retrieve code",
       "label": "Access P'ti Poulailler keys",
       "onFetch": {

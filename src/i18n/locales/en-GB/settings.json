@@ -70,7 +70,7 @@
             "ticket_zero": " with\n{{count}} missing"
           }
         },
-        "description": "Coverage is automatically computed based on subscriptions and attendance.\n\nFor attendance:\n- less than 5 hours is equivalent to half a day,\n- beyond 5 hours is equivalent to a full day.\n\nOne ticket covers 2 half-days.\nA subscription covers a rolling 30-day period from a start date.",
+        "description": "Coverage is automatically computed based on subscriptions and attendance.\n\nFor attendance:\n\t• less than 5 hours is equivalent to half\u00A0a\u00A0day;\n\t• beyond 5 hours is equivalent to a full\u00A0day.\n\nOne ticket covers 2 half-days.\nA subscription covers a rolling 30-day period from a start date.",
         "overconsumed": {
           "value": {
             "ticketFull": "1 ticket missing",
