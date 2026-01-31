@@ -19,7 +19,7 @@
     "description": {
       "empty": {
         "description": "Peut-être est-elle en cours de rédaction ?",
-        "title": "Aucune description\npour l'instant"
+        "title": "Aucune description pour\u00A0l'instant"
       }
     },
     "time": "de {{startTime}} à {{endTime}}",

@@ -45,7 +45,7 @@
       "activity_other": "journées",
       "activity_zero": "Rien\nencore",
       "onFetch": {
-        "fail": "Impossible d'actualiser\nla présence"
+        "fail": "Impossible d'actualiser la\u00A0présence"
       },
       "selected": {
         "coverage": {
@@ -65,9 +65,9 @@
             "ticket_zero": " surconsommé"
           },
           "with": {
-            "ticket_one": " dont\n{{count}} surconsommé",
-            "ticket_other": " dont\n{{count}} surconsommés",
-            "ticket_zero": " dont\n{{count}} surconsommé"
+            "ticket_one": " dont\n{{count}}\u00A0surconsommé",
+            "ticket_other": " dont\n{{count}}\u00A0surconsommés",
+            "ticket_zero": " dont\n{{count}}\u00A0surconsommé"
           }
         },
         "description": "La couverture est automatiquement déterminée en fonction des abonnements et de la présence.\n\nUne présence :\n- inférieure à 5h équivaut à une demi-journée,\n- au-delà de 5h équivaut à une journée entière.\n\nUn ticket permet de couvrir 2 demi-journées.\nUn abonnement couvre 30 jours glissants à compter d'une date de début.",
@@ -107,7 +107,7 @@
       "mail": {
         "label": "Envoyer un mail",
         "onOpen": {
-          "fail": "Impossible de contacter par mail"
+          "fail": "Impossible de contacter par\u00A0mail"
         }
       },
       "onQuickAction": {

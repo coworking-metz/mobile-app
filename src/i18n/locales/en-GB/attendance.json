@@ -21,7 +21,7 @@
     }
   },
   "onFetch": {
-    "fail": "Unable to fetch the list of attendees"
+    "fail": "Unable to fetch the\u00A0list of\u00A0attendees"
   },
   "title_one": "Attending",
   "title_other": "{{count}} attending",

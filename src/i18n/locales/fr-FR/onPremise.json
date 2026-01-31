@@ -62,11 +62,11 @@
   },
   "deckDoor": {
     "description": "La porte de la terrasse vous permet d'accéder directement à l'espace depuis l'extérieur.",
-    "label": "Déverrouiller\nla porte de la terrasse",
+    "label": "Déverrouiller la\u00A0porte de\u00A0la\u00A0terrasse",
     "loading": "Demande en cours...",
     "missingCapability": "Déverrouiller la porte requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10 journées d'activité.",
     "onUnlock": {
-      "fail": "Impossible de déverrouiller la porte",
+      "fail": "Impossible de déverrouiller la\u00A0porte",
       "success": "C'est ouvert !"
     },
     "retry": "Toucher pour réessayer",
@@ -104,35 +104,35 @@
     "deck": {
       "description": "Cette boîte vous permet de récupérer les clés pour déverrouiller la porte de la terrasse lorsque vous n'êtes pas en mesure d'entrer dans le batîment.\n\nElle est située à droite de la porte et nécessite un code pour l'ouvrir.",
       "fetch": "Obtenir le code",
-      "label": "Ouvrir la boîte à clés\nde la terrasse",
+      "label": "Ouvrir la boîte à clés de\u00A0la\u00A0terrasse",
       "onFetch": {
-        "fail": "Impossible d'obtenir le code"
+        "fail": "Impossible d'obtenir le\u00A0code"
       }
     },
     "missingCapability": "Ouvrir la boîte à clés requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10 journées d'activité.",
     "poulailler": {
       "description": "La boîte à clés vous permet de récupérer les clés de l'espace et :\n- d'ouvrir celui-ci lorsque vous êtes le premier arrivé,\n- de le fermer lorsque vous êtes le dernier à partir.\n\nElle est située à coté de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
       "fetch": "Obtenir le code",
-      "label": "Ouvrir la boîte à clés\ndu Poulailler",
+      "label": "Ouvrir la boîte à clé du\u00A0Poulailler",
       "onFetch": {
-        "fail": "Impossible d'obtenir le code"
+        "fail": "Impossible d'obtenir le\u00A0code"
       }
     },
     "ptiPoulailler": {
       "description": "La boîte à clés vous permet de récupérer les clés de l'espace et :\n- d'ouvrir celui-ci lorsque vous êtes le premier arrivé,\n- de le fermer lorsque vous êtes le dernier à partir.\n\nElle est située à coté de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
       "fetch": "Obtenir le code",
-      "label": "Ouvrir la boîte à clés\ndu P'ti Poulailler",
+      "label": "Ouvrir la boîte à clés du\u00A0P'ti\u00A0Poulailler",
       "onFetch": {
-        "fail": "Impossible d'obtenir le code"
+        "fail": "Impossible d'obtenir le\u00A0code"
       }
     },
     "storage": {
       "description": "Le stock contient tout le matériel nécessaire à l'entretien et à la maintenance des espaces.",
       "fetch": "Obtenir le code",
-      "label": "Ouvrir la boîte à clés\ndu stock",
+      "label": "Ouvrir la boîte à clés du\u00A0stock",
       "missingCapability": "Ouvrir la boîte à clés du stock nécessite un accès spécifique que vous n'avez pas. Dommage.",
       "onFetch": {
-        "fail": "Impossible d'obtenir le code"
+        "fail": "Impossible d'obtenir le\u00A0code"
       }
     }
   },
@@ -144,7 +144,7 @@
     "unknown": "Quelque part"
   },
   "onFetch": {
-    "fail": "Impossible d'actualiser\nl'état actuel de l'espace"
+    "fail": "Impossible d'actualiser l'état\u00A0actuel de\u00A0l'espace"
   },
   "phoneBooths": {
     "description": "Les cabines téléphoniques sont des espaces isolés et destinées à prendre de courts appels.\nElles sont équipées de prises électriques et d'une ventilation.\nElles ne sont pas réservables et sont accessibles à tous.",
@@ -153,7 +153,7 @@
     },
     "label": "Cabines téléphoniques",
     "onFetch": {
-      "fail": "Impossible d'actualiser\nl'occupation"
+      "fail": "Impossible d'actualiser l'occupation"
     },
     "state": {
       "blue": {
@@ -189,7 +189,7 @@
       "fetch": "Obtenir les identifiants",
       "missingCapability": "Les identifiants WiFi ne sont disponibles qu'aux membres adhérents et visiteurs.",
       "onFetch": {
-        "fail": "Impossible de récupérer les identifiants WiFi"
+        "fail": "Impossible de récupérer les\u00A0identifiants\u00A0WiFi"
       },
       "password": {
         "label": "Mot de passe"
@@ -198,7 +198,7 @@
         "label": "Réseau (SSID)"
       }
     },
-    "description": "Le réseau WiFi donne accès à Internet et enregistre automatiquement la présence grâce à l'adresse MAC de l'appareil.\nEn cas de changement d'appareil, l'adresse peut être mise à jour directement depuis <0>l'application</0> ou <1>le site internet</1>.\n\nL'usage doit rester professionnel et raisonnable ; les téléchargements lourds et BitTorrent sont interdits.",
+    "description": "Le réseau WiFi donne accès à Internet et enregistre automatiquement la présence grâce à l'adresse MAC de l'appareil.\nEn cas de changement d'appareil, l'adresse peut être mise à jour directement depuis <0>l'application</0> ou <1>le\u00A0site\u00A0internet</1>.\n\nL'usage doit rester professionnel et raisonnable ; les téléchargements lourds et BitTorrent sont interdits.",
     "label": "Réseau WiFi"
   }
 }

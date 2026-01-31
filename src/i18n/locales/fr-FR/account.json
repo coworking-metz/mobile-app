@@ -13,7 +13,7 @@
       "label": "Nom"
     },
     "onFetch": {
-      "fail": "Impossible d'actualiser le profil",
+      "fail": "Impossible d'actualiser le\u00A0profil",
       "missing": "Le profil est pour le moment inexistant. Il sera automatiquement rattaché une fois votre première commande passée."
     },
     "title": "Informations personnelles"

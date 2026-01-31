@@ -165,7 +165,7 @@ const PairDeviceBottomSheet = ({
           if (error.code === 'ECONNABORTED' && error.message?.includes('timeout')) {
             throw new Error(t('devices.add.onFetchDeviceInfo.unavailable'), { cause: error });
           }
-          return Promise.reject(error);
+          throw new Error([t('devices.add.onFetchDeviceInfo.fail'), error.message].join('\n'));
         })) as ProbeDevice;
         const deviceMacAddress = deviceInfo.macAddress || null;
         setMacAddress(deviceInfo.macAddress);
@@ -193,7 +193,9 @@ const PairDeviceBottomSheet = ({
         const attendingDevice = await verifyAttendingDevice(
           authStore.user?.id as string,
           newDevice._id as string,
-        );
+        ).catch((error) => {
+          throw new Error([t('devices.add.onVerifyDevice.fail'), error.message].join('\n'));
+        });
         queryClient.invalidateQueries({
           queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
           exact: true,

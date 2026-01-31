@@ -63,11 +63,11 @@
   },
   "deckDoor": {
     "description": "This door directly leads to the deck, and can be opened from the exterior to enter the workspace.",
-    "label": "Unlock\nthe deck door",
+    "label": "Unlock the deck\u00A0door",
     "loading": "Requesting...",
     "missingCapability": "Unlocking the door requires a little bit of seniority.\nYou will be able to do so once you have accumulated 10 days of activity.",
     "onUnlock": {
-      "fail": "Unable to unlock the door",
+      "fail": "Unable to unlock the\u00A0door",
       "success": "Door is open!"
     },
     "retry": "Tap to retry",
@@ -116,7 +116,7 @@
       "fetch": "Retrieve code",
       "label": "Access Poulailler keys",
       "onFetch": {
-        "fail": "Unable to retrieve Poulailler code"
+        "fail": "Unable to retrieve Poulailler\u00A0code"
       }
     },
     "ptiPoulailler": {
@@ -124,7 +124,7 @@
       "fetch": "Retrieve code",
       "label": "Access P'ti Poulailler keys",
       "onFetch": {
-        "fail": "Unable to retrieve P'ti Poulailler code"
+        "fail": "Unable to retrieve P'ti\u00A0Poulailler\u00A0code"
       }
     },
     "storage": {
@@ -134,7 +134,7 @@
       "label": "Access storage room keys",
       "missingCapability": "Opening the storage room key box requires specific access that you do not have. Too bad.",
       "onFetch": {
-        "fail": "Unable to retrieve storage room code"
+        "fail": "Unable to retrieve storage room\u00A0code"
       }
     }
   },
@@ -146,7 +146,7 @@
     "unknown": "Somewhere"
   },
   "onFetch": {
-    "fail": "Unable to retrieve on premise state"
+    "fail": "Unable to retrieve on\u00A0premise\u00A0state"
   },
   "phoneBooths": {
     "description": "Phone booths are isolated spaces intended for short calls.\nThey are equipped with electrical outlets and ventilation.\nThey are not reservable and are accessible to all.",
@@ -155,7 +155,7 @@
     },
     "label": "Phone Booths",
     "onFetch": {
-      "fail": "Unable to retrieve occupation"
+      "fail": "Unable to retrieve\u00A0occupation"
     },
     "state": {
       "blue": {
@@ -191,7 +191,7 @@
       "fetch": "Get credentials",
       "missingCapability": "Wi-Fi credentials are only available to members and visitors.",
       "onFetch": {
-        "fail": "Unable to retrieve Wi-Fi credentials"
+        "fail": "Unable to retrieve Wi-Fi\u00A0credentials"
       },
       "password": {
         "label": "Password"

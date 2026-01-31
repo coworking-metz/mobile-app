@@ -11,12 +11,12 @@ import utc from 'dayjs/plugin/utc';
 import * as Localisation from 'expo-localization';
 // @see https://dev.to/ramonak/react-native-internationalization-with-i18next-568n
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
 import 'intl-pluralrules';
+import { initReactI18next } from 'react-i18next';
 
 // load all dayjs locales supported by the app
-import 'dayjs/locale/fr';
 import 'dayjs/locale/en';
+import 'dayjs/locale/fr';
 dayjs.extend(updateLocale);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);

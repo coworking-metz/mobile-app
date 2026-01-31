@@ -5,26 +5,26 @@
       "attempts_one": "1ère tentative…",
       "attempts_other": "Tentative {{count}}/{{max}}…",
       "attempts_zero": "Aucune tentative pour le moment",
-      "fail": "Impossible de récupérer\nles données de l'appareil",
+      "fail": "Impossible de récupérer les\u00A0données de\u00A0l'appareil.",
       "pending": "Récupération des données",
-      "tooManyAttempts_one": "Appareil introuvable sur le réseau par notre service après une tentative.",
-      "tooManyAttempts_other": "Appareil introuvable sur le réseau par notre service après {{count}} tentatives.",
-      "tooManyAttempts_zero": "Appareil introuvable sur le réseau par notre service après aucune tentative.",
-      "unavailable": "Service injoignable.\nAssurez-vous d'être connecté au réseau Wi-Fi du Poulailler."
+      "tooManyAttempts_one": "Appareil introuvable sur le réseau par notre service après une\u00A0tentative.",
+      "tooManyAttempts_other": "Appareil introuvable sur le réseau par notre service après {{count}}\u00A0tentatives.",
+      "tooManyAttempts_zero": "Aucune tentative de trouver l'appareil sur le\u00A0réseau.",
+      "unavailable": "Service injoignable.\nAssurez-vous d'être connecté au réseau Wi-Fi\u00A0du\u00A0Poulailler."
     },
     "onPair": {
-      "fail": "Impossible d'associer\ncet appareil",
+      "fail": "Impossible d'associer cet\u00A0appareil",
       "success": "{{name}} associé"
     },
     "onVerifyDevice": {
       "attempts_one": "1ère tentative…",
       "attempts_other": "Tentative {{count}}/{{max}}…",
       "attempts_zero": "Aucune tentative pour le moment",
-      "fail": "Impossible de vérifier\nla présence de l'appareil",
+      "fail": "Impossible de vérifier la\u00A0présence de\u00A0l'appareil.",
       "pending": "Vérification de la présence",
-      "tooManyAttempts_one": "Absence de l'appareil après une tentative.",
-      "tooManyAttempts_other": "Absence de l'appareil après {{count}} tentatives.",
-      "tooManyAttempts_zero": "Absence de l'appareil après aucune tentative."
+      "tooManyAttempts_one": "Absence de l'appareil après une\u00A0tentative.",
+      "tooManyAttempts_other": "Absence de l'appareil après {{count}}\u00A0tentatives.",
+      "tooManyAttempts_zero": "Aucune tentative de\u00A0vérification."
     },
     "pair": {
       "description": "Cet appareil va interroger notre service sur place pour détecter et récupérer les informations nécessaires.\nSi vous rencontrez un problème ou que vous souhaitez ajouter un autre appareil, vous pouvez le saisir manuellement.",
@@ -75,20 +75,20 @@
     "title": "Nouvel appareil"
   },
   "onAdd": {
-    "fail": "Impossible d'ajouter\ncet appareil",
+    "fail": "Impossible d'ajouter cet\u00A0appareil",
     "pending": "Ajout de l'appareil en cours",
     "success": "{{name}} ajouté"
   },
   "onDelete": {
-    "fail": "Impossible de supprimer\ncet appareil",
+    "fail": "Impossible de supprimer cet\u00A0appareil",
     "success": "{{name}} supprimé"
   },
   "onFetch": {
-    "fail": "Impossible d'actualiser\nla liste des appareils",
-    "missingId": "Impossible de récupérer l'identifiant de l'appareil"
+    "fail": "Impossible d'actualiser la\u00A0liste des\u00A0appareils",
+    "missingId": "Impossible de récupérer l'identifiant de\u00A0l'appareil"
   },
   "onUpdate": {
-    "fail": "Impossible de modifier\ncet appareil",
+    "fail": "Impossible de modifier cet\u00A0appareil",
     "success": "{{name}} modifié"
   },
   "title": "Appareils associés"

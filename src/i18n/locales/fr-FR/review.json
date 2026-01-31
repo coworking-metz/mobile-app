@@ -4,6 +4,6 @@
     "message": "Ça vous a plu ?"
   },
   "onRequest": {
-    "fail": "Impossible de soumettre votre avis"
+    "fail": "Impossible de soumettre votre\u00A0avis"
   }
 }

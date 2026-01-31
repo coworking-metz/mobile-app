@@ -26,7 +26,7 @@
     },
     "label": "Events",
     "onFetch": {
-      "fail": "Unable to fetch calendar events"
+      "fail": "Unable to fetch calendar\u00A0events"
     }
   },
   "intercom": {
@@ -64,7 +64,7 @@
   "people": {
     "capacity": " out of {{total}}",
     "onFetch": {
-      "fail": "Unable to fetch attendance"
+      "fail": "Unable to fetch\u00A0attendance"
     },
     "present_one": [
       "A single person is on site",
@@ -90,7 +90,7 @@
       "description": "It's your birthday today and we wouldn't miss it for the world to wish you a happy birthday 🎉\nand see you soon at the Poulailler!",
       "label": "Happy\nbirthday!",
       "onClaim": {
-        "fail": "Unable to claim present"
+        "fail": "Unable to claim\u00A0present"
       },
       "title": "Another year older!"
     },
@@ -142,7 +142,7 @@
       "title": "Membership card"
     },
     "onFetch": {
-      "fail": "Unable to fetch profile"
+      "fail": "Unable to fetch\u00A0profile"
     },
     "subscription": {
       "activity": {
@@ -174,7 +174,7 @@
         "none": "Subscription"
       },
       "onFetch": {
-        "fail": "Unable to fetch subscriptions"
+        "fail": "Unable to fetch\u00A0subscriptions"
       },
       "period": {
         "label": "Period",
@@ -218,7 +218,7 @@
       "description": "Tickets have unlimited validity, and each ticket is equivalent to two half-days.\nPresence of less than 5 hours in a day corresponds to half a day.",
       "label": "Individual\ntickets",
       "onFetch": {
-        "fail": "Unable to fetch tickets orders"
+        "fail": "Unable to fetch tickets\u00A0orders"
       },
       "title": "Individual tickets",
       "unknown": "Unknown"

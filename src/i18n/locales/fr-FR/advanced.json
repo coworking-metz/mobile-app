@@ -4,7 +4,7 @@
       "description": "Pour libérer de l'espace de stockage",
       "label": "Vider le cache",
       "onCleared": {
-        "fail": "Impossible de vider le cache",
+        "fail": "Impossible de vider le\u00A0cache",
         "success": "Le cache a été vidé"
       }
     },
@@ -19,7 +19,7 @@
       },
       "label": "Tout réinitialiser",
       "onReset": {
-        "fail": "Impossible de réinitialiser les données",
+        "fail": "Impossible de réinitialiser les\u00A0données",
         "success": "Toutes les données ont été réinitialisées"
       }
     },

@@ -4,7 +4,7 @@
       "description": "To free up storage space",
       "label": "Clear cache",
       "onCleared": {
-        "fail": "Unable to clear cache",
+        "fail": "Unable to clear\u00A0cache",
         "success": "Cache has been cleared"
       }
     },
@@ -19,7 +19,7 @@
       },
       "label": "Reset everything",
       "onReset": {
-        "fail": "Unable to reset data",
+        "fail": "Unable to reset\u00A0data",
         "success": "All data has been reset"
       }
     },

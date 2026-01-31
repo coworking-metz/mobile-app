@@ -5,26 +5,26 @@
       "attempts_one": "{{count}}st attempt…",
       "attempts_other": "Attempt {{count}}/{{max}}…",
       "attempts_zero": "No attempts yet",
-      "fail": "Unable to retrieve\ndevice data",
+      "fail": "Unable to retrieve device\u00A0data",
       "pending": "Retrieving data",
-      "tooManyAttempts_one": "Unrecognisable device by our service after one attempt.",
-      "tooManyAttempts_other": "Unrecognisable device by our service after {{count}} attempts.",
-      "tooManyAttempts_zero": "Unrecognisable device by our service after no attempts.",
+      "tooManyAttempts_one": "Unrecognisable device by our service after one\u00A0attempt.",
+      "tooManyAttempts_other": "Unrecognisable device by our service after {{count}}\u00A0attempts.",
+      "tooManyAttempts_zero": "No attempt to recognise this\u00A0device.",
       "unavailable": "Service unreachable.\nMake sure you are connected to the Poulailler Wi-Fi network."
     },
     "onPair": {
-      "fail": "Unable to pair\nthis device",
+      "fail": "Unable to pair this\u00A0device",
       "success": "{{name}} paired"
     },
     "onVerifyDevice": {
       "attempts_one": "{{count}}st attempt…",
       "attempts_other": "Attempt {{count}}/{{max}}…",
       "attempts_zero": "No attempts yet",
-      "fail": "Unable to verify\ndevice presence",
+      "fail": "Unable to verify device\u00A0presence",
       "pending": "Verifying device presence",
-      "tooManyAttempts_one": "Unable to verify device presence after one attempt.",
-      "tooManyAttempts_other": "Unable to verify device presence after {{count}} attempts.",
-      "tooManyAttempts_zero": "Unable to verify device presence after no attempts."
+      "tooManyAttempts_one": "Unable to verify device presence after one\u00A0attempt.",
+      "tooManyAttempts_other": "Unable to verify device presence after {{count}}\u00A0attempts.",
+      "tooManyAttempts_zero": "Unable to attempt device\u00A0verification."
     },
     "pair": {
       "description": "This device will query our on-site service to detect and retrieve the necessary information.\nIf you encounter a problem or want to add another device, you can enter it manually.",
@@ -75,20 +75,20 @@
     "title": "New device"
   },
   "onAdd": {
-    "fail": "Unable to add\nthis device",
+    "fail": "Unable to add this\u00A0device",
     "pending": "Adding device in progress",
     "success": "{{name}} added"
   },
   "onDelete": {
-    "fail": "Unable to delete\nthis device",
+    "fail": "Unable to delete this\u00A0device",
     "success": "{{name}} deleted"
   },
   "onFetch": {
-    "fail": "Unable to retrieve the device list",
-    "missingId": "Unable to retrieve the device identifier"
+    "fail": "Unable to retrieve the\u00A0device\u00A0list",
+    "missingId": "Unable to retrieve the\u00A0device\u00A0identifier"
   },
   "onUpdate": {
-    "fail": "Unable to update\nthis device",
+    "fail": "Unable to update this\u00A0device",
     "success": "{{name}} updated"
   },
   "title": "Paired devices"

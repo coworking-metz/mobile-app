@@ -26,7 +26,7 @@
     },
     "label": "Évènements",
     "onFetch": {
-      "fail": "Impossible d'actualiser les évènements"
+      "fail": "Impossible d'actualiser les\u00A0évènements"
     }
   },
   "intercom": {
@@ -68,7 +68,7 @@
   "people": {
     "capacity": " sur {{total}}",
     "onFetch": {
-      "fail": "Impossible d'actualiser\nl'occupation actuelle"
+      "fail": "Impossible d'actualiser l'occupation\u00A0actuelle"
     },
     "present_one": [
       "Il y a une personne sur place",
@@ -100,7 +100,7 @@
       "description": "C'est votre anniversaire aujourd'hui et nous n'aurions manquer pour rien au monde de vous le souhaiter.\nAlors joyeux anniversaire 🎉 et à très vite au Poulailler !",
       "label": "Joyeux\nanniversaire !",
       "onClaim": {
-        "fail": "Impossible de récupérer le cadeau"
+        "fail": "Impossible de récupérer le\u00A0cadeau"
       },
       "title": "Un an de plus !"
     },
@@ -152,7 +152,7 @@
       "title": "Carte adhérent"
     },
     "onFetch": {
-      "fail": "Impossible d'actualiser le profil"
+      "fail": "Impossible d'actualiser le\u00A0profil"
     },
     "subscription": {
       "activity": {
@@ -184,7 +184,7 @@
         "none": "Abonnement"
       },
       "onFetch": {
-        "fail": "Impossible d'actualiser les abonnements"
+        "fail": "Impossible d'actualiser les\u00A0abonnements"
       },
       "period": {
         "label": "Période",
@@ -228,7 +228,7 @@
       "description": "Les tickets sont sans fin de validité et chaque ticket équivaut à deux demi-journées.\nUne présence de moins de 5 heures sur une journée correspond à une demi-journée.",
       "label": "Tickets à\nla journée",
       "onFetch": {
-        "fail": "Impossible d'actualiser les commandes de tickets"
+        "fail": "Impossible d'actualiser les\u00A0commandes de\u00A0tickets"
       },
       "title": "Tickets à la journée",
       "unknown": "Inconnu"
