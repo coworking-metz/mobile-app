@@ -1,11 +1,17 @@
 import { createAsyncStorage } from './async-storage';
+import useNoticeStore from './notice';
 import createSecureStorage from './secure-storage';
 import useSettingsStore from './settings';
+import useToastStore from './toast';
 import * as Sentry from '@sentry/react-native';
+import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
+import { toast } from 'sonner-native';
 import { create } from 'zustand';
 import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware';
+import { AnyError, parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
+import i18n from '@/i18n';
 import { decodeToken, getAccessAndRefreshTokens, type ApiUser } from '@/services/api/auth';
 
 /**
@@ -23,8 +29,9 @@ interface AuthState {
   refreshAccessToken: () => Promise<string | null>;
   getOrRefreshAccessToken: () => Promise<string | null>;
   setTokens: (accessToken: string | null, refreshToken: string | null) => Promise<void>;
-  logout: () => Promise<void>;
   clear: () => Promise<void>;
+  logout: () => Promise<void>;
+  disconnect: (error: AxiosError) => Promise<void>;
 }
 
 const authLogger = log.extend(`[auth]`);
@@ -56,6 +63,23 @@ const useAuthStore = create<AuthState>()(
                 await get().setTokens(accessToken, refreshToken);
                 return accessToken;
               })
+              .catch(async (error: AxiosError) => {
+                if (error.response?.status === 401) {
+                  authLogger.debug('Disconnecting user due to server-side unauthorized error');
+                  get().disconnect(error);
+
+                  // prefix a descriptive error message
+                  // to let the user know that refreshing tokens failed
+                  const errorMessage = await parseErrorText(error);
+                  const prefixedError = new Error(
+                    [i18n.t('auth.onRefreshToken.fail'), errorMessage].filter(Boolean).join('\n'),
+                    { cause: error },
+                  );
+                  return Promise.reject(prefixedError);
+                }
+
+                return Promise.reject(error);
+              })
               .finally(() => {
                 set({ isFetchingToken: false });
                 refreshTokensPromise = null;
@@ -72,11 +96,43 @@ const useAuthStore = create<AuthState>()(
 
           return accessToken;
         },
+        /**
+         * Remove all data relative to authentication
+         */
         clear: async (): Promise<void> => {
           await get().setTokens(null, null);
         },
+        /**
+         * Clear user credentials
+         */
         logout: async (): Promise<void> => {
           await get().clear();
+        },
+        /**
+         * Disconnect the user following a server-side request (401 Unauthorized)
+         */
+        disconnect: async (error: AnyError): Promise<void> => {
+          await get().logout();
+
+          const toastStore = useToastStore.getState();
+          const noticeStore = useNoticeStore.getState();
+          const disconnectedMessage = i18n.t('auth.onDisconnected.message');
+          const errorMessage = await parseErrorText(error);
+          toastStore.add({
+            message: disconnectedMessage,
+            type: 'error',
+            action: {
+              label: i18n.t('actions.more'),
+              onPress: () => {
+                noticeStore.add({
+                  message: disconnectedMessage,
+                  description: errorMessage,
+                  type: 'error',
+                });
+                toast.dismiss();
+              },
+            },
+          });
         },
       }),
       {

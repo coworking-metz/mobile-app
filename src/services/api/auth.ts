@@ -31,6 +31,12 @@ export type ApiUser = {
   };
   iat: number;
   exp: number;
+  impersonatedBy?: {
+    id: string;
+    name: string;
+    email: string;
+    wpUserId: number;
+  };
 };
 
 const authLogger = log.extend(`[auth]`);

@@ -7,13 +7,11 @@ import {
   type InternalAxiosRequestConfig,
 } from 'axios';
 import axiosRetry from 'axios-retry';
-import { ApiErrorCode, AppErrorCode, parseErrorText, type AppError } from '@/helpers/error';
+import { AnyError, ApiErrorCode } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import i18n, { formatDuration } from '@/i18n';
 import useAuthStore from '@/stores/auth';
-import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
-import useToastStore from '@/stores/toast';
 
 const httpLogger = log.extend(`[http]`);
 
@@ -51,18 +49,8 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
 
   httpInstance.interceptors.request.use(async (config: AppAxiosRequestConfig) => {
     const authState = useAuthStore.getState();
-    const accessToken = authState.refreshToken
-      ? await authState.getOrRefreshAccessToken().catch(async (error) => {
-          // prefix a descriptive error message
-          // to let the user know that refreshing tokens failed
-          const errorMessage = await parseErrorText(error);
-          const prefixedError = new Error(
-            [i18n.t('auth.onRefreshToken.fail'), errorMessage].filter(Boolean).join('\n'),
-            { cause: error },
-          );
-          return Promise.reject(prefixedError);
-        })
-      : null;
+    const accessToken = authState.refreshToken ? await authState.getOrRefreshAccessToken() : null;
+
     const headers = {
       ...config.headers,
       ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
@@ -120,47 +108,12 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
 
   httpInstance.interceptors.response.use(
     (response) => response,
-    async (error: AxiosError) => {
-      const authStore = useAuthStore.getState();
-      // disconnect the user on 401
-      if (error.response && error.response.status === 401 && authStore.accessToken) {
-        const disconnectedError = new Error('User has been logged out', {
-          cause: error,
-        }) as AppError;
-        disconnectedError.code = AppErrorCode.DISCONNECTED;
-
-        httpLogger.debug(`Login out user`, error.message);
-
-        // the user should be properly logged out
-        await authStore.logout();
-
-        // explain what happened to the user
-        const errorMessage = await parseErrorText(error);
-        const errorLabel = i18n.t('auth.onDisconnected.message');
-        const toastStore = useToastStore.getState();
-        const noticeStore = useNoticeStore.getState();
-        const toast = toastStore.add({
-          message: errorLabel,
-          type: 'error',
-          action: {
-            label: i18n.t('actions.more'),
-            onPress: () => {
-              noticeStore.add({
-                message: errorLabel,
-                description: errorMessage,
-                type: 'error',
-              });
-              toastStore.dismiss(toast.id);
-            },
-          },
-        });
-
-        return Promise.reject(disconnectedError);
-      }
+    async (error: AnyError) => {
+      const axiosError = error as AxiosError;
 
       // handle timeout error by translating with a proper message
-      if (error.code === 'ECONNABORTED' && error.message?.includes('timeout')) {
-        const timeoutDuration = (error as AxiosError).config?.timeout;
+      if (axiosError.code === 'ECONNABORTED' && axiosError.message?.includes('timeout')) {
+        const timeoutDuration = axiosError.config?.timeout;
         const errorMessage = i18n.t(
           'errors.timeout.message',
           timeoutDuration

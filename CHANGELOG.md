@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+
+- Properly disconnect the user when stored tokens are invalid.
+
 ## [2026.1.3] - 2026-01-31
 
 ### Added

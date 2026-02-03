@@ -7,6 +7,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import LoginBottomSheet from '@/components/Settings/LoginBottomSheet';
 import LogoutBottomSheet from '@/components/Settings/LogoutBottomSheet';
 import { log } from '@/helpers/logger';
+import { ApiUser } from '@/services/api/auth';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 
@@ -31,11 +32,11 @@ export const useAppAuth = () => {
 // This hook will protect the route access based on user authentication.
 const useProtectedRoute = (_ready: boolean, setReady: (ready: boolean) => void) => {
   const router = useRouter();
+  const pathname = usePathname();
   const authStore = useAuthStore();
   const refreshToken = useAuthStore((state) => state.refreshToken);
   const isAuthStoreHydrated = useAuthStore((state) => state.hydrated);
   const isSettingsStoreHydrated = useSettingsStore((state) => state.hydrated);
-  const queryClient = useQueryClient();
 
   const {
     accessToken: queryAccessToken,
@@ -57,9 +58,6 @@ const useProtectedRoute = (_ready: boolean, setReady: (ready: boolean) => void) 
       });
       authStore.setTokens(queryAccessToken, queryRefreshToken);
 
-      // should reset all queries in cache
-      Promise.all([queryClient.clear(), Image.clearDiskCache(), Image.clearMemoryCache()]);
-
       router.setParams({ accessToken: undefined, refreshToken: undefined });
     }
 
@@ -70,7 +68,10 @@ const useProtectedRoute = (_ready: boolean, setReady: (ready: boolean) => void) 
     if (loggedOut) {
       authStore.logout().then(() => {
         router.setParams({ loggedOut: undefined });
-        queryClient.clear();
+
+        authLogger.debug('Reset navigation since user just logged out');
+        router.dismissAll();
+        router.replace(pathname);
       });
     }
   }, [loggedOut]);
@@ -79,14 +80,21 @@ const useProtectedRoute = (_ready: boolean, setReady: (ready: boolean) => void) 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [ready, setReady] = useState<boolean>(false);
   const authStore = useAuthStore();
+  const router = useRouter();
   const [isLoggingIn, setLoggingIn] = useState<boolean>(false);
   const [isLoggingOut, setLoggingOut] = useState<boolean>(false);
+  const [previousUser, setPreviousUser] = useState<ApiUser | null>(null);
   const posthog = usePostHog();
   const pathname = usePathname();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (isLoggingIn && authStore.accessToken) {
       setLoggingIn(false);
+
+      authLogger.debug('Reset navigation since user just logged in');
+      router.dismissAll();
+      router.replace(pathname);
     }
   }, [authStore.accessToken, isLoggingIn]);
 
@@ -98,12 +106,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [ready]);
 
   useEffect(() => {
+    if (previousUser?.id !== authStore.user?.id) {
+      authLogger.debug('Resetting all cache since user has changed');
+      Promise.all([queryClient.clear(), Image.clearDiskCache(), Image.clearMemoryCache()]);
+    }
+
     if (authStore.user) {
-      posthog.identify(authStore.user.email, {
-        email: authStore.user.email,
-        name: authStore.user.name,
+      const realUser = authStore.user.impersonatedBy ?? authStore.user;
+      posthog.identify(realUser.email, {
+        email: realUser.email,
+        name: realUser.name,
       });
     }
+
+    setPreviousUser(authStore.user);
   }, [authStore.user]);
 
   useEffect(() => {
