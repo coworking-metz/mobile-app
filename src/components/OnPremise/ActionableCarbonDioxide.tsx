@@ -30,8 +30,11 @@ const ActionableCarbonDioxide = ({
   return (
     <ActionableIcon {...props}>
       <View
-        style={tw`z-20 flex items-center justify-center absolute inset-0 -top-2 -left-2 h-12 w-12`}>
-        {!props.loading && (
+        style={[
+          tw`flex items-center justify-center z-20  absolute inset-0 -top-2 -left-2 h-12 w-12`,
+          props.loading && tw`opacity-0`,
+        ]}>
+        {
           <AnimatedProgressWheel
             rounded
             animateFromValue={0}
@@ -47,7 +50,7 @@ const ActionableCarbonDioxide = ({
             size={48}
             width={4}
           />
-        )}
+        }
       </View>
     </ActionableIcon>
   );

@@ -1,6 +1,5 @@
 import ActionableLight from './ActionableLight';
 import { useOnPremise } from './OnPremiseContext';
-import AppShimmerText from '../AppShimmerText';
 import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -69,12 +68,11 @@ const PtiPoulaillerPlan = ({
   return (
     <View style={[tw`flex flex-col grow items-start`, style]}>
       <View style={tw`flex flex-row gap-3 items-end w-full mx-6 mb-4`}>
-        <AppShimmerText
-          active={isFetchingOnPremiseState}
+        <AppText
           numberOfLines={2}
           style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.location.pti-poulailler')}
-        </AppShimmerText>
+        </AppText>
         {onPremiseStateError && !isSilentError(onPremiseStateError) && !isFetchingOnPremiseState ? (
           <ErrorBadge
             error={onPremiseStateError}

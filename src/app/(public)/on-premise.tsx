@@ -24,6 +24,9 @@ const OnPremise = () => {
   const [areInformationsVisible, setInformationsVisible] = useState(false);
   const [areLightsVisible, setLightsVisible] = useState(false);
 
+  const [isRefreshingPoulaillerPlan, setRefreshingPoulaillerPlan] = useState(false);
+  const [isRefreshingPtiPoulaillerPlan, setRefreshingPtiPoulaillerPlan] = useState(false);
+
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const [layoutWidth, setLayoutWidth] = useState(0);
@@ -161,8 +164,11 @@ const OnPremise = () => {
             refreshControl={
               <RefreshControl
                 progressViewOffset={progressViewOffset}
-                refreshing={isFetchingOnPremiseState}
-                onRefresh={refetchOnPremiseState}
+                refreshing={isRefreshingPoulaillerPlan}
+                onRefresh={() => {
+                  setRefreshingPoulaillerPlan(true);
+                  refetchOnPremiseState().finally(() => setRefreshingPoulaillerPlan(false));
+                }}
               />
             }
             scrollEventThrottle={16}
@@ -181,8 +187,11 @@ const OnPremise = () => {
             refreshControl={
               <RefreshControl
                 progressViewOffset={progressViewOffset}
-                refreshing={isFetchingOnPremiseState}
-                onRefresh={refetchOnPremiseState}
+                refreshing={isRefreshingPtiPoulaillerPlan}
+                onRefresh={() => {
+                  setRefreshingPtiPoulaillerPlan(true);
+                  refetchOnPremiseState().finally(() => setRefreshingPtiPoulaillerPlan(false));
+                }}
               />
             }
             scrollEventThrottle={16}
