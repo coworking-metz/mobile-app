@@ -20,6 +20,10 @@ export interface AppError extends Error {
   code: AppErrorCode;
 }
 
+export interface DisconnectedError extends AppError {
+  cause: AxiosError<ApiError>;
+}
+
 export type AnyError = AppError | AxiosError<ApiError> | Error;
 
 export const parseErrorText = async (error: AnyError): Promise<string> => {

@@ -316,7 +316,7 @@ export default function HomeScreen() {
         />
 
         <View style={tw`flex flex-row items-center justify-end gap-2 shrink grow basis-0`}>
-          {IS_DEV && authStore.user?.id && (
+          {areMessagesEnabled && (
             <Animated.View
               entering={BounceIn.duration(1000).delay(300)}
               exiting={BounceOut.duration(1000)}
