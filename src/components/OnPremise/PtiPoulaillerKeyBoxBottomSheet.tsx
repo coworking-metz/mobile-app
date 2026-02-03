@@ -91,7 +91,8 @@ const PtiPoulaillerKeyBoxBottomSheet = ({
             size={24}
             style={tw`shrink-0 grow-0`}
           />
-          <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
+          <AppText
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
             {t('onPremise.keyBoxes.missingCapability')}
           </AppText>
         </View>
