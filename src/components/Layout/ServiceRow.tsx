@@ -50,7 +50,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
         selected && tw`bg-gray-200/75 dark:bg-zinc-800/75`,
         style,
       ]}
-      underlayColor={tw.prefixMatch('dark') ? tw.color('neutral-700/30') : tw.color('neutral-200')}
+      underlayColor={tw.prefixMatch('dark') ? tw.color('neutral-700/30') : tw.color('gray-200')}
       onPress={onPress}>
       <View style={tw`flex flex-col`}>
         <View style={tw`flex flex-row items-start min-h-14 gap-3 py-2`}>

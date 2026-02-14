@@ -181,7 +181,7 @@ export default function CalendarEventPage() {
         {isFetchingCalendarEvents && (
           <LoadingProgressBar
             style={[
-              tw`absolute inset-x-0`,
+              tw`absolute inset-x-0 z-10`,
               {
                 top: headerHeight,
               },
