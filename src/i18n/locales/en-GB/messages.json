@@ -4,6 +4,9 @@
       "description": "For the moment, but it won't be long.",
       "title": "No messages"
     },
+    "onFetch": {
+      "fail": "Unable to fetch messages"
+    },
     "search": {
       "placeholder": "Search"
     },

@@ -4,6 +4,9 @@
       "description": "Pour le moment, mais ça ne saurait tarder.",
       "title": "Aucun message"
     },
+    "onFetch": {
+      "fail": "Impossible de récupérer les messages"
+    },
     "search": {
       "placeholder": "Rechercher"
     },
