@@ -197,10 +197,13 @@ export default function HomeScreen() {
       .subtract(1, 'day')
       .add(settingsStore.upcomingEventsPeriod.count, settingsStore.upcomingEventsPeriod.unit)
       .endOf('day');
+
     return (
       calendarEvents?.filter(
         ({ start, end }) =>
-          dayjs(start).isBetween(now, endOfPeriod) || dayjs(end).isBetween(now, endOfPeriod),
+          now.isBetween(start, end) ||
+          dayjs(start).isBetween(now, endOfPeriod, 'day', '[]') ||
+          dayjs(end).isBetween(now, endOfPeriod, 'day', '[]'),
       ) ?? []
     );
   }, [calendarEvents, activeSince, settingsStore.upcomingEventsPeriod]);

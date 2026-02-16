@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+
+- Render ongoing events on home screen.
+
 ## [2026.2.1] - 2026-02-03
 
 ### Fixed
