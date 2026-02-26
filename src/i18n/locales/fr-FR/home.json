@@ -52,10 +52,7 @@
     "message": ["Besoin d'aide ?", "Quelque chose ne va pas ?", "Un souci ?"]
   },
   "parking": {
-    "label": {
-      "firstLine": "Ouvrir la barrière",
-      "secondLine": "du parking"
-    },
+    "label": "Ouvrir la\u00A0barrière\ndu\u00A0parking",
     "onFail": {
       "message": "Impossible d'ouvrir"
     },
