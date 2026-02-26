@@ -48,10 +48,7 @@
     "message": ["Is it acting up?", "Is there something wrong?", "Need help?"]
   },
   "parking": {
-    "label": {
-      "firstLine": "Open parking",
-      "secondLine": "barrier"
-    },
+    "label": "Open parking\nbarrier",
     "onFail": {
       "message": "Unable to open"
     },

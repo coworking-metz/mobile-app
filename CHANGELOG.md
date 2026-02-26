@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Changed
+
+- Rename `Ouvrir la barrière du parking` to `Ouvrir le parking`.
+
+### Fixed
+
+- Filter past events on home screen, starting from the previous hour.
+
 ## [2026.2.2] - 2026-02-16
 
 ### Fixed
