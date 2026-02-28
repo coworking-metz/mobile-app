@@ -6,13 +6,14 @@ import useToastStore from './toast';
 import * as Sentry from '@sentry/react-native';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
+import { jwtDecode } from 'jwt-decode';
 import { toast } from 'sonner-native';
 import { create } from 'zustand';
 import { createJSONStorage, persist, subscribeWithSelector } from 'zustand/middleware';
 import { AnyError, parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import i18n from '@/i18n';
-import { decodeToken, getAccessAndRefreshTokens, type ApiUser } from '@/services/api/auth';
+import { getAccessAndRefreshTokens, type ApiUser } from '@/services/api/auth';
 
 /**
  * In order to avoid asking for multiple refresh tokens at the same time when it has expired,
@@ -89,7 +90,7 @@ const useAuthStore = create<AuthState>()(
         },
         getOrRefreshAccessToken: async (): Promise<string | null> => {
           const accessToken = get().accessToken;
-          const expired = accessToken ? decodeToken(accessToken)?.exp : null;
+          const expired = accessToken ? jwtDecode<ApiUser | null>(accessToken)?.exp : null;
           if (!expired || dayjs().isAfter(dayjs.unix(expired))) {
             return get().refreshAccessToken();
           }
@@ -152,7 +153,7 @@ useAuthStore.subscribe(
   (state) => state.accessToken,
   (accessToken) => {
     if (accessToken) {
-      const user = decodeToken(accessToken);
+      const user = jwtDecode<ApiUser | null>(accessToken);
       Sentry.setUser({ email: user?.email });
       useAuthStore.setState({ user });
     } else {
