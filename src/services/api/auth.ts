@@ -63,20 +63,3 @@ export const getAccessAndRefreshTokens = async (
     )
     .then(({ data }) => data);
 };
-
-/**
- * Retrieve payload from a JWT token.
- */
-export const decodeToken = (token: string): ApiUser | null => {
-  const parts = token
-    .split('.')
-    .map((part) => Buffer.from(part.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString());
-  const [_, jsonPayload] = parts;
-  try {
-    const payload = JSON.parse(jsonPayload);
-    return payload;
-  } catch (error) {
-    authLogger.warn('Failed to decode JWT token', error);
-    return null;
-  }
-};

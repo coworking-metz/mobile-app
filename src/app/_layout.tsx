@@ -100,7 +100,7 @@ const RootLayout = () => {
                                         contentStyle: {
                                           backgroundColor: 'transparent',
                                         },
-                                        // navigationBarTranslucent: true,
+                                        navigationBarTranslucent: true,
                                         ...(reduceMotion && {
                                           animation: 'fade',
                                         }),
