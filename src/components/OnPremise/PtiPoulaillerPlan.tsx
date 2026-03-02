@@ -38,8 +38,10 @@ const PtiPoulaillerPlan = ({
     selectPtiPoulaillerClimate,
     selectWifi,
     selectTelevision,
+    selectMeetingRoomHub,
     isWifiSelected,
     isTelevisionSelected,
+    isMeetingRoomHubSelected,
     selectedFlexDesk,
   } = useOnPremise();
 
@@ -215,6 +217,16 @@ const PtiPoulaillerPlan = ({
               style={tw`top-[68%] left-[45%]`}
               onPress={selectPtiPoulaillerClimate}
             />
+            {/* Hub key box */}
+            <ActionableIcon
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="key-chain-variant"
+              key="hub-key-box"
+              style={tw`top-[32%] left-[7%]`}
+              onPress={selectMeetingRoomHub}
+            />
+           
           </>
         )}
       </View>

@@ -143,6 +143,16 @@
     "racine": "La Racine",
     "unknown": "Quelque part"
   },
+  "meetingRooms": {
+    "hub": {
+      "description": "Le Hub est une <0>petite salle de réunion</0> conçue pour accueillir des groupes de travail jusqu'à six personnes. Elle est située proche du P'ti Poulailler, à coté de la porte d'entrée du bâtiment.\n\nL'accès se fait à l'aide d'une clé rangée dans une boîte à clés sécurisée, accrochée à gauche de la porte. L'ouverture de cette boîte nécessite un\u00A0code.",
+      "fetch": "Obtenir le code",
+      "label": "Accéder au Hub",
+      "onFetch": {
+        "fail": "Impossible d'obtenir le\u00A0code"
+      }
+    }
+  },
   "onFetch": {
     "fail": "Impossible d'actualiser l'état\u00A0actuel de\u00A0l'espace"
   },

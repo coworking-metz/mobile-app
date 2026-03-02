@@ -6,6 +6,7 @@ import FlexDeskBottomSheet from './FlexDeskBottomSheet';
 import FridgeBottomSheet from './FridgeBottomSheet';
 import GroupWorkBottomSheet from './GroupWorkBottomSheet';
 import IntercomBottomSheet from './IntercomBottomSheet';
+import MeetingRoomHubBottomSheet from './MeetingRoomHubBottomSheet';
 import PhoneBoothBottomSheet from './PhoneBoothBottomSheet';
 import PoulaillerKeyBoxBottomSheet from './PoulaillerKeyBoxBottomSheet';
 import PrinterBottomSheet from './PrinterBottomSheet';
@@ -57,6 +58,8 @@ const OnPremiseContext = createContext<{
   selectIntercom?: () => void;
   isGroupWorkSelected?: boolean;
   selectGroupWork?: () => void;
+  isMeetingRoomHubSelected?: boolean;
+  selectMeetingRoomHub?: () => void;
 }>({
   isDeckDoorSelected: false,
   selectDeckDoor: () => {},
@@ -92,6 +95,8 @@ const OnPremiseContext = createContext<{
   selectIntercom: () => {},
   isGroupWorkSelected: false,
   selectGroupWork: () => {},
+  isMeetingRoomHubSelected: false,
+  selectMeetingRoomHub: () => {},
 });
 
 export const useOnPremise = () => {
@@ -118,6 +123,7 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
   const [isWifiSelected, setWifiSelected] = useState<boolean>(false);
   const [isIntercomSelected, setIntercomSelected] = useState<boolean>(false);
   const [isGroupWorkSelected, setGroupWorkSelected] = useState<boolean>(false);
+  const [isMeetingRoomHubSelected, setMeetingRoomHubSelected] = useState<boolean>(false);
 
   const { data: onPremiseState, isFetching: isFetchingOnPremiseState } = useQuery({
     queryKey: onPremiseQueryKeys.state(),
@@ -161,6 +167,8 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
         selectIntercom: () => setIntercomSelected(true),
         isGroupWorkSelected,
         selectGroupWork: () => setGroupWorkSelected(true),
+        isMeetingRoomHubSelected,
+        selectMeetingRoomHub: () => setMeetingRoomHubSelected(true),
       }}>
       {children}
       {isDeckDoorSelected && (
@@ -233,6 +241,9 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
       {isWifiSelected && <WifiBottomSheet onClose={() => setWifiSelected(false)} />}
       {isIntercomSelected && <IntercomBottomSheet onClose={() => setIntercomSelected(false)} />}
       {isGroupWorkSelected && <GroupWorkBottomSheet onClose={() => setGroupWorkSelected(false)} />}
+      {isMeetingRoomHubSelected && (
+        <MeetingRoomHubBottomSheet onClose={() => setMeetingRoomHubSelected(false)} />
+      )}
     </OnPremiseContext.Provider>
   );
 };
