@@ -105,6 +105,10 @@ export const getStorageKeyBoxCode = async (): Promise<{ code: number }> => {
   return HTTP.get('/api/on-premise/key-box/storage/code').then(({ data }) => data);
 };
 
+export const getHubKeyBoxCode = async (): Promise<{ code: number }> => {
+  return HTTP.get('/api/on-premise/key-box/hub/code').then(({ data }) => data);
+};
+
 export const getWifiCredentials = async (): Promise<{ password: string; ssid: string }> => {
   return HTTP.get('/api/on-premise/wifi/credentials').then(({ data }) => data);
 };
