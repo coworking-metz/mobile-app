@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useEffect } from 'react';
-import { type ColorSchemeName, useColorScheme } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Animated, Easing, type ColorSchemeName, useColorScheme, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { toast, Toaster } from 'sonner-native';
 import tw from 'twrnc';
@@ -35,6 +35,45 @@ const getToastIconColor = (type?: ToastType, currentTheme?: ColorSchemeName) => 
   }
 };
 
+type ToastProgressBarProps = {
+  duration: number;
+  color: string;
+};
+
+const ToastBackgroundWithProgress = ({ duration, color }: ToastProgressBarProps) => {
+  const progress = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    progress.setValue(1);
+    Animated.timing(progress, {
+      toValue: 0,
+      duration,
+      easing: Easing.linear,
+      useNativeDriver: false,
+    }).start();
+  }, [duration, progress]);
+
+  return (
+    <View
+      style={tw`absolute inset-0 bg-neutral-900 rounded-2xl dark:bg-neutral-950 dark:border-zinc-700 dark:border`}>
+      <View pointerEvents="none" style={tw`absolute inset-x-0 bottom-0 h-1`}>
+        <Animated.View
+          style={[
+            tw`h-full`,
+            {
+              backgroundColor: color,
+              width: progress.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['0%', '100%'],
+              }),
+            },
+          ]}
+        />
+      </View>
+    </View>
+  );
+};
+
 const ToastMessages = () => {
   const insets = useSafeAreaInsets();
   const toastStore = useToastStore();
@@ -49,6 +88,9 @@ const ToastMessages = () => {
     );
     const [notification] = allNotificationsNotDismissedSorted;
     if (notification) {
+      const isTemporary =
+        typeof notification.timeout === 'number' && Number.isFinite(notification.timeout);
+      const progressColor = getToastIconColor(notification.type, colorScheme);
       toast(notification.message, {
         icon: (
           <MaterialCommunityIcons
@@ -57,9 +99,17 @@ const ToastMessages = () => {
             size={20}
           />
         ),
-        style: tw`sm:w-full sm:max-w-sm sm:mx-auto dark:bg-neutral-800`,
+        style: tw`sm:w-full sm:max-w-sm sm:mx-auto`,
         closeButton: true,
         duration: notification.timeout ?? Infinity,
+        ...(isTemporary && {
+          backgroundComponent: (
+            <ToastBackgroundWithProgress
+              color={progressColor}
+              duration={notification.timeout as number}
+            />
+          ),
+        }),
         onAutoClose: () => toastStore.dismiss(notification.id),
         onDismiss: () => toastStore.dismiss(notification.id),
         ...(notification.action && {

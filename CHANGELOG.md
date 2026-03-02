@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Hub meeting room bottom sheet on P'ti Poulailler plan.
+- Add progress bar to temporary toast messages.
 
 ### Changed
 
