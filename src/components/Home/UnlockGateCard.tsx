@@ -168,7 +168,7 @@ const UnlockCard = ({
         ]}>
         <Animated.View
           style={[
-            tw`absolute top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-zinc-800 w-full`,
+            tw`absolute top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-zinc-800/80 w-full`,
             backgroundStyle,
           ]}
         />
