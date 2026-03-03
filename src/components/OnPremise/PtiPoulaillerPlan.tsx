@@ -226,7 +226,6 @@ const PtiPoulaillerPlan = ({
               style={tw`top-[32%] left-[7%]`}
               onPress={selectMeetingRoomHub}
             />
-           
           </>
         )}
       </View>

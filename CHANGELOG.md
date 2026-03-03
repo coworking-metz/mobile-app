@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Rename `Ouvrir la barrière du parking` to `Ouvrir le parking`.
+- Attendance count animation.
 
 ### Fixed
 
