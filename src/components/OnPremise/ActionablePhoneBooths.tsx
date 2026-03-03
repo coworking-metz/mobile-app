@@ -43,7 +43,7 @@ const ActionablePhoneBooths = ({
   return (
     <AppBlurView
       style={[
-        tw`absolute z-10 h-12 w-24 flex items-stretch rounded-full overflow-hidden bg-opacity-75 dark:bg-opacity-85`,
+        tw`absolute z-10 h-12 w-24 flex items-stretch rounded-full overflow-hidden`,
         // selected && tw.style(`ios:border-2 ios:border-neutral-600 ios:dark:border-neutral-500`),
         style,
       ]}
@@ -62,7 +62,7 @@ const ActionablePhoneBooths = ({
           <Animated.View style={tw`flex flex-row items-center grow`}>
             <Animated.View
               style={[
-                tw`h-full grow p-1 flex flex-row items-center justify-center`,
+                tw`h-full grow p-1 flex flex-row items-center justify-center bg-gray-200/30 dark:bg-zinc-900/30`,
                 isFirstPhoneBoothSelected && { backgroundColor: theme.meatBrown },
               ]}>
               <MaterialCommunityIcons
@@ -88,7 +88,7 @@ const ActionablePhoneBooths = ({
             </Animated.View>
             <Animated.View
               style={[
-                tw`h-full grow p-1 flex flex-row items-center justify-center`,
+                tw`h-full grow p-1 flex flex-row items-center justify-center bg-gray-200/30 dark:bg-zinc-900/30`,
                 isSecondPhoneBoothSelected && { backgroundColor: theme.meatBrown },
               ]}>
               <MaterialCommunityIcons

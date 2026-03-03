@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import { sample } from 'lodash';
+import { NumberFlow } from 'number-flow-react-native';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, type ViewProps } from 'react-native';
@@ -42,7 +43,7 @@ const AttendanceCount = ({
   onRetry?: () => void;
   style?: ViewProps;
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const count = useSharedValue<number>(0);
 
@@ -77,10 +78,6 @@ const AttendanceCount = ({
     });
   }, [currentMembers]);
 
-  const membersCount = useDerivedValue(() => {
-    return `${count.value.toFixed(0)}`;
-  }, [count]);
-
   const remainingMembersCount = useDerivedValue(() => {
     return `+${(count.value - (MAX_MEMBERS_PICTURES - 1)).toFixed(0)}`;
   }, [count]);
@@ -95,17 +92,17 @@ const AttendanceCount = ({
 
   return (
     <View style={[tw`flex flex-col justify-end h-32 w-full`, style]}>
-      <View style={tw`flex flex-row w-full items-end mb-5`}>
+      <View style={tw`flex flex-row w-full items-end`}>
         <LoadingSkeleton radius={16} show={isPendingCurrentMembers}>
-          <ReanimatedText
-            style={[
-              tw`text-8xl leading-[6rem] font-bold text-slate-900 dark:text-gray-200 min-w-[3rem] ios:-mb-4.5 android:pr-3 android:h-28 android:-mb-2`,
-            ]}
-            text={membersCount}
+          <NumberFlow
+            format={{ style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 }}
+            locales={[i18n.language]}
+            style={tw`text-8xl leading-[7rem] android:leading-[7.5rem] font-bold text-slate-900 dark:text-gray-200`}
+            value={currentMembers?.length ?? 0}
           />
         </LoadingSkeleton>
         <AppText
-          style={tw`text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-neutral-500 h-12 android:min-w-28`}>
+          style={tw`mb-4 android:mb-6 text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-neutral-500 android:min-w-28`}>
           {t('home.people.capacity', { total: TOTAL_CAPACITY })}
         </AppText>
         {currentMembersError && !isSilentError(currentMembersError) && !isFetchingCurrentMembers ? (
