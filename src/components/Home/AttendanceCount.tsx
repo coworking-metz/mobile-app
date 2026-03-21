@@ -108,7 +108,7 @@ const AttendanceCount = ({
         {currentMembersError && !isSilentError(currentMembersError) && !isFetchingCurrentMembers ? (
           <ErrorBadge
             error={currentMembersError}
-            style={tw`ml-3`}
+            style={tw`ml-3 mb-6`}
             title={t('home.people.onFetch.fail')}
             onRetry={refetchCurrentMembers}
           />
