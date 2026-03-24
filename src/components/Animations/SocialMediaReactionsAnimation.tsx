@@ -1,6 +1,5 @@
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import React, { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
-import { useColorScheme } from 'react-native';
 import SocialMediaReactions from '@/assets/animations/social-media-reactions.json';
 import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie } from '@/helpers/colors';

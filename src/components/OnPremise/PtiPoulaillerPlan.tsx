@@ -223,6 +223,7 @@ const PtiPoulaillerPlan = ({
               exiting={BounceOut.duration(750)}
               icon="key-chain-variant"
               key="hub-key-box"
+              selected={isMeetingRoomHubSelected}
               style={tw`top-[32%] left-[7%]`}
               onPress={selectMeetingRoomHub}
             />

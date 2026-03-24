@@ -53,7 +53,7 @@ const Advanced = () => {
               text: t('actions.confirm'),
               style: 'destructive',
               onPress: async () => {
-                advancedLogger.warn(`Clear refresh token before switching storage`);
+                advancedLogger.warn(`Clear tokens before switching storage`);
                 await authStore.clear();
                 advancedLogger.warn(`Switching tokens storage to AsyncStorage`);
                 await useSettingsStore.setState({ areTokensInAsyncStorage: value });
@@ -64,7 +64,7 @@ const Advanced = () => {
           { cancelable: true },
         );
       } else {
-        advancedLogger.warn(`Clear refresh token before switching storage`);
+        advancedLogger.warn(`Clear tokens before switching storage`);
         await authStore.clear();
         advancedLogger.warn(`Switching tokens storage to SecureStorage}`);
         await useSettingsStore.setState({ areTokensInAsyncStorage: value });
