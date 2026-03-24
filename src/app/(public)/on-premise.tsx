@@ -45,7 +45,7 @@ const OnPremise = () => {
   const offset = useSharedValue(0);
   const horizontalScrollView = useRef<Animated.ScrollView>(null);
 
-  const { isFetching: isFetchingOnPremiseState, refetch: refetchOnPremiseState } = useQuery({
+  const { refetch: refetchOnPremiseState } = useQuery({
     queryKey: onPremiseQueryKeys.state(),
     queryFn: getOnPremiseState,
   });

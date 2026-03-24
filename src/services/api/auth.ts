@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { Buffer } from 'buffer';
-import { log } from '@/helpers/logger';
 import { API_BASE_URL, APP_NAME, APP_VERSION } from '@/services/environment';
 import useSettingsStore from '@/stores/settings';
 
@@ -38,8 +36,6 @@ export type ApiUser = {
     wpUserId: number;
   };
 };
-
-const authLogger = log.extend(`[auth]`);
 
 export const getAccessAndRefreshTokens = async (
   refreshToken: string,

@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Link, LinkProps, WebAnchorProps } from 'expo-router';
+import { Link, LinkProps } from 'expo-router';
 import { forwardRef, ForwardRefRenderFunction } from 'react';
 import { StyleProp, TextProps, TextStyle } from 'react-native';
 import Animated, { AnimatedProps } from 'react-native-reanimated';

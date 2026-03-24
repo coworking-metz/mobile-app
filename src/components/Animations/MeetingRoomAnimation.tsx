@@ -1,21 +1,17 @@
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
-import tw from 'twrnc';
 import MeetingRoom from '@/assets/animations/meeting-room.json';
 import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie } from '@/helpers/colors';
 
 type AnimationProps = Omit<LottieViewProps, 'source'>;
 
-const MeetingRoomAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
-  props,
-  ref,
-) => {
+const MeetingRoomAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (props, ref) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const isDark = colorScheme === 'dark';
-    const backgroundColor = (isDark ? tw.color('zinc-900') : tw.color('white')) as string;
+    // const isDark = colorScheme === 'dark';
+    // const backgroundColor = (isDark ? tw.color('zinc-900') : tw.color('white')) as string;
     return colouriseLottie(MeetingRoom, {
       // // Message.Message.Fill 1
       // "layers.0.shapes.0.it.1.c.k": "#ffbe3d",
