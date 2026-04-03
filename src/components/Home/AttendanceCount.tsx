@@ -93,14 +93,20 @@ const AttendanceCount = ({
   return (
     <View style={[tw`flex flex-col justify-end h-32 w-full`, style]}>
       <View style={tw`flex flex-row w-full items-end`}>
-        <LoadingSkeleton radius={16} show={isPendingCurrentMembers}>
+        <View style={tw`relative`}>
           <NumberFlow
             format={{ style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 }}
             locales={[i18n.language]}
             style={tw`text-8xl leading-[7rem] android:leading-[7.5rem] font-bold text-slate-900 dark:text-gray-200`}
             value={currentMembers?.length ?? 0}
           />
-        </LoadingSkeleton>
+
+          <View style={tw`absolute inset-x-0 inset-y-4 z-10`}>
+            <LoadingSkeleton radius={16} show={isPendingCurrentMembers}>
+              <View style={tw`h-full w-full`} />
+            </LoadingSkeleton>
+          </View>
+        </View>
         <AppText
           style={tw`mb-4 android:mb-6 text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-neutral-500 android:min-w-28`}>
           {t('home.people.capacity', { total: TOTAL_CAPACITY })}
