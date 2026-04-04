@@ -83,13 +83,46 @@ export const getLanguageLabel = (languageCode: string | null): string | null => 
 const [firstLocale] = Localisation.getLocales();
 export const SYSTEM_LANGUAGE = firstLocale?.languageCode;
 
-i18n.use(initReactI18next).init({
-  resources: APP_LANGUAGES.reduce((acc, language) => ({ ...acc, [language.code]: language }), {}),
-  lng: SYSTEM_LANGUAGE || '',
-  // fallbackLng: 'en',
-  interpolation: {
-    escapeValue: false,
+// Replaces white spaces before or after some punctuations by non breaking spaces
+// Eg. replaces " ?" by "\u00A0?" or "« " by "«\u00A0" to avoid unwanted line breaks
+const addNonBreakingSpaceAroundPunctuation = (value: string): string => {
+  return value.replace(/\s+([:;»!?/])|([«])\s+/g, (match, left, right) => {
+    if (left) {
+      return `\u00A0${left}`;
+    }
+    if (right) {
+      return `${right}\u00A0`;
+    }
+
+    return match;
+  });
+};
+
+// Replaces hyphens by non breaking hyphens to keep related terms on the same line
+// Eg. replaces "coworking-metz" by "coworking\u2011metz" to avoid unwanted line breaks
+const addNonBreakingHyphen = (value: string): string => {
+  return value.replace(/-/g, '\u2011');
+};
+
+const nonBreakingCharactersPostProcessor = {
+  type: 'postProcessor' as const,
+  name: 'nonBreakingCharacters',
+  process: (value: string): string => {
+    return addNonBreakingHyphen(addNonBreakingSpaceAroundPunctuation(value));
   },
-});
+};
+
+i18n
+  .use(nonBreakingCharactersPostProcessor)
+  .use(initReactI18next)
+  .init({
+    resources: APP_LANGUAGES.reduce((acc, language) => ({ ...acc, [language.code]: language }), {}),
+    lng: SYSTEM_LANGUAGE || '',
+    // fallbackLng: 'en',
+    postProcess: [nonBreakingCharactersPostProcessor.name],
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
 export default i18n;
