@@ -402,16 +402,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               suffixIcon="chevron-right"
             />
           </Link>
-          <Link asChild href="/onboarding">
-            <ServiceRow
-              withBottomDivider
-              label={t('settings.general.onboarding.label')}
-              prefixIcon="handshake-outline"
-              selected={isWide && pathname === '/onboarding'}
-              style={tw`px-3 mx-3`}
-              suffixIcon="chevron-right"
-            />
-          </Link>
+
           <ServiceRow
             withBottomDivider
             label={t('settings.general.language.label')}
@@ -475,12 +466,22 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             onPress={contact}
           />
           <ServiceRow
+            withBottomDivider
             label={t('settings.support.review.label')}
             prefixIcon="star-outline"
             style={tw`px-3 mx-3`}
             suffixIcon="chevron-right"
             onPress={review}
           />
+          <Link asChild href="/onboarding">
+            <ServiceRow
+              label={t('settings.general.onboarding.label')}
+              prefix={<View style={tw`w-6 shrink-0 min-h-10`} />}
+              selected={isWide && pathname === '/onboarding'}
+              style={tw`px-3 mx-3`}
+              suffixIcon="chevron-right"
+            />
+          </Link>
         </View>
 
         {/* transparent view to fake a touch on the footer link, should mimic as much as possible the footer */}
