@@ -197,9 +197,9 @@
   "wifi": {
     "credentials": {
       "fetch": "Obtenir les identifiants",
-      "missingCapability": "Les identifiants WiFi ne sont disponibles qu'aux membres adhérents et visiteurs.",
+      "missingCapability": "Les identifiants Wi-Fi ne sont disponibles qu'aux membres adhérents et visiteurs.",
       "onFetch": {
-        "fail": "Impossible de récupérer les\u00A0identifiants\u00A0WiFi"
+        "fail": "Impossible de récupérer les\u00A0identifiants\u00A0Wi-Fi"
       },
       "password": {
         "label": "Mot de passe"
@@ -208,7 +208,7 @@
         "label": "Réseau (SSID)"
       }
     },
-    "description": "Le réseau WiFi donne accès à Internet et enregistre automatiquement la présence grâce à l'adresse MAC de l'appareil.\nEn cas de changement d'appareil, l'adresse peut être mise à jour directement depuis <0>l'application</0> ou <1>le\u00A0site\u00A0internet</1>.\n\nL'usage doit rester professionnel et raisonnable ; les téléchargements lourds et BitTorrent sont interdits.",
-    "label": "Réseau WiFi"
+    "description": "Le réseau Wi-Fi donne accès à Internet et enregistre automatiquement la présence grâce à l'adresse MAC de l'appareil.\nEn cas de changement d'appareil, l'adresse peut être mise à jour directement depuis <0>l'application</0> ou <1>le\u00A0site\u00A0internet</1>.\n\nL'usage doit rester professionnel et raisonnable ; les téléchargements lourds et BitTorrent sont interdits.",
+    "label": "Réseau Wi-Fi"
   }
 }
