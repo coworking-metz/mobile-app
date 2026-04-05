@@ -129,18 +129,20 @@ const AttendanceCount = ({
                 <LoadingSkeleton height={24} width={172} />
               </Animated.View>
             ) : (
-              <AppShimmerText
-                active={isFetchingCurrentMembers}
-                activeColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
-                numberOfLines={1}
-                style={tw`shrink grow text-xl font-normal text-slate-500 dark:text-neutral-500`}>
-                {attendanceText}
-              </AppShimmerText>
+              <View style={tw`shrink grow overflow-hidden`}>
+                <AppShimmerText
+                  active={isFetchingCurrentMembers}
+                  activeColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
+                  numberOfLines={1}
+                  style={tw`text-xl font-normal text-slate-500 dark:text-neutral-500`}>
+                  {attendanceText}
+                </AppShimmerText>
+              </View>
             )}
 
             {otherMembers.length ? (
               <Animated.View style={tw`shrink-0 ml-auto`}>
-                <View style={tw`flex flex-row items-center pl-4 grow h-8 `}>
+                <View style={tw`flex flex-row items-center pl-4 grow h-8`}>
                   {otherMembers
                     .slice(
                       0,
