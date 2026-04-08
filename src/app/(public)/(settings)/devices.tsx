@@ -7,10 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut, FadeIn, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
-import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import SwitchDevicesAnimation from '@/components/Animations/SwitchDevicesAnimation';
 import AppPressable from '@/components/AppPressable';
 import AppRoundedButton from '@/components/AppRoundedButton';
+import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
 import ErrorChip from '@/components/ErrorChip';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
@@ -165,19 +165,12 @@ const DeviceCard = ({
         <>
           <View style={tw`bg-gray-300 dark:bg-zinc-900/80 rounded-full p-2 z-20`}>
             <View style={tw`flex relative h-8 w-8 shrink-0`}>
-              {loading ? (
-                <HorizontalLoadingAnimation
-                  color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-                  style={tw`absolute h-full w-full`}
-                />
-              ) : (
-                <MaterialCommunityIcons
-                  color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-                  name={getDeviceTypeIcon(device?.type ?? DeviceType.UNKNOWN)}
-                  size={32}
-                  style={tw`shrink-0 self-center`}
-                />
-              )}
+              <MaterialCommunityIcons
+                color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
+                name={getDeviceTypeIcon(device?.type ?? DeviceType.UNKNOWN)}
+                size={32}
+                style={tw`shrink-0 self-center`}
+              />
             </View>
           </View>
 
@@ -188,11 +181,14 @@ const DeviceCard = ({
             {device?.name ?? device?.macAddress}
           </AppText>
           {device?.heartbeat && (
-            <AppText
-              numberOfLines={1}
-              style={tw`text-base text-left font-normal text-slate-500 dark:text-neutral-500`}>
-              {dayjs(device.heartbeat).fromNow()}
-            </AppText>
+            <View style={tw`shrink grow overflow-hidden`}>
+              <AppShimmerText
+                active={loading}
+                numberOfLines={1}
+                style={tw`text-base text-left font-normal text-slate-500 dark:text-neutral-500`}>
+                {dayjs(device.heartbeat).fromNow()}
+              </AppShimmerText>
+            </View>
           )}
 
           {device?.attending && (

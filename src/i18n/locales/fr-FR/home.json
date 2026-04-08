@@ -1,10 +1,4 @@
 {
-  "appointment": {
-    "date": "{{date, datetime }}",
-    "description": "Découverte du Coworking",
-    "time": "{{start, datetime }} - {{end, datetime }}",
-    "title": "Premiers pas"
-  },
   "calendar": {
     "browse": "Tous",
     "empty": {
@@ -50,6 +44,12 @@
   "onSuccessiveTaps": {
     "action": ["Aidez-moi", "Effectivement", "En effet", "Oui"],
     "message": ["Besoin d'aide ?", "Quelque chose ne va pas ?", "Un souci ?"]
+  },
+  "onboarding": {
+    "date": "{{date, datetime }}",
+    "description": "Découverte du Coworking",
+    "time": "{{start, datetime }} - {{end, datetime }}",
+    "title": "Premiers pas"
   },
   "parking": {
     "label": "Ouvrir la\u00A0barrière\ndu\u00A0parking",

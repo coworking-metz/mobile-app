@@ -12,7 +12,13 @@ import { useAppI18n } from '@/context/i18n';
 import { getLanguageLabel, SYSTEM_LANGUAGE } from '@/i18n';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 
-const AboutStep = ({ active, containerHeight }: { active: boolean; containerHeight?: number }) => {
+const IntroductionAboutStep = ({
+  active,
+  containerHeight,
+}: {
+  active: boolean;
+  containerHeight?: number;
+}) => {
   const { t } = useTranslation();
   const { selectLanguage } = useAppI18n();
   const settingsStore = useSettingsStore();
@@ -51,17 +57,17 @@ const AboutStep = ({ active, containerHeight }: { active: boolean; containerHeig
         <AppText
           entering={FadeInLeft.duration(750).delay(150)}
           style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
-          {t('onboarding.about.title')}
+          {t('introduction.about.title')}
         </AppText>
         <AppText
           entering={FadeInLeft.duration(750).delay(300)}
           style={tw`text-xl font-medium text-slate-600 dark:text-neutral-400 mx-6`}>
-          {t('onboarding.about.headline')}
+          {t('introduction.about.headline')}
         </AppText>
         <AppText
           entering={FadeInDown.duration(750).delay(500)}
           style={tw`mt-4 text-base font-normal text-slate-500 dark:text-neutral-500 mx-6`}>
-          {t('onboarding.about.description')}
+          {t('introduction.about.description')}
         </AppText>
         <Animated.View entering={FadeInDown.duration(750).delay(500)} style={tw`w-full`}>
           <ServiceRow
@@ -83,4 +89,4 @@ const AboutStep = ({ active, containerHeight }: { active: boolean; containerHeig
   );
 };
 
-export default AboutStep;
+export default IntroductionAboutStep;

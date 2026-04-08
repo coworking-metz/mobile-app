@@ -49,7 +49,7 @@ import { isSilentError } from '@/helpers/error';
 import useAppScreen from '@/helpers/screen';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
 import { getHelloActivity, getMemberActivity, getMemberProfile } from '@/services/api/members';
-import { WORDPRESS_BASE_URL } from '@/services/environment';
+import { IS_DEV, WORDPRESS_BASE_URL } from '@/services/environment';
 import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
@@ -440,13 +440,28 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
 
           <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.support.title')} />
           {authStore.user && (
-            <ServiceRowLink
-              withBottomDivider
-              href={`${WORDPRESS_BASE_URL}/la-boutique/`}
-              label={t('settings.support.store.label')}
-              prefixIcon="cart-outline"
-              style={tw`px-3 mx-3`}
-            />
+            <>
+              <ServiceRowLink
+                withBottomDivider
+                href={`${WORDPRESS_BASE_URL}/la-boutique/`}
+                label={t('settings.support.store.label')}
+                prefixIcon="cart-outline"
+                style={tw`px-3 mx-3`}
+              />
+
+              {IS_DEV && !authStore.user.onboarding && (
+                <Link asChild href="/onboarding">
+                  <ServiceRow
+                    withBottomDivider
+                    label={t('settings.general.onboarding.label')}
+                    prefixIcon="handshake-outline"
+                    selected={isWide && pathname === '/onboarding'}
+                    style={tw`px-3 mx-3`}
+                    suffixIcon="chevron-right"
+                  />
+                </Link>
+              )}
+            </>
           )}
           <ServiceRow
             withBottomDivider
@@ -472,11 +487,11 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             suffixIcon="chevron-right"
             onPress={review}
           />
-          <Link asChild href="/onboarding">
+          <Link asChild href="/introduction">
             <ServiceRow
-              label={t('settings.general.onboarding.label')}
+              label={t('settings.general.introduction.label')}
               prefix={<View style={tw`w-6 shrink-0 min-h-10`} />}
-              selected={isWide && pathname === '/onboarding'}
+              selected={isWide && pathname === '/introduction'}
               style={tw`px-3 mx-3`}
               suffixIcon="chevron-right"
             />

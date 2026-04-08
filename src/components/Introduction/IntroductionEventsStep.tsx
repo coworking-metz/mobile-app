@@ -10,7 +10,13 @@ import PeopleGatheringAnimation from '@/components/Animations/PeopleGatheringAni
 import AppFader from '@/components/AppFader';
 import AppText from '@/components/AppText';
 
-const EventsStep = ({ active, containerHeight }: { active: boolean; containerHeight?: number }) => {
+const IntroductionEventsStep = ({
+  active,
+  containerHeight,
+}: {
+  active: boolean;
+  containerHeight?: number;
+}) => {
   const { t } = useTranslation();
   const reduceMotion = useReducedMotion();
   const animation = useRef<LottieView>(null);
@@ -79,14 +85,14 @@ const EventsStep = ({ active, containerHeight }: { active: boolean; containerHei
       <View style={tw.style(`mt-4 flex flex-col self-stretch justify-start`)}>
         <AppText
           style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
-          {t('onboarding.events.title')}
+          {t('introduction.events.title')}
         </AppText>
         <AppText style={tw`mt-4 text-base font-normal text-slate-500 dark:text-neutral-500 mx-6`}>
-          {t('onboarding.events.description')}
+          {t('introduction.events.description')}
         </AppText>
       </View>
     </>
   );
 };
 
-export default EventsStep;
+export default IntroductionEventsStep;

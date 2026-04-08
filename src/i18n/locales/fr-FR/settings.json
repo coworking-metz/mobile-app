@@ -15,6 +15,9 @@
         }
       }
     },
+    "introduction": {
+      "label": "Revoir la présentation"
+    },
     "language": {
       "label": "Langue",
       "system": {
@@ -23,7 +26,7 @@
       }
     },
     "onboarding": {
-      "label": "Revoir la présentation"
+      "label": "Premiers pas"
     },
     "theme": {
       "label": "Thème",

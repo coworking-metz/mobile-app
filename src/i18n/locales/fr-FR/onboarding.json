@@ -1,20 +1,16 @@
 {
-  "about": {
-    "description": "Découvrez un accès rapide et pratique aux informations du Coworking Metz et à ses services.\n\nQue ce soit pour consulter les places disponibles, les évènements à ne pas manquer, ou encore accéder au lieu, tout est à portée de pouce !\n\nPar ailleurs, est-ce que le Français vous convient ?",
-    "headline": "Dans votre poche",
-    "title": "Le Poulailler"
+  "enrollment": {
+    "description": "Accédez au calendrier complet des évènements à venir, organisés par l'association ou par Bliiida.\nEt n'oubliez pas de jeter un coup d'œil au repas de midi proposé par l'Amour Food.\n\nVous ne manquerez plus aucune occasion de rencontrer de nouvelles personnes et de vivre des expériences mémorables !",
+    "title": "Finalisation de l'inscription"
   },
-  "activity": {
+  "tour": {
     "description": "Pour anticiper la disponibilité de l'open space, ouvert de 7h à 23h, suivez en temps réel le nombre de coworkers présents.\n\nVotre historique personnel, ainsi que le détail de votre abonnement et de vos tickets sont également disponibles en un clin d'oeil.",
     "headline": "D'hier, d'aujourd'hui et de\u00A0demain",
     "title": "Consultez l'activité"
   },
-  "events": {
-    "description": "Accédez au calendrier complet des évènements à venir, organisés par l'association ou par Bliiida.\nEt n'oubliez pas de jeter un coup d'œil au repas de midi proposé par l'Amour Food.\n\nVous ne manquerez plus aucune occasion de rencontrer de nouvelles personnes et de vivre des expériences mémorables !",
-    "title": "Restez informé"
-  },
-  "services": {
-    "description": "Que ce soit à pied, à vélo, ou en voiture, vous avez le contrôle complet pour accéder au lieu. Ouvrez la barrière du parking ou déverrouillez la porte d'entrée, quand vous le souhaitez.\n\nEt parce que nous aimons vous offrir des options, vous pouvez également personnaliser votre expérience.\nQuelle ambiance préférez-vous ?",
-    "title": "Venez comme vous\u00A0voulez"
+  "trial": {
+    "description": "Découvrez un accès rapide et pratique aux informations du Coworking Metz et à ses services.\n\nQue ce soit pour consulter les places disponibles, les évènements à ne pas manquer, ou encore accéder au lieu, tout est à portée de pouce !\n\nPar ailleurs, est-ce que le Français vous convient ?",
+    "headline": "Dans votre poche",
+    "title": "Le Poulailler"
   }
 }

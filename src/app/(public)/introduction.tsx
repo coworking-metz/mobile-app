@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { useNavigation, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,23 +11,28 @@ import AppFader from '@/components/AppFader';
 import AppIconButton from '@/components/AppIconButton';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
-import OnboardingEnrollStep from '@/components/Onboarding/OnboardingEnrollStep';
-import OnboardingTourStep from '@/components/Onboarding/OnboardingTourStep';
-import OnboardingTrialStep from '@/components/Onboarding/OnboardingTrialStep';
-import PaginationDot from '@/components/Onboarding/PaginationDot';
-import Step from '@/components/Onboarding/Step';
+import AboutStep from '@/components/Introduction/IntroductionAboutStep';
+import IntroductionAboutStep from '@/components/Introduction/IntroductionAboutStep';
+import ActivityStep from '@/components/Introduction/IntroductionActivityStep';
+import IntroductionActivityStep from '@/components/Introduction/IntroductionActivityStep';
+import EventsStep from '@/components/Introduction/IntroductionEventsStep';
+import IntroductionEventsStep from '@/components/Introduction/IntroductionEventsStep';
+import ServicesStep from '@/components/Introduction/IntroductionServicesStep';
+import IntroductionServicesStep from '@/components/Introduction/IntroductionServicesStep';
+import PaginationDot from '@/components/Introduction/PaginationDot';
+import Step from '@/components/Introduction/Step';
 import { log } from '@/helpers/logger';
 import { useAppPaddingBottom } from '@/helpers/screen';
 import useSettingsStore from '@/stores/settings';
 
-const onboardingLogger = log.extend(`[onboarding]`);
+const introductionLogger = log.extend(`[introduction]`);
 
-type OnboardingScreen = {
+type IntroductionScreen = {
   key: string;
   component: (active: boolean) => ReactNode;
 };
 
-const Onboarding = () => {
+const Introduction = () => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
   const paddingBottom = useAppPaddingBottom();
@@ -44,24 +48,28 @@ const Onboarding = () => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', () => {
-      onboardingLogger.debug('User has dismissed onboarding');
-      useSettingsStore.setState({ hasReadOnboardingInstructionsAt: dayjs().toISOString() });
+      introductionLogger.debug('User has dismissed introduction');
+      useSettingsStore.setState({ hasSeenIntroduction: true });
     });
     return unsubscribe;
   }, []);
 
-  const screens: OnboardingScreen[] = [
+  const screens: IntroductionScreen[] = [
     {
-      key: 'tour',
-      component: (active: boolean) => <OnboardingTourStep active={active} />,
+      key: 'about',
+      component: (active: boolean) => <IntroductionAboutStep active={active} />,
     },
     {
-      key: 'trial',
-      component: (active: boolean) => <OnboardingTrialStep active={active} />,
+      key: 'activity',
+      component: (active: boolean) => <IntroductionActivityStep active={active} />,
     },
     {
-      key: 'enroll',
-      component: (active: boolean) => <OnboardingEnrollStep active={active} />,
+      key: 'services',
+      component: (active: boolean) => <IntroductionServicesStep active={active} />,
+    },
+    {
+      key: 'events',
+      component: (active: boolean) => <IntroductionEventsStep active={active} />,
     },
   ];
 
@@ -165,7 +173,7 @@ const Onboarding = () => {
             />
           </View>
 
-          {/* <Animated.View
+          <Animated.View
             entering={FadeInDown.duration(500).delay(1000)}
             style={[tw`flex flex-col absolute bottom-0 px-6 w-full`, { paddingBottom }]}
             onLayout={({ nativeEvent }: LayoutChangeEvent) =>
@@ -181,11 +189,11 @@ const Onboarding = () => {
             <AppRoundedButton style={tw`mx-auto w-full max-w-md`} onPress={onNext}>
               <AppText style={tw`text-base font-medium text-black`}>{t('actions.next')}</AppText>
             </AppRoundedButton>
-          </Animated.View> */}
+          </Animated.View>
         </View>
       ) : null}
     </View>
   );
 };
 
-export default Onboarding;
+export default Introduction;

@@ -183,12 +183,12 @@ const Advanced = () => {
 
         <ServiceRow
           withBottomDivider
-          label={t('advanced.variables.onboarding.label')}
+          label={t('advanced.variables.introduction.label')}
           style={tw`px-3 mx-3`}>
           <Switch
-            value={settingsStore.hasOnboard}
+            value={settingsStore.hasSeenIntroduction}
             onColor={theme.meatBrown}
-            onValueChange={(value) => useSettingsStore.setState({ hasOnboard: value })}
+            onValueChange={(value) => useSettingsStore.setState({ hasSeenIntroduction: value })}
           />
         </ServiceRow>
         <ServiceRow
@@ -228,14 +228,14 @@ const Advanced = () => {
         {IS_DEV && (
           <ServiceRow
             withBottomDivider
-            label={t('advanced.variables.hasReadAppointmentInstructions.label')}
+            label={t('advanced.variables.hasReadOnboardingInstructionsAt.label')}
             style={tw`px-3 mx-3`}>
             <Switch
-              value={!isNil(settingsStore.hasReadAppointmentInstructionsAt)}
+              value={!isNil(settingsStore.hasReadOnboardingInstructionsAt)}
               onColor={theme.meatBrown}
               onValueChange={(value) =>
                 useSettingsStore.setState({
-                  hasReadAppointmentInstructionsAt: value ? dayjs().toISOString() : null,
+                  hasReadOnboardingInstructionsAt: value ? dayjs().toISOString() : null,
                 })
               }
             />

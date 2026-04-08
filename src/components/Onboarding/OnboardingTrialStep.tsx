@@ -1,3 +1,4 @@
+import DesktopWorkAnimation from '../Animations/DesktopWorkAnimation';
 import { isNil } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +13,12 @@ import AppText from '@/components/AppText';
 import ThemePicker from '@/components/Settings/ThemePicker';
 import { useAppTheme } from '@/context/theme';
 
-const ServicesStep = ({ containerHeight }: { active: boolean; containerHeight?: number }) => {
+const OnboardingTrialStep = ({
+  containerHeight,
+}: {
+  active: boolean;
+  containerHeight?: number;
+}) => {
   const { t } = useTranslation();
   const { selectTheme } = useAppTheme();
   const reduceMotion = useReducedMotion();
@@ -43,12 +49,12 @@ const ServicesStep = ({ containerHeight }: { active: boolean; containerHeight?: 
           style={tw`absolute inset-y-0 left-0 z-10`}
           tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
         />
-        <WorkOnTheGoAnimation
+        <DesktopWorkAnimation
           ref={animation}
           loop
           autoPlay={false}
-          progress={reduceMotion ? 1 : 0.5}
-          style={tw`w-[320px] max-h-80 h-full`}
+          progress={reduceMotion ? 1 : 0}
+          style={tw`w-full max-h-80 h-full -mb-6`}
         />
         <AppFader
           position={Fader.position.END}
@@ -61,10 +67,10 @@ const ServicesStep = ({ containerHeight }: { active: boolean; containerHeight?: 
       <View style={tw.style(`mt-4 flex flex-col self-stretch justify-start`)}>
         <AppText
           style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
-          {t('onboarding.services.title')}
+          {t('introduction.services.title')}
         </AppText>
         <AppText style={tw`mt-4 text-base font-normal text-slate-500 dark:text-neutral-500 mx-6`}>
-          {t('onboarding.services.description')}
+          {t('introduction.services.description')}
         </AppText>
         <View style={tw`w-full`}>
           <ThemePicker style={tw`px-3 mx-3`} onPress={selectTheme} />
@@ -74,4 +80,4 @@ const ServicesStep = ({ containerHeight }: { active: boolean; containerHeight?: 
   );
 };
 
-export default ServicesStep;
+export default OnboardingTrialStep;
