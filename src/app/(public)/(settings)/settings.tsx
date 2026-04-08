@@ -380,29 +380,6 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           />
 
           <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.general.title')} />
-          {authStore.user?.id && (
-            <Link asChild href="/devices/">
-              <ServiceRow
-                withBottomDivider
-                label={t('devices.title')}
-                prefixIcon="devices"
-                selected={isWide && pathname.startsWith('/devices')}
-                style={tw`px-3 mx-3`}
-                suffixIcon="chevron-right"
-              />
-            </Link>
-          )}
-          <Link asChild href="/privacy/">
-            <ServiceRow
-              withBottomDivider
-              label={t('privacy.title')}
-              prefixIcon="shield-account-variant-outline"
-              selected={isWide && pathname.startsWith('/privacy')}
-              style={tw`px-3 mx-3`}
-              suffixIcon="chevron-right"
-            />
-          </Link>
-
           <ServiceRow
             withBottomDivider
             label={t('settings.general.language.label')}
@@ -429,6 +406,28 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               {upcomingEventsPeriodValue}
             </AppText>
           </ServiceRow>
+          {authStore.user?.id && (
+            <Link asChild href="/devices/">
+              <ServiceRow
+                withBottomDivider
+                label={t('devices.title')}
+                prefixIcon="devices"
+                selected={isWide && pathname.startsWith('/devices')}
+                style={tw`px-3 mx-3`}
+                suffixIcon="chevron-right"
+              />
+            </Link>
+          )}
+          <Link asChild href="/privacy/">
+            <ServiceRow
+              withBottomDivider
+              label={t('privacy.title')}
+              prefixIcon="shield-account-variant-outline"
+              selected={isWide && pathname.startsWith('/privacy')}
+              style={tw`px-3 mx-3`}
+              suffixIcon="chevron-right"
+            />
+          </Link>
           <Link asChild href="/advanced/">
             <ServiceRow
               label={t('advanced.title')}
