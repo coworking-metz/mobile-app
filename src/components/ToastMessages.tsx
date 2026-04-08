@@ -56,10 +56,10 @@ const ToastBackgroundWithProgress = ({ duration, color }: ToastProgressBarProps)
   return (
     <View
       style={tw`absolute inset-0 bg-neutral-900 rounded-2xl dark:bg-neutral-950 dark:border-zinc-700 dark:border`}>
-      <View pointerEvents="none" style={tw`absolute inset-x-0 bottom-0 h-1`}>
+      <View pointerEvents="none" style={tw`absolute inset-x-0 top-0 h-1`}>
         <Animated.View
           style={[
-            tw`h-full`,
+            tw`h-full rounded-full`,
             {
               backgroundColor: color,
               width: progress.interpolate({
