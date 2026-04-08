@@ -14,12 +14,14 @@ import AppPressable from '@/components/AppPressable';
 import AppText from '@/components/AppText';
 import { theme } from '@/helpers/colors';
 
-const AppointmentCard = ({
+const OnboardingCard = ({
   date,
+  glowing = false,
   style,
   activeSince,
 }: {
   date: string;
+  glowing?: boolean;
   style?: StyleProp<ViewStyle>;
   activeSince?: string;
 }) => {
@@ -131,12 +133,14 @@ const AppointmentCard = ({
         setHeight(nativeEvent.layout.height);
         setWidth(nativeEvent.layout.width);
       }}>
-      <AppGlowingBorder
-        backgroundColor={tw.prefixMatch('dark') ? '#141417' : '#DEE2E5'}
-        height={height}
-        style={tw`absolute top-0 left-0`}
-        width={width}
-      />
+      {glowing && (
+        <AppGlowingBorder
+          backgroundColor={tw.prefixMatch('dark') ? '#141417' : '#DEE2E5'}
+          height={height}
+          style={tw`absolute top-0 left-0`}
+          width={width}
+        />
+      )}
 
       <AppSquircleView
         style={[
@@ -151,16 +155,16 @@ const AppointmentCard = ({
 
         <AppText
           ellipsizeMode={'clip'}
-          numberOfLines={2}
+          numberOfLines={1}
           style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 grow`}>
-          {t('home.appointment.title')}
+          {t('home.onboarding.title')}
         </AppText>
-        <AppText style={tw`mt-auto text-2xl font-normal text-slate-900 dark:text-gray-200`}>
-          {dayjs(date).format('LT')}
+        <AppText style={tw`mt-aut text-2xl font-normal text-slate-900 dark:text-gray-200`}>
+          {dayjs(date).calendar().replace(' ', '\n')}
         </AppText>
       </AppSquircleView>
     </AppSquircleView>
   );
 };
 
-export default AppointmentCard;
+export default OnboardingCard;

@@ -52,8 +52,8 @@
     "hasSeenBirthdayPresentAt": {
       "label": "Hide birthday surprise effect"
     },
-    "onboarding": {
-      "label": "Skip onboarding at launch"
+    "introduction": {
+      "label": "Skip introduction at launch"
     },
     "refreshToken": {
       "label": "Refresh token"

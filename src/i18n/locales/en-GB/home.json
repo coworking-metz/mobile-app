@@ -1,10 +1,4 @@
 {
-  "appointment": {
-    "date": "{{date, datetime }}",
-    "description": "Coworking tour",
-    "time": "{{start, datetime }} - {{end, datetime }}",
-    "title": "First steps"
-  },
   "calendar": {
     "browse": "More",
     "empty": {
@@ -46,6 +40,12 @@
   "onSuccessiveTaps": {
     "action": ["Help me", "Please", "Sure", "Yes"],
     "message": ["Is it acting up?", "Is there something wrong?", "Need help?"]
+  },
+  "onboarding": {
+    "date": "{{date, datetime }}",
+    "description": "Coworking tour",
+    "time": "{{start, datetime }} - {{end, datetime }}",
+    "title": "First steps"
   },
   "parking": {
     "label": "Open parking\nbarrier",

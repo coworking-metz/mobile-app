@@ -15,15 +15,15 @@
         }
       }
     },
+    "introduction": {
+      "label": "Checkout introduction again"
+    },
     "language": {
       "label": "Language",
       "system": {
         "label": "System",
         "unsupported": "This language isn't supported yet"
       }
-    },
-    "onboarding": {
-      "label": "Checkout onboarding again"
     },
     "theme": {
       "label": "Theme",

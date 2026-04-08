@@ -1,4 +1,4 @@
-export { default as onboarding } from './onboarding.json';
+export { default as introduction } from './introduction.json';
 export { default as actions } from './actions.json';
 export { default as home } from './home.json';
 export { default as auth } from './auth.json';
@@ -18,3 +18,4 @@ export { default as devices } from './devices.json';
 export { default as validations } from './validations.json';
 export { default as review } from './review.json';
 export { default as messages } from './messages.json';
+export { default as onboarding } from './onboarding.json';

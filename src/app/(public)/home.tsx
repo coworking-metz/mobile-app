@@ -23,7 +23,6 @@ import AppIconButton from '@/components/AppIconButton';
 import AppPressable from '@/components/AppPressable';
 import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBadge';
-import AppointmentCard from '@/components/Home/AppointmentCard';
 import AttendanceCount from '@/components/Home/AttendanceCount';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
@@ -36,6 +35,7 @@ import HomeLayout from '@/components/Home/HomeLayout';
 import MembershipBottomSheet from '@/components/Home/MembershipBottomSheet';
 import MembershipCard from '@/components/Home/MembershipCard';
 import OnPremiseCard from '@/components/Home/OnPremiseCard';
+import OnboardingCard from '@/components/Home/OnboardingCard';
 import OpenParkingCard from '@/components/Home/OpenParkingCard';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import StaleDataText, { STALE_PERIOD_IN_SECONDS } from '@/components/Home/StaleDataText';
@@ -411,15 +411,16 @@ export default function HomeScreen() {
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
           style={tw`w-full overflow-visible`}>
-          {IS_DEV && !settingsStore.hasReadAppointmentInstructionsAt && (
+          {IS_DEV && (
             <Link
               asChild
               href={{
-                pathname: '/advanced',
+                pathname: '/onboarding',
               }}>
               <AppPressable style={tw`flex flex-row items-stretch`}>
-                <AppointmentCard
+                <OnboardingCard
                   date={authStore.user?.onboarding?.date ?? new Date().toISOString()}
+                  glowing={!settingsStore.hasReadOnboardingInstructionsAt}
                   style={tw`min-h-38 min-w-32`}
                 />
               </AppPressable>

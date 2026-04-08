@@ -52,7 +52,7 @@
     "hasSeenBirthdayPresentAt": {
       "label": "Cacher l'effet de surprise d'anniversaire"
     },
-    "onboarding": {
+    "introduction": {
       "label": "Passer la présentation au démarrage"
     },
     "refreshToken": {

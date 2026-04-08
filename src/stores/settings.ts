@@ -12,11 +12,11 @@ export type StoreLanguage = string | typeof SYSTEM_OPTION;
 
 interface SettingsState {
   hydrated: boolean; // whether the store has been loaded from the storage
-  hasOnboard: boolean;
+  hasSeenIntroduction: boolean;
   hasLearnPullToRefresh: boolean;
   hasBeenInvitedToReview: boolean;
   hasSeenBirthdayPresentAt: string | null;
-  hasReadAppointmentInstructionsAt: string | null;
+  hasReadOnboardingInstructionsAt: string | null;
   withNativePullToRefresh: boolean;
   language: StoreLanguage;
   theme: AppThemePreference;
@@ -32,7 +32,7 @@ interface SettingsState {
 const settingsLogger = log.extend(`[settings]`);
 
 const defaultSettingsState: Omit<SettingsState, 'hydrated' | 'clear'> = {
-  hasOnboard: false,
+  hasSeenIntroduction: false,
   hasLearnPullToRefresh: false,
   hasBeenInvitedToReview: false,
   hasSeenBirthdayPresentAt: null,

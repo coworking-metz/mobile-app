@@ -7,13 +7,13 @@ import useSettingsStore from '@/stores/settings';
 const logger = log.extend(`[splashscreen]`);
 export default function Splashscreen() {
   const { ready } = useAppAuth();
-  const hasOnboard = useSettingsStore((state) => state.hasOnboard);
+  const hasSeenIntroduction = useSettingsStore((state) => state.hasSeenIntroduction);
   const user = useAuthStore((s) => s.user);
 
   if (ready) {
-    logger.debug(`Does user has already onboard? ${hasOnboard}`);
-    if (!hasOnboard && !user) {
-      return <Redirect href="/onboarding" />;
+    logger.debug(`Has user already seen introduction? ${hasSeenIntroduction}`);
+    if (!hasSeenIntroduction && !user) {
+      return <Redirect href="/introduction" />;
     }
     return <Redirect href="/home" />;
   }

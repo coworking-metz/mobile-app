@@ -1,4 +1,4 @@
-export { default as onboarding } from './onboarding.json';
+export { default as introduction } from './introduction.json';
 export { default as actions } from './actions.json';
 export { default as home } from './home.json';
 export { default as auth } from './auth.json';
