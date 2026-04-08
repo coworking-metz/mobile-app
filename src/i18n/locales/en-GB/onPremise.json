@@ -65,7 +65,7 @@
     "description": "This door directly leads to the deck, and can be opened from the exterior to enter the workspace.",
     "label": "Unlock the deck\u00A0door",
     "loading": "Requesting...",
-    "missingCapability": "Unlocking the door requires a little bit of seniority.\nYou will be able to do so once you have accumulated 10 days of activity.",
+    "missingCapability": "Unlocking the door requires a little bit of seniority.\nYou will be able to do so once you have accumulated 10\u00A0days of activity.",
     "onUnlock": {
       "fail": "Unable to unlock the\u00A0door",
       "success": "Door is open!"
@@ -110,7 +110,7 @@
         "fail": "Unable to retrieve code"
       }
     },
-    "missingCapability": "Opening the key box requires a bit of seniority.\nYou will be able to do it once you have acquired 10 days of activity.",
+    "missingCapability": "Opening the key box requires a bit of seniority.\nYou will be able to do it once you have acquired 10\u00A0days of activity.",
     "poulailler": {
       "description": "This key box allows you to retrieve the shared office keys in order to:\n\t• open it when you are the first to arrive,\n\t• close it when you are the last to leave.\n\nIt is located on the left of the entrance door and a code is required to open it.",
       "fetch": "Retrieve code",

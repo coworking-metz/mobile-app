@@ -64,7 +64,7 @@
     "description": "La porte de la terrasse vous permet d'accéder directement à l'espace depuis l'extérieur.",
     "label": "Déverrouiller la\u00A0porte de\u00A0la\u00A0terrasse",
     "loading": "Demande en cours...",
-    "missingCapability": "Déverrouiller la porte requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10 journées d'activité.",
+    "missingCapability": "Déverrouiller la porte requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10\u00A0journées d'activité.",
     "onUnlock": {
       "fail": "Impossible de déverrouiller la\u00A0porte",
       "success": "C'est ouvert !"
@@ -109,7 +109,7 @@
         "fail": "Impossible d'obtenir le\u00A0code"
       }
     },
-    "missingCapability": "Ouvrir la boîte à clés requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10 journées d'activité.",
+    "missingCapability": "Ouvrir la boîte à clés requiert un petit peu d'ancienneté.\nVous serez en mesure de le faire une fois que vous aurez acquis 10\u00A0journées d'activité.",
     "poulailler": {
       "description": "La boîte à clés vous permet de récupérer les clés de l'espace pour :\n\t• ouvrir celui-ci lorsque vous êtes le premier\u00A0arrivé;\n\t• le fermer lorsque vous êtes le dernier à\u00A0partir.\n\nElle est située à gauche de la porte d'entrée et un code est nécessaire pour l'ouvrir.",
       "fetch": "Obtenir le code",
@@ -197,7 +197,7 @@
   "wifi": {
     "credentials": {
       "fetch": "Obtenir les identifiants",
-      "missingCapability": "Les identifiants Wi-Fi ne sont disponibles qu'aux membres adhérents et visiteurs.",
+      "missingCapability": "Les identifiants Wi-Fi ne sont disponibles qu'aux visiteurs et membres adhérents.",
       "onFetch": {
         "fail": "Impossible de récupérer les\u00A0identifiants\u00A0Wi-Fi"
       },
