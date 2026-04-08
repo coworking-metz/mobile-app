@@ -16,6 +16,7 @@ import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { theme } from '@/helpers/colors';
 import { log } from '@/helpers/logger';
+import { IS_DEV } from '@/services/environment';
 import { HTTP } from '@/services/http';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -224,6 +225,22 @@ const Advanced = () => {
             }
           />
         </ServiceRow>
+        {IS_DEV && (
+          <ServiceRow
+            withBottomDivider
+            label={t('advanced.variables.hasReadAppointmentInstructions.label')}
+            style={tw`px-3 mx-3`}>
+            <Switch
+              value={!isNil(settingsStore.hasReadAppointmentInstructionsAt)}
+              onColor={theme.meatBrown}
+              onValueChange={(value) =>
+                useSettingsStore.setState({
+                  hasReadAppointmentInstructionsAt: value ? dayjs().toISOString() : null,
+                })
+              }
+            />
+          </ServiceRow>
+        )}
         <ServiceRow
           withBottomDivider
           label={t('advanced.variables.hasBeenInvitedToReview.label')}
