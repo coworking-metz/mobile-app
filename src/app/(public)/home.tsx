@@ -16,7 +16,6 @@ import Animated, {
   FadeInUp,
   FadeOut,
   FadeOutDown,
-  StretchInY,
 } from 'react-native-reanimated';
 import { toast } from 'sonner-native';
 import tw, { useDeviceContext } from 'twrnc';
@@ -376,14 +375,6 @@ export default function HomeScreen() {
         <AttendanceCount style={tw`mt-4`} />
       </Animated.View>
 
-      {authStore.user?.onboarding && (
-        <Animated.View
-          entering={StretchInY.delay(750)}
-          style={[tw`flex self-stretch px-4 mt-9`, isWide && tw`mx-auto w-full max-w-2xl`]}>
-          <AppointmentCard date={authStore.user.onboarding.date} style={tw`w-full`} />
-        </Animated.View>
-      )}
-
       <Animated.View
         entering={FadeInLeft.duration(750).delay(400)}
         style={tw`flex flex-col self-stretch`}>
@@ -420,10 +411,29 @@ export default function HomeScreen() {
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
           style={tw`w-full overflow-visible`}>
+          {IS_DEV && !settingsStore.hasReadAppointmentInstructionsAt && (
+            <Link
+              asChild
+              href={{
+                pathname: '/advanced',
+              }}>
+              <AppPressable style={tw`flex flex-row items-stretch`}>
+                <AppointmentCard
+                  date={authStore.user?.onboarding?.date ?? new Date().toISOString()}
+                  style={tw`min-h-38 min-w-32`}
+                />
+              </AppPressable>
+            </Link>
+          )}
           {isTodayBirthday && (
             <AppPressable
               style={tw`flex flex-row items-stretch`}
-              onPress={() => selectBirthday(true)}>
+              onPress={() => {
+                selectBirthday(true);
+                selectBalance(false);
+                selectSubscription(false);
+                selectMembership(false);
+              }}>
               <BirthdayCard style={tw`min-h-38 min-w-32`} />
             </AppPressable>
           )}
@@ -440,7 +450,14 @@ export default function HomeScreen() {
               </AppPressable>
             </Link>
           )}
-          <AppPressable style={tw`flex flex-row items-stretch`} onPress={() => selectBalance(true)}>
+          <AppPressable
+            style={tw`flex flex-row items-stretch`}
+            onPress={() => {
+              selectBirthday(false);
+              selectBalance(true);
+              selectSubscription(false);
+              selectMembership(false);
+            }}>
             <BalanceCard
               count={profile?.balance ?? 0}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
@@ -450,7 +467,12 @@ export default function HomeScreen() {
           </AppPressable>
           <AppPressable
             style={tw`flex flex-row items-stretch`}
-            onPress={() => selectSubscription(true)}>
+            onPress={() => {
+              selectBirthday(false);
+              selectBalance(false);
+              selectSubscription(true);
+              selectMembership(false);
+            }}>
             <SubscriptionCard
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingSubscriptions}
               style={tw`min-h-38 min-w-32`}
@@ -459,7 +481,12 @@ export default function HomeScreen() {
           </AppPressable>
           <AppPressable
             style={tw`flex flex-row items-stretch`}
-            onPress={() => selectMembership(true)}>
+            onPress={() => {
+              selectBirthday(false);
+              selectBalance(false);
+              selectSubscription(false);
+              selectMembership(true);
+            }}>
             <MembershipCard
               active={profile?.activeUser}
               lastMembershipYear={profile?.lastMembership}

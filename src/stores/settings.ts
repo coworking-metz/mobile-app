@@ -16,6 +16,7 @@ interface SettingsState {
   hasLearnPullToRefresh: boolean;
   hasBeenInvitedToReview: boolean;
   hasSeenBirthdayPresentAt: string | null;
+  hasReadAppointmentInstructionsAt: string | null;
   withNativePullToRefresh: boolean;
   language: StoreLanguage;
   theme: AppThemePreference;
@@ -35,6 +36,7 @@ const defaultSettingsState: Omit<SettingsState, 'hydrated' | 'clear'> = {
   hasLearnPullToRefresh: false,
   hasBeenInvitedToReview: false,
   hasSeenBirthdayPresentAt: null,
+  hasReadAppointmentInstructionsAt: null,
   withNativePullToRefresh: IS_DEV,
   language: SYSTEM_OPTION,
   theme: SYSTEM_OPTION,
