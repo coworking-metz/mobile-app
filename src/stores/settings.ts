@@ -36,7 +36,7 @@ const defaultSettingsState: Omit<SettingsState, 'hydrated' | 'clear'> = {
   hasLearnPullToRefresh: false,
   hasBeenInvitedToReview: false,
   hasSeenBirthdayPresentAt: null,
-  hasReadAppointmentInstructionsAt: null,
+  hasReadOnboardingInstructionsAt: null,
   withNativePullToRefresh: IS_DEV,
   language: SYSTEM_OPTION,
   theme: SYSTEM_OPTION,
