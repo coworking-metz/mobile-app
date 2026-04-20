@@ -1,6 +1,5 @@
 import HorizontalLoadingAnimation from './Animations/HorizontalLoadingAnimation';
 import AppPressable, { AppPressableRef } from './AppPressable';
-import AppSquircleView from './AppSquircleView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
@@ -25,10 +24,10 @@ const AppRoundedButton: ForwardRefRenderFunction<AppPressableRef, AppRoundedButt
 ) => {
   return (
     <AppPressable ref={ref} disabled={disabled} {...(!disabled && { onPress })}>
-      <AppSquircleView
+      <View
         style={[
           tw.style(
-            `flex flex-row justify-center items-center min-h-14 px-6 rounded-[1.5rem] relative overflow-hidden`,
+            `flex flex-row justify-center items-center min-h-14 px-6 rounded-full relative overflow-hidden`,
             disabled && `bg-neutral-200 dark:bg-stone-400 opacity-50`,
           ),
           style,
@@ -70,7 +69,7 @@ const AppRoundedButton: ForwardRefRenderFunction<AppPressableRef, AppRoundedButt
             </View>
           </>
         )}
-      </AppSquircleView>
+      </View>
     </AppPressable>
   );
 };

@@ -202,7 +202,7 @@ const NewDevice = () => {
           <AppRoundedButton
             disabled={isSubmitting}
             loading={isSubmitting}
-            style={tw`w-full max-w-md self-center`}
+            style={tw`w-full max-w-sm self-center`}
             suffixIcon="plus"
             onPress={onSubmit}>
             <AppText style={tw`text-base font-medium text-black`}>{t('actions.add')}</AppText>

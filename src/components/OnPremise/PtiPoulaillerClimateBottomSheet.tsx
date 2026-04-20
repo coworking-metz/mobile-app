@@ -1,13 +1,20 @@
+import { useQuery } from '@tanstack/react-query';
+import dayjs from 'dayjs';
+import { useIsFocused } from 'expo-router';
 import { isNil } from 'lodash';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import HappySunAnimation from '@/components/Animations/HappySunAnimation';
 import AppBottomSheet from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
+import useAppState from '@/helpers/app-state';
+import { getOnPremiseState } from '@/services/api/services';
+import { onPremiseQueryKeys } from '@/services/query';
 
 const PtiPoulaillerClimateBottomSheet = ({
   loading = false,
@@ -23,6 +30,19 @@ const PtiPoulaillerClimateBottomSheet = ({
   onClose?: () => void;
 }) => {
   const { t } = useTranslation();
+  const activeSince = useAppState();
+  const isFocus = useIsFocused();
+
+  const { dataUpdatedAt: onPremiseStateUpdatedAt } = useQuery({
+    queryKey: onPremiseQueryKeys.state(),
+    queryFn: getOnPremiseState,
+  });
+
+  // count duration since last fetch to redraw stale data text
+  // every time the screen gets focused or the app gets back to foreground
+  const durationSinceLastFetch = useMemo(() => {
+    return onPremiseStateUpdatedAt ? dayjs().diff(onPremiseStateUpdatedAt, 'second') : null;
+  }, [onPremiseStateUpdatedAt, isFocus, activeSince]);
 
   return (
     <AppBottomSheet
@@ -40,6 +60,16 @@ const PtiPoulaillerClimateBottomSheet = ({
       </AppText>
 
       <View style={tw`flex flex-col w-full mt-2`}>
+        <SectionTitle loading={loading} title={t('onPremise.climate.sensors.label')}>
+          {!isNil(durationSinceLastFetch) && durationSinceLastFetch > 300 && (
+            <AppText
+              style={tw`ml-auto text-base font-normal leading-5 text-right text-slate-500 dark:text-neutral-500`}>
+              {durationSinceLastFetch > 3_600
+                ? dayjs(onPremiseStateUpdatedAt).calendar()
+                : dayjs(onPremiseStateUpdatedAt).fromNow()}
+            </AppText>
+          )}
+        </SectionTitle>
         <ServiceRow
           withBottomDivider
           label={t('onPremise.climate.temperature.label')}

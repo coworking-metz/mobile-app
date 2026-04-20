@@ -52,6 +52,9 @@
       "label": "Noise",
       "level": "{{level}} dB"
     },
+    "sensors": {
+      "label": "Measurements"
+    },
     "temperature": {
       "label": "Temperature",
       "level": "{{level}} °C"

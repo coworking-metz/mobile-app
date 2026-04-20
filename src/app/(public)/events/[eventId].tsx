@@ -386,7 +386,7 @@ export default function CalendarEventPage() {
           />
 
           <Link asChild href={firstUrl}>
-            <AppRoundedButton style={tw`w-full max-w-md self-center`} suffixIcon="open-in-new">
+            <AppRoundedButton style={tw`w-full max-w-sm self-center`} suffixIcon="open-in-new">
               <AppText style={tw`text-base font-medium text-black`}>
                 {t('actions.takeALook')}
               </AppText>

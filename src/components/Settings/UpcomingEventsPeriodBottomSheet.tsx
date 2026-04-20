@@ -17,11 +17,11 @@ const UpcomingEventsPeriodBottomSheet = (props: Omit<AppBottomSheetProps, 'child
       enableContentPanningGesture={false}
       {...props}>
       <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mt-6`}>
-        {t('settings.general.home.upcomingEventsPeriod.label')}
+        {t('settings.home.upcomingEventsPeriod.label')}
       </AppText>
       <AppText
         style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-5 -mb-5`}>
-        {t('settings.general.home.upcomingEventsPeriod.description')}
+        {t('settings.home.upcomingEventsPeriod.description')}
       </AppText>
       <View style={tw`flex flex-row items-start justify-center gap-2`}>
         <AppWheelPicker
@@ -42,19 +42,19 @@ const UpcomingEventsPeriodBottomSheet = (props: Omit<AppBottomSheetProps, 'child
         <AppWheelPicker
           data={[
             {
-              label: t('settings.general.home.upcomingEventsPeriod.options.day', {
+              label: t('settings.home.upcomingEventsPeriod.options.day', {
                 count: upcomingEventsPeriod.count,
               }),
               value: 'day',
             },
             {
-              label: t('settings.general.home.upcomingEventsPeriod.options.week', {
+              label: t('settings.home.upcomingEventsPeriod.options.week', {
                 count: upcomingEventsPeriod.count,
               }),
               value: 'week',
             },
             {
-              label: t('settings.general.home.upcomingEventsPeriod.options.month', {
+              label: t('settings.home.upcomingEventsPeriod.options.month', {
                 count: upcomingEventsPeriod.count,
               }),
               value: 'month',

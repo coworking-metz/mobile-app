@@ -2,6 +2,7 @@ import { createAsyncStorage } from './async-storage';
 import * as Sentry from '@sentry/react-native';
 import { create } from 'zustand';
 import { persist, createJSONStorage, subscribeWithSelector } from 'zustand/middleware';
+import { CommutingMode } from '@/helpers/commute';
 import { log } from '@/helpers/logger';
 import { IS_DEV } from '@/services/environment';
 import { setAppThemePreference, type AppThemePreference } from '@/services/theme';
@@ -20,6 +21,7 @@ interface SettingsState {
   withNativePullToRefresh: boolean;
   language: StoreLanguage;
   theme: AppThemePreference;
+  commutingMode: CommutingMode;
   upcomingEventsPeriod: {
     count: number;
     unit: 'day' | 'week' | 'month';
@@ -40,6 +42,7 @@ const defaultSettingsState: Omit<SettingsState, 'hydrated' | 'clear'> = {
   withNativePullToRefresh: IS_DEV,
   language: SYSTEM_OPTION,
   theme: SYSTEM_OPTION,
+  commutingMode: CommutingMode.ON_FOOT,
   upcomingEventsPeriod: {
     count: 5,
     unit: 'day',

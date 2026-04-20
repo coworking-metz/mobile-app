@@ -71,7 +71,7 @@ const OnboardingTourStep = ({
         </AppText>
         <Animated.View entering={FadeInDown.duration(750).delay(500)} style={tw`w-full`}>
           <ServiceRow
-            label={t('settings.general.language.label')}
+            label={t('settings.language.label')}
             prefixIcon="translate"
             style={tw`px-3 mx-3`}
             onPress={selectLanguage}>

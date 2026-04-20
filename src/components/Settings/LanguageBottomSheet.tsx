@@ -18,7 +18,7 @@ import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 const LanguageBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
   const { t } = useTranslation();
   const supportedLanguages = [
-    { label: t('settings.general.language.system.label'), code: SYSTEM_OPTION },
+    { label: t('settings.language.system.label'), code: SYSTEM_OPTION },
     ...APP_LANGUAGES,
   ];
   const settingsStore = useSettingsStore();
@@ -53,14 +53,14 @@ const LanguageBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
         <SwitchLanguageAnimation ref={animation} style={tw`h-60 w-full`} />
       </View>
       <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
-        {t('settings.general.language.label')}
+        {t('settings.language.label')}
       </AppText>
       {supportedLanguages.map((language) => (
         <ServiceRow
           description={
             language.code === SYSTEM_OPTION
               ? getLanguageLabel(SYSTEM_LANGUAGE) ||
-                `${SYSTEM_LANGUAGE} - ${t('settings.general.language.system.unsupported')}`
+                `${SYSTEM_LANGUAGE} - ${t('settings.language.system.unsupported')}`
               : ''
           }
           key={`language-option-${language.code}`}

@@ -1,6 +1,6 @@
 import { isNil } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useColorScheme, View } from 'react-native';
 import Animated, { FadeInDown, FadeInLeft, useReducedMotion } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -64,14 +64,18 @@ const IntroductionAboutStep = ({
           style={tw`text-xl font-medium text-slate-600 dark:text-neutral-400 mx-6`}>
           {t('introduction.about.headline')}
         </AppText>
-        <AppText
+        <Trans
+          components={[
+            <AppText key="emphasis" style={tw`font-medium text-slate-900 dark:text-gray-200`} />,
+          ]}
+          defaults={t('introduction.about.description')}
           entering={FadeInDown.duration(750).delay(500)}
-          style={tw`mt-4 text-base font-normal text-slate-500 dark:text-neutral-500 mx-6`}>
-          {t('introduction.about.description')}
-        </AppText>
+          parent={AppText}
+          style={tw`mt-4 mx-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
+        />
         <Animated.View entering={FadeInDown.duration(750).delay(500)} style={tw`w-full`}>
           <ServiceRow
-            label={t('settings.general.language.label')}
+            label={t('settings.language.label')}
             prefixIcon="translate"
             style={tw`px-3 mx-3`}
             onPress={selectLanguage}>

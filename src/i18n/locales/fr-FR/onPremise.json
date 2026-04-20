@@ -51,6 +51,9 @@
       "label": "Bruit",
       "level": "{{level}} dB"
     },
+    "sensors": {
+      "label": "Mesures"
+    },
     "temperature": {
       "label": "Température",
       "level": "{{level}} °C"

@@ -99,7 +99,7 @@ const WifiBottomSheet = ({
           <AppRoundedButton
             disabled={!user?.capabilities?.includes('WIFI_CREDENTIALS_ACCESS')}
             loading={isLoading}
-            style={tw`mt-3 w-full max-w-md self-center`}
+            style={tw`mt-3 w-full max-w-sm self-center`}
             onPress={onFetchPassword}>
             <AppText style={tw`text-base font-medium`}>
               {t('onPremise.wifi.credentials.fetch')}

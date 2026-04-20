@@ -85,7 +85,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
 
     return [
       upcomingEventsPeriod.count,
-      t(`settings.general.home.upcomingEventsPeriod.options.${upcomingEventsPeriod.unit}`, {
+      t(`settings.home.upcomingEventsPeriod.options.${upcomingEventsPeriod.unit}`, {
         count: upcomingEventsPeriod.count,
       }),
     ].join(' ');
@@ -379,10 +379,10 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             onDateSelect={onDateSelect}
           />
 
-          <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.general.title')} />
+          <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.title')} />
           <ServiceRow
             withBottomDivider
-            label={t('settings.general.language.label')}
+            label={t('settings.language.label')}
             prefixIcon="translate"
             style={tw`px-3 mx-3`}
             onPress={selectLanguage}>
@@ -397,8 +397,8 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           <ThemePicker withBottomDivider style={tw`px-3 mx-3`} onPress={selectTheme} />
           <ServiceRow
             withBottomDivider
-            description={t('settings.general.home.upcomingEventsPeriod.hint')}
-            label={t('settings.general.home.upcomingEventsPeriod.label')}
+            description={t('settings.home.upcomingEventsPeriod.hint')}
+            label={t('settings.home.upcomingEventsPeriod.label')}
             prefixIcon="calendar-blank-multiple"
             style={tw`px-3 mx-3`}
             onPress={selectUpcomingEventsPeriod}>
@@ -438,13 +438,13 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             />
           </Link>
 
-          <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.support.title')} />
+          <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.title')} />
           {authStore.user && (
             <>
               <ServiceRowLink
                 withBottomDivider
                 href={`${WORDPRESS_BASE_URL}/la-boutique/`}
-                label={t('settings.support.store.label')}
+                label={t('settings.store.label')}
                 prefixIcon="cart-outline"
                 style={tw`px-3 mx-3`}
               />
@@ -453,7 +453,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 <Link asChild href="/onboarding">
                   <ServiceRow
                     withBottomDivider
-                    label={t('settings.general.onboarding.label')}
+                    label={t('settings.onboarding.label')}
                     prefixIcon="handshake-outline"
                     selected={isWide && pathname === '/onboarding'}
                     style={tw`px-3 mx-3`}
@@ -465,7 +465,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           )}
           <ServiceRow
             withBottomDivider
-            label={t('settings.support.socials.label')}
+            label={t('settings.socials.label')}
             prefixIcon="heart-outline"
             style={tw`px-3 mx-3`}
             suffixIcon="chevron-right"
@@ -473,7 +473,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           />
           <ServiceRow
             withBottomDivider
-            label={t('settings.support.contact.title')}
+            label={t('settings.contact.title')}
             prefixIcon="chat-question-outline"
             style={tw`px-3 mx-3`}
             suffixIcon="chevron-right"
@@ -481,7 +481,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           />
           <ServiceRow
             withBottomDivider
-            label={t('settings.support.review.label')}
+            label={t('settings.review.label')}
             prefixIcon="star-outline"
             style={tw`px-3 mx-3`}
             suffixIcon="chevron-right"
@@ -489,7 +489,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           />
           <Link asChild href="/introduction">
             <ServiceRow
-              label={t('settings.general.introduction.label')}
+              label={t('settings.introduction.label')}
               prefix={<View style={tw`w-6 shrink-0 min-h-10`} />}
               selected={isWide && pathname === '/introduction'}
               style={tw`px-3 mx-3`}

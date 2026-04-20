@@ -91,7 +91,7 @@ const Chat = () => {
         <body id="conversations-wrapper">
           <div style="width: 100%; height: 100%; display: flex;">
             <p style="text-align: center; white-space: pre-line; max-width: 320px; margin: auto;">
-              ${t('settings.support.contact.conversations.onFetchBrevoWidget.fail', { email: `<a href="mailto:${SUPPORT_EMAIL}" style="display: block; text-decoration: none; color: ${theme.miramonYellow};"><strong>${SUPPORT_EMAIL}</strong></a>` })}
+              ${t('settings.contact.conversations.onFetchBrevoWidget.fail', { email: `<a href="mailto:${SUPPORT_EMAIL}" style="display: block; text-decoration: none; color: ${theme.miramonYellow};"><strong>${SUPPORT_EMAIL}</strong></a>` })}
             </p>
           </div>
         </body>

@@ -1,20 +1,35 @@
 {
   "about": {
-    "description": "Discover quick and convenient access to information about Coworking Metz and its services.\n\nWhether you want to check available spaces, find out about upcoming events, or access the location, everything is at your fingertips!\n\nBy the way, is English suitable for you?",
+    "description": "Discover quick and convenient access to information about <0>Coworking Metz</0> and its services.\n\nWhether you want to check available spaces, find out about upcoming events, or access the location, everything is at your fingertips!\n\nBy the way, is English suitable for you?",
     "headline": "In your pocket",
     "title": "Le Poulailler"
   },
   "activity": {
-    "description": "To anticipate the availability of the open space, which is open from 7 am to 11 pm, track the real-time number of coworkers present and check forecasts for the upcoming hours and days.\n\nYour personal history, as well as the details of your subscription and tickets, are also available at a glance.",
-    "headline": "From yesterday, today, and\u00A0tomorrow",
+    "description": "Track the real-time activity of the open space, <0>open from 7 AM to 11 PM</0>, and anticipate the upcoming hours.\nYour history, subscription and tickets available at a glance.\n\nDay or night, choose the appearance that suits you.",
     "title": "Check activity"
   },
   "events": {
-    "description": "Access the complete calendar of upcoming events, organized by the association or by Bliiida.\nAnd don't forget to take a look at the lunch offered by Amour Food.\n\nYou won't miss any opportunities to meet new people and have memorable experiences!",
+    "description": "Access the complete calendar of <0>upcoming events</0>, organized by the association or by Bliiida.\nAnd don't forget to take a look at the lunch offered by Amour Food.\n\nYou won't miss any opportunities to meet new people and have memorable experiences!",
     "title": "Stay connected"
   },
   "services": {
-    "description": "Whether on foot, by bike, or by car, you have full control to access the place. Open the parking gate or unlock the pedestrian entrance whenever you want.\n\nAnd because we like to offer you options, you can also personalize your experience.\nWhich ambiance do you prefer?",
+    "commute": {
+      "byCommutingMode": {
+        "CYCLING": {
+          "description": "A <0>secure bike parking</0> is available for you to park your bike with peace of mind.",
+          "label": "By bike"
+        },
+        "DRIVING": {
+          "description": "<0>Parking spaces</0> are available within the location but also along the adjacent street.",
+          "label": "By car"
+        },
+        "ON_FOOT": {
+          "description": "Ideally located <0>close to the city center</0>, near the Cathedral.",
+          "label": "On foot"
+        }
+      }
+    },
+    "description": "Whether on foot, by bike, or by car, you have full control to access the place. Open the parking gate or unlock the pedestrian entrance whenever you want.",
     "title": "Come as you\u00A0please"
   }
 }

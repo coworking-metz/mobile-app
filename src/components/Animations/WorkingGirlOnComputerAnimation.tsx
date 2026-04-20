@@ -8,13 +8,17 @@ import { colouriseLottie } from '@/helpers/colors';
 
 type AnimationProps = Omit<LottieViewProps, 'source'>;
 
-const WorkingGirlOnComputerAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (props, ref) => {
+const WorkingGirlOnComputerAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
+  props,
+  ref,
+) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
     const isDark = colorScheme === 'dark';
-    const lighterColor = (isDark ? tw.color('gray-200') : tw.color('gray-300')) as string;
-    const plotOutlineColor = (isDark ? tw.color('gray-400') : tw.color('gray-700')) as string;
-    const darkerColor = (isDark ? tw.color('gray-300') : tw.color('gray-600')) as string;
+    const deskFeetColor = (isDark ? tw.color('amber-950') : tw.color('amber-950')) as string;
+    const deskFrontSideColor = (isDark ? tw.color('amber-900') : tw.color('amber-900')) as string;
+    const chairColor = (isDark ? tw.color('neutral-800') : tw.color('gray-800')) as string;
+    const chairFrontColor = (isDark ? tw.color('neutral-600') : tw.color('gray-600')) as string;
     return colouriseLottie(WorkingGirlOnComputer, {
       // // Layer 2.Group 1.Fill 1
       // "assets.0.layers.0.shapes.0.it.1.c.k": "#ffd15c",
@@ -58,16 +62,22 @@ const WorkingGirlOnComputerAnimation: ForwardRefRenderFunction<LottieView, Anima
       // "assets.0.layers.2.shapes.2.it.1.it.1.c.k": "#b2b2b2",
       // // OBJECTS.Group 1.Fill 1
       // "assets.0.layers.3.shapes.0.it.1.c.k": "#111d36",
+      'assets.0.layers.3.shapes.0.it.1.c.k': deskFeetColor,
       // // OBJECTS.Group 2.Fill 1
       // "assets.0.layers.3.shapes.1.it.1.c.k": "#24385b",
+      'assets.0.layers.3.shapes.1.it.1.c.k': deskFrontSideColor,
       // // OBJECTS.Group 3.Fill 1
       // "assets.0.layers.3.shapes.2.it.1.c.k": "#111d36",
+      'assets.0.layers.3.shapes.2.it.1.c.k': deskFeetColor,
       // // OBJECTS.Group 4.Fill 1
       // "assets.0.layers.3.shapes.3.it.1.c.k": "#111d36",
+      'assets.0.layers.3.shapes.3.it.1.c.k': deskFeetColor,
       // // OBJECTS.Group 5.Fill 1
       // "assets.0.layers.3.shapes.4.it.1.c.k": "#111d36",
+      'assets.0.layers.3.shapes.4.it.1.c.k': deskFeetColor,
       // // OBJECTS.Group 6.Fill 1
       // "assets.0.layers.3.shapes.5.it.1.c.k": "#111d36",
+      'assets.0.layers.3.shapes.5.it.1.c.k': deskFeetColor,
       // // Leg.Group 1.Fill 1
       // "assets.0.layers.4.shapes.0.it.1.c.k": "#72899b",
       // // Leg.Group 2.Fill 1
@@ -232,18 +242,25 @@ const WorkingGirlOnComputerAnimation: ForwardRefRenderFunction<LottieView, Anima
       // "assets.0.layers.40.shapes.0.it.1.c.k": "#ce8a72",
       // // OBJECTS 40.Group 1.Fill 1
       // "assets.0.layers.41.shapes.0.it.1.c.k": "#111d36",
+      'assets.0.layers.41.shapes.0.it.1.c.k': chairColor,
       // // OBJECTS 40.Group 2.Group 1.Fill 1
       // "assets.0.layers.41.shapes.1.it.0.it.1.c.k": "#111d36",
+      'assets.0.layers.41.shapes.1.it.0.it.1.c.k': chairColor,
       // // OBJECTS 40.Group 2.Group 2.Fill 1
       // "assets.0.layers.41.shapes.1.it.1.it.1.c.k": "#111d36",
+      'assets.0.layers.41.shapes.1.it.1.it.1.c.k': chairColor,
       // // OBJECTS 40.Group 2.Group 3.Fill 1
       // "assets.0.layers.41.shapes.1.it.2.it.1.c.k": "#111d36",
+      'assets.0.layers.41.shapes.1.it.2.it.1.c.k': chairColor,
       // // OBJECTS 40.Group 2.Group 4.Fill 1
       // "assets.0.layers.41.shapes.1.it.3.it.1.c.k": "#111d36",
+      'assets.0.layers.41.shapes.1.it.3.it.1.c.k': chairColor,
       // // OBJECTS 40.Group 3.Fill 1
       // "assets.0.layers.41.shapes.2.it.1.c.k": "#c1ccff",
+      'assets.0.layers.41.shapes.2.it.1.c.k': chairFrontColor,
       // // OBJECTS 40.Group 4.Fill 1
       // "assets.0.layers.41.shapes.3.it.1.c.k": "#111d36",
+      'assets.0.layers.41.shapes.3.it.1.c.k': chairColor,
     });
   }, [colorScheme]);
 

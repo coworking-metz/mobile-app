@@ -1,20 +1,35 @@
 {
   "about": {
-    "description": "Découvrez un accès rapide et pratique aux informations du Coworking Metz et à ses services.\n\nQue ce soit pour consulter les places disponibles, les évènements à ne pas manquer, ou encore accéder au lieu, tout est à portée de pouce !\n\nPar ailleurs, est-ce que le Français vous convient ?",
+    "description": "Découvrez un accès rapide et pratique aux informations du <0>Coworking Metz</0> et à ses services.\n\nQue ce soit pour consulter les places disponibles, les évènements à ne pas manquer, ou encore accéder au lieu, tout est à portée de pouce !\n\nPar ailleurs, est-ce que le Français vous convient ?",
     "headline": "Dans votre poche",
     "title": "Le Poulailler"
   },
   "activity": {
-    "description": "Pour anticiper la disponibilité de l'open space, ouvert de 7h à 23h, suivez en temps réel le nombre de coworkers présents.\n\nVotre historique personnel, ainsi que le détail de votre abonnement et de vos tickets sont également disponibles en un clin d'oeil.",
-    "headline": "D'hier, d'aujourd'hui et de\u00A0demain",
+    "description": "Suivez en temps réel l'activité de l'open space, <0>ouvert de 7h à 23h</0>, et anticipez les prochaines heures.\nVotre historique, abonnement et tickets disponibles en un clin d'œil.\n\nQue ce soit de jour ou de nuit, adoptez l'apparence qui vous convient.",
     "title": "Consultez l'activité"
   },
   "events": {
-    "description": "Accédez au calendrier complet des évènements à venir, organisés par l'association ou par Bliiida.\nEt n'oubliez pas de jeter un coup d'œil au repas de midi proposé par l'Amour Food.\n\nVous ne manquerez plus aucune occasion de rencontrer de nouvelles personnes et de vivre des expériences mémorables !",
+    "description": "Accédez au calendrier complet des <0>évènements à venir</0>, organisés par l'association ou par Bliiida.\nEt n'oubliez pas de jeter un coup d'œil au repas de midi proposé par l'Amour Food.\n\nVous ne manquerez plus aucune occasion de rencontrer de nouvelles personnes et de vivre des expériences mémorables !",
     "title": "Restez informé"
   },
   "services": {
-    "description": "Que ce soit à pied, à vélo, ou en voiture, vous avez le contrôle complet pour accéder au lieu. Ouvrez la barrière du parking ou déverrouillez la porte d'entrée, quand vous le souhaitez.\n\nEt parce que nous aimons vous offrir des options, vous pouvez également personnaliser votre expérience.\nQuelle ambiance préférez-vous ?",
+    "commute": {
+      "byCommutingMode": {
+        "CYCLING": {
+          "description": "Un <0>parking à vélos sécurisé</0> est à votre disposition pour garer votre vélo en toute tranquillité.",
+          "label": "À vélo"
+        },
+        "DRIVING": {
+          "description": "Des <0>places de stationnement</0> sont disponibles au sein du tiers-lieu mais également le long de la rue adjacente.",
+          "label": "En voiture"
+        },
+        "ON_FOOT": {
+          "description": "Idéalement situé <0>proche du cœur de la ville</0>, à proximité de la Cathédrale.",
+          "label": "À pied"
+        }
+      }
+    },
+    "description": "Que ce soit à pied, à vélo, ou en voiture, vous avez le contrôle complet pour accéder au lieu. Ouvrez la barrière du parking ou déverrouillez la porte d'entrée, quand vous le souhaitez.",
     "title": "Venez comme vous\u00A0voulez"
   }
 }

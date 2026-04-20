@@ -39,24 +39,24 @@ const ReviewBottomSheet = ({
         </View>
         <AppText
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
-          {t('settings.support.review.title')}
+          {t('settings.review.title')}
         </AppText>
         <AppText
           style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full mt-4`}>
-          {t('settings.support.review.description')}
+          {t('settings.review.description')}
         </AppText>
         <AppRoundedButton
           loading={isLoading}
-          style={tw`mt-6 w-full max-w-md self-center`}
+          style={tw`mt-6 w-full max-w-sm self-center`}
           onPress={onReview}>
           <AppText style={tw`text-base text-black font-medium`}>
-            {t('settings.support.review.rateOnStore')}
+            {t('settings.review.rateOnStore')}
           </AppText>
         </AppRoundedButton>
         <Link asChild href={`https://g.page/r/Cc8iG0WZSUcoEAE/review`}>
-          <AppTextButton style={tw`mt-4 w-full max-w-md self-center`} suffixIcon="open-in-new">
+          <AppTextButton style={tw`mt-4 w-full max-w-sm self-center`} suffixIcon="open-in-new">
             <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
-              {t('settings.support.review.rateOnGoogleMaps')}
+              {t('settings.review.rateOnGoogleMaps')}
             </AppText>
           </AppTextButton>
         </Link>
