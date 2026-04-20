@@ -159,7 +159,7 @@ const OnboardingCard = ({
           style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 grow`}>
           {t('home.onboarding.title')}
         </AppText>
-        <AppText style={tw`mt-aut text-2xl font-normal text-slate-900 dark:text-gray-200`}>
+        <AppText style={tw`mt-auto text-2xl font-normal text-slate-900 dark:text-gray-200`}>
           {dayjs(date).calendar().replace(' ', '\n')}
         </AppText>
       </AppSquircleView>

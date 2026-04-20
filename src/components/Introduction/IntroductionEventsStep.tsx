@@ -1,6 +1,6 @@
 import { isNil } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
 import { Fader } from 'react-native-ui-lib';
@@ -87,9 +87,14 @@ const IntroductionEventsStep = ({
           style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
           {t('introduction.events.title')}
         </AppText>
-        <AppText style={tw`mt-4 text-base font-normal text-slate-500 dark:text-neutral-500 mx-6`}>
-          {t('introduction.events.description')}
-        </AppText>
+        <Trans
+          components={[
+            <AppText key="emphasis" style={tw`font-medium text-slate-900 dark:text-gray-200`} />,
+          ]}
+          defaults={t('introduction.events.description')}
+          parent={AppText}
+          style={tw`mt-4 mx-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
+        />
       </View>
     </>
   );

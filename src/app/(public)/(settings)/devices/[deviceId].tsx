@@ -204,7 +204,7 @@ const DeviceDetail = () => {
               </AppText>
               <AppRoundedButton
                 loading={isDeleting}
-                style={tw`w-full max-w-md self-center`}
+                style={tw`w-full max-w-sm self-center`}
                 suffixIcon="trash-can-outline"
                 onPress={onDelete}>
                 <AppText style={tw`text-base text-black font-medium`}>
@@ -339,7 +339,7 @@ const DeviceDetail = () => {
           <AppRoundedButton
             disabled={!device || isSubmitting}
             loading={isSubmitting}
-            style={tw`w-full max-w-md self-center`}
+            style={tw`w-full max-w-sm self-center`}
             suffixIcon="check"
             onPress={onSubmit}>
             <AppText style={tw`text-base font-medium text-black`}>{t('actions.apply')}</AppText>

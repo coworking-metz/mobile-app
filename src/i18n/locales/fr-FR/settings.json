@@ -1,52 +1,57 @@
 {
-  "general": {
-    "home": {
-      "upcomingEventsPeriod": {
-        "description": "Sélectionner la période pour laquelle les événements à venir sont affichés sur l'écran d'accueil.",
-        "hint": "sur l'écran d'accueil",
-        "label": "Prochains événements",
-        "options": {
-          "day_one": "jour",
-          "day_other": "jours",
-          "month_one": "mois",
-          "month_other": "mois",
-          "week_one": "semaine",
-          "week_other": "semaines"
-        }
+  "contact": {
+    "conversations": {
+      "label": "Discuter en direct",
+      "onFetchBrevoWidget": {
+        "fail": "Il semble que le chargement du widget Brevo a échoué.\n\nVous êtes probablement frustré⸱e en ce moment, veuillez nous excuser 😔\n\nVous pouvez nous contacter à {{email}}"
       }
     },
-    "introduction": {
-      "label": "Revoir la présentation"
-    },
-    "language": {
-      "label": "Langue",
-      "system": {
-        "label": "Système",
-        "unsupported": "Cette langue n'est pas encore supportée"
+    "description": "Pour toute question, suggestion ou problème, n'hésitez pas à nous contacter. Nous sommes là pour vous aider.",
+    "mail": {
+      "label": "Envoyer un mail",
+      "onOpen": {
+        "fail": "Impossible de contacter par\u00A0mail"
       }
     },
-    "onboarding": {
-      "label": "Premiers pas"
+    "onQuickAction": {
+      "description": "Nous sommes là pour vous aider",
+      "title": "Attendez ! Ne partez pas !"
     },
-    "theme": {
-      "label": "Thème",
+    "title": "Contacter l'équipe"
+  },
+  "home": {
+    "upcomingEventsPeriod": {
+      "description": "Sélectionner la période pour laquelle les événements à venir sont affichés sur l'écran d'accueil.",
+      "hint": "sur l'écran d'accueil",
+      "label": "Prochains événements",
       "options": {
-        "dark": "Toujours sombre",
-        "light": "Toujours clair",
-        "system": "Même que le système"
-      },
-      "value": {
-        "dark": "Sombre",
-        "light": "Clair"
+        "day_one": "jour",
+        "day_other": "jours",
+        "month_one": "mois",
+        "month_other": "mois",
+        "week_one": "semaine",
+        "week_other": "semaines"
       }
-    },
-    "title": "Paramètres"
+    }
+  },
+  "introduction": {
+    "label": "Revoir la présentation"
+  },
+  "language": {
+    "label": "Langue",
+    "system": {
+      "label": "Système",
+      "unsupported": "Cette langue n'est pas encore supportée"
+    }
+  },
+  "onboarding": {
+    "label": "Premiers pas"
   },
   "profile": {
     "presence": {
-      "activity_one": "journée",
-      "activity_other": "journées",
-      "activity_zero": "Rien\nencore",
+      "activity_one": "<0>{{count}}</0>  journée",
+      "activity_other": "<0>{{count}}</0>  journées",
+      "activity_zero": "Aucune présence\nrelevée pour l'instant",
       "onFetch": {
         "fail": "Impossible d'actualiser la\u00A0présence"
       },
@@ -83,6 +88,13 @@
       "title": "Présence"
     }
   },
+  "review": {
+    "description": "Vous aimez Le Poulailler et son application ?\nAidez-nous à les rendre encore meilleurs en partageant votre avis sur leurs pages respectives.\nUn grand merci pour votre soutien ! 🙏",
+    "label": "Donner mon avis",
+    "rateOnGoogleMaps": "Évaluer sur Google Maps",
+    "rateOnStore": "Noter l'application",
+    "title": "Partagez votre avis !"
+  },
   "roles": {
     "value": {
       "admin": "Administrateur⸱rice",
@@ -98,63 +110,49 @@
     "description": "C'est ici que la magie opère.",
     "title": "Abracadabra !"
   },
+  "socials": {
+    "bliiidaNewsletter": {
+      "label": "Newsletter Bliiida"
+    },
+    "description": "Retrouvez-nous sur les réseaux sociaux pour rester informé des dernières nouvelles.",
+    "facebook": {
+      "label": "Facebook"
+    },
+    "instagram": {
+      "label": "Instagram"
+    },
+    "label": "Nous suivre",
+    "linkedin": {
+      "label": "LinkedIn"
+    },
+    "newsletter": {
+      "label": "Newsletter Coworking Metz"
+    },
+    "signal": {
+      "label": "Groupe Signal"
+    },
+    "title": "Réseaux sociaux",
+    "twitter": {
+      "label": "Twitter"
+    }
+  },
+  "store": {
+    "label": "Boutique"
+  },
   "support": {
-    "contact": {
-      "conversations": {
-        "label": "Discuter en direct",
-        "onFetchBrevoWidget": {
-          "fail": "Il semble que le chargement du widget Brevo a échoué.\n\nVous êtes probablement frustré⸱e en ce moment, veuillez nous excuser 😔\n\nVous pouvez nous contacter à {{email}}"
-        }
-      },
-      "description": "Pour toute question, suggestion ou problème, n'hésitez pas à nous contacter. Nous sommes là pour vous aider.",
-      "mail": {
-        "label": "Envoyer un mail",
-        "onOpen": {
-          "fail": "Impossible de contacter par\u00A0mail"
-        }
-      },
-      "onQuickAction": {
-        "description": "Nous sommes là pour vous aider",
-        "title": "Attendez ! Ne partez pas !"
-      },
-      "title": "Contacter l'équipe"
-    },
-    "review": {
-      "description": "Vous aimez Le Poulailler et son application ?\nAidez-nous à les rendre encore meilleurs en partageant votre avis sur leurs pages respectives.\nUn grand merci pour votre soutien ! 🙏",
-      "label": "Donner mon avis",
-      "rateOnGoogleMaps": "Évaluer sur Google Maps",
-      "rateOnStore": "Noter l'application",
-      "title": "Partagez votre avis !"
-    },
-    "socials": {
-      "bliiidaNewsletter": {
-        "label": "Newsletter Bliiida"
-      },
-      "description": "Retrouvez-nous sur les réseaux sociaux pour rester informé des dernières nouvelles.",
-      "facebook": {
-        "label": "Facebook"
-      },
-      "instagram": {
-        "label": "Instagram"
-      },
-      "label": "Nous suivre",
-      "linkedin": {
-        "label": "LinkedIn"
-      },
-      "newsletter": {
-        "label": "Newsletter Coworking Metz"
-      },
-      "signal": {
-        "label": "Groupe Signal"
-      },
-      "title": "Réseaux sociaux",
-      "twitter": {
-        "label": "Twitter"
-      }
-    },
-    "store": {
-      "label": "Boutique"
-    },
     "title": "Pour aller plus loin"
-  }
+  },
+  "theme": {
+    "label": "Apparence",
+    "options": {
+      "dark": "Toujours sombre",
+      "light": "Toujours clair",
+      "system": "Même que le système"
+    },
+    "value": {
+      "dark": "Sombre",
+      "light": "Clair"
+    }
+  },
+  "title": "Paramètres"
 }

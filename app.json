@@ -144,6 +144,7 @@
           "launchMode": "most-recent"
         }
       ],
+      "@sentry/react-native",
       [
         "@sentry/react-native/expo",
         {

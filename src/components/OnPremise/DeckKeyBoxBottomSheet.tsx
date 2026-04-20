@@ -72,7 +72,7 @@ const DeckKeyBoxBottomSheet = ({
           <AppRoundedButton
             disabled={!user?.capabilities?.includes('KEYS_ACCESS')}
             loading={isLoading}
-            style={tw`mt-2 w-full max-w-md self-center`}
+            style={tw`mt-2 w-full max-w-sm self-center`}
             onPress={onFetchCode}>
             <AppText style={tw`text-base font-medium`}>
               {t('onPremise.keyBoxes.deck.fetch')}

@@ -1,49 +1,57 @@
 {
-  "general": {
-    "home": {
-      "upcomingEventsPeriod": {
-        "description": "Choose a period for which upcoming events are displayed on the home screen.",
-        "hint": "on the home screen",
-        "label": "Upcoming events",
-        "options": {
-          "day_one": "day",
-          "day_other": "days",
-          "month_one": "month",
-          "month_other": "months",
-          "week_one": "week",
-          "week_other": "weeks"
-        }
+  "contact": {
+    "conversations": {
+      "label": "Chat with someone",
+      "onFetchBrevoWidget": {
+        "fail": "It seems that the Brevo widget has failed to load.\n\nYou're probably frustrated right now thus please excuse us 😔\n\nYou can reach us at {{email}}"
       }
     },
-    "introduction": {
-      "label": "Checkout introduction again"
-    },
-    "language": {
-      "label": "Language",
-      "system": {
-        "label": "System",
-        "unsupported": "This language isn't supported yet"
+    "description": "For any question, suggestion or issue, feel free to contact us. We are here to help.",
+    "mail": {
+      "label": "Send an email",
+      "onOpen": {
+        "fail": "Unable to contact by\u00A0email"
       }
     },
-    "theme": {
-      "label": "Theme",
+    "onQuickAction": {
+      "description": "We're here to help",
+      "title": "Wait! Don't delete me!"
+    },
+    "title": "Contact the team"
+  },
+  "home": {
+    "upcomingEventsPeriod": {
+      "description": "Choose a period for which upcoming events are displayed on the home screen.",
+      "hint": "on the home screen",
+      "label": "Upcoming events",
       "options": {
-        "dark": "Always dark",
-        "light": "Always light",
-        "system": "Same as system"
-      },
-      "value": {
-        "dark": "Dark",
-        "light": "Light"
+        "day_one": "day",
+        "day_other": "days",
+        "month_one": "month",
+        "month_other": "months",
+        "week_one": "week",
+        "week_other": "weeks"
       }
-    },
-    "title": "Settings"
+    }
+  },
+  "introduction": {
+    "label": "Checkout introduction again"
+  },
+  "language": {
+    "label": "Language",
+    "system": {
+      "label": "System",
+      "unsupported": "This language isn't supported yet"
+    }
+  },
+  "onboarding": {
+    "label": "First steps"
   },
   "profile": {
     "presence": {
-      "activity_one": "day",
-      "activity_other": "days",
-      "activity_zero": "Nothing\nyet",
+      "activity_one": "<0>{{count}}</0>  day",
+      "activity_other": "<0>{{count}}</0>  days",
+      "activity_zero": "No attendance\nrecorded yet",
       "onFetch": {
         "fail": "Unable to fetch\u00A0attendance"
       },
@@ -94,6 +102,14 @@
       "title": "Attendance"
     }
   },
+
+  "review": {
+    "description": "Do you enjoy Le Poulailler and its app?\nHelp us make them even better by sharing your feedback on their respective pages.\nThank you so much for your support! 🙏",
+    "label": "Give your feedback",
+    "rateOnGoogleMaps": "Rate on Google Maps",
+    "rateOnStore": "Rate the app",
+    "title": "Share your feedback!"
+  },
   "roles": {
     "label": "Roles",
     "value": {
@@ -110,63 +126,49 @@
     "description": "This is where the magic happens.",
     "title": "Abracadabra!"
   },
+  "socials": {
+    "bliiidaNewsletter": {
+      "label": "Bliiida newsletter"
+    },
+    "description": "Follow us on social media to stay updated with the latest news and updates.",
+    "facebook": {
+      "label": "Facebook"
+    },
+    "instagram": {
+      "label": "Instagram"
+    },
+    "label": "Follow us",
+    "linkedin": {
+      "label": "LinkedIn"
+    },
+    "newsletter": {
+      "label": "Coworking Metz newsletter"
+    },
+    "signal": {
+      "label": "Signal community"
+    },
+    "title": "Social media",
+    "twitter": {
+      "label": "Twitter"
+    }
+  },
+  "store": {
+    "label": "Store"
+  },
   "support": {
-    "contact": {
-      "conversations": {
-        "label": "Chat with someone",
-        "onFetchBrevoWidget": {
-          "fail": "It seems that the Brevo widget has failed to load.\n\nYou're probably frustrated right now thus please excuse us 😔\n\nYou can reach us at {{email}}"
-        }
-      },
-      "description": "For any question, suggestion or issue, feel free to contact us. We are here to help.",
-      "mail": {
-        "label": "Send an email",
-        "onOpen": {
-          "fail": "Unable to contact by\u00A0email"
-        }
-      },
-      "onQuickAction": {
-        "description": "We're here to help",
-        "title": "Wait! Don't delete me!"
-      },
-      "title": "Contact the team"
-    },
-    "review": {
-      "description": "Do you enjoy Le Poulailler and its app?\nHelp us make them even better by sharing your feedback on their respective pages.\nThank you so much for your support! 🙏",
-      "label": "Give your feedback",
-      "rateOnGoogleMaps": "Rate on Google Maps",
-      "rateOnStore": "Rate the app",
-      "title": "Share your feedback!"
-    },
-    "socials": {
-      "bliiidaNewsletter": {
-        "label": "Bliiida newsletter"
-      },
-      "description": "Follow us on social media to stay updated with the latest news and updates.",
-      "facebook": {
-        "label": "Facebook"
-      },
-      "instagram": {
-        "label": "Instagram"
-      },
-      "label": "Follow us",
-      "linkedin": {
-        "label": "LinkedIn"
-      },
-      "newsletter": {
-        "label": "Coworking Metz newsletter"
-      },
-      "signal": {
-        "label": "Signal community"
-      },
-      "title": "Social media",
-      "twitter": {
-        "label": "Twitter"
-      }
-    },
-    "store": {
-      "label": "Store"
-    },
     "title": "Go further"
-  }
+  },
+  "theme": {
+    "label": "Appearance",
+    "options": {
+      "dark": "Always dark",
+      "light": "Always light",
+      "system": "Same as system"
+    },
+    "value": {
+      "dark": "Dark",
+      "light": "Light"
+    }
+  },
+  "title": "Settings"
 }

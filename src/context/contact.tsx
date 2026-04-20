@@ -23,8 +23,8 @@ export const ContactProvider = ({ children }: { children: React.ReactNode }) => 
   useEffect(() => {
     QuickActions.setItems([
       {
-        title: t('settings.support.contact.onQuickAction.title'),
-        subtitle: t('settings.support.contact.onQuickAction.description'),
+        title: t('settings.contact.onQuickAction.title'),
+        subtitle: t('settings.contact.onQuickAction.description'),
         icon: Platform.OS === 'ios' ? 'symbol:person.crop.circle.badge.questionmark' : undefined,
         id: 'contact',
       },

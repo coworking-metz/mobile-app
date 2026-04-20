@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
@@ -6,16 +5,20 @@ import { capitalize, isNil, sample } from 'lodash';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import Animated, { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
+import Animated, {
+  FadeInLeft,
+  FadeOutLeft,
+  type SharedValue,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import EmptyOfficeAnimation from '@/components/Animations/EmptyOfficeAnimation';
 import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
 import MemberBottomSheet from '@/components/Attendance/MemberBottomSheet';
-import MemberCard from '@/components/Attendance/MemberCard';
+import MemberTile from '@/components/Attendance/MemberTile';
 import ErrorBadge from '@/components/ErrorBadge';
 import ErrorState from '@/components/ErrorState';
-import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import useAppState from '@/helpers/app-state';
@@ -37,6 +40,28 @@ const LOCATIONS_ORDER: AttendingLocation[] = [
 type MembersGroupByLocation = {
   location: AttendingLocation;
   members: ApiMemberProfile[];
+};
+
+const ParallaxColumn = ({
+  speed,
+  verticalScrollProgress,
+  children,
+}: {
+  speed: number;
+  verticalScrollProgress: SharedValue<number>;
+  children: React.ReactNode;
+}) => {
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: verticalScrollProgress.value * speed }],
+    };
+  }, [speed, verticalScrollProgress]);
+
+  return (
+    <Animated.View style={[tw`flex flex-col gap-2 grow basis-0`, animatedStyle]}>
+      {children}
+    </Animated.View>
+  );
 };
 
 const Attendance = () => {
@@ -110,6 +135,16 @@ const Attendance = () => {
     return Array.isArray(text) ? sample(text) : text;
   }, [t, currentMembersUpdatedAt]);
 
+  const splitInTwoColumns = (members: ApiMemberProfile[]) => {
+    return members.reduce(
+      (acc, member, index) => {
+        acc[index % 2].push(member);
+        return acc;
+      },
+      [[], []] as [ApiMemberProfile[], ApiMemberProfile[]],
+    );
+  };
+
   return (
     <ServiceLayout
       contentStyle={tw`pt-6 pb-12 gap-6`}
@@ -126,117 +161,145 @@ const Attendance = () => {
         )
       }
       loading={isFetchingCurrentMembers}
-      title={t('attendance.title', { count: currentMembers?.length ?? 0 })}
-      onRefresh={refetchCurrentMembers}>
-      {!isNil(durationSinceLastFetch) ? (
-        <View style={tw`flex flex-row items-center gap-2 min-h-6 px-6`}>
-          <AppShimmerText
-            active={isFetchingCurrentMembers}
-            entering={FadeInLeft.duration(300)}
-            exiting={FadeOutLeft.duration(300)}
-            numberOfLines={1}
-            style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
-            {capitalize(
-              durationSinceLastFetch > 3_600
-                ? dayjs(currentMembersUpdatedAt).calendar()
-                : dayjs(currentMembersUpdatedAt).fromNow(),
-            )}
-          </AppShimmerText>
-          {currentMembersError &&
-          !isSilentError(currentMembersError) &&
-          !isFetchingCurrentMembers ? (
-            <ErrorBadge
-              error={currentMembersError}
-              title={t('attendance.onFetch.fail')}
-              onRetry={refetchCurrentMembers}
-            />
-          ) : null}
-        </View>
-      ) : null}
-
-      <View style={tw`flex flex-col gap-12`}>
-        {groupedMembersByLocation.length ? (
-          groupedMembersByLocation.map((group) => (
-            <View key={group.location} style={tw`flex flex-col gap-2 px-4`}>
-              <SectionTitle
-                count={group.members.length}
-                entering={FadeInLeft.duration(500)}
-                exiting={FadeOutLeft.duration(500)}
-                loading={isFetchingCurrentMembers}
-                style={tw`px-2 self-stretch`}
-                title={t(`onPremise.location.${group.location || 'unknown'}`)}
-              />
-
-              <View style={tw`flex flex-row flex-wrap gap-2 w-full`}>
-                {group.members.map((member, index) => (
-                  <Animated.View
-                    exiting={FadeOutLeft.duration(300)}
-                    key={`member-card-${member._id ?? index}`}
-                    style={tw`flex`}>
-                    <MemberCard
-                      loading={isFetchingCurrentMembers}
-                      member={member}
-                      style={[tw`grow-0`, isWide ? tw`w-80` : tw`w-full`]}
-                      onPress={() => setSelectedMember(member)}
-                      {...(currentMembersUpdatedAt && {
-                        since: dayjs(currentMembersUpdatedAt).toISOString(),
-                      })}>
-                      {!isWide && (
-                        <MaterialCommunityIcons
-                          color={
-                            tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')
-                          }
-                          iconStyle={{ height: 20, width: 20, marginRight: 0 }}
-                          name="chevron-right"
-                          size={24}
-                          style={tw`self-center shrink-0 ml-auto`}
-                        />
-                      )}
-                    </MemberCard>
-                  </Animated.View>
-                ))}
-              </View>
-            </View>
-          ))
-        ) : isPendingCurrentMembers ? (
-          <View style={tw`flex flex-col gap-2 px-4`}>
-            <View style={tw`pl-2`}>
-              <LoadingSkeleton height={24} width={128} />
-            </View>
-            {[0, 1, 2, 3].map((index) => (
-              <Animated.View
-                entering={FadeInLeft.duration(500).delay(150 * index)}
+      renderContent={({ verticalScrollProgress }) => (
+        <>
+          {!isNil(durationSinceLastFetch) ? (
+            <View style={tw`flex flex-row items-center gap-2 min-h-6 px-6`}>
+              <AppShimmerText
+                active={isFetchingCurrentMembers}
+                entering={FadeInLeft.duration(300)}
                 exiting={FadeOutLeft.duration(300)}
-                key={index}
-                style={tw`flex flex-col`}>
-                <MemberCard pending />
-              </Animated.View>
-            ))}
-          </View>
-        ) : currentMembersError && !isSilentError(currentMembersError) ? (
-          <ErrorState error={currentMembersError} title={t('attendance.onFetch.fail')} />
-        ) : (
-          <View
-            style={tw`flex flex-col px-4 gap-2 grow basis-0 justify-start mx-auto w-full max-w-sm`}>
-            <View style={tw`overflow-hidden`}>
-              <EmptyOfficeAnimation style={tw`h-80 -my-12 w-80 mx-auto`} />
+                numberOfLines={1}
+                style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
+                {capitalize(
+                  durationSinceLastFetch > 3_600
+                    ? dayjs(currentMembersUpdatedAt).calendar()
+                    : dayjs(currentMembersUpdatedAt).fromNow(),
+                )}
+              </AppShimmerText>
+              {currentMembersError &&
+              !isSilentError(currentMembersError) &&
+              !isFetchingCurrentMembers ? (
+                <ErrorBadge
+                  error={currentMembersError}
+                  title={t('attendance.onFetch.fail')}
+                  onRetry={refetchCurrentMembers}
+                />
+              ) : null}
             </View>
-            <AppText
-              entering={FadeInLeft.duration(500)}
-              numberOfLines={1}
-              style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-              {emptyTitle}
-            </AppText>
-            <AppText
-              entering={FadeInLeft.duration(500).delay(150)}
-              numberOfLines={2}
-              style={tw`text-base text-center text-slate-500 dark:text-neutral-500`}>
-              {emptyDescription}
-            </AppText>
+          ) : null}
+
+          <View style={tw`flex flex-col gap-12`}>
+            {groupedMembersByLocation.length ? (
+              groupedMembersByLocation.map((group) => {
+                const [leftColumn, rightColumn] = splitInTwoColumns(group.members);
+
+                return (
+                  <View key={group.location} style={tw`flex flex-col gap-2 px-4`}>
+                    <View style={tw`flex flex-row gap-2 w-full items-start`}>
+                      <ParallaxColumn speed={-0.06} verticalScrollProgress={verticalScrollProgress}>
+                        {leftColumn.map((member, index) => (
+                          <Animated.View
+                            exiting={FadeOutLeft.duration(300)}
+                            key={`member-tile-left-${member._id ?? index}`}>
+                            <MemberTile
+                              member={member}
+                              style={isWide ? tw`w-80 self-end` : undefined}
+                              onPress={() => setSelectedMember(member)}
+                            />
+                          </Animated.View>
+                        ))}
+                      </ParallaxColumn>
+
+                      <ParallaxColumn speed={0.03} verticalScrollProgress={verticalScrollProgress}>
+                        {rightColumn.map((member, index) => (
+                          <Animated.View
+                            exiting={FadeOutLeft.duration(300)}
+                            key={`member-tile-right-${member._id ?? index}`}>
+                            <MemberTile
+                              member={member}
+                              style={isWide ? tw`w-80 self-start` : undefined}
+                              onPress={() => setSelectedMember(member)}
+                            />
+                          </Animated.View>
+                        ))}
+                      </ParallaxColumn>
+                    </View>
+                  </View>
+                );
+              })
+            ) : isPendingCurrentMembers ? (
+              <View style={tw`flex flex-col gap-2 px-4`}>
+                <View style={tw`pl-2`}>
+                  <LoadingSkeleton height={24} width={128} />
+                </View>
+                <View style={tw`flex flex-row gap-2 w-full`}>
+                  <View style={tw`flex flex-col gap-2 grow basis-0`}>
+                    {[0, 1].map((index) => (
+                      <Animated.View
+                        entering={FadeInLeft.duration(500).delay(150 * index)}
+                        exiting={FadeOutLeft.duration(300)}
+                        key={`left-skeleton-${index}`}>
+                        <View style={tw`rounded-2xl p-3 min-h-44 bg-white dark:bg-zinc-800`}>
+                          <LoadingSkeleton height={96} width={`100%`} />
+                          <View style={tw`mt-3`}>
+                            <LoadingSkeleton height={20} width={`70%`} />
+                          </View>
+                          <View style={tw`mt-1`}>
+                            <LoadingSkeleton height={20} width={`55%`} />
+                          </View>
+                        </View>
+                      </Animated.View>
+                    ))}
+                  </View>
+                  <View style={tw`flex flex-col gap-2 grow basis-0`}>
+                    {[2, 3].map((index) => (
+                      <Animated.View
+                        entering={FadeInLeft.duration(500).delay(150 * index)}
+                        exiting={FadeOutLeft.duration(300)}
+                        key={`right-skeleton-${index}`}>
+                        <View style={tw`rounded-2xl p-3 min-h-44 bg-white dark:bg-zinc-800`}>
+                          <LoadingSkeleton height={96} width={`100%`} />
+                          <View style={tw`mt-3`}>
+                            <LoadingSkeleton height={20} width={`70%`} />
+                          </View>
+                          <View style={tw`mt-1`}>
+                            <LoadingSkeleton height={20} width={`55%`} />
+                          </View>
+                        </View>
+                      </Animated.View>
+                    ))}
+                  </View>
+                </View>
+              </View>
+            ) : currentMembersError && !isSilentError(currentMembersError) ? (
+              <ErrorState error={currentMembersError} title={t('attendance.onFetch.fail')} />
+            ) : (
+              <View
+                style={tw`flex flex-col px-4 gap-2 grow basis-0 justify-start mx-auto w-full max-w-sm`}>
+                <View style={tw`overflow-hidden`}>
+                  <EmptyOfficeAnimation style={tw`h-80 -my-12 w-80 mx-auto`} />
+                </View>
+                <AppText
+                  entering={FadeInLeft.duration(500)}
+                  numberOfLines={1}
+                  style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                  {emptyTitle}
+                </AppText>
+                <AppText
+                  entering={FadeInLeft.duration(500).delay(150)}
+                  numberOfLines={2}
+                  style={tw`text-base text-center text-slate-500 dark:text-neutral-500`}>
+                  {emptyDescription}
+                </AppText>
+              </View>
+            )}
           </View>
-        )}
-      </View>
-    </ServiceLayout>
+        </>
+      )}
+      title={t('attendance.title', { count: currentMembers?.length ?? 0 })}
+      onRefresh={refetchCurrentMembers}
+    />
   );
 };
 

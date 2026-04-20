@@ -179,7 +179,7 @@ const BalanceBottomSheet = ({
       <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/carnet-10-journees/`} style={tw`mt-2`}>
         <AppRoundedButton
           disabled={!authStore.user}
-          style={tw`w-full max-w-md self-center`}
+          style={tw`w-full max-w-sm self-center`}
           suffixIcon="open-in-new">
           <AppText style={tw`text-base text-black font-medium`}>
             {t('home.profile.tickets.add')}

@@ -275,7 +275,7 @@ const SubscriptionBottomSheet = ({
         <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/pass-resident/`}>
           <AppRoundedButton
             disabled={!authStore.user}
-            style={tw`w-full max-w-md self-center`}
+            style={tw`w-full max-w-sm self-center`}
             suffixIcon="open-in-new">
             <AppText style={tw`text-base font-medium text-black`}>
               {sortedSubscriptions.length

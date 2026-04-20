@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
+import { useIsFocused } from 'expo-router';
 import { isNil } from 'lodash';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,9 +19,10 @@ import ErrorBadge from '@/components/ErrorBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
+import useAppState from '@/helpers/app-state';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
-import { getPhoneBoothsOccupation } from '@/services/api/services';
+import { getOnPremiseState, getPhoneBoothsOccupation } from '@/services/api/services';
 import { onPremiseQueryKeys } from '@/services/query';
 
 const BAR_WIDTH = 32;
@@ -47,6 +49,19 @@ const PhoneBoothBottomSheet = ({
   const [carouselWidth, setCarouselWidth] = useState<number>(0);
   const offset = useSharedValue(0);
   const colorScheme = useColorScheme();
+  const activeSince = useAppState();
+  const isFocus = useIsFocused();
+
+  const { dataUpdatedAt: onPremiseStateUpdatedAt } = useQuery({
+    queryKey: onPremiseQueryKeys.state(),
+    queryFn: getOnPremiseState,
+  });
+
+  // count duration since last fetch to redraw stale data text
+  // every time the screen gets focused or the app gets back to foreground
+  const durationSinceLastFetch = useMemo(() => {
+    return onPremiseStateUpdatedAt ? dayjs().diff(onPremiseStateUpdatedAt, 'second') : null;
+  }, [onPremiseStateUpdatedAt, isFocus, activeSince]);
 
   const {
     data: occupationPerBooth,
@@ -127,7 +142,16 @@ const PhoneBoothBottomSheet = ({
         </ReadMore>
 
         <View style={tw`flex flex-col w-full mt-2`}>
-          <SectionTitle loading={loading} title={t('onPremise.phoneBooths.state.label')} />
+          <SectionTitle
+            loading={loading}
+            title={
+              !isNil(durationSinceLastFetch) && durationSinceLastFetch > 300
+                ? durationSinceLastFetch > 3_600
+                  ? dayjs(onPremiseStateUpdatedAt).calendar()
+                  : dayjs(onPremiseStateUpdatedAt).fromNow()
+                : t('onPremise.phoneBooths.state.label')
+            }
+          />
           <ServiceRow
             withBottomDivider
             label={t('onPremise.phoneBooths.state.blue.occupation.label')}

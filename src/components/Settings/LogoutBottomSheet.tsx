@@ -84,7 +84,7 @@ const LogoutBottomSheet = ({
         <AppRoundedButton
           disabled={isLoading}
           loading={isLoading}
-          style={tw`mt-6 w-full max-w-md self-center`}
+          style={tw`mt-6 w-full max-w-sm self-center`}
           suffixIcon="open-in-new"
           onPress={onLogout}>
           <AppText style={tw`text-base text-black font-medium`}>{t('actions.logout')}</AppText>

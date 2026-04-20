@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { LinearGradient } from 'expo-linear-gradient';
 import { capitalize } from 'lodash';
 import React, { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
 import { ContributionGraph } from 'react-native-chart-kit';
 import Animated from 'react-native-reanimated';
@@ -167,23 +167,19 @@ const PresenceGraph = ({
           </LinearGradient>
         ) : withDescription ? (
           <View style={tw`flex flex-col self-center ml-6`}>
-            <View style={tw`flex flex-row items-end gap-1`}>
-              <AppText
-                style={tw`text-3xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-                {activityCount ||
-                  t('settings.profile.presence.activity', {
-                    count: activityCount,
-                  })}
-              </AppText>
-              {!!activityCount && (
+            <Trans
+              components={[
                 <AppText
-                  style={tw`font-normal text-sm leading-6 text-slate-500 dark:text-neutral-500`}>
-                  {t('settings.profile.presence.activity', {
-                    count: activityCount,
-                  })}
-                </AppText>
-              )}
-            </View>
+                  key="activity-count"
+                  style={tw`text-3xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}
+                />,
+              ]}
+              defaults={t('settings.profile.presence.activity', {
+                count: activityCount,
+              })}
+              parent={AppText}
+              style={tw`text-left text-sm leading-6 font-normal text-slate-500 dark:text-neutral-500`}
+            />
             {firstActivityDate && (
               <AppText style={tw`font-normal text-sm text-slate-500 dark:text-neutral-500`}>
                 {t('settings.profile.presence.since', {

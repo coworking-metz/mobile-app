@@ -401,7 +401,7 @@ const PairDeviceBottomSheet = ({
 
         <AppRoundedButton
           disabled={isAnimating}
-          style={tw`mt-2 w-full max-w-md self-center`}
+          style={tw`mt-2 w-full max-w-sm self-center`}
           onPress={onStart}>
           <AppText style={tw`text-base text-black font-medium`}>
             {t('devices.add.pair.start')}

@@ -2,13 +2,11 @@ import { MenuAction, MenuView } from '@react-native-menu/menu';
 import { useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { RefreshControl, StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
-import {
-  KeyboardAwareScrollView,
-  type KeyboardAwareScrollViewProps,
-} from 'react-native-keyboard-controller';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import Animated, {
   FadeInLeft,
   interpolate,
+  type SharedValue,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
@@ -24,8 +22,7 @@ import { useAppPaddingBottom } from '@/helpers/screen';
 
 const NAVIGATION_HEIGHT = 48;
 
-const AnimatedKeyboardAwareScrollView =
-  Animated.createAnimatedComponent<KeyboardAwareScrollViewProps>(KeyboardAwareScrollView);
+const AnimatedKeyboardAwareScrollView = Animated.createAnimatedComponent(KeyboardAwareScrollView);
 
 const ServiceLayout = ({
   title,
@@ -35,6 +32,7 @@ const ServiceLayout = ({
   header,
   footer,
   children,
+  renderContent,
   from,
   withBackButton = true,
   style,
@@ -49,7 +47,8 @@ const ServiceLayout = ({
   })[];
   header?: ReactNode;
   footer?: ReactNode;
-  children: ReactNode;
+  children?: ReactNode;
+  renderContent?: (params: { verticalScrollProgress: SharedValue<number> }) => ReactNode;
   from?: string;
   withBackButton?: boolean;
   style?: StyleProp<ViewStyle>;
@@ -166,7 +165,7 @@ const ServiceLayout = ({
               contentStyle,
             ]}>
             {loading && <LoadingProgressBar style={tw`absolute top-0 inset-x-0`} />}
-            {children}
+            {renderContent ? renderContent({ verticalScrollProgress }) : children}
           </View>
         </AnimatedKeyboardAwareScrollView>
       </View>

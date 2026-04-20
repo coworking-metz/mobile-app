@@ -61,7 +61,7 @@ const NoticeBottomSheet = () => {
 
       {mostRecentUndismissedNotice.action ? (
         <AppRoundedButton
-          style={tw`mt-6 w-full max-w-md self-center`}
+          style={tw`mt-6 w-full max-w-sm self-center`}
           suffixIcon={mostRecentUndismissedNotice.action.suffixIcon}
           onPress={() => {
             mostRecentUndismissedNotice.action?.onPress?.();

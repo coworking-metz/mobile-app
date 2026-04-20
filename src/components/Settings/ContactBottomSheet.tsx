@@ -27,7 +27,7 @@ const ContactBottomSheet = ({
     setContactingTeam(true);
     Linking.openURL(`mailto:${SUPPORT_EMAIL}`)
       .catch((error) =>
-        noticeStore.addError(error, { message: t('settings.support.contact.mail.onOpen.fail') }),
+        noticeStore.addError(error, { message: t('settings.contact.mail.onOpen.fail') }),
       )
       .finally(() => setContactingTeam(false));
   }, []);
@@ -43,11 +43,11 @@ const ContactBottomSheet = ({
       </View>
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
-        {t('settings.support.contact.title')}
+        {t('settings.contact.title')}
       </AppText>
       <AppText
         style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full mt-4`}>
-        {t('settings.support.contact.description')}
+        {t('settings.contact.description')}
       </AppText>
       {/**
        * Brevo widget does not properly load inside Android webview,
@@ -55,21 +55,21 @@ const ContactBottomSheet = ({
        */}
       <Link asChild href={Platform.OS === 'ios' ? '/chat' : `${WORDPRESS_BASE_URL}#ouvrir-brevo`}>
         <AppRoundedButton
-          style={tw`mt-6 w-full max-w-md self-center`}
+          style={tw`mt-6 w-full max-w-sm self-center`}
           suffixIcon="chat-processing-outline"
           onPress={() => bottomSheetRef.current?.close()}>
           <AppText style={tw`text-base text-black font-medium`}>
-            {t('settings.support.contact.conversations.label')}
+            {t('settings.contact.conversations.label')}
           </AppText>
         </AppRoundedButton>
       </Link>
       <AppTextButton
         loading={isContactingTeam}
-        style={tw`mt-4 w-full max-w-md self-center`}
+        style={tw`mt-4 w-full max-w-sm self-center`}
         suffixIcon="email-outline"
         onPress={onContactTeamByEmail}>
         <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
-          {t('settings.support.contact.mail.label')}
+          {t('settings.contact.mail.label')}
         </AppText>
       </AppTextButton>
     </AppBottomSheet>
