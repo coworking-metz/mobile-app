@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { Image } from 'expo-image';
 import React from 'react';
 import { TouchableHighlight, TouchableHighlightProps, View } from 'react-native';
 import { FadeInLeft, FadeOutDown } from 'react-native-reanimated';
@@ -40,11 +41,20 @@ const MemberTile = ({ member, since, style, onPress, ...props }: MemberTileProps
   return (
     <TouchableHighlight
       disabled={!onPress}
-      style={[tw`rounded-2xl p-3`, style]}
+      style={[tw`rounded-2xl overflow-hidden`, style]}
       underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
       onPress={onPress}
       {...props}>
-      <View style={tw`flex flex-col items-center justify-start gap-2 min-h-44`}>
+      <View style={tw`flex flex-col items-center justify-start gap-2 min-h-44 relative`}>
+        <Image
+          cachePolicy="memory"
+          contentFit="cover"
+          source={{
+            uri: member.polaroid,
+            cacheKey: `${member.polaroid}-${dayjs().format('YYYY-MM-DD')}`,
+          }}
+          style={tw`absolute h-full w-full z-10`}
+        />
         <View
           style={[
             tw`h-22 w-22 rounded-3xl items-center justify-center`,

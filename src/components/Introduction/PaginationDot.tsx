@@ -8,6 +8,9 @@ import Animated, {
 import { theme } from '@/helpers/colors';
 
 const DOT_SIZE = 12;
+const ACTIVE_DOT_COLOR = '#C27803';
+const LIGHT_INACTIVE_DOT_COLOR = theme.silverSand;
+const DARK_INACTIVE_DOT_COLOR = theme.charlestonGreen;
 
 const PaginationDot = ({
   animationValue,
@@ -30,8 +33,8 @@ const PaginationDot = ({
       animationValue.value,
       inputRange,
       isDark
-        ? [theme.charlestonGreen, '#C27803', theme.silverSand]
-        : [theme.silverSand, '#C27803', theme.charlestonGreen], // TODO: fix crash when using tw.color
+        ? [DARK_INACTIVE_DOT_COLOR, ACTIVE_DOT_COLOR, LIGHT_INACTIVE_DOT_COLOR]
+        : [LIGHT_INACTIVE_DOT_COLOR, ACTIVE_DOT_COLOR, DARK_INACTIVE_DOT_COLOR],
       'RGB',
     );
 

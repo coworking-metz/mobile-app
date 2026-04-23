@@ -15,7 +15,6 @@ import AppText from '@/components/AppText';
 import OnboardingEnrollStep from '@/components/Onboarding/OnboardingEnrollStep';
 import OnboardingTourStep from '@/components/Onboarding/OnboardingTourStep';
 import OnboardingTrialStep from '@/components/Onboarding/OnboardingTrialStep';
-import PaginationDot from '@/components/Onboarding/PaginationDot';
 import Step from '@/components/Onboarding/Step';
 import { log } from '@/helpers/logger';
 import { useAppPaddingBottom } from '@/helpers/screen';
@@ -126,16 +125,6 @@ const Onboarding = () => {
               tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
             />
             <AppIconButton icon="window-close" onPress={onClose} />
-            <View pointerEvents={'none'} style={tw`flex flex-row`}>
-              {screens.map((_, index) => (
-                <PaginationDot
-                  animationValue={offset}
-                  containerWidth={layoutWidth}
-                  index={index}
-                  key={`pagination-dot-${index}`}
-                />
-              ))}
-            </View>
           </View>
           <View style={tw`grow basis-0`}>
             <Carousel

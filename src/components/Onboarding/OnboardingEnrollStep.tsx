@@ -1,7 +1,7 @@
 import { isNil } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
@@ -11,11 +11,11 @@ import AppFader from '@/components/AppFader';
 import AppText from '@/components/AppText';
 
 const OnboardingEnrollStep = ({
-  active,
-  containerHeight,
+  active = false,
+  style,
 }: {
-  active: boolean;
-  containerHeight?: number;
+  active?: boolean;
+  style?: StyleProp<ViewStyle>;
 }) => {
   const { t } = useTranslation();
   const reduceMotion = useReducedMotion();
@@ -51,13 +51,10 @@ const OnboardingEnrollStep = ({
   }, [animation]);
 
   return (
-    <>
+    <View style={[tw`flex flex-col`, style]}>
       <View
         style={tw.style(
           `flex flex-col justify-end items-center self-center overflow-visible relative w-[640px] `,
-          !isNil(containerHeight) && {
-            height: containerHeight / 2,
-          },
         )}>
         <AppFader
           position={Fader.position.START}
@@ -91,7 +88,7 @@ const OnboardingEnrollStep = ({
           {t('onboarding.enrollment.description')}
         </AppText>
       </View>
-    </>
+    </View>
   );
 };
 

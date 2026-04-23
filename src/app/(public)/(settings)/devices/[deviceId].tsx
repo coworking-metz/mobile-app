@@ -5,6 +5,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
+import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import SegmentedControl from 'react-native-segmented-control-2';
 import { TextFieldRef } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
@@ -314,9 +315,33 @@ const DeviceDetail = () => {
         <Divider style={tw`mt-6 mx-3`} />
 
         <ServiceRow
-          description={device?.heartbeat && dayjs(device?.heartbeat).format('lll')}
+          description={
+            device?.heartbeat &&
+            (dayjs(device.heartbeat).isBefore(dayjs().subtract(1, 'hour'))
+              ? dayjs(device.heartbeat).format('lll')
+              : dayjs(device.heartbeat).fromNow())
+          }
           label={t('devices.detail.location.label')}
-          prefixIcon="map-marker-outline"
+          prefix={
+            <View style={tw`flex flex-row items-center shrink-0 min-h-10 relative`}>
+              <MaterialCommunityIcons
+                color={tw.prefixMatch('dark') ? tw.color('stone-400') : tw.color('gray-700')}
+                iconStyle={{ height: 20, width: 20, marginRight: 0 }}
+                name="map-marker-outline"
+                size={24}
+                style={tw`shrink-0`}
+              />
+
+              {device?.attending && (
+                <Animated.View
+                  entering={BounceIn.duration(1000)}
+                  exiting={BounceOut.duration(1000)}
+                  style={tw`z-20 h-3.5 w-3.5 bg-gray-50 dark:bg-zinc-900 rounded-full absolute flex items-center justify-center -bottom-0 -right-1`}>
+                  <View style={tw`h-2.5 w-2.5 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
+                </Animated.View>
+              )}
+            </View>
+          }
           style={tw`px-3 mb-3`}
           onPress={() =>
             device?.location

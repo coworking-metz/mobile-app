@@ -31,7 +31,7 @@ export default function MessagesLayout() {
         style={tw`grow shrink basis-0 h-full min-w-80 max-w-md border-r-[1px] border-r-gray-200 dark:border-r-gray-700`}>
         <AllMessagesScreen from="/home" />
       </View>
-      <View style={tw`grow shrink basis-0 h-full  min-w-80`}>
+      <View style={tw`grow shrink basis-0 h-full min-w-80`}>
         <Stack
           initialRouteName="root"
           screenOptions={{

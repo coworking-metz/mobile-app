@@ -8,17 +8,17 @@ export const useAppPermissions = () => {
 };
 
 export const PermissionsProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isPermissionsBottomSheetVisible, setPermissionsContactBottomSheetVisible] =
+  const [isPermissionsBottomSheetVisible, setPermissionsBottomSheetVisible] =
     useState<boolean>(false);
 
   return (
     <PermissionsContext.Provider
       value={() => {
-        setPermissionsContactBottomSheetVisible(true);
+        setPermissionsBottomSheetVisible(true);
       }}>
       {children}
       {isPermissionsBottomSheetVisible ? (
-        <PermissionsBottomSheet onClose={() => setPermissionsContactBottomSheetVisible(false)} />
+        <PermissionsBottomSheet onClose={() => setPermissionsBottomSheetVisible(false)} />
       ) : null}
     </PermissionsContext.Provider>
   );
