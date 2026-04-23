@@ -2,7 +2,7 @@ import DesktopWorkAnimation from '../Animations/DesktopWorkAnimation';
 import { isNil } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
 import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
@@ -14,10 +14,11 @@ import ThemePicker from '@/components/Settings/ThemePicker';
 import { useAppTheme } from '@/context/theme';
 
 const OnboardingTrialStep = ({
-  containerHeight,
+  active = false,
+  style,
 }: {
-  active: boolean;
-  containerHeight?: number;
+  active?: boolean;
+  style?: StyleProp<ViewStyle>;
 }) => {
   const { t } = useTranslation();
   const { selectTheme } = useAppTheme();
@@ -35,13 +36,10 @@ const OnboardingTrialStep = ({
   }, [animation, isPlaying, reduceMotion]);
 
   return (
-    <>
+    <View style={[tw`flex flex-col`, style]}>
       <View
         style={tw.style(
           `flex flex-col justify-end items-center self-center overflow-visible relative w-full`,
-          !isNil(containerHeight) && {
-            height: containerHeight / 2,
-          },
         )}>
         <AppFader
           position={Fader.position.START}
@@ -76,7 +74,7 @@ const OnboardingTrialStep = ({
           <ThemePicker style={tw`px-3 mx-3`} onPress={selectTheme} />
         </View>
       </View>
-    </>
+    </View>
   );
 };
 

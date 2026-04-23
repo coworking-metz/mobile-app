@@ -11,12 +11,29 @@ import { theme } from '@/helpers/colors';
 const DOT_SIZE = 12;
 const EXPANDED_DOT_SIZE = DOT_SIZE * 3;
 const MARGIN = (DOT_SIZE / 3) * 2;
+const ACTIVE_DOT_COLOR = '#C27803';
+const LIGHT_INACTIVE_DOT_COLOR = theme.silverSand;
+const DARK_INACTIVE_DOT_COLOR = theme.charlestonGreen;
+const LIGHT_COLOR_RANGE = [LIGHT_INACTIVE_DOT_COLOR, ACTIVE_DOT_COLOR, LIGHT_INACTIVE_DOT_COLOR];
+const PROGRESSIVE_LIGHT_COLOR_RANGE = [
+  LIGHT_INACTIVE_DOT_COLOR,
+  ACTIVE_DOT_COLOR,
+  DARK_INACTIVE_DOT_COLOR,
+];
+const DARK_COLOR_RANGE = [DARK_INACTIVE_DOT_COLOR, ACTIVE_DOT_COLOR, DARK_INACTIVE_DOT_COLOR];
+const PROGRESSIVE_DARK_COLOR_RANGE = [
+  DARK_INACTIVE_DOT_COLOR,
+  ACTIVE_DOT_COLOR,
+  LIGHT_INACTIVE_DOT_COLOR,
+];
 
 const PaginationDot = ({
-  animationValue,
   index,
+  progressive = false,
+  animationValue,
 }: {
   index: number;
+  progressive?: boolean;
   animationValue: SharedValue<number>;
 }) => {
   const colorScheme = useColorScheme();
@@ -26,12 +43,16 @@ const PaginationDot = ({
 
   const animatedStyles = useAnimatedStyle(() => {
     const isDark = colorScheme === 'dark';
-    const colour = interpolateColor(
+    const color = interpolateColor(
       animationValue.value,
       inputRange,
       isDark
-        ? [theme.onyx, '#C27803', theme.onyx]
-        : [theme.silverSand, '#C27803', theme.silverSand], // TODO: fix crash when using tw.color
+        ? progressive
+          ? PROGRESSIVE_DARK_COLOR_RANGE
+          : DARK_COLOR_RANGE
+        : progressive
+          ? PROGRESSIVE_LIGHT_COLOR_RANGE
+          : LIGHT_COLOR_RANGE,
       'RGB',
     );
 
@@ -68,9 +89,9 @@ const PaginationDot = ({
       right,
       opacity,
       width,
-      backgroundColor: colour,
+      backgroundColor: color,
     };
-  }, [colorScheme]);
+  }, [colorScheme, progressive]);
 
   return (
     <Animated.View
@@ -91,10 +112,12 @@ const PaginationDot = ({
 const CarouselPaginationDots = ({
   count = 0,
   offset,
+  progressive = false,
   style,
 }: {
   count: number;
   offset: SharedValue<number>;
+  progressive?: boolean;
   style?: StyleProp<ViewStyle>;
 }) => {
   return (
@@ -106,7 +129,12 @@ const CarouselPaginationDots = ({
         style,
       ]}>
       {Array.from({ length: count }, (_, index) => (
-        <PaginationDot animationValue={offset} index={index} key={`pagination-dot-${index}`} />
+        <PaginationDot
+          animationValue={offset}
+          index={index}
+          key={`pagination-dot-${index}`}
+          progressive={progressive}
+        />
       ))}
     </View>
   );

@@ -190,44 +190,29 @@ const Attendance = () => {
           ) : null}
 
           <View style={tw`flex flex-col gap-12`}>
-            {groupedMembersByLocation.length ? (
-              groupedMembersByLocation.map((group) => {
-                const [leftColumn, rightColumn] = splitInTwoColumns(group.members);
-
-                return (
-                  <View key={group.location} style={tw`flex flex-col gap-2 px-4`}>
-                    <View style={tw`flex flex-row gap-2 w-full items-start`}>
-                      <ParallaxColumn speed={-0.06} verticalScrollProgress={verticalScrollProgress}>
-                        {leftColumn.map((member, index) => (
-                          <Animated.View
-                            exiting={FadeOutLeft.duration(300)}
-                            key={`member-tile-left-${member._id ?? index}`}>
-                            <MemberTile
-                              member={member}
-                              style={isWide ? tw`w-80 self-end` : undefined}
-                              onPress={() => setSelectedMember(member)}
-                            />
-                          </Animated.View>
-                        ))}
-                      </ParallaxColumn>
-
-                      <ParallaxColumn speed={0.03} verticalScrollProgress={verticalScrollProgress}>
-                        {rightColumn.map((member, index) => (
-                          <Animated.View
-                            exiting={FadeOutLeft.duration(300)}
-                            key={`member-tile-right-${member._id ?? index}`}>
-                            <MemberTile
-                              member={member}
-                              style={isWide ? tw`w-80 self-start` : undefined}
-                              onPress={() => setSelectedMember(member)}
-                            />
-                          </Animated.View>
-                        ))}
-                      </ParallaxColumn>
-                    </View>
-                  </View>
-                );
-              })
+            {currentMembers?.length ? (
+              <View style={tw`flex flex-col gap-2 px-4`}>
+                <View style={tw`flex flex-row gap-2 w-full items-start`}>
+                  {splitInTwoColumns(currentMembers ?? []).forEach((column, columnIndex) => (
+                    <ParallaxColumn
+                      key={`column-${columnIndex}`}
+                      speed={columnIndex === 0 ? -0.06 : 0.03}
+                      verticalScrollProgress={verticalScrollProgress}>
+                      {column.map((member, index) => (
+                        <Animated.View
+                          exiting={FadeOutLeft.duration(300)}
+                          key={`member-tile-left-${member._id ?? index}`}>
+                          <MemberTile
+                            member={member}
+                            style={isWide ? tw`w-80 self-end` : undefined}
+                            onPress={() => setSelectedMember(member)}
+                          />
+                        </Animated.View>
+                      ))}
+                    </ParallaxColumn>
+                  ))}
+                </View>
+              </View>
             ) : isPendingCurrentMembers ? (
               <View style={tw`flex flex-col gap-2 px-4`}>
                 <View style={tw`pl-2`}>

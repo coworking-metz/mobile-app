@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Commute mode on app introduction.
+- Onboarding card and bottom sheet on home screen.
+
+### Fixed
+
+- Drag subscriptions carousel to close subscription bottom sheet.
 
 ## [2026.3.1] - 2026-03-04
 

@@ -45,6 +45,7 @@ import UnauthenticatedState from '@/components/Home/UnauthenticatedState';
 import UnlockGateCard from '@/components/Home/UnlockGateCard';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import { useAppContact } from '@/context/contact';
+import { useAppOnboarding } from '@/context/onboarding';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
 import useAppScreen, { WIDE_SCREEN_WIDTH } from '@/helpers/screen';
@@ -80,6 +81,7 @@ export default function HomeScreen() {
   const [hasSelectBirthday, selectBirthday] = useState<boolean>(false);
 
   const contact = useAppContact();
+  const onboard = useAppOnboarding();
 
   const {
     isFetching: isFetchingCurrentMembers,
@@ -280,8 +282,6 @@ export default function HomeScreen() {
           {hasSelectSubscription ? (
             <SubscriptionBottomSheet
               currentSubscription={currentSubscription}
-              loading={isFetchingSubscriptions}
-              subscriptions={subscriptions}
               onClose={() => selectSubscription(false)}
             />
           ) : null}
@@ -335,7 +335,7 @@ export default function HomeScreen() {
 
               {messages?.some(({ read }) => !read) && (
                 <Animated.View
-                  entering={BounceIn.duration(1000).delay(300)}
+                  entering={BounceIn.duration(1000)}
                   exiting={BounceOut.duration(1000)}
                   style={tw`z-20 h-5 w-5 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -top-1.5 -right-1.5`}>
                   <View style={tw`h-3 w-3 bg-blue-600 dark:bg-blue-700 rounded-full`} />
@@ -354,7 +354,7 @@ export default function HomeScreen() {
                 url={authStore.user?.picture}>
                 {profile?.attending && (
                   <Animated.View
-                    entering={BounceIn.duration(1000).delay(300)}
+                    entering={BounceIn.duration(1000)}
                     exiting={BounceOut.duration(1000)}
                     style={tw`z-20 h-5 w-5 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -bottom-0.5 -right-0.5`}>
                     <View style={tw`h-3 w-3 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
@@ -412,19 +412,13 @@ export default function HomeScreen() {
           showsHorizontalScrollIndicator={false}
           style={tw`w-full overflow-visible`}>
           {IS_DEV && (
-            <Link
-              asChild
-              href={{
-                pathname: '/onboarding',
-              }}>
-              <AppPressable style={tw`flex flex-row items-stretch`}>
-                <OnboardingCard
-                  date={authStore.user?.onboarding?.date ?? new Date().toISOString()}
-                  glowing={!settingsStore.hasReadOnboardingInstructionsAt}
-                  style={tw`min-h-38 min-w-32`}
-                />
-              </AppPressable>
-            </Link>
+            <AppPressable style={tw`flex flex-row items-stretch`} onPress={onboard}>
+              <OnboardingCard
+                date={authStore.user?.onboarding?.date ?? new Date().toISOString()}
+                glowing={!settingsStore.hasReadOnboardingInstructionsAt}
+                style={tw`min-h-38 min-w-32`}
+              />
+            </AppPressable>
           )}
           {isTodayBirthday && (
             <AppPressable

@@ -8,9 +8,6 @@
       "package": "fr.coworking_metz.mobile",
       "permissions": ["android.permission.READ_CALENDAR", "android.permission.WRITE_CALENDAR"]
     },
-    "androidStatusBar": {
-      "translucent": true
-    },
     "assetBundlePatterns": ["**/*"],
     "experiments": {
       "tsconfigPaths": true

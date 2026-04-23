@@ -27,6 +27,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
+import { withAppFontFamily } from '@/helpers/text';
 
 const HANDLE_ENDING_POSITION = 40;
 const RIGHT_PADDING = 8;
@@ -86,6 +87,7 @@ const SwipeableButton = ({
   const onRestart = useCallback(() => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSwiped(false);
+    sliding.value = withSpring(0);
     onReset?.();
   }, []);
 
@@ -95,6 +97,7 @@ const SwipeableButton = ({
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     })
     .onChange((event) => {
+      if (!isSwiping.value) return;
       const newValue = event.translationX;
 
       if (newValue >= 0 && newValue <= swipingRange - RIGHT_PADDING) {
@@ -108,6 +111,7 @@ const SwipeableButton = ({
       }
     })
     .onFinalize(() => {
+      if (!isSwiping.value) return;
       if (sliding.value >= swipingRange - HANDLE_ENDING_POSITION) {
         sliding.value = withSpring(swipingRange - RIGHT_PADDING, {
           stiffness: 300,
@@ -183,14 +187,14 @@ const SwipeableButton = ({
 
   const placeholderAnimatedStyle = useAnimatedStyle(() => {
     return {
-      opacity: interpolate(sliding.value, [0, swipingRange / 2], [1, 0], Extrapolate.CLAMP),
+      opacity: interpolate(sliding.value, [0, swipingRange / 2], [1, 0], Extrapolation.CLAMP),
       transform: [
         {
           translateX: interpolate(
             sliding.value,
             [20, swipingRange],
             [0, buttonWidth / 4],
-            Extrapolate.CLAMP,
+            Extrapolation.CLAMP,
           ),
         },
       ],
@@ -244,13 +248,15 @@ const SwipeableButton = ({
           </TouchableOpacity>
         </Animated.View>
       </GestureDetector>
-      <AppText
+      <Animated.Text
         style={[
-          tw`ml-10 text-base text-center font-medium text-slate-500 dark:text-neutral-500`,
+          withAppFontFamily(
+            tw`ml-10 text-base text-center font-medium text-slate-500 dark:text-neutral-500`,
+          ),
           placeholderAnimatedStyle,
         ]}>
         {placeholder}
-      </AppText>
+      </Animated.Text>
       {children}
     </View>
   );

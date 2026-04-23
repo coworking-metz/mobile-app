@@ -59,8 +59,8 @@ const UnlockDeckDoorBottomSheet = ({
   }, [noticeStore]);
 
   const onReset = useCallback(() => {
-    setUnlocked(false);
     setSwiped(false);
+    setUnlocked(false);
   }, []);
 
   return (

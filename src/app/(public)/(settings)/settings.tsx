@@ -40,6 +40,7 @@ import ThemePicker from '@/components/Settings/ThemePicker';
 import { useAppAuth } from '@/context/auth';
 import { useAppContact } from '@/context/contact';
 import { useAppI18n } from '@/context/i18n';
+import { useAppOnboarding } from '@/context/onboarding';
 import { useAppPresence } from '@/context/presence';
 import { useAppReview } from '@/context/review';
 import { useAppSocials } from '@/context/socials';
@@ -61,6 +62,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   useDeviceContext(tw);
   const { login } = useAppAuth();
   const contact = useAppContact();
+  const onboard = useAppOnboarding();
   const { selectLanguage } = useAppI18n();
   const { selectTheme } = useAppTheme();
   const { socialise } = useAppSocials();
@@ -450,16 +452,15 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               />
 
               {IS_DEV && !authStore.user.onboarding && (
-                <Link asChild href="/onboarding">
-                  <ServiceRow
-                    withBottomDivider
-                    label={t('settings.onboarding.label')}
-                    prefixIcon="handshake-outline"
-                    selected={isWide && pathname === '/onboarding'}
-                    style={tw`px-3 mx-3`}
-                    suffixIcon="chevron-right"
-                  />
-                </Link>
+                <ServiceRow
+                  withBottomDivider
+                  label={t('settings.onboarding.label')}
+                  prefixIcon="handshake-outline"
+                  selected={isWide && pathname === '/onboarding'}
+                  style={tw`px-3 mx-3`}
+                  suffixIcon="chevron-right"
+                  onPress={onboard}
+                />
               )}
             </>
           )}
