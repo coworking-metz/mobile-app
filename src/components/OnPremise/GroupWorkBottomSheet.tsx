@@ -1,24 +1,23 @@
-import React from 'react';
+import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import PeopleMeetingAnimation from '@/components/Animations/PeopleMeetingAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 
-const GroupWorkBottomSheet = ({
-  style,
-  onClose,
-}: {
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const GroupWorkBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
+  { style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch pt-6 px-6`}
-      style={style}
+      ref={forwardedRef}
+      style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
       <PeopleMeetingAnimation autoPlay loop={false} style={tw`w-full h-64 -my-8`} />
 
@@ -34,4 +33,4 @@ const GroupWorkBottomSheet = ({
   );
 };
 
-export default GroupWorkBottomSheet;
+export default forwardRef(GroupWorkBottomSheet);

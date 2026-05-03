@@ -1,22 +1,25 @@
-import ErrorAnimation from './Animations/ErrorAnimation';
-import InfoAnimation from './Animations/InfoAnimation';
-import SuccessAnimation from './Animations/SuccessAnimation';
-import WarningAnimation from './Animations/WarningAnimation';
-import AppBottomSheet, { AppBottomSheetRef } from './AppBottomSheet';
-import AppRoundedButton from './AppRoundedButton';
-import AppText from './AppText';
-import React, { useCallback, useRef } from 'react';
+import * as Haptics from 'expo-haptics';
+import React, { forwardRef, ForwardRefRenderFunction, useCallback } from 'react';
 import { View } from 'react-native';
 import tw from 'twrnc';
-import useNoticeStore, { type NoticeType } from '@/stores/notice';
+import ErrorAnimation from '@/components/Animations/ErrorAnimation';
+import InfoAnimation from '@/components/Animations/InfoAnimation';
+import SuccessAnimation from '@/components/Animations/SuccessAnimation';
+import WarningAnimation from '@/components/Animations/WarningAnimation';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
+import AppRoundedButton from '@/components/AppRoundedButton';
+import AppText from '@/components/AppText';
+import { Notice, type NoticeType } from '@/stores/notice';
 
-const NoticeBottomSheet = () => {
-  const noticeStore = useNoticeStore();
-  const mostRecentUndismissedNotice = useNoticeStore((state) =>
-    state.history.find((n) => !n.dismissed),
-  );
-  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
-
+const NoticeBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  AppBottomSheetProps & {
+    notice: Notice;
+  }
+> = ({ notice, style, onClose }, forwardedRef) => {
   const getAnimation = (type?: NoticeType) => {
     switch (type) {
       case 'error':
@@ -32,48 +35,54 @@ const NoticeBottomSheet = () => {
     }
   };
 
-  const onClose = useCallback(() => {
-    if (mostRecentUndismissedNotice?.id) {
-      mostRecentUndismissedNotice.onClose?.();
-      noticeStore.dismissAll();
+  const onPresent = useCallback(() => {
+    if (notice.type === 'error') {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    } else if (notice.type === 'success') {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } else if (notice.type === 'warning') {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
     }
-  }, [mostRecentUndismissedNotice, noticeStore]);
-
-  if (!mostRecentUndismissedNotice) return null;
+  }, [notice]);
 
   return (
-    <AppBottomSheet ref={bottomSheetRef} contentContainerStyle={tw`px-6 pt-6`} onClose={onClose}>
+    <AppBottomSheet
+      ref={forwardedRef}
+      initialDetentAnimated
+      detents={['auto']}
+      initialDetentIndex={0}
+      style={[tw`p-6`, style]}
+      onClose={onClose}
+      onDidPresent={onPresent}>
       <View style={tw`flex flex-col h-32 w-32 items-center justify-center mx-auto`}>
-        {getAnimation(mostRecentUndismissedNotice.type)}
+        {getAnimation(notice.type)}
       </View>
       <View style={tw`flex flex-col items-center grow self-stretch mt-4`}>
         <AppText
           style={tw`text-center text-2xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-          {mostRecentUndismissedNotice.message}
+          {notice.message}
         </AppText>
-        {mostRecentUndismissedNotice.description ? (
+        {notice.description ? (
           <AppText
             style={tw`mt-2 text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
-            {mostRecentUndismissedNotice.description}
+            {notice.description}
           </AppText>
         ) : null}
       </View>
 
-      {mostRecentUndismissedNotice.action ? (
+      {notice.action ? (
         <AppRoundedButton
           style={tw`mt-6 w-full max-w-sm self-center`}
-          suffixIcon={mostRecentUndismissedNotice.action.suffixIcon}
+          suffixIcon={notice.action.suffixIcon}
           onPress={() => {
-            mostRecentUndismissedNotice.action?.onPress?.();
-            bottomSheetRef.current?.close();
+            notice.action?.onPress?.();
+            onClose?.();
           }}>
-          <AppText style={tw`text-base font-medium text-black`}>
-            {mostRecentUndismissedNotice.action.label}
-          </AppText>
+          <AppText style={tw`text-base font-medium text-black`}>{notice.action.label}</AppText>
         </AppRoundedButton>
       ) : null}
     </AppBottomSheet>
   );
 };
 
-export default NoticeBottomSheet;
+export default forwardRef(NoticeBottomSheet);

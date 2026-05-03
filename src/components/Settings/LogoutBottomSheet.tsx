@@ -1,12 +1,22 @@
 import { makeRedirectUri } from 'expo-auth-session';
 import { Link } from 'expo-router';
 import { openAuthSessionAsync, WebBrowserRedirectResult } from 'expo-web-browser';
-import React, { useCallback, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, Platform, StyleProp, View, ViewStyle } from 'react-native';
+import { Linking, Platform, View } from 'react-native';
 import tw from 'twrnc';
 import ExitDoorAnimation from '@/components/Animations/ExitDoorAnimation';
-import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTextButton from '@/components/AppTextButton';
@@ -17,18 +27,17 @@ import useSettingsStore from '@/stores/settings';
 
 const logoutLogger = log.extend(`[logout]`);
 
-const LogoutBottomSheet = ({
-  style,
-  onClose,
-}: {
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const LogoutBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
+  { style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
   const settingsStore = useSettingsStore();
   const noticeStore = useNoticeStore();
   const [isLoading, setLoading] = useState<boolean>(false);
   const bottomSheetRef = useRef<AppBottomSheetRef>(null);
+
+  useImperativeHandle(forwardedRef, () => bottomSheetRef.current as AppBottomSheetRef);
 
   const onLogout = useCallback(() => {
     setLoading(true);
@@ -68,37 +77,37 @@ const LogoutBottomSheet = ({
   }, [t, bottomSheetRef, settingsStore, noticeStore]);
 
   return (
-    <AppBottomSheet ref={bottomSheetRef} style={style} onClose={onClose}>
-      <View style={tw`flex flex-col w-full px-6 pt-6`}>
-        <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-          <ExitDoorAnimation style={tw`h-56 w-full`} />
-        </View>
-        <AppText
-          style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
-          {t('auth.logout.title')}
-        </AppText>
-        <AppText
-          style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full mt-4`}>
-          {t('auth.logout.description')}
-        </AppText>
-        <AppRoundedButton
-          disabled={isLoading}
-          loading={isLoading}
-          style={tw`mt-6 w-full max-w-sm self-center`}
-          suffixIcon="open-in-new"
-          onPress={onLogout}>
-          <AppText style={tw`text-base text-black font-medium`}>{t('actions.logout')}</AppText>
-        </AppRoundedButton>
-        <Link asChild replace href={`/home?loggedOut=true`}>
-          <AppTextButton style={tw`mt-4`} onPress={bottomSheetRef.current?.close}>
-            <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
-              {t('auth.logout.forceLogout')}
-            </AppText>
-          </AppTextButton>
-        </Link>
+    <AppBottomSheet ref={bottomSheetRef} style={[tw`flex flex-col p-6`, style]} onClose={onClose}>
+      <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
+        <ExitDoorAnimation style={tw`h-56 w-full`} />
       </View>
+      <AppText
+        style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
+        {t('auth.logout.title')}
+      </AppText>
+      <AppText
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full mt-4`}>
+        {t('auth.logout.description')}
+      </AppText>
+      <AppRoundedButton
+        disabled={isLoading}
+        loading={isLoading}
+        style={tw`mt-6 w-full max-w-sm self-center`}
+        suffixIcon="open-in-new"
+        onPress={onLogout}>
+        <AppText style={tw`text-base text-black font-medium`}>{t('actions.logout')}</AppText>
+      </AppRoundedButton>
+      <Link asChild replace href={`/home?loggedOut=true`}>
+        <AppTextButton
+          style={tw`mt-4 mx-auto w-full max-w-sm`}
+          onPress={bottomSheetRef.current?.close}>
+          <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
+            {t('auth.logout.forceLogout')}
+          </AppText>
+        </AppTextButton>
+      </Link>
     </AppBottomSheet>
   );
 };
 
-export default LogoutBottomSheet;
+export default forwardRef(LogoutBottomSheet);

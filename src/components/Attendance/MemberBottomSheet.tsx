@@ -1,33 +1,29 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import tw from 'twrnc';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import ZoomableImage from '@/components/ZoomableImage';
 import { ApiMemberProfile } from '@/services/api/members';
 
-const MemberBottomSheet = ({
-  member,
-  since,
-  style,
-  onClose,
-}: {
-  member?: ApiMemberProfile;
-  since?: string;
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const MemberBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  AppBottomSheetProps & { member?: ApiMemberProfile | null; since?: string }
+> = ({ member, since, style, onClose }, forwardedRef) => {
   const { t } = useTranslation();
   const router = useRouter();
 
   return (
-    <AppBottomSheet contentContainerStyle={tw`pt-6`} style={style} onClose={onClose}>
+    <AppBottomSheet ref={forwardedRef} style={[tw`pt-6`, style]} onClose={onClose}>
       {member && (
         <>
           <View style={tw`flex flex-row gap-4 items-center h-32 mx-6`}>
@@ -110,4 +106,4 @@ const MemberBottomSheet = ({
   );
 };
 
-export default MemberBottomSheet;
+export default forwardRef(MemberBottomSheet);

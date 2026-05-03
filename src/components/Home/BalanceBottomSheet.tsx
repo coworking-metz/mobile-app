@@ -2,12 +2,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import { isNil } from 'lodash';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { forwardRef, ForwardRefRenderFunction, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import CouponsAnimation from '@/components/Animations/CouponsAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import ErrorChip from '@/components/ErrorChip';
@@ -25,15 +28,14 @@ import { WORDPRESS_BASE_URL } from '@/services/environment';
 import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 
-const BalanceBottomSheet = ({
-  loading = false,
-  style,
-  onClose,
-}: {
-  loading?: boolean;
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const BalanceBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  AppBottomSheetProps & {
+    loading?: boolean;
+    style?: StyleProp<ViewStyle>;
+    onClose?: () => void;
+  }
+> = ({ loading = false, style, onClose }, forwardedRef) => {
   const { t } = useTranslation();
   const authStore = useAuthStore();
   const isMounted = useRef(false);
@@ -84,7 +86,7 @@ const BalanceBottomSheet = ({
   }, [ticketsOrders, memberProfile?.balance]);
 
   return (
-    <AppBottomSheet contentContainerStyle={tw`px-6 pt-6`} style={style} onClose={onClose}>
+    <AppBottomSheet ref={forwardedRef} style={[tw`p-6`, style]} onClose={onClose}>
       <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
         <CouponsAnimation style={tw`h-56 w-full`} />
       </View>
@@ -190,4 +192,4 @@ const BalanceBottomSheet = ({
   );
 };
 
-export default BalanceBottomSheet;
+export default forwardRef(BalanceBottomSheet);

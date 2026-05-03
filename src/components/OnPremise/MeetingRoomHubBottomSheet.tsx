@@ -1,13 +1,16 @@
 import MeetingRoomAnimation from '../Animations/MeetingRoomAnimation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import React, { useCallback, useState } from 'react';
+import React, { forwardRef, ForwardRefRenderFunction, useCallback, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import Animated, { FadeIn, FadeOutDown } from 'react-native-reanimated';
 import { RandomReveal } from 'react-random-reveal';
 import tw from 'twrnc';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import { handleSilentError } from '@/helpers/error';
@@ -15,13 +18,10 @@ import { getHubKeyBoxCode } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 
-const MeetingRoomHubBottomSheet = ({
-  style,
-  onClose,
-}: {
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const MeetingRoomHubBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  AppBottomSheetProps
+> = ({ style, onClose }, forwardedRef) => {
   const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const noticeStore = useNoticeStore();
@@ -46,8 +46,8 @@ const MeetingRoomHubBottomSheet = ({
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch gap-4 px-6 pt-6`}
-      style={style}
+      ref={forwardedRef}
+      style={[tw`flex flex-col items-stretch gap-4 p-6`, style]}
       onClose={onClose}>
       <MeetingRoomAnimation autoPlay loop={false} style={tw`w-full h-[256px] -my-6`} />
       <AppText
@@ -106,4 +106,4 @@ const MeetingRoomHubBottomSheet = ({
   );
 };
 
-export default MeetingRoomHubBottomSheet;
+export default forwardRef(MeetingRoomHubBottomSheet);

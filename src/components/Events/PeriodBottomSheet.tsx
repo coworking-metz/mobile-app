@@ -1,10 +1,18 @@
-import { useBottomSheet } from '@gorhom/bottom-sheet';
 import dayjs from 'dayjs';
-import React, { useCallback } from 'react';
+import React, {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw from 'twrnc';
-import AppBottomSheet, { type AppBottomSheetProps } from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetRef,
+  type AppBottomSheetProps,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
@@ -21,14 +29,12 @@ type PeriodOptionsProps = {
 
 const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
   const { t } = useTranslation();
-  const { close } = useBottomSheet();
 
   const onPeriodPicked = useCallback(
     async (newSelected: PeriodType) => {
       onSelect?.(newSelected);
-      close();
     },
-    [onSelect, close],
+    [onSelect],
   );
 
   const getPeriodDescription = useCallback(
@@ -127,16 +133,24 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
   );
 };
 
-const PeriodBottomSheet = ({
-  selected,
-  events,
-  onSelect,
-  ...props
-}: Omit<AppBottomSheetProps & PeriodOptionsProps, 'children'>) => {
+const PeriodBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  Omit<AppBottomSheetProps & PeriodOptionsProps, 'children'>
+> = ({ selected, events, onSelect, ...props }, forwardedRef) => {
+  const bottomSheetRef = useRef<AppBottomSheetRef | null>(null);
+  useImperativeHandle(forwardedRef, () => bottomSheetRef.current as AppBottomSheetRef);
+
   return (
-    <AppBottomSheet {...props}>
-      <PeriodOptions events={events} selected={selected} onSelect={onSelect} />
+    <AppBottomSheet ref={bottomSheetRef} {...props}>
+      <PeriodOptions
+        events={events}
+        selected={selected}
+        onSelect={(newSelected) => {
+          bottomSheetRef.current?.close();
+          onSelect?.(newSelected);
+        }}
+      />
     </AppBottomSheet>
   );
 };
-export default PeriodBottomSheet;
+export default forwardRef(PeriodBottomSheet);

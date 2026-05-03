@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
 import { includes } from 'lodash';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import LanguageBottomSheet from '@/components/Settings/LanguageBottomSheet';
 import { SYSTEM_LANGUAGE } from '@/i18n';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
@@ -36,16 +37,17 @@ const useChosenLanguange = (language: string | null, setReady: (ready: boolean) 
 
 export const I18nProvider = ({ children }: { children: React.ReactNode }) => {
   const [ready, setReady] = useState<boolean>(false);
-  const [isSelecting, setSelecting] = useState<boolean>(false);
   const language = useSettingsStore((state) => state.language);
+  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   useChosenLanguange(language, setReady);
 
   return (
-    <I18nContext.Provider value={{ language, ready, selectLanguage: () => setSelecting(true) }}>
+    <I18nContext.Provider
+      value={{ language, ready, selectLanguage: () => bottomSheetRef.current?.open() }}>
       {children}
 
-      {isSelecting && <LanguageBottomSheet onClose={() => setSelecting(false)} />}
+      <LanguageBottomSheet ref={bottomSheetRef} />
     </I18nContext.Provider>
   );
 };

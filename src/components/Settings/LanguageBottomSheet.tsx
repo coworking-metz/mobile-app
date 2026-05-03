@@ -1,6 +1,12 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
-import React, { useCallback, useRef } from 'react';
+import React, {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
@@ -15,7 +21,10 @@ import ServiceRow from '@/components/Layout/ServiceRow';
 import { APP_LANGUAGES, getLanguageLabel, SYSTEM_LANGUAGE } from '@/i18n';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 
-const LanguageBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
+const LanguageBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  Omit<AppBottomSheetProps, 'children'>
+> = ({ style, ...props }, forwardedRef) => {
   const { t } = useTranslation();
   const supportedLanguages = [
     { label: t('settings.language.system.label'), code: SYSTEM_OPTION },
@@ -26,14 +35,13 @@ const LanguageBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
   const animation = useRef<LottieView>(null);
   const reduceMotion = useReducedMotion();
 
-  const onBottomSheetChange = useCallback(
-    (snapPointIndex: number) => {
-      if (snapPointIndex >= 0 && !reduceMotion) {
-        animation.current?.play();
-      }
-    },
-    [animation, reduceMotion],
-  );
+  useImperativeHandle(forwardedRef, () => bottomSheetRef.current as AppBottomSheetRef);
+
+  const onBottomSheetDidPresent = useCallback(() => {
+    if (!reduceMotion) {
+      animation.current?.play();
+    }
+  }, [animation, reduceMotion]);
 
   const onLanguagePicked = useCallback(
     (newLanguage: string) => {
@@ -46,8 +54,8 @@ const LanguageBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
   return (
     <AppBottomSheet
       ref={bottomSheetRef}
-      contentContainerStyle={tw`pt-6`}
-      onChange={onBottomSheetChange}
+      style={[tw`flex flex-col gap-0.5 py-6`, style]}
+      onDidPresent={onBottomSheetDidPresent}
       {...props}>
       <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
         <SwitchLanguageAnimation ref={animation} style={tw`h-60 w-full`} />
@@ -84,4 +92,4 @@ const LanguageBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
   );
 };
 
-export default LanguageBottomSheet;
+export default forwardRef(LanguageBottomSheet);

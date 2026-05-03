@@ -1,31 +1,29 @@
 import { isNil } from 'lodash';
-import React from 'react';
+import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import UpliftingDeskAnimation from '@/components/Animations/UpliftingDeskAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 
-const FlexDeskBottomSheet = ({
-  occupied,
-  loading = false,
-  style,
-  onClose,
-}: {
-  occupied?: boolean;
-  loading?: boolean;
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const FlexDeskBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  AppBottomSheetProps & {
+    occupied?: boolean;
+    loading?: boolean;
+  }
+> = ({ occupied, loading = false, style, onClose }, forwardedRef) => {
   const { t } = useTranslation();
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch pt-6 px-6`}
-      style={style}
+      ref={forwardedRef}
+      style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
       <UpliftingDeskAnimation autoPlay loop={false} style={tw`w-full h-[144px] mb-2`} />
       <AppText
@@ -56,4 +54,4 @@ const FlexDeskBottomSheet = ({
   );
 };
 
-export default FlexDeskBottomSheet;
+export default forwardRef(FlexDeskBottomSheet);

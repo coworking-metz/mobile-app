@@ -16,8 +16,9 @@ import StorageKeyBoxBottomSheet from './StorageKeyBoxBottomSheet';
 import TelevisionBottomSheet from './TelevisionBottomSheet';
 import UnlockDeckDoorBottomSheet from './UnlockDeckDoorBottomSheet';
 import WifiBottomSheet from './WifiBottomSheet';
+import { AppBottomSheetRef } from '../AppBottomSheet';
 import { useQuery } from '@tanstack/react-query';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useRef, useState } from 'react';
 import { getOnPremiseState, OnPremiseFlexDesk } from '@/services/api/services';
 import { onPremiseQueryKeys } from '@/services/query';
 
@@ -105,25 +106,43 @@ export const useOnPremise = () => {
 
 export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) => {
   const [isDeckDoorSelected, setDeckDoorSelected] = useState<boolean>(false);
+  const deckDoorBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isPhoneBoothSelected, setPhoneBoothSelected] = useState<boolean>(false);
+  const phoneBoothBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isPoulaillerKeyBoxSelected, setPoulaillerKeyBoxSelected] = useState<boolean>(false);
+  const poulaillerKeyBoxBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isStorageKeyBoxSelected, setStorageKeyBoxSelected] = useState<boolean>(false);
+  const storageKeyBoxBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isDeckKeyBoxSelected, setDeckKeyBoxSelected] = useState<boolean>(false);
+  const deckKeyBoxBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isCarbonDioxideSelected, setCarbonDioxideSelected] = useState<boolean>(false);
+  const carbonDioxideBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isPtiPoulaillerKeyBoxSelected, setPtiPoulaillerKeyBoxSelected] = useState<boolean>(false);
+  const ptiPoulaillerKeyBoxBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isPtiPoulaillerClimateSelected, setPtiPoulaillerClimateSelected] =
     useState<boolean>(false);
+  const ptiPoulaillerClimateBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [selectedFlexDesk, setSelectedFlexDesk] = useState<SelectedFlexDesk | null>(null);
+  const flexDeskBottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   const [isTelevisionSelected, setTelevisionSelected] = useState<boolean>(false);
+  const televisionBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isCoffeeMachineSelected, setCoffeeMachineSelected] = useState<boolean>(false);
+  const coffeeMachineBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isPrinterSelected, setPrinterSelected] = useState<boolean>(false);
+  const printerBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isFridgeSelected, setFridgeSelected] = useState<boolean>(false);
+  const fridgeBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isAirConditioningSelected, setAirConditioningSelected] = useState<boolean>(false);
+  const airConditioningBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isWifiSelected, setWifiSelected] = useState<boolean>(false);
+  const wifiBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isIntercomSelected, setIntercomSelected] = useState<boolean>(false);
+  const intercomBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isGroupWorkSelected, setGroupWorkSelected] = useState<boolean>(false);
+  const groupWorkBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isMeetingRoomHubSelected, setMeetingRoomHubSelected] = useState<boolean>(false);
+  const meetingRoomHubBottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   const { data: onPremiseState, isFetching: isFetchingOnPremiseState } = useQuery({
     queryKey: onPremiseQueryKeys.state(),
@@ -134,116 +153,99 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
     <OnPremiseContext.Provider
       value={{
         isDeckDoorSelected,
-        selectDeckDoor: () => setDeckDoorSelected(true),
+        selectDeckDoor: () => deckDoorBottomSheetRef.current?.open(),
         isPhoneBoothSelected,
-        selectPhoneBooth: () => setPhoneBoothSelected(true),
+        selectPhoneBooth: () => phoneBoothBottomSheetRef.current?.open(),
         isPoulaillerKeyBoxSelected,
-        selectPoulaillerKeyBox: () => setPoulaillerKeyBoxSelected(true),
+        selectPoulaillerKeyBox: () => poulaillerKeyBoxBottomSheetRef.current?.open(),
         isStorageKeyBoxSelected,
-        selectStorageKeyBox: () => setStorageKeyBoxSelected(true),
+        selectStorageKeyBox: () => storageKeyBoxBottomSheetRef.current?.open(),
         isDeckKeyBoxSelected,
-        selectDeckKeyBox: () => setDeckKeyBoxSelected(true),
+        selectDeckKeyBox: () => deckKeyBoxBottomSheetRef.current?.open(),
         isCarbonDioxideSelected,
-        selectCarbonDioxide: () => setCarbonDioxideSelected(true),
+        selectCarbonDioxide: () => carbonDioxideBottomSheetRef.current?.open(),
         isPtiPoulaillerKeyBoxSelected,
-        selectPtiPoulaillerKeyBox: () => setPtiPoulaillerKeyBoxSelected(true),
+        selectPtiPoulaillerKeyBox: () => ptiPoulaillerKeyBoxBottomSheetRef.current?.open(),
         isPtiPoulaillerClimateSelected,
-        selectPtiPoulaillerClimate: () => setPtiPoulaillerClimateSelected(true),
+        selectPtiPoulaillerClimate: () => ptiPoulaillerClimateBottomSheetRef.current?.open(),
         selectedFlexDesk,
-        selectFlexDesk: (desk?: SelectedFlexDesk) => setSelectedFlexDesk(desk || null),
+        selectFlexDesk: (desk?: SelectedFlexDesk) => {
+          setSelectedFlexDesk(desk || null);
+          flexDeskBottomSheetRef.current?.open();
+        },
         isTelevisionSelected,
-        selectTelevision: () => setTelevisionSelected(true),
+        selectTelevision: () => televisionBottomSheetRef.current?.open(),
         isCoffeeMachineSelected,
-        selectCoffeeMachine: () => setCoffeeMachineSelected(true),
+        selectCoffeeMachine: () => coffeeMachineBottomSheetRef.current?.open(),
         isPrinterSelected,
-        selectPrinter: () => setPrinterSelected(true),
+        selectPrinter: () => printerBottomSheetRef.current?.open(),
         isFridgeSelected,
-        selectFridge: () => setFridgeSelected(true),
+        selectFridge: () => fridgeBottomSheetRef.current?.open(),
         isAirConditioningSelected,
-        selectAirConditioning: () => setAirConditioningSelected(true),
+        selectAirConditioning: () => airConditioningBottomSheetRef.current?.open(),
         isWifiSelected,
-        selectWifi: () => setWifiSelected(true),
+        selectWifi: () => wifiBottomSheetRef.current?.open(),
         isIntercomSelected,
-        selectIntercom: () => setIntercomSelected(true),
+        selectIntercom: () => intercomBottomSheetRef.current?.open(),
         isGroupWorkSelected,
-        selectGroupWork: () => setGroupWorkSelected(true),
+        selectGroupWork: () => groupWorkBottomSheetRef.current?.open(),
         isMeetingRoomHubSelected,
-        selectMeetingRoomHub: () => setMeetingRoomHubSelected(true),
+        selectMeetingRoomHub: () => meetingRoomHubBottomSheetRef.current?.open(),
       }}>
       {children}
-      {isDeckDoorSelected && (
-        <UnlockDeckDoorBottomSheet onClose={() => setDeckDoorSelected(false)} />
-      )}
 
-      {isPhoneBoothSelected && (
-        <PhoneBoothBottomSheet
-          blueOccupied={onPremiseState?.phoneBooths.blue.occupied}
-          loading={isFetchingOnPremiseState}
-          orangeOccupied={onPremiseState?.phoneBooths.orange.occupied}
-          onClose={() => setPhoneBoothSelected(false)}
-        />
-      )}
+      <UnlockDeckDoorBottomSheet
+        ref={deckDoorBottomSheetRef}
+        unlocked={onPremiseState?.deckDoor?.unlocked}
+      />
 
-      {isPoulaillerKeyBoxSelected && (
-        <PoulaillerKeyBoxBottomSheet onClose={() => setPoulaillerKeyBoxSelected(false)} />
-      )}
+      <PhoneBoothBottomSheet
+        ref={phoneBoothBottomSheetRef}
+        blueOccupied={onPremiseState?.phoneBooths.blue.occupied}
+        loading={isFetchingOnPremiseState}
+        orangeOccupied={onPremiseState?.phoneBooths.orange.occupied}
+      />
 
-      {isStorageKeyBoxSelected && (
-        <StorageKeyBoxBottomSheet onClose={() => setStorageKeyBoxSelected(false)} />
-      )}
+      <PoulaillerKeyBoxBottomSheet ref={poulaillerKeyBoxBottomSheetRef} />
 
-      {isPtiPoulaillerKeyBoxSelected && (
-        <PtiPoulaillerKeyBoxBottomSheet onClose={() => setPtiPoulaillerKeyBoxSelected(false)} />
-      )}
+      <StorageKeyBoxBottomSheet ref={storageKeyBoxBottomSheetRef} />
 
-      {isDeckKeyBoxSelected && (
-        <DeckKeyBoxBottomSheet onClose={() => setDeckKeyBoxSelected(false)} />
-      )}
+      <PtiPoulaillerKeyBoxBottomSheet ref={ptiPoulaillerKeyBoxBottomSheetRef} />
 
-      {isCarbonDioxideSelected && (
-        <CarbonDioxideBottomSheet
-          humidityLevel={onPremiseState?.sensors?.humidity.level}
-          level={onPremiseState?.sensors?.carbonDioxide.level}
-          loading={isFetchingOnPremiseState}
-          noiseLevel={onPremiseState?.sensors?.noise.level}
-          temperatureLevel={onPremiseState?.sensors?.temperature.level}
-          onClose={() => setCarbonDioxideSelected(false)}
-        />
-      )}
+      <DeckKeyBoxBottomSheet ref={deckKeyBoxBottomSheetRef} />
 
-      {isPtiPoulaillerClimateSelected && (
-        <PtiPoulaillerClimateBottomSheet
-          humidityLevel={onPremiseState?.sensors?.humidity.ptiPoulaillerLevel}
-          loading={isFetchingOnPremiseState}
-          temperatureLevel={onPremiseState?.sensors?.temperature.ptiPoulaillerLevel}
-          onClose={() => setPtiPoulaillerClimateSelected(false)}
-        />
-      )}
+      <CarbonDioxideBottomSheet
+        ref={carbonDioxideBottomSheetRef}
+        humidityLevel={onPremiseState?.sensors?.humidity.level}
+        level={onPremiseState?.sensors?.carbonDioxide.level}
+        loading={isFetchingOnPremiseState}
+        noiseLevel={onPremiseState?.sensors?.noise.level}
+        temperatureLevel={onPremiseState?.sensors?.temperature.level}
+      />
 
-      {!!selectedFlexDesk && (
-        <FlexDeskBottomSheet
-          occupied={selectedFlexDesk?.occupied}
-          onClose={() => setSelectedFlexDesk(null)}
-        />
-      )}
+      <PtiPoulaillerClimateBottomSheet
+        ref={ptiPoulaillerClimateBottomSheetRef}
+        humidityLevel={onPremiseState?.sensors?.humidity.ptiPoulaillerLevel}
+        loading={isFetchingOnPremiseState}
+        temperatureLevel={onPremiseState?.sensors?.temperature.ptiPoulaillerLevel}
+      />
 
-      {isTelevisionSelected && (
-        <TelevisionBottomSheet onClose={() => setTelevisionSelected(false)} />
-      )}
-      {isCoffeeMachineSelected && (
-        <CoffeeMachineBottomSheet onClose={() => setCoffeeMachineSelected(false)} />
-      )}
-      {isPrinterSelected && <PrinterBottomSheet onClose={() => setPrinterSelected(false)} />}
-      {isFridgeSelected && <FridgeBottomSheet onClose={() => setFridgeSelected(false)} />}
-      {isAirConditioningSelected && (
-        <AirConditioningBottomSheet onClose={() => setAirConditioningSelected(false)} />
-      )}
-      {isWifiSelected && <WifiBottomSheet onClose={() => setWifiSelected(false)} />}
-      {isIntercomSelected && <IntercomBottomSheet onClose={() => setIntercomSelected(false)} />}
-      {isGroupWorkSelected && <GroupWorkBottomSheet onClose={() => setGroupWorkSelected(false)} />}
-      {isMeetingRoomHubSelected && (
-        <MeetingRoomHubBottomSheet onClose={() => setMeetingRoomHubSelected(false)} />
-      )}
+      <FlexDeskBottomSheet
+        ref={flexDeskBottomSheetRef}
+        occupied={selectedFlexDesk?.occupied}
+        onClose={() => setSelectedFlexDesk(null)}
+      />
+
+      <TelevisionBottomSheet ref={televisionBottomSheetRef} />
+      <CoffeeMachineBottomSheet ref={coffeeMachineBottomSheetRef} />
+      <PrinterBottomSheet ref={printerBottomSheetRef} />
+      <FridgeBottomSheet ref={fridgeBottomSheetRef} />
+
+      <AirConditioningBottomSheet ref={airConditioningBottomSheetRef} />
+      <WifiBottomSheet ref={wifiBottomSheetRef} />
+      <IntercomBottomSheet ref={intercomBottomSheetRef} />
+      <GroupWorkBottomSheet ref={groupWorkBottomSheetRef} />
+      <MeetingRoomHubBottomSheet ref={meetingRoomHubBottomSheetRef} />
     </OnPremiseContext.Provider>
   );
 };

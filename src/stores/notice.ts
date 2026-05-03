@@ -1,4 +1,3 @@
-import * as Haptics from 'expo-haptics';
 import uuid from 'react-native-uuid';
 import { create } from 'zustand';
 import { AppRoundedButtonProps } from '@/components/AppRoundedButton';
@@ -59,7 +58,6 @@ const useNoticeStore = create<NoticeState>((set, get) => ({
       type: 'error',
       ...options,
     });
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     return Promise.reject(error);
   },
   remove: (id: string | number[]): void => {

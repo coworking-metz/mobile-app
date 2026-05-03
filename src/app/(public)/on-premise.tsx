@@ -136,7 +136,7 @@ const OnPremise = () => {
 
           <AppIconButton
             active={areInformationsVisible}
-            icon="shape-outline"
+            icon="dots-horizontal"
             style={tw`h-10 w-10`}
             onPress={() => {
               setLightsVisible(false);

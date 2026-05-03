@@ -1,18 +1,20 @@
+import { FlashList } from '@shopify/flash-list';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useIsFocused } from 'expo-router';
 import { isNil } from 'lodash';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { forwardRef, ForwardRefRenderFunction, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle, useColorScheme, type LayoutChangeEvent } from 'react-native';
+import { StyleProp, useColorScheme, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import { BarChart, type stackDataItem } from 'react-native-gifted-charts';
-import ReadMore from 'react-native-read-more-text';
-import { useSharedValue } from 'react-native-reanimated';
-import Carousel from 'react-native-reanimated-carousel';
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import tw from 'twrnc';
 import CallingWithLaptopAnimation from '@/components/Animations/CallingWithLaptopAnimation';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
 import ErrorBadge from '@/components/ErrorBadge';
@@ -32,23 +34,29 @@ const WEEK_DAYS_INDEXES = [...Array(7).keys()].map((index) => (index + 1) % 7);
 const FIRST_HOUR_WITH_OCCUPATION = 6;
 const LAST_HOUR_WITH_OCCUPATION = 20;
 
-const PhoneBoothBottomSheet = ({
-  blueOccupied = null,
-  orangeOccupied = null,
-  loading,
-  style,
-  onClose,
-}: {
-  blueOccupied?: boolean | null;
-  orangeOccupied?: boolean | null;
-  loading?: boolean;
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+type HourlyOccupation = {
+  date: string;
+  values: number[];
+};
+
+type DailyOccupation = {
+  date: string;
+  byHour: HourlyOccupation[];
+};
+
+const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<DailyOccupation>);
+
+const PhoneBoothBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  AppBottomSheetProps & {
+    blueOccupied?: boolean | null;
+    orangeOccupied?: boolean | null;
+    loading?: boolean;
+  }
+> = ({ blueOccupied = null, orangeOccupied = null, loading, style, onClose }, forwardedRef) => {
   const { t } = useTranslation();
   const [carouselWidth, setCarouselWidth] = useState<number>(0);
   const offset = useSharedValue(0);
-  const colorScheme = useColorScheme();
   const activeSince = useAppState();
   const isFocus = useIsFocused();
 
@@ -73,31 +81,47 @@ const PhoneBoothBottomSheet = ({
     queryFn: () => getPhoneBoothsOccupation(),
   });
 
-  const getOccupationFromDayIndex = useCallback(
-    (dayIndex: number) => {
-      const todayBlueOccupation = occupationPerBooth?.blue.occupation.find(
+  const dailyOccupations = useMemo(() => {
+    return WEEK_DAYS_INDEXES.map((dayIndex) => {
+      const blueOccupation = occupationPerBooth?.blue.occupation.find(
         (item) => item.weekDayIndex === dayIndex,
       );
-      const todayOrangeOccupation = occupationPerBooth?.orange.occupation.find(
+      const orangeOccupation = occupationPerBooth?.orange.occupation.find(
         (item) => item.weekDayIndex === dayIndex,
       );
 
-      // from 7AM to 11PM
-      return Array.from(
-        { length: LAST_HOUR_WITH_OCCUPATION - FIRST_HOUR_WITH_OCCUPATION + 1 },
-        (_, index) => ({
-          date: dayjs()
-            .utc()
-            .set('hour', FIRST_HOUR_WITH_OCCUPATION + index)
-            .toISOString(),
-          values: [
-            todayBlueOccupation?.averageMinutesByUTCHour[FIRST_HOUR_WITH_OCCUPATION + index] || 0,
-            todayOrangeOccupation?.averageMinutesByUTCHour[FIRST_HOUR_WITH_OCCUPATION + index] || 0,
-          ],
-        }),
-      );
+      return {
+        date: dayjs().day(dayIndex).toISOString(),
+        byHour: Array.from(
+          // from 7AM to 11PM
+          { length: LAST_HOUR_WITH_OCCUPATION - FIRST_HOUR_WITH_OCCUPATION + 1 },
+          (_, index) => ({
+            date: dayjs()
+              .utc()
+              .set('hour', FIRST_HOUR_WITH_OCCUPATION + index)
+              .toISOString(),
+            values: [
+              blueOccupation?.averageMinutesByUTCHour[FIRST_HOUR_WITH_OCCUPATION + index] || 0,
+              orangeOccupation?.averageMinutesByUTCHour[FIRST_HOUR_WITH_OCCUPATION + index] || 0,
+            ],
+          }),
+        ),
+      };
+    });
+  }, [occupationPerBooth]);
+
+  const onHorizontalScroll = useAnimatedScrollHandler(
+    {
+      onScroll: ({ contentOffset }) => {
+        if (carouselWidth) {
+          // Normalize to page index so pagination dots interpolate between items.
+          offset.value = contentOffset.x / carouselWidth;
+        } else {
+          offset.value = 0;
+        }
+      },
     },
-    [occupationPerBooth],
+    [carouselWidth],
   );
 
   const barWidth = useMemo(
@@ -107,8 +131,8 @@ const PhoneBoothBottomSheet = ({
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch gap-4 pt-4`}
-      style={style}
+      ref={forwardedRef}
+      style={[tw`flex flex-col gap-4 py-6`, style]}
       onClose={onClose}>
       <View style={tw`flex flex-col items-start gap-4 px-4`}>
         <CallingWithLaptopAnimation
@@ -120,26 +144,9 @@ const PhoneBoothBottomSheet = ({
           style={tw`text-center self-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.phoneBooths.label')}
         </AppText>
-        <ReadMore
-          numberOfLines={2}
-          renderRevealedFooter={(handlePress) => (
-            <AppText
-              style={tw`text-base font-normal text-amber-500 text-left`}
-              onPress={handlePress}>
-              {t('actions.hide')}
-            </AppText>
-          )}
-          renderTruncatedFooter={(handlePress) => (
-            <AppText
-              style={tw`text-base font-normal text-amber-500 text-left`}
-              onPress={handlePress}>
-              {t('actions.readMore')}
-            </AppText>
-          )}>
-          <AppText style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
-            {t('onPremise.phoneBooths.description')}
-          </AppText>
-        </ReadMore>
+        <AppText style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
+          {t('onPremise.phoneBooths.description')}
+        </AppText>
 
         <View style={tw`flex flex-col w-full mt-2`}>
           <SectionTitle
@@ -209,7 +216,7 @@ const PhoneBoothBottomSheet = ({
       </SectionTitle>
 
       <View
-        style={tw`flex flex-col self-start w-full h-48 pb-8`}
+        style={tw`flex flex-col self-start w-full`}
         onLayout={({ nativeEvent }: LayoutChangeEvent) =>
           setCarouselWidth(nativeEvent.layout.width)
         }>
@@ -221,105 +228,124 @@ const PhoneBoothBottomSheet = ({
             />
           </View>
         ) : carouselWidth ? (
-          <Carousel
-            snapEnabled
-            data={WEEK_DAYS_INDEXES}
-            defaultIndex={WEEK_DAYS_INDEXES.findIndex((index) => index === dayjs().day())}
-            loop={false}
-            renderItem={({ item: day }) => (
-              <View style={[tw`flex flex-col`, { width: carouselWidth }]}>
-                <BarChart
-                  disableScroll
-                  focusBarOnPress
-                  barWidth={barWidth}
-                  dashWidth={0}
-                  focusedBarConfig={{
-                    color: theme.meatBrown,
-                  }}
-                  formatYLabel={(value) => (Number(value) > 0 ? value : `${value}%`)}
-                  height={92}
-                  initialSpacing={6}
-                  maxValue={100}
-                  noOfSections={1}
-                  overflowTop={12}
-                  renderTooltip={({
-                    stacks: [{ value: blue }, { value: orange }],
-                  }: {
-                    stacks: { value: number }[];
-                  }) => (
-                    <View
-                      style={tw`flex flex-row justify-center bg-gray-300 dark:bg-zinc-700 py-1 rounded w-10 overflow-hidden mb-1 -ml-2 z-20`}>
-                      <AppText
-                        numberOfLines={1}
-                        style={tw`text-xs text-center text-slate-900 dark:text-gray-200 font-medium`}>
-                        {Number(blue + orange).toFixed(0)}%
-                      </AppText>
-                    </View>
-                  )}
-                  spacing={6}
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore
-                  stackData={getOccupationFromDayIndex(day).reduce((acc, item, itemIndex) => {
-                    return [
-                      ...acc,
-                      {
-                        stacks: [
-                          {
-                            value: (item.values[0] / 60) * 50,
-                            color:
-                              colorScheme === 'dark'
-                                ? tw.color('blue-500')?.toString()
-                                : tw.color('blue-400')?.toString(),
-                          },
-                          {
-                            value: (item.values[1] / 60) * 50,
-                            color:
-                              colorScheme === 'dark'
-                                ? tw.color('orange-500')?.toString()
-                                : tw.color('orange-400')?.toString(),
-                          },
-                        ],
-                        spacing: 2,
-                        borderTopLeftRadius: 4,
-                        borderTopRightRadius: 4,
-                        ...(itemIndex % 3 === 0 && {
-                          label: dayjs(item.date).local().format('HH[h]'),
-                        }),
-                        labelTextStyle: [
-                          tw`text-slate-500 dark:text-neutral-500 text-left`,
-                          { width: BAR_WIDTH },
-                        ],
-                      } as stackDataItem,
-                    ];
-                  }, [])}
-                  width={carouselWidth - 6}
-                  xAxisColor={
-                    tw.prefixMatch('dark') ? tw.color('neutral-700') : tw.color('slate-400')
-                  }
-                  yAxisColor={'transparent'}
-                  yAxisExtraHeight={12}
-                  yAxisLabelWidth={0}
-                />
-                <AppText
-                  style={tw`text-center self-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-2`}>
-                  {dayjs().set('day', day).format('dddd')}
-                </AppText>
-              </View>
+          <AnimatedFlashList
+            horizontal
+            data={dailyOccupations}
+            decelerationRate="fast"
+            initialScrollIndex={WEEK_DAYS_INDEXES.findIndex((index) => index === dayjs().day())}
+            keyExtractor={(occupation) => occupation.date}
+            renderItem={({ item: occupation }) => (
+              <DailyOccupationBarChart
+                barWidth={barWidth}
+                occupation={occupation}
+                width={carouselWidth}
+              />
             )}
-            style={[tw`flex flex-row w-full h-full overflow-visible`]}
-            width={carouselWidth}
-            windowSize={3}
-            onProgressChange={(_progress, relativeProgress) => {
-              offset.value = relativeProgress;
-            }}
+            showsHorizontalScrollIndicator={false}
+            snapToAlignment="start"
+            snapToOffsets={Array.from({ length: dailyOccupations.length }).map(
+              (_, i) => carouselWidth * (i + 1),
+            )}
+            onScroll={onHorizontalScroll}
           />
-        ) : (
-          <></>
-        )}
+        ) : null}
+        <CarouselPaginationDots count={7} offset={offset} style={tw`self-center mt-4`} />
       </View>
-      <CarouselPaginationDots count={7} offset={offset} style={tw`self-center -mt-8`} />
     </AppBottomSheet>
   );
 };
 
-export default PhoneBoothBottomSheet;
+const DailyOccupationBarChart = ({
+  width,
+  barWidth,
+  occupation,
+  style,
+}: {
+  width: number;
+  barWidth: number;
+  occupation: DailyOccupation;
+  style?: StyleProp<ViewStyle>;
+}) => {
+  const colorScheme = useColorScheme();
+
+  return (
+    <View style={[tw`flex flex-col`, { width }, style]}>
+      <BarChart
+        disableScroll
+        focusBarOnPress
+        barWidth={barWidth}
+        dashWidth={0}
+        focusedBarConfig={{
+          color: theme.meatBrown,
+        }}
+        formatYLabel={(value) => (Number(value) > 0 ? value : `${value}%`)}
+        height={92}
+        initialSpacing={6}
+        maxValue={100}
+        noOfSections={1}
+        overflowTop={12}
+        renderTooltip={({
+          stacks: [{ value: blue }, { value: orange }],
+        }: {
+          stacks: { value: number }[];
+        }) => (
+          <View
+            style={tw`flex flex-row justify-center bg-gray-300 dark:bg-zinc-700 py-1 rounded w-10 overflow-hidden mb-1 -ml-2 z-20`}>
+            <AppText
+              numberOfLines={1}
+              style={tw`text-xs text-center text-slate-900 dark:text-gray-200 font-medium`}>
+              {Number(blue + orange).toFixed(0)}%
+            </AppText>
+          </View>
+        )}
+        spacing={6}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        stackData={occupation.byHour.reduce((acc, item, itemIndex) => {
+          return [
+            ...acc,
+            {
+              stacks: [
+                {
+                  value: (item.values[0] / 60) * 50,
+                  color:
+                    colorScheme === 'dark'
+                      ? tw.color('blue-500')?.toString()
+                      : tw.color('blue-400')?.toString(),
+                },
+                {
+                  value: (item.values[1] / 60) * 50,
+                  color:
+                    colorScheme === 'dark'
+                      ? tw.color('orange-500')?.toString()
+                      : tw.color('orange-400')?.toString(),
+                },
+              ],
+              spacing: 2,
+              borderTopLeftRadius: 4,
+              borderTopRightRadius: 4,
+              ...(itemIndex % 3 === 0 && {
+                label: dayjs(item.date).local().format('HH[h]'),
+              }),
+              labelTextStyle: [
+                tw`text-slate-500 dark:text-neutral-500 text-left`,
+                { width: BAR_WIDTH },
+              ],
+            } as stackDataItem,
+          ];
+        }, [])}
+        width={width - 6}
+        xAxisColor={tw.prefixMatch('dark') ? tw.color('neutral-700') : tw.color('slate-400')}
+        yAxisColor={'transparent'}
+        yAxisExtraHeight={12}
+        yAxisLabelWidth={0}
+      />
+      <AppText
+        style={tw`text-center self-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-2`}>
+        {dayjs(occupation.date).format('dddd')}
+      </AppText>
+    </View>
+  );
+};
+
+export default forwardRef(PhoneBoothBottomSheet);

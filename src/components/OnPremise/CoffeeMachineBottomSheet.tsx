@@ -1,26 +1,25 @@
-import React from 'react';
+import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { StyleProp, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import CoffeeMachineAnimation from '@/components/Animations/CoffeeMachineAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import AppTextLink from '@/components/AppTextLink';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
 
-const CoffeeMachineBottomSheet = ({
-  style,
-  onClose,
-}: {
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const CoffeeMachineBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
+  { style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch px-6`}
-      style={style}
+      ref={forwardedRef}
+      style={[tw`flex flex-col items-stretch px-6`, style]}
       onClose={onClose}>
       <CoffeeMachineAnimation autoPlay loop={false} style={tw`w-full h-[192px] mb-2`} />
       <AppText
@@ -51,4 +50,4 @@ const CoffeeMachineBottomSheet = ({
   );
 };
 
-export default CoffeeMachineBottomSheet;
+export default forwardRef(CoffeeMachineBottomSheet);

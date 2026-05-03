@@ -17,6 +17,7 @@ import ActionableCarbonDioxide from '@/components/OnPremise/ActionableCarbonDiox
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
 import { isSilentError } from '@/helpers/error';
+import { useAppPaddingBottom } from '@/helpers/screen';
 import { getOnPremiseState } from '@/services/api/services';
 import { onPremiseQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
@@ -33,6 +34,7 @@ const PoulaillerPlan = ({
   useDeviceContext(tw);
   const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
+  const paddingBottom = useAppPaddingBottom();
   const [imageWidth, setImageWidth] = useState<number | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
   const [hasFloorplanLoaded, setFloorplanLoaded] = useState<boolean>(false);
@@ -54,7 +56,6 @@ const PoulaillerPlan = ({
     isWifiSelected,
     isTelevisionSelected,
     isCarbonDioxideSelected,
-    isDeckDoorSelected,
     isDeckKeyBoxSelected,
     isPoulaillerKeyBoxSelected,
     isStorageKeyBoxSelected,
@@ -89,7 +90,7 @@ const PoulaillerPlan = ({
   }, [backgroundImage]);
 
   return (
-    <View style={[tw`flex flex-col grow items-start`, style]}>
+    <View style={[tw`flex flex-col grow items-start`, { paddingBottom }, style]}>
       <View style={tw`flex flex-row gap-3 items-end w-full mx-6 mb-4`}>
         <AppText style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.location.poulailler')}
@@ -282,7 +283,6 @@ const PoulaillerPlan = ({
               key="deck-door"
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
-              selected={isDeckDoorSelected}
               style={tw`top-[50%] left-[82%]`}
               onPress={selectDeckDoor}
             />

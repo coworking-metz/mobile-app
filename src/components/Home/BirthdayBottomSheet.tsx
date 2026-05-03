@@ -1,29 +1,27 @@
 import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
-import React, { useCallback, useState } from 'react';
+import React, { forwardRef, ForwardRefRenderFunction, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import { Confetti } from 'react-native-fast-confetti';
 import tw from 'twrnc';
 import BirthdayCakeAnimation from '@/components/Animations/BirthdayCakeAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import { parseErrorText } from '@/helpers/error';
-import { useAppPaddingBottom } from '@/helpers/screen';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
 
-const BirthdayBottomSheet = ({
-  style,
-  onClose,
-}: {
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const BirthdayBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
+  { style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
-  const paddingBottom = useAppPaddingBottom();
   const settingsStore = useSettingsStore();
   const noticeStore = useNoticeStore();
   const [isClaiming, setClaiming] = useState(false);
@@ -57,12 +55,12 @@ const BirthdayBottomSheet = ({
   }, [noticeStore, t]);
 
   return (
-    <AppBottomSheet contentContainerStyle={tw`pb-0`} style={style} onClose={onClose}>
+    <AppBottomSheet ref={forwardedRef} style={style} onClose={onClose}>
       <Confetti autoplay isInfinite={false} onAnimationStart={onConfettiStart} />
       <View style={tw`mt-6 flex items-center justify-center h-40 overflow-visible`}>
         <BirthdayCakeAnimation style={tw`h-72 -mb-6 w-full`} />
       </View>
-      <View style={[tw`flex flex-col px-6`, { paddingBottom }]}>
+      <View style={[tw`flex flex-col px-6`]}>
         <AppText
           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
           {t('home.profile.birthday.title')}
@@ -86,4 +84,4 @@ const BirthdayBottomSheet = ({
   );
 };
 
-export default BirthdayBottomSheet;
+export default forwardRef(BirthdayBottomSheet);

@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useRef } from 'react';
+import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import PermissionsBottomSheet from '@/components/Settings/PermissionsBottomSheet';
 
 const PermissionsContext = createContext<() => void>(() => {});
@@ -8,18 +9,15 @@ export const useAppPermissions = () => {
 };
 
 export const PermissionsProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isPermissionsBottomSheetVisible, setPermissionsBottomSheetVisible] =
-    useState<boolean>(false);
+  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   return (
     <PermissionsContext.Provider
       value={() => {
-        setPermissionsBottomSheetVisible(true);
+        bottomSheetRef.current?.open();
       }}>
       {children}
-      {isPermissionsBottomSheetVisible ? (
-        <PermissionsBottomSheet onClose={() => setPermissionsBottomSheetVisible(false)} />
-      ) : null}
+      <PermissionsBottomSheet ref={bottomSheetRef} />
     </PermissionsContext.Provider>
   );
 };

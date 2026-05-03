@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useRef } from 'react';
+import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import PairDeviceBottomSheet from '@/components/Devices/PairDeviceBottomSheet';
 
 const NewDeviceContext = createContext<{
@@ -12,17 +13,15 @@ export const useAppNewDevice = () => {
 };
 
 export const NewDeviceProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isPairDeviceVisible, setPairDeviceVisible] = useState<boolean>(false);
+  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   return (
     <NewDeviceContext.Provider
       value={{
-        pairDevice: () => setPairDeviceVisible(true),
+        pairDevice: () => bottomSheetRef.current?.open(),
       }}>
       {children}
-      {isPairDeviceVisible ? (
-        <PairDeviceBottomSheet onClose={() => setPairDeviceVisible(false)} />
-      ) : null}
+      <PairDeviceBottomSheet ref={bottomSheetRef} />
     </NewDeviceContext.Provider>
   );
 };

@@ -1,22 +1,25 @@
-import React from 'react';
+import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw from 'twrnc';
-import AppBottomSheet, { type AppBottomSheetProps } from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetRef,
+  type AppBottomSheetProps,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import AppWheelPicker from '@/components/AppWheelPicker';
 import useSettingsStore from '@/stores/settings';
 
-const UpcomingEventsPeriodBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
+const UpcomingEventsPeriodBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  Omit<AppBottomSheetProps, 'children'>
+> = ({ style, ...props }, forwardedRef) => {
   const { t } = useTranslation();
   const upcomingEventsPeriod = useSettingsStore((state) => state.upcomingEventsPeriod);
 
   return (
-    <AppBottomSheet
-      contentContainerStyle={tw`pb-0 px-6`}
-      enableContentPanningGesture={false}
-      {...props}>
-      <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mt-6`}>
+    <AppBottomSheet ref={forwardedRef} {...props} style={[tw`pt-6 px-6`, style]}>
+      <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium`}>
         {t('settings.home.upcomingEventsPeriod.label')}
       </AppText>
       <AppText
@@ -26,7 +29,10 @@ const UpcomingEventsPeriodBottomSheet = (props: Omit<AppBottomSheetProps, 'child
       <View style={tw`flex flex-row items-start justify-center gap-2`}>
         <AppWheelPicker
           enableScrollByTapOnItem
-          data={[...Array(10).keys()].map((index) => ({ label: `${index + 1}`, value: index + 1 }))}
+          data={[...Array(10).keys()].map((index) => ({
+            label: `${index + 1}`,
+            value: index + 1,
+          }))}
           itemTextStyle={tw`text-right pr-2 font-medium text-slate-900 dark:text-gray-200`}
           style={tw`grow shrink basis-0 max-w-40`}
           value={upcomingEventsPeriod.count}
@@ -77,4 +83,4 @@ const UpcomingEventsPeriodBottomSheet = (props: Omit<AppBottomSheetProps, 'child
   );
 };
 
-export default UpcomingEventsPeriodBottomSheet;
+export default forwardRef(UpcomingEventsPeriodBottomSheet);

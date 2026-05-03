@@ -3,9 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useIsFocused } from 'expo-router';
 import { isNil, sample } from 'lodash';
-import React, { useEffect, useMemo } from 'react';
+import React, { forwardRef, ForwardRefRenderFunction, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
+import { useColorScheme, View } from 'react-native';
 import Animated, {
   Easing,
   FadeInUp,
@@ -15,7 +15,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import tw from 'twrnc';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
@@ -27,23 +30,19 @@ import { onPremiseQueryKeys } from '@/services/query';
 
 const ANIMATION_DURATION = 1_000;
 
-const CarbonDioxideBottomSheet = ({
-  loading = false,
-  level,
-  temperatureLevel,
-  humidityLevel,
-  noiseLevel,
-  style,
-  onClose,
-}: {
-  loading?: boolean;
-  level?: number;
-  temperatureLevel?: number;
-  humidityLevel?: number;
-  noiseLevel?: number;
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const CarbonDioxideBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  AppBottomSheetProps & {
+    loading?: boolean;
+    level?: number;
+    temperatureLevel?: number;
+    humidityLevel?: number;
+    noiseLevel?: number;
+  }
+> = (
+  { loading = false, level, temperatureLevel, humidityLevel, noiseLevel, style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
   const animatedLevel = useSharedValue<number>(0);
   const colorScheme = useColorScheme();
@@ -139,8 +138,8 @@ const CarbonDioxideBottomSheet = ({
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch gap-5 pt-6 px-6`}
-      style={style}
+      ref={forwardedRef}
+      style={[tw`flex flex-col items-stretch gap-5 p-6`, style]}
       onClose={onClose}>
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
@@ -259,4 +258,4 @@ const CarbonDioxideBottomSheet = ({
   );
 };
 
-export default CarbonDioxideBottomSheet;
+export default forwardRef(CarbonDioxideBottomSheet);

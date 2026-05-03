@@ -1,33 +1,44 @@
 import { Link } from 'expo-router';
-import React, { useCallback, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, Platform, StyleProp, View, ViewStyle } from 'react-native';
+import { Linking, Platform, View } from 'react-native';
 import tw from 'twrnc';
 import ChatBubblesAnimation from '@/components/Animations/ChatBubblesAnimation';
-import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTextButton from '@/components/AppTextButton';
 import { SUPPORT_EMAIL, WORDPRESS_BASE_URL } from '@/services/environment';
 import useNoticeStore from '@/stores/notice';
 
-const ContactBottomSheet = ({
-  style,
-  onClose,
-}: {
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const ContactBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
+  { style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
   const [isContactingTeam, setContactingTeam] = useState(false);
   const noticeStore = useNoticeStore();
   const bottomSheetRef = useRef<AppBottomSheetRef>(null);
 
+  useImperativeHandle(forwardedRef, () => bottomSheetRef.current as AppBottomSheetRef);
+
   const onContactTeamByEmail = useCallback(() => {
     setContactingTeam(true);
     Linking.openURL(`mailto:${SUPPORT_EMAIL}`)
       .catch((error) =>
-        noticeStore.addError(error, { message: t('settings.contact.mail.onOpen.fail') }),
+        noticeStore.addError(error, {
+          message: t('settings.contact.mail.onOpen.fail'),
+        }),
       )
       .finally(() => setContactingTeam(false));
   }, []);
@@ -35,8 +46,7 @@ const ContactBottomSheet = ({
   return (
     <AppBottomSheet
       ref={bottomSheetRef}
-      contentContainerStyle={tw`flex flex-col w-full pt-6 px-6`}
-      style={style}
+      style={[tw`flex flex-col w-full p-6`, style]}
       onClose={onClose}>
       <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
         <ChatBubblesAnimation style={tw`h-56 w-full`} />
@@ -76,4 +86,4 @@ const ContactBottomSheet = ({
   );
 };
 
-export default ContactBottomSheet;
+export default forwardRef(ContactBottomSheet);

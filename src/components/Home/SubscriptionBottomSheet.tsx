@@ -3,13 +3,23 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import { isNil } from 'lodash';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import tw from 'twrnc';
 import CalendarAnimation from '@/components/Animations/CalendarAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
@@ -28,18 +38,16 @@ import useAuthStore from '@/stores/auth';
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<ApiMemberSubscription>);
 
-const SubscriptionBottomSheet = ({
-  currentSubscription,
-  style,
-  onClose,
-}: {
-  currentSubscription?: ApiMemberSubscription; // the one that should be displayed first
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const SubscriptionBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  AppBottomSheetProps & {
+    currentSubscription?: ApiMemberSubscription; // the one that should be displayed first
+    style?: StyleProp<ViewStyle>;
+    onClose?: () => void;
+  }
+> = ({ currentSubscription, style, onClose }, forwardedRef) => {
   const { t } = useTranslation();
   const authStore = useAuthStore();
-  const isMounted = useRef(false);
   const activeSince = useAppState();
   const [carouselWidth, setCarouselWidth] = useState<number>(0);
   const offset = useSharedValue(0);
@@ -59,18 +67,14 @@ const SubscriptionBottomSheet = ({
       throw new Error(t('account.profile.onFetch.missing'));
     },
     enabled: !isNil(authStore.user?.id),
-    select: (data) => data.sort((a, b) => dayjs(a.started).diff(b.started)),
+    select: (data) => [...data].sort((a, b) => dayjs(a.started).diff(b.started)),
   });
 
   useEffect(() => {
-    if (areSubscriptionsEnabled && isMounted.current) {
+    if (areSubscriptionsEnabled) {
       refetchSubscriptions();
     }
   }, [areSubscriptionsEnabled, activeSince]);
-
-  useEffect(() => {
-    isMounted.current = true;
-  }, []);
 
   const onHorizontalScroll = useAnimatedScrollHandler(
     {
@@ -87,7 +91,7 @@ const SubscriptionBottomSheet = ({
   );
 
   const defaultIndex = useMemo(() => {
-    if (!subscriptions || !isMounted.current) return null;
+    if (!subscriptions) return null;
     const currentSubscriptionIndex = subscriptions.findIndex(
       (s) => s._id === currentSubscription?._id,
     );
@@ -95,10 +99,10 @@ const SubscriptionBottomSheet = ({
     const lastSubscriptionIndex = subscriptions.length - 1;
     if (lastSubscriptionIndex >= 0) return lastSubscriptionIndex;
     return 0;
-  }, [subscriptions, currentSubscription, isMounted.current]);
+  }, [subscriptions, currentSubscription]);
 
   return (
-    <AppBottomSheet style={style} onClose={onClose}>
+    <AppBottomSheet ref={forwardedRef} style={[tw`py-6`, style]} onClose={onClose}>
       <View style={tw`mx-6`}>
         <CalendarAnimation style={tw`w-full h-40 mx-auto`} />
         <AppText
@@ -120,8 +124,8 @@ const SubscriptionBottomSheet = ({
         {subscriptions?.length ? (
           <AnimatedFlashList
             horizontal
-            pagingEnabled
             data={subscriptions}
+            decelerationRate="fast"
             initialScrollIndex={defaultIndex}
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => (
@@ -133,6 +137,9 @@ const SubscriptionBottomSheet = ({
             )}
             showsHorizontalScrollIndicator={false}
             snapToAlignment="start"
+            snapToOffsets={Array.from({ length: subscriptions.length }).map(
+              (_, i) => carouselWidth * (i + 1),
+            )}
             onScroll={onHorizontalScroll}
           />
         ) : null}
@@ -313,4 +320,4 @@ const SubscriptionItem = ({
   );
 };
 
-export default SubscriptionBottomSheet;
+export default forwardRef(SubscriptionBottomSheet);

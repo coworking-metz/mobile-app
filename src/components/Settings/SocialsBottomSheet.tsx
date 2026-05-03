@@ -1,26 +1,26 @@
 import { BliiidaIcon, CoworkingIcon } from '../Home/CalendarEventCard';
-import React from 'react';
+import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import tw from 'twrnc';
 import SocialMediaReactionsAnimation from '@/components/Animations/SocialMediaReactionsAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import ServiceRowLink from '@/components/Layout/ServiceRowLink';
 import useAuthStore from '@/stores/auth';
 
-const SocialsBottomSheet = ({
-  style,
-  onClose,
-}: {
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const SocialsBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
+  { style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
   const authStore = useAuthStore();
 
   return (
-    <AppBottomSheet contentContainerStyle={tw`pt-6`} style={style} onClose={onClose}>
+    <AppBottomSheet ref={forwardedRef} style={[tw`py-6`, style]} onClose={onClose}>
       <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
         <SocialMediaReactionsAnimation
           backgroundColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
@@ -131,4 +131,4 @@ const SocialsBottomSheet = ({
   );
 };
 
-export default SocialsBottomSheet;
+export default forwardRef(SocialsBottomSheet);

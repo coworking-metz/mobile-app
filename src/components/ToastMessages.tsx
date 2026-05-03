@@ -122,7 +122,9 @@ const ToastMessages = () => {
     }
   }, [notificationsCount]);
 
-  return <Toaster offset={(insets.top || 0) + 8} position="top-center" theme="dark" />;
+  return (
+    <Toaster enableStacking offset={(insets.top || 0) + 8} position="top-center" theme="dark" />
+  );
 };
 
 export default ToastMessages;

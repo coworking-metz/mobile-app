@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useRef, useState } from 'react';
+import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import PresenceBottomSheet from '@/components/Settings/PresenceBottomSheet';
 import { ApiMemberActivity } from '@/services/api/members';
 
@@ -16,6 +17,7 @@ export const useAppPresence = () => {
 
 export const PresenceProvider = ({ children }: { children: React.ReactNode }) => {
   const [selectedActivity, setSelectedActivity] = useState<ApiMemberActivity | null>(null);
+  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   return (
     <PresenceContext.Provider
@@ -23,17 +25,17 @@ export const PresenceProvider = ({ children }: { children: React.ReactNode }) =>
         selectedActivity: selectedActivity,
         selectActivity: (activity: ApiMemberActivity) => {
           setSelectedActivity(activity);
+          bottomSheetRef.current?.open();
         },
       }}>
       {children}
-      {selectedActivity ? (
-        <PresenceBottomSheet
-          activity={selectedActivity}
-          onClose={() => {
-            setSelectedActivity(null);
-          }}
-        />
-      ) : null}
+      <PresenceBottomSheet
+        ref={bottomSheetRef}
+        activity={selectedActivity}
+        onClose={() => {
+          setSelectedActivity(null);
+        }}
+      />
     </PresenceContext.Provider>
   );
 };
