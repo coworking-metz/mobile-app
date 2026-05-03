@@ -185,6 +185,7 @@ const ServiceLayout = ({
           {withBackButton && (
             <AppIconButton
               icon="arrow-left"
+              radius={8}
               style={tw`h-10 w-10`}
               onPress={() =>
                 from

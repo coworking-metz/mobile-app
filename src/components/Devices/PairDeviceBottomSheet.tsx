@@ -1,5 +1,3 @@
-import AppShimmerText from '../AppShimmerText';
-import { useOnPremise } from '../OnPremise/OnPremiseContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Device from 'expo-device';
@@ -7,16 +5,28 @@ import * as Haptics from 'expo-haptics';
 import * as Linking from 'expo-linking';
 import { Link } from 'expo-router';
 import LottieView from 'lottie-react-native';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import Animated, { FadeIn, FadeInLeft, FadeOut, FadeOutRight } from 'react-native-reanimated';
 import tw from 'twrnc';
 import WifiScanningAnimation from '@/components/Animations/WifiScanningAnimation';
-import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
+import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
 import AppTextButton from '@/components/AppTextButton';
+import { useOnPremise } from '@/components/OnPremise/OnPremiseContext';
 import { AppErrorCode, handleSilentError } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import {
@@ -38,22 +48,21 @@ const VERIFY_ATTENDING_DEVICE_MAX_ATTEMPTS_COUNT = 10;
 const FETCH_DEVICE_INFO_MAX_ATTEMPTS_COUNT = 10;
 const RETRY_BASE_DELAY_IN_MS = 1000;
 
-const PairDeviceBottomSheet = ({
-  style,
-  onClose,
-}: {
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
+  { style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
   const authStore = useAuthStore();
   const noticeStore = useNoticeStore();
   const toastStore = useToastStore();
   const settingsStore = useSettingsStore();
   const animation = useRef<LottieView>(null);
-  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
+  const bottomSheetRef = useRef<AppBottomSheetRef | null>(null);
   const queryClient = useQueryClient();
   const { selectWifi } = useOnPremise();
+
+  useImperativeHandle(forwardedRef, () => bottomSheetRef.current as AppBottomSheetRef);
 
   const [fetchDeviveInfoAttemptsCount, setFetchDeviveInfoAttemptsCount] = useState<number>(0);
   const [fetchDeviceTimeoutHandle, setFetchDeviceTimeoutHandle] = useState<NodeJS.Timeout | null>(
@@ -227,6 +236,7 @@ const PairDeviceBottomSheet = ({
     if (verifyingTimeoutHandle) {
       clearTimeout(verifyingTimeoutHandle);
     }
+    resetAnimation();
     onClose?.();
   }, [onClose, abortController, fetchDeviceTimeoutHandle, verifyingTimeoutHandle]);
 
@@ -270,7 +280,6 @@ const PairDeviceBottomSheet = ({
   const onAnimationEnded = useCallback(() => {
     if (verifiedDevice) {
       bottomSheetRef.current?.close();
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       noticeStore.add({
         message: t('devices.add.onPair.success', {
           name: verifiedDevice.name || verifiedDevice.macAddress,
@@ -286,145 +295,147 @@ const PairDeviceBottomSheet = ({
     }
   }, [verifiedDevice, noticeStore, t, bottomSheetRef, queryClient, settingsStore, toastStore]);
 
-  useEffect(() => {
-    animation.current?.reset();
-    animation.current?.pause();
-  }, []);
-
   return (
-    <AppBottomSheet ref={bottomSheetRef} style={style} onClose={onCancel}>
-      <View style={tw`flex flex-col w-full gap-4 px-6 pt-6`}>
-        <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-          <WifiScanningAnimation
-            ref={animation}
-            autoPlay={false}
-            loop={false}
-            progress={0}
-            style={tw`h-64 w-full bg-transparent`}
-            onAnimationFinish={onAnimationFinish}
-          />
-        </View>
-        {isAnimating ? (
-          <Animated.View
-            entering={FadeIn.duration(500)}
-            exiting={FadeOut.duration(500)}
-            style={tw`flex flex-col gap-1`}>
-            {!macAddress && (
-              <>
-                <AppText
-                  entering={FadeInLeft.duration(1000)}
-                  exiting={FadeOutRight.duration(500)}
-                  style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-                  {t('devices.add.onFetchDeviceInfo.pending')}
-                </AppText>
-                {fetchDeviveInfoAttemptsCount > 1 && (
-                  <AppShimmerText
-                    active
-                    entering={FadeIn.duration(1000)}
-                    exiting={FadeOutRight.duration(500)}
-                    style={tw`text-center text-xs font-normal text-slate-500 dark:text-neutral-500`}>
-                    {t('devices.add.onFetchDeviceInfo.attempts', {
-                      count: fetchDeviveInfoAttemptsCount,
-                      max: FETCH_DEVICE_INFO_MAX_ATTEMPTS_COUNT,
-                    })}
-                  </AppShimmerText>
-                )}
-              </>
-            )}
-
-            {macAddress && !addedDevice && (
+    <AppBottomSheet
+      ref={bottomSheetRef}
+      style={[tw`flex flex-col w-full gap-4 p-6 max-sm:pb-1`, style]}
+      onClose={onCancel}
+      onWillPresent={() => {
+        animation.current?.reset();
+        animation.current?.pause();
+      }}>
+      <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
+        <WifiScanningAnimation
+          ref={animation}
+          autoPlay={false}
+          loop={false}
+          progress={0}
+          style={tw`h-64 w-full bg-transparent`}
+          onAnimationFinish={onAnimationFinish}
+        />
+      </View>
+      {isAnimating ? (
+        <Animated.View
+          entering={FadeIn.duration(500)}
+          exiting={FadeOut.duration(500)}
+          style={tw`flex flex-col gap-1`}>
+          {!macAddress && (
+            <>
               <AppText
                 entering={FadeInLeft.duration(1000)}
                 exiting={FadeOutRight.duration(500)}
                 style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-                {t('devices.onAdd.pending')}
+                {t('devices.add.onFetchDeviceInfo.pending')}
               </AppText>
-            )}
+              {fetchDeviveInfoAttemptsCount > 1 && (
+                <AppShimmerText
+                  active
+                  entering={FadeIn.duration(1000)}
+                  exiting={FadeOutRight.duration(500)}
+                  style={tw`text-center text-xs font-normal text-slate-500 dark:text-neutral-500`}>
+                  {t('devices.add.onFetchDeviceInfo.attempts', {
+                    count: fetchDeviveInfoAttemptsCount,
+                    max: FETCH_DEVICE_INFO_MAX_ATTEMPTS_COUNT,
+                  })}
+                </AppShimmerText>
+              )}
+            </>
+          )}
 
-            {macAddress && addedDevice && (
-              <>
-                <AppText
-                  entering={FadeInLeft.duration(1000)}
-                  style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-                  {t('devices.add.onVerifyDevice.pending')}
-                </AppText>
-                {verifyingAttemptsCount > 1 && (
-                  <AppShimmerText
-                    active
-                    entering={FadeIn.duration(1000)}
-                    style={tw`text-center text-xs font-normal text-slate-500 dark:text-neutral-500`}>
-                    {t('devices.add.onVerifyDevice.attempts', {
-                      count: verifyingAttemptsCount,
-                      max: VERIFY_ATTENDING_DEVICE_MAX_ATTEMPTS_COUNT,
-                    })}
-                  </AppShimmerText>
-                )}
-              </>
-            )}
-          </Animated.View>
-        ) : (
-          <AppText
-            entering={FadeIn.duration(500)}
-            exiting={FadeOutRight.duration(500)}
-            style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-            {t('devices.add.pair.label')}
-          </AppText>
-        )}
-        <AppText
-          entering={FadeInLeft.duration(300)}
-          exiting={FadeOutRight.duration(300)}
-          style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full`}>
-          {t('devices.add.pair.description')}
-        </AppText>
-        <View style={tw`flex flex-row items-start flex-gap-2 w-full overflow-hidden`}>
-          <MaterialCommunityIcons
-            color={tw.color('blue-600')}
-            iconStyle={tw`h-6 w-6 mr-0`}
-            name="information"
-            size={24}
-            style={tw`shrink-0 grow-0`}
-          />
-          <Trans
-            components={[
-              <AppText key="wifi-network" style={tw`text-amber-500`} onPress={selectWifi} />,
-              <AppText
-                key="open-settings"
-                style={tw`text-amber-500`}
-                onPress={Linking.openSettings}
-              />,
-            ]}
-            defaults={t('devices.add.pair.localNetworkPermissions')}
-            parent={AppText}
-            style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}
-          />
-        </View>
-
-        <AppRoundedButton
-          disabled={isAnimating}
-          style={tw`mt-2 w-full max-w-sm self-center`}
-          onPress={onStart}>
-          <AppText style={tw`text-base text-black font-medium`}>
-            {t('devices.add.pair.start')}
-          </AppText>
-        </AppRoundedButton>
-        <Link
-          asChild
-          href={{
-            pathname: '/devices/new',
-            params: {
-              name,
-              macAddress,
-            },
-          }}>
-          <AppTextButton onPress={() => bottomSheetRef.current?.close()}>
-            <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
-              {t('devices.add.manual')}
+          {macAddress && !addedDevice && (
+            <AppText
+              entering={FadeInLeft.duration(1000)}
+              exiting={FadeOutRight.duration(500)}
+              style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+              {t('devices.onAdd.pending')}
             </AppText>
-          </AppTextButton>
-        </Link>
+          )}
+
+          {macAddress && addedDevice && (
+            <>
+              <AppText
+                entering={FadeInLeft.duration(1000)}
+                style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                {t('devices.add.onVerifyDevice.pending')}
+              </AppText>
+              {verifyingAttemptsCount > 1 && (
+                <AppShimmerText
+                  active
+                  entering={FadeIn.duration(1000)}
+                  style={tw`text-center text-xs font-normal text-slate-500 dark:text-neutral-500`}>
+                  {t('devices.add.onVerifyDevice.attempts', {
+                    count: verifyingAttemptsCount,
+                    max: VERIFY_ATTENDING_DEVICE_MAX_ATTEMPTS_COUNT,
+                  })}
+                </AppShimmerText>
+              )}
+            </>
+          )}
+        </Animated.View>
+      ) : (
+        <AppText
+          entering={FadeIn.duration(500)}
+          exiting={FadeOutRight.duration(500)}
+          style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+          {t('devices.add.pair.label')}
+        </AppText>
+      )}
+      <AppText
+        entering={FadeInLeft.duration(300)}
+        exiting={FadeOutRight.duration(300)}
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full`}>
+        {t('devices.add.pair.description')}
+      </AppText>
+      <View style={tw`flex flex-row items-start flex-gap-2 w-full overflow-hidden`}>
+        <MaterialCommunityIcons
+          color={tw.color('blue-600')}
+          iconStyle={tw`h-6 w-6 mr-0`}
+          name="information"
+          size={24}
+          style={tw`shrink-0 grow-0`}
+        />
+        <Trans
+          components={[
+            <AppText key="wifi-network" style={tw`text-amber-500`} onPress={selectWifi} />,
+            <AppText
+              key="open-settings"
+              style={tw`text-amber-500`}
+              onPress={Linking.openSettings}
+            />,
+          ]}
+          defaults={t('devices.add.pair.localNetworkPermissions')}
+          parent={AppText}
+          style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}
+        />
       </View>
+
+      <AppRoundedButton
+        disabled={isAnimating}
+        style={tw`mt-2 w-full max-w-sm self-center`}
+        onPress={onStart}>
+        <AppText style={tw`text-base text-black font-medium`}>
+          {t('devices.add.pair.start')}
+        </AppText>
+      </AppRoundedButton>
+      <Link
+        asChild
+        href={{
+          pathname: '/devices/new',
+          params: {
+            name,
+            macAddress,
+          },
+        }}>
+        <AppTextButton
+          style={tw`mx-auto w-full max-w-sm`}
+          onPress={() => bottomSheetRef.current?.close()}>
+          <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
+            {t('devices.add.manual')}
+          </AppText>
+        </AppTextButton>
+      </Link>
     </AppBottomSheet>
   );
 };
 
-export default PairDeviceBottomSheet;
+export default forwardRef(PairDeviceBottomSheet);

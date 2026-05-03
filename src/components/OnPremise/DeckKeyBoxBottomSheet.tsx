@@ -1,13 +1,16 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import React, { useCallback, useState } from 'react';
+import React, { forwardRef, ForwardRefRenderFunction, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import Animated, { FadeIn, FadeOutDown } from 'react-native-reanimated';
 import { RandomReveal } from 'react-random-reveal';
 import tw from 'twrnc';
 import KeyLockAnimation from '@/components/Animations/KeyLockAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import { handleSilentError } from '@/helpers/error';
@@ -15,13 +18,10 @@ import { getDeckKeyBoxCode } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 
-const DeckKeyBoxBottomSheet = ({
-  style,
-  onClose,
-}: {
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const DeckKeyBoxBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
+  { style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const noticeStore = useNoticeStore();
@@ -37,22 +37,25 @@ const DeckKeyBoxBottomSheet = ({
       })
       .catch(handleSilentError)
       .catch((error) =>
-        noticeStore.addError(error, { message: t('onPremise.keyBoxes.deck.onFetch.fail') }),
+        noticeStore.addError(error, {
+          message: t('onPremise.keyBoxes.deck.onFetch.fail'),
+        }),
       )
       .finally(() => setLoading(false));
   }, [noticeStore]);
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch gap-4 px-6 pt-6`}
-      style={style}
+      ref={forwardedRef}
+      style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
       <KeyLockAnimation loop={false} style={tw`w-full h-[144px]`} />
       <AppText
-        style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+        style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
         {t('onPremise.keyBoxes.deck.label')}
       </AppText>
-      <AppText style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
+      <AppText
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-4`}>
         {t('onPremise.keyBoxes.deck.description')}
       </AppText>
 
@@ -68,7 +71,7 @@ const DeckKeyBoxBottomSheet = ({
           />
         </AppText>
       ) : (
-        <Animated.View exiting={FadeOutDown} style={tw`w-full`}>
+        <Animated.View exiting={FadeOutDown} style={tw`w-full mt-2`}>
           <AppRoundedButton
             disabled={!user?.capabilities?.includes('KEYS_ACCESS')}
             loading={isLoading}
@@ -80,6 +83,7 @@ const DeckKeyBoxBottomSheet = ({
           </AppRoundedButton>
         </Animated.View>
       )}
+
       {!user?.capabilities?.includes('KEYS_ACCESS') && (
         <View style={tw`flex flex-row items-start flex-gap-2 mt-3 overflow-hidden`}>
           <MaterialCommunityIcons
@@ -99,4 +103,4 @@ const DeckKeyBoxBottomSheet = ({
   );
 };
 
-export default DeckKeyBoxBottomSheet;
+export default forwardRef(DeckKeyBoxBottomSheet);

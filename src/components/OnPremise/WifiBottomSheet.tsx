@@ -1,13 +1,23 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import React, { useCallback, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import Animated, { FadeIn, FadeOutDown } from 'react-native-reanimated';
 import { RandomReveal } from 'react-random-reveal';
 import tw from 'twrnc';
 import WifiNetworkAnimation from '@/components/Animations/WifiNetworkAnimation';
-import AppBottomSheet, { AppBottomSheetRef } from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTextLink from '@/components/AppTextLink';
@@ -18,13 +28,10 @@ import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 
-const WifiBottomSheet = ({
-  style,
-  onClose,
-}: {
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const WifiBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
+  { style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
   const bottomSheetRef = useRef<AppBottomSheetRef>(null);
   const user = useAuthStore((s) => s.user);
@@ -32,6 +39,8 @@ const WifiBottomSheet = ({
   const [ssid, setSSID] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(false);
+
+  useImperativeHandle(forwardedRef, () => bottomSheetRef.current as AppBottomSheetRef);
 
   const onFetchPassword = useCallback(() => {
     setLoading(true);
@@ -51,8 +60,7 @@ const WifiBottomSheet = ({
   return (
     <AppBottomSheet
       ref={bottomSheetRef}
-      contentContainerStyle={tw`flex flex-col items-stretch pt-6 px-6`}
-      style={style}
+      style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
       <View style={tw`flex items-center justify-center h-40 overflow-visible mb-2`}>
         <WifiNetworkAnimation autoPlay loop={false} style={tw`w-full h-full`} />
@@ -79,11 +87,11 @@ const WifiBottomSheet = ({
         ]}
         defaults={t('onPremise.wifi.description')}
         parent={AppText}
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6 mb-3`}
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6`}
       />
 
       {ssid || password ? (
-        <Animated.View entering={FadeIn.delay(100)} style={tw`my-3 flex flex-col`}>
+        <Animated.View entering={FadeIn.delay(100)} style={tw`mt-3 mb-3 flex flex-col`}>
           <SectionTitle title={t('onPremise.wifi.credentials.ssid.label')} />
           <AppText style={tw`text-left text-slate-900 dark:text-gray-200 text-2xl font-bold`}>
             {ssid && <RandomReveal isPlaying characters={ssid} duration={2} />}
@@ -95,7 +103,7 @@ const WifiBottomSheet = ({
           </AppText>
         </Animated.View>
       ) : (
-        <Animated.View exiting={FadeOutDown} style={tw`w-full`}>
+        <Animated.View exiting={FadeOutDown} style={tw`w-full mt-2`}>
           <AppRoundedButton
             disabled={!user?.capabilities?.includes('WIFI_CREDENTIALS_ACCESS')}
             loading={isLoading}
@@ -117,7 +125,8 @@ const WifiBottomSheet = ({
             size={24}
             style={tw`shrink-0 grow-0`}
           />
-          <AppText style={tw`text-base font-normal text-slate-500 shrink grow basis-0`}>
+          <AppText
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
             {t('onPremise.wifi.credentials.missingCapability')}
           </AppText>
         </View>
@@ -126,4 +135,4 @@ const WifiBottomSheet = ({
   );
 };
 
-export default WifiBottomSheet;
+export default forwardRef(WifiBottomSheet);

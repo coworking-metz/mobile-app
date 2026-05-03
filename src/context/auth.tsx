@@ -3,7 +3,8 @@ import { Image } from 'expo-image';
 import { useGlobalSearchParams, usePathname, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { usePostHog } from 'posthog-react-native';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import LoginBottomSheet from '@/components/Settings/LoginBottomSheet';
 import LogoutBottomSheet from '@/components/Settings/LogoutBottomSheet';
 import { log } from '@/helpers/logger';
@@ -82,11 +83,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const authStore = useAuthStore();
   const router = useRouter();
   const [isLoggingIn, setLoggingIn] = useState<boolean>(false);
-  const [isLoggingOut, setLoggingOut] = useState<boolean>(false);
   const [previousUser, setPreviousUser] = useState<ApiUser | null>(null);
   const posthog = usePostHog();
   const pathname = usePathname();
   const queryClient = useQueryClient();
+
+  const loginBottomSheetRef = useRef<AppBottomSheetRef>(null);
+  const logoutBottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   useEffect(() => {
     if (isLoggingIn && authStore.accessToken) {
@@ -108,7 +111,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (previousUser?.id !== authStore.user?.id) {
       authLogger.debug('Resetting all cache since user has changed');
-      Promise.all([queryClient.clear(), Image.clearDiskCache(), Image.clearMemoryCache()]);
+      Promise.all([queryClient.resetQueries(), Image.clearDiskCache(), Image.clearMemoryCache()]);
     }
 
     if (authStore.user) {
@@ -133,13 +136,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         isFetchingToken: authStore.isFetchingToken,
         ready,
-        login: () => setLoggingIn(true),
-        logout: () => setLoggingOut(true),
+        login: () => {
+          setLoggingIn(true);
+          loginBottomSheetRef.current?.open();
+        },
+        logout: () => {
+          logoutBottomSheetRef.current?.open();
+        },
       }}>
       {children}
 
-      {isLoggingIn && <LoginBottomSheet onClose={() => setLoggingIn(false)} />}
-      {isLoggingOut && <LogoutBottomSheet onClose={() => setLoggingOut(false)} />}
+      <LoginBottomSheet ref={loginBottomSheetRef} onClose={() => setLoggingIn(false)} />
+      <LogoutBottomSheet ref={logoutBottomSheetRef} />
     </AuthContext.Provider>
   );
 };

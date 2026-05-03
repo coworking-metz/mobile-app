@@ -2,12 +2,15 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useIsFocused } from 'expo-router';
 import { isNil } from 'lodash';
-import React, { useMemo } from 'react';
+import React, { forwardRef, ForwardRefRenderFunction, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import tw from 'twrnc';
 import HappySunAnimation from '@/components/Animations/HappySunAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
@@ -16,19 +19,14 @@ import useAppState from '@/helpers/app-state';
 import { getOnPremiseState } from '@/services/api/services';
 import { onPremiseQueryKeys } from '@/services/query';
 
-const PtiPoulaillerClimateBottomSheet = ({
-  loading = false,
-  temperatureLevel,
-  humidityLevel,
-  style,
-  onClose,
-}: {
-  loading?: boolean;
-  temperatureLevel?: number;
-  humidityLevel?: number;
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const PtiPoulaillerClimateBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  AppBottomSheetProps & {
+    loading?: boolean;
+    temperatureLevel?: number;
+    humidityLevel?: number;
+  }
+> = ({ loading = false, temperatureLevel, humidityLevel, style, onClose }, forwardedRef) => {
   const { t } = useTranslation();
   const activeSince = useAppState();
   const isFocus = useIsFocused();
@@ -46,8 +44,8 @@ const PtiPoulaillerClimateBottomSheet = ({
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch pt-6 px-6`}
-      style={style}
+      ref={forwardedRef}
+      style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
       <HappySunAnimation autoPlay style={tw`w-full h-[224px] -my-4`} />
       <AppText
@@ -59,7 +57,7 @@ const PtiPoulaillerClimateBottomSheet = ({
         {t('onPremise.climate.description')}
       </AppText>
 
-      <View style={tw`flex flex-col w-full mt-2`}>
+      <View style={tw`flex flex-col w-full mt-4`}>
         <SectionTitle loading={loading} title={t('onPremise.climate.sensors.label')}>
           {!isNil(durationSinceLastFetch) && durationSinceLastFetch > 300 && (
             <AppText
@@ -79,7 +77,9 @@ const PtiPoulaillerClimateBottomSheet = ({
           ) : !isNil(temperatureLevel) ? (
             <AppText
               style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
-              {t('onPremise.climate.temperature.level', { level: temperatureLevel })}
+              {t('onPremise.climate.temperature.level', {
+                level: temperatureLevel,
+              })}
             </AppText>
           ) : null}
         </ServiceRow>
@@ -98,4 +98,4 @@ const PtiPoulaillerClimateBottomSheet = ({
   );
 };
 
-export default PtiPoulaillerClimateBottomSheet;
+export default forwardRef(PtiPoulaillerClimateBottomSheet);

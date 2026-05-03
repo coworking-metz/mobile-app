@@ -1,13 +1,23 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import { FadeInLeft, FadeOutLeft, useReducedMotion } from 'react-native-reanimated';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import UnlockAnimation from '@/components/Animations/UnlockAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import SwipeableButton from '@/components/SwipeableButton';
 import { handleSilentError } from '@/helpers/error';
@@ -15,15 +25,12 @@ import { unlockDeckDoor } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 
-const UnlockDeckDoorBottomSheet = ({
-  style,
-  unlocked = false,
-  onClose,
-}: {
-  unlocked?: boolean;
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const UnlockDeckDoorBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  AppBottomSheetProps & {
+    unlocked?: boolean;
+  }
+> = ({ style, unlocked = false, onClose }, forwardedRef) => {
   const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const noticeStore = useNoticeStore();
@@ -34,14 +41,20 @@ const UnlockDeckDoorBottomSheet = ({
   const [hasSwiped, setSwiped] = useState(false);
 
   useEffect(() => {
+    setUnlocked(unlocked);
+  }, [unlocked]);
+
+  const animateLock = useCallback(() => {
     if (animation.current && !reduceMotion) {
-      if (isUnlocked) {
-        animation.current.play(30, 120);
-      } else {
-        animation.current.play(0, 33);
-      }
+      animation.current.play(0, 33);
     }
-  }, [animation, isUnlocked, reduceMotion]);
+  }, [animation.current, reduceMotion]);
+
+  const animateUnlock = useCallback(() => {
+    if (animation.current && !reduceMotion) {
+      animation.current.play(30, 120);
+    }
+  }, [animation.current, reduceMotion]);
 
   const onUnlock = useCallback(() => {
     setLoading(true);
@@ -50,10 +63,13 @@ const UnlockDeckDoorBottomSheet = ({
       .then(() => {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         setUnlocked(true);
+        animateUnlock();
       })
       .catch(handleSilentError)
       .catch((error) =>
-        noticeStore.addError(error, { message: t('onPremise.deckDoor.onUnlock.fail') }),
+        noticeStore.addError(error, {
+          message: t('onPremise.deckDoor.onUnlock.fail'),
+        }),
       )
       .finally(() => setLoading(false));
   }, [noticeStore]);
@@ -61,13 +77,23 @@ const UnlockDeckDoorBottomSheet = ({
   const onReset = useCallback(() => {
     setSwiped(false);
     setUnlocked(false);
-  }, []);
+    animateLock();
+  }, [animateLock]);
+
+  const onWillPresent = useCallback(() => {
+    if (isUnlocked) {
+      animateUnlock();
+    } else {
+      animateLock();
+    }
+  }, [isUnlocked, animateLock, animateUnlock]);
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-center gap-4 px-6 pt-6`}
-      style={style}
-      onClose={onClose}>
+      ref={forwardedRef}
+      style={[tw`flex flex-col gap-4 p-6`, style]}
+      onClose={onClose}
+      onWillPresent={onWillPresent}>
       <UnlockAnimation
         ref={animation}
         autoPlay={false}
@@ -87,8 +113,7 @@ const UnlockDeckDoorBottomSheet = ({
         disabled={!user?.capabilities.includes('UNLOCK_DECK_DOOR')}
         loading={isLoading}
         placeholder={t('onPremise.deckDoor.slideToUnlock')}
-        style={tw`w-full mt-3 max-w-80`}
-        swiped={isUnlocked}
+        style={tw`w-full mt-3 max-w-80 self-center`}
         onReset={onReset}
         onSwiped={onUnlock}>
         <>
@@ -99,7 +124,7 @@ const UnlockDeckDoorBottomSheet = ({
               style={tw`absolute left-8 text-base text-left font-medium text-black`}>
               {t('onPremise.deckDoor.loading')}
             </AppText>
-          ) : isUnlocked ? (
+          ) : hasSwiped && isUnlocked ? (
             <AppText
               entering={FadeInLeft.duration(300)}
               exiting={FadeOutLeft.duration(300)}
@@ -134,4 +159,4 @@ const UnlockDeckDoorBottomSheet = ({
   );
 };
 
-export default UnlockDeckDoorBottomSheet;
+export default forwardRef(UnlockDeckDoorBottomSheet);

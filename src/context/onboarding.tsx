@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useRef } from 'react';
+import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import OnboardingBottomSheet from '@/components/Onboarding/OnboardingBottomSheet';
 
 const OnboardingContext = createContext<() => void>(() => {});
@@ -8,17 +9,12 @@ export const useAppOnboarding = () => {
 };
 
 export const OnboardingProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isOnboardingBottomSheetVisible, setOnboardinBottomSheetVisible] = useState<boolean>(false);
+  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   return (
-    <OnboardingContext.Provider
-      value={() => {
-        setOnboardinBottomSheetVisible(true);
-      }}>
+    <OnboardingContext.Provider value={() => bottomSheetRef.current?.open()}>
       {children}
-      {isOnboardingBottomSheetVisible ? (
-        <OnboardingBottomSheet onClose={() => setOnboardinBottomSheetVisible(false)} />
-      ) : null}
+      <OnboardingBottomSheet ref={bottomSheetRef} />
     </OnboardingContext.Provider>
   );
 };

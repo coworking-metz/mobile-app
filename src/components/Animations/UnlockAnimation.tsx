@@ -47,7 +47,7 @@ const UnlockAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (
     });
   }, [color, colorScheme]);
 
-  return <AppLottieView ref={ref} autoPlay loop={false} {...props} source={colorizedSource} />;
+  return <AppLottieView ref={ref} loop={false} {...props} source={colorizedSource} />;
 };
 
 export default forwardRef(UnlockAnimation);

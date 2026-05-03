@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import Animated, { BounceIn, BounceOut, FadeInLeft, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import AppPressable from '@/components/AppPressable';
@@ -208,8 +208,9 @@ const Calendar = ({ from }: { from?: string }) => {
 
       {hasSelectedPeriodFilter && (
         <PeriodBottomSheet
-          enableContentPanningGesture={Platform.OS !== 'ios'}
+          initialDetentAnimated
           events={calendarEvents || []}
+          initialDetentIndex={0}
           selected={selectedPeriod}
           onClose={() => setSelectedPeriodFilter(false)}
           onSelect={(p) => {

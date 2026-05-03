@@ -1,9 +1,9 @@
 import * as QuickActions from 'expo-quick-actions';
 import { useQuickActionCallback } from 'expo-quick-actions/hooks';
-import { isNil } from 'lodash';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
+import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import ContactBottomSheet from '@/components/Settings/ContactBottomSheet';
 
 const ContactContext = createContext<() => void>(() => {
@@ -16,9 +16,8 @@ export const useAppContact = () => {
 
 export const ContactProvider = ({ children }: { children: React.ReactNode }) => {
   const { t } = useTranslation();
-  const [isContactBottomSheetVisible, setContactBottomSheetVisible] = useState<boolean | null>(
-    null,
-  );
+  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
+  const [isPresented, setPresented] = useState(false);
 
   useEffect(() => {
     QuickActions.setItems([
@@ -33,20 +32,22 @@ export const ContactProvider = ({ children }: { children: React.ReactNode }) => 
 
   useQuickActionCallback((action) => {
     console.log('Quick action received:', action);
-    if (action.id === 'contact' && isNil(isContactBottomSheetVisible)) {
-      setContactBottomSheetVisible(true);
+    if (action.id === 'contact' && !isPresented) {
+      bottomSheetRef.current?.open();
     }
   });
 
   return (
     <ContactContext.Provider
       value={() => {
-        setContactBottomSheetVisible(true);
+        bottomSheetRef.current?.open();
       }}>
       {children}
-      {isContactBottomSheetVisible ? (
-        <ContactBottomSheet onClose={() => setContactBottomSheetVisible(false)} />
-      ) : null}
+      <ContactBottomSheet
+        ref={bottomSheetRef}
+        onClose={() => setPresented(false)}
+        onDidPresent={() => setPresented(true)}
+      />
     </ContactContext.Provider>
   );
 };

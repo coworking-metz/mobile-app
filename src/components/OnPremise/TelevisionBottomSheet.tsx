@@ -1,24 +1,23 @@
-import React from 'react';
+import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import TelevisionSlideshowAnimation from '@/components/Animations/TelevisionSlideshowAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 
-const TelevisionBottomSheet = ({
-  style,
-  onClose,
-}: {
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const TelevisionBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
+  { style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch pt-6 px-6`}
-      style={style}
+      ref={forwardedRef}
+      style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
       <TelevisionSlideshowAnimation autoPlay loop style={tw`w-full h-32 my-6`} />
       <AppText
@@ -34,4 +33,4 @@ const TelevisionBottomSheet = ({
   );
 };
 
-export default TelevisionBottomSheet;
+export default forwardRef(TelevisionBottomSheet);

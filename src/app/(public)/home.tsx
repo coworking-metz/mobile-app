@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { NetworkStateType, useNetworkState } from 'expo-network';
 import { Link } from 'expo-router';
 import { compact, includes, sample } from 'lodash';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import Animated, {
@@ -19,6 +19,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { toast } from 'sonner-native';
 import tw, { useDeviceContext } from 'twrnc';
+import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import AppIconButton from '@/components/AppIconButton';
 import AppPressable from '@/components/AppPressable';
 import AppText from '@/components/AppText';
@@ -75,11 +76,10 @@ export default function HomeScreen() {
   const networkState = useNetworkState();
   const isFocus = useIsFocused();
 
-  const [hasSelectSubscription, selectSubscription] = useState<boolean>(false);
-  const [hasSelectBalance, selectBalance] = useState<boolean>(false);
-  const [hasSelectMembership, selectMembership] = useState<boolean>(false);
-  const [hasSelectBirthday, selectBirthday] = useState<boolean>(false);
-
+  const subscriptionBottomSheetRef = useRef<AppBottomSheetRef>(null);
+  const balanceBottomSheetRef = useRef<AppBottomSheetRef>(null);
+  const membershipBottomSheetRef = useRef<AppBottomSheetRef>(null);
+  const birthdayBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const contact = useAppContact();
   const onboard = useAppOnboarding();
 
@@ -277,29 +277,23 @@ export default function HomeScreen() {
     <HomeLayout
       outerChildren={
         <>
-          {hasSelectBirthday ? <BirthdayBottomSheet onClose={() => selectBirthday(false)} /> : null}
+          <BirthdayBottomSheet ref={birthdayBottomSheetRef} />
 
-          {hasSelectSubscription ? (
-            <SubscriptionBottomSheet
-              currentSubscription={currentSubscription}
-              onClose={() => selectSubscription(false)}
-            />
-          ) : null}
+          <SubscriptionBottomSheet
+            ref={subscriptionBottomSheetRef}
+            currentSubscription={currentSubscription}
+          />
 
-          {hasSelectBalance ? (
-            <BalanceBottomSheet loading={isFetchingProfile} onClose={() => selectBalance(false)} />
-          ) : null}
+          <BalanceBottomSheet ref={balanceBottomSheetRef} loading={isFetchingProfile} />
 
-          {hasSelectMembership ? (
-            <MembershipBottomSheet
-              active={profile?.activeUser}
-              activityOverLast6Months={profile?.activity}
-              lastMembershipYear={profile?.lastMembership}
-              loading={isFetchingProfile}
-              valid={profile?.membershipOk}
-              onClose={() => selectMembership(false)}
-            />
-          ) : null}
+          <MembershipBottomSheet
+            ref={membershipBottomSheetRef}
+            active={profile?.activeUser}
+            activityOverLast6Months={profile?.activity}
+            lastMembershipYear={profile?.lastMembership}
+            loading={isFetchingProfile}
+            valid={profile?.membershipOk}
+          />
         </>
       }
       onRefresh={() => {
@@ -423,12 +417,7 @@ export default function HomeScreen() {
           {isTodayBirthday && (
             <AppPressable
               style={tw`flex flex-row items-stretch`}
-              onPress={() => {
-                selectBirthday(true);
-                selectBalance(false);
-                selectSubscription(false);
-                selectMembership(false);
-              }}>
+              onPress={() => birthdayBottomSheetRef.current?.open()}>
               <BirthdayCard style={tw`min-h-38 min-w-32`} />
             </AppPressable>
           )}
@@ -447,12 +436,7 @@ export default function HomeScreen() {
           )}
           <AppPressable
             style={tw`flex flex-row items-stretch`}
-            onPress={() => {
-              selectBirthday(false);
-              selectBalance(true);
-              selectSubscription(false);
-              selectMembership(false);
-            }}>
+            onPress={() => balanceBottomSheetRef.current?.open()}>
             <BalanceCard
               count={profile?.balance ?? 0}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
@@ -462,12 +446,7 @@ export default function HomeScreen() {
           </AppPressable>
           <AppPressable
             style={tw`flex flex-row items-stretch`}
-            onPress={() => {
-              selectBirthday(false);
-              selectBalance(false);
-              selectSubscription(true);
-              selectMembership(false);
-            }}>
+            onPress={() => subscriptionBottomSheetRef.current?.open()}>
             <SubscriptionCard
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingSubscriptions}
               style={tw`min-h-38 min-w-32`}
@@ -476,12 +455,7 @@ export default function HomeScreen() {
           </AppPressable>
           <AppPressable
             style={tw`flex flex-row items-stretch`}
-            onPress={() => {
-              selectBirthday(false);
-              selectBalance(false);
-              selectSubscription(false);
-              selectMembership(true);
-            }}>
+            onPress={() => membershipBottomSheetRef.current?.open()}>
             <MembershipCard
               active={profile?.activeUser}
               lastMembershipYear={profile?.lastMembership}

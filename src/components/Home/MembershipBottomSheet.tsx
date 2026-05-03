@@ -2,12 +2,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
-import React, { useEffect } from 'react';
+import React, { forwardRef, ForwardRefRenderFunction, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import tw from 'twrnc';
 import MembershipFormAnimation from '@/components/Animations/MembershipFormAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import ServiceRow from '@/components/Layout/ServiceRow';
@@ -20,23 +23,19 @@ import { WORDPRESS_BASE_URL } from '@/services/environment';
 import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 
-const MembershipBottomSheet = ({
-  lastMembershipYear,
-  valid,
-  active,
-  activityOverLast6Months,
-  loading = false,
-  style,
-  onClose,
-}: {
-  lastMembershipYear?: number;
-  valid?: boolean;
-  active?: boolean;
-  loading?: boolean;
-  activityOverLast6Months?: number;
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const MembershipBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  AppBottomSheetProps & {
+    lastMembershipYear?: number;
+    valid?: boolean;
+    active?: boolean;
+    loading?: boolean;
+    activityOverLast6Months?: number;
+  }
+> = (
+  { lastMembershipYear, valid, active, activityOverLast6Months, loading = false, style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
   const authStore = useAuthStore();
   const activeSince = useAppState();
@@ -59,7 +58,7 @@ const MembershipBottomSheet = ({
   }, [activeSince, valid]);
 
   return (
-    <AppBottomSheet contentContainerStyle={tw`px-6 pt-6`} style={style} onClose={onClose}>
+    <AppBottomSheet ref={forwardedRef} style={[tw`p-6`, style]} onClose={onClose}>
       <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
         <MembershipFormAnimation active={active && valid} style={tw`h-56 w-full`} valid={valid} />
       </View>
@@ -190,4 +189,4 @@ const MembershipBottomSheet = ({
   );
 };
 
-export default MembershipBottomSheet;
+export default forwardRef(MembershipBottomSheet);

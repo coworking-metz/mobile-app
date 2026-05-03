@@ -1,24 +1,23 @@
-import React from 'react';
+import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import PizzaIngrediantsAnimation from '@/components/Animations/PizzaIngrediantsAnimation';
-import AppBottomSheet from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetProps,
+  AppBottomSheetRef,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 
-const FridgeBottomSheet = ({
-  style,
-  onClose,
-}: {
-  style?: StyleProp<ViewStyle>;
-  onClose?: () => void;
-}) => {
+const FridgeBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
+  { style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
 
   return (
     <AppBottomSheet
-      contentContainerStyle={tw`flex flex-col items-stretch pt-6 px-6`}
-      style={style}
+      ref={forwardedRef}
+      style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
       <PizzaIngrediantsAnimation autoPlay loop={false} style={tw`w-full h-[144px] mb-4`} />
       <AppText
@@ -34,4 +33,4 @@ const FridgeBottomSheet = ({
   );
 };
 
-export default FridgeBottomSheet;
+export default forwardRef(FridgeBottomSheet);

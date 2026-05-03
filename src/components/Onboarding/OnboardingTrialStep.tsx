@@ -39,26 +39,14 @@ const OnboardingTrialStep = ({
     <View style={[tw`flex flex-col`, style]}>
       <View
         style={tw.style(
-          `flex flex-col justify-end items-center self-center overflow-visible relative w-full`,
+          `flex flex-col justify-end items-center self-center overflow-hidden relative w-full`,
         )}>
-        <AppFader
-          position={Fader.position.START}
-          size={96}
-          style={tw`absolute inset-y-0 left-0 z-10`}
-          tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
-        />
         <DesktopWorkAnimation
           ref={animation}
           loop
           autoPlay={false}
           progress={reduceMotion ? 1 : 0}
-          style={tw`w-full max-h-80 h-full -mb-6`}
-        />
-        <AppFader
-          position={Fader.position.END}
-          size={96}
-          style={tw`absolute inset-y-0 right-0 z-10`}
-          tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
+          style={tw`w-full h-80 -mb-6`}
         />
       </View>
 

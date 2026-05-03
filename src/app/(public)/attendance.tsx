@@ -152,6 +152,8 @@ const Attendance = () => {
       footer={
         selectedMember && (
           <MemberBottomSheet
+            initialDetentAnimated
+            initialDetentIndex={0}
             member={selectedMember}
             onClose={() => setSelectedMember(null)}
             {...(currentMembersUpdatedAt && {

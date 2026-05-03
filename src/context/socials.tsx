@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useRef } from 'react';
+import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import SocialsBottomSheet from '@/components/Settings/SocialsBottomSheet';
 
 const SocialsContext = createContext<{
@@ -12,15 +13,15 @@ export const useAppSocials = () => {
 };
 
 export const SocialsProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isSelecting, setSelecting] = useState<boolean>(false);
+  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   return (
     <SocialsContext.Provider
       value={{
-        socialise: () => setSelecting(true),
+        socialise: () => bottomSheetRef.current?.open(),
       }}>
       {children}
-      {isSelecting ? <SocialsBottomSheet onClose={() => setSelecting(false)} /> : null}
+      <SocialsBottomSheet ref={bottomSheetRef} />
     </SocialsContext.Provider>
   );
 };

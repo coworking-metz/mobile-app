@@ -41,8 +41,7 @@ import { eventsQueryKeys } from '@/services/query';
 
 const NAVIGATION_HEIGHT = 48;
 
-const AnimatedKeyboardAwareScrollView =
-  Animated.createAnimatedComponent<KeyboardAwareScrollViewProps>(KeyboardAwareScrollView);
+const AnimatedKeyboardAwareScrollView = Animated.createAnimatedComponent(KeyboardAwareScrollView);
 
 export default function CalendarEventPage() {
   useDeviceContext(tw);
@@ -365,6 +364,7 @@ export default function CalendarEventPage() {
           ]}>
           <AppIconButton
             icon="arrow-left"
+            radius={8}
             style={tw`ml-4`}
             onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
           />

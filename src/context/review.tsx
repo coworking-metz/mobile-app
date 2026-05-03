@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useRef } from 'react';
+import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import ReviewBottomSheet from '@/components/Settings/ReviewBottomSheet';
 
 const ReviewContext = createContext<() => void>(() => {});
@@ -8,15 +9,15 @@ export const useAppReview = () => {
 };
 
 export const ReviewProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isReviewing, setReviewing] = useState<boolean>(false);
+  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   return (
     <ReviewContext.Provider
       value={() => {
-        setReviewing(true);
+        bottomSheetRef.current?.open();
       }}>
       {children}
-      {isReviewing ? <ReviewBottomSheet onClose={() => setReviewing(false)} /> : null}
+      <ReviewBottomSheet ref={bottomSheetRef} />
     </ReviewContext.Provider>
   );
 };

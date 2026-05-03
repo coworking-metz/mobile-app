@@ -54,22 +54,13 @@ const OnboardingEnrollStep = ({
     <View style={[tw`flex flex-col`, style]}>
       <View
         style={tw.style(
-          `flex flex-col justify-end items-center self-center overflow-visible relative w-[640px] `,
+          `flex flex-col justify-end items-center self-center overflow-visible relative `,
         )}>
         <AppFader
           position={Fader.position.START}
           size={144}
           style={tw`absolute inset-y-0 left-0 z-10`}
           tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
-        />
-        <PeopleGatheringAnimation
-          ref={animation}
-          autoPlay={false}
-          loop={false}
-          progress={reduceMotion ? 1 : 0}
-          speed={speed}
-          style={tw`w-full max-h-80 h-full -mb-16`}
-          onAnimationFinish={onAnimationFinish}
         />
         <AppFader
           position={Fader.position.END}

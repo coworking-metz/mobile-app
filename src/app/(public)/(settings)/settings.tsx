@@ -520,6 +520,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
 
         <AppIconButton
           icon="arrow-left"
+          radius={8}
           style={tw`ml-4`}
           onPress={() =>
             from ? router.dismissTo(from) : router.canGoBack() ? router.back() : router.replace('/')

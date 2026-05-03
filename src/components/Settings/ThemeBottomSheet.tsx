@@ -1,9 +1,12 @@
 import DarklightModeAnimation from './DarklightModeAnimation';
-import React, { useCallback } from 'react';
+import React, { forwardRef, ForwardRefRenderFunction, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useColorScheme } from 'react-native';
 import tw from 'twrnc';
-import AppBottomSheet, { type AppBottomSheetProps } from '@/components/AppBottomSheet';
+import AppBottomSheet, {
+  AppBottomSheetRef,
+  type AppBottomSheetProps,
+} from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
@@ -14,7 +17,10 @@ import {
 } from '@/services/theme';
 import useSettingsStore from '@/stores/settings';
 
-const ThemeBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
+const ThemeBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  Omit<AppBottomSheetProps, 'children'>
+> = ({ style, ...props }, forwardedRef) => {
   const { t } = useTranslation();
   const supportedThemes: { label: string; code: AppThemePreference }[] = [
     { label: t('settings.theme.options.system'), code: 'system' },
@@ -22,6 +28,7 @@ const ThemeBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
     { label: t('settings.theme.options.dark'), code: 'dark' },
   ];
   const currentTheme = useColorScheme();
+  const animationTheme = currentTheme === 'unspecified' ? null : currentTheme;
   const chosenTheme = useAppThemePreference();
 
   const onThemePicked = useCallback((newTheme: AppThemePreference) => {
@@ -30,8 +37,8 @@ const ThemeBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
   }, []);
 
   return (
-    <AppBottomSheet contentContainerStyle={tw`pt-6`} {...props}>
-      <DarklightModeAnimation mode={currentTheme} style={tw`w-full h-28 mt-5`} />
+    <AppBottomSheet ref={forwardedRef} style={[tw`flex flex-col gap-0.5 py-6`, style]} {...props}>
+      <DarklightModeAnimation mode={animationTheme} style={tw`w-full h-28 mt-5`} />
       <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium my-5`}>
         {t('settings.theme.label')}
       </AppText>
@@ -55,4 +62,4 @@ const ThemeBottomSheet = (props: Omit<AppBottomSheetProps, 'children'>) => {
   );
 };
 
-export default ThemeBottomSheet;
+export default forwardRef(ThemeBottomSheet);

@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useRef } from 'react';
+import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import UpcomingEventsPeriodBottomSheet from '@/components/Settings/UpcomingEventsPeriodBottomSheet';
 
 const UpcomingEventsContext = createContext<{
@@ -12,15 +13,15 @@ export const useAppUpcomingEvents = () => {
 };
 
 export const UpcomingEventsProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isVisible, setVisible] = useState<boolean>(false);
+  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   return (
     <UpcomingEventsContext.Provider
       value={{
-        selectUpcomingEventsPeriod: () => setVisible(true),
+        selectUpcomingEventsPeriod: () => bottomSheetRef.current?.open(),
       }}>
       {children}
-      {isVisible ? <UpcomingEventsPeriodBottomSheet onClose={() => setVisible(false)} /> : null}
+      <UpcomingEventsPeriodBottomSheet ref={bottomSheetRef} />
     </UpcomingEventsContext.Provider>
   );
 };
