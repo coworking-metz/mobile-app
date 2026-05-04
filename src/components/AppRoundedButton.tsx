@@ -1,19 +1,18 @@
-import HorizontalLoadingAnimation from './Animations/HorizontalLoadingAnimation';
-import AppPressable, { AppPressableRef } from './AppPressable';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
-import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
+import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
+import AppIcon, { MaterialCommunityIconsName } from '@/components/AppIcon';
+import AppPressable, { AppPressableRef } from '@/components/AppPressable';
 import { theme } from '@/helpers/colors';
 
 export type AppRoundedButtonProps = {
   disabled?: boolean;
   loading?: boolean;
   style?: StyleProp<ViewStyle>;
-  prefixIcon?: keyof typeof mdiGlyphMap | null;
-  suffixIcon?: keyof typeof mdiGlyphMap | null;
+  prefixIcon?: MaterialCommunityIconsName | null;
+  suffixIcon?: MaterialCommunityIconsName | null;
   children?: ReactNode;
   onPress?: () => void;
 };
@@ -46,12 +45,7 @@ const AppRoundedButton: ForwardRefRenderFunction<AppPressableRef, AppRoundedButt
           <>
             <View style={tw`flex flex-row items-center justify-start h-full grow shrink basis-0`}>
               {prefixIcon ? (
-                <MaterialCommunityIcons
-                  color={theme.charlestonGreen}
-                  iconStyle={tw`h-6 w-6`}
-                  name={prefixIcon}
-                  size={24}
-                />
+                <AppIcon color={theme.charlestonGreen} icon={prefixIcon} size={24} />
               ) : null}
             </View>
             <View style={tw`flex flex-row items-center justify-center h-full grow`}>
@@ -59,12 +53,7 @@ const AppRoundedButton: ForwardRefRenderFunction<AppPressableRef, AppRoundedButt
             </View>
             <View style={tw`flex flex-row items-center justify-end h-full grow shrink basis-0`}>
               {suffixIcon ? (
-                <MaterialCommunityIcons
-                  color={theme.charlestonGreen}
-                  iconStyle={tw`h-6 w-6`}
-                  name={suffixIcon}
-                  size={24}
-                />
+                <AppIcon color={theme.charlestonGreen} icon={suffixIcon} size={24} />
               ) : null}
             </View>
           </>

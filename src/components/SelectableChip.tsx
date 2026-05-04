@@ -1,8 +1,7 @@
-import AppText from './AppText';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TouchableOpacity, View } from 'react-native';
 import tw from 'twrnc';
-import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
+import AppIcon, { MaterialCommunityIconsName } from '@/components/AppIcon';
+import AppText from '@/components/AppText';
 
 export const SelectableChip = ({
   label,
@@ -12,7 +11,7 @@ export const SelectableChip = ({
 }: {
   label: string;
   selected?: boolean;
-  icon?: keyof typeof mdiGlyphMap | null;
+  icon?: MaterialCommunityIconsName | null;
   onPress?: () => void;
 }) => {
   return (
@@ -35,7 +34,7 @@ export const SelectableChip = ({
         </AppText>
 
         {icon && (
-          <MaterialCommunityIcons
+          <AppIcon
             color={
               selected
                 ? tw.prefixMatch('dark')
@@ -45,7 +44,7 @@ export const SelectableChip = ({
                   ? tw.color('gray-400')
                   : tw.color('gray-700')
             }
-            name={icon}
+            icon={icon}
             size={20}
             style={tw`ml-1`}
           />

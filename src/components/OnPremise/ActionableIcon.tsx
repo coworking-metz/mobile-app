@@ -3,16 +3,16 @@ import React, { type ReactNode } from 'react';
 import { Platform, StyleProp, ViewStyle } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import tw from 'twrnc';
-import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import AppBlurView, { AppBlurViewProps } from '@/components/AppBlurView';
+import { MaterialCommunityIconsName } from '@/components/AppIcon';
 import AppPressable from '@/components/AppPressable';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { theme } from '@/helpers/colors';
 
 export type ActionableIconProps = AppBlurViewProps & {
-  icon: keyof typeof mdiGlyphMap;
-  activeIcon?: keyof typeof mdiGlyphMap;
+  icon: MaterialCommunityIconsName;
+  activeIcon?: MaterialCommunityIconsName;
   active?: boolean;
   selected?: boolean;
   disabled?: boolean;

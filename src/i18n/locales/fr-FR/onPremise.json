@@ -177,7 +177,7 @@
           "unknown": "Inconnu"
         }
       },
-      "label": "Actuellement",
+      "label": "Occupation",
       "orange": {
         "occupation": {
           "available": "Libre",

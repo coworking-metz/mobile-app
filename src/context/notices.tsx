@@ -15,7 +15,6 @@ export const useAppNotices = () => {
 export const NoticesProvider = ({ children }: { children: React.ReactNode }) => {
   const noticeStore = useNoticeStore();
   const undismissedNotices = useMemo(() => {
-    console.log(noticeStore.history.filter((n) => !n.dismissed));
     return noticeStore.history.filter((n) => !n.dismissed);
   }, [noticeStore.history]);
 

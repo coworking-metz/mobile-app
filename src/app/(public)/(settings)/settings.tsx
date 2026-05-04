@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { BlurTargetView } from 'expo-blur';
@@ -28,6 +27,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import { AppTopFader } from '@/components/AppFader';
+import AppIcon from '@/components/AppIcon';
 import AppIconButton from '@/components/AppIconButton';
 import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBadge';
@@ -256,10 +256,9 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                   ) : null}
                 </View>
 
-                <MaterialCommunityIcons
+                <AppIcon
                   color={tw.prefixMatch('dark') ? tw.color('stone-400') : tw.color('gray-700')}
-                  iconStyle={{ height: 32, width: 32, marginRight: 0 }}
-                  name="chevron-right"
+                  icon="chevron-right"
                   size={32}
                   style={tw`shrink-0 my-auto`}
                 />

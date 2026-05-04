@@ -1,5 +1,5 @@
 import { includes } from 'lodash';
-import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
+import { MaterialCommunityIconsName } from '@/components/AppIcon';
 import { DeviceType } from '@/services/api/members';
 
 // https://stackoverflow.com/a/12010778
@@ -50,7 +50,7 @@ export const formatMacAddress = (macAddress: string): string => {
   ).join(':');
 };
 
-export const getDeviceTypeIcon = (type: DeviceType): keyof typeof mdiGlyphMap => {
+export const getDeviceTypeIcon = (type: DeviceType): MaterialCommunityIconsName => {
   switch (type) {
     case DeviceType.COMPUTER:
       return 'laptop';

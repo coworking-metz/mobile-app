@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { useRouter } from 'expo-router';
 import React, { forwardRef, ForwardRefRenderFunction } from 'react';
@@ -9,6 +8,7 @@ import AppBottomSheet, {
   AppBottomSheetProps,
   AppBottomSheetRef,
 } from '@/components/AppBottomSheet';
+import AppIcon from '@/components/AppIcon';
 import AppText from '@/components/AppText';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
@@ -86,10 +86,9 @@ const MemberBottomSheet: ForwardRefRenderFunction<
 
           {!member?._id && (
             <View style={tw`flex flex-row items-start gap-3 my-3 mx-6`}>
-              <MaterialCommunityIcons
+              <AppIcon
                 color={tw.color('blue-600')}
-                iconStyle={tw`h-6 w-6 mr-0`}
-                name="information"
+                icon="information"
                 size={24}
                 style={tw`shrink-0 grow-0`}
               />

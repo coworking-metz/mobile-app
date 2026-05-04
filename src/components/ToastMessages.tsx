@@ -1,13 +1,12 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, type ColorSchemeName, useColorScheme, View } from 'react-native';
+import { Animated, Easing, useColorScheme, View, type ColorSchemeName } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { toast, Toaster } from 'sonner-native';
 import tw from 'twrnc';
-import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
+import AppIcon, { MaterialCommunityIconsName } from '@/components/AppIcon';
 import useToastStore, { type ToastType } from '@/stores/toast';
 
-const getToastIcon = (type?: ToastType): keyof typeof mdiGlyphMap => {
+const getToastIcon = (type?: ToastType): MaterialCommunityIconsName => {
   switch (type) {
     case 'success':
       return 'check-circle-outline';
@@ -93,9 +92,9 @@ const ToastMessages = () => {
       const progressColor = getToastIconColor(notification.type, colorScheme);
       toast(notification.message, {
         icon: (
-          <MaterialCommunityIcons
+          <AppIcon
             color={getToastIconColor(notification.type, colorScheme)}
-            name={getToastIcon(notification.type)}
+            icon={getToastIcon(notification.type)}
             size={20}
           />
         ),

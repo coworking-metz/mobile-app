@@ -1,21 +1,14 @@
-import {
-  DetentChangeEvent,
-  PositionChangeEvent,
-  PositionChangeEventPayload,
-  TrueSheet,
-  TrueSheetProps,
-} from '@lodev09/react-native-true-sheet';
+import { TrueSheet, TrueSheetProps } from '@lodev09/react-native-true-sheet';
+import { isNil } from 'lodash';
 import React, {
   forwardRef,
   ForwardRefRenderFunction,
-  useCallback,
-  useEffect,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
 } from 'react';
 import { Platform, ScrollView } from 'react-native';
-import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 
 export type AppBottomSheetProps = TrueSheetProps & {
@@ -28,13 +21,13 @@ export type AppBottomSheetRef = {
 };
 
 const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
-  { children, style, onClose, ...props },
+  { children, style, onClose, onDetentChange, ...props },
   disposable,
 ) => {
   const trueSheetRef = useRef<TrueSheet>(null);
-  const [scrollViewHeight, setScrollViewHeight] = useState(0);
-  const [contentHeight, setContentHeight] = useState(0);
-  const [isScrollable, setIsScrollable] = useState(false);
+  const [scrollViewHeight, setScrollViewHeight] = useState<number | null>(null);
+  const [contentHeight, setContentHeight] = useState<number | null>(null);
+  const [detent, setDetent] = useState<number | null>(null);
 
   useImperativeHandle(disposable, () => ({
     open: () => {
@@ -46,15 +39,12 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
     },
   }));
 
-  // TODO: find a better way to handle scrollable state
-  // useEffect(() => {
-  //   setIsScrollable(contentHeight >= scrollViewHeight);
-  //   console.log({ contentHeight, scrollViewHeight, isScrollable });
-  // }, [contentHeight, scrollViewHeight]);
-
-  const onDetentChange = useCallback(({ nativeEvent }: DetentChangeEvent) => {
-    setIsScrollable(nativeEvent.detent === 1);
-  }, []);
+  const isScrollable = useMemo(() => {
+    const isContentHigherThanScrollView =
+      !isNil(contentHeight) && !isNil(scrollViewHeight) && contentHeight > scrollViewHeight;
+    const isDetentAlmostOpen = !isNil(detent) && Math.round(detent * 10) / 10 === 1;
+    return isDetentAlmostOpen || isContentHigherThanScrollView;
+  }, [detent, contentHeight, scrollViewHeight]);
 
   return (
     <TrueSheet
@@ -65,11 +55,16 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
       maxContentWidth={448} // TODO: remove maxWidth once position is full height https://sheet.lodev09.com/guides/reanimated
       scrollable={isScrollable}
       style={tw`flex flex-col`}
-      onDetentChange={onDetentChange}
-      onDidDismiss={onClose}
-      onWillPresent={onDetentChange}
       {...(Platform.OS === 'ios' && { insetAdjustment: 'never' })}
-      {...props}>
+      {...props}
+      onDetentChange={(event) => {
+        setDetent(event.nativeEvent.detent);
+        onDetentChange?.(event);
+      }}
+      onDidDismiss={() => {
+        onClose?.();
+        setDetent(null);
+      }}>
       <ScrollView
         contentContainerStyle={[tw`flex flex-col`, style]}
         horizontal={false}

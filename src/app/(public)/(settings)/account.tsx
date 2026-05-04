@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link, useLocalSearchParams } from 'expo-router';
@@ -6,6 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
+import AppIcon from '@/components/AppIcon';
 import AppPressable from '@/components/AppPressable';
 import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBadge';
@@ -68,12 +68,10 @@ const Account = () => {
             <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/polaroid/`}>
               <AppPressable
                 style={tw`bg-gray-400/50 dark:bg-zinc-600/40 rounded-full flex items-center justify-center h-9 w-9`}>
-                <MaterialCommunityIcons
+                <AppIcon
                   color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('neutral-700')}
-                  iconStyle={{ height: 12, width: 12, marginRight: 0 }}
-                  name="pencil"
+                  icon="pencil"
                   size={20}
-                  style={tw``}
                 />
               </AppPressable>
             </Link>

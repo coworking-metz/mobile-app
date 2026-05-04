@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Device from 'expo-device';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -8,6 +7,7 @@ import { View } from 'react-native';
 import SegmentedControl from 'react-native-segmented-control-2';
 import { TextFieldRef } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
+import AppIcon from '@/components/AppIcon';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTextField from '@/components/AppTextField';
@@ -146,10 +146,9 @@ const NewDevice = () => {
         />
         {isLocallyAdministeredMacAddress(macAddress) && (
           <View style={tw`flex flex-row items-start gap-3 w-full overflow-hidden mb-4`}>
-            <MaterialCommunityIcons
+            <AppIcon
               color={tw.color('blue-600')}
-              iconStyle={tw`h-6 w-6 mr-0`}
-              name="information"
+              icon="information"
               size={24}
               style={tw`shrink-0 grow-0`}
             />
@@ -179,12 +178,11 @@ const NewDevice = () => {
             style={tw`basis-0 bg-gray-200 dark:bg-zinc-800 w-full`}
             tabs={DEVICE_TYPES.map((deviceType) => (
               <View key={`device-type-${deviceType}`} style={tw`flex flex-col items-center gap-1`}>
-                <MaterialCommunityIcons
+                <AppIcon
                   color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-                  iconStyle={{ height: 12, width: 12, marginRight: 0 }}
-                  name={getDeviceTypeIcon(deviceType)}
+                  icon={getDeviceTypeIcon(deviceType)}
                   size={20}
-                  style={tw``}
+                  style={tw`shrink-0`}
                 />
                 <AppText
                   numberOfLines={1}

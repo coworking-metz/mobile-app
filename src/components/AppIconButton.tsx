@@ -1,11 +1,10 @@
 import { isLiquidGlassSupported } from '@callstack/liquid-glass';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
-import { PlatformColor, StyleProp, useColorScheme, type View, ViewStyle } from 'react-native';
+import { PlatformColor, StyleProp, useColorScheme, ViewStyle, type View } from 'react-native';
 import { FadeIn, FadeOut } from 'react-native-reanimated';
 import tw from 'twrnc';
-import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import AppGlassView from '@/components/AppGlassView';
+import AppIcon, { MaterialCommunityIconsName } from '@/components/AppIcon';
 import AppPressable, { AppPressableRef } from '@/components/AppPressable';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { theme as colorTheme } from '@/helpers/colors';
@@ -14,7 +13,7 @@ const LIGHT_COLOR = tw.color('gray-200');
 const DARK_COLOR = colorTheme.charlestonGreen;
 
 export type AppIconButtonProps = {
-  icon: keyof typeof mdiGlyphMap;
+  icon: MaterialCommunityIconsName;
   iconSize?: number;
   iconStyle?: StyleProp<ViewStyle>;
   active?: boolean;
@@ -90,13 +89,15 @@ const AppIconButton: ForwardRefRenderFunction<AppPressableRef, AppIconButtonProp
             style={tw`absolute h-full w-full`}
           />
         )}
-        <MaterialCommunityIcons
-          backgroundColor={active ? colorTheme.meatBrown : 'transparent'}
+        <AppIcon
           color={iconColor}
-          iconStyle={{ marginRight: 0 }}
-          name={icon}
+          icon={icon}
           size={iconSize}
-          style={[tw`p-1 shrink-0 overflow-hidden rounded-full`, iconStyle]}
+          style={[
+            tw`p-1 shrink-0 overflow-hidden rounded-full`,
+            active && { backgroundColor: colorTheme.meatBrown },
+            iconStyle,
+          ]}
         />
       </AppGlassView>
     </AppPressable>
