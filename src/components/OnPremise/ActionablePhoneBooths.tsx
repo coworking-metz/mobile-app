@@ -4,9 +4,9 @@ import React, { useMemo } from 'react';
 import { Platform, StyleProp, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
-import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import AppBlurView, { AppBlurViewProps } from '@/components/AppBlurView';
+import { MaterialCommunityIconsName } from '@/components/AppIcon';
 import AppPressable from '@/components/AppPressable';
 import { theme } from '@/helpers/colors';
 
@@ -21,9 +21,9 @@ const ActionablePhoneBooths = ({
   style,
   ...props
 }: {
-  activeIcon?: keyof typeof mdiGlyphMap;
-  icon: keyof typeof mdiGlyphMap;
-  unknownIcon?: keyof typeof mdiGlyphMap;
+  activeIcon?: MaterialCommunityIconsName;
+  icon: MaterialCommunityIconsName;
+  unknownIcon?: MaterialCommunityIconsName;
   actives?: (boolean | null)[];
   disabled?: boolean;
   loading?: boolean;

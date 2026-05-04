@@ -149,16 +149,16 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
         </AppText>
 
         <View style={tw`flex flex-col w-full mt-2`}>
-          <SectionTitle
-            loading={loading}
-            title={
-              !isNil(durationSinceLastFetch) && durationSinceLastFetch > 300
-                ? durationSinceLastFetch > 3_600
+          <SectionTitle loading={loading} title={t('onPremise.phoneBooths.state.label')}>
+            {!isNil(durationSinceLastFetch) && durationSinceLastFetch > 300 && (
+              <AppText
+                style={tw`ml-auto text-xs font-normal text-right text-slate-500 dark:text-neutral-500`}>
+                {durationSinceLastFetch > 3_600
                   ? dayjs(onPremiseStateUpdatedAt).calendar()
-                  : dayjs(onPremiseStateUpdatedAt).fromNow()
-                : t('onPremise.phoneBooths.state.label')
-            }
-          />
+                  : dayjs(onPremiseStateUpdatedAt).fromNow()}
+              </AppText>
+            )}
+          </SectionTitle>
           <ServiceRow
             withBottomDivider
             label={t('onPremise.phoneBooths.state.blue.occupation.label')}

@@ -1,16 +1,15 @@
-import HorizontalLoadingAnimation from './Animations/HorizontalLoadingAnimation';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
 import { StyleProp, TouchableHighlight, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
-import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
+import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
+import AppIcon, { MaterialCommunityIconsName } from '@/components/AppIcon';
 
 type AppTextButtonProps = {
   disabled?: boolean;
   loading?: boolean;
   style?: StyleProp<ViewStyle>;
-  prefixIcon?: keyof typeof mdiGlyphMap | null;
-  suffixIcon?: keyof typeof mdiGlyphMap | null;
+  prefixIcon?: MaterialCommunityIconsName | null;
+  suffixIcon?: MaterialCommunityIconsName | null;
   children?: ReactNode;
   onPress?: () => void;
 };
@@ -34,10 +33,9 @@ const AppTextButton: ForwardRefRenderFunction<typeof TouchableHighlight, AppText
           <>
             <View style={tw`flex flex-row items-center justify-start h-full grow shrink basis-0`}>
               {prefixIcon ? (
-                <MaterialCommunityIcons
+                <AppIcon
                   color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-                  iconStyle={tw`h-6 w-6`}
-                  name={prefixIcon}
+                  icon={prefixIcon}
                   size={24}
                 />
               ) : null}
@@ -47,10 +45,9 @@ const AppTextButton: ForwardRefRenderFunction<typeof TouchableHighlight, AppText
             </View>
             <View style={tw`flex flex-row items-center justify-end h-full grow shrink basis-0`}>
               {suffixIcon ? (
-                <MaterialCommunityIcons
+                <AppIcon
                   color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-                  iconStyle={tw`h-6 w-6`}
-                  name={suffixIcon}
+                  icon={suffixIcon}
                   size={24}
                 />
               ) : null}

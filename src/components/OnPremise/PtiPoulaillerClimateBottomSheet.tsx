@@ -61,7 +61,7 @@ const PtiPoulaillerClimateBottomSheet: ForwardRefRenderFunction<
         <SectionTitle loading={loading} title={t('onPremise.climate.sensors.label')}>
           {!isNil(durationSinceLastFetch) && durationSinceLastFetch > 300 && (
             <AppText
-              style={tw`ml-auto text-base font-normal leading-5 text-right text-slate-500 dark:text-neutral-500`}>
+              style={tw`ml-auto text-xs font-normal text-right text-slate-500 dark:text-neutral-500`}>
               {durationSinceLastFetch > 3_600
                 ? dayjs(onPremiseStateUpdatedAt).calendar()
                 : dayjs(onPremiseStateUpdatedAt).fromNow()}

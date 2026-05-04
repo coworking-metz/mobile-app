@@ -1,8 +1,7 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { forwardRef, type ReactNode, type ForwardRefRenderFunction } from 'react';
-import { View, TouchableHighlight, type TouchableHighlightProps } from 'react-native';
+import AppIcon, { MaterialCommunityIconsName } from '../AppIcon';
+import React, { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
+import { TouchableHighlight, View, type TouchableHighlightProps } from 'react-native';
 import tw from 'twrnc';
-import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import AppText from '@/components/AppText';
 import Divider from '@/components/Divider';
@@ -11,8 +10,8 @@ export type ServiceRowProps = TouchableHighlightProps & {
   label: string;
   description?: string;
   renderDescription?: (text?: string, disabled?: boolean) => ReactNode;
-  prefixIcon?: keyof typeof mdiGlyphMap | null;
-  suffixIcon?: keyof typeof mdiGlyphMap | null;
+  prefixIcon?: MaterialCommunityIconsName | null;
+  suffixIcon?: MaterialCommunityIconsName | null;
   prefix?: ReactNode;
   children?: ReactNode;
   loading?: boolean;
@@ -57,10 +56,9 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
           {prefix ??
             (prefixIcon ? (
               <View style={tw`flex flex-row items-center shrink-0 min-h-10`}>
-                <MaterialCommunityIcons
+                <AppIcon
                   color={iconColor}
-                  iconStyle={{ height: 20, width: 20, marginRight: 0 }}
-                  name={prefixIcon}
+                  icon={prefixIcon}
                   size={24}
                   style={[tw`shrink-0`, disabled && tw`opacity-40`]}
                 />
@@ -96,10 +94,9 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
                 <HorizontalLoadingAnimation color={iconColor} style={tw`h-full w-full`} />
               </View>
             ) : suffixIcon ? (
-              <MaterialCommunityIcons
+              <AppIcon
                 color={iconColor}
-                iconStyle={{ height: 20, width: 20, marginRight: 0 }}
-                name={suffixIcon}
+                icon={suffixIcon}
                 size={24}
                 style={[tw`shrink-0 grow-0`, disabled && tw`opacity-40`]}
               />

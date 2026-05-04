@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Device from 'expo-device';
 import * as Haptics from 'expo-haptics';
@@ -22,6 +21,7 @@ import AppBottomSheet, {
   AppBottomSheetProps,
   AppBottomSheetRef,
 } from '@/components/AppBottomSheet';
+import AppIcon from '@/components/AppIcon';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
@@ -387,10 +387,9 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
         {t('devices.add.pair.description')}
       </AppText>
       <View style={tw`flex flex-row items-start flex-gap-2 w-full overflow-hidden`}>
-        <MaterialCommunityIcons
+        <AppIcon
           color={tw.color('blue-600')}
-          iconStyle={tw`h-6 w-6 mr-0`}
-          name="information"
+          icon="information"
           size={24}
           style={tw`shrink-0 grow-0`}
         />

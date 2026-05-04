@@ -1,4 +1,4 @@
-import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
+import { MaterialCommunityIconsName } from '@/components/AppIcon';
 
 export enum CommutingMode {
   ON_FOOT = 'ON_FOOT',
@@ -8,7 +8,7 @@ export enum CommutingMode {
 
 export const COMMUTING_MODES = Object.keys(CommutingMode) as CommutingMode[];
 
-export const getCommuteModeIcon = (type: CommutingMode): keyof typeof mdiGlyphMap => {
+export const getCommuteModeIcon = (type: CommutingMode): MaterialCommunityIconsName => {
   switch (type) {
     case CommutingMode.ON_FOOT:
       return 'walk';

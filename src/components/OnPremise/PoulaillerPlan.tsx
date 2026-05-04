@@ -6,7 +6,7 @@ import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image as RNImage, StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
-import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
+import Animated, { BounceIn, BounceOut, FadeIn, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import floorPlanDay from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-13-30.png';
 import floorPlanNight from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-20-30.png';
@@ -126,8 +126,7 @@ const PoulaillerPlan = ({
 
         {!hasFloorplanLoaded ? (
           <Animated.View
-            entering={BounceIn.duration(750)}
-            exiting={BounceOut.duration(750)}
+            exiting={FadeOut.duration(300)}
             style={tw`absolute h-16 w-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full overflow-hidden`}>
             <VerticalLoadingAnimation
               color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}

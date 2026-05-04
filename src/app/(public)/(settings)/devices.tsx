@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link, useLocalSearchParams } from 'expo-router';
@@ -8,6 +7,7 @@ import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut, FadeIn, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import SwitchDevicesAnimation from '@/components/Animations/SwitchDevicesAnimation';
+import AppIcon from '@/components/AppIcon';
 import AppPressable from '@/components/AppPressable';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppShimmerText from '@/components/AppShimmerText';
@@ -165,9 +165,9 @@ const DeviceCard = ({
         <>
           <View style={tw`bg-gray-300 dark:bg-zinc-900/80 rounded-full p-2 z-20`}>
             <View style={tw`flex relative h-8 w-8 shrink-0`}>
-              <MaterialCommunityIcons
+              <AppIcon
                 color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-                name={getDeviceTypeIcon(device?.type ?? DeviceType.UNKNOWN)}
+                icon={getDeviceTypeIcon(device?.type ?? DeviceType.UNKNOWN)}
                 size={32}
                 style={tw`shrink-0 self-center`}
               />
@@ -219,9 +219,9 @@ const NewDeviceCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
         },
         style,
       ]}>
-      <MaterialCommunityIcons
+      <AppIcon
         color={tw.prefixMatch('dark') ? tw.color('stone-400') : tw.color('gray-700')}
-        name={'plus-circle-outline'}
+        icon={'plus-circle-outline'}
         size={44}
         style={tw`shrink-0 grow-0`}
       />

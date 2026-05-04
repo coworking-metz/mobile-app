@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import Animated, { FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import LoveLetterAnimation from '@/components/Animations/LoveLetterAnimation';
+import AppIcon from '@/components/AppIcon';
 import AppText from '@/components/AppText';
 import AppTextField from '@/components/AppTextField';
 import ErrorState from '@/components/ErrorState';
@@ -111,13 +112,7 @@ const AllMessages = ({ from }: { from?: string }) => {
           containerStyle={tw`flex flex-row items-center bg-gray-200 dark:bg-neutral-800 mx-6 rounded-lg`}
           enterKeyHint="search"
           leadingAccessory={
-            <MaterialCommunityIcons
-              color={tw.color('zinc-500')}
-              iconStyle={tw`h-6 w-6`}
-              name="magnify"
-              size={24}
-              style={tw`shrink-0`}
-            />
+            <AppIcon color={tw.color('zinc-500')} icon="magnify" size={24} style={tw`shrink-0`} />
           }
           placeholder={t('messages.list.search.placeholder')}
           style={tw`mx-2 dark:text-gray-200`}
@@ -174,9 +169,9 @@ const AllMessages = ({ from }: { from?: string }) => {
                       )
                     }
                     title={message?.title}>
-                    <MaterialCommunityIcons
+                    <AppIcon
                       color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-                      name="chevron-right"
+                      icon="chevron-right"
                       size={24}
                       style={tw`self-center shrink-0 ml-auto w-4`}
                     />
