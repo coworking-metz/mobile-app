@@ -1,11 +1,12 @@
 import ActionableLight from './ActionableLight';
 import { useOnPremise } from './OnPremiseContext';
 import { useQuery } from '@tanstack/react-query';
+import { BlurTargetView } from 'expo-blur';
 import { Image } from 'expo-image';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image as RNImage, StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
-import { BounceIn, BounceOut } from 'react-native-reanimated';
+import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import floorPlanDay from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-13-30.png';
 import floorPlanNight from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-20-30.png';
@@ -17,7 +18,6 @@ import ActionableCarbonDioxide from '@/components/OnPremise/ActionableCarbonDiox
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
 import { isSilentError } from '@/helpers/error';
-import { useAppPaddingBottom } from '@/helpers/screen';
 import { getOnPremiseState } from '@/services/api/services';
 import { onPremiseQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
@@ -34,10 +34,10 @@ const PoulaillerPlan = ({
   useDeviceContext(tw);
   const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
-  const paddingBottom = useAppPaddingBottom();
   const [imageWidth, setImageWidth] = useState<number | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
   const [hasFloorplanLoaded, setFloorplanLoaded] = useState<boolean>(false);
+  const blurTargetRef = useRef<View | null>(null);
   const {
     selectCarbonDioxide,
     selectDeckDoor,
@@ -90,7 +90,7 @@ const PoulaillerPlan = ({
   }, [backgroundImage]);
 
   return (
-    <View style={[tw`flex flex-col grow items-start`, { paddingBottom }, style]}>
+    <View style={[tw`flex flex-col grow items-start`, style]}>
       <View style={tw`flex flex-row gap-3 items-end w-full mx-6 mb-4`}>
         <AppText style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.location.poulailler')}
@@ -98,7 +98,7 @@ const PoulaillerPlan = ({
         {onPremiseStateError && !isSilentError(onPremiseStateError) && !isFetchingOnPremiseState ? (
           <ErrorBadge
             error={onPremiseStateError}
-            style={tw`shrink-0 mb-2`}
+            style={tw`shrink-0 ios:mb-2 android:mb-1`}
             title={t('onPremise.onFetch.fail')}
             onRetry={refetchOnPremiseState}
           />
@@ -109,27 +109,35 @@ const PoulaillerPlan = ({
           tw`flex flex-col items-center justify-center w-full relative`,
           !!imageWidth && !!imageHeight && { aspectRatio: imageWidth / imageHeight },
         ]}>
-        {imageHeight && imageWidth ? (
-          <Image
-            cachePolicy="memory-disk"
-            source={backgroundImage}
-            style={[tw`w-full relative`, { aspectRatio: imageWidth / imageHeight }]}
-            onLoadEnd={() => setFloorplanLoaded(true)}
-          />
-        ) : null}
+        <BlurTargetView ref={blurTargetRef} style={tw`absolute inset-0`}>
+          {imageHeight && imageWidth ? (
+            <Image
+              cachePolicy="memory-disk"
+              source={backgroundImage}
+              style={[tw`w-full relative`, { aspectRatio: imageWidth / imageHeight }]}
+              onLoadEnd={() => setFloorplanLoaded(true)}
+            />
+          ) : null}
 
-        {isFetchingOnPremiseState && (
-          <LoadingProgressBar style={tw`absolute top-0 inset-x-0 z-1`} />
-        )}
+          {isFetchingOnPremiseState && (
+            <LoadingProgressBar style={tw`absolute top-0 inset-x-0 z-1`} />
+          )}
+        </BlurTargetView>
 
         {!hasFloorplanLoaded ? (
-          <VerticalLoadingAnimation
-            color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-            style={tw`absolute h-16 w-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full`}
-          />
+          <Animated.View
+            entering={BounceIn.duration(750)}
+            exiting={BounceOut.duration(750)}
+            style={tw`absolute h-16 w-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full overflow-hidden`}>
+            <VerticalLoadingAnimation
+              color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
+              style={tw`h-full w-full`}
+            />
+          </Animated.View>
         ) : withInformations ? (
           <>
             <ActionableIcon
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               icon="fridge-outline"
@@ -140,6 +148,7 @@ const PoulaillerPlan = ({
             />
 
             <ActionableIcon
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               icon="coffee-outline"
@@ -150,6 +159,7 @@ const PoulaillerPlan = ({
             />
 
             <ActionableIcon
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               icon="television-guide"
               key="television"
@@ -159,6 +169,7 @@ const PoulaillerPlan = ({
             />
 
             <ActionableIcon
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               icon="printer-outline"
@@ -168,6 +179,7 @@ const PoulaillerPlan = ({
               onPress={selectPrinter}
             />
             <ActionableIcon
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               icon="bell-ring-outline"
@@ -177,6 +189,7 @@ const PoulaillerPlan = ({
               onPress={selectIntercom}
             />
             <ActionableIcon
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               icon="fan"
@@ -186,6 +199,7 @@ const PoulaillerPlan = ({
               onPress={selectAirConditioning}
             />
             <ActionableIcon
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               icon="fan"
@@ -196,6 +210,7 @@ const PoulaillerPlan = ({
             />
 
             <ActionableIcon
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               icon="wifi"
@@ -204,6 +219,7 @@ const PoulaillerPlan = ({
               onPress={selectWifi}
             />
             <ActionableIcon
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               icon="account-group-outline"
@@ -217,6 +233,7 @@ const PoulaillerPlan = ({
           <>
             {/* Lights */}
             <ActionableLight
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               id="1"
@@ -226,6 +243,7 @@ const PoulaillerPlan = ({
               style={tw`top-[22%] left-[32%]`}
             />
             <ActionableLight
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               id="2"
@@ -235,6 +253,7 @@ const PoulaillerPlan = ({
               style={tw`top-[22%] left-[65%]`}
             />
             <ActionableLight
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               id="3"
@@ -244,6 +263,7 @@ const PoulaillerPlan = ({
               style={tw`top-[40%] left-[32%]`}
             />
             <ActionableLight
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               id="4"
@@ -253,6 +273,7 @@ const PoulaillerPlan = ({
               style={tw`top-[40%] left-[65%]`}
             />
             <ActionableLight
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               id="5"
@@ -262,6 +283,7 @@ const PoulaillerPlan = ({
               style={tw`top-[68%] left-[32%]`}
             />
             <ActionableLight
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               id="6"
@@ -277,6 +299,7 @@ const PoulaillerPlan = ({
             <ActionableIcon
               active={onPremiseState?.deckDoor?.unlocked}
               activeIcon="lock-open"
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               icon="lock"
@@ -289,6 +312,7 @@ const PoulaillerPlan = ({
 
             {/* Key box */}
             <ActionableIcon
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               icon="key-chain"
@@ -305,6 +329,7 @@ const PoulaillerPlan = ({
                 onPremiseState?.phoneBooths?.orange.occupied ?? null,
                 onPremiseState?.phoneBooths?.blue.occupied ?? null,
               ]}
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               icon="door-open"
@@ -316,6 +341,7 @@ const PoulaillerPlan = ({
             />
 
             <ActionableIcon
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               icon="key-chain-variant"
@@ -327,6 +353,7 @@ const PoulaillerPlan = ({
 
             {user?.capabilities?.includes('STORAGE_KEYS_ACCESS') && (
               <ActionableIcon
+                blurTarget={blurTargetRef}
                 entering={BounceIn.duration(750).delay(Math.random() * 500)}
                 exiting={BounceOut.duration(750)}
                 icon="key-chain-variant"
@@ -338,6 +365,7 @@ const PoulaillerPlan = ({
             )}
 
             <ActionableCarbonDioxide
+              blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               icon="leaf"

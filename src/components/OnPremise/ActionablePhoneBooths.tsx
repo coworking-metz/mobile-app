@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { isNil } from 'lodash';
 import React, { useMemo } from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
+import { Platform, StyleProp, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
@@ -42,6 +42,7 @@ const ActionablePhoneBooths = ({
 
   return (
     <AppBlurView
+      radius={Platform.OS === 'ios' ? 15 : 30}
       style={[
         tw`absolute z-10 h-12 w-24 flex items-stretch rounded-full overflow-hidden`,
         // selected && tw.style(`ios:border-2 ios:border-neutral-600 ios:dark:border-neutral-500`),

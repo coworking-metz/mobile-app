@@ -3,10 +3,11 @@ import AppIconButton from './AppIconButton';
 import CarouselPaginationDots from './CarouselPaginationDots';
 import { isLiquidGlassSupported } from '@callstack/liquid-glass';
 import dayjs from 'dayjs';
+import { BlurTargetView } from 'expo-blur';
 import { Image, type ImageProps } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import { isNil } from 'lodash';
-import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { Modal, Platform, TouchableOpacity, View, ViewStyle } from 'react-native';
 import Gallery from 'react-native-awesome-gallery';
 import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -36,6 +37,7 @@ const ZoomableImage = ({
   const insets = useSafeAreaInsets();
   const offset = useSharedValue(0);
   const [isGalleryVisible, setGalleryVisible] = useState<boolean>(false);
+  const blurTargetRef = useRef<View | null>(null);
 
   const sourcesCount = useMemo(() => sources?.length ?? 0, [sources]);
 
@@ -75,36 +77,7 @@ const ZoomableImage = ({
         {...(Platform.OS === 'android' && { navigationBarTranslucent: true })}>
         {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
         <StatusBar translucent style="light" />
-        <View style={tw`flex flex-col h-full w-full bg-black`}>
-          <View
-            style={[
-              tw`absolute top-0 z-10 flex flex-row items-center justify-start w-full px-4 pb-2`,
-              {
-                paddingTop: insets.top,
-                left: insets.left,
-                right: insets.right,
-              },
-            ]}>
-            <AppTopFader style={tw`absolute inset-x-0 top-0`} tintColor={tw.color('black/25')} />
-
-            <AppIconButton
-              icon="window-close"
-              onPress={() => setGalleryVisible(false)}
-              {...(!isLiquidGlassSupported && { theme: 'dark' })}
-            />
-
-            {sourcesCount > 1 && (
-              <>
-                <CarouselPaginationDots
-                  count={sourcesCount}
-                  offset={offset}
-                  style={tw`mx-auto grow-0`}
-                />
-                {/* fake a View with the same size as the close button to properly center pagination dots */}
-                <View style={tw`size-10`} />
-              </>
-            )}
-          </View>
+        <BlurTargetView ref={blurTargetRef} style={tw`flex flex-col h-full w-full bg-black`}>
           <Gallery
             data={sources ?? [source]}
             renderItem={({ item, setImageDimensions }) => (
@@ -133,6 +106,38 @@ const ZoomableImage = ({
             }}
             onSwipeToClose={() => setGalleryVisible(false)}
           />
+        </BlurTargetView>
+
+        <View
+          style={[
+            tw`absolute top-0 z-10 flex flex-row items-center justify-start w-full px-4 pb-2`,
+            {
+              paddingTop: insets.top,
+              left: insets.left,
+              right: insets.right,
+            },
+          ]}>
+          <AppTopFader style={tw`absolute inset-x-0 top-0`} tintColor={tw.color('black/25')} />
+
+          <AppIconButton
+            blurTarget={blurTargetRef}
+            icon="window-close"
+            radius={25}
+            onPress={() => setGalleryVisible(false)}
+            {...(!isLiquidGlassSupported && { theme: 'dark' })}
+          />
+
+          {sourcesCount > 1 && (
+            <>
+              <CarouselPaginationDots
+                count={sourcesCount}
+                offset={offset}
+                style={tw`mx-auto grow-0`}
+              />
+              {/* fake a View with the same size as the close button to properly center pagination dots */}
+              <View style={tw`size-10`} />
+            </>
+          )}
         </View>
       </Modal>
     </>

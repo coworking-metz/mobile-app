@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { BlurTargetView } from 'expo-blur';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { includes } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
@@ -31,6 +32,7 @@ const OnPremise = () => {
   const router = useRouter();
   const [layoutWidth, setLayoutWidth] = useState(0);
   const [headerHeight, setHeaderHeight] = useState(0);
+  const blurTargetRef = useRef<View | null>(null);
 
   // https://github.com/facebook/react-native/issues/54183#issuecomment-3467125323
   const [progressViewOffset, setProgressViewOffset] = useState(0);
@@ -94,7 +96,75 @@ const OnPremise = () => {
           paddingRight: insets.right,
         },
       ]}
-      onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>
+      onLayout={({ nativeEvent }) => setLayoutWidth(nativeEvent.layout.width)}>
+      {layoutWidth ? (
+        <BlurTargetView ref={blurTargetRef} style={tw`relative h-full flex grow`}>
+          <Animated.ScrollView
+            ref={horizontalScrollView}
+            horizontal
+            contentContainerStyle={tw`flex flex-row items-stretch`}
+            pagingEnabled={!isWide}
+            scrollEventThrottle={16}
+            showsHorizontalScrollIndicator={false}
+            onScroll={onHorizontalScroll}>
+            <ScrollView
+              contentContainerStyle={[
+                isWide && tw`max-w-lg`,
+                {
+                  paddingTop: headerHeight,
+                  width: isWide ? layoutWidth / 2 : layoutWidth,
+                  paddingBottom: insets.bottom,
+                },
+              ]}
+              horizontal={false}
+              refreshControl={
+                <RefreshControl
+                  progressViewOffset={progressViewOffset}
+                  refreshing={isRefreshingPoulaillerPlan}
+                  onRefresh={() => {
+                    setRefreshingPoulaillerPlan(true);
+                    refetchOnPremiseState().finally(() => setRefreshingPoulaillerPlan(false));
+                  }}
+                />
+              }
+              scrollEventThrottle={16}
+              showsVerticalScrollIndicator={false}>
+              <PoulaillerPlan
+                withInformations={areInformationsVisible}
+                withLights={areLightsVisible}
+              />
+            </ScrollView>
+            <ScrollView
+              contentContainerStyle={[
+                isWide && tw`max-w-lg`,
+                {
+                  paddingTop: headerHeight,
+                  width: isWide ? layoutWidth / 2 : layoutWidth,
+                  paddingBottom: insets.bottom,
+                },
+              ]}
+              horizontal={false}
+              refreshControl={
+                <RefreshControl
+                  progressViewOffset={progressViewOffset}
+                  refreshing={isRefreshingPtiPoulaillerPlan}
+                  onRefresh={() => {
+                    setRefreshingPtiPoulaillerPlan(true);
+                    refetchOnPremiseState().finally(() => setRefreshingPtiPoulaillerPlan(false));
+                  }}
+                />
+              }
+              scrollEventThrottle={16}
+              showsVerticalScrollIndicator={false}>
+              <PtiPoulaillerPlan
+                withInformations={areInformationsVisible}
+                withLights={areLightsVisible}
+              />
+            </ScrollView>
+          </Animated.ScrollView>
+        </BlurTargetView>
+      ) : null}
+
       <Animated.View
         style={[
           tw`flex flex-row items-center absolute top-0 px-4 pb-2 w-full z-10`,
@@ -107,7 +177,9 @@ const OnPremise = () => {
 
         <View style={tw`grow shrink basis-0 flex flex-row items-center justify-start gap-2`}>
           <AppIconButton
+            blurTarget={blurTargetRef}
             icon="arrow-left"
+            radius={30}
             style={tw`h-10 w-10`}
             onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
           />
@@ -125,7 +197,9 @@ const OnPremise = () => {
           {IS_DEV && (
             <AppIconButton
               active={areLightsVisible}
+              blurTarget={blurTargetRef}
               icon={areLightsVisible ? 'lightbulb-group' : 'lightbulb-group-outline'}
+              radius={25}
               style={tw`h-10 w-10`}
               onPress={() => {
                 setLightsVisible(!areLightsVisible);
@@ -136,7 +210,9 @@ const OnPremise = () => {
 
           <AppIconButton
             active={areInformationsVisible}
+            blurTarget={blurTargetRef}
             icon="dots-horizontal"
+            radius={25}
             style={tw`h-10 w-10`}
             onPress={() => {
               setLightsVisible(false);
@@ -145,64 +221,6 @@ const OnPremise = () => {
           />
         </View>
       </Animated.View>
-
-      {layoutWidth ? (
-        <Animated.ScrollView
-          ref={horizontalScrollView}
-          horizontal
-          contentContainerStyle={tw`flex flex-row items-stretch`}
-          pagingEnabled={!isWide}
-          scrollEventThrottle={16}
-          showsHorizontalScrollIndicator={false}
-          onScroll={onHorizontalScroll}>
-          <ScrollView
-            contentContainerStyle={[
-              isWide && tw`max-w-lg`,
-              { paddingTop: headerHeight, width: isWide ? layoutWidth / 2 : layoutWidth },
-            ]}
-            horizontal={false}
-            refreshControl={
-              <RefreshControl
-                progressViewOffset={progressViewOffset}
-                refreshing={isRefreshingPoulaillerPlan}
-                onRefresh={() => {
-                  setRefreshingPoulaillerPlan(true);
-                  refetchOnPremiseState().finally(() => setRefreshingPoulaillerPlan(false));
-                }}
-              />
-            }
-            scrollEventThrottle={16}
-            showsVerticalScrollIndicator={false}>
-            <PoulaillerPlan
-              withInformations={areInformationsVisible}
-              withLights={areLightsVisible}
-            />
-          </ScrollView>
-          <ScrollView
-            contentContainerStyle={[
-              isWide && tw`max-w-lg`,
-              { paddingTop: headerHeight, width: isWide ? layoutWidth / 2 : layoutWidth },
-            ]}
-            horizontal={false}
-            refreshControl={
-              <RefreshControl
-                progressViewOffset={progressViewOffset}
-                refreshing={isRefreshingPtiPoulaillerPlan}
-                onRefresh={() => {
-                  setRefreshingPtiPoulaillerPlan(true);
-                  refetchOnPremiseState().finally(() => setRefreshingPtiPoulaillerPlan(false));
-                }}
-              />
-            }
-            scrollEventThrottle={16}
-            showsVerticalScrollIndicator={false}>
-            <PtiPoulaillerPlan
-              withInformations={areInformationsVisible}
-              withLights={areLightsVisible}
-            />
-          </ScrollView>
-        </Animated.ScrollView>
-      ) : null}
     </View>
   );
 };
