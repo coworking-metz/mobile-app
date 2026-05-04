@@ -1,7 +1,8 @@
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
+import { BlurTargetView } from 'expo-blur';
 import { Image, ImageBackground } from 'expo-image';
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
@@ -75,6 +76,7 @@ const CalendarEventCard = ({
   const { t } = useTranslation();
   const isFocus = useIsFocused();
   const activeSince = useAppState();
+  const blurTargetRef = useRef<View | null>(null);
 
   const date = useMemo(() => {
     if (!event) return null;
@@ -99,38 +101,43 @@ const CalendarEventCard = ({
   return (
     <View style={[tw`relative`, style]}>
       <AppSquircleView style={tw`rounded-3xl overflow-hidden bg-gray-300 dark:bg-zinc-700`}>
-        <ImageBackground
-          cachePolicy="memory"
-          contentFit="cover"
-          contentPosition="center"
-          source={{
-            uri: firstPicture,
-            cacheKey: `${firstPicture}-${dayjs().format('YYYY-MM-DD')}`,
-          }}
-          style={tw`w-full h-full flex relative`}
-          {...(event?.end && dayjs().isAfter(event.end) && { imageStyle: { opacity: 0.5 } })}>
-          {loading ? (
-            <LoadingSkeleton height={'100%'} width={'100%'} />
-          ) : event ? (
-            <AppBlurView style={tw`w-full flex flex-row items-center px-3 py-2 mt-auto`}>
-              {eventIcon}
-              <View style={tw`flex flex-col items-stretch grow shrink basis-0 ml-3`}>
-                {date && (
-                  <AppText
-                    numberOfLines={1}
-                    style={tw`text-base font-light text-slate-800 dark:text-slate-300`}>
-                    {`${date.slice(0, 1).toUpperCase()}${date.slice(1)}`}
-                  </AppText>
-                )}
+        <BlurTargetView ref={blurTargetRef} style={tw`w-full h-full flex relative`}>
+          <ImageBackground
+            cachePolicy="memory"
+            contentFit="cover"
+            contentPosition="center"
+            source={{
+              uri: firstPicture,
+              cacheKey: `${firstPicture}-${dayjs().format('YYYY-MM-DD')}`,
+            }}
+            style={tw`w-full h-full flex relative`}
+            {...(event?.end && dayjs().isAfter(event.end) && { imageStyle: { opacity: 0.5 } })}>
+            {loading ? <LoadingSkeleton height={'100%'} width={'100%'} /> : null}
+          </ImageBackground>
+        </BlurTargetView>
+
+        {!loading && event ? (
+          <AppBlurView
+            blurTarget={blurTargetRef}
+            radius={40}
+            style={tw`absolute inset-x-0 bottom-0 flex flex-row items-center px-3 py-2`}>
+            {eventIcon}
+            <View style={tw`flex flex-col items-stretch grow shrink basis-0 ml-3`}>
+              {date && (
                 <AppText
                   numberOfLines={1}
-                  style={tw`text-xl font-medium text-gray-900 dark:text-gray-200`}>
-                  {event.title}
+                  style={tw`text-base font-light text-slate-800 dark:text-slate-300`}>
+                  {`${date.slice(0, 1).toUpperCase()}${date.slice(1)}`}
                 </AppText>
-              </View>
-            </AppBlurView>
-          ) : null}
-        </ImageBackground>
+              )}
+              <AppText
+                numberOfLines={1}
+                style={tw`text-xl font-medium text-gray-900 dark:text-gray-200`}>
+                {event.title}
+              </AppText>
+            </View>
+          </AppBlurView>
+        ) : null}
       </AppSquircleView>
 
       {children}

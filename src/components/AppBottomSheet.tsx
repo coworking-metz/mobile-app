@@ -9,6 +9,7 @@ import React, {
   forwardRef,
   ForwardRefRenderFunction,
   useCallback,
+  useEffect,
   useImperativeHandle,
   useRef,
   useState,
@@ -31,6 +32,8 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
   disposable,
 ) => {
   const trueSheetRef = useRef<TrueSheet>(null);
+  const [scrollViewHeight, setScrollViewHeight] = useState(0);
+  const [contentHeight, setContentHeight] = useState(0);
   const [isScrollable, setIsScrollable] = useState(false);
 
   useImperativeHandle(disposable, () => ({
@@ -42,6 +45,12 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
       onClose?.();
     },
   }));
+
+  // TODO: find a better way to handle scrollable state
+  // useEffect(() => {
+  //   setIsScrollable(contentHeight >= scrollViewHeight);
+  //   console.log({ contentHeight, scrollViewHeight, isScrollable });
+  // }, [contentHeight, scrollViewHeight]);
 
   const onDetentChange = useCallback(({ nativeEvent }: DetentChangeEvent) => {
     setIsScrollable(nativeEvent.detent === 1);
@@ -64,7 +73,13 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
       <ScrollView
         contentContainerStyle={[tw`flex flex-col`, style]}
         horizontal={false}
-        scrollEnabled={isScrollable}>
+        scrollEnabled={isScrollable}
+        onContentSizeChange={(_, contentSizeHeight) => {
+          setContentHeight(contentSizeHeight);
+        }}
+        onLayout={({ nativeEvent }) => {
+          setScrollViewHeight(nativeEvent.layout.height);
+        }}>
         {children}
       </ScrollView>
     </TrueSheet>

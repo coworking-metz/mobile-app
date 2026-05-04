@@ -219,7 +219,7 @@ const PresenceGraph = ({
           values={values}
           width={(Math.ceil(squaresCount / 7) + 3) * (SQUARE_SIZE + SQUARE_GAP)}
           onDayPress={({ count, date }) => {
-            if (count) onDateSelect?.(date);
+            if (count && date) onDateSelect?.(dayjs(date).toISOString().substring(0, 10));
           }}
         />
 

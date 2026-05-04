@@ -1,3 +1,4 @@
+import { BlurTargetView } from 'expo-blur';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useMemo, useState } from 'react';
@@ -33,6 +34,7 @@ const Chat = () => {
   const router = useRouter();
   const settingsStore = useSettingsStore();
   const paddingBottom = useAppPaddingBottom();
+  const blurTargetRef = React.useRef<View | null>(null);
 
   const language = useMemo(() => {
     if (settingsStore.language === SYSTEM_OPTION) {
@@ -108,54 +110,58 @@ const Chat = () => {
         paddingRight: insets.right,
         paddingBottom,
       })}>
-      {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
+      {}
       {Platform.OS !== 'ios' && <StatusBar translucent style="dark" />}
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'translate-with-padding' : 'height'}
-        keyboardVerticalOffset={paddingBottom + 16}
-        style={tw`grow w-full`}>
-        <WebView
-          allowFileAccess={true}
-          allowUniversalAccessFromFileURLs={true}
-          androidLayerType="hardware"
-          domStorageEnabled={true}
-          javaScriptEnabled={true}
-          mixedContentMode="always"
-          originWhitelist={['*']}
-          source={{ html: htmlContent }}
-          style={tw`h-full w-full`}
-          onError={(e) => {
-            setError(e.nativeEvent);
-            setLoading(false);
-          }}
-          onLoadStart={() => setLoading(true)}
-          onMessage={(event) => {
-            if (event.nativeEvent.data === BREVO_READY_MESSAGE) {
+      <BlurTargetView ref={blurTargetRef} style={tw`grow w-full`}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'translate-with-padding' : 'height'}
+          keyboardVerticalOffset={paddingBottom + 16}
+          style={tw`grow w-full`}>
+          <WebView
+            allowFileAccess={true}
+            allowUniversalAccessFromFileURLs={true}
+            androidLayerType="hardware"
+            domStorageEnabled={true}
+            javaScriptEnabled={true}
+            mixedContentMode="always"
+            originWhitelist={['*']}
+            source={{ html: htmlContent }}
+            style={tw`h-full w-full`}
+            onError={(e) => {
+              setError(e.nativeEvent);
               setLoading(false);
-            } else {
-              console.log('WebView message:', event.nativeEvent.data);
-            }
-          }}
-        />
-      </KeyboardAvoidingView>
+            }}
+            onLoadStart={() => setLoading(true)}
+            onMessage={(event) => {
+              if (event.nativeEvent.data === BREVO_READY_MESSAGE) {
+                setLoading(false);
+              } else {
+                console.log('WebView message:', event.nativeEvent.data);
+              }
+            }}
+          />
+        </KeyboardAvoidingView>
 
-      {isLoading ? (
-        <Animated.View
-          exiting={FadeOut.duration(500)}
-          style={tw`absolute z-10 bg-white flex flex-row items-center justify-center h-full w-full`}>
-          <HorizontalLoadingAnimation color={tw.color(`slate-900`)} style={tw`h-16 w-16`} />
-        </Animated.View>
-      ) : error ? (
-        <Animated.View
-          exiting={FadeOut.duration(500)}
-          style={tw`absolute z-10 bg-white flex flex-row items-center justify-center h-full w-full`}>
-          <ErrorState error={new Error(error.description)} title={t('chat.onError.title')} />
-        </Animated.View>
-      ) : null}
+        {isLoading ? (
+          <Animated.View
+            exiting={FadeOut.duration(500)}
+            style={tw`absolute z-10 bg-white flex flex-row items-center justify-center h-full w-full`}>
+            <HorizontalLoadingAnimation color={tw.color(`slate-900`)} style={tw`h-16 w-16`} />
+          </Animated.View>
+        ) : error ? (
+          <Animated.View
+            exiting={FadeOut.duration(500)}
+            style={tw`absolute z-10 bg-white flex flex-row items-center justify-center h-full w-full`}>
+            <ErrorState error={new Error(error.description)} title={t('chat.onError.title')} />
+          </Animated.View>
+        ) : null}
+      </BlurTargetView>
 
       <AppIconButton
+        blurTarget={blurTargetRef}
         icon="window-close"
+        radius={25}
         style={tw.style(
           `absolute z-20 mr-4`,
           { right: insets.right },

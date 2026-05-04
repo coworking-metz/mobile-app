@@ -1,6 +1,7 @@
 import { MenuAction, MenuView } from '@react-native-menu/menu';
+import { BlurTargetView } from 'expo-blur';
 import { useRouter } from 'expo-router';
-import React, { useCallback, useEffect, useState, type ReactNode } from 'react';
+import React, { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { RefreshControl, StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import Animated, {
@@ -59,6 +60,7 @@ const ServiceLayout = ({
   const insets = useSafeAreaInsets();
   const paddingBottom = useAppPaddingBottom();
   const router = useRouter();
+  const blurTargetRef = useRef<View | null>(null);
   const verticalScrollProgress = useSharedValue(0);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
   const [refreshing, setRefreshing] = useState(false);
@@ -98,7 +100,7 @@ const ServiceLayout = ({
 
   return (
     <View style={[tw`flex-1 bg-gray-100 dark:bg-black`, style]}>
-      <View style={tw`flex flex-col grow relative`}>
+      <BlurTargetView ref={blurTargetRef} style={tw`flex flex-col grow relative`}>
         <Animated.View
           style={[
             tw`absolute flex flex-col px-6 pb-6`,
@@ -168,7 +170,7 @@ const ServiceLayout = ({
             {renderContent ? renderContent({ verticalScrollProgress }) : children}
           </View>
         </AnimatedKeyboardAwareScrollView>
-      </View>
+      </BlurTargetView>
 
       <Animated.View
         style={[
@@ -184,8 +186,9 @@ const ServiceLayout = ({
         <View style={tw`flex flex-row shrink-0 min-w-10 overflow-visible basis-0 grow ml-4`}>
           {withBackButton && (
             <AppIconButton
+              blurTarget={blurTargetRef}
               icon="arrow-left"
-              radius={8}
+              radius={25}
               style={tw`h-10 w-10`}
               onPress={() =>
                 from
@@ -207,7 +210,12 @@ const ServiceLayout = ({
                 const action = actions.find(({ id }) => id === actionId);
                 action?.onPress?.();
               }}>
-              <AppIconButton icon="dots-vertical" style={tw`h-10 w-10`} />
+              <AppIconButton
+                blurTarget={blurTargetRef}
+                icon="dots-vertical"
+                radius={25}
+                style={tw`h-10 w-10`}
+              />
             </MenuView>
           ) : null}
         </View>

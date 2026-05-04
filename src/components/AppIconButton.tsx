@@ -1,7 +1,7 @@
 import { isLiquidGlassSupported } from '@callstack/liquid-glass';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
-import { PlatformColor, StyleProp, useColorScheme, ViewStyle } from 'react-native';
+import { PlatformColor, StyleProp, useColorScheme, type View, ViewStyle } from 'react-native';
 import { FadeIn, FadeOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import type mdiGlyphMap from '@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/MaterialCommunityIcons.json';
@@ -22,6 +22,7 @@ export type AppIconButtonProps = {
   loading?: boolean;
   theme?: 'light' | 'dark';
   radius?: number;
+  blurTarget?: React.RefObject<View | null>;
   style?: StyleProp<ViewStyle>;
   onPress?: () => void;
 };
@@ -37,6 +38,7 @@ const AppIconButton: ForwardRefRenderFunction<AppPressableRef, AppIconButtonProp
     disabled = false,
     loading = false,
     radius = 3,
+    blurTarget,
     onPress,
   },
   ref,
@@ -71,6 +73,7 @@ const AppIconButton: ForwardRefRenderFunction<AppPressableRef, AppIconButtonProp
       {...(!disabled && { onPress })}>
       <AppGlassView
         interactive
+        blurTarget={blurTarget}
         colorScheme={theme}
         radius={radius}
         style={[

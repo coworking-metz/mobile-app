@@ -1,3 +1,4 @@
+import { BlurTargetView } from 'expo-blur';
 import { useNavigation, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -39,6 +40,7 @@ const Introduction = () => {
   const [actionHeight, setActionHeight] = useState(0);
 
   const carouselRef = useRef<ICarouselInstance>(null);
+  const blurTargetRef = useRef<View | null>(null);
   const offset = useSharedValue(0);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -113,7 +115,7 @@ const Introduction = () => {
       ]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>
       {layoutWidth ? (
-        <View style={tw`relative h-full flex grow flex-col`}>
+        <BlurTargetView ref={blurTargetRef} style={tw`relative h-full flex grow flex-col`}>
           <View
             style={[
               tw`absolute top-0 z-10 flex flex-row items-center w-full justify-between px-4`,
@@ -129,7 +131,12 @@ const Introduction = () => {
               style={tw`absolute inset-0`}
               tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
             />
-            <AppIconButton icon="window-close" onPress={onClose} />
+            <AppIconButton
+              blurTarget={blurTargetRef}
+              icon="window-close"
+              radius={25}
+              onPress={onClose}
+            />
             <View pointerEvents={'none'} style={tw`flex flex-row`}>
               {screens.map((_, index) => (
                 <PaginationDot
@@ -186,7 +193,7 @@ const Introduction = () => {
               <AppText style={tw`text-base font-medium text-black`}>{t('actions.next')}</AppText>
             </AppRoundedButton>
           </Animated.View>
-        </View>
+        </BlurTargetView>
       ) : null}
     </View>
   );

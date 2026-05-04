@@ -1,6 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { BlurTargetView } from 'expo-blur';
 import { useNavigation, useRouter } from 'expo-router';
-import React, { useMemo, type ReactNode } from 'react';
+import React, { useMemo, useRef, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, StyleProp, View, ViewStyle } from 'react-native';
 import Animated, {
@@ -51,6 +52,7 @@ const ModalLayout = ({
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const navigation = useNavigation();
+  const blurTargetRef = useRef<View | null>(null);
   const verticalScrollProgress = useSharedValue(0);
   const { t } = useTranslation();
 
@@ -133,24 +135,26 @@ const ModalLayout = ({
 
   return (
     <Animated.View style={tw`relative bg-gray-100 dark:bg-black`}>
-      <Animated.ScrollView
-        contentContainerStyle={[
-          tw`flex flex-col grow`,
-          {
-            paddingTop: maxHeaderHeight,
-            paddingLeft: insets.left,
-            paddingRight: insets.right,
-            paddingBottom: insets.bottom + 16,
-          },
-          contentStyle,
-        ]}
-        horizontal={false}
-        scrollEventThrottle={16}
-        showsVerticalScrollIndicator={false}
-        style={tw`w-full h-full`}
-        onScroll={onVerticalScroll}>
-        {children}
-      </Animated.ScrollView>
+      <BlurTargetView ref={blurTargetRef} style={tw`w-full h-full`}>
+        <Animated.ScrollView
+          contentContainerStyle={[
+            tw`flex flex-col grow`,
+            {
+              paddingTop: maxHeaderHeight,
+              paddingLeft: insets.left,
+              paddingRight: insets.right,
+              paddingBottom: insets.bottom + 16,
+            },
+            contentStyle,
+          ]}
+          horizontal={false}
+          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}
+          style={tw`w-full h-full`}
+          onScroll={onVerticalScroll}>
+          {children}
+        </Animated.ScrollView>
+      </BlurTargetView>
 
       <Animated.View
         style={[
@@ -166,7 +170,7 @@ const ModalLayout = ({
             tw`absolute top-0 left-0 bottom-0 right-0 border-b-gray-300 dark:border-b-gray-700 border-b-[0.5px]`,
             headerBackgroundStyle,
           ]}>
-          <AppBlurView style={tw`h-full w-full`} />
+          <AppBlurView blurTarget={blurTargetRef} style={tw`h-full w-full`} />
         </Animated.View>
 
         <View
