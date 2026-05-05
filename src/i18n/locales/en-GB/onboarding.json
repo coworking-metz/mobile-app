@@ -1,0 +1,15 @@
+{
+  "enroll": {
+    "description": "You will finally receive an email <0>around 8 PM</0> inviting you to join the association, with a link to create your account and order the membership on the shop.",
+    "title": "The Membership"
+  },
+  "title": "First steps",
+  "tour": {
+    "description": "Your experience begins with a guided tour of <0>approximately 30 minutes</0> of our premises, where a volunteer will show you the different work areas and the <1>rules to follow</1>.",
+    "title": "The Tour"
+  },
+  "trial": {
+    "description": "You will then be invited to take a seat at a workstation for a trial day <0>until 7 PM</0>, to experience the atmosphere and determine if the place suits you.\n\nThe <1>Wi-Fi credentials</1> are accessible at any time within the app.",
+    "title": "The Trial Day"
+  }
+}

@@ -1,11 +1,10 @@
-import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
 import React, { forwardRef, useCallback, type ForwardRefRenderFunction } from 'react';
 import {
-  type GestureResponderEvent,
-  Platform,
   TouchableOpacity,
+  type GestureResponderEvent,
   type TouchableOpacityProps,
 } from 'react-native';
+import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 
 export type AppPressableRef = typeof TouchableOpacity;
 
@@ -15,10 +14,7 @@ const AppPressable: ForwardRefRenderFunction<typeof TouchableOpacity, TouchableO
 ) => {
   const onTouch = useCallback(
     (event: GestureResponderEvent) => {
-      if (Platform.OS === 'ios') {
-        // only for iOS because Android vibration is too loud
-        impactAsync(ImpactFeedbackStyle.Light);
-      }
+      vibrate(HapticFeedbackType.Light);
       return onPress?.(event);
     },
     [onPress],

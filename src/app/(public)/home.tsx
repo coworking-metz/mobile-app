@@ -3,8 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { NetworkStateType, useNetworkState } from 'expo-network';
 import { Link } from 'expo-router';
-import { compact, includes, sample } from 'lodash';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { compact, includes, isNil, sample } from 'lodash';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import Animated, {
@@ -405,11 +405,11 @@ export default function HomeScreen() {
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
           style={tw`w-full overflow-visible`}>
-          {IS_DEV && (
+          {IS_DEV && !authStore.user?.onboarding?.date && (
             <AppPressable style={tw`flex flex-row items-stretch`} onPress={onboard}>
               <OnboardingCard
-                date={authStore.user?.onboarding?.date ?? new Date().toISOString()}
-                glowing={!settingsStore.hasReadOnboardingInstructionsAt}
+                date={dayjs().add(12, 'day').toISOString()}
+                glowing={isNil(settingsStore.hasReadOnboardingInstructionsAt)}
                 style={tw`min-h-38 min-w-32`}
               />
             </AppPressable>

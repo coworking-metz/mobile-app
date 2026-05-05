@@ -9,6 +9,7 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
+import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 import { turnOffLight, turnOnLight } from '@/services/api/services';
 import useToastStore from '@/stores/toast';
 
@@ -33,7 +34,7 @@ const ActionableLight = ({
   const toggle = useCallback(() => {
     setUpdating(true);
     toastStore.dismissAll();
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    vibrate(HapticFeedbackType.Medium);
     (isActive ? turnOffLight(id) : turnOnLight(id))
       .then(({ state }) => setActive(state === 'on'))
       .catch(handleSilentError)

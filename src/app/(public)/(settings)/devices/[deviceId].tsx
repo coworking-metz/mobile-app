@@ -3,12 +3,11 @@ import dayjs from 'dayjs';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import SegmentedControl from 'react-native-segmented-control-2';
 import { TextFieldRef } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
-import AppBottomSheet from '@/components/AppBottomSheet';
 import AppIcon from '@/components/AppIcon';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
@@ -56,7 +55,6 @@ const DeviceDetail = () => {
   const macAddressField = useRef<TextFieldRef>(null);
   const [type, setType] = useState<DeviceType>(DeviceType.MOBILE);
   const [isSubmitting, setSubmitting] = useState(false);
-  const [shouldDelete, setShouldDelete] = useState(false);
   const [isDeleting, setDeleting] = useState(false);
 
   const {
@@ -166,6 +164,26 @@ const DeviceDetail = () => {
       });
   }, [router, authStore.user, device, deviceId]);
 
+  const onConfirmDelete = useCallback(() => {
+    Alert.alert(
+      t('devices.detail.delete.title'),
+      t('devices.detail.delete.description'),
+      [
+        {
+          text: t('actions.cancel'),
+          style: 'cancel',
+          isPreferred: true,
+        },
+        {
+          text: t('devices.detail.delete.confirm'),
+          style: 'destructive',
+          onPress: onDelete,
+        },
+      ],
+      { cancelable: true },
+    );
+  }, [t, onDelete]);
+
   useEffect(() => {
     if (device) {
       setName(device.name ?? '');
@@ -187,36 +205,11 @@ const DeviceDetail = () => {
           attributes: {
             destructive: true,
           },
-          onPress: () => setShouldDelete(true),
+          onPress: onConfirmDelete,
         },
       ]}
       contentStyle={tw`pt-6`}
-      footer={
-        shouldDelete ? (
-          <AppBottomSheet onClose={() => setShouldDelete(false)}>
-            <View style={tw`flex flex-col items-stretch gap-4 px-6 pt-6`}>
-              <AppText
-                style={tw`text-center self-center text-2xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-                {t('devices.detail.delete.title')}
-              </AppText>
-              <AppText
-                style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
-                {t('devices.detail.delete.description')}
-              </AppText>
-              <AppRoundedButton
-                loading={isDeleting}
-                style={tw`w-full max-w-sm self-center`}
-                suffixIcon="trash-can-outline"
-                onPress={onDelete}>
-                <AppText style={tw`text-base text-black font-medium`}>
-                  {t('devices.detail.delete.confirm')}
-                </AppText>
-              </AppRoundedButton>
-            </View>
-          </AppBottomSheet>
-        ) : null
-      }
-      loading={isFetchingDevices}
+      loading={isFetchingDevices || isDeleting}
       title={device?.name ?? device?.macAddress ?? ''}
       onRefresh={refetchDevices}>
       <View style={tw`flex flex-col grow px-3 w-full max-w-xl mx-auto`}>
@@ -359,8 +352,8 @@ const DeviceDetail = () => {
 
         <View style={tw`mt-auto mx-3`}>
           <AppRoundedButton
-            disabled={!device || isSubmitting}
-            loading={isSubmitting}
+            disabled={!device || isSubmitting || isDeleting}
+            loading={isSubmitting || isDeleting}
             style={tw`w-full max-w-sm self-center`}
             suffixIcon="check"
             onPress={onSubmit}>

@@ -12,6 +12,7 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 import { handleSilentError, parseErrorText } from '@/helpers/error';
+import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 import { turnOffFan, turnOnFan } from '@/services/api/services';
 import useToastStore from '@/stores/toast';
 
@@ -67,7 +68,7 @@ const ActionableFan = ({
   const toggle = useCallback(() => {
     setLoading(true);
     toastStore.dismissAll();
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    vibrate(HapticFeedbackType.Medium);
     (isActive ? turnOffFan(id) : turnOnFan(id))
       .then(({ state }) => setActive(state === 'on'))
       .catch(handleSilentError)
@@ -85,9 +86,8 @@ const ActionableFan = ({
   return (
     <ActionableIcon
       active={isActive}
-      activeIcon="fan"
+      icon="fan"
       iconStyle={animatedStyle}
-      inactiveIcon="fan"
       loading={isLoading}
       style={style}
       onPress={toggle}

@@ -34,8 +34,7 @@
     "title": "Actions"
   },
   "description": "Pour ceux qui sachent",
-  "title": "Réglages avancés",
-  "variables": {
+  "settings": {
     "accessToken": {
       "label": "Jeton d'accès"
     },
@@ -49,6 +48,9 @@
     "hasLearnPullToRefresh": {
       "label": "Cacher l'indice du glisser pour rafraîchir"
     },
+    "hasReadOnboardingInstructionsAt": {
+      "label": "Cacher la mise en avant des premiers pas"
+    },
     "hasSeenBirthdayPresentAt": {
       "label": "Cacher l'effet de surprise d'anniversaire"
     },
@@ -58,9 +60,10 @@
     "refreshToken": {
       "label": "Jeton de rafraîchissement"
     },
-    "title": "Variables",
+    "title": "Paramètres de l'application",
     "withNativePullToRefresh": {
       "label": "Désactiver les animations du glisser pour rafraîchir"
     }
-  }
+  },
+  "title": "Réglages avancés"
 }

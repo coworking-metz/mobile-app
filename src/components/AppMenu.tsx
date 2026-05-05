@@ -5,11 +5,10 @@ import {
   MenuComponentRef,
   MenuView,
 } from '@react-native-menu/menu';
-import { impactAsync, ImpactFeedbackStyle } from 'expo-haptics';
 import { forwardRef, ForwardRefRenderFunction } from 'react';
-import { Platform } from 'react-native';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
+import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 
 export type AppMenuAction = MenuAction & {
   onPress?: () => void;
@@ -44,10 +43,7 @@ const AppMenu: ForwardRefRenderFunction<MenuComponentRef, AppMenuProps> = (
         style={tw`p-1`}
         underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
         onPress={() => {
-          if (Platform.OS === 'ios') {
-            // only for iOS because Android vibration is too loud
-            impactAsync(ImpactFeedbackStyle.Light);
-          }
+          vibrate(HapticFeedbackType.Light);
         }}
       />
     </MenuView>

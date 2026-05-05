@@ -1,6 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
 import * as Device from 'expo-device';
-import * as Haptics from 'expo-haptics';
 import * as Linking from 'expo-linking';
 import { Link } from 'expo-router';
 import LottieView from 'lottie-react-native';
@@ -28,6 +27,7 @@ import AppText from '@/components/AppText';
 import AppTextButton from '@/components/AppTextButton';
 import { useOnPremise } from '@/components/OnPremise/OnPremiseContext';
 import { AppErrorCode, handleSilentError } from '@/helpers/error';
+import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 import { log } from '@/helpers/logger';
 import {
   addMemberDevice,
@@ -269,7 +269,7 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
     if (shouldEndAnimation) {
       endAnimation();
     } else if (shouldLoopAnimation) {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      vibrate(HapticFeedbackType.Medium);
       continueAnimation();
     } else if (isAnimating) {
       setAnimating(false);

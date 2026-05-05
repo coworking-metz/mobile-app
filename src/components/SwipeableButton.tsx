@@ -27,6 +27,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
+import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 import { withAppFontFamily } from '@/helpers/text';
 
 const HANDLE_ENDING_POSITION = 40;
@@ -80,12 +81,12 @@ const SwipeableButton = ({
 
   useEffect(() => {
     if (hasPassedThreshold) {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      vibrate(HapticFeedbackType.Medium);
     }
   }, [hasPassedThreshold]);
 
   const onRestart = useCallback(() => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    vibrate(HapticFeedbackType.Light);
     setSwiped(false);
     sliding.value = withSpring(0);
     onReset?.();
@@ -94,7 +95,7 @@ const SwipeableButton = ({
   const pan = Gesture.Pan()
     .onBegin(() => {
       isSwiping.value = 1;
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      vibrate(HapticFeedbackType.Medium);
     })
     .onChange((event) => {
       if (!isSwiping.value) return;
