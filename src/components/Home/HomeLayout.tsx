@@ -1,4 +1,3 @@
-import * as Haptics from 'expo-haptics';
 import { useNavigation } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import {
@@ -25,6 +24,7 @@ import { AppTopFader } from '@/components/AppFader';
 import AppSquircleView from '@/components/AppSquircleView';
 import SpaceshipRefreshAnimation from '@/components/Home/SpaceshipRefreshAnimation';
 import SunnyRefreshAnimation from '@/components/Home/SunnyRefreshAnimation';
+import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 import useAppScreen, { useAppPaddingBottom } from '@/helpers/screen';
 import { IS_RUNNING_IN_EXPO_GO } from '@/services/environment';
 import useSettingsStore from '@/stores/settings';
@@ -136,7 +136,7 @@ export default function HomeLayout({
 
         if (pullDownPosition.value >= refreshThreshold && isReadyToRefresh.value === false) {
           isReadyToRefresh.value = true;
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+          vibrate(HapticFeedbackType.Medium);
         }
 
         if (pullDownPosition.value < refreshThreshold && isReadyToRefresh.value === true) {

@@ -1,4 +1,5 @@
 import { AppGlowingBorder } from '../AppGlowingBorder';
+import AppIcon from '../AppIcon';
 import AppSquircleView from '../AppSquircleView';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
@@ -147,9 +148,9 @@ const OnboardingCard = ({
           tw`flex flex-col items-start gap-1 bg-[#DEE2E5] dark:bg-[#141417] rounded-2xl px-3 pt-2 pb-4 m-1`,
           style,
         ]}>
-        <MaterialCommunityIcons
+        <AppIcon
           color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
-          name="handshake"
+          icon="handshake"
           size={40}
         />
 

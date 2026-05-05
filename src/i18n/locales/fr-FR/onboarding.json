@@ -1,14 +1,15 @@
 {
-  "enrollment": {
-    "description": "",
-    "title": "Finalisation de l'inscription"
+  "enroll": {
+    "description": "Vous recevez enfin un email <0>aux alentours de 20h</0> vous invitant à rejoindre l'association, avec un lien pour créer votre compte et commander l'adhésion sur la boutique.",
+    "title": "L'adhésion"
   },
+  "title": "Premiers pas",
   "tour": {
-    "description": "",
+    "description": "Votre expérience débute par une visite guidée d'<0>environ 30 min</0> de nos locaux, où un bénévole vous fera découvrir les différentes zones de travail et les <1>règles à suivre</1>.",
     "title": "La visite"
   },
   "trial": {
-    "description": "",
+    "description": "Vous serez ensuite invité à prendre place à un poste de travail pour une journée d'essai <0>jusqu'à 19h</0>, afin de découvrir l'ambiance et de déterminer si le lieu vous convient.\n\nLes <1>identifiants Wi-Fi</1> sont accessibles à tout moment au sein de l'application.",
     "title": "La journée d'essai"
   }
 }

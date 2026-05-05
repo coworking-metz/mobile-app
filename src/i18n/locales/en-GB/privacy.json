@@ -20,7 +20,7 @@
       }
     },
     "location": {
-      "description": "To be located on-site.",
+      "description": "To be located on-premise.",
       "label": "Location"
     },
     "notifications": {

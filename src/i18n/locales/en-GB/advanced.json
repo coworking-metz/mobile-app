@@ -34,8 +34,7 @@
     "title": "Actions"
   },
   "description": "For those who are in on it",
-  "title": "Advanced settings",
-  "variables": {
+  "settings": {
     "accessToken": {
       "label": "Access token"
     },
@@ -49,6 +48,9 @@
     "hasLearnPullToRefresh": {
       "label": "Hide pull to refresh hint"
     },
+    "hasReadOnboardingInstructionsAt": {
+      "label": "Hide onboarding instructions highlight"
+    },
     "hasSeenBirthdayPresentAt": {
       "label": "Hide birthday surprise effect"
     },
@@ -58,9 +60,10 @@
     "refreshToken": {
       "label": "Refresh token"
     },
-    "title": "Variables",
+    "title": "In-app settings",
     "withNativePullToRefresh": {
       "label": "Disable pull to refresh animations"
     }
-  }
+  },
+  "title": "Advanced settings"
 }

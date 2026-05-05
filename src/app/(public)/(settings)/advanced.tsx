@@ -179,11 +179,11 @@ const Advanced = () => {
           onPress={confirmReset}
         />
 
-        <SectionTitle style={tw`mx-6 mt-6`} title={t('advanced.variables.title')} />
+        <SectionTitle style={tw`mx-6 mt-6`} title={t('advanced.settings.title')} />
 
         <ServiceRow
           withBottomDivider
-          label={t('advanced.variables.introduction.label')}
+          label={t('advanced.settings.introduction.label')}
           style={tw`px-3 mx-3`}>
           <Switch
             value={settingsStore.hasSeenIntroduction}
@@ -193,7 +193,7 @@ const Advanced = () => {
         </ServiceRow>
         <ServiceRow
           withBottomDivider
-          label={t('advanced.variables.hasLearnPullToRefresh.label')}
+          label={t('advanced.settings.hasLearnPullToRefresh.label')}
           style={tw`px-3 mx-3`}>
           <Switch
             value={settingsStore.hasLearnPullToRefresh}
@@ -203,7 +203,7 @@ const Advanced = () => {
         </ServiceRow>
         <ServiceRow
           withBottomDivider
-          label={t('advanced.variables.withNativePullToRefresh.label')}
+          label={t('advanced.settings.withNativePullToRefresh.label')}
           style={tw`px-3 mx-3`}>
           <Switch
             value={settingsStore.withNativePullToRefresh}
@@ -213,7 +213,7 @@ const Advanced = () => {
         </ServiceRow>
         <ServiceRow
           withBottomDivider
-          label={t('advanced.variables.hasSeenBirthdayPresentAt.label')}
+          label={t('advanced.settings.hasSeenBirthdayPresentAt.label')}
           style={tw`px-3 mx-3`}>
           <Switch
             value={!isNil(settingsStore.hasSeenBirthdayPresentAt)}
@@ -228,7 +228,7 @@ const Advanced = () => {
         {IS_DEV && (
           <ServiceRow
             withBottomDivider
-            label={t('advanced.variables.hasReadOnboardingInstructionsAt.label')}
+            label={t('advanced.settings.hasReadOnboardingInstructionsAt.label')}
             style={tw`px-3 mx-3`}>
             <Switch
               value={!isNil(settingsStore.hasReadOnboardingInstructionsAt)}
@@ -243,7 +243,7 @@ const Advanced = () => {
         )}
         <ServiceRow
           withBottomDivider
-          label={t('advanced.variables.hasBeenInvitedToReview.label')}
+          label={t('advanced.settings.hasBeenInvitedToReview.label')}
           style={tw`px-3 mx-3`}>
           <Switch
             value={settingsStore.hasBeenInvitedToReview}
@@ -255,7 +255,7 @@ const Advanced = () => {
           autoCapitalize="none"
           containerStyle={tw`mt-3 mx-6`}
           keyboardType="url"
-          label={t('advanced.variables.apiBaseUrl.label')}
+          label={t('advanced.settings.apiBaseUrl.label')}
           placeholder={HTTP.defaults.baseURL}
           value={settingsStore.apiBaseUrl || ''}
           onChangeText={(apiBaseUrl) => useSettingsStore.setState({ apiBaseUrl })}
@@ -264,7 +264,7 @@ const Advanced = () => {
           autoCapitalize="none"
           containerStyle={tw`mx-6`}
           keyboardType="default"
-          label={t('advanced.variables.accessToken.label')}
+          label={t('advanced.settings.accessToken.label')}
           placeholder={isNil(authStore.accessToken) ? `${authStore.accessToken}` : ''}
           value={`${authStore.accessToken}`}
           onChangeText={(accessToken) =>
@@ -275,7 +275,7 @@ const Advanced = () => {
           autoCapitalize="none"
           containerStyle={tw`mx-6`}
           keyboardType="default"
-          label={t('advanced.variables.refreshToken.label')}
+          label={t('advanced.settings.refreshToken.label')}
           placeholder={isNil(authStore.refreshToken) ? `${authStore.refreshToken}` : ''}
           value={`${authStore.refreshToken}`}
           onChangeText={(refreshToken) =>

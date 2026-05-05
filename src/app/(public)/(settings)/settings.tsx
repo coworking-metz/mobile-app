@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { BlurTargetView } from 'expo-blur';
-import { ImpactFeedbackStyle, impactAsync } from 'expo-haptics';
 import { Link, usePathname, useRouter } from 'expo-router';
 import { compact } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -48,6 +47,7 @@ import { useAppSocials } from '@/context/socials';
 import { useAppTheme } from '@/context/theme';
 import { useAppUpcomingEvents } from '@/context/upcoming-events';
 import { isSilentError } from '@/helpers/error';
+import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 import useAppScreen from '@/helpers/screen';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
 import { getHelloActivity, getMemberActivity, getMemberProfile } from '@/services/api/members';
@@ -185,7 +185,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     (selectedDate: string) => {
       const activityFound = activity?.find(({ date }) => selectedDate === date);
       if (activityFound) {
-        impactAsync(ImpactFeedbackStyle.Light);
+        vibrate(HapticFeedbackType.Light);
         selectActivity(activityFound);
       }
     },

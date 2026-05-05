@@ -107,15 +107,13 @@ const PtiPoulaillerPlan = ({
         )}
 
         {!hasFloorplanLoaded ? (
-          <Animated.View
-            entering={BounceIn.duration(500)}
-            exiting={BounceOut.duration(500)}
+          <View
             style={tw`absolute h-16 w-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full overflow-hidden`}>
             <VerticalLoadingAnimation
               color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
               style={tw`h-full w-full`}
             />
-          </Animated.View>
+          </View>
         ) : withInformations ? (
           <>
             <ActionableIcon
