@@ -42,9 +42,7 @@
     "message": ["Is it acting up?", "Is there something wrong?", "Need help?"]
   },
   "onboarding": {
-    "date": "{{date, datetime }}",
-    "description": "Coworking tour",
-    "time": "{{start, datetime }} - {{end, datetime }}",
+    "appointment": "<0>{{date}}</0>\nat <1>{{time}}</1>",
     "title": "First steps"
   },
   "parking": {

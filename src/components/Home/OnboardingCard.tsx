@@ -1,19 +1,13 @@
-import { AppGlowingBorder } from '../AppGlowingBorder';
-import AppIcon from '../AppIcon';
-import AppSquircleView from '../AppSquircleView';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { LayoutChangeEvent, StyleProp, View, ViewStyle } from 'react-native';
-import Animated, { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
+import React, { useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native';
 import tw from 'twrnc';
-import type LottieView from 'lottie-react-native';
-import CalendarCheckAnimation from '@/components/Animations/CalendarCheckAnimation';
-import AppPressable from '@/components/AppPressable';
+import { AppGlowingBorder } from '@/components/AppGlowingBorder';
+import AppIcon from '@/components/AppIcon';
+import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
-import { theme } from '@/helpers/colors';
 
 const OnboardingCard = ({
   date,
@@ -27,107 +21,25 @@ const OnboardingCard = ({
   activeSince?: string;
 }) => {
   const { t } = useTranslation();
-  const animation = useRef<LottieView>(null);
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
 
   const isFocus = useIsFocused();
 
   const appointmentDate = useMemo(() => {
-    if (dayjs().startOf('day').isAfter(date)) {
-      return t('home.appointment.date', {
-        date: new Date(date),
-        formatParams: {
-          date: { month: 'long', day: 'numeric' },
-        },
-      });
+    if (dayjs().diff(date, 'day') < 3) {
+      const [firstWord] = dayjs(date).calendar().split(' ');
+      if (firstWord) return firstWord;
     }
 
-    if (Math.abs(dayjs().diff(date, 'day')) < 3) return dayjs(date).calendar().split(' ')[0];
-    if (Math.abs(dayjs().diff(date, 'day')) < 7) return dayjs(date).format('dddd');
-    return t('home.appointment.date', {
-      date: new Date(date),
-      formatParams: {
-        date: { month: 'long', day: 'numeric' },
-      },
-    });
+    return dayjs(date).format('LL').replace(/\d{4}/g, ''); // remove year;
   }, [date, t, isFocus, activeSince]);
 
   const appointmentTime = useMemo(() => {
-    return t('home.appointment.time', {
-      start: new Date(date),
-      end: dayjs(date).add(30, 'minute').toDate(),
-      formatParams: {
-        start: { hour: 'numeric', minute: 'numeric' },
-        end: { hour: 'numeric', minute: 'numeric' },
-      },
-    });
-  }, [date, t]);
-
-  const onAnimationPress = useCallback(() => {
-    if (animation.current) animation.current.play(40, 120);
-  }, [animation]);
+    return dayjs(date).format('LT');
+  }, [date, t, isFocus, activeSince]);
 
   return (
-    // <View
-    //   style={[
-    //     tw.style(`flex flex-col items-start gap-4 rounded-2xl w-32 relative overflow-hidden p-4`, {
-    //       backgroundColor: tw.prefixMatch('dark') ? `${theme.meatBrown}CC` : theme.meatBrown,
-    //     }),
-    //     style,
-    //   ]}>
-    //   <View style={tw`flex flex-row gap-4 items-start`}>
-    //     <AppPressable onPress={onAnimationPress}>
-    //       <Animated.View
-    //         style={tw`flex rounded-2xl bg-amber-100 bg-opacity-75 dark:bg-opacity-50 overflow-hidden h-20 w-20`}>
-    //         <CalendarCheckAnimation ref={animation} style={tw`h-full w-full`} />
-    //       </Animated.View>
-    //     </AppPressable>
-
-    //     <View style={tw`flex flex-col justify-center min-h-20 grow shrink`}>
-    //       <AppText numberOfLines={1} style={tw`text-3xl font-semibold text-zinc-900`}>
-    //         {t('home.appointment.title')}
-    //       </AppText>
-    //       <AppText
-    //         numberOfLines={2}
-    //         style={tw`text-base font-normal text-zinc-600 dark:text-zinc-700`}>
-    //         {t('home.appointment.description')}
-    //       </AppText>
-    //     </View>
-    //   </View>
-
-    //   <View
-    //     style={tw`flex flex-row items-center justify-between bg-amber-950 bg-opacity-25 dark:bg-opacity-40 rounded-xl py-2 px-4 w-full`}>
-    //     <View style={tw`flex flex-row items-center gap-2 grow shrink`}>
-    //       <MaterialCommunityIcons
-    //         color={tw.prefixMatch('dark') ? tw.color('gray-100') : tw.color('white')}
-    //         iconStyle={tw`h-6 w-6`}
-    //         name="calendar-outline"
-    //         size={24}
-    //         style={tw`shrink-0`}
-    //       />
-    //       <AppText
-    //         numberOfLines={1}
-    //         style={tw`text-base font-normal text-gray-100 dark:text-gray-200`}>
-    //         {appointmentDate}
-    //       </AppText>
-    //     </View>
-    //     <View style={tw`flex flex-row items-center gap-2 grow shrink`}>
-    //       <MaterialCommunityIcons
-    //         color={tw.prefixMatch('dark') ? tw.color('gray-100') : tw.color('white')}
-    //         iconStyle={tw`h-6 w-6`}
-    //         name="clock-time-ten-outline"
-    //         size={24}
-    //         style={tw`shrink-0`}
-    //       />
-    //       <AppText
-    //         numberOfLines={1}
-    //         style={tw`text-base font-normal text-gray-100 dark:text-gray-200`}>
-    //         {appointmentTime}
-    //       </AppText>
-    //     </View>
-    //   </View>
-    // </View>
     <AppSquircleView
       style={[tw`flex flex-row items-stretch rounded-2xl overflow-hidden relative -m-1`]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => {
@@ -160,9 +72,18 @@ const OnboardingCard = ({
           style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 grow`}>
           {t('home.onboarding.title')}
         </AppText>
-        <AppText style={tw`mt-auto text-2xl font-normal text-slate-900 dark:text-gray-200`}>
-          {dayjs(date).calendar().replace(' ', '\n')}
-        </AppText>
+        <Trans
+          components={[
+            <AppText key="date" style={tw`text-slate-900 dark:text-gray-200`} />,
+            <AppText key="time" style={tw`text-slate-900 dark:text-gray-200`} />,
+          ]}
+          defaults={t('home.onboarding.appointment', {
+            date: appointmentDate,
+            time: appointmentTime,
+          })}
+          parent={AppText}
+          style={tw`text-left text-xl font-normal text-slate-500 dark:text-neutral-500`}
+        />
       </AppSquircleView>
     </AppSquircleView>
   );

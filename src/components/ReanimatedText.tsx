@@ -1,5 +1,3 @@
-import React from 'react';
-import { Platform } from 'react-native';
 import AnimateableText from 'react-native-animateable-text';
 import { SharedValue, useAnimatedProps } from 'react-native-reanimated';
 import type { StyleProp, TextProps, TextStyle } from 'react-native';
@@ -22,10 +20,7 @@ const ReanimatedText = ({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       animatedProps={animatedProps}
-      style={
-        // numbers are much nicer on Apple SF Pro font
-        Platform.OS !== 'ios' ? withAppFontFamily(style as StyleProp<TextStyle>) : style
-      }
+      style={withAppFontFamily(style as StyleProp<TextStyle>)}
       {...props}
     />
   );
