@@ -179,7 +179,7 @@ const OnPremise = () => {
           <AppIconButton
             blurTarget={blurTargetRef}
             icon="arrow-left"
-            radius={30}
+            radius={25}
             style={tw`h-10 w-10`}
             onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
           />

@@ -268,7 +268,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
 
           {/* this is the footer below the scrollview */}
           <View
-            style={tw`mt-auto flex flex-col gap-1 self-center py-6 px-3`}
+            style={tw`mt-auto grow-0 flex flex-col gap-1 self-center py-6 px-3`}
             onLayout={({ nativeEvent }: LayoutChangeEvent) => {
               setFooterHeight(nativeEvent.layout.height);
               setFooterWidth(nativeEvent.layout.width);
