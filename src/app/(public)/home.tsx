@@ -408,7 +408,7 @@ export default function HomeScreen() {
           {IS_DEV && !authStore.user?.onboarding?.date && (
             <AppPressable style={tw`flex flex-row items-stretch`} onPress={onboard}>
               <OnboardingCard
-                date={dayjs().add(12, 'day').toISOString()}
+                date={dayjs().toISOString()}
                 glowing={isNil(settingsStore.hasReadOnboardingInstructionsAt)}
                 style={tw`min-h-38 min-w-32`}
               />

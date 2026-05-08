@@ -46,9 +46,7 @@
     "message": ["Besoin d'aide ?", "Quelque chose ne va pas ?", "Un souci ?"]
   },
   "onboarding": {
-    "date": "{{date, datetime }}",
-    "description": "Découverte du Coworking",
-    "time": "{{start, datetime }} - {{end, datetime }}",
+    "appointment": "<0>{{date}}</0>\nà <1>{{time}}</1>",
     "title": "Premiers pas"
   },
   "parking": {
