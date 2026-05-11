@@ -6,7 +6,7 @@ import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image as RNImage, StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
-import Animated, { BounceIn, BounceOut, FadeIn, FadeOut } from 'react-native-reanimated';
+import { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import floorPlanDay from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-13-30.png';
 import floorPlanNight from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-20-30.png';
@@ -53,6 +53,7 @@ const PoulaillerPlan = ({
     selectWifi,
     selectIntercom,
     selectGroupWork,
+    selectSoundOff,
     isWifiSelected,
     isTelevisionSelected,
     isCarbonDioxideSelected,
@@ -65,6 +66,7 @@ const PoulaillerPlan = ({
     isIntercomSelected,
     isAirConditioningSelected,
     isGroupWorkSelected,
+    isSoundOffSelected,
   } = useOnPremise();
 
   const {
@@ -134,6 +136,17 @@ const PoulaillerPlan = ({
           </View>
         ) : withInformations ? (
           <>
+            <ActionableIcon
+              blurTarget={blurTargetRef}
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="volume-off"
+              key="sound-off"
+              selected={isSoundOffSelected}
+              style={tw`top-[22%] left-[66%]`}
+              onPress={selectSoundOff}
+            />
+
             <ActionableIcon
               blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}

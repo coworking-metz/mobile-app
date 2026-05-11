@@ -39,7 +39,7 @@ const ActionableIcon = ({
 }: ActionableIconProps) => {
   return (
     <AppBlurView
-      radius={25}
+      radius={30}
       style={[
         tw`absolute z-10 h-12 w-12 flex items-center justify-center rounded-full overflow-hidden`,
         tw`-mt-6 -ml-6`, // to properly center the button

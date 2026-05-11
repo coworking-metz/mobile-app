@@ -31,7 +31,7 @@ export const PresenceProvider = ({ children }: { children: React.ReactNode }) =>
       {children}
       <PresenceBottomSheet
         ref={bottomSheetRef}
-        activity={selectedActivity}
+        selectedActivity={selectedActivity}
         onClose={() => {
           setSelectedActivity(null);
         }}

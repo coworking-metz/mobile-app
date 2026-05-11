@@ -102,10 +102,11 @@ const OnPremise = () => {
           <Animated.ScrollView
             ref={horizontalScrollView}
             horizontal
-            contentContainerStyle={tw`flex flex-row items-stretch`}
+            contentContainerStyle={tw`flex flex-row grow items-stretch`}
             pagingEnabled={!isWide}
             scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
+            style={tw`flex-1`}
             onScroll={onHorizontalScroll}>
             <ScrollView
               contentContainerStyle={[

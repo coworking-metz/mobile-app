@@ -12,6 +12,7 @@ import PoulaillerKeyBoxBottomSheet from './PoulaillerKeyBoxBottomSheet';
 import PrinterBottomSheet from './PrinterBottomSheet';
 import PtiPoulaillerClimateBottomSheet from './PtiPoulaillerClimateBottomSheet';
 import PtiPoulaillerKeyBoxBottomSheet from './PtiPoulaillerKeyBoxBottomSheet';
+import SoundOffBottomSheet from './SoundOffBottomSheet';
 import StorageKeyBoxBottomSheet from './StorageKeyBoxBottomSheet';
 import TelevisionBottomSheet from './TelevisionBottomSheet';
 import UnlockDeckDoorBottomSheet from './UnlockDeckDoorBottomSheet';
@@ -61,6 +62,8 @@ const OnPremiseContext = createContext<{
   selectGroupWork?: () => void;
   isMeetingRoomHubSelected?: boolean;
   selectMeetingRoomHub?: () => void;
+  isSoundOffSelected?: boolean;
+  selectSoundOff?: () => void;
 }>({
   isDeckDoorSelected: false,
   selectDeckDoor: () => {},
@@ -98,6 +101,8 @@ const OnPremiseContext = createContext<{
   selectGroupWork: () => {},
   isMeetingRoomHubSelected: false,
   selectMeetingRoomHub: () => {},
+  isSoundOffSelected: false,
+  selectSoundOff: () => {},
 });
 
 export const useOnPremise = () => {
@@ -143,6 +148,8 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
   const groupWorkBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isMeetingRoomHubSelected, setMeetingRoomHubSelected] = useState<boolean>(false);
   const meetingRoomHubBottomSheetRef = useRef<AppBottomSheetRef>(null);
+  const [isSoundOffSelected, setSoundOffSelected] = useState<boolean>(false);
+  const soundOffBottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   const { data: onPremiseState, isFetching: isFetchingOnPremiseState } = useQuery({
     queryKey: onPremiseQueryKeys.state(),
@@ -191,6 +198,8 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
         selectGroupWork: () => groupWorkBottomSheetRef.current?.open(),
         isMeetingRoomHubSelected,
         selectMeetingRoomHub: () => meetingRoomHubBottomSheetRef.current?.open(),
+        isSoundOffSelected,
+        selectSoundOff: () => soundOffBottomSheetRef.current?.open(),
       }}>
       {children}
 
@@ -246,6 +255,7 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
       <IntercomBottomSheet ref={intercomBottomSheetRef} />
       <GroupWorkBottomSheet ref={groupWorkBottomSheetRef} />
       <MeetingRoomHubBottomSheet ref={meetingRoomHubBottomSheetRef} />
+      <SoundOffBottomSheet ref={soundOffBottomSheetRef} />
     </OnPremiseContext.Provider>
   );
 };

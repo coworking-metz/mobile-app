@@ -42,7 +42,7 @@ const BalanceBottomSheet: ForwardRefRenderFunction<
   const activeSince = useAppState();
 
   const { data: memberProfile, refetch: refetchProfile } = useQuery<ApiMemberProfile>({
-    queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id ? membersQueryKeys.profileById(authStore.user?.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId as string);
@@ -58,7 +58,7 @@ const BalanceBottomSheet: ForwardRefRenderFunction<
     error: ticketsOrdersError,
     refetch: refetchTicketsOrders,
   } = useQuery({
-    queryKey: membersQueryKeys.ticketsById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id ? membersQueryKeys.ticketsById(authStore.user?.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberTickets(userId);
