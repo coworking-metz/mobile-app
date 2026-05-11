@@ -6,7 +6,7 @@ import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image as RNImage, StyleProp, useColorScheme, View, ViewStyle } from 'react-native';
-import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
+import { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import floorPlanPtiPoulaillerDay from '@/assets/images/floorplans/floorplan-pti-poulailler-01-06-2023-19-00.png';
 import floorPlanPtiPoulaillerNight from '@/assets/images/floorplans/floorplan-pti-poulailler-01-06-2023-22-30.png';
@@ -41,9 +41,11 @@ const PtiPoulaillerPlan = ({
     selectWifi,
     selectTelevision,
     selectMeetingRoomHub,
+    selectSoundOff,
     isWifiSelected,
     isTelevisionSelected,
     isMeetingRoomHubSelected,
+    isSoundOffSelected,
     selectedFlexDesk,
   } = useOnPremise();
 
@@ -116,6 +118,17 @@ const PtiPoulaillerPlan = ({
           </View>
         ) : withInformations ? (
           <>
+            <ActionableIcon
+              blurTarget={blurTargetRef}
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="volume-off"
+              key="sound-off"
+              selected={isSoundOffSelected}
+              style={tw`top-[40%] left-[50%]`}
+              onPress={selectSoundOff}
+            />
+
             <ActionableIcon
               blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}

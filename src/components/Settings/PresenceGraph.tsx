@@ -211,15 +211,11 @@ const PresenceGraph = ({
           }
           height={HEIGHT_IN_PIXELS}
           numDays={squaresCount}
-          tooltipDataAttrs={(_element) => ({
-            // onPress: (evt) => {
-            //   console.log(evt.nativeEvent.pageX, date);
-            // },
-          })}
+          tooltipDataAttrs={(_element) => ({})}
           values={values}
           width={(Math.ceil(squaresCount / 7) + 3) * (SQUARE_SIZE + SQUARE_GAP)}
           onDayPress={({ count, date }) => {
-            if (count && date) onDateSelect?.(dayjs(date).toISOString().substring(0, 10));
+            if (count && date) onDateSelect?.(date as never);
           }}
         />
 

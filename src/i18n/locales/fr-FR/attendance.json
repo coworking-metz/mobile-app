@@ -11,8 +11,8 @@
   },
   "members": {
     "debt": {
-      "ticket_one": "{{count}} surconsommé",
-      "ticket_other": "{{count}} surconsommés",
+      "ticket_one": "{{count}} redevable",
+      "ticket_other": "{{count}} redevables",
       "ticket_zero": "Solde insuffisant (0 tickets)"
     },
     "membership": {

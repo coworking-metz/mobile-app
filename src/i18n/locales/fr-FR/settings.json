@@ -66,16 +66,16 @@
           }
         },
         "debt": {
-          "description": "Une surconsommation est engendrée lorsque votre solde est épuisé.",
+          "description": "Une dette est engendrée lorsque votre solde est épuisé.",
           "unit": {
-            "ticket_one": " surconsommé",
-            "ticket_other": " surconsommés",
-            "ticket_zero": " surconsommé"
+            "ticket_one": " redevable",
+            "ticket_other": " redevables",
+            "ticket_zero": " redevable"
           },
           "with": {
-            "ticket_one": " dont\n{{count}}\u00A0surconsommé",
-            "ticket_other": " dont\n{{count}}\u00A0surconsommés",
-            "ticket_zero": " dont\n{{count}}\u00A0surconsommé"
+            "ticket_one": " dont\n{{count}}\u00A0redevable",
+            "ticket_other": " dont\n{{count}}\u00A0redevables",
+            "ticket_zero": " dont\n{{count}}\u00A0redevable"
           }
         },
         "description": "La couverture est automatiquement déterminée en fonction des abonnements et de la présence.\n\nUne présence :\n\t• inférieure à 5 heures équivaut à une demi-journée;\n\t• au-delà de 5 heures équivaut à une journée\u00A0entière.\n\nUn ticket permet de couvrir 2\u00A0demi-journées.\nUn abonnement couvre 30\u00A0jours glissants à compter d'une date de début.",

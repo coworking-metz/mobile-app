@@ -5,7 +5,7 @@
   },
   "climate": {
     "carbonDioxide": {
-      "description": "The CO2 level is an indicator of air quality. A high level can cause headaches, fatigue and a decrease in concentration.\n\nIt is recommended to ventilate the workspace when the CO2 level exceeds 1000 ppm.",
+      "description": "The CO2 level is an indicator of air quality. A high level can cause headaches, fatigue and a decrease in focus.\n\nIt is recommended to ventilate the workspace when the CO2 level exceeds 1000 ppm.",
       "label": "CO2 level",
       "level": {
         "excessive": [
@@ -201,6 +201,10 @@
   "printer": {
     "description": "The printer is accessible on the network or from <0>your account</0>.\nUsage should remain occasional and reasonable.\n\nA contribution is requested in case of regular printing, available in <1>the shop</1>.",
     "label": "Printer"
+  },
+  "soundOff": {
+    "description": "Silence is required in the workspace to preserve everyone's focus. Discussions are to be avoided and everyone is committed to being as discreet as possible.\n\nFurthermore, phones must be set to silent mode and phone calls should be made outside of the workspace: phone booths, the collaborative room, and the outside deck are intended for this purpose.\n\nSounds emanating from devices are also to be avoided (notifications, music, videos…). The use of headphones is recommended and should be done at a volume respectful of the immediate environment.",
+    "label": "Keep quiet"
   },
   "television": {
     "description": "The television screen in the space displays important information from Le Poulailler: attendance, upcoming events, internal announcements, and reminders of the rules.\n\nIt serves as the digital notice board of the coworking space, designed to keep everyone informed about community life.",

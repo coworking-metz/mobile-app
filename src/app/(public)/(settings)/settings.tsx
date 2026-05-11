@@ -103,9 +103,9 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     refetch: refetchActivity,
   } = useQuery({
     queryKey: membersQueryKeys.activityById(authStore.user?.id ?? ''),
-    queryFn: ({ queryKey: [_, userId] }) => {
-      if (userId) {
-        return getMemberActivity(userId);
+    queryFn: () => {
+      if (authStore.user?.id) {
+        return getMemberActivity(authStore.user.id);
       }
       return getHelloActivity();
     },

@@ -134,14 +134,6 @@ const RootLayout = () => {
                                                 : 'slide_from_bottom',
                                             }}
                                           />
-                                          <Stack.Screen
-                                            name="(public)/onboarding"
-                                            options={{
-                                              animation: reduceMotion
-                                                ? 'fade_from_bottom'
-                                                : 'slide_from_bottom',
-                                            }}
-                                          />
 
                                           <Stack.Screen
                                             name="(public)/home"

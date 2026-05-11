@@ -192,6 +192,10 @@
     "description": "L'imprimante est accessible sur le réseau ou depuis <0>votre compte</0>.\nL'usage reste modéré (environ 30 pages par mois).\n\nUne participation est demandée en cas d'impression régulière, disponible dans <1>la boutique</1>.",
     "label": "Imprimante"
   },
+  "soundOff": {
+    "description": "Le silence est de rigueur dans l'espace de travail pour préserver la concentration de chacun. Les discussions sont à proscrire et chacun s'engage à rester le plus discret possible.\n\nPar ailleurs, les téléphones doivent impérativement fonctionner en mode silencieux et les appels téléphoniques sont à passer à l'extérieur de l'espace de travail : les phone boxes, l'espace collaboratif, la terrasse sont prévus à cet effet.\n\nLes sons émanant des appareils sont également à proscrire (notifications, musiques, vidéos…). L'utilisation de casque est recommandée et doit se faire dans un volume respectueux de l'environnement proche.",
+    "label": "Rester discret"
+  },
   "television": {
     "description": "L'écran de télévision situé dans l'espace affiche les informations importantes du Poulailler : la présence des membres, les événements à venir, les annonces internes ou encore des rappels du règlement.\n\nC'est le tableau d'affichage numérique du coworking, pensé pour que chacun reste informé de la vie de l'association.",
     "label": "Télévision"
