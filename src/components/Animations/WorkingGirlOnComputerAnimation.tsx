@@ -18,7 +18,7 @@ const WorkingGirlOnComputerAnimation: ForwardRefRenderFunction<LottieView, Anima
     const deskFeetColor = (isDark ? tw.color('amber-950') : tw.color('amber-950')) as string;
     const deskFrontSideColor = (isDark ? tw.color('amber-900') : tw.color('amber-900')) as string;
     const chairColor = (isDark ? tw.color('neutral-800') : tw.color('gray-800')) as string;
-    const chairFrontColor = (isDark ? tw.color('neutral-600') : tw.color('gray-600')) as string;
+    const chairBackrestColor = (isDark ? tw.color('neutral-700') : tw.color('gray-700')) as string;
     return colouriseLottie(WorkingGirlOnComputer, {
       // // Layer 2.Group 1.Fill 1
       // "assets.0.layers.0.shapes.0.it.1.c.k": "#ffd15c",
@@ -257,7 +257,7 @@ const WorkingGirlOnComputerAnimation: ForwardRefRenderFunction<LottieView, Anima
       'assets.0.layers.41.shapes.1.it.3.it.1.c.k': chairColor,
       // // OBJECTS 40.Group 3.Fill 1
       // "assets.0.layers.41.shapes.2.it.1.c.k": "#c1ccff",
-      'assets.0.layers.41.shapes.2.it.1.c.k': chairFrontColor,
+      'assets.0.layers.41.shapes.2.it.1.c.k': chairBackrestColor,
       // // OBJECTS 40.Group 4.Fill 1
       // "assets.0.layers.41.shapes.3.it.1.c.k": "#111d36",
       'assets.0.layers.41.shapes.3.it.1.c.k': chairColor,
