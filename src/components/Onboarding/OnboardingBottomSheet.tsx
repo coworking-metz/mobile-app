@@ -2,6 +2,7 @@ import DesktopWorkAnimation from '../Animations/DesktopWorkAnimation';
 import EmailReceivedAnimation from '../Animations/EmailReceivedAnimation';
 import AppTextLink from '../AppTextLink';
 import { useOnPremise } from '../OnPremise/OnPremiseContext';
+import dayjs from 'dayjs';
 import React, {
   forwardRef,
   ForwardRefRenderFunction,
@@ -22,6 +23,7 @@ import AppBottomSheet, {
 } from '@/components/AppBottomSheet';
 import AppIcon from '@/components/AppIcon';
 import AppText from '@/components/AppText';
+import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 
 const STEPS = ['tour', 'trial', 'enroll'] as const;
@@ -32,6 +34,7 @@ const OnboardingBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
   forwardedRef,
 ) => {
   const { t } = useTranslation();
+  const authStore = useAuthStore();
   const reduceMotion = useReducedMotion();
   const { selectWifi } = useOnPremise();
   const [selectedStep, setSelectedStep] = useState(new Set<Step>(['tour']));
@@ -95,6 +98,12 @@ const OnboardingBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onboarding.title')}
       </AppText>
+      {authStore.user?.onboarding?.date ? (
+        <AppText
+          style={tw`text-center mt-2 text-base font-normal text-slate-500 dark:text-neutral-500`}>
+          {dayjs(authStore.user.onboarding.date).format('LLLL')}
+        </AppText>
+      ) : null}
 
       <Accordion<Step>
         keepOpen
