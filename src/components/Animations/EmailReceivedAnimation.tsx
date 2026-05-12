@@ -14,11 +14,18 @@ const EmailReceivedAnimation: ForwardRefRenderFunction<LottieView, AnimationProp
 ) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const dateColor = tw.color('amber-800') as string;
-    const handleColor = tw.color('neutral-900') as string;
-    const calendarColor = tw.color('zinc-700') as string;
+    const strokeColor = (
+      colorScheme === 'dark' ? tw.color('neutral-200') : tw.color('slate-800')
+    ) as string;
     return colouriseLottie(EmailReceived, {
-
+      // ball Outlines 2.Group 1.Fill 1
+      'assets.0.layers.0.shapes.0.it.1.c.k': '#0f73fb',
+      // mail Outlines.Group 1.Group 1.Stroke 1
+      'assets.1.layers.0.shapes.0.it.0.it.1.c.k': strokeColor,
+      // mail Outlines.Group 1.Group 2.Stroke 1
+      'assets.1.layers.0.shapes.0.it.1.it.1.c.k': strokeColor,
+      // Shape Layer 1.Shape 1.Stroke 1
+      'layers.0.shapes.0.it.2.c.k': strokeColor,
     });
   }, [colorScheme]);
 
