@@ -199,12 +199,12 @@ const NewDevice = () => {
         <View style={tw`mt-auto`}>
           <AppRoundedButton
             disabled={isSubmitting}
+            label={t('actions.add')}
             loading={isSubmitting}
             style={tw`w-full max-w-sm self-center`}
             suffixIcon="plus"
-            onPress={onSubmit}>
-            <AppText style={tw`text-base font-medium text-black`}>{t('actions.add')}</AppText>
-          </AppRoundedButton>
+            onPress={onSubmit}
+          />
         </View>
       </View>
     </ServiceLayout>

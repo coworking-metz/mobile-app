@@ -88,12 +88,12 @@ const LoginBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomShe
       </AppText>
       <AppRoundedButton
         disabled={isLoading}
+        label={t('actions.login')}
         loading={isLoading}
         style={tw`mt-6 w-full max-w-sm self-center`}
         suffixIcon="open-in-new"
-        onPress={onSubmit}>
-        <AppText style={tw`text-base text-black font-medium`}>{t('actions.login')}</AppText>
-      </AppRoundedButton>
+        onPress={onSubmit}
+      />
     </AppBottomSheet>
   );
 };

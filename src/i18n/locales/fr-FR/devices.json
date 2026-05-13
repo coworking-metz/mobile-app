@@ -30,6 +30,7 @@
       "description": "Cet appareil va interroger notre service sur place pour détecter et récupérer les informations nécessaires.\nSi vous rencontrez un problème ou que vous souhaitez ajouter un autre appareil, vous pouvez le saisir manuellement.",
       "label": "Associer cet appareil",
       "localNetworkPermissions": "Vous devez être connecté au réseau <0>Wi-Fi du Poulailler</0> et autoriser <1>l'accès au réseau local</1> pour détecter automatiquement cet appareil.",
+      "pairing": "Détection…",
       "start": "Détecter automatiquement"
     }
   },

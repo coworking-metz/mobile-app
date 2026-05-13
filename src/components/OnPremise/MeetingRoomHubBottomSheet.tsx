@@ -78,13 +78,11 @@ const MeetingRoomHubBottomSheet: ForwardRefRenderFunction<
         <Animated.View exiting={FadeOutDown} style={tw`w-full`}>
           <AppRoundedButton
             disabled={!user?.capabilities?.includes('KEYS_ACCESS')}
+            label={t('onPremise.meetingRooms.hub.fetch')}
             loading={isLoading}
             style={tw`mt-2 w-full max-w-sm self-center`}
-            onPress={onFetchCode}>
-            <AppText style={tw`text-base font-medium`}>
-              {t('onPremise.meetingRooms.hub.fetch')}
-            </AppText>
-          </AppRoundedButton>
+            onPress={onFetchCode}
+          />
         </Animated.View>
       )}
       {!user?.capabilities?.includes('KEYS_ACCESS') && (

@@ -71,14 +71,12 @@ const BirthdayBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottom
         </AppText>
         <AppRoundedButton
           disabled={isClaiming}
+          label={t('home.profile.birthday.claim')}
           loading={isClaiming}
           style={tw`mt-6 w-full max-w-sm self-center`}
           suffixIcon="gift-open-outline"
-          onPress={onClaimGift}>
-          <AppText style={tw`text-base text-black font-medium`}>
-            {t('home.profile.birthday.claim')}
-          </AppText>
-        </AppRoundedButton>
+          onPress={onClaimGift}
+        />
       </View>
     </AppBottomSheet>
   );

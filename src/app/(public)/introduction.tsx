@@ -189,9 +189,11 @@ const Introduction = () => {
               tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
             />
 
-            <AppRoundedButton style={tw`mx-auto w-full max-w-sm`} onPress={onNext}>
-              <AppText style={tw`text-base font-medium text-black`}>{t('actions.next')}</AppText>
-            </AppRoundedButton>
+            <AppRoundedButton
+              label={t('actions.next')}
+              style={tw`mx-auto w-full max-w-sm`}
+              onPress={onNext}
+            />
           </Animated.View>
         </BlurTargetView>
       ) : null}

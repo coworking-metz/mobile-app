@@ -65,13 +65,11 @@ const ContactBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
        */}
       <Link asChild href={Platform.OS === 'ios' ? '/chat' : `${WORDPRESS_BASE_URL}#ouvrir-brevo`}>
         <AppRoundedButton
+          label={t('settings.contact.conversations.label')}
           style={tw`mt-6 w-full max-w-sm self-center`}
           suffixIcon="chat-processing-outline"
-          onPress={() => bottomSheetRef.current?.close()}>
-          <AppText style={tw`text-base text-black font-medium`}>
-            {t('settings.contact.conversations.label')}
-          </AppText>
-        </AppRoundedButton>
+          onPress={() => bottomSheetRef.current?.close()}
+        />
       </Link>
       <AppTextButton
         loading={isContactingTeam}

@@ -30,6 +30,7 @@
       "description": "This device will query our on-premise service to detect and retrieve the necessary information.\nIf you encounter a problem or want to add another device, you can enter it manually.",
       "label": "Pair this device",
       "localNetworkPermissions": "You must be connected to the <0>Poulailler Wi-Fi</0> network and allow <1>local network access</1> to automatically detect this device.",
+      "pairing": "Detecting…",
       "start": "Detect automatically"
     }
   },

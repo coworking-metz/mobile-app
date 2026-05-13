@@ -98,7 +98,7 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
       <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
         {t('events.period.label')}
       </AppText>
-      <SectionTitle style={tw`mt-6 mx-6`} title={t('events.period.previous.label')} />
+      <SectionTitle style={tw`mx-6`} title={t('events.period.previous.label')} />
 
       <ServiceRow
         description={getPeriodDescription('past')}
@@ -136,12 +136,12 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
 const PeriodBottomSheet: ForwardRefRenderFunction<
   AppBottomSheetRef,
   Omit<AppBottomSheetProps & PeriodOptionsProps, 'children'>
-> = ({ selected, events, onSelect, ...props }, forwardedRef) => {
+> = ({ selected, events, onSelect, style, ...props }, forwardedRef) => {
   const bottomSheetRef = useRef<AppBottomSheetRef | null>(null);
   useImperativeHandle(forwardedRef, () => bottomSheetRef.current as AppBottomSheetRef);
 
   return (
-    <AppBottomSheet ref={bottomSheetRef} {...props}>
+    <AppBottomSheet ref={bottomSheetRef} style={[tw`py-6`, style]} {...props}>
       <PeriodOptions
         events={events}
         selected={selected}

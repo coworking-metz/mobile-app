@@ -298,7 +298,7 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
   return (
     <AppBottomSheet
       ref={bottomSheetRef}
-      style={[tw`flex flex-col w-full gap-4 p-6 max-sm:pb-1`, style]}
+      style={[tw`flex flex-col w-full gap-4 p-6`, style]}
       onClose={onCancel}
       onWillPresent={() => {
         animation.current?.reset();
@@ -410,12 +410,10 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
 
       <AppRoundedButton
         disabled={isAnimating}
+        label={isAnimating ? t('devices.add.pair.pairing') : t('devices.add.pair.start')}
         style={tw`mt-2 w-full max-w-sm self-center`}
-        onPress={onStart}>
-        <AppText style={tw`text-base text-black font-medium`}>
-          {t('devices.add.pair.start')}
-        </AppText>
-      </AppRoundedButton>
+        onPress={onStart}
+      />
       <Link
         asChild
         href={{
