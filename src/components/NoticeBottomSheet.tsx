@@ -72,14 +72,14 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
 
       {notice.action ? (
         <AppRoundedButton
+          label={notice.action.label}
           style={tw`mt-6 w-full max-w-sm self-center`}
           suffixIcon={notice.action.suffixIcon}
           onPress={() => {
             notice.action?.onPress?.();
             onClose?.();
-          }}>
-          <AppText style={tw`text-base font-medium text-black`}>{notice.action.label}</AppText>
-        </AppRoundedButton>
+          }}
+        />
       ) : null}
     </AppBottomSheet>
   );

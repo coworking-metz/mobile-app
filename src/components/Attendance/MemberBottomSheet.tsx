@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
+import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppBottomSheet, {
   AppBottomSheetProps,
@@ -23,7 +24,7 @@ const MemberBottomSheet: ForwardRefRenderFunction<
   const router = useRouter();
 
   return (
-    <AppBottomSheet ref={forwardedRef} style={[tw`pt-6`, style]} onClose={onClose}>
+    <AppBottomSheet ref={forwardedRef} style={[tw`py-6`, style]} onClose={onClose}>
       {member && (
         <>
           <View style={tw`flex flex-row gap-4 items-center h-32 mx-6`}>
@@ -70,7 +71,25 @@ const MemberBottomSheet: ForwardRefRenderFunction<
                 : ''
             }
             label={t('members.profile.location.label')}
-            prefixIcon="map-marker-outline"
+            prefix={
+              <View style={tw`flex flex-row items-center shrink-0 min-h-10 relative`}>
+                <AppIcon
+                  color={tw.prefixMatch('dark') ? tw.color('stone-400') : tw.color('gray-700')}
+                  icon="map-marker-outline"
+                  size={24}
+                  style={tw`shrink-0`}
+                />
+
+                {member?.attending && (
+                  <Animated.View
+                    entering={BounceIn.duration(1000)}
+                    exiting={BounceOut.duration(1000)}
+                    style={tw`z-20 h-3.5 w-3.5 bg-gray-50 dark:bg-zinc-900 rounded-full absolute flex items-center justify-center -bottom-0 -right-1`}>
+                    <View style={tw`h-2.5 w-2.5 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
+                  </Animated.View>
+                )}
+              </View>
+            }
             style={tw`px-3 mx-3`}
             onPress={() =>
               member?.location

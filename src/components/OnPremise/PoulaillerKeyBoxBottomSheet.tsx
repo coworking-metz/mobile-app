@@ -74,13 +74,11 @@ const PoulaillerKeyBoxBottomSheet: ForwardRefRenderFunction<
         <Animated.View exiting={FadeOutDown} style={tw`w-full mt-2`}>
           <AppRoundedButton
             disabled={!user?.capabilities?.includes('KEYS_ACCESS')}
+            label={t('onPremise.keyBoxes.poulailler.fetch')}
             loading={isLoading}
             style={tw`mt-2 w-full max-w-sm self-center`}
-            onPress={onFetchCode}>
-            <AppText style={tw`text-base font-medium`}>
-              {t('onPremise.keyBoxes.poulailler.fetch')}
-            </AppText>
-          </AppRoundedButton>
+            onPress={onFetchCode}
+          />
         </Animated.View>
       )}
 

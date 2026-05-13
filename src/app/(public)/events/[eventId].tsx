@@ -365,11 +365,11 @@ export default function CalendarEventPage() {
             />
 
             <Link asChild href={firstUrl}>
-              <AppRoundedButton style={tw`w-full max-w-sm self-center`} suffixIcon="open-in-new">
-                <AppText style={tw`text-base font-medium text-black`}>
-                  {t('actions.takeALook')}
-                </AppText>
-              </AppRoundedButton>
+              <AppRoundedButton
+                label={t('actions.takeALook')}
+                style={tw`w-full max-w-sm self-center`}
+                suffixIcon="open-in-new"
+              />
             </Link>
           </View>
         )}

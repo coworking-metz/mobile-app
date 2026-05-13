@@ -34,13 +34,11 @@ const PermissionsBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBot
         {t('privacy.permissions.ask.description')}
       </AppText>
       <AppRoundedButton
+        label={t('privacy.permissions.ask.review')}
         style={tw`mt-6 w-full max-w-sm self-center`}
         suffixIcon="open-in-new"
-        onPress={Linking.openSettings}>
-        <AppText style={tw`text-base text-black font-medium`}>
-          {t('privacy.permissions.ask.review')}
-        </AppText>
-      </AppRoundedButton>
+        onPress={Linking.openSettings}
+      />
     </AppBottomSheet>
   );
 };

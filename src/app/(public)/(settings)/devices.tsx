@@ -116,13 +116,11 @@ const Devices = () => {
           </AppText>
           <AppRoundedButton
             disabled={!isDevicesEnabled}
+            label={t('devices.add.pair.label')}
             style={tw`mt-4 w-full self-center`}
             suffixIcon="plus"
-            onPress={pairDevice}>
-            <AppText style={tw`text-base text-black font-medium`}>
-              {t('devices.add.pair.label')}
-            </AppText>
-          </AppRoundedButton>
+            onPress={pairDevice}
+          />
         </Animated.View>
       )}
     </ServiceLayout>

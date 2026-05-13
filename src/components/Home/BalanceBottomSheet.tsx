@@ -178,15 +178,14 @@ const BalanceBottomSheet: ForwardRefRenderFunction<
           </AppText>
         </View>
       )}
+
       <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/carnet-10-journees/`} style={tw`mt-2`}>
         <AppRoundedButton
           disabled={!authStore.user}
+          label={t('home.profile.tickets.add')}
           style={tw`w-full max-w-sm self-center`}
-          suffixIcon="open-in-new">
-          <AppText style={tw`text-base text-black font-medium`}>
-            {t('home.profile.tickets.add')}
-          </AppText>
-        </AppRoundedButton>
+          suffixIcon="open-in-new"
+        />
       </Link>
     </AppBottomSheet>
   );

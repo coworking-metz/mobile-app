@@ -353,12 +353,12 @@ const DeviceDetail = () => {
         <View style={tw`mt-auto mx-3`}>
           <AppRoundedButton
             disabled={!device || isSubmitting || isDeleting}
+            label={t('actions.apply')}
             loading={isSubmitting || isDeleting}
             style={tw`w-full max-w-sm self-center`}
             suffixIcon="check"
-            onPress={onSubmit}>
-            <AppText style={tw`text-base font-medium text-black`}>{t('actions.apply')}</AppText>
-          </AppRoundedButton>
+            onPress={onSubmit}
+          />
         </View>
       </View>
     </ServiceLayout>

@@ -91,12 +91,12 @@ const LogoutBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSh
       </AppText>
       <AppRoundedButton
         disabled={isLoading}
+        label={t('actions.logout')}
         loading={isLoading}
         style={tw`mt-6 w-full max-w-sm self-center`}
         suffixIcon="open-in-new"
-        onPress={onLogout}>
-        <AppText style={tw`text-base text-black font-medium`}>{t('actions.logout')}</AppText>
-      </AppRoundedButton>
+        onPress={onLogout}
+      />
       <Link asChild replace href={`/home?loggedOut=true`}>
         <AppTextButton
           style={tw`mt-4 mx-auto w-full max-w-sm`}

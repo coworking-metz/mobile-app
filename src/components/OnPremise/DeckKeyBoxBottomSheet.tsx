@@ -74,13 +74,11 @@ const DeckKeyBoxBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
         <Animated.View exiting={FadeOutDown} style={tw`w-full mt-2`}>
           <AppRoundedButton
             disabled={!user?.capabilities?.includes('KEYS_ACCESS')}
+            label={t('onPremise.keyBoxes.deck.fetch')}
             loading={isLoading}
             style={tw`mt-2 w-full max-w-sm self-center`}
-            onPress={onFetchCode}>
-            <AppText style={tw`text-base font-medium`}>
-              {t('onPremise.keyBoxes.deck.fetch')}
-            </AppText>
-          </AppRoundedButton>
+            onPress={onFetchCode}
+          />
         </Animated.View>
       )}
 

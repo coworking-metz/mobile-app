@@ -1,13 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useTrueSheet } from '@lodev09/react-native-true-sheet';
 import * as Haptics from 'expo-haptics';
-import React, {
-  forwardRef,
-  ForwardRefRenderFunction,
-  useCallback,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
+import React, { forwardRef, ForwardRefRenderFunction, useCallback, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Animated, { FadeIn, FadeOutDown } from 'react-native-reanimated';
@@ -33,14 +27,12 @@ const WifiBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomShee
   forwardedRef,
 ) => {
   const { t } = useTranslation();
-  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
+  const trueSheet = useTrueSheet();
   const user = useAuthStore((s) => s.user);
   const noticeStore = useNoticeStore();
   const [ssid, setSSID] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(false);
-
-  useImperativeHandle(forwardedRef, () => bottomSheetRef.current as AppBottomSheetRef);
 
   const onFetchPassword = useCallback(() => {
     setLoading(true);
@@ -59,7 +51,7 @@ const WifiBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomShee
 
   return (
     <AppBottomSheet
-      ref={bottomSheetRef}
+      ref={forwardedRef}
       style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
       <View style={tw`flex items-center justify-center h-40 overflow-visible mb-2`}>
@@ -76,7 +68,7 @@ const WifiBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomShee
             href={`/devices`}
             key="add-device-link"
             style={tw`text-amber-500`}
-            onPress={() => bottomSheetRef.current?.close()}
+            onPress={() => trueSheet.dismissAll()}
           />,
           <AppTextLink
             href={`${WORDPRESS_BASE_URL}/mon-compte/appareils`}
@@ -106,13 +98,11 @@ const WifiBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomShee
         <Animated.View exiting={FadeOutDown} style={tw`w-full mt-2`}>
           <AppRoundedButton
             disabled={!user?.capabilities?.includes('WIFI_CREDENTIALS_ACCESS')}
+            label={t('onPremise.wifi.credentials.fetch')}
             loading={isLoading}
             style={tw`mt-3 w-full max-w-sm self-center`}
-            onPress={onFetchPassword}>
-            <AppText style={tw`text-base font-medium`}>
-              {t('onPremise.wifi.credentials.fetch')}
-            </AppText>
-          </AppRoundedButton>
+            onPress={onFetchPassword}
+          />
         </Animated.View>
       )}
 

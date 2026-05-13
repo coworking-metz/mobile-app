@@ -1,7 +1,7 @@
 import AppBlurView from './AppBlurView';
 import { isLiquidGlassSupported, LiquidGlassView } from '@callstack/liquid-glass';
 import React from 'react';
-import { StyleProp, type View, ViewStyle } from 'react-native';
+import { ColorValue, StyleProp, type View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 
 const AppGlassView = ({
@@ -9,19 +9,25 @@ const AppGlassView = ({
   radius = 5,
   style,
   interactive = false,
+  tintColor,
   colorScheme,
   blurTarget,
 }: {
   children: React.ReactNode;
   radius?: number;
   interactive?: boolean;
+  tintColor?: ColorValue;
   style?: StyleProp<ViewStyle>;
   colorScheme?: 'light' | 'dark';
   blurTarget?: React.RefObject<View | null>;
 }) => {
   if (isLiquidGlassSupported) {
     return (
-      <LiquidGlassView colorScheme={colorScheme} interactive={interactive} style={style}>
+      <LiquidGlassView
+        colorScheme={colorScheme}
+        interactive={interactive}
+        style={style}
+        tintColor={tintColor}>
         {children}
       </LiquidGlassView>
     );

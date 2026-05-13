@@ -4,7 +4,7 @@ import { BlurTargetView } from 'expo-blur';
 import { Link, usePathname, useRouter } from 'expo-router';
 import { compact } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import {
   RefreshControl,
   StyleProp,
@@ -29,6 +29,7 @@ import { AppTopFader } from '@/components/AppFader';
 import AppIcon from '@/components/AppIcon';
 import AppIconButton from '@/components/AppIconButton';
 import AppText from '@/components/AppText';
+import AppTextLink from '@/components/AppTextLink';
 import ErrorBadge from '@/components/ErrorBadge';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import SectionTitle from '@/components/Layout/SectionTitle';
@@ -273,18 +274,14 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               setFooterHeight(nativeEvent.layout.height);
               setFooterWidth(nativeEvent.layout.width);
             }}>
-            <AppText style={tw`font-normal text-slate-500 text-center`}>
-              {t('footer.copyright', { year: dayjs().year() })}
-            </AppText>
-            <AppText style={tw`font-normal text-slate-500 text-center`}>
-              {t('footer.madeWith')}
-            </AppText>
-
-            <Link asChild href="/about">
-              <AppText style={tw`font-normal text-amber-500 text-center`}>
-                {t('footer.about')}
-              </AppText>
-            </Link>
+            <Trans
+              components={[
+                <AppTextLink href={`/about`} key="about-link" style={tw`text-amber-500`} />,
+              ]}
+              defaults={t('footer.copyright', { year: dayjs().year() })}
+              parent={AppText}
+              style={tw`text-center font-normal text-slate-500 dark:text-neutral-500`}
+            />
           </View>
         </View>
 

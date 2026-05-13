@@ -45,13 +45,11 @@ const ReviewBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSh
         {t('settings.review.description')}
       </AppText>
       <AppRoundedButton
+        label={t('settings.review.rateOnStore')}
         loading={isLoading}
         style={tw`mt-6 w-full max-w-sm self-center`}
-        onPress={onReview}>
-        <AppText style={tw`text-base text-black font-medium`}>
-          {t('settings.review.rateOnStore')}
-        </AppText>
-      </AppRoundedButton>
+        onPress={onReview}
+      />
       <Link asChild href={`https://g.page/r/Cc8iG0WZSUcoEAE/review`}>
         <AppTextButton style={tw`mt-4 w-full max-w-sm self-center`} suffixIcon="open-in-new">
           <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>

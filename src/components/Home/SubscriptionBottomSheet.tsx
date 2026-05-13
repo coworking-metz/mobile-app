@@ -161,14 +161,14 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
         <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/pass-resident/`}>
           <AppRoundedButton
             disabled={!authStore.user}
-            style={tw`w-full max-w-sm self-center`}
-            suffixIcon="open-in-new">
-            <AppText style={tw`text-base font-medium text-black`}>
-              {subscriptions?.length
+            label={
+              subscriptions?.length
                 ? t('home.profile.subscription.renew')
-                : t('home.profile.subscription.get')}
-            </AppText>
-          </AppRoundedButton>
+                : t('home.profile.subscription.get')
+            }
+            style={tw`w-full max-w-sm self-center`}
+            suffixIcon="open-in-new"
+          />
         </Link>
       </View>
     </AppBottomSheet>

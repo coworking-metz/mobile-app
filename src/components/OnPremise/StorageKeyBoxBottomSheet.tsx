@@ -73,13 +73,11 @@ const StorageKeyBoxBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppB
         <Animated.View exiting={FadeOutDown} style={tw`w-full`}>
           <AppRoundedButton
             disabled={!user?.capabilities?.includes('STORAGE_KEYS_ACCESS')}
+            label={t('onPremise.keyBoxes.storage.fetch')}
             loading={isFetching}
             style={tw`mt-2 w-full max-w-sm self-center`}
-            onPress={onFetchCode}>
-            <AppText style={tw`text-base font-medium`}>
-              {t('onPremise.keyBoxes.storage.fetch')}
-            </AppText>
-          </AppRoundedButton>
+            onPress={onFetchCode}
+          />
         </Animated.View>
       )}
       {!user?.capabilities?.includes('STORAGE_KEYS_ACCESS') && (
