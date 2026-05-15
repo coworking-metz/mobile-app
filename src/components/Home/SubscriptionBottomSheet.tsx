@@ -157,20 +157,21 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
         />
       ) : null}
 
-      <View style={[tw`mx-6 mt-2`, subscriptions && subscriptions.length > 1 && tw`mt-6`]}>
-        <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/pass-resident/`}>
-          <AppRoundedButton
-            disabled={!authStore.user}
-            label={
-              subscriptions?.length
-                ? t('home.profile.subscription.renew')
-                : t('home.profile.subscription.get')
-            }
-            style={tw`w-full max-w-sm self-center`}
-            suffixIcon="open-in-new"
-          />
-        </Link>
-      </View>
+      {authStore.user && (
+        <View style={[tw`mx-6 mt-2`, subscriptions && subscriptions.length > 1 && tw`mt-6`]}>
+          <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/pass-resident/`}>
+            <AppRoundedButton
+              label={
+                subscriptions?.length
+                  ? t('home.profile.subscription.renew')
+                  : t('home.profile.subscription.get')
+              }
+              style={tw`w-full max-w-sm self-center`}
+              suffixIcon="open-in-new"
+            />
+          </Link>
+        </View>
+      )}
     </AppBottomSheet>
   );
 };
