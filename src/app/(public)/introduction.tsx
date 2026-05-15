@@ -11,7 +11,6 @@ import tw, { useDeviceContext } from 'twrnc';
 import AppFader from '@/components/AppFader';
 import AppIconButton from '@/components/AppIconButton';
 import AppRoundedButton from '@/components/AppRoundedButton';
-import AppText from '@/components/AppText';
 import IntroductionAboutStep from '@/components/Introduction/IntroductionAboutStep';
 import IntroductionActivityStep from '@/components/Introduction/IntroductionActivityStep';
 import IntroductionEventsStep from '@/components/Introduction/IntroductionEventsStep';
