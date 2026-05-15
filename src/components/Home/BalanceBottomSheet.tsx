@@ -179,14 +179,15 @@ const BalanceBottomSheet: ForwardRefRenderFunction<
         </View>
       )}
 
-      <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/carnet-10-journees/`} style={tw`mt-2`}>
-        <AppRoundedButton
-          disabled={!authStore.user}
-          label={t('home.profile.tickets.add')}
-          style={tw`w-full max-w-sm self-center`}
-          suffixIcon="open-in-new"
-        />
-      </Link>
+      {authStore.user && (
+        <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/carnet-10-journees/`} style={tw`mt-2`}>
+          <AppRoundedButton
+            label={t('home.profile.tickets.add')}
+            style={tw`w-full max-w-sm self-center`}
+            suffixIcon="open-in-new"
+          />
+        </Link>
+      )}
     </AppBottomSheet>
   );
 };

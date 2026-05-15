@@ -171,10 +171,9 @@ const MembershipBottomSheet: ForwardRefRenderFunction<
         )}
       </View>
 
-      {!valid && (
+      {authStore.user && !valid && (
         <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/carte-adherent/`} style={tw`mt-5`}>
           <AppRoundedButton
-            disabled={!authStore.user}
             label={
               lastMembershipYear
                 ? t('home.profile.membership.renew', { year: dayjs().year() })
