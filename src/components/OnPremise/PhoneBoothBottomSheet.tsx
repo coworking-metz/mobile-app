@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { useIsFocused } from 'expo-router';
 import { isNil } from 'lodash';
 import React, { forwardRef, ForwardRefRenderFunction, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { StyleProp, useColorScheme, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import { BarChart, type stackDataItem } from 'react-native-gifted-charts';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
@@ -144,9 +144,17 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
           style={tw`text-center self-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.phoneBooths.label')}
         </AppText>
-        <AppText style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
-          {t('onPremise.phoneBooths.description')}
-        </AppText>
+        <Trans
+          components={[
+            <AppText
+              key="unable-to-book"
+              style={tw`font-medium text-slate-900 dark:text-gray-200`}
+            />,
+          ]}
+          defaults={t('onPremise.phoneBooths.description')}
+          parent={AppText}
+          style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
+        />
 
         <View style={tw`flex flex-col w-full mt-2`}>
           <SectionTitle loading={loading} title={t('onPremise.phoneBooths.state.label')}>

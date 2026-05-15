@@ -160,7 +160,7 @@
     "fail": "Impossible d'actualiser l'état\u00A0actuel de\u00A0l'espace"
   },
   "phoneBooths": {
-    "description": "Les cabines téléphoniques sont des espaces isolés et destinées à prendre de courts appels.\nElles sont équipées de prises électriques et d'une ventilation.\nElles ne sont pas réservables et sont accessibles à tous.",
+    "description": "Les cabines téléphoniques sont des espaces isolés et destinées à prendre de courts appels.\nElles sont équipées de prises électriques et d'une ventilation.\nElles <0>ne sont pas réservables</0> et sont accessibles à tous.",
     "graph": {
       "label": "Taux d'occupation moyen"
     },
