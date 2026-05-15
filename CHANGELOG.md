@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Commute mode on app introduction.
 - Onboarding card and bottom sheet on home screen.
 
+### Changed
+
+- Attendance layout.
+- Rounded buttons color depends on theme.
+- Improve bottom sheets rendering by using a native component.
+
 ### Fixed
 
 - Drag subscriptions carousel to close subscription bottom sheet.
