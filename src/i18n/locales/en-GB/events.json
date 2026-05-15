@@ -11,7 +11,8 @@
       "byCalendar": {
         "AMOUR_FOOD": "L'Amour Food",
         "BLIIIDA": "Bliiida",
-        "COWORKING": "Coworking Metz"
+        "COWORKING": "Coworking Metz",
+        "ONBOARDING": "Onboarding"
       },
       "label": "Organized by {{author}}"
     },
