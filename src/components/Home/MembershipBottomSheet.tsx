@@ -2,7 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
-import React, { forwardRef, ForwardRefRenderFunction, useEffect } from 'react';
+import React, { forwardRef, ForwardRefRenderFunction, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw from 'twrnc';
@@ -38,10 +38,11 @@ const MembershipBottomSheet: ForwardRefRenderFunction<
 ) => {
   const { t } = useTranslation();
   const authStore = useAuthStore();
+  const hasNavigatedToShop = useRef(false);
   const activeSince = useAppState();
 
   const { refetch: refetchProfile } = useQuery({
-    queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id ? membersQueryKeys.profileById(authStore.user?.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId as string);
@@ -52,7 +53,8 @@ const MembershipBottomSheet: ForwardRefRenderFunction<
   });
 
   useEffect(() => {
-    if (!!authStore.user?.id && !valid) {
+    if (!!authStore.user?.id && !valid && hasNavigatedToShop.current) {
+      hasNavigatedToShop.current = false;
       refetchProfile();
     }
   }, [activeSince, valid]);
@@ -172,7 +174,13 @@ const MembershipBottomSheet: ForwardRefRenderFunction<
       </View>
 
       {authStore.user && !valid && (
-        <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/carte-adherent/`} style={tw`mt-5`}>
+        <Link
+          asChild
+          href={`${WORDPRESS_BASE_URL}/boutique/carte-adherent/`}
+          style={tw`mt-5`}
+          onPress={() => {
+            hasNavigatedToShop.current = true;
+          }}>
           <AppRoundedButton
             label={
               lastMembershipYear
