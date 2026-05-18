@@ -34,6 +34,7 @@ export const useAppAuth = () => {
 const useProtectedRoute = (_ready: boolean, setReady: (ready: boolean) => void) => {
   const router = useRouter();
   const pathname = usePathname();
+  const queryClient = useQueryClient();
   const authStore = useAuthStore();
   const refreshToken = useAuthStore((state) => state.refreshToken);
   const isAuthStoreHydrated = useAuthStore((state) => state.hydrated);
@@ -68,6 +69,7 @@ const useProtectedRoute = (_ready: boolean, setReady: (ready: boolean) => void) 
   useEffect(() => {
     if (loggedOut) {
       authStore.logout().then(() => {
+        Promise.all([queryClient.resetQueries(), Image.clearDiskCache(), Image.clearMemoryCache()]);
         router.setParams({ loggedOut: undefined });
 
         authLogger.debug('Reset navigation since user just logged out');
