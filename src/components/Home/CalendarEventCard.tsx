@@ -1,7 +1,7 @@
-import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { BlurTargetView } from 'expo-blur';
 import { Image, ImageBackground } from 'expo-image';
+import { useIsFocused } from 'expo-router';
 import React, { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';

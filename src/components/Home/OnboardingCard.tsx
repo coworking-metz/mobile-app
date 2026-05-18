@@ -1,5 +1,5 @@
-import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
+import { useIsFocused } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native';
