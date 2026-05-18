@@ -81,8 +81,8 @@
     "title": "Chaos"
   },
   "flexDesk": {
-    "description": "This sit-stand desk allows you to work sitting or standing, depending on your preferences.\nIt is available without reservation, with a real-time status to check if it is free or occupied.",
-    "label": "Sit-stand desk",
+    "description": "This motorized desk allows you to work <0>sitting or standing</0>, depending on your preferences.\nIt is available without reservation, with a real-time status to check if it is free or occupied.",
+    "label": "Flex desk",
     "occupancy": {
       "label": "Availability",
       "value": {

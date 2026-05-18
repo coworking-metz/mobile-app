@@ -80,8 +80,8 @@
     "title": "Le chaos"
   },
   "flexDesk": {
-    "description": "Ce bureau assis debout permet de travailler en position assise ou debout, selon vos préférences.\nIl est disponible sans réservation, avec un statut en temps réel pour vérifier s'il est libre ou occupé.",
-    "label": "Bureau assis debout",
+    "description": "Ce bureau motorisé permet de travailler en position <0>assise ou debout</0>, selon vos préférences.\nIl est disponible sans réservation, avec un statut en temps réel pour vérifier s'il est libre ou occupé.",
+    "label": "Bureau motorisé",
     "occupancy": {
       "label": "Disponibilité",
       "value": {
