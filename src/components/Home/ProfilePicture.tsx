@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { Image } from 'expo-image';
+import { Image, ImageStyle } from 'expo-image';
 import React, { ReactNode, useMemo } from 'react';
 import { StyleProp, TextStyle, View, ViewStyle } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
@@ -40,6 +40,7 @@ const ProfilePicture = ({
   pending = false,
   style,
   initialsStyle,
+  pictureStyle,
   children,
 }: {
   url?: string;
@@ -48,6 +49,7 @@ const ProfilePicture = ({
   loading?: boolean;
   style?: StyleProp<ViewStyle>;
   initialsStyle?: StyleProp<TextStyle>;
+  pictureStyle?: StyleProp<ImageStyle>;
   children?: ReactNode;
 }) => {
   const initials = useMemo(() => {
@@ -64,8 +66,7 @@ const ProfilePicture = ({
         />
       )}
 
-      <Animated.View
-        style={tw`z-10 absolute rounded-3xl inset-0.5 bg-gray-300 dark:bg-zinc-700 overflow-hidden`}>
+      <Animated.View style={tw`z-10 absolute inset-0.5 overflow-hidden`}>
         {pending ? <LoadingSkeleton height={`100%`} width={`100%`} /> : null}
 
         {url ? (
@@ -76,7 +77,7 @@ const ProfilePicture = ({
               uri: url,
               cacheKey: `${url}-${dayjs().format('YYYY-MM-DD')}`,
             }}
-            style={tw`absolute h-full w-full z-10`}
+            style={[tw`absolute h-full w-full z-10 rounded-full`, pictureStyle]}
           />
         ) : null}
 

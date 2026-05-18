@@ -281,6 +281,7 @@ const SubscriptionItem = ({
         {loading ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
+          // TODO: use <Trans /> component
           <View style={tw`flex flex-row justify-end items-end gap-1`}>
             {subscription.activityCount != 0 && (
               <AppText

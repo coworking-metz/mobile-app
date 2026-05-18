@@ -3,8 +3,20 @@
     "anonymous": {
       "description": "Les informations personnelles sont anonymisées pour des raisons de confidentialité."
     },
+    "balance": {
+      "debt_one": "<0>{{count}}</0> redevable",
+      "debt_other": "<0>{{count}}</0> redevables",
+      "debt_zero": "Insuffisant (<0>{{count}}</0> tickets)",
+      "label": "Solde de tickets"
+    },
     "location": {
-      "label": "Situé⸱e dans"
+      "label": "Situé⸱e dans",
+      "unknown": "Quelque part"
+    },
+    "membership": {
+      "label": "Adhésion",
+      "last": "Dernière adhésion en <0>{{year}}</0>",
+      "none": "Aucune"
     },
     "since": {
       "label": "Adhérent⸱e depuis"

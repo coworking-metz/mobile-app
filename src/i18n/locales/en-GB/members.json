@@ -3,8 +3,20 @@
     "anonymous": {
       "description": "Personal information is anonymized for privacy reasons."
     },
+    "balance": {
+      "debt_one": "<0>{{count}}</0> missing",
+      "debt_other": "<0>{{count}}</0> missing",
+      "debt_zero": "Insufficient (<0>{{count}}</0> tickets)",
+      "label": "Ticket balance"
+    },
     "location": {
-      "label": "Located in"
+      "label": "Located in",
+      "unknown": "Somewhere"
+    },
+    "membership": {
+      "label": "Membership",
+      "last": "Last membership in <0>{{year}}</0>",
+      "none": "None"
     },
     "since": {
       "label": "Member since"

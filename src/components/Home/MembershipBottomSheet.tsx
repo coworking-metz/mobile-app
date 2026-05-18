@@ -99,6 +99,7 @@ const MembershipBottomSheet: ForwardRefRenderFunction<
         {loading ? (
           <LoadingSkeleton height={24} width={128} />
         ) : (
+          // TODO: use <Trans /> component
           <View style={tw`flex flex-row justify-end items-end gap-1`}>
             {activityOverLast6Months != 0 && (
               <AppText

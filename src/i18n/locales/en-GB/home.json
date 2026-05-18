@@ -108,7 +108,7 @@
         "description": "over the last 6 months",
         "label": "Activity"
       },
-      "description": "To ensure complete coverage for its members and their belongings, the membership card is mandatory for all users of the shared office.\n\nThis is a requirement from our insurer.",
+      "description": "To ensure complete coverage for its members and their belongings, the membership card is mandatory for all users of the workspace.\n\nThis is a requirement from our insurer.",
       "get": "Join for {{year}}",
       "grade": {
         "active": {
@@ -126,7 +126,7 @@
       },
       "label": "Membership\ncard",
       "renew": "Renew for {{year}}",
-      "required": "Without this membership, you will not be able to access the shared office location.",
+      "required": "Without this membership, you will not be able to access the workspace location.",
       "status": {
         "invalid": "Last membership in {{year}}",
         "label": "Membership",
@@ -191,8 +191,8 @@
     },
     "tickets": {
       "add": "Add",
-      "available_one": "left",
-      "available_other": "available",
+      "available_one": "<0>{{count}}</0> left",
+      "available_other": "<0>{{count}}</0> available",
       "available_zero": "None",
       "balance": {
         "label": "Current balance",
@@ -201,15 +201,15 @@
         "onDepleted_zero": "You are present but your balance seems insufficient."
       },
       "consumed": {
-        "count_one": "consumed",
-        "count_other": "consumed",
+        "count_one": "<0>{{count}}</0> consumed",
+        "count_other": "<0>{{count}}</0> consumed",
         "count_zero": "None",
         "description": "since your arrival",
         "label": "Overall consumption",
         "unknown": "Unknown"
       },
-      "depleted_one": "missing",
-      "depleted_other": "missing",
+      "depleted_one": "<0>{{count}}</0> missing",
+      "depleted_other": "<0>{{count}}</0> missing",
       "description": "Tickets have unlimited validity, and each ticket is equivalent to two half-days.\nPresence of less than 5 hours in a day corresponds to half a day.",
       "label": "Individual\ntickets",
       "onFetch": {

@@ -231,14 +231,14 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 <View style={tw`flex flex-col ml-2 shrink basis-0 grow`}>
                   <AppText
                     entering={FadeInLeft.duration(500)}
-                    style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                    style={tw`text-left text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
                     {authStore.user ? authStore.user.name : t('account.title')}
                   </AppText>
                   <AppText
                     ellipsizeMode={'tail'}
                     entering={FadeInLeft.duration(500).delay(150)}
                     numberOfLines={!authStore.user ? 2 : 1}
-                    style={tw`text-xl font-normal text-slate-500 dark:text-neutral-500`}>
+                    style={tw`text-left text-xl font-normal text-slate-500 dark:text-neutral-500`}>
                     {authStore.user ? authStore.user.email : t('auth.login.headline')}
                   </AppText>
 

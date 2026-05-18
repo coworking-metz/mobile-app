@@ -1,5 +1,11 @@
 import * as Haptics from 'expo-haptics';
-import React, { forwardRef, ForwardRefRenderFunction, useCallback } from 'react';
+import React, {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import { View } from 'react-native';
 import tw from 'twrnc';
 import ErrorAnimation from '@/components/Animations/ErrorAnimation';
@@ -20,6 +26,9 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
     notice: Notice;
   }
 > = ({ notice, style, onClose }, forwardedRef) => {
+  const bottomSheetRef = useRef<AppBottomSheetRef | null>(null);
+  useImperativeHandle(forwardedRef, () => bottomSheetRef.current as AppBottomSheetRef);
+
   const getAnimation = (type?: NoticeType) => {
     switch (type) {
       case 'error':
@@ -47,7 +56,7 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
 
   return (
     <AppBottomSheet
-      ref={forwardedRef}
+      ref={bottomSheetRef}
       initialDetentAnimated
       detents={['auto']}
       initialDetentIndex={0}
@@ -77,6 +86,7 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
           suffixIcon={notice.action.suffixIcon}
           onPress={() => {
             notice.action?.onPress?.();
+            bottomSheetRef.current?.close();
             onClose?.();
           }}
         />
