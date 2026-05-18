@@ -138,16 +138,6 @@ const PtiPoulaillerPlan = ({
               style={tw`top-[71%] left-[50%]`}
               onPress={selectTelevision}
             />
-
-            <ActionableIcon
-              blurTarget={blurTargetRef}
-              entering={BounceIn.duration(750).delay(Math.random() * 500)}
-              exiting={BounceOut.duration(750)}
-              icon="wifi"
-              selected={isWifiSelected}
-              style={tw`top-[73%] left-[17%]`}
-              onPress={selectWifi}
-            />
           </>
         ) : withLights ? (
           <>
@@ -226,6 +216,16 @@ const PtiPoulaillerPlan = ({
                 selectFlexDesk({ id: 'b', occupied: onPremiseState?.flexDesks?.b.occupied })
               }
             />
+            {/* Wifi */}
+            <ActionableIcon
+              blurTarget={blurTargetRef}
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="wifi"
+              selected={isWifiSelected}
+              style={tw`top-[73%] left-[17%]`}
+              onPress={selectWifi}
+            />
             {/* Key box */}
             <ActionableIcon
               blurTarget={blurTargetRef}
@@ -233,7 +233,7 @@ const PtiPoulaillerPlan = ({
               exiting={BounceOut.duration(750)}
               icon="key-chain-variant"
               key="key-box"
-              style={tw`top-[82%] left-[22%]`}
+              style={tw`top-[82%] left-[30%]`}
               onPress={selectPtiPoulaillerKeyBox}
             />
             {/* Climate */}

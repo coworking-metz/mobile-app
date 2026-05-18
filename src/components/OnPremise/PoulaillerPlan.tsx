@@ -224,15 +224,6 @@ const PoulaillerPlan = ({
               blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
-              icon="wifi"
-              selected={isWifiSelected}
-              style={tw`top-[75%] left-[48%]`}
-              onPress={selectWifi}
-            />
-            <ActionableIcon
-              blurTarget={blurTargetRef}
-              entering={BounceIn.duration(750).delay(Math.random() * 500)}
-              exiting={BounceOut.duration(750)}
               icon="account-group-outline"
               key="group-work"
               selected={isGroupWorkSelected}
@@ -360,6 +351,16 @@ const PoulaillerPlan = ({
               selected={isPoulaillerKeyBoxSelected}
               style={tw`top-[84%] left-[56%]`}
               onPress={selectPoulaillerKeyBox}
+            />
+
+            <ActionableIcon
+              blurTarget={blurTargetRef}
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              icon="wifi"
+              selected={isWifiSelected}
+              style={tw`top-[75%] left-[48%]`}
+              onPress={selectWifi}
             />
 
             {user?.capabilities?.includes('STORAGE_KEYS_ACCESS') && (
