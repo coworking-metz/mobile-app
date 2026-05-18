@@ -9,19 +9,9 @@
     ],
     "title": ["Aucun présent", "C'est vide", "Calme plat", "Personne sur place"]
   },
-  "members": {
-    "debt": {
-      "ticket_one": "{{count}} redevable",
-      "ticket_other": "{{count}} redevables",
-      "ticket_zero": "Solde insuffisant (0 tickets)"
-    },
-    "membership": {
-      "last": "Dernière adhésion en {{year}}",
-      "none": "Aucune adhésion"
-    }
-  },
   "onFetch": {
-    "fail": "Impossible d'actualiser la\u00A0liste des\u00A0présents"
+    "fail": "Impossible d'actualiser la\u00A0liste des\u00A0présents",
+    "loading": ["Actualisation…", "Chargement en cours…", "Mise à jour…", "Un peu de patience…"]
   },
   "title_one": "Présent",
   "title_other": "{{count}} présents",

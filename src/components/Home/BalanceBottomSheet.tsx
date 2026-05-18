@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import { isNil } from 'lodash';
 import React, { forwardRef, ForwardRefRenderFunction, useEffect, useMemo, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
 import CouponsAnimation from '@/components/Animations/CouponsAnimation';
@@ -105,24 +105,25 @@ const BalanceBottomSheet: ForwardRefRenderFunction<
         {loading ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
-          <View style={tw`flex flex-row justify-end items-end gap-1`}>
-            {!isNil(memberProfile?.balance) && memberProfile.balance !== 0 && (
+          <Trans
+            components={[
               <AppText
+                key="emphasis"
                 numberOfLines={1}
-                style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
-                {Math.abs(memberProfile.balance)}
-              </AppText>
-            )}
-            <AppText
-              numberOfLines={1}
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500`}>
-              {isNil(memberProfile?.balance)
+                style={tw`font-semibold text-slate-900 dark:text-gray-200`}
+              />,
+            ]}
+            defaults={
+              isNil(memberProfile?.balance)
                 ? t('home.profile.tickets.unknown')
                 : memberProfile.balance >= 0
                   ? t('home.profile.tickets.available', { count: memberProfile.balance })
-                  : t('home.profile.tickets.depleted', { count: -memberProfile.balance })}
-            </AppText>
-          </View>
+                  : t('home.profile.tickets.depleted', { count: -memberProfile.balance })
+            }
+            numberOfLines={1}
+            parent={AppText}
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+          />
         )}
       </ServiceRow>
       <ServiceRow
@@ -132,22 +133,23 @@ const BalanceBottomSheet: ForwardRefRenderFunction<
         {isFetchingTicketsOrders ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
-          <View style={tw`flex flex-row justify-end items-end gap-1`}>
-            {consumedCount != 0 && (
+          <Trans
+            components={[
               <AppText
+                key="emphasis"
                 numberOfLines={1}
-                style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
-                {consumedCount}
-              </AppText>
-            )}
-            <AppText
-              numberOfLines={1}
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500`}>
-              {!isNil(consumedCount)
+                style={tw`font-semibold text-slate-900 dark:text-gray-200`}
+              />,
+            ]}
+            defaults={
+              !isNil(consumedCount)
                 ? t('home.profile.tickets.consumed.count', { count: consumedCount })
-                : t('home.profile.tickets.consumed.unknown')}
-            </AppText>
-          </View>
+                : t('home.profile.tickets.consumed.unknown')
+            }
+            numberOfLines={1}
+            parent={AppText}
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+          />
         )}
       </ServiceRow>
       {ticketsOrdersError && !isSilentError(ticketsOrdersError) ? (

@@ -58,10 +58,10 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
   const toastStore = useToastStore();
   const settingsStore = useSettingsStore();
   const animation = useRef<LottieView>(null);
-  const bottomSheetRef = useRef<AppBottomSheetRef | null>(null);
   const queryClient = useQueryClient();
   const { selectWifi } = useOnPremise();
 
+  const bottomSheetRef = useRef<AppBottomSheetRef | null>(null);
   useImperativeHandle(forwardedRef, () => bottomSheetRef.current as AppBottomSheetRef);
 
   const [fetchDeviveInfoAttemptsCount, setFetchDeviveInfoAttemptsCount] = useState<number>(0);

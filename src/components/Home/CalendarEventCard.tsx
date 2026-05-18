@@ -119,7 +119,7 @@ const CalendarEventCard = ({
         {!loading && event ? (
           <AppBlurView
             blurTarget={blurTargetRef}
-            radius={40}
+            radius={100}
             style={tw`absolute inset-x-0 bottom-0 flex flex-row gap-3 items-center px-4 py-2`}>
             {eventIcon}
             <View style={tw`flex flex-col items-stretch grow shrink basis-0`}>

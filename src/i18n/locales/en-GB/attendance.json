@@ -1,5 +1,5 @@
 {
-  "description": "inside shared office spaces",
+  "description": "inside all workspaces",
   "empty": {
     "description": [
       "No desks are occupied right now.",
@@ -21,7 +21,8 @@
     }
   },
   "onFetch": {
-    "fail": "Unable to fetch the\u00A0list of\u00A0attendees"
+    "fail": "Unable to fetch the\u00A0list of\u00A0attendees",
+    "loading": ["Hang tight…", "Loading…", "Refreshing…", "Syncing…", "Updating…"]
   },
   "title_one": "Attending",
   "title_other": "{{count}} attending",

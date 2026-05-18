@@ -380,7 +380,7 @@ export default function HomeScreen() {
             <ErrorBadge
               error={profileError}
               title={t('home.profile.onFetch.fail')}
-              onRetry={refetchProfile}
+              onRetry={onRefresh}
             />
           ) : subscriptionsError &&
             !isSilentError(subscriptionsError) &&
@@ -388,7 +388,7 @@ export default function HomeScreen() {
             <ErrorBadge
               error={subscriptionsError}
               title={t('home.profile.subscription.onFetch.fail')}
-              onRetry={refetchSubscriptions}
+              onRetry={onRefresh}
             />
           ) : null}
         </SectionTitle>
@@ -477,7 +477,7 @@ export default function HomeScreen() {
           <ErrorBadge
             error={calendarEventsError}
             title={t('home.calendar.onFetch.fail')}
-            onRetry={refetchCalendarEvents}
+            onRetry={onRefresh}
           />
         ) : null}
 
