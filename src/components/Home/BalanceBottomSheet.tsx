@@ -38,7 +38,7 @@ const BalanceBottomSheet: ForwardRefRenderFunction<
 > = ({ loading = false, style, onClose }, forwardedRef) => {
   const { t } = useTranslation();
   const authStore = useAuthStore();
-  const isMounted = useRef(false);
+  const hasNavigatedToShop = useRef(false);
   const activeSince = useAppState();
 
   const { data: memberProfile, refetch: refetchProfile } = useQuery<ApiMemberProfile>({
@@ -70,15 +70,12 @@ const BalanceBottomSheet: ForwardRefRenderFunction<
   });
 
   useEffect(() => {
-    if (!!authStore.user?.id && isMounted.current) {
+    if (!!authStore.user?.id && hasNavigatedToShop.current) {
+      hasNavigatedToShop.current = false;
       refetchProfile();
       refetchTicketsOrders();
     }
   }, [activeSince]);
-
-  useEffect(() => {
-    isMounted.current = true;
-  }, []);
 
   const consumedCount = useMemo(() => {
     const ordersCount = ticketsOrders?.reduce((acc, order) => acc + order.count, 0) ?? null;
@@ -180,7 +177,13 @@ const BalanceBottomSheet: ForwardRefRenderFunction<
       )}
 
       {authStore.user && (
-        <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/carnet-10-journees/`} style={tw`mt-2`}>
+        <Link
+          asChild
+          href={`${WORDPRESS_BASE_URL}/boutique/carnet-10-journees/`}
+          style={tw`mt-2`}
+          onPress={() => {
+            hasNavigatedToShop.current = true;
+          }}>
           <AppRoundedButton
             label={t('home.profile.tickets.add')}
             style={tw`w-full max-w-sm self-center`}

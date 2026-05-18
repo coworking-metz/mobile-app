@@ -3,7 +3,14 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
 import { isNil } from 'lodash';
-import React, { forwardRef, ForwardRefRenderFunction, useEffect, useMemo, useState } from 'react';
+import React, {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
@@ -41,6 +48,7 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
 > = ({ currentSubscription, style, onClose }, forwardedRef) => {
   const { t } = useTranslation();
   const authStore = useAuthStore();
+  const hasNavigatedToShop = useRef(false);
   const activeSince = useAppState();
   const [carouselWidth, setCarouselWidth] = useState<number>(0);
   const offset = useSharedValue(0);
@@ -64,7 +72,8 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
   });
 
   useEffect(() => {
-    if (areSubscriptionsEnabled) {
+    if (areSubscriptionsEnabled && hasNavigatedToShop.current) {
+      hasNavigatedToShop.current = false;
       refetchSubscriptions();
     }
   }, [areSubscriptionsEnabled, activeSince]);
@@ -159,7 +168,12 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
 
       {authStore.user && (
         <View style={[tw`mx-6 mt-2`, subscriptions && subscriptions.length > 1 && tw`mt-6`]}>
-          <Link asChild href={`${WORDPRESS_BASE_URL}/boutique/pass-resident/`}>
+          <Link
+            asChild
+            href={`${WORDPRESS_BASE_URL}/boutique/pass-resident/`}
+            onPress={() => {
+              hasNavigatedToShop.current = true;
+            }}>
             <AppRoundedButton
               label={
                 subscriptions?.length
