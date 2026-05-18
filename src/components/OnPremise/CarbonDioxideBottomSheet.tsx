@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useIsFocused } from 'expo-router';
 import { isNil, sample } from 'lodash';
-import React, { forwardRef, ForwardRefRenderFunction, useEffect, useMemo } from 'react';
+import React, { forwardRef, ForwardRefRenderFunction, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useColorScheme, View } from 'react-native';
 import Animated, {
@@ -48,6 +48,7 @@ const CarbonDioxideBottomSheet: ForwardRefRenderFunction<
   const colorScheme = useColorScheme();
   const activeSince = useAppState();
   const isFocus = useIsFocused();
+  const [isVisible, setVisible] = useState<boolean>(false);
 
   const { dataUpdatedAt: onPremiseStateUpdatedAt } = useQuery({
     queryKey: onPremiseQueryKeys.state(),
@@ -94,13 +95,17 @@ const CarbonDioxideBottomSheet: ForwardRefRenderFunction<
 
   useEffect(() => {
     if (!isNil(level)) {
-      animatedLevel.value = withTiming(level, {
-        duration: ANIMATION_DURATION,
-        easing: Easing.inOut(Easing.cubic),
-        reduceMotion: ReduceMotion.System,
-      });
+      if (isVisible) {
+        animatedLevel.value = withTiming(level, {
+          duration: ANIMATION_DURATION,
+          easing: Easing.inOut(Easing.cubic),
+          reduceMotion: ReduceMotion.System,
+        });
+      } else {
+        animatedLevel.value = 0;
+      }
     }
-  }, [level]);
+  }, [level, isVisible]);
 
   const formattedAnimatedLevel = useDerivedValue(() => {
     return `${animatedLevel.value.toFixed(0)}`;
@@ -140,7 +145,13 @@ const CarbonDioxideBottomSheet: ForwardRefRenderFunction<
     <AppBottomSheet
       ref={forwardedRef}
       style={[tw`flex flex-col items-stretch gap-5 p-6`, style]}
-      onClose={onClose}>
+      onClose={() => {
+        setVisible(false);
+        onClose?.();
+      }}
+      onWillPresent={() => {
+        setVisible(true);
+      }}>
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.climate.carbonDioxide.label')}
