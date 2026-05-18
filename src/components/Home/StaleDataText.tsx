@@ -1,8 +1,8 @@
 import PullToRefreshHint from './PullToRefreshHint';
 import AppShimmerText from '../AppShimmerText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
+import { useIsFocused } from 'expo-router';
 import { capitalize, sample } from 'lodash';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

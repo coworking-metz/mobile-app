@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useIsFocused } from '@react-navigation/native';
 import dayjs from 'dayjs';
+import { useIsFocused } from 'expo-router';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle } from 'react-native';

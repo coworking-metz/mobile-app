@@ -1,7 +1,7 @@
-import { useIsFocused } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { NetworkStateType, useNetworkState } from 'expo-network';
+import { useIsFocused } from 'expo-router';
 import { Link } from 'expo-router';
 import { compact, includes, isNil, sample } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
