@@ -1,6 +1,6 @@
 import { isNil } from 'lodash';
 import React, { forwardRef, ForwardRefRenderFunction } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import tw from 'twrnc';
 import UpliftingDeskAnimation from '@/components/Animations/UpliftingDeskAnimation';
 import AppBottomSheet, {
@@ -31,10 +31,14 @@ const FlexDeskBottomSheet: ForwardRefRenderFunction<
         {t('onPremise.flexDesk.label')}
       </AppText>
 
-      <AppText
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6`}>
-        {t('onPremise.flexDesk.description')}
-      </AppText>
+      <Trans
+        components={[
+          <AppText key="emphasis" style={tw`font-medium text-slate-900 dark:text-gray-200`} />,
+        ]}
+        defaults={t('onPremise.flexDesk.description')}
+        parent={AppText}
+        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6`}
+      />
 
       <ServiceRow label={t('onPremise.flexDesk.occupancy.label')} style={tw`w-full px-0 mt-2`}>
         {loading ? (
