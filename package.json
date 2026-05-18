@@ -44,7 +44,7 @@
     "@shopify/flash-list": "2.0.2",
     "@shopify/react-native-skia": "2.4.18",
     "@somesoap/react-native-image-palette": "^1.2.2",
-    "@tanstack/react-query": "^5.100.8",
+    "@tanstack/react-query": "^5.100.10",
     "@vonovak/react-native-theme-control": "^7.0.2",
     "axios": "^1.16.0",
     "axios-retry": "^4.5.0",
