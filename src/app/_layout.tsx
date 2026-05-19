@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -210,4 +211,4 @@ const RootLayout = () => {
   );
 };
 
-export default RootLayout;
+export default Sentry.wrap(RootLayout);
