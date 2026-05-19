@@ -103,7 +103,11 @@ const ProfilePicture = ({
             </AppText>
           </View>
         ) : (
-          <AccountAnimation autoPlay style={tw`h-full w-full bg-gray-200 dark:bg-zinc-300`} />
+          <AccountAnimation
+            autoPlay
+            color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-900')}
+            style={[tw`h-full w-full bg-gray-200 dark:bg-zinc-700/50`, pictureStyle]}
+          />
         )}
       </Animated.View>
 

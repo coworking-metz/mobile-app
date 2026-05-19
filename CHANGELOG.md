@@ -7,12 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+
+- Guest profile animation style and color.
+
 ## [2026.5.2] - 2026-05-19
 
 ### Changed
 
 - Update dependencies.
-
 
 ## [2026.5.1] - 2026-05-19
 
