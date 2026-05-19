@@ -18,6 +18,7 @@
       "last": "Dernière adhésion en <0>{{year}}</0>",
       "none": "Aucune"
     },
+    "navigateToManager": "Consulter le profil",
     "since": {
       "label": "Adhérent⸱e depuis"
     },

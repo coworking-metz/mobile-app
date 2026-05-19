@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
+import { includes } from 'lodash';
 import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -19,12 +20,15 @@ import {
   isMemberBalanceInsufficient,
   isMembershipNonCompliant,
 } from '@/services/api/members';
+import { MANAGER_BASE_URL } from '@/services/environment';
+import useAuthStore from '@/stores/auth';
 
 const MemberBottomSheet: ForwardRefRenderFunction<
   AppBottomSheetRef,
   AppBottomSheetProps & { member?: ApiMemberProfile | null; since?: string }
 > = ({ member, since, style, onClose }, forwardedRef) => {
   const { t } = useTranslation();
+  const authStore = useAuthStore();
   const router = useRouter();
 
   return (
@@ -48,14 +52,21 @@ const MemberBottomSheet: ForwardRefRenderFunction<
               source={member.polaroid}
               style={[
                 tw`h-full bg-gray-200 dark:bg-zinc-800 rounded-xl overflow-hidden`,
-                {
-                  aspectRatio: 506 / 619,
-                },
+                { aspectRatio: 506 / 619 },
               ]}
             />
           </View>
 
-          <SectionTitle style={tw`mt-6 mx-6`} title={t('members.profile.title')} />
+          <SectionTitle style={tw`mt-6 mx-6`} title={t('members.profile.title')}>
+            {includes(authStore.user?.roles, 'admin') && (
+              <Link asChild href={`${MANAGER_BASE_URL}/members/${member._id}`}>
+                <AppText
+                  style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-5`}>
+                  {t('members.profile.navigateToManager')} <AppIcon icon="open-in-new" size={16} />
+                </AppText>
+              </Link>
+            )}
+          </SectionTitle>
 
           {member.created && (
             <ServiceRow
