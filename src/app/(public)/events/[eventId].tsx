@@ -257,7 +257,13 @@ export default function CalendarEventPage() {
                       </ReadMore>
                     </Animated.View>
                   ) : null}
-                  <Link asChild dismissTo href={`/events/calendar?calendar=${event.calendar}`}>
+                  <Link
+                    asChild
+                    dismissTo
+                    href={{
+                      pathname: '/events/calendar',
+                      params: { calendar: event.calendar },
+                    }}>
                     <ServiceRow
                       withBottomDivider
                       label={t(`events.detail.author.byCalendar.${event.calendar}`)}

@@ -18,6 +18,7 @@
       "last": "Last membership in <0>{{year}}</0>",
       "none": "None"
     },
+    "navigateToManager": "View profile",
     "since": {
       "label": "Member since"
     },

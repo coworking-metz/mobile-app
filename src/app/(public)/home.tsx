@@ -407,7 +407,7 @@ export default function HomeScreen() {
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
           style={tw`w-full overflow-visible`}>
-          {IS_DEV && !authStore.user?.onboarding?.date && (
+          {authStore.user?.onboarding?.date && (
             <AppPressable style={tw`flex flex-row items-stretch`} onPress={onboard}>
               <OnboardingCard
                 date={dayjs().toISOString()}

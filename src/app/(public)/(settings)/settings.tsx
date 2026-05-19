@@ -52,7 +52,7 @@ import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 import useAppScreen from '@/helpers/screen';
 import { SYSTEM_LANGUAGE, getLanguageLabel } from '@/i18n';
 import { getHelloActivity, getMemberActivity, getMemberProfile } from '@/services/api/members';
-import { IS_DEV, WORDPRESS_BASE_URL } from '@/services/environment';
+import { WORDPRESS_BASE_URL } from '@/services/environment';
 import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
@@ -451,17 +451,15 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                   style={tw`px-3 mx-3`}
                 />
 
-                {IS_DEV && !authStore.user.onboarding && (
-                  <ServiceRow
-                    withBottomDivider
-                    label={t('settings.onboarding.label')}
-                    prefixIcon="handshake-outline"
-                    selected={isWide && pathname === '/onboarding'}
-                    style={tw`px-3 mx-3`}
-                    suffixIcon="chevron-right"
-                    onPress={onboard}
-                  />
-                )}
+                <ServiceRow
+                  withBottomDivider
+                  label={t('settings.onboarding.label')}
+                  prefixIcon="handshake-outline"
+                  selected={isWide && pathname === '/onboarding'}
+                  style={tw`px-3 mx-3`}
+                  suffixIcon="chevron-right"
+                  onPress={onboard}
+                />
               </>
             )}
             <ServiceRow
