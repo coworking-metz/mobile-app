@@ -29,9 +29,11 @@ const MemberTile = ({ member, since, style, loading, onPress, ...props }: Member
         <View style={tw`w-full pt-[100%] relative`}>
           <View style={tw`absolute inset-0 rounded-full overflow-hidden`}>
             <ProfilePicture
+              initialsStyle={tw`text-3xl`}
               loading={loading}
               name={fullName}
               pictureStyle={[
+                tw`rounded-full`,
                 isMemberBalanceInsufficient(member) || isMembershipNonCompliant(member)
                   ? tw`border-4 border-red-600 dark:border-red-700`
                   : null,

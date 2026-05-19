@@ -1,11 +1,5 @@
 import dayjs from 'dayjs';
-import React, {
-  forwardRef,
-  ForwardRefRenderFunction,
-  useCallback,
-  useImperativeHandle,
-  useRef,
-} from 'react';
+import React, { forwardRef, ForwardRefRenderFunction, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw from 'twrnc';
@@ -21,13 +15,17 @@ import { type CalendarEvent } from '@/services/api/calendar';
 const PERIODS = ['past', 'day', 'week', 'month', null] as const;
 export type PeriodType = (typeof PERIODS)[number];
 
-type PeriodOptionsProps = {
-  selected?: PeriodType;
-  events: CalendarEvent[];
-  onSelect?: (selected: PeriodType) => void;
-};
-
-const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
+const PeriodBottomSheet: ForwardRefRenderFunction<
+  AppBottomSheetRef,
+  Omit<
+    AppBottomSheetProps & {
+      selected?: PeriodType;
+      events: CalendarEvent[];
+      onSelect?: (selected: PeriodType) => void;
+    },
+    'children'
+  >
+> = ({ selected, events, onSelect, style, ...props }, forwardedRef) => {
   const { t } = useTranslation();
 
   const onPeriodPicked = useCallback(
@@ -94,62 +92,43 @@ const PeriodOptions = ({ selected, events, onSelect }: PeriodOptionsProps) => {
   );
 
   return (
-    <View style={tw`flex flex-col w-full gap-1 py-3`}>
-      <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
-        {t('events.period.label')}
-      </AppText>
-      <SectionTitle style={tw`mx-6`} title={t('events.period.previous.label')} />
+    <AppBottomSheet ref={forwardedRef} style={[tw`py-6`, style]} {...props}>
+      <View style={tw`flex flex-col w-full gap-1 py-3`}>
+        <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
+          {t('events.period.label')}
+        </AppText>
+        <SectionTitle style={tw`mx-6`} title={t('events.period.previous.label')} />
 
-      <ServiceRow
-        description={getPeriodDescription('past')}
-        label={t(`events.period.options.past.label`)}
-        selected={selected === 'past'}
-        style={tw`px-3 mx-3`}
-        onPress={() => onPeriodPicked('past')}>
-        <View style={tw`bg-gray-300 dark:bg-zinc-700 py-1 px-2 rounded`}>
-          <AppText style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
-            {getPeriodCount('past')}
-          </AppText>
-        </View>
-      </ServiceRow>
-
-      <SectionTitle style={tw`mt-6 mx-6`} title={t('events.period.next.label')} />
-      {PERIODS.filter((p) => p !== 'past').map((period) => (
         <ServiceRow
-          description={getPeriodDescription(period)}
-          key={`period-option-${period}`}
-          label={t(`events.period.options.${period ?? 'none'}.label`)}
-          selected={selected === period}
+          description={getPeriodDescription('past')}
+          label={t(`events.period.options.past.label`)}
+          selected={selected === 'past'}
           style={tw`px-3 mx-3`}
-          onPress={() => onPeriodPicked(period)}>
+          onPress={() => onPeriodPicked('past')}>
           <View style={tw`bg-gray-300 dark:bg-zinc-700 py-1 px-2 rounded`}>
             <AppText style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
-              {getPeriodCount(period)}
+              {getPeriodCount('past')}
             </AppText>
           </View>
         </ServiceRow>
-      ))}
-    </View>
-  );
-};
 
-const PeriodBottomSheet: ForwardRefRenderFunction<
-  AppBottomSheetRef,
-  Omit<AppBottomSheetProps & PeriodOptionsProps, 'children'>
-> = ({ selected, events, onSelect, style, ...props }, forwardedRef) => {
-  const bottomSheetRef = useRef<AppBottomSheetRef | null>(null);
-  useImperativeHandle(forwardedRef, () => bottomSheetRef.current as AppBottomSheetRef);
-
-  return (
-    <AppBottomSheet ref={bottomSheetRef} style={[tw`py-6`, style]} {...props}>
-      <PeriodOptions
-        events={events}
-        selected={selected}
-        onSelect={(newSelected) => {
-          bottomSheetRef.current?.close();
-          onSelect?.(newSelected);
-        }}
-      />
+        <SectionTitle style={tw`mt-6 mx-6`} title={t('events.period.next.label')} />
+        {PERIODS.filter((p) => p !== 'past').map((period) => (
+          <ServiceRow
+            description={getPeriodDescription(period)}
+            key={`period-option-${period}`}
+            label={t(`events.period.options.${period ?? 'none'}.label`)}
+            selected={selected === period}
+            style={tw`px-3 mx-3`}
+            onPress={() => onPeriodPicked(period)}>
+            <View style={tw`bg-gray-300 dark:bg-zinc-700 py-1 px-2 rounded`}>
+              <AppText style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
+                {getPeriodCount(period)}
+              </AppText>
+            </View>
+          </ServiceRow>
+        ))}
+      </View>
     </AppBottomSheet>
   );
 };

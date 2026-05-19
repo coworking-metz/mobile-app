@@ -77,7 +77,7 @@ const ProfilePicture = ({
               uri: url,
               cacheKey: `${url}-${dayjs().format('YYYY-MM-DD')}`,
             }}
-            style={[tw`absolute h-full w-full z-10 rounded-full`, pictureStyle]}
+            style={[tw`absolute h-full w-full z-10`, pictureStyle]}
           />
         ) : null}
 
@@ -88,6 +88,7 @@ const ProfilePicture = ({
               !url && {
                 backgroundColor: getColorFromSeed(initials),
               },
+              pictureStyle,
             ]}>
             <AppText
               numberOfLines={1}

@@ -6,13 +6,19 @@
     },
     "title": "Évènements"
   },
+  "calendars": {
+    "all": "Tous",
+    "available": "Calendriers disponibles",
+    "label": "Calendriers",
+    "selectedCount_one": "{{count}} calendrier",
+    "selectedCount_other": "{{count}} calendriers"
+  },
   "detail": {
     "author": {
       "byCalendar": {
         "AMOUR_FOOD": "L'Amour Food",
         "BLIIIDA": "Bliiida",
-        "COWORKING": "Coworking Metz",
-        "ONBOARDING": "Visites"
+        "COWORKING": "Coworking Metz"
       },
       "label": "Organisé par {{author}}"
     },

@@ -1,14 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { Link, useLocalSearchParams } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import { includes, isNil, uniq } from 'lodash';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import Animated, { BounceIn, BounceOut, FadeInLeft, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
+import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import AppPressable from '@/components/AppPressable';
 import AppText from '@/components/AppText';
 import ErrorState from '@/components/ErrorState';
+import CalendarsBottomSheet from '@/components/Events/CalendarsBottomSheet';
 import PeriodBottomSheet, { type PeriodType } from '@/components/Events/PeriodBottomSheet';
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
@@ -25,16 +28,14 @@ export type SortType = (typeof SORTS)[number];
 const Calendar = ({ from }: { from?: string }) => {
   useDeviceContext(tw);
   const { t } = useTranslation();
-  const { period } = useLocalSearchParams<{ period?: string }>();
+  const router = useRouter();
+  const { period, calendar } = useLocalSearchParams<{ period?: string; calendar?: string }>();
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>(null);
-  const [hasSelectedPeriodFilter, setSelectedPeriodFilter] = useState<boolean>(false);
   const [selectedSort, setSelectedSort] = useState<SortType>('ascending');
+  const [selectedCalendar, setSelectedCalendar] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (period) {
-      setSelectedPeriod(period as PeriodType);
-    }
-  }, [period]);
+  const periodBottomSheetRef = useRef<AppBottomSheetRef | null>(null);
+  const calendarsBottomSheetRef = useRef<AppBottomSheetRef | null>(null);
 
   const {
     data: calendarEvents,
@@ -50,9 +51,33 @@ const Calendar = ({ from }: { from?: string }) => {
     refetchInterval: false,
   });
 
+  const allCalendars = useMemo(() => {
+    return uniq(calendarEvents?.map((e) => e.calendar));
+  }, [calendarEvents]);
+
+  useEffect(() => {
+    if (period) {
+      setSelectedPeriod(period as PeriodType);
+    }
+  }, [period]);
+
+  useEffect(() => {
+    if (!isNil(calendar) && includes(allCalendars, calendar)) {
+      setSelectedCalendar(calendar);
+      return;
+    }
+
+    setSelectedCalendar(null);
+  }, [calendar]);
+
+  const filteredEventsByCalendar = useMemo(() => {
+    if (!selectedCalendar) return calendarEvents;
+    return calendarEvents?.filter((event) => event.calendar === selectedCalendar);
+  }, [calendarEvents, selectedCalendar]);
+
   const eventsGroupedByDate = useMemo(() => {
     const groups = {} as { [k: string]: CalendarEvent[] };
-    calendarEvents?.forEach((calendarEvent) => {
+    filteredEventsByCalendar?.forEach((calendarEvent) => {
       const startingDate = dayjs(calendarEvent.start).format('YYYY-MM-DD');
       if (groups[startingDate]) {
         groups[startingDate].push(calendarEvent);
@@ -62,7 +87,7 @@ const Calendar = ({ from }: { from?: string }) => {
     });
 
     return groups;
-  }, [calendarEvents]);
+  }, [filteredEventsByCalendar]);
 
   const filteredEventsGroups = useMemo(() => {
     const now = dayjs();
@@ -110,8 +135,9 @@ const Calendar = ({ from }: { from?: string }) => {
           <SelectableChip
             icon="chevron-down"
             label={t(`events.period.options.${selectedPeriod ?? 'none'}.label`)}
-            onPress={() => setSelectedPeriodFilter(true)}
+            onPress={() => periodBottomSheetRef.current?.open()}
           />
+
           <SelectableChip
             icon={
               selectedSort === 'ascending'
@@ -138,6 +164,16 @@ const Calendar = ({ from }: { from?: string }) => {
                 setSelectedSort(SORTS[0]);
               }
             }}
+          />
+          <SelectableChip
+            icon="chevron-down"
+            label={
+              selectedCalendar
+                ? t(`events.detail.author.byCalendar.${selectedCalendar}`)
+                : t('events.calendars.all')
+            }
+            selected={selectedCalendar !== null}
+            onPress={() => calendarsBottomSheetRef.current?.open()}
           />
         </ScrollView>
         <Animated.View exiting={FadeOut.duration(500)} style={tw`mt-4 mx-4 flex flex-col gap-8`}>
@@ -206,19 +242,28 @@ const Calendar = ({ from }: { from?: string }) => {
         </Animated.View>
       </ServiceLayout>
 
-      {hasSelectedPeriodFilter && (
-        <PeriodBottomSheet
-          initialDetentAnimated
-          events={calendarEvents || []}
-          initialDetentIndex={0}
-          selected={selectedPeriod}
-          onClose={() => setSelectedPeriodFilter(false)}
-          onSelect={(p) => {
-            setSelectedSort(p === 'past' ? 'descending' : 'ascending');
-            setSelectedPeriod(p);
-          }}
-        />
-      )}
+      <PeriodBottomSheet
+        ref={periodBottomSheetRef}
+        events={calendarEvents || []}
+        selected={selectedPeriod}
+        onSelect={(p) => {
+          setSelectedSort(p === 'past' ? 'descending' : 'ascending');
+          setSelectedPeriod(p);
+          periodBottomSheetRef.current?.close();
+        }}
+      />
+
+      <CalendarsBottomSheet
+        ref={calendarsBottomSheetRef}
+        events={calendarEvents || []}
+        period={selectedPeriod}
+        selected={selectedCalendar}
+        onSelect={(newSelected) => {
+          setSelectedCalendar(newSelected);
+          calendarsBottomSheetRef.current?.close();
+          router.setParams({ calendar: newSelected ?? undefined });
+        }}
+      />
     </>
   );
 };
