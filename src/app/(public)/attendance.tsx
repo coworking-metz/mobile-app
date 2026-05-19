@@ -5,7 +5,13 @@ import { capitalize, compact, isNil, sample } from 'lodash';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import Animated, { FadeIn, FadeInLeft, FadeOut, FadeOutLeft } from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  FadeInLeft,
+  FadeOut,
+  FadeOutLeft,
+  LinearTransition,
+} from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import EmptyOfficeAnimation from '@/components/Animations/EmptyOfficeAnimation';
 import { AppBottomSheetRef } from '@/components/AppBottomSheet';
@@ -124,6 +130,7 @@ const Attendance = () => {
               entering={FadeIn.duration(300).delay(Math.min(index, 10) * 50 + Math.random() * 200)}
               exiting={FadeOut.duration(300)}
               key={`member-skeleton-${index}`}
+              layout={LinearTransition}
               style={tw`flex flex-col items-center w-24 h-24 relative`}>
               <View
                 style={tw`w-full h-full rounded-full bg-white dark:bg-zinc-800 overflow-hidden`}>
@@ -142,6 +149,7 @@ const Attendance = () => {
               entering={FadeIn.duration(300).delay(Math.min(index, 10) * 50 + Math.random() * 200)}
               exiting={FadeOut.duration(300)}
               key={`member-tile-${compact([member._id, member.firstName, member.lastName]).join('-')}`}
+              layout={LinearTransition}
               style={tw`w-24`}>
               <MemberTile
                 member={member}

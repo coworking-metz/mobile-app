@@ -16,6 +16,7 @@ import Animated, {
   FadeInUp,
   FadeOut,
   FadeOutDown,
+  LinearTransition,
 } from 'react-native-reanimated';
 import { toast } from 'sonner-native';
 import tw, { useDeviceContext } from 'twrnc';
@@ -344,6 +345,7 @@ export default function HomeScreen() {
                 loading={isFetching}
                 name={authStore.user?.name}
                 pending={!authStore.user && authStore.isFetchingToken}
+                pictureStyle={tw`rounded-full`}
                 style={tw`h-12 w-12`}
                 url={authStore.user?.picture}>
                 {profile?.attending && (
@@ -518,6 +520,7 @@ export default function HomeScreen() {
                 entering={FadeIn.duration(300)}
                 exiting={FadeOut.duration(300)}
                 key={`calendar-event-card-${event.id}`}
+                layout={LinearTransition}
                 style={[index > 0 && tw`ml-4`]}>
                 <Link asChild href={`/events/${event.id}`}>
                   <AppPressable style={tw`w-80`}>

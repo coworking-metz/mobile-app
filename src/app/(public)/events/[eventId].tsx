@@ -257,12 +257,15 @@ export default function CalendarEventPage() {
                       </ReadMore>
                     </Animated.View>
                   ) : null}
-                  <ServiceRow
-                    withBottomDivider
-                    label={t(`events.detail.author.byCalendar.${event.calendar}`)}
-                    prefix={eventIcon}
-                    style={tw`mx-3 px-3`}
-                  />
+                  <Link asChild dismissTo href={`/events/calendar?calendar=${event.calendar}`}>
+                    <ServiceRow
+                      withBottomDivider
+                      label={t(`events.detail.author.byCalendar.${event.calendar}`)}
+                      prefix={eventIcon}
+                      style={tw`mx-3 px-3`}
+                      suffixIcon="chevron-right"
+                    />
+                  </Link>
                   <ServiceRow
                     withBottomDivider
                     description={

@@ -159,6 +159,7 @@ const AttendanceCount = ({
                         <ProfilePicture
                           initialsStyle={tw`text-sm font-semibold`}
                           name={[member.firstName, member.lastName].filter(Boolean).join(' ')}
+                          pictureStyle={tw`rounded-full`}
                           style={tw`h-full w-full`}
                           url={member.picture}
                         />

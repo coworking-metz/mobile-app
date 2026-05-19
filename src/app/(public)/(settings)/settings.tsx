@@ -216,6 +216,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 initialsStyle={tw`text-4xl pt-2`}
                 name={authStore.user?.name}
                 pending={!authStore.user && authStore.isFetchingToken}
+                pictureStyle={tw`rounded-3xl`}
                 style={{ width: PICTURE_SIZE, height: PICTURE_SIZE }}
                 url={authStore.user?.picture}>
                 {profile?.attending && (
