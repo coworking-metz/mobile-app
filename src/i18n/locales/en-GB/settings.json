@@ -51,9 +51,9 @@
     "presence": {
       "activity_one": "<0>{{count}}</0>  day",
       "activity_other": "<0>{{count}}</0>  days",
-      "activity_zero": "No attendance\nrecorded yet",
+      "activity_zero": "No activity\nrecorded yet",
       "onFetch": {
-        "fail": "Unable to fetch\u00A0attendance"
+        "fail": "Unable to fetch\u00A0activity"
       },
       "selected": {
         "coverage": {
@@ -99,7 +99,7 @@
         }
       },
       "since": "since {{date}}",
-      "title": "Attendance"
+      "title": "Activity"
     }
   },
 

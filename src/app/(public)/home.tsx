@@ -279,22 +279,12 @@ export default function HomeScreen() {
       outerChildren={
         <>
           <BirthdayBottomSheet ref={birthdayBottomSheetRef} />
-
           <SubscriptionBottomSheet
             ref={subscriptionBottomSheetRef}
             currentSubscription={currentSubscription}
           />
-
-          <BalanceBottomSheet ref={balanceBottomSheetRef} loading={isFetchingProfile} />
-
-          <MembershipBottomSheet
-            ref={membershipBottomSheetRef}
-            active={profile?.activeUser}
-            activityOverLast6Months={profile?.activity}
-            lastMembershipYear={profile?.lastMembership}
-            loading={isFetchingProfile}
-            valid={profile?.membershipOk}
-          />
+          <BalanceBottomSheet ref={balanceBottomSheetRef} />
+          <MembershipBottomSheet ref={membershipBottomSheetRef} />
         </>
       }
       onRefresh={() => {

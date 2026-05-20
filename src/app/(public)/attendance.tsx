@@ -20,7 +20,6 @@ import AppText from '@/components/AppText';
 import MemberBottomSheet from '@/components/Attendance/MemberBottomSheet';
 import MemberTile from '@/components/Attendance/MemberTile';
 import ErrorBadge from '@/components/ErrorBadge';
-import ErrorState from '@/components/ErrorState';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import useAppState from '@/helpers/app-state';
@@ -112,9 +111,11 @@ const Attendance = () => {
                   ? dayjs(currentMembersUpdatedAt).calendar()
                   : dayjs(currentMembersUpdatedAt).fromNow(),
               )
-            : loadingText}
+            : currentMembersError && !isSilentError(currentMembersError)
+              ? t('attendance.onFetch.fail')
+              : loadingText}
         </AppShimmerText>
-        {currentMembersError && !isSilentError(currentMembersError) && !isFetchingCurrentMembers ? (
+        {currentMembersError && !isSilentError(currentMembersError) ? (
           <ErrorBadge
             error={currentMembersError}
             title={t('attendance.onFetch.fail')}
@@ -161,8 +162,6 @@ const Attendance = () => {
           ))}
           <View style={tw`w-24`} />
         </View>
-      ) : currentMembersError && !isSilentError(currentMembersError) ? (
-        <ErrorState error={currentMembersError} title={t('attendance.onFetch.fail')} />
       ) : (
         <View
           style={tw`flex flex-col px-4 gap-2 grow basis-0 justify-start mx-auto w-full max-w-sm`}>

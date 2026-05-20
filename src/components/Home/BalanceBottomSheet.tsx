@@ -4,7 +4,7 @@ import { Link } from 'expo-router';
 import { isNil } from 'lodash';
 import React, { forwardRef, ForwardRefRenderFunction, useEffect, useMemo, useRef } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { View } from 'react-native';
 import tw from 'twrnc';
 import CouponsAnimation from '@/components/Animations/CouponsAnimation';
 import AppBottomSheet, {
@@ -28,20 +28,21 @@ import { WORDPRESS_BASE_URL } from '@/services/environment';
 import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 
-const BalanceBottomSheet: ForwardRefRenderFunction<
-  AppBottomSheetRef,
-  AppBottomSheetProps & {
-    loading?: boolean;
-    style?: StyleProp<ViewStyle>;
-    onClose?: () => void;
-  }
-> = ({ loading = false, style, onClose }, forwardedRef) => {
+const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
+  { style, onClose },
+  forwardedRef,
+) => {
   const { t } = useTranslation();
   const authStore = useAuthStore();
   const hasNavigatedToShop = useRef(false);
   const activeSince = useAppState();
 
-  const { data: memberProfile, refetch: refetchProfile } = useQuery<ApiMemberProfile>({
+  const {
+    isFetching: isFetchingProfile,
+    data: memberProfile,
+    refetch: refetchProfile,
+    isEnabled: isProfileQueryEnabled,
+  } = useQuery<ApiMemberProfile>({
     queryKey: authStore.user?.id ? membersQueryKeys.profileById(authStore.user?.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
@@ -49,7 +50,7 @@ const BalanceBottomSheet: ForwardRefRenderFunction<
       }
       throw new Error(t('account.profile.onFetch.missing'));
     },
-    enabled: false,
+    enabled: !!authStore.user?.id,
   });
 
   const {
@@ -57,6 +58,7 @@ const BalanceBottomSheet: ForwardRefRenderFunction<
     isFetching: isFetchingTicketsOrders,
     error: ticketsOrdersError,
     refetch: refetchTicketsOrders,
+    isEnabled: isTicketsOrdersQueryEnabled,
   } = useQuery({
     queryKey: authStore.user?.id ? membersQueryKeys.ticketsById(authStore.user?.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
@@ -70,10 +72,10 @@ const BalanceBottomSheet: ForwardRefRenderFunction<
   });
 
   useEffect(() => {
-    if (!!authStore.user?.id && hasNavigatedToShop.current) {
+    if (hasNavigatedToShop.current) {
       hasNavigatedToShop.current = false;
-      refetchProfile();
-      refetchTicketsOrders();
+      if (isProfileQueryEnabled) refetchProfile();
+      if (isTicketsOrdersQueryEnabled) refetchTicketsOrders();
     }
   }, [activeSince]);
 
@@ -102,7 +104,7 @@ const BalanceBottomSheet: ForwardRefRenderFunction<
         withBottomDivider
         label={t('home.profile.tickets.balance.label')}
         style={tw`w-full px-0 mt-2`}>
-        {loading ? (
+        {isFetchingProfile ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
           <Trans
