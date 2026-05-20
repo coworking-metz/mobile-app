@@ -4,11 +4,15 @@ import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
 import { Fader } from 'react-native-ui-lib';
+import { Switch } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import PeopleGatheringAnimation from '@/components/Animations/PeopleGatheringAnimation';
 import AppFader from '@/components/AppFader';
 import AppText from '@/components/AppText';
+import ServiceRow from '@/components/Layout/ServiceRow';
+import { useAppPushNotifications } from '@/context/push-notifications';
+import { theme } from '@/helpers/colors';
 
 const IntroductionEventsStep = ({
   active,
@@ -18,6 +22,7 @@ const IntroductionEventsStep = ({
   containerHeight?: number;
 }) => {
   const { t } = useTranslation();
+  const { arePushNotificationsEnabled, togglePushNotifications } = useAppPushNotifications();
   const reduceMotion = useReducedMotion();
   const animation = useRef<LottieView>(null);
   const [speed, setSpeed] = useState(1);
@@ -96,6 +101,17 @@ const IntroductionEventsStep = ({
           style={tw`mt-4 mx-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
         />
       </View>
+
+      <ServiceRow
+        label={t('introduction.events.enableNotifications')}
+        prefixIcon="bell-outline"
+        style={tw`px-3 mx-3`}>
+        <Switch
+          value={arePushNotificationsEnabled}
+          onColor={theme.meatBrown}
+          onValueChange={togglePushNotifications}
+        />
+      </ServiceRow>
     </>
   );
 };

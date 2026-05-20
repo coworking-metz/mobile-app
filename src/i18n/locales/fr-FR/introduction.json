@@ -10,6 +10,7 @@
   },
   "events": {
     "description": "Accédez au calendrier complet des <0>évènements à venir</0>, organisés par l'association ou par Bliiida.\nEt n'oubliez pas de jeter un coup d'œil au repas de midi proposé par l'Amour Food.\n\nVous ne manquerez plus aucune occasion de rencontrer de nouvelles personnes et de vivre des expériences mémorables !",
+    "enableNotifications": "Notifications",
     "title": "Restez informé"
   },
   "services": {

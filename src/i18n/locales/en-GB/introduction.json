@@ -10,6 +10,7 @@
   },
   "events": {
     "description": "Access the complete calendar of <0>upcoming events</0>, organized by the association or by Bliiida.\nAnd don't forget to take a look at the lunch offered by Amour Food.\n\nYou won't miss any opportunities to meet new people and have memorable experiences!",
+    "enableNotifications": "Notifications",
     "title": "Stay connected"
   },
   "services": {

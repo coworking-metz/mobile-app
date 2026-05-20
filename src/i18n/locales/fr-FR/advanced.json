@@ -34,6 +34,10 @@
     "title": "Actions"
   },
   "description": "Pour ceux qui sachent",
+  "onCopyToClipboard": {
+    "fail": "Impossible de copier dans le presse-papiers",
+    "success": "Copié"
+  },
   "settings": {
     "accessToken": {
       "label": "Jeton d'accès"
@@ -56,6 +60,9 @@
     },
     "introduction": {
       "label": "Passer la présentation au démarrage"
+    },
+    "pushNotificationsToken": {
+      "label": "Jeton de notifications push"
     },
     "refreshToken": {
       "label": "Jeton de rafraîchissement"
