@@ -9,6 +9,7 @@ import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { useAppPermissions } from '@/context/permissions';
+import { useAppPushNotifications } from '@/context/push-notifications';
 import { theme } from '@/helpers/colors';
 
 const Privacy = () => {
@@ -17,6 +18,7 @@ const Privacy = () => {
   const { _root } = useLocalSearchParams();
   const [calendarState, requestCalendarPermission] = Calendar.useCalendarPermissions();
   const renderPermissionsBottomSheet = useAppPermissions();
+  const { arePushNotificationsEnabled, togglePushNotifications } = useAppPushNotifications();
 
   const onCalendarPermissionsPress = useCallback(() => {
     if (!calendarState?.granted) {
@@ -39,6 +41,7 @@ const Privacy = () => {
       <View style={tw`w-full max-w-xl mx-auto`}>
         <SectionTitle style={tw`mx-6`} title={t('privacy.permissions.title')} />
         <ServiceRow
+          withBottomDivider
           description={t('privacy.permissions.calendar.description')}
           label={t('privacy.permissions.calendar.label')}
           prefixIcon="calendar-outline"
@@ -49,14 +52,18 @@ const Privacy = () => {
             onValueChange={onCalendarPermissionsPress}
           />
         </ServiceRow>
-        {/* <ServiceRow
-        disabled
-        withBottomDivider
-        description={t('privacy.permissions.notifications.description')}
-        label={t('privacy.permissions.notifications.label')}
-        prefixIcon="bell-outline"
-        style={tw`px-3 mx-3`}></ServiceRow>
-      <ServiceRow
+        <ServiceRow
+          description={t('privacy.permissions.notifications.description')}
+          label={t('privacy.permissions.notifications.label')}
+          prefixIcon="bell-outline"
+          style={tw`px-3 mx-3`}>
+          <Switch
+            value={arePushNotificationsEnabled}
+            onColor={theme.meatBrown}
+            onValueChange={togglePushNotifications}
+          />
+        </ServiceRow>
+        {/*<ServiceRow
         disabled
         withBottomDivider
         description={t('privacy.permissions.bluetooth.description')}

@@ -34,6 +34,10 @@
     "title": "Actions"
   },
   "description": "For those who are in on it",
+  "onCopyToClipboard": {
+    "fail": "Unable to copy to clipboard",
+    "success": "Copied"
+  },
   "settings": {
     "accessToken": {
       "label": "Access token"
@@ -56,6 +60,9 @@
     },
     "introduction": {
       "label": "Skip introduction at launch"
+    },
+    "pushNotificationsToken": {
+      "label": "Push notifications token"
     },
     "refreshToken": {
       "label": "Refresh token"

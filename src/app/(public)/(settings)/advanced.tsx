@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
+import * as Clipboard from 'expo-clipboard';
 import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as Updates from 'expo-updates';
@@ -9,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Alert, View } from 'react-native';
 import { Switch } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
+import AppIconButton from '@/components/AppIconButton';
 import AppTextField from '@/components/AppTextField';
 import Divider from '@/components/Divider';
 import SectionTitle from '@/components/Layout/SectionTitle';
@@ -20,6 +22,7 @@ import { IS_DEV } from '@/services/environment';
 import { HTTP } from '@/services/http';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
+import useNotificationStore from '@/stores/notification';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
 
@@ -33,6 +36,7 @@ const Advanced = () => {
   const noticeStore = useNoticeStore();
   const authStore = useAuthStore();
   const settingsStore = useSettingsStore();
+  const notificationsStore = useNotificationStore();
   const queryClient = useQueryClient();
   const router = useRouter();
   const [isClearingCache, setClearingCache] = useState(false);
@@ -143,6 +147,23 @@ const Advanced = () => {
     );
   }, [t]);
 
+  const onCopyToClipboard = useCallback(
+    (text: string) => {
+      Clipboard.setStringAsync(text)
+        .then(() => {
+          toastStore.add({
+            message: t('advanced.onCopyToClipboard.success'),
+            type: 'success',
+            timeout: 2000,
+          });
+        })
+        .catch((error) =>
+          noticeStore.addError(error, { message: t('advanced.onCopyToClipboard.fail') }),
+        );
+    },
+    [toastStore, t],
+  );
+
   return (
     <ServiceLayout
       contentStyle={tw`pt-6`}
@@ -252,12 +273,31 @@ const Advanced = () => {
           />
         </ServiceRow>
         <AppTextField
+          readOnly
+          autoCapitalize="none"
+          containerStyle={tw`mt-3 mx-6`}
+          keyboardType="default"
+          label={t('advanced.settings.pushNotificationsToken.label')}
+          value={notificationsStore.expoPushToken ?? ''}
+          onChangeText={(expoPushToken) => useNotificationStore.setState({ expoPushToken })}
+          {...(notificationsStore.expoPushToken && {
+            trailingAccessory: (
+              <AppIconButton
+                icon="content-copy"
+                iconSize={20}
+                style={tw`absolute right-2 h-8 w-8 shrink-0`}
+                onPress={() => onCopyToClipboard(notificationsStore.expoPushToken ?? '')}
+              />
+            ),
+          })}
+        />
+        <AppTextField
           autoCapitalize="none"
           containerStyle={tw`mt-3 mx-6`}
           keyboardType="url"
           label={t('advanced.settings.apiBaseUrl.label')}
           placeholder={HTTP.defaults.baseURL}
-          value={settingsStore.apiBaseUrl || ''}
+          value={settingsStore.apiBaseUrl ?? ''}
           onChangeText={(apiBaseUrl) => useSettingsStore.setState({ apiBaseUrl })}
         />
         <AppTextField
@@ -265,22 +305,42 @@ const Advanced = () => {
           containerStyle={tw`mx-6`}
           keyboardType="default"
           label={t('advanced.settings.accessToken.label')}
-          placeholder={isNil(authStore.accessToken) ? `${authStore.accessToken}` : ''}
+          placeholder={authStore.accessToken ?? ''}
           value={`${authStore.accessToken}`}
           onChangeText={(accessToken) =>
             useAuthStore.setState({ accessToken: accessToken || null })
           }
+          {...(authStore.accessToken && {
+            trailingAccessory: (
+              <AppIconButton
+                icon="content-copy"
+                iconSize={20}
+                style={tw`absolute right-2 h-8 w-8 shrink-0`}
+                onPress={() => onCopyToClipboard(authStore.accessToken ?? '')}
+              />
+            ),
+          })}
         />
         <AppTextField
           autoCapitalize="none"
           containerStyle={tw`mx-6`}
           keyboardType="default"
           label={t('advanced.settings.refreshToken.label')}
-          placeholder={isNil(authStore.refreshToken) ? `${authStore.refreshToken}` : ''}
+          placeholder={authStore.refreshToken ?? ''}
           value={`${authStore.refreshToken}`}
           onChangeText={(refreshToken) =>
             useAuthStore.setState({ refreshToken: refreshToken || null })
           }
+          {...(authStore.refreshToken && {
+            trailingAccessory: (
+              <AppIconButton
+                icon="content-copy"
+                iconSize={20}
+                style={tw`absolute right-2 h-8 w-8 shrink-0`}
+                onPress={() => onCopyToClipboard(authStore.refreshToken ?? '')}
+              />
+            ),
+          })}
         />
         <Divider style={tw`mx-6`} />
         <ServiceRow

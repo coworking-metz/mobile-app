@@ -1,0 +1,5 @@
+{
+  "onRegistration": {
+    "fail": "Impossible d'activer les notifications"
+  }
+}
