@@ -85,9 +85,11 @@ const ProfilePicture = ({
           <View
             style={[
               tw`h-full w-full flex items-center justify-center`,
-              !url && {
-                backgroundColor: getColorFromSeed(initials),
-              },
+              !url
+                ? {
+                    backgroundColor: getColorFromSeed(initials),
+                  }
+                : tw`bg-gray-200 dark:bg-zinc-700/50`,
               pictureStyle,
             ]}>
             <AppText
