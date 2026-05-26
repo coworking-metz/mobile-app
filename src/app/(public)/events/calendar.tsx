@@ -33,6 +33,7 @@ const Calendar = ({ from }: { from?: string }) => {
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>(null);
   const [selectedSort, setSelectedSort] = useState<SortType>('ascending');
   const [selectedCalendar, setSelectedCalendar] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   const periodBottomSheetRef = useRef<AppBottomSheetRef | null>(null);
   const calendarsBottomSheetRef = useRef<AppBottomSheetRef | null>(null);

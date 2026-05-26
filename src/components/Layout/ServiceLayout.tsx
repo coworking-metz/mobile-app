@@ -30,6 +30,7 @@ const ServiceLayout = ({
   description,
   loading,
   actions = [],
+  menu,
   header,
   footer,
   children,
@@ -46,6 +47,7 @@ const ServiceLayout = ({
   actions?: (MenuAction & {
     onPress?: () => void;
   })[];
+  menu?: ReactNode;
   header?: ReactNode;
   footer?: ReactNode;
   children?: ReactNode;
@@ -201,24 +203,26 @@ const ServiceLayout = ({
           )}
         </View>
 
-        <View style={tw`flex flex-row justify-end shrink basis-0 grow mr-4 min-w-10`}>
-          {actions?.length ? (
-            <MenuView
-              actions={actions}
-              shouldOpenOnLongPress={false}
-              onPressAction={({ nativeEvent: { event: actionId } }) => {
-                const action = actions.find(({ id }) => id === actionId);
-                action?.onPress?.();
-              }}>
-              <AppIconButton
-                blurTarget={blurTargetRef}
-                icon="dots-vertical"
-                radius={25}
-                style={tw`h-10 w-10`}
-              />
-            </MenuView>
-          ) : null}
-        </View>
+        {menu || actions?.length ? (
+          <View style={tw`flex flex-row justify-end shrink basis-0 grow mr-4 min-w-10`}>
+            {menu ?? (
+              <MenuView
+                actions={actions}
+                shouldOpenOnLongPress={false}
+                onPressAction={({ nativeEvent: { event: actionId } }) => {
+                  const action = actions.find(({ id }) => id === actionId);
+                  action?.onPress?.();
+                }}>
+                <AppIconButton
+                  blurTarget={blurTargetRef}
+                  icon="dots-vertical"
+                  radius={25}
+                  style={tw`h-10 w-10`}
+                />
+              </MenuView>
+            )}
+          </View>
+        ) : null}
       </Animated.View>
 
       {footer}

@@ -1,4 +1,8 @@
 {
+  "enable": {
+    "description": "Soyez sûrs de rien manquer de l'actualité du Coworking Metz en activant les notifications !\n\nVous pouvez les désactiver à tout moment dans les <0>paramètres de confidentialité</0>.",
+    "title": "Activer les notifications"
+  },
   "onRegistration": {
     "fail": "Impossible d'activer les notifications"
   },

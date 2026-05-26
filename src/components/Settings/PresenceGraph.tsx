@@ -5,7 +5,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
 import { ContributionGraph } from 'react-native-chart-kit';
-import Animated from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
 import AppIconButton from '@/components/AppIconButton';
@@ -20,7 +20,7 @@ const HEIGHT_IN_PIXELS = 210;
 
 const PresenceGraph = ({
   selectedDate,
-  loading = false,
+  pending = false,
   activity = [],
   activityCount = 0,
   minimumSquares = MINIMUM_SQUARES,
@@ -29,7 +29,7 @@ const PresenceGraph = ({
   onDateSelect,
 }: {
   selectedDate?: string;
-  loading?: boolean;
+  pending?: boolean;
   activity?: ApiMemberActivity[];
   activityCount?: number;
   minimumSquares?: number;
@@ -132,15 +132,20 @@ const PresenceGraph = ({
     [values, colorScheme, selectedDate],
   );
 
-  return loading ? (
-    <View style={tw`flex flex-row items-center justify-center min-h-[${HEIGHT_IN_PIXELS}px]`}>
+  return pending ? (
+    <Animated.View
+      entering={FadeIn.duration(300)}
+      exiting={FadeOut.duration(300)}
+      style={tw`flex flex-row items-center justify-center min-h-[${HEIGHT_IN_PIXELS}px]`}>
       <VerticalLoadingAnimation
         color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
         style={tw`h-16 w-16`}
       />
-    </View>
+    </Animated.View>
   ) : (
     <Animated.ScrollView
+      entering={FadeIn.duration(300)}
+      exiting={FadeOut.duration(300)}
       horizontal={true}
       scrollEventThrottle={16}
       showsHorizontalScrollIndicator={false}

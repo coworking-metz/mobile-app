@@ -54,6 +54,7 @@ export default function CalendarEventPage() {
   const paddingBottom = useAppPaddingBottom();
   const [headerHeight, setHeaderHeight] = useState<number>(0);
   const [isGalleryVisible, setGalleryVisible] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const blurTargetRef = useRef<View | null>(null);
 
   const navigationHeight = useMemo(() => {
@@ -87,6 +88,13 @@ export default function CalendarEventPage() {
     queryFn: getCalendarEvents,
     refetchOnMount: false,
   });
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    refetchCalendarEvents().finally(() => {
+      setRefreshing(false);
+    });
+  }, [refetchCalendarEvents]);
 
   const event = useMemo<CalendarEvent | null>(() => {
     return (!isNil(eventId) && (calendarEvents || [])?.find((e) => `${e.id}` === eventId)) || null;
@@ -197,8 +205,8 @@ export default function CalendarEventPage() {
           refreshControl={
             <RefreshControl
               progressViewOffset={progressViewOffset}
-              refreshing={isFetchingCalendarEvents}
-              onRefresh={refetchCalendarEvents}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
             />
           }
           scrollEventThrottle={16}

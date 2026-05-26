@@ -211,9 +211,10 @@ export interface ApiMessage {
   title?: string;
   body: string;
   published: string;
+  type: ApiMessageType;
   delivered?: string;
   read?: string;
-  type: ApiMessageType;
+  archived?: string;
   author?: {
     firstName?: string;
     lastName?: string;
@@ -231,4 +232,22 @@ export const getMemberMessage = async (
   messageId: string,
 ): Promise<ApiMessage> => {
   return HTTP.get(`/api/members/${memberId}/messages/${messageId}`).then(({ data }) => data);
+};
+
+export const archiveMemberMessage = async (
+  memberId: string,
+  messageId: string,
+): Promise<ApiMessage> => {
+  return HTTP.put(`/api/members/${memberId}/messages/${messageId}/archive`).then(
+    ({ data }) => data,
+  );
+};
+
+export const restoreMemberMessage = async (
+  memberId: string,
+  messageId: string,
+): Promise<ApiMessage> => {
+  return HTTP.put(`/api/members/${memberId}/messages/${messageId}/unarchive`).then(
+    ({ data }) => data,
+  );
 };

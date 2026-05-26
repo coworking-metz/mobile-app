@@ -1,8 +1,12 @@
 {
+  "detail": {
+    "archive": "Archive",
+    "restore": "Restore"
+  },
   "list": {
     "empty": {
-      "description": "For the moment, but it won't be long.",
-      "title": "No messages"
+      "description": "For now, but it won't be long.",
+      "title": "No messages yet"
     },
     "onFetch": {
       "fail": "Unable to fetch messages"
@@ -11,6 +15,14 @@
       "placeholder": "Search"
     },
     "title": "Messages"
+  },
+  "onArchive": {
+    "fail": "Unable to archive message",
+    "success": "{{title}} archived"
+  },
+  "onRestore": {
+    "fail": "Unable to restore message",
+    "success": "{{title}} restored"
   },
   "root": {
     "description": "",

@@ -3,6 +3,8 @@ import { create } from 'zustand';
 
 export type ToastType = 'info' | 'success' | 'warning' | 'error';
 
+export const TOAST_SUCCESS_TIMEOUT = 2_500;
+
 /**
  * Small message to show through an unblocking view at the top of the screen.
  */

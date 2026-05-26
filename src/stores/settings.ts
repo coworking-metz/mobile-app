@@ -18,6 +18,7 @@ interface SettingsState {
   hasBeenInvitedToReview: boolean;
   hasSeenBirthdayPresentAt: string | null;
   hasReadOnboardingInstructionsAt: string | null;
+  hidePushNotificationsAlert: boolean;
   withNativePullToRefresh: boolean;
   language: StoreLanguage;
   theme: AppThemePreference;
@@ -39,6 +40,7 @@ const defaultSettingsState: Omit<SettingsState, 'hydrated' | 'clear'> = {
   hasBeenInvitedToReview: false,
   hasSeenBirthdayPresentAt: null,
   hasReadOnboardingInstructionsAt: null,
+  hidePushNotificationsAlert: false,
   withNativePullToRefresh: IS_DEV,
   language: SYSTEM_OPTION,
   theme: SYSTEM_OPTION,

@@ -26,7 +26,7 @@ import { WORDPRESS_BASE_URL } from '@/services/environment';
 import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
-import useToastStore from '@/stores/toast';
+import useToastStore, { TOAST_SUCCESS_TIMEOUT } from '@/stores/toast';
 
 const DEVICE_TYPES = Object.values(DeviceType) as DeviceType[];
 
@@ -73,7 +73,7 @@ const NewDevice = () => {
         toastStore.add({
           message: t('devices.onAdd.success', { name: name || macAddress }),
           type: 'success',
-          timeout: 3000,
+          timeout: TOAST_SUCCESS_TIMEOUT,
         });
         queryClient.invalidateQueries({
           queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),

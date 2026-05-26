@@ -24,7 +24,7 @@ import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useNotificationStore from '@/stores/notification';
 import useSettingsStore from '@/stores/settings';
-import useToastStore from '@/stores/toast';
+import useToastStore, { TOAST_SUCCESS_TIMEOUT } from '@/stores/toast';
 
 const advancedLogger = log.extend(`[advanced]`);
 
@@ -92,7 +92,7 @@ const Advanced = () => {
         toastStore.add({
           message: t('advanced.actions.clearCache.onCleared.success'),
           type: 'success',
-          timeout: 3_000,
+          timeout: TOAST_SUCCESS_TIMEOUT,
         });
       })
       .catch((error) =>
@@ -115,7 +115,7 @@ const Advanced = () => {
         toastStore.add({
           message: t('advanced.actions.reset.onReset.success'),
           type: 'success',
-          timeout: 3000,
+          timeout: TOAST_SUCCESS_TIMEOUT,
         });
         router.dismissTo('/');
       })
@@ -154,7 +154,7 @@ const Advanced = () => {
           toastStore.add({
             message: t('advanced.onCopyToClipboard.success'),
             type: 'success',
-            timeout: 2000,
+            timeout: TOAST_SUCCESS_TIMEOUT,
           });
         })
         .catch((error) =>
@@ -246,22 +246,33 @@ const Advanced = () => {
             }
           />
         </ServiceRow>
-        {IS_DEV && (
-          <ServiceRow
-            withBottomDivider
-            label={t('advanced.settings.hasReadOnboardingInstructionsAt.label')}
-            style={tw`px-3 mx-3`}>
-            <Switch
-              value={!isNil(settingsStore.hasReadOnboardingInstructionsAt)}
-              onColor={theme.meatBrown}
-              onValueChange={(value) =>
-                useSettingsStore.setState({
-                  hasReadOnboardingInstructionsAt: value ? dayjs().toISOString() : null,
-                })
-              }
-            />
-          </ServiceRow>
-        )}
+
+        <ServiceRow
+          withBottomDivider
+          label={t('advanced.settings.hasReadOnboardingInstructionsAt.label')}
+          style={tw`px-3 mx-3`}>
+          <Switch
+            value={!isNil(settingsStore.hasReadOnboardingInstructionsAt)}
+            onColor={theme.meatBrown}
+            onValueChange={(value) =>
+              useSettingsStore.setState({
+                hasReadOnboardingInstructionsAt: value ? dayjs().toISOString() : null,
+              })
+            }
+          />
+        </ServiceRow>
+        <ServiceRow
+          withBottomDivider
+          label={t('advanced.settings.hidePushNotificationsAlert.label')}
+          style={tw`px-3 mx-3`}>
+          <Switch
+            value={settingsStore.hidePushNotificationsAlert}
+            onColor={theme.meatBrown}
+            onValueChange={(value) =>
+              useSettingsStore.setState({ hidePushNotificationsAlert: value })
+            }
+          />
+        </ServiceRow>
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.hasBeenInvitedToReview.label')}

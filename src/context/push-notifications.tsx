@@ -16,6 +16,8 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
+import { AppBottomSheetRef } from '@/components/AppBottomSheet';
+import PushNotificationsBottomSheet from '@/components/PushNotifications/PushNotificationsBottomSheet';
 import { theme } from '@/helpers/colors';
 import { log } from '@/helpers/logger';
 import { addPushToken, removePushToken } from '@/services/api/push-tokens';
@@ -48,12 +50,14 @@ const PushNotificationsContext = createContext<{
   enablePushNotifications: () => Promise<void>;
   disablePushNotifications: () => Promise<void>;
   togglePushNotifications: (shouldEnable?: boolean) => Promise<void>;
+  openPushNotificationsBottomSheet: () => void;
 }>({
   isChangingStatus: false,
   arePushNotificationsEnabled: false,
   enablePushNotifications: () => Promise.resolve(),
   disablePushNotifications: () => Promise.resolve(),
   togglePushNotifications: () => Promise.resolve(),
+  openPushNotificationsBottomSheet: () => {},
 });
 
 export const useAppPushNotifications = () => {
@@ -73,6 +77,7 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
   const [isChangingStatus, setChangingStatus] = useState(false);
   const cleanupRef = useRef<() => void | null>(null);
   const renderPermissionsBottomSheet = useAppPermissions();
+  const bottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   const onHandleNotification = useCallback(
     async (response: Notifications.NotificationResponse) => {
@@ -257,8 +262,11 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
         togglePushNotifications,
         enablePushNotifications,
         disablePushNotifications,
+        openPushNotificationsBottomSheet: () => bottomSheetRef.current?.open(),
       }}>
       {children}
+
+      <PushNotificationsBottomSheet ref={bottomSheetRef} />
     </PushNotificationsContext.Provider>
   );
 };

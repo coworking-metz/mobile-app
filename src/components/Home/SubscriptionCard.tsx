@@ -20,7 +20,7 @@ const SubscriptionCard = ({
   loading?: boolean;
   style?: StyleProp<ViewStyle>;
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isFocus = useIsFocused();
   const activeSince = useAppState();
 
@@ -40,11 +40,9 @@ const SubscriptionCard = ({
 
     const today = dayjs().startOf('day');
     if (today.isBefore(subscription.started)) {
-      return t('home.profile.subscription.date', {
-        date: new Date(subscription.started),
-        formatParams: {
-          date: { month: 'short', day: 'numeric' },
-        },
+      return new Date(subscription.started).toLocaleDateString(i18n.language, {
+        month: 'short',
+        day: 'numeric',
       });
     }
 
@@ -59,13 +57,11 @@ const SubscriptionCard = ({
       return dayjs(subscription.ended).format('dddd');
     }
 
-    return t('home.profile.subscription.date', {
-      date: new Date(subscription.ended),
-      formatParams: {
-        date: { month: 'short', day: 'numeric' },
-      },
+    return new Date(subscription.ended).toLocaleDateString(i18n.language, {
+      month: 'short',
+      day: 'numeric',
     });
-  }, [subscription, t, isFocus, activeSince]);
+  }, [subscription, i18n.language, t, isFocus, activeSince]);
 
   return (
     <AppSquircleView

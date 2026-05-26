@@ -42,7 +42,7 @@ const LoadingProgressBar = ({
   return (
     <Animated.View
       accessibilityRole="progressbar"
-      style={[tw`relative h-[px] w-full overflow-hidden`, style]}
+      style={[tw`relative h-[px] overflow-hidden`, style]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setFullWidth(nativeEvent.layout.width)}
       {...props}>
       <Animated.View

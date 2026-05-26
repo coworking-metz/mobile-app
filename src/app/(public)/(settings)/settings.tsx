@@ -81,6 +81,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const verticalScrollProgress = useSharedValue(0);
   const pathname = usePathname();
   const blurTargetRef = useRef<View | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   const upcomingEventsPeriodValue = useMemo(() => {
     if (upcomingEventsPeriod.unit === 'day' && upcomingEventsPeriod.count === 1) {
@@ -130,6 +131,13 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     refetchOnMount: false,
     enabled: !!authStore.user?.id,
   });
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    Promise.all(compact([refetchActivity(), isProfileEnabled && refetchProfile()])).finally(() => {
+      setRefreshing(false);
+    });
+  }, [refetchActivity, refetchProfile, isProfileEnabled]);
 
   const [headerHeight, setHeaderHeight] = useState(0);
   /* this is a hell of a hack */
@@ -298,10 +306,8 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           refreshControl={
             <RefreshControl
               progressViewOffset={progressViewOffset}
-              refreshing={isFetchingActivity}
-              onRefresh={() =>
-                Promise.all(compact([refetchActivity(), isProfileEnabled && refetchProfile()]))
-              }
+              refreshing={refreshing}
+              onRefresh={onRefresh}
             />
           }
           scrollEventThrottle={16}
@@ -373,8 +379,8 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             <PresenceGraph
               activity={activity}
               activityCount={profile?.totalActivity}
-              loading={isPendingActivity}
               minimumSquares={!!authStore.user?.id ? 45 : 144}
+              pending={isPendingActivity}
               selectedDate={selectedActivity?.date}
               style={tw`grow-0`}
               withDescription={!!profile}
