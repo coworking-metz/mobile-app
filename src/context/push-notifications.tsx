@@ -1,6 +1,7 @@
 import { useAppPermissions } from './permissions';
+import { useQueryClient } from '@tanstack/react-query';
 import Constants from 'expo-constants';
-import * as Device from 'expo-device';
+import { Image } from 'expo-image';
 import * as Notifications from 'expo-notifications';
 import { useRouter } from 'expo-router';
 import { isNil } from 'lodash';
@@ -17,6 +18,8 @@ import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 import { theme } from '@/helpers/colors';
 import { log } from '@/helpers/logger';
+import { addPushToken, removePushToken } from '@/services/api/push-tokens';
+import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useNotificationStore from '@/stores/notification';
 
@@ -40,11 +43,13 @@ const getProjectId = () => {
 };
 
 const PushNotificationsContext = createContext<{
+  isChangingStatus: boolean;
   arePushNotificationsEnabled?: boolean;
   enablePushNotifications: () => Promise<void>;
   disablePushNotifications: () => Promise<void>;
   togglePushNotifications: (shouldEnable?: boolean) => Promise<void>;
 }>({
+  isChangingStatus: false,
   arePushNotificationsEnabled: false,
   enablePushNotifications: () => Promise.resolve(),
   disablePushNotifications: () => Promise.resolve(),
@@ -58,15 +63,19 @@ export const useAppPushNotifications = () => {
 export const PushNotificationsProvider = ({ children }: { children: React.ReactNode }) => {
   const { t } = useTranslation();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const noticeStore = useNoticeStore();
+  const authStore = useAuthStore();
+  const user = useAuthStore((s) => s.user);
   const notificationStore = useNotificationStore();
   const [notificationStatus, setNotificationStatus] =
     useState<Notifications.PermissionStatus | null>(null);
+  const [isChangingStatus, setChangingStatus] = useState(false);
   const cleanupRef = useRef<() => void | null>(null);
   const renderPermissionsBottomSheet = useAppPermissions();
 
   const onHandleNotification = useCallback(
-    (response: Notifications.NotificationResponse) => {
+    async (response: Notifications.NotificationResponse) => {
       const data = response.notification.request.content.data as {
         pathname?: string;
         params?: Record<string, string>;
@@ -76,12 +85,22 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
         return;
       }
 
+      if (authStore.user?.impersonatedBy) {
+        // notification should be handled by the original user, not the impersonated
+        await authStore.refreshAccessToken();
+        await Promise.all([
+          queryClient.resetQueries(),
+          Image.clearDiskCache(),
+          Image.clearMemoryCache(),
+        ]);
+      }
+
       router.push({
         pathname: data.pathname as never,
         params: data.params,
       });
     },
-    [router],
+    [authStore, noticeStore, queryClient, router, t],
   );
 
   const subscribeToNotifications = useCallback(() => {
@@ -109,6 +128,7 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
     // - store expo push token
     // - push expo token to the API
     // - subscribe to notifications
+    setChangingStatus(true);
 
     (async () => {
       if (Platform.OS === 'android') {
@@ -120,9 +140,9 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
         });
       }
 
-      if (!Device.isDevice) {
-        throw new Error('Physical device required');
-      }
+      // if (!Device.isDevice) {
+      //   throw new Error('Physical device required');
+      // }
 
       const existingPermission = await Notifications.getPermissionsAsync();
       let finalStatus = existingPermission.status;
@@ -148,16 +168,19 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
         throw new Error('Failed to retrieve Expo push token');
       }
 
-      // TODO: send token to API
       useNotificationStore.setState({ expoPushToken: token.data });
 
       subscribeToNotifications();
-    })().catch((error) => {
-      noticeStore.addError(error, {
-        message: t('pushNotifications.onRegistration.fail'),
+    })()
+      .catch((error) => {
+        noticeStore.addError(error, {
+          message: t('pushNotifications.onRegistration.fail'),
+        });
+      })
+      .finally(() => {
+        setChangingStatus(false);
       });
-    });
-  }, [noticeStore]);
+  }, [noticeStore, renderPermissionsBottomSheet, subscribeToNotifications, t]);
 
   const disablePushNotifications = useCallback(async () => {
     // TODO:
@@ -167,8 +190,16 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
 
     cleanupRef.current?.();
     cleanupRef.current = null;
+
+    if (user?.id && notificationStore.expoPushToken) {
+      setChangingStatus(true);
+      await removePushToken(user.id, notificationStore.expoPushToken).finally(() => {
+        setChangingStatus(false);
+      });
+    }
+
     notificationStore.clear();
-  }, []);
+  }, [user, notificationStore.expoPushToken]);
 
   useEffect(() => {
     Notifications.getPermissionsAsync().then(({ status }) => setNotificationStatus(status));
@@ -208,9 +239,20 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
     [arePushNotificationsEnabled, enablePushNotifications, disablePushNotifications],
   );
 
+  useEffect(() => {
+    const isImpersonated = !!user?.impersonatedBy;
+
+    if (isImpersonated) return;
+
+    if (user?.id && notificationStore.expoPushToken) {
+      addPushToken(user.id, notificationStore.expoPushToken, Platform.OS);
+    }
+  }, [user?.id, notificationStore.expoPushToken]);
+
   return (
     <PushNotificationsContext.Provider
       value={{
+        isChangingStatus,
         arePushNotificationsEnabled,
         togglePushNotifications,
         enablePushNotifications,

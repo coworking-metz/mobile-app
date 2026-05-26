@@ -23,6 +23,9 @@ const IntroductionEventsStep = ({
 }) => {
   const { t } = useTranslation();
   const { arePushNotificationsEnabled, togglePushNotifications } = useAppPushNotifications();
+  const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState(
+    arePushNotificationsEnabled,
+  );
   const reduceMotion = useReducedMotion();
   const animation = useRef<LottieView>(null);
   const [speed, setSpeed] = useState(1);
@@ -36,6 +39,10 @@ const IntroductionEventsStep = ({
       setPlaying(true);
     }
   }, [animation, active, isPlaying, reduceMotion]);
+
+  useEffect(() => {
+    setPushNotificationsEnabled(arePushNotificationsEnabled);
+  }, [arePushNotificationsEnabled]);
 
   // trick to fake a loop by reversing the speed when the animation finishes
   const onAnimationFinish = useCallback(() => {
@@ -107,9 +114,12 @@ const IntroductionEventsStep = ({
         prefixIcon="bell-outline"
         style={tw`px-3 mx-3`}>
         <Switch
-          value={arePushNotificationsEnabled}
+          value={pushNotificationsEnabled}
           onColor={theme.meatBrown}
-          onValueChange={togglePushNotifications}
+          onValueChange={(willEnablePushNotifications) => {
+            setPushNotificationsEnabled(willEnablePushNotifications);
+            togglePushNotifications(willEnablePushNotifications);
+          }}
         />
       </ServiceRow>
     </>

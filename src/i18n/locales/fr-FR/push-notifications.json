@@ -1,5 +1,8 @@
 {
   "onRegistration": {
     "fail": "Impossible d'activer les notifications"
+  },
+  "onUnregistration": {
+    "fail": "Impossible de désactiver les notifications"
   }
 }

@@ -11,6 +11,7 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { useReducedMotion } from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
+import '@/i18n';
 import { OnPremiseProvider } from '@/components/OnPremise/OnPremiseContext';
 import ToastMessages from '@/components/ToastMessages';
 import { AuthProvider } from '@/context/auth';
@@ -21,17 +22,16 @@ import { NoticesProvider } from '@/context/notices';
 import { OnboardingProvider } from '@/context/onboarding';
 import { PermissionsProvider } from '@/context/permissions';
 import { PresenceProvider } from '@/context/presence';
+import { PushNotificationsProvider } from '@/context/push-notifications';
 import { ReviewProvider } from '@/context/review';
 import { SocialsProvider } from '@/context/socials';
 import { ThemeProvider } from '@/context/theme';
 import { UpcomingEventsProvider } from '@/context/upcoming-events';
-import '@/i18n';
 import { IS_DEV } from '@/services/environment';
 import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
 import { QUERY_CLIENT_CONFIG } from '@/services/query';
 import { AppThemeBackground } from '@/services/theme';
-import { PushNotificationsProvider } from '@/context/push-notifications';
 
 const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 
