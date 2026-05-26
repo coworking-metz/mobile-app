@@ -1,6 +1,6 @@
 import * as Calendar from 'expo-calendar';
 import { useLocalSearchParams } from 'expo-router';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Switch } from 'react-native-ui-lib';
@@ -18,7 +18,15 @@ const Privacy = () => {
   const { _root } = useLocalSearchParams();
   const [calendarState, requestCalendarPermission] = Calendar.useCalendarPermissions();
   const renderPermissionsBottomSheet = useAppPermissions();
-  const { arePushNotificationsEnabled, togglePushNotifications } = useAppPushNotifications();
+  const { arePushNotificationsEnabled, isChangingStatus, togglePushNotifications } =
+    useAppPushNotifications();
+  const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState(
+    arePushNotificationsEnabled,
+  );
+
+  useEffect(() => {
+    setPushNotificationsEnabled(arePushNotificationsEnabled);
+  }, [arePushNotificationsEnabled]);
 
   const onCalendarPermissionsPress = useCallback(() => {
     if (!calendarState?.granted) {
@@ -36,6 +44,7 @@ const Privacy = () => {
     <ServiceLayout
       contentStyle={tw`pt-6 pb-12`}
       description={t('privacy.description')}
+      loading={isChangingStatus}
       title={t('privacy.title')}
       withBackButton={!_root}>
       <View style={tw`w-full max-w-xl mx-auto`}>
@@ -58,9 +67,12 @@ const Privacy = () => {
           prefixIcon="bell-outline"
           style={tw`px-3 mx-3`}>
           <Switch
-            value={arePushNotificationsEnabled}
+            value={pushNotificationsEnabled}
             onColor={theme.meatBrown}
-            onValueChange={togglePushNotifications}
+            onValueChange={(willEnablePushNotifications) => {
+              setPushNotificationsEnabled(willEnablePushNotifications);
+              togglePushNotifications(willEnablePushNotifications);
+            }}
           />
         </ServiceRow>
         {/*<ServiceRow

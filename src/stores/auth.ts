@@ -1,5 +1,6 @@
 import { createAsyncStorage } from './async-storage';
 import useNoticeStore from './notice';
+import useNotificationStore from './notification';
 import createSecureStorage from './secure-storage';
 import useSettingsStore from './settings';
 import useToastStore from './toast';
@@ -14,6 +15,7 @@ import { AnyError, parseErrorText } from '@/helpers/error';
 import { log } from '@/helpers/logger';
 import i18n from '@/i18n';
 import { getAccessAndRefreshTokens, type ApiUser } from '@/services/api/auth';
+import { removePushToken } from '@/services/api/push-tokens';
 
 /**
  * In order to avoid asking for multiple refresh tokens at the same time when it has expired,
@@ -107,6 +109,13 @@ const useAuthStore = create<AuthState>()(
          * Clear user credentials
          */
         logout: async (): Promise<void> => {
+          const userId = get().user?.id;
+          const notificationStore = useNotificationStore.getState();
+          const expoPushToken = notificationStore.expoPushToken;
+          if (userId && expoPushToken) {
+            removePushToken(userId, expoPushToken);
+            notificationStore.clear();
+          }
           await get().clear();
         },
         /**
