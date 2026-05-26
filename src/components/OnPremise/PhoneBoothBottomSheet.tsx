@@ -7,7 +7,12 @@ import React, { forwardRef, ForwardRefRenderFunction, useMemo, useState } from '
 import { Trans, useTranslation } from 'react-i18next';
 import { StyleProp, useColorScheme, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import { BarChart, type stackDataItem } from 'react-native-gifted-charts';
-import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  FadeOut,
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from 'react-native-reanimated';
 import tw from 'twrnc';
 import CallingWithLaptopAnimation from '@/components/Animations/CallingWithLaptopAnimation';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
@@ -229,17 +234,22 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
           setCarouselWidth(nativeEvent.layout.width)
         }>
         {!occupationPerBooth && isFetchingOccupation ? (
-          <View style={tw`flex flex-row items-center justify-center min-h-40`}>
+          <Animated.View
+            entering={FadeIn.duration(300)}
+            exiting={FadeOut.duration(300)}
+            style={tw`flex flex-row items-center justify-center min-h-40`}>
             <VerticalLoadingAnimation
               color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
               style={tw`h-16 w-16`}
             />
-          </View>
+          </Animated.View>
         ) : carouselWidth ? (
           <AnimatedFlashList
             horizontal
             data={dailyOccupations}
             decelerationRate="fast"
+            entering={FadeIn.duration(300)}
+            exiting={FadeOut.duration(300)}
             initialScrollIndex={WEEK_DAYS_INDEXES.findIndex((index) => index === dayjs().day())}
             keyExtractor={(occupation) => occupation.date}
             renderItem={({ item: occupation }) => (

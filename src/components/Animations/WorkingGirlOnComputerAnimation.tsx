@@ -48,8 +48,10 @@ const WorkingGirlOnComputerAnimation: ForwardRefRenderFunction<LottieView, Anima
       // "assets.0.layers.1.shapes.3.it.1.c.k": "#ffd15c",
       // // OBJECTS 39.Group 1.Group 1.Group 1.Group 1.Fill 1
       // "assets.0.layers.2.shapes.0.it.0.it.0.it.0.it.1.c.k": "#8e8e8e",
+      'assets.0.layers.2.shapes.0.it.0.it.0.it.0.it.1.c.k': '#d3d3d3',
       // // OBJECTS 39.Group 1.Group 2.Group 1.Group 1.Fill 1
       // "assets.0.layers.2.shapes.0.it.1.it.0.it.0.it.1.c.k": "#8e8e8e",
+      'assets.0.layers.2.shapes.0.it.1.it.0.it.0.it.1.c.k': '#d3d3d3',
       // // OBJECTS 39.Group 2.Group 1.Group 1.Fill 1
       // "assets.0.layers.2.shapes.1.it.0.it.0.it.1.c.k": "#b2b2b2",
       // // OBJECTS 39.Group 2.Group 1.Group 2.Fill 1

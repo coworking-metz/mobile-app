@@ -1,5 +1,12 @@
 {
+  "enable": {
+    "description": "Make sure you don't miss any updates from Coworking Metz by enabling notifications!\n\nYou can disable them at any time in the <0>privacy settings</0>.",
+    "title": "Enable Notifications"
+  },
   "onRegistration": {
     "fail": "Unable to enable notifications"
+  },
+  "onUnregistration": {
+    "fail": "Unable to disable notifications"
   }
 }

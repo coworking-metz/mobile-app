@@ -6,7 +6,7 @@ import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image as RNImage, StyleProp, useColorScheme, View, ViewStyle } from 'react-native';
-import { BounceIn, BounceOut } from 'react-native-reanimated';
+import Animated, { BounceIn, BounceOut, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import floorPlanPtiPoulaillerDay from '@/assets/images/floorplans/floorplan-pti-poulailler-01-06-2023-19-00.png';
 import floorPlanPtiPoulaillerNight from '@/assets/images/floorplans/floorplan-pti-poulailler-01-06-2023-22-30.png';
@@ -109,13 +109,14 @@ const PtiPoulaillerPlan = ({
         )}
 
         {!hasFloorplanLoaded ? (
-          <View
+          <Animated.View
+            exiting={FadeOut.duration(300)}
             style={tw`absolute h-16 w-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full overflow-hidden`}>
             <VerticalLoadingAnimation
               color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
               style={tw`h-full w-full`}
             />
-          </View>
+          </Animated.View>
         ) : withInformations ? (
           <>
             <ActionableIcon

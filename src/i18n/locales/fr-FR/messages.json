@@ -1,4 +1,8 @@
 {
+  "detail": {
+    "archive": "Archiver",
+    "restore": "Restaurer"
+  },
   "list": {
     "empty": {
       "description": "Pour le moment, mais ça ne saurait tarder.",
@@ -11,6 +15,14 @@
       "placeholder": "Rechercher"
     },
     "title": "Messages"
+  },
+  "onArchive": {
+    "fail": "Impossible d'archiver le message",
+    "success": "{{title}} archivé"
+  },
+  "onRestore": {
+    "fail": "Impossible de restaurer le message",
+    "success": "{{title}} restauré"
   },
   "root": {
     "description": "",

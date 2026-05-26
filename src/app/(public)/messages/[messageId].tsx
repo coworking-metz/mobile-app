@@ -1,9 +1,9 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Image } from 'expo-image';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { compact } from 'lodash';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { View } from 'react-native-ui-lib';
@@ -17,18 +17,31 @@ import ProfilePicture from '@/components/Home/ProfilePicture';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
-import { isSilentError } from '@/helpers/error';
-import { ApiMessage, getMemberMessage, getMemberMessages } from '@/services/api/members';
+import { handleSilentError, isSilentError } from '@/helpers/error';
+import {
+  ApiMessage,
+  archiveMemberMessage,
+  getMemberMessage,
+  getMemberMessages,
+  restoreMemberMessage,
+} from '@/services/api/members';
 import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
+import useNoticeStore from '@/stores/notice';
+import useToastStore, { TOAST_SUCCESS_TIMEOUT } from '@/stores/toast';
 
 export default function MessageScreen() {
   useDeviceContext(tw);
   const authStore = useAuthStore();
   const queryClient = useQueryClient();
+  const router = useRouter();
+  const toastStore = useToastStore();
+  const noticeStore = useNoticeStore();
 
   const { messageId, _root: withoutBackButton } = useLocalSearchParams();
   const { t } = useTranslation();
+  const [archiving, setArchiving] = useState(false);
+  const [restoring, setRestoring] = useState(false);
 
   const { isPending: isPendingMessageFromList, data: messageFromList } = useQuery({
     queryKey: membersQueryKeys.allMessagesById(authStore.user?.id ?? ''),
@@ -63,6 +76,80 @@ export default function MessageScreen() {
     return fullMessage ?? messageFromList;
   }, [fullMessage, messageFromList]);
 
+  const onArchive = useCallback(() => {
+    setArchiving(true);
+    archiveMemberMessage(authStore.user?.id as string, messageId as string)
+      .then((archivedMessage) => {
+        toastStore.add({
+          message: t('messages.onArchive.success', { title: archivedMessage?.title }),
+          type: 'success',
+          timeout: TOAST_SUCCESS_TIMEOUT,
+        });
+        queryClient.invalidateQueries({
+          queryKey: membersQueryKeys.messageById(authStore.user?.id ?? '', messageId as string),
+          exact: true,
+        });
+        queryClient.setQueryData(
+          membersQueryKeys.allMessagesById(authStore.user?.id ?? ''),
+          (allMessages: ApiMessage[]) => {
+            if (Array.isArray(allMessages)) {
+              return allMessages.map((m) =>
+                m._id === archivedMessage._id ? { ...m, archived: archivedMessage.archived } : m,
+              );
+            }
+            return allMessages;
+          },
+        );
+        router.canGoBack() ? router.back() : router.replace('/messages');
+      })
+      .catch(handleSilentError)
+      .catch((error) =>
+        noticeStore.addError(error, {
+          message: t('messages.onArchive.fail', { title: message?.title }),
+        }),
+      )
+      .finally(() => {
+        setArchiving(false);
+      });
+  }, [router, toastStore, queryClient, noticeStore, authStore.user, message, messageId]);
+
+  const onRestore = useCallback(() => {
+    setRestoring(true);
+    restoreMemberMessage(authStore.user?.id as string, messageId as string)
+      .then((restoredMessage) => {
+        toastStore.add({
+          message: t('messages.onRestore.success', { title: restoredMessage?.title }),
+          type: 'success',
+          timeout: TOAST_SUCCESS_TIMEOUT,
+        });
+        queryClient.invalidateQueries({
+          queryKey: membersQueryKeys.messageById(authStore.user?.id ?? '', messageId as string),
+          exact: true,
+        });
+        queryClient.setQueryData(
+          membersQueryKeys.allMessagesById(authStore.user?.id ?? ''),
+          (allMessages: ApiMessage[]) => {
+            if (Array.isArray(allMessages)) {
+              return allMessages.map((m) =>
+                m._id === restoredMessage._id ? { ...m, archived: restoredMessage.archived } : m,
+              );
+            }
+            return allMessages;
+          },
+        );
+        router.canGoBack() ? router.back() : router.replace('/messages');
+      })
+      .catch(handleSilentError)
+      .catch((error) =>
+        noticeStore.addError(error, {
+          message: t('messages.onRestore.fail', { title: message?.title }),
+        }),
+      )
+      .finally(() => {
+        setRestoring(false);
+      });
+  }, [router, toastStore, queryClient, noticeStore, authStore.user, message, messageId]);
+
   useEffect(() => {
     if (fullMessage && fullMessage?.read !== messageFromList?.read) {
       queryClient.setQueryData(
@@ -82,14 +169,20 @@ export default function MessageScreen() {
   return (
     <ServiceLayout
       actions={[
-        {
-          id: 'delete',
-          title: t('messages.detail.archive.confirm'),
-          onPress: () => {},
-        },
+        message?.archived
+          ? {
+              id: 'delete',
+              title: t('messages.detail.restore'),
+              onPress: onRestore,
+            }
+          : {
+              id: 'delete',
+              title: t('messages.detail.archive'),
+              onPress: onArchive,
+            },
       ]}
       contentStyle={tw`px-6 pt-3 pb-6`}
-      loading={isFetchingFullMessage}
+      loading={isFetchingFullMessage || archiving || restoring}
       title={message?.title}
       withBackButton={!withoutBackButton}
       onRefresh={refetchFullMessage}>
@@ -99,6 +192,7 @@ export default function MessageScreen() {
             {message.author ? (
               <ProfilePicture
                 name={compact([message.author.firstName, message.author.lastName]).join(' ')}
+                pictureStyle={tw`rounded-full`}
                 style={tw`h-12 w-12`}
                 url={message.author.thumbnail}
               />
@@ -110,7 +204,7 @@ export default function MessageScreen() {
             )}
 
             <View style={tw`flex flex-col ml-4 justify-center`}>
-              <AppText style={tw`text-lg font-semibold text-gray-900 dark:text-gray-200`}>
+              <AppText style={tw`text-base font-semibold text-gray-900 dark:text-gray-200`}>
                 {message.author
                   ? compact([message.author.firstName, message.author.lastName]).join(' ')
                   : t('messages.detail.author.system')}
@@ -118,13 +212,13 @@ export default function MessageScreen() {
               <AppText
                 ellipsizeMode="tail"
                 numberOfLines={1}
-                style={tw`text-xs font-light text-slate-800 dark:text-slate-300`}>
+                style={tw`text-xs font-light text-slate-800 dark:text-neutral-300`}>
                 {dayjs(message.published).calendar()}
               </AppText>
             </View>
           </Animated.View>
           <Divider style={tw`mt-3`} />
-          <Animated.View style={tw`mt-6`}>
+          <Animated.View style={tw`mt-3`}>
             <MarkdownRenderer content={message.body} />
           </Animated.View>
         </>
@@ -132,7 +226,7 @@ export default function MessageScreen() {
         <>
           <Animated.View style={tw`flex flex-row`}>
             <View style={tw`rounded-full overflow-hidden`}>
-              <LoadingSkeleton height={64} width={64} />
+              <LoadingSkeleton height={48} width={48} />
             </View>
             <View style={tw`flex flex-col ml-4 gap-2 justify-center`}>
               <LoadingSkeleton height={18} width={144} />

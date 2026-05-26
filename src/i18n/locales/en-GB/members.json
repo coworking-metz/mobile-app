@@ -10,7 +10,7 @@
       "label": "Ticket balance"
     },
     "location": {
-      "label": "Located in",
+      "label": "Located",
       "unknown": "Somewhere"
     },
     "membership": {

@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { BlurTargetView } from 'expo-blur';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { includes } from 'lodash';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { RefreshControl, ScrollView, View, type LayoutChangeEvent } from 'react-native';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -25,8 +25,21 @@ const OnPremise = () => {
   const [areInformationsVisible, setInformationsVisible] = useState(false);
   const [areLightsVisible, setLightsVisible] = useState(false);
 
+  const { refetch: refetchOnPremiseState } = useQuery({
+    queryKey: onPremiseQueryKeys.state(),
+    queryFn: getOnPremiseState,
+  });
+
   const [isRefreshingPoulaillerPlan, setRefreshingPoulaillerPlan] = useState(false);
+  const onRefreshPoulaillerPlan = useCallback(() => {
+    setRefreshingPoulaillerPlan(true);
+    refetchOnPremiseState().finally(() => setRefreshingPoulaillerPlan(false));
+  }, [refetchOnPremiseState]);
   const [isRefreshingPtiPoulaillerPlan, setRefreshingPtiPoulaillerPlan] = useState(false);
+  const onRefreshPtiPoulaillerPlan = useCallback(() => {
+    setRefreshingPtiPoulaillerPlan(true);
+    refetchOnPremiseState().finally(() => setRefreshingPtiPoulaillerPlan(false));
+  }, [refetchOnPremiseState]);
 
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -46,11 +59,6 @@ const OnPremise = () => {
 
   const offset = useSharedValue(0);
   const horizontalScrollView = useRef<Animated.ScrollView>(null);
-
-  const { refetch: refetchOnPremiseState } = useQuery({
-    queryKey: onPremiseQueryKeys.state(),
-    queryFn: getOnPremiseState,
-  });
 
   const onHorizontalScroll = useAnimatedScrollHandler(
     {
@@ -122,10 +130,7 @@ const OnPremise = () => {
                 <RefreshControl
                   progressViewOffset={progressViewOffset}
                   refreshing={isRefreshingPoulaillerPlan}
-                  onRefresh={() => {
-                    setRefreshingPoulaillerPlan(true);
-                    refetchOnPremiseState().finally(() => setRefreshingPoulaillerPlan(false));
-                  }}
+                  onRefresh={onRefreshPoulaillerPlan}
                 />
               }
               scrollEventThrottle={16}
@@ -149,10 +154,7 @@ const OnPremise = () => {
                 <RefreshControl
                   progressViewOffset={progressViewOffset}
                   refreshing={isRefreshingPtiPoulaillerPlan}
-                  onRefresh={() => {
-                    setRefreshingPtiPoulaillerPlan(true);
-                    refetchOnPremiseState().finally(() => setRefreshingPtiPoulaillerPlan(false));
-                  }}
+                  onRefresh={onRefreshPtiPoulaillerPlan}
                 />
               }
               scrollEventThrottle={16}
