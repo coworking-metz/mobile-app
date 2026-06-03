@@ -172,26 +172,6 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
               </AppText>
             )}
           </SectionTitle>
-          <ServiceRow
-            withBottomDivider
-            label={t('onPremise.phoneBooths.state.blue.occupation.label')}
-            style={tw`w-full px-0`}
-            {...(!isNil(blueOccupied) && {
-              suffixIcon: blueOccupied ? 'door-closed' : 'door-open',
-            })}>
-            {loading ? (
-              <LoadingSkeleton height={24} width={128} />
-            ) : (
-              <AppText
-                style={tw`text-base font-normal text-blue-500 dark:text-blue-400 text-right mr-1`}>
-                {isNil(blueOccupied)
-                  ? t('onPremise.phoneBooths.state.blue.occupation.unknown')
-                  : blueOccupied
-                    ? t('onPremise.phoneBooths.state.blue.occupation.occupied')
-                    : t('onPremise.phoneBooths.state.blue.occupation.available')}
-              </AppText>
-            )}
-          </ServiceRow>
 
           <ServiceRow
             label={t('onPremise.phoneBooths.state.orange.occupation.label')}
@@ -209,6 +189,26 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
                   : orangeOccupied
                     ? t('onPremise.phoneBooths.state.orange.occupation.occupied')
                     : t('onPremise.phoneBooths.state.orange.occupation.available')}
+              </AppText>
+            )}
+          </ServiceRow>
+          <ServiceRow
+            withBottomDivider
+            label={t('onPremise.phoneBooths.state.blue.occupation.label')}
+            style={tw`w-full px-0`}
+            {...(!isNil(blueOccupied) && {
+              suffixIcon: blueOccupied ? 'door-closed' : 'door-open',
+            })}>
+            {loading ? (
+              <LoadingSkeleton height={24} width={128} />
+            ) : (
+              <AppText
+                style={tw`text-base font-normal text-blue-500 dark:text-blue-400 text-right mr-1`}>
+                {isNil(blueOccupied)
+                  ? t('onPremise.phoneBooths.state.blue.occupation.unknown')
+                  : blueOccupied
+                    ? t('onPremise.phoneBooths.state.blue.occupation.occupied')
+                    : t('onPremise.phoneBooths.state.blue.occupation.available')}
               </AppText>
             )}
           </ServiceRow>
