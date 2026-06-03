@@ -310,7 +310,7 @@ export default function HomeScreen() {
               style={tw`relative`}>
               <Link asChild href={'/messages'}>
                 <AppIconButton
-                  icon="message-text-outline"
+                  icon="bell-outline"
                   iconSize={24}
                   iconStyle={tw`p-2`}
                   loading={isFetchingMessages}
