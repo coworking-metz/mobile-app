@@ -18,7 +18,6 @@ import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { theme } from '@/helpers/colors';
 import { log } from '@/helpers/logger';
-import { IS_DEV } from '@/services/environment';
 import { HTTP } from '@/services/http';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -230,6 +229,18 @@ const Advanced = () => {
             value={settingsStore.withNativePullToRefresh}
             onColor={theme.meatBrown}
             onValueChange={(value) => useSettingsStore.setState({ withNativePullToRefresh: value })}
+          />
+        </ServiceRow>
+        <ServiceRow
+          withBottomDivider
+          label={t('advanced.settings.withBottomSheetFullHeight.label')}
+          style={tw`px-3 mx-3`}>
+          <Switch
+            value={settingsStore.withBottomSheetFullHeight}
+            onColor={theme.meatBrown}
+            onValueChange={(value) =>
+              useSettingsStore.setState({ withBottomSheetFullHeight: value })
+            }
           />
         </ServiceRow>
         <ServiceRow

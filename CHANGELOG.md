@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Ask for push notifications during introduction.
+- Advanced option to show bottom sheets in full screen.
+
 ## [2026.5.3] - 2026-05-19
 
 ### Fixed

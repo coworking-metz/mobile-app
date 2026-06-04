@@ -58,6 +58,9 @@
     "hasSeenBirthdayPresentAt": {
       "label": "Cacher l'effet de surprise d'anniversaire"
     },
+    "hidePushNotificationsAlert": {
+      "label": "Cacher l'invitation à activer les notifications push"
+    },
     "introduction": {
       "label": "Passer la présentation au démarrage"
     },
@@ -68,6 +71,9 @@
       "label": "Jeton de rafraîchissement"
     },
     "title": "Paramètres de l'application",
+    "withBottomSheetFullHeight": {
+      "label": "Afficher les volets inférieurs en plein écran"
+    },
     "withNativePullToRefresh": {
       "label": "Désactiver les animations du glisser pour rafraîchir"
     }

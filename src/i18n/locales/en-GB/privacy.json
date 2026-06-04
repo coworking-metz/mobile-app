@@ -24,7 +24,7 @@
       "label": "Location"
     },
     "notifications": {
-      "description": "To receive instant notifications instead of emails.",
+      "description": "To receive instant notifications.",
       "label": "Notifications"
     },
     "title": "Permissions"
