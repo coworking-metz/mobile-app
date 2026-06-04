@@ -1,6 +1,6 @@
 {
   "name": "coworking-mobile",
-  "version": "2026.5.3",
+  "version": "2026.6.1",
   "private": true,
   "main": "index.ts",
   "scripts": {

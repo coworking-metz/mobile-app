@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [2026.6.1] - 2026-06-04
+
 ### Added
 
 - Ask for push notifications during introduction.
@@ -591,7 +593,8 @@ Initial release with the following features:
 - services like opening the gate,
 - user attendance history.
 
-[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2026.5.3...main
+[unreleased]: https://github.com/coworking-metz/mobile-app/compare/2026.6.1...main
+[2026.6.1]: https://github.com/coworking-metz/mobile-app/compare/2026.5.3...2026.6.1
 [2026.5.3]: https://github.com/coworking-metz/mobile-app/compare/2026.5.2...2026.5.3
 [2026.5.2]: https://github.com/coworking-metz/mobile-app/compare/2026.5.1...2026.5.2
 [2026.5.1]: https://github.com/coworking-metz/mobile-app/compare/2026.3.1...2026.5.1
