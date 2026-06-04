@@ -58,6 +58,9 @@
     "hasSeenBirthdayPresentAt": {
       "label": "Hide birthday surprise effect"
     },
+    "hidePushNotificationsAlert": {
+      "label": "Hide push notifications alert"
+    },
     "introduction": {
       "label": "Skip introduction at launch"
     },
@@ -68,6 +71,9 @@
       "label": "Refresh token"
     },
     "title": "In-app settings",
+    "withBottomSheetFullHeight": {
+      "label": "Show bottom sheets in full screen"
+    },
     "withNativePullToRefresh": {
       "label": "Disable pull to refresh animations"
     }

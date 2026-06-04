@@ -10,6 +10,7 @@ import React, {
 } from 'react';
 import { Platform, ScrollView } from 'react-native';
 import tw from 'twrnc';
+import useSettingsStore from '@/stores/settings';
 
 export type AppBottomSheetProps = TrueSheetProps & {
   onClose?: () => void;
@@ -24,6 +25,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
   { children, style, onClose, onDetentChange, ...props },
   disposable,
 ) => {
+  const withBottomSheetFullHeight = useSettingsStore((s) => s.withBottomSheetFullHeight);
   const trueSheetRef = useRef<TrueSheet>(null);
   const [scrollViewHeight, setScrollViewHeight] = useState<number | null>(null);
   const [contentHeight, setContentHeight] = useState<number | null>(null);
@@ -40,18 +42,20 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
   }));
 
   const isScrollable = useMemo(() => {
+    if (withBottomSheetFullHeight) return true;
+
     const isContentHigherThanScrollView =
       !isNil(contentHeight) && !isNil(scrollViewHeight) && contentHeight > scrollViewHeight;
     const isDetentAlmostOpen = !isNil(detent) && Math.round(detent * 10) / 10 === 1;
     return isDetentAlmostOpen || isContentHigherThanScrollView;
-  }, [detent, contentHeight, scrollViewHeight]);
+  }, [detent, contentHeight, scrollViewHeight, withBottomSheetFullHeight]);
 
   return (
     <TrueSheet
       ref={trueSheetRef}
       backgroundColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
       cornerRadius={48}
-      detents={['auto']}
+      detents={[withBottomSheetFullHeight ? 1 : 'auto']}
       maxContentWidth={448} // TODO: remove maxWidth once position is full height https://sheet.lodev09.com/guides/reanimated
       scrollable={isScrollable}
       style={tw`flex flex-col`}

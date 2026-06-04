@@ -24,7 +24,7 @@
       "label": "Localisation"
     },
     "notifications": {
-      "description": "Pour être notifié instantanément, plutôt que par email.",
+      "description": "Pour être notifié instantanément.",
       "label": "Notifications"
     },
     "title": "Autorisations"
