@@ -4,9 +4,11 @@ import React, {
   ForwardRefRenderFunction,
   useCallback,
   useImperativeHandle,
+  useMemo,
   useRef,
 } from 'react';
 import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 import tw from 'twrnc';
 import ErrorAnimation from '@/components/Animations/ErrorAnimation';
 import InfoAnimation from '@/components/Animations/InfoAnimation';
@@ -54,6 +56,10 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
     }
   }, [notice]);
 
+  const isDescriptionCode = useMemo(() => {
+    return notice.description?.startsWith('<') || notice.description?.startsWith('{');
+  }, [notice.description]);
+
   return (
     <AppBottomSheet
       ref={bottomSheetRef}
@@ -72,10 +78,23 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
           {notice.message}
         </AppText>
         {notice.description ? (
-          <AppText
-            style={tw`mt-2 text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
-            {notice.description}
-          </AppText>
+          isDescriptionCode ? (
+            <ScrollView
+              horizontal
+              persistentScrollbar
+              contentContainerStyle={tw``}
+              style={tw`mt-4 bg-gray-200 dark:bg-black rounded-2xl py-2 px-4`}>
+              <AppText
+                style={tw`text-sm text-left font-mono whitespace-pre text-slate-500 dark:text-neutral-500`}>
+                {notice.description.trim()}
+              </AppText>
+            </ScrollView>
+          ) : (
+            <AppText
+              style={tw`mt-2 text-base text-center font-normal text-slate-500 dark:text-neutral-500`}>
+              {notice.description}
+            </AppText>
+          )
         ) : null}
       </View>
 

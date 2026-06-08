@@ -1,4 +1,4 @@
-import AllMessagesScreen from './all';
+import InboxScreen from './inbox';
 import { Stack } from 'expo-router';
 import { View } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
@@ -14,7 +14,7 @@ export default function MessagesLayout() {
   if (!isWide) {
     return (
       <Stack
-        initialRouteName="all"
+        initialRouteName="inbox"
         screenOptions={{
           headerShown: false,
           ...(reduceMotion && {
@@ -29,7 +29,7 @@ export default function MessagesLayout() {
     <View style={tw`flex flex-row grow`}>
       <View
         style={tw`grow shrink basis-0 h-full min-w-80 max-w-md border-r-[1px] border-r-gray-200 dark:border-r-gray-700`}>
-        <AllMessagesScreen from="/home" />
+        <InboxScreen from="/home" />
       </View>
       <View style={tw`grow shrink basis-0 h-full min-w-80`}>
         <Stack

@@ -13,7 +13,7 @@ export default function RootMessages() {
   const { t } = useTranslation();
 
   if (!isWide) {
-    return <Redirect href="/messages/all" />;
+    return <Redirect href="/messages/inbox" />;
   }
 
   return (
