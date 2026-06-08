@@ -3,13 +3,20 @@ import uFuzzy from '@leeoniya/ufuzzy';
 import Markdown, { MarkdownIt } from '@ronradtke/react-native-markdown-display';
 import { FlashList } from '@shopify/flash-list';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'expo-router';
-import { compact } from 'lodash';
+import dayjs from 'dayjs';
+import { Link, useIsFocused } from 'expo-router';
+import { capitalize, compact, isNil, sample } from 'lodash';
 import MarkdownItPlainText from 'markdown-it-plain-text';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import Animated, { FadeInDown, FadeOut, FadeOutUp } from 'react-native-reanimated';
+import Animated, {
+  FadeInDown,
+  FadeInLeft,
+  FadeOut,
+  FadeOutLeft,
+  FadeOutUp,
+} from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import LoveLetterAnimation from '@/components/Animations/LoveLetterAnimation';
 import AppIcon from '@/components/AppIcon';
@@ -17,11 +24,14 @@ import AppIconButton from '@/components/AppIconButton';
 import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
 import AppTextField from '@/components/AppTextField';
+import ErrorBadge from '@/components/ErrorBadge';
 import ErrorState from '@/components/ErrorState';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import MessageCard from '@/components/Messages/MessageCard';
 import PushNotificationsAlert from '@/components/PushNotifications/PushNotificationsAlert';
 import { useAppPushNotifications } from '@/context/push-notifications';
+import useAppState from '@/helpers/app-state';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
 import { ApiMessage, getMemberMessages } from '@/services/api/members';
@@ -41,12 +51,14 @@ type MessageListItem = ApiMessage & {
   description: string; // a stripped down version of the body to highlight search results
 };
 
-const AllMessages = ({ from }: { from?: string }) => {
+const InboxScreen = ({ from }: { from?: string }) => {
   useDeviceContext(tw);
   const { t } = useTranslation();
   const authStore = useAuthStore();
   const settingsStore = useSettingsStore();
   const { arePushNotificationsEnabled } = useAppPushNotifications();
+  const activeSince = useAppState();
+  const isFocus = useIsFocused();
   const [search, setSearch] = useState('');
 
   const {
@@ -55,6 +67,7 @@ const AllMessages = ({ from }: { from?: string }) => {
     data: messages,
     error: messagesError,
     refetch: refetchMessages,
+    dataUpdatedAt: messagesUpdatedAt,
   } = useQuery({
     queryKey: membersQueryKeys.allMessagesById(authStore.user?.id ?? ''),
     queryFn: ({ queryKey: [_, userId] }) => {
@@ -65,6 +78,17 @@ const AllMessages = ({ from }: { from?: string }) => {
     },
     enabled: !!authStore.user?.id,
   });
+
+  // count duration since last fetch to redraw stale data text
+  // every time the screen gets focused or the app gets back to foreground
+  const durationSinceLastFetch = useMemo(() => {
+    return messagesUpdatedAt ? dayjs().diff(messagesUpdatedAt, 'second') : null;
+  }, [messagesUpdatedAt, isFocus, activeSince]);
+
+  const loadingText = useMemo(() => {
+    const i18nLoading = t('home.refresh.loading', { returnObjects: true });
+    return Array.isArray(i18nLoading) ? sample(i18nLoading) : i18nLoading;
+  }, [t, durationSinceLastFetch]);
 
   const allMessagesWithMarkdownRendered = useMemo<MessageListItem[]>(() => {
     return (
@@ -156,6 +180,30 @@ const AllMessages = ({ from }: { from?: string }) => {
           </Animated.View>
         )}
 
+        <View style={tw`flex flex-row items-center gap-2 min-h-6 px-6 mt-4 mb-2`}>
+          <AppShimmerText
+            active={isFetchingMessages}
+            numberOfLines={1}
+            style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
+            {!isNil(durationSinceLastFetch)
+              ? capitalize(
+                  durationSinceLastFetch > 3_600
+                    ? dayjs(messagesUpdatedAt).calendar()
+                    : dayjs(messagesUpdatedAt).fromNow(),
+                )
+              : messagesError && !isSilentError(messagesError)
+                ? t('messages.list.onFetch.fail')
+                : loadingText}
+          </AppShimmerText>
+          {messagesError && !isSilentError(messagesError) ? (
+            <ErrorBadge
+              error={messagesError}
+              title={t('messages.list.onFetch.fail')}
+              onRetry={refetchMessages}
+            />
+          ) : null}
+        </View>
+
         {filteredMessages?.length ? (
           <AnimatedFlashList
             data={filteredMessages}
@@ -202,15 +250,9 @@ const AllMessages = ({ from }: { from?: string }) => {
             <MessageCard pending style={tw``} />
             <MessageCard pending style={tw``} />
           </Animated.View>
-        ) : messagesError && !isSilentError(messagesError) ? (
-          <ErrorState
-            error={messagesError}
-            style={tw`mx-6`}
-            title={t('messages.list.onFetch.fail')}
-          />
         ) : (
           <Animated.View style={tw`flex flex-col items-center w-full h-full mt-4 px-6`}>
-            <LoveLetterAnimation autoPlay loop={false} style={tw`h-56 -my-12 w-full`} />
+            <LoveLetterAnimation autoPlay loop={false} style={tw`h-56 -mb-12 w-full`} />
             <AppText
               style={tw`text-base text-center font-normal text-slate-500 dark:text-neutral-500`}>
               {t('messages.list.empty.title')}
@@ -222,4 +264,4 @@ const AllMessages = ({ from }: { from?: string }) => {
   );
 };
 
-export default AllMessages;
+export default InboxScreen;

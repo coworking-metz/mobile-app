@@ -101,8 +101,6 @@ const Attendance = () => {
       <View style={tw`flex flex-row items-center gap-2 min-h-6 px-6`}>
         <AppShimmerText
           active={isFetchingCurrentMembers}
-          entering={FadeInLeft.duration(300)}
-          exiting={FadeOutLeft.duration(300)}
           numberOfLines={1}
           style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
           {!isNil(durationSinceLastFetch)
