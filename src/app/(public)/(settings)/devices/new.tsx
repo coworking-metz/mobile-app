@@ -4,11 +4,11 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import SegmentedControl from 'react-native-segmented-control-2';
 import { TextFieldRef } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppIcon from '@/components/AppIcon';
 import AppRoundedButton from '@/components/AppRoundedButton';
+import AppSegmentedControl from '@/components/AppSegmentedControl';
 import AppText from '@/components/AppText';
 import AppTextField from '@/components/AppTextField';
 import AppTextLink from '@/components/AppTextLink';
@@ -173,7 +173,7 @@ const NewDevice = () => {
           <AppText style={tw`text-base leading-5 font-normal text-gray-800 dark:text-neutral-500`}>
             {t('devices.detail.type.label')}
           </AppText>
-          <SegmentedControl
+          <AppSegmentedControl
             activeTabColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
             style={tw`basis-0 bg-gray-200 dark:bg-zinc-800 w-full`}
             tabs={DEVICE_TYPES.map((deviceType) => (

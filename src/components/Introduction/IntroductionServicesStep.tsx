@@ -1,13 +1,13 @@
 import BikingIsCoolAnimation from '../Animations/BikingIsCoolAnimation';
 import RollingCarAnimation from '../Animations/RollingCarAnimation';
 import WalkingChickenAnimation from '../Animations/WalkingChickenAnimation';
+import AppSegmentedControl from '../AppSegmentedControl';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { isNil } from 'lodash';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Animated, { FadeInRight, FadeOutLeft, useReducedMotion } from 'react-native-reanimated';
-import SegmentedControl from 'react-native-segmented-control-2';
 import tw from 'twrnc';
 import AppText from '@/components/AppText';
 import { COMMUTING_MODES, CommutingMode, getCommuteModeIcon } from '@/helpers/commute';
@@ -84,7 +84,7 @@ const IntroductionServicesStep = ({
           {t('introduction.services.description')}
         </AppText>
         <View style={tw`mt-4 mx-6`}>
-          <SegmentedControl
+          <AppSegmentedControl
             activeTabColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
             style={tw`w-full bg-gray-200 dark:bg-zinc-800`}
             tabs={COMMUTING_MODES.map((commutingMode) => (
