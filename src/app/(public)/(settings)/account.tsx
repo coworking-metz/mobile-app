@@ -7,6 +7,7 @@ import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import AppIcon from '@/components/AppIcon';
 import AppPressable from '@/components/AppPressable';
+import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
@@ -55,13 +56,14 @@ const Account = () => {
       onRefresh={refetchProfile}>
       <View style={tw`w-full max-w-xl mx-auto`}>
         <View style={tw`flex flex-col relative h-40 w-40 mx-auto`}>
-          <View style={tw`h-full w-full rounded-2xl bg-gray-200 dark:bg-zinc-950 overflow-hidden`}>
+          <AppSquircleView
+            style={tw`h-full w-full rounded-[2rem] bg-gray-200 dark:bg-zinc-950 overflow-hidden`}>
             <ZoomableImage
               contentFit="cover"
               source={authStore.user?.picture}
               style={tw`h-full w-full`}
             />
-          </View>
+          </AppSquircleView>
 
           <View
             style={tw`absolute -bottom-3 -right-3 z-10 h-12 w-12 bg-gray-50 dark:bg-zinc-900 rounded-full flex items-center justify-center`}>
@@ -92,7 +94,7 @@ const Account = () => {
           <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/modifier-compte/`}>
             <AppText
               style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-5`}>
-              {t('actions.edit')}
+              {t('actions.edit')} <AppIcon icon="open-in-new" size={16} />
             </AppText>
           </Link>
         </SectionTitle>

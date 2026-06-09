@@ -3,8 +3,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
-import React, { forwardRef, ForwardRefRenderFunction, useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { forwardRef, ForwardRefRenderFunction, useEffect, useMemo, useRef } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw from 'twrnc';
 import MembershipFormAnimation from '@/components/Animations/MembershipFormAnimation';
@@ -20,7 +20,7 @@ import useAppState from '@/helpers/app-state';
 import { theme } from '@/helpers/colors';
 
 import { isSilentError } from '@/helpers/error';
-import { getMemberProfile } from '@/services/api/members';
+import { getMemberMemberships, getMemberProfile } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
 import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
@@ -51,6 +51,24 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
     enabled: !!authStore.user?.id,
   });
 
+  const { data: memberships } = useQuery({
+    queryKey: authStore.user?.id ? membersQueryKeys.membershipsById(authStore.user?.id) : [],
+    queryFn: ({ queryKey: [_, userId] }) => {
+      if (userId) {
+        return getMemberMemberships(userId as string);
+      }
+      throw new Error(t('account.profile.onFetch.missing'));
+    },
+    enabled: !!authStore.user?.id,
+  });
+
+  const firstMembership = useMemo(() => {
+    const [first] = [...(memberships ?? [])].sort((a, b) =>
+      dayjs(a.membershipStart).diff(dayjs(b.membershipStart)),
+    );
+    return first ?? null;
+  }, [memberships, profile?.lastMembership]);
+
   useEffect(() => {
     if (isProfileQueryEnabled && profile?.membershipOk === false && hasNavigatedToShop.current) {
       hasNavigatedToShop.current = false;
@@ -79,18 +97,35 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
       <ServiceRow
         withBottomDivider
         label={t('home.profile.membership.status.label')}
-        style={tw`w-full px-0`}>
+        style={tw`w-full px-0`}
+        {...(firstMembership &&
+          dayjs(firstMembership.membershipStart).year() !== profile?.lastMembership && {
+            description: t('home.profile.membership.since', {
+              year: dayjs(firstMembership.membershipStart).year(),
+            }),
+          })}>
         {isFetchingProfile ? (
           <LoadingSkeleton height={24} width={128} />
         ) : (
-          <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
-            {profile?.membershipOk
-              ? t('home.profile.membership.status.valid', { year: profile.lastMembership })
-              : profile?.lastMembership
-                ? t('home.profile.membership.status.invalid', { year: profile.lastMembership })
-                : t('home.profile.membership.status.none')}
-          </AppText>
+          <Trans
+            components={[
+              <AppText
+                key="emphasis"
+                numberOfLines={1}
+                style={tw`font-semibold text-slate-900 dark:text-gray-200`}
+              />,
+            ]}
+            defaults={
+              profile?.membershipOk
+                ? t('home.profile.membership.status.valid', { year: profile.lastMembership })
+                : profile?.lastMembership
+                  ? t('home.profile.membership.status.invalid', { year: profile.lastMembership })
+                  : t('home.profile.membership.status.none')
+            }
+            numberOfLines={1}
+            parent={AppText}
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+          />
         )}
       </ServiceRow>
 
@@ -102,23 +137,21 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
         {isFetchingProfile ? (
           <LoadingSkeleton height={24} width={128} />
         ) : (
-          // TODO: use <Trans /> component
-          <View style={tw`flex flex-row justify-end items-end gap-1`}>
-            {profile?.activity != 0 && (
+          <Trans
+            components={[
               <AppText
+                key="emphasis"
                 numberOfLines={1}
-                style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
-                {profile?.activity}
-              </AppText>
-            )}
-            <AppText
-              numberOfLines={1}
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500`}>
-              {t('home.profile.membership.activity.days', {
-                count: profile?.activity ?? 0,
-              })}
-            </AppText>
-          </View>
+                style={tw`font-semibold text-slate-900 dark:text-gray-200`}
+              />,
+            ]}
+            defaults={t('home.profile.membership.activity.days', {
+              count: profile?.activity ?? 0,
+            })}
+            numberOfLines={1}
+            parent={AppText}
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+          />
         )}
       </ServiceRow>
 

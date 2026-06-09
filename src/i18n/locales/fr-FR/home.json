@@ -112,8 +112,8 @@
     "label": "Situation",
     "membership": {
       "activity": {
-        "days_one": "journée",
-        "days_other": "journées",
+        "days_one": "<0>{{count}}</0> journée",
+        "days_other": "<0>{{count}}</0> journées",
         "days_zero": "Aucune",
         "description": "sur les 6 derniers mois",
         "label": "Activité"
@@ -135,14 +135,18 @@
         }
       },
       "label": "Carte\nadhérent",
+      "onFetch": {
+        "fail": "Impossible d'actualiser les\u00A0adhésions"
+      },
       "renew": "Renouveler pour {{year}}",
       "required": "Sans cette adhésion, vous ne serez pas en mesure de pouvoir accéder à l'espace de coworking.",
+      "since": "Depuis {{year}}",
       "status": {
-        "invalid": "Dernière adhésion en {{year}}",
+        "invalid": "Dernière adhésion en <0>{{year}}</0>",
         "label": "Adhésion",
         "none": "Aucune",
         "toRenew": "À renouveler",
-        "valid": "Valide pour {{year}}"
+        "valid": "Valide pour <0>{{year}}</0>"
       },
       "title": "Carte adhérent"
     },
@@ -151,15 +155,15 @@
     },
     "subscription": {
       "activity": {
-        "count_one": "journée",
-        "count_other": "journées",
+        "count_one": "<0>{{ count }}</0> journée",
+        "count_other": "<0>{{ count }}</0> journées",
         "count_zero": "Aucune journée",
         "description": "Vous êtes resté",
         "label": "Activité"
       },
       "attendance": {
-        "count_one": "seule fois",
-        "count_other": "fois",
+        "count_one": "<0>{{ count }}</0> seule fois",
+        "count_other": "<0>{{ count }}</0> fois",
         "count_zero": "Jamais",
         "description": "Vous êtes venu",
         "label": "Assiduité"

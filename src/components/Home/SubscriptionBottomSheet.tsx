@@ -11,7 +11,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -255,22 +255,21 @@ const SubscriptionItem = ({
         {loading ? (
           <LoadingSkeleton height={24} width={64} />
         ) : (
-          <View style={tw`flex flex-row justify-end items-end gap-1`}>
-            {subscription.attendanceCount != 0 && (
+          <Trans
+            components={[
               <AppText
+                key="emphasis"
                 numberOfLines={1}
-                style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
-                {subscription.attendanceCount}
-              </AppText>
-            )}
-            <AppText
-              numberOfLines={1}
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500`}>
-              {t('home.profile.subscription.attendance.count', {
-                count: subscription.attendanceCount,
-              })}
-            </AppText>
-          </View>
+                style={tw`font-semibold text-slate-900 dark:text-gray-200`}
+              />,
+            ]}
+            defaults={t('home.profile.subscription.attendance.count', {
+              count: subscription.attendanceCount,
+            })}
+            numberOfLines={1}
+            parent={AppText}
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+          />
         )}
       </ServiceRow>
       <ServiceRow
@@ -281,23 +280,21 @@ const SubscriptionItem = ({
         {loading ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
-          // TODO: use <Trans /> component
-          <View style={tw`flex flex-row justify-end items-end gap-1`}>
-            {subscription.activityCount != 0 && (
+          <Trans
+            components={[
               <AppText
+                key="emphasis"
                 numberOfLines={1}
-                style={tw`text-base font-semibold text-slate-900 dark:text-gray-200`}>
-                {subscription.activityCount}
-              </AppText>
-            )}
-            <AppText
-              numberOfLines={1}
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500`}>
-              {t('home.profile.subscription.activity.count', {
-                count: subscription.activityCount,
-              })}
-            </AppText>
-          </View>
+                style={tw`font-semibold text-slate-900 dark:text-gray-200`}
+              />,
+            ]}
+            defaults={t('home.profile.subscription.activity.count', {
+              count: subscription.activityCount,
+            })}
+            numberOfLines={1}
+            parent={AppText}
+            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+          />
         )}
       </ServiceRow>
       <ServiceRow
@@ -305,24 +302,21 @@ const SubscriptionItem = ({
         label={t('home.profile.subscription.savings.label')}
         style={tw`w-full px-0`}>
         {loading ? (
-          <LoadingSkeleton height={24} width={96} />
-        ) : (
-          <View
-            style={[
-              tw`px-2.5 py-0.5 rounded-full`,
-              subscription.savingsOverTickets < 0 && tw`bg-gray-100 dark:bg-zinc-700`,
-              subscription.savingsOverTickets > 0 && tw`bg-green-100 dark:bg-green-900`,
-            ]}>
+          <LoadingSkeleton height={24} width={80} />
+        ) : subscription.savingsOverTickets > 0 ? (
+          <View style={tw`px-2.5 py-0.5 rounded-full bg-green-100 dark:bg-green-900`}>
             <AppText
               numberOfLines={1}
-              style={[
-                tw`text-base font-semibold leading-5 text-slate-900 dark:text-gray-200`,
-                subscription.savingsOverTickets < 0 && tw`text-gray-800 dark:text-gray-300`,
-                subscription.savingsOverTickets > 0 && tw`text-green-800 dark:text-green-300`,
-              ]}>
-              {`${subscription.savingsOverTickets > 0 ? '+' : ''}${formatAmount(subscription.savingsOverTickets, {}, i18n.language)}`}
+              style={[tw`text-base font-semibold leading-5 text-green-800 dark:text-green-300`]}>
+              +{formatAmount(subscription.savingsOverTickets, {}, i18n.language)}
             </AppText>
           </View>
+        ) : (
+          <AppText
+            numberOfLines={1}
+            style={[tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`]}>
+            {formatAmount(subscription.savingsOverTickets, {}, i18n.language)}
+          </AppText>
         )}
       </ServiceRow>
     </View>
