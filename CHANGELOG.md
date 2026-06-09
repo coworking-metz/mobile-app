@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- First membership year on membership bottom sheet.
+
 ## [2026.6.1] - 2026-06-04
 
 ### Added

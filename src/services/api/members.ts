@@ -113,6 +113,18 @@ export const getMemberTickets = async (memberId: string): Promise<ApiMemberTicke
   return HTTP.get(`/api/members/${memberId}/tickets`).then(({ data }) => data);
 };
 
+export interface ApiMemberMembership {
+  _id: string;
+  membershipStart: string;
+  membershipEnd: string;
+  purchased: string;
+  amount: number;
+}
+
+export const getMemberMemberships = async (memberId: string): Promise<ApiMemberMembership[]> => {
+  return HTTP.get(`/api/members/${memberId}/memberships`).then(({ data }) => data);
+};
+
 // https://vincent-van-git.netlify.app/
 /* eslint-disable prettier/prettier */
 const HELLO_ACTIVITY_MATRIX = [

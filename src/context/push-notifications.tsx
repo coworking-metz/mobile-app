@@ -127,12 +127,6 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
   }, [onHandleNotification]);
 
   const enablePushNotifications = useCallback(async () => {
-    // TODO:
-    // - ask for permissions
-    // - get expo push token
-    // - store expo push token
-    // - push expo token to the API
-    // - subscribe to notifications
     setChangingStatus(true);
 
     (async () => {
@@ -188,11 +182,6 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
   }, [noticeStore, renderPermissionsBottomSheet, subscribeToNotifications, t]);
 
   const disablePushNotifications = useCallback(async () => {
-    // TODO:
-    // - unsubscribe from notifications
-    // - clear expo push token
-    // - remove expo push token from API
-
     cleanupRef.current?.();
     cleanupRef.current = null;
 

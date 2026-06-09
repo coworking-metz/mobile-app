@@ -102,8 +102,8 @@
     "label": "Profile",
     "membership": {
       "activity": {
-        "days_one": "day",
-        "days_other": "days",
+        "days_one": "<0>{{count}}</0> day",
+        "days_other": "<0>{{count}}</0> days",
         "days_zero": "None",
         "description": "over the last 6 months",
         "label": "Activity"
@@ -125,14 +125,18 @@
         }
       },
       "label": "Membership\ncard",
+      "onFetch": {
+        "fail": "Unable to fetch\u00A0membership"
+      },
       "renew": "Renew for {{year}}",
       "required": "Without this membership, you will not be able to access the workspace location.",
+      "since": "Since {{year}}",
       "status": {
-        "invalid": "Last membership in {{year}}",
+        "invalid": "Last membership in <0>{{year}}</0>",
         "label": "Membership",
         "none": "None",
         "toRenew": "To renew",
-        "valid": "Valid for {{year}}"
+        "valid": "Valid for <0>{{year}}</0>"
       },
       "title": "Membership card"
     },
@@ -141,15 +145,15 @@
     },
     "subscription": {
       "activity": {
-        "count_one": "day",
-        "count_other": "days",
+        "count_one": "<0>{{count}}</0> day",
+        "count_other": "<0>{{count}}</0> days",
         "count_zero": "None",
         "description": "You stayed",
         "label": "Activity"
       },
       "attendance": {
-        "count_one": "single time",
-        "count_other": "times",
+        "count_one": "<0>{{count}}</0> single time",
+        "count_other": "<0>{{count}}</0> times",
         "count_zero": "Never",
         "description": "You attended",
         "label": "Attendance"
