@@ -21,7 +21,7 @@ const PushNotificationsAlert = ({ style }: { style?: StyleProp<ViewStyle> }) => 
     <AppPressable onPress={openPushNotificationsBottomSheet}>
       <AppSquircleView
         style={[
-          tw`flex flex-row items-start gap-4 bg-gray-300/60 dark:bg-neutral-800/80 rounded-2xl pl-3 pt-2 pb-4`,
+          tw`flex flex-row items-start gap-4 rounded-2xl bg-gray-300/60 pb-4 pl-3 pt-2 dark:bg-neutral-800/80`,
           style,
         ]}>
         <AppIcon
@@ -30,7 +30,7 @@ const PushNotificationsAlert = ({ style }: { style?: StyleProp<ViewStyle> }) => 
           size={24}
           style={tw`mt-2`}
         />
-        <View style={tw`flex flex-col gap-1 shrink grow basis-0 overflow-hidden mt-2`}>
+        <View style={tw`mt-2 flex shrink grow basis-0 flex-col gap-1 overflow-hidden`}>
           <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
             {t('pushNotifications.enable.title')}
           </AppText>
@@ -46,7 +46,7 @@ const PushNotificationsAlert = ({ style }: { style?: StyleProp<ViewStyle> }) => 
             color={tw.prefixMatch('dark') ? tw.color('gray-200') : theme.charlestonGreen}
             icon="close"
             size={24}
-            style={[tw`p-2 mr-2 shrink-0 overflow-hidden rounded-full`]}
+            style={[tw`mr-2 shrink-0 overflow-hidden rounded-full p-2`]}
           />
         </AppPressable>
       </AppSquircleView>

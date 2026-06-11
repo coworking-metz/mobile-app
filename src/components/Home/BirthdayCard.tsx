@@ -20,7 +20,7 @@ const BirthdayCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
   return (
     <AppSquircleView
       style={[
-        tw`flex flex-col items-start gap-1 bg-gray-300/60 dark:bg-zinc-900/85 rounded-2xl px-3 pt-2 pb-4`,
+        tw`flex flex-col items-start gap-1 rounded-2xl bg-gray-300/60 px-3 pb-4 pt-2 dark:bg-zinc-900/85`,
         style,
       ]}>
       <MaterialCommunityIcons
@@ -32,7 +32,7 @@ const BirthdayCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
       <AppText
         ellipsizeMode={'clip'}
         numberOfLines={2}
-        style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 grow`}>
+        style={tw`grow text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('home.profile.birthday.label')}
       </AppText>
 

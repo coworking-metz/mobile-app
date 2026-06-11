@@ -18,21 +18,21 @@ const UnauthenticatedState = ({
   const { login } = useAppAuth();
 
   return (
-    <Animated.View style={[tw`flex flex-col gap-4 items-center`, style]} {...props}>
+    <Animated.View style={[tw`flex flex-col items-center gap-4`, style]} {...props}>
       <Image
         contentFit="contain"
         contentPosition="left center"
         source={unlock}
-        style={tw`w-full h-32`}
+        style={tw`h-32 w-full`}
       />
-      <View style={tw`flex flex-col w-full gap-3 grow shrink`}>
+      <View style={tw`flex w-full shrink grow flex-col gap-3`}>
         <TouchableNativeFeedback onPress={login}>
-          <AppText style={tw`text-xl text-left font-medium text-amber-500`}>
+          <AppText style={tw`text-left text-xl font-medium text-amber-500`}>
             {t('auth.onUnauthenticated.title')}
           </AppText>
         </TouchableNativeFeedback>
         <AppText
-          style={tw`text-base text-left max-w-80 font-normal text-slate-500 dark:text-neutral-500`}>
+          style={tw`max-w-80 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
           {t('auth.onUnauthenticated.description')}
         </AppText>
       </View>

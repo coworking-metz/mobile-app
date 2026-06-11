@@ -104,7 +104,7 @@ const Chat = () => {
 
   return (
     <View
-      style={tw.style(`flex flex-col h-full w-full relative bg-white`, {
+      style={tw.style(`relative flex size-full flex-col bg-white`, {
         paddingTop: Platform.OS === 'ios' ? 0 : insets.top,
         paddingLeft: insets.left,
         paddingRight: insets.right,
@@ -113,11 +113,11 @@ const Chat = () => {
       {}
       {Platform.OS !== 'ios' && <StatusBar translucent style="dark" />}
 
-      <BlurTargetView ref={blurTargetRef} style={tw`grow w-full`}>
+      <BlurTargetView ref={blurTargetRef} style={tw`w-full grow`}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'translate-with-padding' : 'height'}
           keyboardVerticalOffset={paddingBottom + 16}
-          style={tw`grow w-full`}>
+          style={tw`w-full grow`}>
           <WebView
             allowFileAccess={true}
             allowUniversalAccessFromFileURLs={true}
@@ -127,7 +127,7 @@ const Chat = () => {
             mixedContentMode="always"
             originWhitelist={['*']}
             source={{ html: htmlContent }}
-            style={tw`h-full w-full`}
+            style={tw`size-full`}
             onError={(e) => {
               setError(e.nativeEvent);
               setLoading(false);
@@ -146,13 +146,13 @@ const Chat = () => {
         {isLoading ? (
           <Animated.View
             exiting={FadeOut.duration(500)}
-            style={tw`absolute z-10 bg-white flex flex-row items-center justify-center h-full w-full`}>
-            <HorizontalLoadingAnimation color={tw.color(`slate-900`)} style={tw`h-16 w-16`} />
+            style={tw`absolute z-10 flex size-full flex-row items-center justify-center bg-white`}>
+            <HorizontalLoadingAnimation color={tw.color(`slate-900`)} style={tw`size-16`} />
           </Animated.View>
         ) : error ? (
           <Animated.View
             exiting={FadeOut.duration(500)}
-            style={tw`absolute z-10 bg-white flex flex-row items-center justify-center h-full w-full`}>
+            style={tw`absolute z-10 flex size-full flex-row items-center justify-center bg-white`}>
             <ErrorState error={new Error(error.description)} title={t('chat.onError.title')} />
           </Animated.View>
         ) : null}

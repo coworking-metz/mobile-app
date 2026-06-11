@@ -31,7 +31,7 @@ const ActionableCarbonDioxide = ({
     <ActionableIcon {...props}>
       <View
         style={[
-          tw`flex items-center justify-center z-20  absolute inset-0 -top-2 -left-2 h-12 w-12`,
+          tw`absolute inset-0 -left-2 -top-2  z-20 flex size-12 items-center justify-center`,
           props.loading && tw`opacity-0`,
         ]}>
         {

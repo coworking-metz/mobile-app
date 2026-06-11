@@ -24,11 +24,11 @@ const OnPremiseCard: ForwardRefRenderFunction<
     <AppPressable ref={ref} disabled={disabled} style={tw`flex-1`} onPress={onPress}>
       <AppSquircleView
         style={[
-          tw`flex flex-row items-center gap-4 px-4 rounded-3xl min-h-20 overflow-hidden relative bg-gray-300/60 dark:bg-zinc-900/85`,
+          tw`relative flex min-h-20 flex-row items-center gap-4 overflow-hidden rounded-3xl bg-gray-300/60 px-4 dark:bg-zinc-900/85`,
           style,
         ]}>
-        <Animated.View style={tw`bg-gray-300 dark:bg-zinc-800 rounded-full p-2 z-20`}>
-          <View style={tw`relative h-8 w-8 shrink-0`}>
+        <Animated.View style={tw`z-20 rounded-full bg-gray-300 p-2 dark:bg-zinc-800`}>
+          <View style={tw`relative size-8 shrink-0`}>
             <MaterialCommunityIcons
               color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
               iconStyle={{ height: 32, width: 32, marginRight: 0 }}
@@ -38,7 +38,7 @@ const OnPremiseCard: ForwardRefRenderFunction<
             />
           </View>
         </Animated.View>
-        <Animated.View style={tw`flex flex-col z-20 w-full shrink grow`}>
+        <Animated.View style={tw`z-20 flex w-full shrink grow flex-col`}>
           <AppText
             numberOfLines={location ? 1 : 2}
             style={[

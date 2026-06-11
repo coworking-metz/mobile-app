@@ -19,14 +19,14 @@ const GroupWorkBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBotto
       ref={forwardedRef}
       style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
-      <PeopleMeetingAnimation autoPlay loop={false} style={tw`w-full h-64 -my-8`} />
+      <PeopleMeetingAnimation autoPlay loop={false} style={tw`-my-8 h-64 w-full`} />
 
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.groupWork.label')}
       </AppText>
       <AppText
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6 mb-3`}>
+        style={tw`mb-3 mt-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('onPremise.groupWork.description')}
       </AppText>
     </AppBottomSheet>

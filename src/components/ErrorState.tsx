@@ -31,7 +31,7 @@ const ErrorState = ({
 
   return (
     <Animated.View style={[tw`flex flex-col items-center gap-2 p-6`, style]} {...props}>
-      <ErrorAnimation style={tw`h-32 w-32 mb-2`} />
+      <ErrorAnimation style={tw`mb-2 size-32`} />
       <AppText
         style={tw`text-center text-2xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {title}

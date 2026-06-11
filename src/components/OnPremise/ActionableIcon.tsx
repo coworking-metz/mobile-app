@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { type ReactNode } from 'react';
-import { Platform, StyleProp, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
@@ -41,8 +41,8 @@ const ActionableIcon = ({
     <AppBlurView
       radius={30}
       style={[
-        tw`absolute z-10 h-12 w-12 flex items-center justify-center rounded-full overflow-hidden`,
-        tw`-mt-6 -ml-6`, // to properly center the button
+        tw`absolute z-10 flex size-12 items-center justify-center overflow-hidden rounded-full`,
+        tw`-ml-6 -mt-6`, // to properly center the button
         active ? { backgroundColor: theme.meatBrown } : tw`bg-gray-200/30 dark:bg-zinc-900/30`,
         // selected && tw.style(`ios:border-2 ios:border-neutral-600 ios:dark:border-neutral-500`),
         style,
@@ -54,7 +54,7 @@ const ActionableIcon = ({
           beamSize={2}
           entering={FadeIn.duration(300)}
           exiting={FadeOut.duration(300)}
-          style={tw`absolute h-full w-full`}
+          style={tw`absolute size-full`}
         />
       )}
 
@@ -80,7 +80,7 @@ const ActionableIcon = ({
             color={
               !active && tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('neutral-700')
             }
-            style={tw`absolute w-10 h-10 -m-1`}
+            style={tw`absolute -m-1 size-10`}
           />
         )}
         {children}

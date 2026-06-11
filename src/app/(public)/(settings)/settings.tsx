@@ -202,7 +202,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   );
 
   return (
-    <View style={[tw`flex-1 bg-gray-100 dark:bg-black relative`, style]}>
+    <View style={[tw`relative flex-1 bg-gray-100 dark:bg-black`, style]}>
       <BlurTargetView ref={blurTargetRef} style={tw`flex-1`}>
         <View
           style={[
@@ -215,13 +215,13 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             },
           ]}>
           <Animated.View
-            style={[tw`grow-0 shrink-0 w-full`, headerStyle]}
+            style={[tw`w-full shrink-0 grow-0`, headerStyle]}
             onLayout={({ nativeEvent }: LayoutChangeEvent) => {
               setHeaderHeight(nativeEvent.layout.height);
             }}>
             <View style={tw`flex flex-col items-start gap-4 px-4 pb-6`}>
               <ProfilePicture
-                initialsStyle={tw`text-4xl pt-2`}
+                initialsStyle={tw`pt-2 text-4xl`}
                 name={authStore.user?.name}
                 pending={!authStore.user && authStore.isFetchingToken}
                 pictureStyle={tw`rounded-3xl`}
@@ -231,13 +231,13 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                   <Animated.View
                     entering={BounceIn.duration(1000).delay(300)}
                     exiting={BounceOut.duration(1000)}
-                    style={tw`z-20 h-5 w-5 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -bottom-0.5 -right-0.5`}>
-                    <View style={tw`h-3 w-3 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
+                    style={tw`absolute -bottom-0.5 -right-0.5 z-20 flex size-5 items-center justify-center rounded-full bg-gray-100 dark:bg-black`}>
+                    <View style={tw`size-3 rounded-full bg-emerald-600 dark:bg-emerald-700`} />
                   </Animated.View>
                 )}
               </ProfilePicture>
-              <View style={tw`flex flex-row justify-between w-full`}>
-                <View style={tw`flex flex-col ml-2 shrink basis-0 grow`}>
+              <View style={tw`flex w-full flex-row justify-between`}>
+                <View style={tw`ml-2 flex shrink grow basis-0 flex-col`}>
                   <AppText
                     entering={FadeInLeft.duration(500)}
                     style={tw`text-left text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
@@ -254,11 +254,11 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                   {authStore.user?.roles.length ? (
                     <Animated.View
                       entering={FadeInLeft.duration(500).delay(300)}
-                      style={tw`flex flex-row flex-wrap gap-2 mt-2`}>
+                      style={tw`mt-2 flex flex-row flex-wrap gap-2`}>
                       {authStore.user?.roles.map((role) => (
                         <AppText
                           key={`role-${role}`}
-                          style={tw`flex items-center rounded-md overflow-hidden bg-amber-200/50 dark:bg-orange-50/10 px-2.5 py-0.5 text-sm font-medium text-amber-800 dark:text-yellow-700`}>
+                          style={tw`flex items-center overflow-hidden rounded-md bg-amber-200/50 px-2.5 py-0.5 text-sm font-medium text-amber-800 dark:bg-orange-50/10 dark:text-yellow-700`}>
                           {t(`settings.roles.value.${role}`)}
                         </AppText>
                       ))}
@@ -270,7 +270,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                   color={tw.prefixMatch('dark') ? tw.color('stone-400') : tw.color('gray-700')}
                   icon="chevron-right"
                   size={32}
-                  style={tw`shrink-0 my-auto`}
+                  style={tw`my-auto shrink-0`}
                 />
               </View>
             </View>
@@ -278,7 +278,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
 
           {/* this is the footer below the scrollview */}
           <View
-            style={tw`mt-auto grow-0 flex flex-col gap-1 self-center py-6 px-3`}
+            style={tw`mt-auto flex grow-0 flex-col gap-1 self-center px-3 py-6`}
             onLayout={({ nativeEvent }: LayoutChangeEvent) => {
               setFooterHeight(nativeEvent.layout.height);
               setFooterWidth(nativeEvent.layout.width);
@@ -296,7 +296,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
 
         <Animated.ScrollView
           contentContainerStyle={[
-            tw`flex flex-col relative grow`,
+            tw`relative flex grow flex-col`,
             {
               paddingTop: NAVIGATION_HEIGHT + insets.top + PICTURE_SIZE,
               paddingBottom: insets.bottom,
@@ -312,7 +312,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           }
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
-          style={tw`flex-1 z-10 grow shrink`}
+          style={tw`z-10 flex-1 shrink grow`}
           onScroll={onVerticalScroll}>
           {
             /* transparent view to fake a touch on the header link, should mimic as much as possible the header */
@@ -320,7 +320,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               onPress={() => (authStore.user ? router.push('/account') : login?.())}>
               <Animated.View
                 style={[
-                  tw`self-center w-full`,
+                  tw`w-full self-center`,
                   { height: headerHeight - PICTURE_SIZE },
                   headerTouchableStyle,
                 ]}
@@ -330,14 +330,14 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
 
           <View
             style={[
-              tw`flex flex-col w-full py-6 bg-gray-50 dark:bg-zinc-900 relative`,
+              tw`relative flex w-full flex-col bg-gray-50 py-6 dark:bg-zinc-900`,
               {
                 paddingLeft: insets.left,
                 paddingRight: insets.right,
               },
             ]}>
             {(isFetchingActivity || isFetchingProfile) && (
-              <LoadingProgressBar style={tw`absolute top-0 inset-x-0`} />
+              <LoadingProgressBar style={tw`absolute inset-x-0 top-0`} />
             )}
             <SectionTitle
               loading={isFetchingActivity || isFetchingProfile}
@@ -361,7 +361,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 <Animated.View
                   entering={FadeInRight.duration(600).delay(500)}
                   style={tw`ml-auto flex flex-row items-center justify-end gap-1.5`}>
-                  <View style={tw`h-2.5 w-2.5 bg-red-600 dark:bg-red-700 rounded-full`} />
+                  <View style={tw`size-2.5 rounded-full bg-red-600 dark:bg-red-700`} />
                   <AppText
                     numberOfLines={1}
                     style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
@@ -392,9 +392,9 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               withBottomDivider
               label={t('settings.language.label')}
               prefixIcon="translate"
-              style={tw`px-3 mx-3`}
+              style={tw`mx-3 px-3`}
               onPress={selectLanguage}>
-              <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
+              <AppText style={tw`text-right text-base font-normal text-amber-500`}>
                 {getLanguageLabel(
                   !chosenLanguage || chosenLanguage === SYSTEM_OPTION
                     ? SYSTEM_LANGUAGE
@@ -402,15 +402,15 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 )}
               </AppText>
             </ServiceRow>
-            <ThemePicker withBottomDivider style={tw`px-3 mx-3`} onPress={selectTheme} />
+            <ThemePicker withBottomDivider style={tw`mx-3 px-3`} onPress={selectTheme} />
             <ServiceRow
               withBottomDivider
               description={t('settings.home.upcomingEventsPeriod.hint')}
               label={t('settings.home.upcomingEventsPeriod.label')}
               prefixIcon="calendar-blank-multiple"
-              style={tw`px-3 mx-3`}
+              style={tw`mx-3 px-3`}
               onPress={selectUpcomingEventsPeriod}>
-              <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
+              <AppText style={tw`text-right text-base font-normal text-amber-500`}>
                 {upcomingEventsPeriodValue}
               </AppText>
             </ServiceRow>
@@ -421,7 +421,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                   label={t('devices.title')}
                   prefixIcon="devices"
                   selected={isWide && pathname.startsWith('/devices')}
-                  style={tw`px-3 mx-3`}
+                  style={tw`mx-3 px-3`}
                   suffixIcon="chevron-right"
                 />
               </Link>
@@ -432,7 +432,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 label={t('privacy.title')}
                 prefixIcon="shield-account-variant-outline"
                 selected={isWide && pathname.startsWith('/privacy')}
-                style={tw`px-3 mx-3`}
+                style={tw`mx-3 px-3`}
                 suffixIcon="chevron-right"
               />
             </Link>
@@ -441,7 +441,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 label={t('advanced.title')}
                 prefixIcon="cog-outline"
                 selected={isWide && pathname === '/advanced'}
-                style={tw`px-3 mx-3`}
+                style={tw`mx-3 px-3`}
                 suffixIcon="chevron-right"
               />
             </Link>
@@ -454,7 +454,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                   href={`${WORDPRESS_BASE_URL}/la-boutique/`}
                   label={t('settings.store.label')}
                   prefixIcon="cart-outline"
-                  style={tw`px-3 mx-3`}
+                  style={tw`mx-3 px-3`}
                 />
 
                 <ServiceRow
@@ -462,7 +462,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                   label={t('settings.onboarding.label')}
                   prefixIcon="handshake-outline"
                   selected={isWide && pathname === '/onboarding'}
-                  style={tw`px-3 mx-3`}
+                  style={tw`mx-3 px-3`}
                   suffixIcon="chevron-right"
                   onPress={onboard}
                 />
@@ -472,7 +472,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               withBottomDivider
               label={t('settings.socials.label')}
               prefixIcon="heart-outline"
-              style={tw`px-3 mx-3`}
+              style={tw`mx-3 px-3`}
               suffixIcon="chevron-right"
               onPress={socialise}
             />
@@ -480,7 +480,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               withBottomDivider
               label={t('settings.contact.title')}
               prefixIcon="chat-question-outline"
-              style={tw`px-3 mx-3`}
+              style={tw`mx-3 px-3`}
               suffixIcon="chevron-right"
               onPress={contact}
             />
@@ -488,16 +488,16 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               withBottomDivider
               label={t('settings.review.label')}
               prefixIcon="star-outline"
-              style={tw`px-3 mx-3`}
+              style={tw`mx-3 px-3`}
               suffixIcon="chevron-right"
               onPress={review}
             />
             <Link asChild href="/introduction">
               <ServiceRow
                 label={t('settings.introduction.label')}
-                prefix={<View style={tw`w-6 shrink-0 min-h-10`} />}
+                prefix={<View style={tw`min-h-10 w-6 shrink-0`} />}
                 selected={isWide && pathname === '/introduction'}
-                style={tw`px-3 mx-3`}
+                style={tw`mx-3 px-3`}
                 suffixIcon="chevron-right"
               />
             </Link>
@@ -516,7 +516,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
 
       <Animated.View
         style={[
-          tw`absolute top-0 left-0 right-0 z-10 flex flex-row pb-2`,
+          tw`absolute inset-x-0 top-0 z-10 flex flex-row pb-2`,
           {
             paddingTop: insets.top,
             paddingLeft: insets.left,

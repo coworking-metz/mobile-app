@@ -136,10 +136,12 @@ const PresenceGraph = ({
     <Animated.View
       entering={FadeIn.duration(300)}
       exiting={FadeOut.duration(300)}
-      style={tw`flex flex-row items-center justify-center min-h-[${HEIGHT_IN_PIXELS}px]`}>
+      style={tw.style(`flex flex-row items-center justify-center`, {
+        minHeight: HEIGHT_IN_PIXELS,
+      })}>
       <VerticalLoadingAnimation
         color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-        style={tw`h-16 w-16`}
+        style={tw`size-16`}
       />
     </Animated.View>
   ) : (
@@ -163,15 +165,15 @@ const PresenceGraph = ({
             end={{ x: 1, y: 0 }}
             start={{ x: 0.1, y: 0 }}
             style={[
-              tw`w-64 z-10 absolute left-0 bottom-3.5`,
+              tw`absolute bottom-3.5 left-0 z-10 w-64`,
               { height: (SQUARE_SIZE + SQUARE_GAP) * 7 - SQUARE_GAP },
             ]}>
-            <View style={tw`my-auto w-12 ml-9`}>
+            <View style={tw`my-auto ml-9 w-12`}>
               <AppIconButton icon="chevron-double-left" onPress={() => setAllDatesVisible(true)} />
             </View>
           </LinearGradient>
         ) : withDescription ? (
-          <View style={tw`flex flex-col self-center ml-6`}>
+          <View style={tw`ml-6 flex flex-col self-center`}>
             <Trans
               components={[
                 <AppText
@@ -183,10 +185,10 @@ const PresenceGraph = ({
                 count: activityCount,
               })}
               parent={AppText}
-              style={tw`text-left text-sm leading-6 font-normal text-slate-500 dark:text-neutral-500`}
+              style={tw`text-left text-sm font-normal leading-6 text-slate-500 dark:text-neutral-500`}
             />
             {firstActivityDate && (
-              <AppText style={tw`font-normal text-sm text-slate-500 dark:text-neutral-500`}>
+              <AppText style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
                 {t('settings.profile.presence.since', {
                   date: dayjs(firstActivityDate).format('ll'),
                 })}
@@ -226,7 +228,7 @@ const PresenceGraph = ({
 
         <View
           style={[
-            tw`flex flex-col items-center justify-end pb-3.5 gap-[1px] mr-6`,
+            tw`mr-6 flex flex-col items-center justify-end gap-px pb-3.5`,
             { height: HEIGHT_IN_PIXELS },
           ]}>
           {Array(7)

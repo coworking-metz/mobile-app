@@ -26,8 +26,8 @@ import AppText from '@/components/AppText';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 
-const STEPS = ['tour', 'trial', 'enroll'] as const;
-type Step = (typeof STEPS)[number];
+const _STEPS = ['tour', 'trial', 'enroll'] as const;
+type Step = (typeof _STEPS)[number];
 
 const OnboardingBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
   props,
@@ -53,17 +53,17 @@ const OnboardingBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
       onDidPresent={onPresent}
       {...props}
       style={tw`py-6`}>
-      <View style={tw`w-full h-64`}>
+      <View style={tw`h-64 w-full`}>
         {selectedStep.has('tour') ? (
           <Animated.View
             entering={FadeIn.duration(750)}
             exiting={FadeOut.duration(300)}
-            style={tw`w-full h-48 my-auto`}>
+            style={tw`my-auto h-48 w-full`}>
             <StickmanHandshakeAnimation
               loop
               autoPlay={!reduceMotion}
               progress={reduceMotion ? 1 : 0.5}
-              style={tw`w-full h-full`}
+              style={tw`size-full`}
             />
           </Animated.View>
         ) : null}
@@ -71,12 +71,12 @@ const OnboardingBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
           <Animated.View
             entering={FadeIn.duration(750)}
             exiting={FadeOut.duration(300)}
-            style={tw`w-full h-full`}>
+            style={tw`size-full`}>
             <DesktopWorkAnimation
               loop
               autoPlay={!reduceMotion}
               progress={reduceMotion ? 1 : 0.5}
-              style={tw`w-full h-full`}
+              style={tw`size-full`}
             />
           </Animated.View>
         ) : null}
@@ -84,11 +84,11 @@ const OnboardingBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
           <Animated.View
             entering={FadeInDown.duration(750)}
             exiting={FadeOut.duration(300)}
-            style={tw`w-full h-full my-auto`}>
+            style={tw`my-auto size-full`}>
             <EmailReceivedAnimation
               autoPlay={!reduceMotion}
               progress={reduceMotion ? 1 : 0.5}
-              style={tw`w-full h-full -scale-x-100`}
+              style={tw`size-full -scale-x-100`}
             />
           </Animated.View>
         ) : null}
@@ -100,7 +100,7 @@ const OnboardingBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
       </AppText>
       {authStore.user?.onboarding?.date ? (
         <AppText
-          style={tw`text-center mt-2 text-base font-normal text-slate-500 dark:text-neutral-500`}>
+          style={tw`mt-2 text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
           {dayjs(authStore.user.onboarding.date).format('LLLL')}
         </AppText>
       ) : null}
@@ -112,8 +112,8 @@ const OnboardingBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
         type="single"
         onChange={setSelectedStep}>
         <Accordion.Item value="tour">
-          <Accordion.Trigger style={tw`px-3 mx-3`}>
-            <View style={tw`flex flex-row items-center gap-2 min-h-14`}>
+          <Accordion.Trigger style={tw`mx-3 px-3`}>
+            <View style={tw`flex min-h-14 flex-row items-center gap-2`}>
               <AppIcon
                 color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
                 icon="numeric-1-circle-outline"
@@ -125,7 +125,7 @@ const OnboardingBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
             </View>
           </Accordion.Trigger>
           <Accordion.Content
-            style={tw`ml-9 mr-6 mb-2 pl-5 pb-1 border-l border-gray-300 dark:border-neutral-600`}>
+            style={tw`mb-2 ml-9 mr-6 border-l border-gray-300 pb-1 pl-5 dark:border-neutral-600`}>
             <Trans
               components={[
                 <AppText
@@ -147,8 +147,8 @@ const OnboardingBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
         </Accordion.Item>
 
         <Accordion.Item value="trial">
-          <Accordion.Trigger style={tw`px-3 mx-3`}>
-            <View style={tw`flex flex-row items-center gap-2 min-h-14`}>
+          <Accordion.Trigger style={tw`mx-3 px-3`}>
+            <View style={tw`flex min-h-14 flex-row items-center gap-2`}>
               <AppIcon
                 color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
                 icon="numeric-2-circle-outline"
@@ -160,7 +160,7 @@ const OnboardingBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
             </View>
           </Accordion.Trigger>
           <Accordion.Content
-            style={tw`ml-9 mr-6 mb-2 pl-5 pb-1 border-l border-gray-300 dark:border-neutral-600`}>
+            style={tw`mb-2 ml-9 mr-6 border-l border-gray-300 pb-1 pl-5 dark:border-neutral-600`}>
             <Trans
               components={[
                 <AppText
@@ -177,8 +177,8 @@ const OnboardingBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
         </Accordion.Item>
 
         <Accordion.Item value="enroll">
-          <Accordion.Trigger style={tw`px-3 mx-3`}>
-            <View style={tw`flex flex-row items-center gap-2 min-h-14`}>
+          <Accordion.Trigger style={tw`mx-3 px-3`}>
+            <View style={tw`flex min-h-14 flex-row items-center gap-2`}>
               <AppIcon
                 color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
                 icon="numeric-3-circle-outline"
@@ -190,7 +190,7 @@ const OnboardingBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
             </View>
           </Accordion.Trigger>
           <Accordion.Content
-            style={tw`ml-9 mr-6 mb-2 pl-5 pb-1 border-l border-gray-300 dark:border-neutral-600`}>
+            style={tw`mb-2 ml-9 mr-6 border-l border-gray-300 pb-1 pl-5 dark:border-neutral-600`}>
             <Trans
               components={[
                 <AppText

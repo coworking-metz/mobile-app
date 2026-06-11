@@ -20,17 +20,17 @@ const PermissionsBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBot
   return (
     <AppBottomSheet
       ref={forwardedRef}
-      style={[tw`flex flex-col w-full p-6`, style]}
+      style={[tw`flex w-full flex-col p-6`, style]}
       onClose={onClose}>
-      <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
-        <ToggleSwitchAnimation style={tw`-my-12 h-80 w-99`} />
+      <View style={tw`flex h-40 items-center justify-center overflow-visible`}>
+        <ToggleSwitchAnimation style={tw`-my-12 h-80 w-96`} />
       </View>
       <AppText
-        style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
+        style={tw`mt-4 text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('privacy.permissions.ask.title')}
       </AppText>
       <AppText
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full mt-4`}>
+        style={tw`mt-4 w-full text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('privacy.permissions.ask.description')}
       </AppText>
       <AppRoundedButton

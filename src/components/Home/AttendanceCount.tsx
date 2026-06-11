@@ -91,30 +91,30 @@ const AttendanceCount = ({
   }, [t, currentMembers?.length, currentMembersUpdatedAt]);
 
   return (
-    <View style={[tw`flex flex-col justify-end h-32 w-full`, style]}>
-      <View style={tw`flex flex-row w-full items-end`}>
+    <View style={[tw`flex h-32 w-full flex-col justify-end`, style]}>
+      <View style={tw`flex w-full flex-row items-end`}>
         <View style={tw`relative`}>
           <NumberFlow
             format={{ style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 }}
             locales={[i18n.language]}
-            style={tw`text-8xl leading-[7rem] android:leading-[7.5rem] font-bold text-slate-900 dark:text-gray-200`}
+            style={tw`android:leading-[7.5rem] text-8xl font-bold leading-[7rem] text-slate-900 dark:text-gray-200`}
             value={currentMembers?.length ?? 0}
           />
 
           <View style={tw`absolute inset-x-0 inset-y-4 z-10`}>
             <LoadingSkeleton radius={16} show={isPendingCurrentMembers}>
-              <View style={tw`h-full w-full`} />
+              <View style={tw`size-full`} />
             </LoadingSkeleton>
           </View>
         </View>
         <AppText
-          style={tw`mb-4 android:mb-6 text-5xl leading-[3.5rem] font-normal text-slate-500 dark:text-neutral-500 android:min-w-28`}>
+          style={tw`android:mb-6 android:min-w-28 mb-4 text-5xl font-normal leading-[3.5rem] text-slate-500 dark:text-neutral-500`}>
           {t('home.people.capacity', { total: TOTAL_CAPACITY })}
         </AppText>
         {currentMembersError && !isSilentError(currentMembersError) && !isFetchingCurrentMembers ? (
           <ErrorBadge
             error={currentMembersError}
-            style={tw`ml-3 ios:mb-6 android:mb-8`}
+            style={tw`ios:mb-6 android:mb-8 ml-3`}
             title={t('home.people.onFetch.fail')}
             onRetry={refetchCurrentMembers}
           />
@@ -123,7 +123,7 @@ const AttendanceCount = ({
 
       <Link asChild href="/attendance">
         <AppPressable>
-          <View style={tw`flex flex-row items-center min-h-8 gap-1`}>
+          <View style={tw`flex min-h-8 flex-row items-center gap-1`}>
             {isPendingCurrentMembers ? (
               <Animated.View exiting={FadeOut.duration(150)}>
                 <LoadingSkeleton height={24} width={172} />
@@ -141,8 +141,8 @@ const AttendanceCount = ({
             )}
 
             {otherMembers.length ? (
-              <Animated.View style={tw`shrink-0 ml-auto`}>
-                <View style={tw`flex flex-row items-center pl-4 grow h-8`}>
+              <Animated.View style={tw`ml-auto shrink-0`}>
+                <View style={tw`flex h-8 grow flex-row items-center pl-4`}>
                   {otherMembers
                     .slice(
                       0,
@@ -155,12 +155,12 @@ const AttendanceCount = ({
                         entering={FadeInRight.duration(750).delay(100 * index)}
                         exiting={FadeOutRight.duration(500).delay(100 * index)}
                         key={`member-${member.picture}-${index}`}
-                        style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-0.5 rounded-full h-10 w-10 -ml-4`}>
+                        style={tw`-ml-4 flex size-10 shrink-0 items-center justify-center rounded-full bg-gray-100 p-0.5 dark:bg-black`}>
                         <ProfilePicture
                           initialsStyle={tw`text-sm font-semibold`}
                           name={[member.firstName, member.lastName].filter(Boolean).join(' ')}
                           pictureStyle={tw`rounded-full`}
-                          style={tw`h-full w-full`}
+                          style={tw`size-full`}
                           url={member.picture}
                         />
                       </Animated.View>
@@ -169,9 +169,9 @@ const AttendanceCount = ({
                     <Animated.View
                       entering={FadeInRight.duration(750).delay(500)}
                       exiting={FadeOutRight.duration(500).delay(500)}
-                      style={tw`flex items-center justify-center shrink-0 bg-gray-100 dark:bg-black p-1 rounded-full h-10 w-10 -ml-4`}>
+                      style={tw`-ml-4 flex size-10 shrink-0 items-center justify-center rounded-full bg-gray-100 p-1 dark:bg-black`}>
                       <View
-                        style={tw`h-8 w-8 flex justify-center items-center rounded-full bg-gray-200 dark:bg-zinc-900`}>
+                        style={tw`flex size-8 items-center justify-center rounded-full bg-gray-200 dark:bg-zinc-900`}>
                         <ReanimatedText
                           numberOfLines={1}
                           style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}

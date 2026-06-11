@@ -39,30 +39,30 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
     <TouchableHighlight
       ref={ref as never}
       disabled={disabled || pending || !onPress}
-      style={[tw`flex flex-col p-2 rounded-xl`, style]}
+      style={[tw`flex flex-col rounded-xl p-2`, style]}
       underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
       onPress={onPress}>
-      <Animated.View style={[tw`flex flex-row items-start gap-3 w-full`]}>
+      <Animated.View style={[tw`flex w-full flex-row items-start gap-3`]}>
         {member ? (
           <>
             <ProfilePicture
               loading={loading}
               name={[member.firstName, member.lastName].join(' ')}
               pending={pending}
-              style={tw`h-12 w-12`}
+              style={tw`size-12`}
               url={member.picture}>
               {member.attending && (
                 <Animated.View
                   exiting={BounceOut.duration(1000)}
-                  style={tw`z-10 h-5 w-5 bg-gray-50 dark:bg-zinc-900 rounded-full absolute flex items-center justify-center -bottom-0.5 -right-0.5`}>
-                  <View style={tw`h-3 w-3 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
+                  style={tw`absolute -bottom-0.5 -right-0.5 z-10 flex size-5 items-center justify-center rounded-full bg-gray-50 dark:bg-zinc-900`}>
+                  <View style={tw`size-3 rounded-full bg-emerald-600 dark:bg-emerald-700`} />
                 </Animated.View>
               )}
             </ProfilePicture>
 
             <View
-              style={tw`flex flex-col items-start justify-center min-h-12 self-stretch shrink grow basis-0`}>
-              <View style={tw`flex flex-row flex-wrap gap-x-1 items-center`}>
+              style={tw`flex min-h-12 shrink grow basis-0 flex-col items-start justify-center self-stretch`}>
+              <View style={tw`flex flex-row flex-wrap items-center gap-x-1`}>
                 <AppText
                   numberOfLines={1}
                   style={tw`text-base font-semibold text-gray-900 dark:text-gray-200`}>
@@ -85,10 +85,10 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
               )}
               {isMembershipNonCompliant(member) && (
                 <View style={tw`mt-1 flex flex-row items-center justify-end gap-1.5`}>
-                  <View style={tw`h-2 w-2 bg-red-600 dark:bg-red-700 rounded-full`} />
+                  <View style={tw`size-2 rounded-full bg-red-600 dark:bg-red-700`} />
                   <AppText
                     numberOfLines={1}
-                    style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500 grow`}>
+                    style={tw`grow text-sm font-normal text-slate-500 dark:text-neutral-500`}>
                     {member.lastMembership
                       ? t(`attendance.members.membership.last`, { year: member.lastMembership })
                       : t(`attendance.members.membership.none`)}
@@ -97,10 +97,10 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
               )}
               {isMemberBalanceInsufficient(member) && (
                 <View style={tw`mt-1 flex flex-row items-center justify-end gap-1.5`}>
-                  <View style={tw`h-2 w-2 bg-red-600 dark:bg-red-700 rounded-full`} />
+                  <View style={tw`size-2 rounded-full bg-red-600 dark:bg-red-700`} />
                   <AppText
                     numberOfLines={1}
-                    style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500 grow`}>
+                    style={tw`grow text-sm font-normal text-slate-500 dark:text-neutral-500`}>
                     {t('attendance.members.debt.ticket', {
                       count: Math.abs(member.balance),
                     })}
@@ -113,10 +113,10 @@ const MemberCard: ForwardRefRenderFunction<typeof TouchableHighlight, MemberCard
         ) : (
           pending && (
             <>
-              <View style={tw`h-12 w-12 rounded-full overflow-hidden`}>
+              <View style={tw`size-12 overflow-hidden rounded-full`}>
                 <LoadingSkeleton height={`100%`} width={`100%`} />
               </View>
-              <View style={tw`flex flex-col items-start justify-center min-h-12 self-stretch`}>
+              <View style={tw`flex min-h-12 flex-col items-start justify-center self-stretch`}>
                 <LoadingSkeleton height={24} width={128} />
               </View>
             </>

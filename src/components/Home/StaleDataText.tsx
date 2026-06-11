@@ -51,7 +51,7 @@ const StaleDataText = ({
       <Animated.View
         entering={FadeInUp.duration(300)}
         exiting={FadeOutUp.duration(300)}
-        style={tw`flex flex-col items-start gap-1 shrink grow basis-0`}>
+        style={tw`flex shrink grow basis-0 flex-col items-start gap-1`}>
         <AppShimmerText
           active={loading}
           numberOfLines={1}
@@ -63,7 +63,7 @@ const StaleDataText = ({
           )}
         </AppShimmerText>
         <TouchableOpacity style={tw`flex flex-row items-center gap-1`} onPress={onRefresh}>
-          <AppText style={tw`text-sm font-normal leading-5 grow-0 text-amber-500`}>
+          <AppText style={tw`grow-0 text-sm font-normal leading-5 text-amber-500`}>
             {t('home.refresh.label')}
           </AppText>
           <MaterialCommunityIcons

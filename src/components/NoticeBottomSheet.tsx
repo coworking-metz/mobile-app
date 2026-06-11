@@ -34,13 +34,13 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
   const getAnimation = (type?: NoticeType) => {
     switch (type) {
       case 'error':
-        return <ErrorAnimation style={tw`h-full w-full`} />;
+        return <ErrorAnimation style={tw`size-full`} />;
       case 'warning':
-        return <WarningAnimation style={tw`h-full w-full`} />;
+        return <WarningAnimation style={tw`size-full`} />;
       case 'success':
-        return <SuccessAnimation style={tw`h-full w-full`} />;
+        return <SuccessAnimation style={tw`size-full`} />;
       case 'info':
-        return <InfoAnimation style={tw`h-full w-full`} />;
+        return <InfoAnimation style={tw`size-full`} />;
       default:
         return <></>;
     }
@@ -69,10 +69,10 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
       style={[tw`p-6`, style]}
       onClose={onClose}
       onDidPresent={onPresent}>
-      <View style={tw`flex flex-col h-32 w-32 items-center justify-center mx-auto`}>
+      <View style={tw`mx-auto flex size-32 flex-col items-center justify-center`}>
         {getAnimation(notice.type)}
       </View>
-      <View style={tw`flex flex-col items-center grow self-stretch mt-4`}>
+      <View style={tw`mt-4 flex grow flex-col items-center self-stretch`}>
         <AppText
           style={tw`text-center text-2xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {notice.message}
@@ -83,15 +83,15 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
               horizontal
               persistentScrollbar
               contentContainerStyle={tw``}
-              style={tw`mt-4 bg-gray-200 dark:bg-black rounded-2xl py-2 px-4`}>
+              style={tw`mt-4 rounded-2xl bg-gray-200 px-4 py-2 dark:bg-black`}>
               <AppText
-                style={tw`text-sm text-left font-mono whitespace-pre text-slate-500 dark:text-neutral-500`}>
+                style={tw`whitespace-pre text-left font-mono text-sm text-slate-500 dark:text-neutral-500`}>
                 {notice.description.trim()}
               </AppText>
             </ScrollView>
           ) : (
             <AppText
-              style={tw`mt-2 text-base text-center font-normal text-slate-500 dark:text-neutral-500`}>
+              style={tw`mt-2 text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {notice.description}
             </AppText>
           )

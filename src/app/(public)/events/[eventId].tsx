@@ -103,11 +103,11 @@ export default function CalendarEventPage() {
   const eventIcon = useMemo(() => {
     switch (event?.calendar) {
       case 'AMOUR_FOOD':
-        return <AmourFoodIcon style={tw`h-6 w-6 self-center rounded-md`} />;
+        return <AmourFoodIcon style={tw`size-6 self-center rounded-md`} />;
       case 'COWORKING':
-        return <CoworkingIcon style={tw`h-6 w-6 self-center rounded-md`} />;
+        return <CoworkingIcon style={tw`size-6 self-center rounded-md`} />;
       case 'BLIIIDA':
-        return <BliiidaIcon style={tw`h-6 w-6 self-center rounded-md`} />;
+        return <BliiidaIcon style={tw`size-6 self-center rounded-md`} />;
     }
     return null;
   }, [event]);
@@ -142,12 +142,12 @@ export default function CalendarEventPage() {
   }, [event]);
 
   return (
-    <View style={[tw`flex-1 bg-gray-50 dark:bg-zinc-900 relative`]}>
+    <View style={[tw`relative flex-1 bg-gray-50 dark:bg-zinc-900`]}>
       <BlurTargetView ref={blurTargetRef} style={tw`flex-1`}>
         <View style={[tw`absolute inset-0 flex flex-col items-stretch`]}>
           <Animated.View
             style={[
-              tw`relative flex flex-col justify-end h-64 max-h-1/3 w-full`,
+              tw`relative flex h-64 max-h-[33%] w-full flex-col justify-end`,
               !event?.pictures.length && { height: navigationHeight },
             ]}
             onLayout={({ nativeEvent }: LayoutChangeEvent) =>
@@ -159,7 +159,7 @@ export default function CalendarEventPage() {
                   contentFit="cover"
                   source={firstPicture}
                   sources={event?.pictures}
-                  style={tw`h-full w-full bg-gray-300 dark:bg-zinc-700 `}
+                  style={tw`size-full bg-gray-300 dark:bg-zinc-700 `}
                   transition={300}
                   zoomed={isGalleryVisible}
                   onZoomChange={(zoomed) => setGalleryVisible(zoomed)}>
@@ -167,14 +167,14 @@ export default function CalendarEventPage() {
                     <>
                       <View
                         style={[
-                          tw`absolute bottom-4 right-3 bg-black border border-transparent h-6 w-6 rounded-md`,
+                          tw`absolute bottom-4 right-3 size-6 rounded-md border border-transparent bg-black`,
                         ]}
                       />
                       <View
                         style={[
-                          tw`absolute bottom-3.5 right-3.5 flex items-center justify-center bg-black border border-gray-600 h-6 w-6 rounded-md`,
+                          tw`absolute bottom-3.5 right-3.5 flex size-6 items-center justify-center rounded-md border border-gray-600 bg-black`,
                         ]}>
-                        <AppText style={tw`text-xs text-gray-200 font-medium`}>
+                        <AppText style={tw`text-xs font-medium text-gray-200`}>
                           {event.pictures.length}
                         </AppText>
                       </View>
@@ -199,7 +199,7 @@ export default function CalendarEventPage() {
 
         {/* body */}
         <AnimatedKeyboardAwareScrollView
-          contentContainerStyle={[tw`flex flex-col min-h-full`]}
+          contentContainerStyle={[tw`flex min-h-full flex-col`]}
           horizontal={false}
           keyboardShouldPersistTaps="handled"
           refreshControl={
@@ -218,7 +218,7 @@ export default function CalendarEventPage() {
             <TouchableNativeFeedback onPress={() => setGalleryVisible(true)}>
               <Animated.View
                 style={[
-                  tw`flex flex-col items-end self-center w-full relative`,
+                  tw`relative flex w-full flex-col items-end self-center`,
                   { height: headerHeight },
                 ]}
               />
@@ -226,32 +226,32 @@ export default function CalendarEventPage() {
           }
           <View
             style={[
-              tw`flex flex-col w-full grow bg-gray-50 dark:bg-zinc-900 relative`,
+              tw`relative flex w-full grow flex-col bg-gray-50 dark:bg-zinc-900`,
               {
                 paddingLeft: insets.left,
                 paddingRight: insets.right,
                 paddingBottom: actionHeight || paddingBottom,
               },
             ]}>
-            <View style={tw`w-full max-w-xl mx-auto grow`}>
+            <View style={tw`mx-auto w-full max-w-xl grow`}>
               {event ? (
                 <>
                   {event.title ? (
                     <Animated.View
                       entering={FadeInLeft.duration(500)}
-                      style={[tw`mx-6`, !!event?.pictures.length && tw`mt-6 mb-4`]}>
+                      style={[tw`mx-6`, !!event?.pictures.length && tw`mb-4 mt-6`]}>
                       <ReadMore
                         numberOfLines={2}
                         renderRevealedFooter={(handlePress) => (
                           <AppText
-                            style={tw`text-base font-normal text-amber-500 text-left`}
+                            style={tw`text-left text-base font-normal text-amber-500`}
                             onPress={handlePress}>
                             {t('actions.hide')}
                           </AppText>
                         )}
                         renderTruncatedFooter={(handlePress) => (
                           <AppText
-                            style={tw`text-base font-normal text-amber-500 text-left`}
+                            style={tw`text-left text-base font-normal text-amber-500`}
                             onPress={handlePress}>
                             {t('actions.readMore')}
                           </AppText>
@@ -317,18 +317,18 @@ export default function CalendarEventPage() {
                     />
                   ) : null}
                   {event.description ? (
-                    <View style={[tw`mt-3 mx-6`, !!actionHeight && tw`mb-6`]}>
+                    <View style={[tw`mx-6 mt-3`, !!actionHeight && tw`mb-6`]}>
                       <MarkdownRenderer content={event.description} />
                     </View>
                   ) : (
-                    <Animated.View style={tw`flex flex-col items-center mx-6`}>
+                    <Animated.View style={tw`mx-6 flex flex-col items-center`}>
                       <HandwrittenParchmentAnimation autoPlay loop style={tw`h-64 w-full`} />
                       <AppText
-                        style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                        style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
                         {t('events.detail.description.empty.title')}
                       </AppText>
                       <AppText
-                        style={tw`text-base text-center font-normal text-slate-500 dark:text-neutral-500 mt-3`}>
+                        style={tw`mt-3 text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
                         {t('events.detail.description.empty.description')}
                       </AppText>
                     </Animated.View>
@@ -336,18 +336,18 @@ export default function CalendarEventPage() {
                 </>
               ) : isPendingCalendarEvents ? (
                 <View
-                  style={tw`h-8 m-4 w-64 overflow-hidden rounded-2xl bg-gray-200 dark:bg-zinc-900`}>
+                  style={tw`m-4 h-8 w-64 overflow-hidden rounded-2xl bg-gray-200 dark:bg-zinc-900`}>
                   <LoadingSkeleton height={`100%`} width={`100%`} />
                 </View>
               ) : calendarEventsError && !isSilentError(calendarEventsError) ? (
                 <ErrorState error={calendarEventsError} title={t('home.calendar.onFetch.fail')} />
               ) : (
                 <>
-                  <View style={tw`flex flex-col items-center justify-end px-4 grow basis-0`}>
+                  <View style={tw`flex grow basis-0 flex-col items-center justify-end px-4`}>
                     <TumbleweedRollingAnimation style={tw`h-56 w-full max-w-xs`} />
                   </View>
                   <View
-                    style={tw`flex flex-col items-center justify-start px-4 gap-2 grow basis-0 max-w-sm mx-auto`}>
+                    style={tw`mx-auto flex max-w-sm grow basis-0 flex-col items-center justify-start gap-2 px-4`}>
                     <AppText
                       entering={FadeInLeft.duration(500)}
                       numberOfLines={1}
@@ -357,7 +357,7 @@ export default function CalendarEventPage() {
                     <AppText
                       entering={FadeInLeft.duration(500).delay(150)}
                       numberOfLines={2}
-                      style={tw`text-base font-normal text-center text-slate-500 dark:text-neutral-500`}>
+                      style={tw`text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
                       {t('notFound.description')}
                     </AppText>
                   </View>
@@ -370,7 +370,7 @@ export default function CalendarEventPage() {
         {/* footer */}
         {firstUrl && (
           <View
-            style={[tw`flex flex-col absolute bottom-0 px-6 w-full`, { paddingBottom }]}
+            style={[tw`absolute bottom-0 flex w-full flex-col px-6`, { paddingBottom }]}
             onLayout={({ nativeEvent }: LayoutChangeEvent) =>
               setActionHeight(nativeEvent.layout.height)
             }>
@@ -397,7 +397,7 @@ export default function CalendarEventPage() {
       {!withoutBackButton && (
         <Animated.View
           style={[
-            tw`absolute top-0 left-0 right-0 z-10`,
+            tw`absolute inset-x-0 top-0 z-10`,
             {
               paddingTop: insets.top,
               paddingLeft: insets.left,

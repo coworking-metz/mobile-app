@@ -18,10 +18,10 @@ export const SelectableChip = ({
     <TouchableOpacity onPress={onPress}>
       <View
         style={[
-          tw`flex flex-row items-center justify-center px-4 py-2 rounded-full border-[1px]`,
+          tw`flex flex-row items-center justify-center rounded-full border px-4 py-2`,
           selected
-            ? tw`bg-amber-50 border-amber-700 dark:bg-amber-950 dark:border-amber-500`
-            : tw`bg-gray-200 dark:bg-zinc-800/80 border-transparent`,
+            ? tw`border-amber-700 bg-amber-50 dark:border-amber-500 dark:bg-amber-950`
+            : tw`border-transparent bg-gray-200 dark:bg-zinc-800/80`,
         ]}>
         <AppText
           style={[

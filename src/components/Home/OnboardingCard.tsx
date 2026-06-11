@@ -41,7 +41,7 @@ const OnboardingCard = ({
 
   return (
     <AppSquircleView
-      style={[tw`flex flex-row items-stretch rounded-2xl overflow-hidden relative -m-1`]}
+      style={[tw`relative -m-1 flex flex-row items-stretch overflow-hidden rounded-2xl`]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => {
         setHeight(nativeEvent.layout.height);
         setWidth(nativeEvent.layout.width);
@@ -50,14 +50,14 @@ const OnboardingCard = ({
         <AppGlowingBorder
           backgroundColor={tw.prefixMatch('dark') ? '#141417' : '#DEE2E5'}
           height={height}
-          style={tw`absolute top-0 left-0`}
+          style={tw`absolute left-0 top-0`}
           width={width}
         />
       )}
 
       <AppSquircleView
         style={[
-          tw`flex flex-col items-start gap-1 bg-[#DEE2E5] dark:bg-[#141417] rounded-2xl px-3 pt-2 pb-4 m-1`,
+          tw`m-1 flex flex-col items-start gap-1 rounded-2xl bg-[#DEE2E5] px-3 pb-4 pt-2 dark:bg-[#141417]`,
           style,
         ]}>
         <AppIcon
@@ -69,7 +69,7 @@ const OnboardingCard = ({
         <AppText
           ellipsizeMode={'clip'}
           numberOfLines={1}
-          style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 grow`}>
+          style={tw`grow text-base font-normal text-slate-500 dark:text-neutral-500`}>
           {t('home.onboarding.title')}
         </AppText>
         <Trans

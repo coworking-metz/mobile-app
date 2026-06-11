@@ -54,7 +54,7 @@ const ToastBackgroundWithProgress = ({ duration, color }: ToastProgressBarProps)
 
   return (
     <View
-      style={tw`absolute inset-0 bg-neutral-900 rounded-2xl dark:bg-neutral-950 dark:border-zinc-700 dark:border`}>
+      style={tw`absolute inset-0 rounded-2xl bg-neutral-900 dark:border dark:border-zinc-700 dark:bg-neutral-950`}>
       <View pointerEvents="none" style={tw`absolute inset-x-0 top-0 h-1`}>
         <Animated.View
           style={[
@@ -98,7 +98,7 @@ const ToastMessages = () => {
             size={20}
           />
         ),
-        style: tw`sm:w-full sm:max-w-sm sm:mx-auto`,
+        style: tw`sm:mx-auto sm:w-full sm:max-w-sm`,
         closeButton: true,
         duration: notification.timeout ?? Infinity,
         ...(isTemporary && {

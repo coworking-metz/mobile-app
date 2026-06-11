@@ -71,7 +71,11 @@ const Introduction = () => {
   ];
 
   const onClose = useCallback(() => {
-    router.canDismiss() ? router.dismiss() : router.replace('/home');
+    if (router.canDismiss()) {
+      router.dismiss();
+    } else {
+      router.replace('/home');
+    }
   }, [router]);
 
   const onNext = useCallback(() => {
@@ -114,10 +118,10 @@ const Introduction = () => {
       ]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>
       {layoutWidth ? (
-        <BlurTargetView ref={blurTargetRef} style={tw`relative h-full flex grow flex-col`}>
+        <BlurTargetView ref={blurTargetRef} style={tw`relative flex h-full grow flex-col`}>
           <View
             style={[
-              tw`absolute top-0 z-10 flex flex-row items-center w-full justify-between px-4`,
+              tw`absolute top-0 z-10 flex w-full flex-row items-center justify-between px-4`,
               {
                 paddingTop: insets.top,
                 left: insets.left,
@@ -177,7 +181,7 @@ const Introduction = () => {
 
           <Animated.View
             entering={FadeInDown.duration(500).delay(1000)}
-            style={[tw`flex flex-col absolute bottom-0 px-6 w-full`, { paddingBottom }]}
+            style={[tw`absolute bottom-0 flex w-full flex-col px-6`, { paddingBottom }]}
             onLayout={({ nativeEvent }: LayoutChangeEvent) =>
               setActionHeight(nativeEvent.layout.height)
             }>

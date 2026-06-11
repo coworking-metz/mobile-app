@@ -66,7 +66,7 @@ const IntroductionEventsStep = ({
     <>
       <View
         style={tw.style(
-          `flex flex-col justify-end items-center self-center overflow-visible relative w-[640px] `,
+          `relative flex w-[640px] flex-col items-center justify-end self-center overflow-visible `,
           !isNil(containerHeight) && {
             height: containerHeight / 2,
           },
@@ -83,7 +83,7 @@ const IntroductionEventsStep = ({
           loop={false}
           progress={reduceMotion ? 1 : 0}
           speed={speed}
-          style={tw`w-full max-h-80 h-full -mb-16`}
+          style={tw`-mb-16 size-full max-h-80`}
           onAnimationFinish={onAnimationFinish}
         />
         <AppFader
@@ -94,9 +94,9 @@ const IntroductionEventsStep = ({
         />
       </View>
 
-      <View style={tw.style(`mt-4 flex flex-col self-stretch justify-start`)}>
+      <View style={tw.style(`mt-4 flex flex-col justify-start self-stretch`)}>
         <AppText
-          style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
+          style={tw`mx-6 text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('introduction.events.title')}
         </AppText>
         <Trans
@@ -105,14 +105,14 @@ const IntroductionEventsStep = ({
           ]}
           defaults={t('introduction.events.description')}
           parent={AppText}
-          style={tw`mt-4 mx-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
+          style={tw`mx-6 mt-4 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
         />
       </View>
 
       <ServiceRow
         label={t('introduction.events.enableNotifications')}
         prefixIcon="bell-outline"
-        style={tw`px-3 mx-3`}>
+        style={tw`mx-3 px-3`}>
         <Switch
           value={pushNotificationsEnabled}
           onColor={theme.meatBrown}

@@ -57,16 +57,16 @@ const BirthdayBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottom
   return (
     <AppBottomSheet ref={forwardedRef} style={style} onClose={onClose}>
       <Confetti autoplay isInfinite={false} onAnimationStart={onConfettiStart} />
-      <View style={tw`mt-6 flex items-center justify-center h-40 overflow-visible`}>
-        <BirthdayCakeAnimation style={tw`h-72 -mb-6 w-full`} />
+      <View style={tw`mt-6 flex h-40 items-center justify-center overflow-visible`}>
+        <BirthdayCakeAnimation style={tw`-mb-6 h-72 w-full`} />
       </View>
       <View style={[tw`flex flex-col px-6`]}>
         <AppText
-          style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
+          style={tw`mt-4 text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('home.profile.birthday.title')}
         </AppText>
         <AppText
-          style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full mt-4`}>
+          style={tw`mt-4 w-full text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
           {t('home.profile.birthday.description')}
         </AppText>
         <AppRoundedButton

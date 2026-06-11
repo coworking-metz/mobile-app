@@ -54,8 +54,8 @@ const WifiBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomShee
       ref={forwardedRef}
       style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
-      <View style={tw`flex items-center justify-center h-40 overflow-visible mb-2`}>
-        <WifiNetworkAnimation autoPlay loop={false} style={tw`w-full h-full`} />
+      <View style={tw`mb-2 flex h-40 items-center justify-center overflow-visible`}>
+        <WifiNetworkAnimation autoPlay loop={false} style={tw`size-full`} />
       </View>
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
@@ -79,23 +79,23 @@ const WifiBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomShee
         ]}
         defaults={t('onPremise.wifi.description')}
         parent={AppText}
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6`}
+        style={tw`mt-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
       />
 
       {ssid || password ? (
-        <Animated.View entering={FadeIn.delay(100)} style={tw`mt-3 mb-3 flex flex-col`}>
+        <Animated.View entering={FadeIn.delay(100)} style={tw`my-3 flex flex-col`}>
           <SectionTitle title={t('onPremise.wifi.credentials.ssid.label')} />
-          <AppText style={tw`text-left text-slate-900 dark:text-gray-200 text-2xl font-bold`}>
+          <AppText style={tw`text-left text-2xl font-bold text-slate-900 dark:text-gray-200`}>
             {ssid && <RandomReveal isPlaying characters={ssid} duration={2} />}
           </AppText>
 
           <SectionTitle style={tw`mt-3`} title={t('onPremise.wifi.credentials.password.label')} />
-          <AppText style={tw`text-left text-slate-900 dark:text-gray-200 text-2xl font-bold`}>
+          <AppText style={tw`text-left text-2xl font-bold text-slate-900 dark:text-gray-200`}>
             {password && <RandomReveal isPlaying characters={password} duration={2} />}
           </AppText>
         </Animated.View>
       ) : (
-        <Animated.View exiting={FadeOutDown} style={tw`w-full mt-2`}>
+        <Animated.View exiting={FadeOutDown} style={tw`mt-2 w-full`}>
           <AppRoundedButton
             disabled={!user?.capabilities?.includes('WIFI_CREDENTIALS_ACCESS')}
             label={t('onPremise.wifi.credentials.fetch')}
@@ -107,16 +107,16 @@ const WifiBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomShee
       )}
 
       {!user?.capabilities?.includes('WIFI_CREDENTIALS_ACCESS') && (
-        <View style={tw`flex flex-row items-start flex-gap-2 mt-3 overflow-hidden`}>
+        <View style={tw`mt-3 flex flex-row items-start gap-2 overflow-hidden`}>
           <MaterialCommunityIcons
             color={tw.color('yellow-500')}
-            iconStyle={tw`h-6 w-6 mr-0`}
+            iconStyle={tw`mr-0 size-6`}
             name="alert"
             size={24}
             style={tw`shrink-0 grow-0`}
           />
           <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
+            style={tw`shrink grow basis-0 text-base font-normal text-slate-500 dark:text-neutral-500`}>
             {t('onPremise.wifi.credentials.missingCapability')}
           </AppText>
         </View>

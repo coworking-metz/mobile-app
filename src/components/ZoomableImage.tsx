@@ -77,7 +77,7 @@ const ZoomableImage = ({
         {...(Platform.OS === 'android' && { navigationBarTranslucent: true })}>
         {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
         <StatusBar translucent style="light" />
-        <BlurTargetView ref={blurTargetRef} style={tw`flex flex-col h-full w-full bg-black`}>
+        <BlurTargetView ref={blurTargetRef} style={tw`flex size-full flex-col bg-black`}>
           <Gallery
             data={sources ?? [source]}
             renderItem={({ item, setImageDimensions }) => (
@@ -89,7 +89,7 @@ const ZoomableImage = ({
                   uri: item,
                   cacheKey: `${item}-${dayjs().format('YYYY-MM-DD')}`,
                 }}
-                style={tw`h-full w-full`}
+                style={tw`size-full`}
                 onLoad={(event) => {
                   setImageDimensions({
                     width: event.source.width,
@@ -110,7 +110,7 @@ const ZoomableImage = ({
 
         <View
           style={[
-            tw`absolute top-0 z-10 flex flex-row items-center justify-start w-full px-4 pb-2`,
+            tw`absolute top-0 z-10 flex w-full flex-row items-center justify-start px-4 pb-2`,
             {
               paddingTop: insets.top,
               left: insets.left,

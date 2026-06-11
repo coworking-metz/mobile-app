@@ -38,8 +38,8 @@ const ThemeBottomSheet: ForwardRefRenderFunction<
 
   return (
     <AppBottomSheet ref={forwardedRef} style={[tw`flex flex-col gap-0.5 py-6`, style]} {...props}>
-      <DarklightModeAnimation mode={animationTheme} style={tw`w-full h-28 mt-5`} />
-      <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium my-5`}>
+      <DarklightModeAnimation mode={animationTheme} style={tw`mt-5 h-28 w-full`} />
+      <AppText style={tw`my-5 text-center text-xl font-medium text-slate-900 dark:text-gray-200`}>
         {t('settings.theme.label')}
       </AppText>
       {supportedThemes.map((theme) => (
@@ -53,7 +53,7 @@ const ThemeBottomSheet: ForwardRefRenderFunction<
           key={`language-option-${theme.code}`}
           label={theme.label}
           selected={chosenTheme === theme.code}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           suffixIcon={chosenTheme === theme.code ? 'check' : null}
           onPress={() => onThemePicked(theme.code)}
         />

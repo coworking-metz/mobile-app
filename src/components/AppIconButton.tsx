@@ -68,7 +68,7 @@ const AppIconButton: ForwardRefRenderFunction<AppPressableRef, AppIconButtonProp
       ref={ref}
       activeOpacity={isLiquidGlassSupported ? 1 : 0.5}
       disabled={disabled}
-      style={[tw`h-10 w-10`, style]}
+      style={[tw`size-10`, style]}
       {...(!disabled && { onPress })}>
       <AppGlassView
         interactive
@@ -76,8 +76,8 @@ const AppIconButton: ForwardRefRenderFunction<AppPressableRef, AppIconButtonProp
         colorScheme={theme}
         radius={radius}
         style={[
-          tw`flex items-center justify-center h-full w-full rounded-full relative`,
-          !isLiquidGlassSupported && tw`border-[0.5px] overflow-hidden`,
+          tw`relative flex size-full items-center justify-center rounded-full`,
+          !isLiquidGlassSupported && tw`overflow-hidden border-[0.5px]`,
           appliedTheme === 'light' ? tw`border-gray-300` : tw`border-gray-700`,
           disabled && tw`opacity-50`,
         ]}>
@@ -86,7 +86,7 @@ const AppIconButton: ForwardRefRenderFunction<AppPressableRef, AppIconButtonProp
             beamSize={2}
             entering={FadeIn.duration(300)}
             exiting={FadeOut.duration(300)}
-            style={tw`absolute h-full w-full`}
+            style={tw`absolute size-full`}
           />
         )}
         <AppIcon
@@ -94,7 +94,7 @@ const AppIconButton: ForwardRefRenderFunction<AppPressableRef, AppIconButtonProp
           icon={icon}
           size={iconSize}
           style={[
-            tw`p-1 shrink-0 overflow-hidden rounded-full`,
+            tw`shrink-0 overflow-hidden rounded-full p-1`,
             active && { backgroundColor: colorTheme.meatBrown },
             iconStyle,
           ]}

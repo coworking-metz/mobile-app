@@ -93,8 +93,8 @@ const PeriodBottomSheet: ForwardRefRenderFunction<
 
   return (
     <AppBottomSheet ref={forwardedRef} style={[tw`py-6`, style]} {...props}>
-      <View style={tw`flex flex-col w-full gap-1 py-3`}>
-        <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
+      <View style={tw`flex w-full flex-col gap-1 py-3`}>
+        <AppText style={tw`mb-5 text-center text-xl font-medium text-slate-900 dark:text-gray-200`}>
           {t('events.period.label')}
         </AppText>
         <SectionTitle style={tw`mx-6`} title={t('events.period.previous.label')} />
@@ -103,25 +103,25 @@ const PeriodBottomSheet: ForwardRefRenderFunction<
           description={getPeriodDescription('past')}
           label={t(`events.period.options.past.label`)}
           selected={selected === 'past'}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           onPress={() => onPeriodPicked('past')}>
-          <View style={tw`bg-gray-300 dark:bg-zinc-700 py-1 px-2 rounded`}>
+          <View style={tw`rounded bg-gray-300 px-2 py-1 dark:bg-zinc-700`}>
             <AppText style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
               {getPeriodCount('past')}
             </AppText>
           </View>
         </ServiceRow>
 
-        <SectionTitle style={tw`mt-6 mx-6`} title={t('events.period.next.label')} />
+        <SectionTitle style={tw`mx-6 mt-6`} title={t('events.period.next.label')} />
         {PERIODS.filter((p) => p !== 'past').map((period) => (
           <ServiceRow
             description={getPeriodDescription(period)}
             key={`period-option-${period}`}
             label={t(`events.period.options.${period ?? 'none'}.label`)}
             selected={selected === period}
-            style={tw`px-3 mx-3`}
+            style={tw`mx-3 px-3`}
             onPress={() => onPeriodPicked(period)}>
-            <View style={tw`bg-gray-300 dark:bg-zinc-700 py-1 px-2 rounded`}>
+            <View style={tw`rounded bg-gray-300 px-2 py-1 dark:bg-zinc-700`}>
               <AppText style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
                 {getPeriodCount(period)}
               </AppText>

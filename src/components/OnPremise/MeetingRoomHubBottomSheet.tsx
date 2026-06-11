@@ -49,7 +49,7 @@ const MeetingRoomHubBottomSheet: ForwardRefRenderFunction<
       ref={forwardedRef}
       style={[tw`flex flex-col items-stretch gap-4 p-6`, style]}
       onClose={onClose}>
-      <MeetingRoomAnimation autoPlay loop={false} style={tw`w-full h-[256px] -my-6`} />
+      <MeetingRoomAnimation autoPlay loop={false} style={tw`-my-6 h-[256px] w-full`} />
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.meetingRooms.hub.label')}
@@ -66,7 +66,7 @@ const MeetingRoomHubBottomSheet: ForwardRefRenderFunction<
       {code ? (
         <AppText
           entering={FadeIn.delay(100)}
-          style={tw`h-14 mt-2 text-center text-slate-900 dark:text-gray-200 text-5xl font-bold tracking-widest leading-[3.5rem]`}>
+          style={tw`mt-2 h-14 text-center text-5xl font-bold leading-[3.5rem] tracking-widest text-slate-900 dark:text-gray-200`}>
           <RandomReveal
             isPlaying
             characters={`${code}`}
@@ -86,16 +86,16 @@ const MeetingRoomHubBottomSheet: ForwardRefRenderFunction<
         </Animated.View>
       )}
       {!user?.capabilities?.includes('KEYS_ACCESS') && (
-        <View style={tw`flex flex-row items-start flex-gap-2 mt-3 overflow-hidden`}>
+        <View style={tw`mt-3 flex flex-row items-start gap-2 overflow-hidden`}>
           <MaterialCommunityIcons
             color={tw.color('yellow-500')}
-            iconStyle={tw`h-6 w-6 mr-0`}
+            iconStyle={tw`mr-0 size-6`}
             name="alert"
             size={24}
             style={tw`shrink-0 grow-0`}
           />
           <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
+            style={tw`shrink grow basis-0 text-base font-normal text-slate-500 dark:text-neutral-500`}>
             {t('onPremise.keyBoxes.missingCapability')}
           </AppText>
         </View>

@@ -62,11 +62,11 @@ const ProfilePicture = ({
         <LoadingSpinner
           entering={FadeIn.duration(300)}
           exiting={FadeOut.duration(300)}
-          style={tw`absolute h-full w-full`}
+          style={tw`absolute size-full`}
         />
       )}
 
-      <Animated.View style={tw`z-10 absolute inset-0.5 overflow-hidden`}>
+      <Animated.View style={tw`absolute inset-0.5 z-10 overflow-hidden`}>
         {pending ? <LoadingSkeleton height={`100%`} width={`100%`} /> : null}
 
         {url ? (
@@ -77,14 +77,14 @@ const ProfilePicture = ({
               uri: url,
               cacheKey: `${url}-${dayjs().format('YYYY-MM-DD')}`,
             }}
-            style={[tw`absolute h-full w-full z-10`, pictureStyle]}
+            style={[tw`absolute z-10 size-full`, pictureStyle]}
           />
         ) : null}
 
         {initials ? (
           <View
             style={[
-              tw`h-full w-full flex items-center justify-center`,
+              tw`flex size-full items-center justify-center`,
               !url
                 ? {
                     backgroundColor: getColorFromSeed(initials),
@@ -95,7 +95,7 @@ const ProfilePicture = ({
             <AppText
               numberOfLines={1}
               style={[
-                tw`text-xl font-bold self-center m-auto`,
+                tw`m-auto self-center text-xl font-bold`,
                 initialsStyle,
                 !url
                   ? { color: invertColor(getColorFromSeed(initials), true) }
@@ -108,7 +108,7 @@ const ProfilePicture = ({
           <AccountAnimation
             autoPlay
             color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-900')}
-            style={[tw`h-full w-full bg-gray-200 dark:bg-zinc-700/50`, pictureStyle]}
+            style={[tw`size-full bg-gray-200 dark:bg-zinc-700/50`, pictureStyle]}
           />
         )}
       </Animated.View>

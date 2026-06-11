@@ -57,10 +57,10 @@ const LanguageBottomSheet: ForwardRefRenderFunction<
       style={[tw`flex flex-col gap-0.5 py-6`, style]}
       onDidPresent={onBottomSheetDidPresent}
       {...props}>
-      <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
+      <View style={tw`flex h-40 items-center justify-center overflow-visible`}>
         <SwitchLanguageAnimation ref={animation} style={tw`h-60 w-full`} />
       </View>
-      <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
+      <AppText style={tw`mb-5 text-center text-xl font-medium text-slate-900 dark:text-gray-200`}>
         {t('settings.language.label')}
       </AppText>
       {supportedLanguages.map((language) => (
@@ -74,13 +74,13 @@ const LanguageBottomSheet: ForwardRefRenderFunction<
           key={`language-option-${language.code}`}
           label={language.label}
           selected={settingsStore.language === language.code}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           suffixIcon={settingsStore.language === language.code ? 'check' : null}
           onPress={() => onLanguagePicked(language.code)}>
           {!getLanguageLabel(SYSTEM_LANGUAGE) && language.code === SYSTEM_OPTION ? (
             <MaterialCommunityIcons
               color={tw.color('yellow-500')}
-              iconStyle={tw`h-6 w-6`}
+              iconStyle={tw`size-6`}
               name="alert"
               size={24}
               style={tw`shrink-0`}

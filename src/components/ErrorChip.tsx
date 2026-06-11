@@ -43,7 +43,7 @@ const ErrorChip = ({
     <TouchableOpacity style={[tw`shrink`, style]} onPress={onPress}>
       <Animated.View
         style={[
-          tw`flex flex-row items-center gap-0.5 p-0.5 pr-1.5 rounded-full border-[0.5px] bg-red-50 border-red-300 dark:bg-red-950 dark:border-red-900`,
+          tw`flex flex-row items-center gap-0.5 rounded-full border-[0.5px] border-red-300 bg-red-50 p-0.5 pr-1.5 dark:border-red-900 dark:bg-red-950`,
         ]}
         {...props}>
         <AppIcon
@@ -53,7 +53,7 @@ const ErrorChip = ({
         />
         <AppText
           numberOfLines={1}
-          style={tw`text-xs font-normal shrink grow leading-4 text-red-700 dark:text-red-400`}>
+          style={tw`shrink grow text-xs font-normal leading-4 text-red-700 dark:text-red-400`}>
           {label}
         </AppText>
       </Animated.View>

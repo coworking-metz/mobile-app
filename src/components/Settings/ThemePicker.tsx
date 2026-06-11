@@ -11,7 +11,7 @@ const ThemePicker = (props: Omit<ServiceRowProps, 'label' | 'prefixIcon'>) => {
 
   return (
     <ServiceRow {...props} label={t('settings.theme.label')} prefixIcon="circle-half-full">
-      <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
+      <AppText style={tw`text-right text-base font-normal text-amber-500`}>
         {t(`settings.theme.options.${chosenTheme}`)}
       </AppText>
     </ServiceRow>

@@ -78,7 +78,7 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
 
   return (
     <AppBottomSheet ref={forwardedRef} style={[tw`p-6`, style]} onClose={onClose}>
-      <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
+      <View style={tw`flex h-40 items-center justify-center overflow-visible`}>
         <MembershipFormAnimation
           active={profile?.activeUser && profile?.membershipOk}
           style={tw`h-56 w-full`}
@@ -86,11 +86,11 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
         />
       </View>
       <AppText
-        style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
+        style={tw`mt-4 text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('home.profile.membership.title')}
       </AppText>
       <AppText
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full mt-4`}>
+        style={tw`mt-4 w-full text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('home.profile.membership.description')}
       </AppText>
 
@@ -124,7 +124,7 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
             }
             numberOfLines={1}
             parent={AppText}
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
           />
         )}
       </ServiceRow>
@@ -150,7 +150,7 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
             })}
             numberOfLines={1}
             parent={AppText}
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
           />
         )}
       </ServiceRow>
@@ -160,7 +160,7 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
           <LoadingSkeleton height={24} width={128} />
         ) : (
           <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
             {profile?.activeUser && profile?.membershipOk
               ? t('home.profile.membership.grade.active.label')
               : profile?.membershipOk
@@ -174,13 +174,13 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
         <ErrorChip
           error={profileError}
           label={t('home.profile.onFetch.fail')}
-          style={tw`self-start mt-1 mb-4`}
+          style={tw`mb-4 mt-1 self-start`}
           onRetry={refetchProfile}
         />
       ) : null}
 
       {profile?.membershipOk ? (
-        <View style={tw`flex flex-row items-start gap-3 w-full overflow-hidden`}>
+        <View style={tw`flex w-full flex-row items-start gap-3 overflow-hidden`}>
           <MaterialCommunityIcons
             color={
               profile?.activeUser
@@ -189,13 +189,13 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
                   ? tw.color('gray-400')
                   : tw.color('gray-700')
             }
-            iconStyle={tw`h-6 w-6 mr-0`}
+            iconStyle={tw`mr-0 size-6`}
             name="star-circle-outline"
             size={24}
             style={tw`shrink-0 grow-0`}
           />
           <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
+            style={tw`shrink grow basis-0 text-base font-normal text-slate-500 dark:text-neutral-500`}>
             {profile?.activeUser
               ? t('home.profile.membership.grade.active.description')
               : t('home.profile.membership.grade.standard.description')}
@@ -203,16 +203,16 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
         </View>
       ) : profile?.membershipOk === false ? (
         <>
-          <View style={tw`flex flex-row items-start gap-3 w-full overflow-hidden`}>
+          <View style={tw`flex w-full flex-row items-start gap-3 overflow-hidden`}>
             <MaterialCommunityIcons
               color={tw.color('yellow-500')}
-              iconStyle={tw`h-6 w-6 mr-0`}
+              iconStyle={tw`mr-0 size-6`}
               name="alert"
               size={24}
               style={tw`shrink-0 grow-0`}
             />
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
+              style={tw`shrink grow basis-0 text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {t('home.profile.membership.required')}
             </AppText>
           </View>

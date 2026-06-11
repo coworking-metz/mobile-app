@@ -26,7 +26,7 @@ const SectionTitle = ({
         activeColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('gray-100')}
         ellipsizeMode={'tail'}
         numberOfLines={1}
-        style={tw`text-sm font-normal uppercase text-slate-500 dark:text-stone-500 shrink min-h-5.5`}>
+        style={tw`min-h-[1.375rem] shrink text-sm font-normal uppercase text-slate-500 dark:text-stone-500`}>
         {title}
       </AppShimmerText>
 
@@ -34,8 +34,8 @@ const SectionTitle = ({
         <Animated.View
           entering={FadeIn}
           exiting={FadeOut}
-          style={tw`flex items-center justify-center overflow-hidden h-5.5 px-1 min-w-5.5 bg-gray-400/25 dark:bg-stone-700/50 rounded-full`}>
-          <AppText style={tw`text-xs text-slate-900 dark:text-gray-200 font-medium`}>
+          style={tw`flex h-[1.375rem] min-w-[1.375rem] items-center justify-center overflow-hidden rounded-full bg-gray-400/25 px-1 dark:bg-stone-700/50`}>
+          <AppText style={tw`text-xs font-medium text-slate-900 dark:text-gray-200`}>
             {count ?? 0}
           </AppText>
         </Animated.View>

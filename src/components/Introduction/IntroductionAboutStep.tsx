@@ -40,7 +40,7 @@ const IntroductionAboutStep = ({
     <>
       <View
         style={tw.style(
-          `flex flex-col w-full justify-end items-center overflow-visible`,
+          `flex w-full flex-col items-center justify-end overflow-visible`,
           !isNil(containerHeight) && {
             height: containerHeight / 2,
           },
@@ -49,19 +49,19 @@ const IntroductionAboutStep = ({
           ref={animation}
           autoPlay={false}
           loop={false}
-          style={tw`w-full max-h-80 h-full`}
+          style={tw`size-full max-h-80`}
         />
       </View>
 
-      <View style={tw.style(`mt-4 flex flex-col self-stretch justify-start`)}>
+      <View style={tw.style(`mt-4 flex flex-col justify-start self-stretch`)}>
         <AppText
           entering={FadeInLeft.duration(750).delay(150)}
-          style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
+          style={tw`mx-6 text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('introduction.about.title')}
         </AppText>
         <AppText
           entering={FadeInLeft.duration(750).delay(300)}
-          style={tw`text-xl font-medium text-slate-600 dark:text-neutral-400 mx-6`}>
+          style={tw`mx-6 text-xl font-medium text-slate-600 dark:text-neutral-400`}>
           {t('introduction.about.headline')}
         </AppText>
         <Trans
@@ -71,15 +71,15 @@ const IntroductionAboutStep = ({
           defaults={t('introduction.about.description')}
           entering={FadeInDown.duration(750).delay(500)}
           parent={AppText}
-          style={tw`mt-4 mx-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
+          style={tw`mx-6 mt-4 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
         />
         <Animated.View entering={FadeInDown.duration(750).delay(500)} style={tw`w-full`}>
           <ServiceRow
             label={t('settings.language.label')}
             prefixIcon="translate"
-            style={tw`px-3 mx-3`}
+            style={tw`mx-3 px-3`}
             onPress={selectLanguage}>
-            <AppText style={tw`text-base font-normal text-amber-500 ml-auto`}>
+            <AppText style={tw`ml-auto text-base font-normal text-amber-500`}>
               {getLanguageLabel(
                 !settingsStore.language || settingsStore.language === SYSTEM_OPTION
                   ? SYSTEM_LANGUAGE

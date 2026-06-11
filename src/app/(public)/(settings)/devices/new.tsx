@@ -87,7 +87,11 @@ const NewDevice = () => {
           queryKey: membersQueryKeys.attending(),
           exact: true,
         });
-        router.canGoBack() ? router.back() : router.replace('/devices');
+        if (router.canGoBack()) {
+          router.back();
+        } else {
+          router.replace('/devices');
+        }
       })
       .catch(handleSilentError)
       .catch((error) => noticeStore.addError(error, { message: t('devices.onAdd.fail') }))
@@ -117,7 +121,7 @@ const NewDevice = () => {
 
   return (
     <ServiceLayout contentStyle={tw`pt-6`} title={t('devices.new.title')}>
-      <View style={tw`flex flex-col grow px-6 w-full max-w-xl mx-auto`}>
+      <View style={tw`mx-auto flex w-full max-w-xl grow flex-col px-6`}>
         <AppTextField
           ref={nameField}
           enableErrors
@@ -145,7 +149,7 @@ const NewDevice = () => {
           }}
         />
         {isLocallyAdministeredMacAddress(macAddress) && (
-          <View style={tw`flex flex-row items-start gap-3 w-full overflow-hidden mb-4`}>
+          <View style={tw`mb-4 flex w-full flex-row items-start gap-3 overflow-hidden`}>
             <AppIcon
               color={tw.color('blue-600')}
               icon="information"
@@ -164,18 +168,18 @@ const NewDevice = () => {
               ]}
               defaults={t('devices.detail.macAddress.locallyAdministered')}
               parent={AppText}
-              style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}
+              style={tw`shrink grow basis-0 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
             />
           </View>
         )}
 
-        <View style={tw`flex flex-col items-start gap-1 mb-6`}>
-          <AppText style={tw`text-base leading-5 font-normal text-gray-800 dark:text-neutral-500`}>
+        <View style={tw`mb-6 flex flex-col items-start gap-1`}>
+          <AppText style={tw`text-base font-normal leading-5 text-gray-800 dark:text-neutral-500`}>
             {t('devices.detail.type.label')}
           </AppText>
           <AppSegmentedControl
             activeTabColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
-            style={tw`basis-0 bg-gray-200 dark:bg-zinc-800 w-full`}
+            style={tw`w-full basis-0 bg-gray-200 dark:bg-zinc-800`}
             tabs={DEVICE_TYPES.map((deviceType) => (
               <View key={`device-type-${deviceType}`} style={tw`flex flex-col items-center gap-1`}>
                 <AppIcon
@@ -186,7 +190,7 @@ const NewDevice = () => {
                 />
                 <AppText
                   numberOfLines={1}
-                  style={tw`text-base font-normal text-slate-600 dark:text-neutral-400 grow`}>
+                  style={tw`grow text-base font-normal text-slate-600 dark:text-neutral-400`}>
                   {t(`devices.detail.type.value.${deviceType}`)}
                 </AppText>
               </View>

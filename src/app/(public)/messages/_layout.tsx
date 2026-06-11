@@ -26,12 +26,12 @@ export default function MessagesLayout() {
   }
 
   return (
-    <View style={tw`flex flex-row grow`}>
+    <View style={tw`flex grow flex-row`}>
       <View
-        style={tw`grow shrink basis-0 h-full min-w-80 max-w-md border-r-[1px] border-r-gray-200 dark:border-r-gray-700`}>
+        style={tw`h-full min-w-80 max-w-md shrink grow basis-0 border-r border-r-gray-200 dark:border-r-gray-700`}>
         <InboxScreen from="/home" />
       </View>
-      <View style={tw`grow shrink basis-0 h-full min-w-80`}>
+      <View style={tw`h-full min-w-80 shrink grow basis-0`}>
         <Stack
           initialRouteName="root"
           screenOptions={{

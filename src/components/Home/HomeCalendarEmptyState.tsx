@@ -56,7 +56,7 @@ const HomeCalendarEmptyState = ({
         href={['/events', firstPeriodWithEvents && `period=${firstPeriodWithEvents}`]
           .filter(Boolean)
           .join('?')}>
-        <AppText style={tw`text-base font-normal text-amber-500 text-center p-4`}>{action}</AppText>
+        <AppText style={tw`p-4 text-center text-base font-normal text-amber-500`}>{action}</AppText>
       </Link>
     </CalendarEmptyState>
   );

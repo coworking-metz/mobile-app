@@ -11,7 +11,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import tw, { useDeviceContext } from 'twrnc';
+import tw from 'twrnc';
 import AppText from '@/components/AppText';
 
 /**
@@ -60,7 +60,7 @@ const AppSegmentedControl = ({
   const handleTabPress = useCallback(
     (index: number) => {
       setCurrentIndex(index);
-      onChange && onChange(index);
+      onChange?.(index);
     },
     [onChange],
   );
@@ -115,7 +115,7 @@ const AppSegmentedControl = ({
         activeOpacity={0.5}
         key={index}
         style={[
-          tw`flex flex-col grow shrink basis-0 items-center justify-center py-2`,
+          tw`flex shrink grow basis-0 flex-col items-center justify-center py-2`,
           tabSpecificStyle(index),
         ]}
         onLayout={(e) => onLayoutTab(index, e)}
@@ -139,9 +139,9 @@ const AppSegmentedControl = ({
   };
 
   return (
-    <View style={[tw`flex flex-row items-center w-[90%] rounded-xl`, style]}>
+    <View style={[tw`flex w-[90%] flex-row items-center rounded-xl`, style]}>
       {renderSelectedTab()}
-      <View style={[tw`flex flex-row grow shrink basis-0`, { marginHorizontal: gap }]}>
+      <View style={[tw`flex shrink grow basis-0 flex-row`, { marginHorizontal: gap }]}>
         {tabs.map((tab, index: number) => renderTab(tab, index))}
       </View>
     </View>

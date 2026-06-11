@@ -59,10 +59,10 @@ const Step = ({
   }, [actionHeight, contentHeight, scrollContainerHeight]);
 
   return (
-    <View style={tw`absolute h-full w-full`}>
+    <View style={tw`absolute size-full`}>
       <Animated.ScrollView
         contentContainerStyle={[
-          tw`pt-4 max-w-md w-full mx-auto`,
+          tw`mx-auto w-full max-w-md pt-4`,
           contentContainerStyle,
           !isNil(paddingBottom) ? { paddingBottom } : tw`pb-4`,
         ]}
@@ -75,7 +75,7 @@ const Step = ({
         onLayout={({ nativeEvent }: LayoutChangeEvent) =>
           setScrollContainerHeight(nativeEvent.layout.height)
         }>
-        <Animated.View style={[maskStyle, tw`absolute h-full w-full`]} />
+        <Animated.View style={[maskStyle, tw`absolute size-full`]} />
         {clonedChildren}
       </Animated.ScrollView>
     </View>

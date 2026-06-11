@@ -110,45 +110,44 @@ export const useOnPremise = () => {
 };
 
 export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isDeckDoorSelected, setDeckDoorSelected] = useState<boolean>(false);
+  const [isDeckDoorSelected] = useState<boolean>(false);
   const deckDoorBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isPhoneBoothSelected, setPhoneBoothSelected] = useState<boolean>(false);
+  const [isPhoneBoothSelected] = useState<boolean>(false);
   const phoneBoothBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isPoulaillerKeyBoxSelected, setPoulaillerKeyBoxSelected] = useState<boolean>(false);
+  const [isPoulaillerKeyBoxSelected] = useState<boolean>(false);
   const poulaillerKeyBoxBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isStorageKeyBoxSelected, setStorageKeyBoxSelected] = useState<boolean>(false);
+  const [isStorageKeyBoxSelected] = useState<boolean>(false);
   const storageKeyBoxBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isDeckKeyBoxSelected, setDeckKeyBoxSelected] = useState<boolean>(false);
+  const [isDeckKeyBoxSelected] = useState<boolean>(false);
   const deckKeyBoxBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isCarbonDioxideSelected, setCarbonDioxideSelected] = useState<boolean>(false);
+  const [isCarbonDioxideSelected] = useState<boolean>(false);
   const carbonDioxideBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isPtiPoulaillerKeyBoxSelected, setPtiPoulaillerKeyBoxSelected] = useState<boolean>(false);
+  const [isPtiPoulaillerKeyBoxSelected] = useState<boolean>(false);
   const ptiPoulaillerKeyBoxBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isPtiPoulaillerClimateSelected, setPtiPoulaillerClimateSelected] =
-    useState<boolean>(false);
+  const [isPtiPoulaillerClimateSelected] = useState<boolean>(false);
   const ptiPoulaillerClimateBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [selectedFlexDesk, setSelectedFlexDesk] = useState<SelectedFlexDesk | null>(null);
   const flexDeskBottomSheetRef = useRef<AppBottomSheetRef>(null);
 
-  const [isTelevisionSelected, setTelevisionSelected] = useState<boolean>(false);
+  const [isTelevisionSelected] = useState<boolean>(false);
   const televisionBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isCoffeeMachineSelected, setCoffeeMachineSelected] = useState<boolean>(false);
+  const [isCoffeeMachineSelected] = useState<boolean>(false);
   const coffeeMachineBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isPrinterSelected, setPrinterSelected] = useState<boolean>(false);
+  const [isPrinterSelected] = useState<boolean>(false);
   const printerBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isFridgeSelected, setFridgeSelected] = useState<boolean>(false);
+  const [isFridgeSelected] = useState<boolean>(false);
   const fridgeBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isAirConditioningSelected, setAirConditioningSelected] = useState<boolean>(false);
+  const [isAirConditioningSelected] = useState<boolean>(false);
   const airConditioningBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isWifiSelected, setWifiSelected] = useState<boolean>(false);
+  const [isWifiSelected] = useState<boolean>(false);
   const wifiBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isIntercomSelected, setIntercomSelected] = useState<boolean>(false);
+  const [isIntercomSelected] = useState<boolean>(false);
   const intercomBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isGroupWorkSelected, setGroupWorkSelected] = useState<boolean>(false);
+  const [isGroupWorkSelected] = useState<boolean>(false);
   const groupWorkBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isMeetingRoomHubSelected, setMeetingRoomHubSelected] = useState<boolean>(false);
+  const [isMeetingRoomHubSelected] = useState<boolean>(false);
   const meetingRoomHubBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isSoundOffSelected, setSoundOffSelected] = useState<boolean>(false);
+  const [isSoundOffSelected] = useState<boolean>(false);
   const soundOffBottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   const { data: onPremiseState, isFetching: isFetchingOnPremiseState } = useQuery({

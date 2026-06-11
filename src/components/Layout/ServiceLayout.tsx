@@ -102,7 +102,7 @@ const ServiceLayout = ({
 
   return (
     <View style={[tw`flex-1 bg-gray-100 dark:bg-black`, style]}>
-      <BlurTargetView ref={blurTargetRef} style={tw`flex flex-col grow relative`}>
+      <BlurTargetView ref={blurTargetRef} style={tw`relative flex grow flex-col`}>
         <Animated.View
           style={[
             tw`absolute flex flex-col px-6 pb-6`,
@@ -123,14 +123,14 @@ const ServiceLayout = ({
               ) : (
                 <AppText
                   entering={FadeInLeft.duration(500)}
-                  style={tw`text-4xl leading-[2.75rem] font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                  style={tw`text-4xl font-bold leading-[2.75rem] tracking-tight text-slate-900 dark:text-gray-200`}>
                   {title}
                 </AppText>
               )}
               {description ? (
                 <AppText
                   entering={FadeInLeft.duration(500).delay(150)}
-                  style={tw`text-xl tracking-tight font-normal text-slate-500 dark:text-neutral-500`}>
+                  style={tw`text-xl font-normal tracking-tight text-slate-500 dark:text-neutral-500`}>
                   {description}
                 </AppText>
               ) : null}
@@ -140,7 +140,7 @@ const ServiceLayout = ({
 
         <AnimatedKeyboardAwareScrollView
           contentContainerStyle={[
-            tw`relative flex flex-col min-h-full`,
+            tw`relative flex min-h-full flex-col`,
             { paddingTop: NAVIGATION_HEIGHT + headerHeight + insets.top },
           ]}
           horizontal={false}
@@ -160,7 +160,7 @@ const ServiceLayout = ({
           })}>
           <View
             style={[
-              tw`flex flex-col w-full grow bg-gray-50 dark:bg-zinc-900 relative`,
+              tw`relative flex w-full grow flex-col bg-gray-50 dark:bg-zinc-900`,
               {
                 paddingLeft: insets.left,
                 paddingRight: insets.right,
@@ -168,7 +168,7 @@ const ServiceLayout = ({
               },
               contentStyle,
             ]}>
-            {loading && <LoadingProgressBar style={tw`absolute top-0 inset-x-0`} />}
+            {loading && <LoadingProgressBar style={tw`absolute inset-x-0 top-0`} />}
             {renderContent ? renderContent({ verticalScrollProgress }) : children}
           </View>
         </AnimatedKeyboardAwareScrollView>
@@ -176,7 +176,7 @@ const ServiceLayout = ({
 
       <Animated.View
         style={[
-          tw`absolute top-0 left-0 right-0 z-10 flex flex-row pb-2 items-center min-h-18`,
+          tw`absolute inset-x-0 top-0 z-10 flex min-h-[4.5rem] flex-row items-center pb-2`,
           {
             paddingTop: insets.top,
             paddingLeft: insets.left,
@@ -185,13 +185,13 @@ const ServiceLayout = ({
         ]}>
         <AppTopFader style={tw`absolute inset-x-0 top-0`} />
 
-        <View style={tw`flex flex-row shrink-0 min-w-10 overflow-visible basis-0 grow ml-4`}>
+        <View style={tw`ml-4 flex min-w-10 shrink-0 grow basis-0 flex-row overflow-visible`}>
           {withBackButton && (
             <AppIconButton
               blurTarget={blurTargetRef}
               icon="arrow-left"
               radius={25}
-              style={tw`h-10 w-10`}
+              style={tw`size-10`}
               onPress={() =>
                 from
                   ? router.dismissTo(from)
@@ -204,7 +204,7 @@ const ServiceLayout = ({
         </View>
 
         {menu || actions?.length ? (
-          <View style={tw`flex flex-row justify-end shrink basis-0 grow mr-4 min-w-10`}>
+          <View style={tw`mr-4 flex min-w-10 shrink grow basis-0 flex-row justify-end`}>
             {menu ?? (
               <MenuView
                 actions={actions}
@@ -217,7 +217,7 @@ const ServiceLayout = ({
                   blurTarget={blurTargetRef}
                   icon="dots-vertical"
                   radius={25}
-                  style={tw`h-10 w-10`}
+                  style={tw`size-10`}
                 />
               </MenuView>
             )}

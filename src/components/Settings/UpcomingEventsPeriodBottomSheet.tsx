@@ -18,12 +18,12 @@ const UpcomingEventsPeriodBottomSheet: ForwardRefRenderFunction<
   const upcomingEventsPeriod = useSettingsStore((state) => state.upcomingEventsPeriod);
 
   return (
-    <AppBottomSheet ref={forwardedRef} {...props} style={[tw`pt-6 px-6`, style]}>
-      <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium`}>
+    <AppBottomSheet ref={forwardedRef} {...props} style={[tw`px-6 pt-6`, style]}>
+      <AppText style={tw`text-center text-xl font-medium text-slate-900 dark:text-gray-200`}>
         {t('settings.home.upcomingEventsPeriod.label')}
       </AppText>
       <AppText
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-5 -mb-5`}>
+        style={tw`-mb-5 mt-5 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('settings.home.upcomingEventsPeriod.description')}
       </AppText>
       <View style={tw`flex flex-row items-start justify-center gap-2`}>
@@ -33,8 +33,8 @@ const UpcomingEventsPeriodBottomSheet: ForwardRefRenderFunction<
             label: `${index + 1}`,
             value: index + 1,
           }))}
-          itemTextStyle={tw`text-right pr-2 font-medium text-slate-900 dark:text-gray-200`}
-          style={tw`grow shrink basis-0 max-w-40`}
+          itemTextStyle={tw`pr-2 text-right font-medium text-slate-900 dark:text-gray-200`}
+          style={tw`max-w-40 shrink grow basis-0`}
           value={upcomingEventsPeriod.count}
           onValueChanging={({ item: { value } }) =>
             useSettingsStore.setState({
@@ -66,8 +66,8 @@ const UpcomingEventsPeriodBottomSheet: ForwardRefRenderFunction<
               value: 'month',
             },
           ]}
-          itemTextStyle={tw`text-left pl-2 font-normal text-slate-600 dark:text-neutral-400`}
-          style={tw`grow shrink basis-0 max-w-40`}
+          itemTextStyle={tw`pl-2 text-left font-normal text-slate-600 dark:text-neutral-400`}
+          style={tw`max-w-40 shrink grow basis-0`}
           value={upcomingEventsPeriod.unit}
           onValueChanged={({ item: { value } }) =>
             useSettingsStore.setState({
