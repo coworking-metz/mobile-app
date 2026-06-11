@@ -172,20 +172,20 @@ const CarbonDioxideBottomSheet: ForwardRefRenderFunction<
           segments={segments}
         />
         <View
-          style={tw`absolute bottom-0 left-0 right-0 w-full flex flex-col items-center justify-center`}>
-          <View style={tw`flex flex-row items-end gap-1.5 justify-end w-full mx-auto max-w-40`}>
+          style={tw`absolute inset-x-0 bottom-0 flex w-full flex-col items-center justify-center`}>
+          <View style={tw`mx-auto flex w-full max-w-40 flex-row items-end justify-end gap-1.5`}>
             {loading ? (
-              <View style={tw`h-8 mb-0.5 w-24 overflow-hidden rounded-2xl`}>
+              <View style={tw`mb-0.5 h-8 w-24 overflow-hidden rounded-2xl`}>
                 <LoadingSkeleton height={`100%`} width={`100%`} />
               </View>
             ) : !isNil(level) ? (
               <ReanimatedText
-                style={tw`text-4xl font-semibold text-slate-900 dark:text-gray-200 ios:-mb-1 android:h-10 grow text-right`}
+                style={tw`ios:-mb-1 android:h-10 grow text-right text-4xl font-semibold text-slate-900 dark:text-gray-200`}
                 text={formattedAnimatedLevel}
               />
             ) : (
               <AppText
-                style={tw`text-4xl font-semibold text-slate-900 dark:text-gray-200 ios:-mb-1 android:h-10 grow text-right`}>
+                style={tw`ios:-mb-1 android:h-10 grow text-right text-4xl font-semibold text-slate-900 dark:text-gray-200`}>
                 ?
               </AppText>
             )}
@@ -199,16 +199,16 @@ const CarbonDioxideBottomSheet: ForwardRefRenderFunction<
       </View>
       <Animated.View
         entering={FadeInUp.duration(1000).delay(900)}
-        style={tw`self-start flex flex-row mx-auto items-center gap-1.5`}>
-        <View style={[tw`h-2 w-2 rounded-full`, { backgroundColor: levelColor }]} />
+        style={tw`mx-auto flex flex-row items-center gap-1.5 self-start`}>
+        <View style={[tw`size-2 rounded-full`, { backgroundColor: levelColor }]} />
         {loading ? (
-          <View style={tw`h-4 my-0.5 w-32 overflow-hidden rounded-2xl`}>
+          <View style={tw`my-0.5 h-4 w-32 overflow-hidden rounded-2xl`}>
             <LoadingSkeleton height={`100%`} width={`100%`} />
           </View>
         ) : (
           <AppText
             numberOfLines={1}
-            style={tw`text-sm font-normal shrink text-gray-900 dark:text-gray-200`}>
+            style={tw`shrink text-sm font-normal text-gray-900 dark:text-gray-200`}>
             {levelDescription}
           </AppText>
         )}
@@ -217,11 +217,11 @@ const CarbonDioxideBottomSheet: ForwardRefRenderFunction<
         {t('onPremise.climate.carbonDioxide.description')}
       </AppText>
 
-      <View style={tw`flex flex-col w-full`}>
+      <View style={tw`flex w-full flex-col`}>
         <SectionTitle loading={loading} title={t('onPremise.climate.label')}>
           {!isNil(durationSinceLastFetch) && durationSinceLastFetch > 300 && (
             <AppText
-              style={tw`ml-auto text-xs font-normal leading-5 text-right text-slate-500 dark:text-neutral-500`}>
+              style={tw`ml-auto text-right text-xs font-normal leading-5 text-slate-500 dark:text-neutral-500`}>
               {durationSinceLastFetch > 3_600
                 ? dayjs(onPremiseStateUpdatedAt).calendar()
                 : dayjs(onPremiseStateUpdatedAt).fromNow()}
@@ -236,7 +236,7 @@ const CarbonDioxideBottomSheet: ForwardRefRenderFunction<
             <LoadingSkeleton height={24} width={48} />
           ) : !isNil(temperatureLevel) ? (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
+              style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-400`}>
               {t('onPremise.climate.temperature.level', { level: temperatureLevel })}
             </AppText>
           ) : null}
@@ -249,7 +249,7 @@ const CarbonDioxideBottomSheet: ForwardRefRenderFunction<
             <LoadingSkeleton height={24} width={48} />
           ) : !isNil(humidityLevel) ? (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
+              style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-400`}>
               {t('onPremise.climate.humidity.level', { level: humidityLevel })}
             </AppText>
           ) : null}
@@ -259,7 +259,7 @@ const CarbonDioxideBottomSheet: ForwardRefRenderFunction<
             <LoadingSkeleton height={24} width={48} />
           ) : !isNil(noiseLevel) ? (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
+              style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-400`}>
               {t('onPremise.climate.noise.level', { level: noiseLevel })}
             </AppText>
           ) : null}

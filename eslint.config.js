@@ -1,6 +1,5 @@
 const { fixupPluginRules } = require('@eslint/compat');
 const tsPlugin = require('@typescript-eslint/eslint-plugin');
-const tsParser = require('@typescript-eslint/parser');
 const prettierConfig = require('eslint-config-prettier');
 const importPlugin = require('eslint-plugin-import');
 const jsoncPlugin = require('eslint-plugin-jsonc');
@@ -10,7 +9,11 @@ const tailwindPlugin = require('eslint-plugin-tailwindcss');
 
 const TS_FILES = ['**/*.{ts,tsx,js}'];
 const tsFlat = tsPlugin.configs['flat/recommended'];
-const twFlat = tailwindPlugin.configs['flat/recommended'];
+const tailwindPluginCompat = fixupPluginRules(tailwindPlugin);
+const twFlat = tailwindPlugin.configs['flat/recommended'].map((config) => ({
+  ...config,
+  ...(config.plugins ? { plugins: { tailwindcss: tailwindPluginCompat } } : {}),
+}));
 
 module.exports = [
   // --- Ignores ---
@@ -46,6 +49,9 @@ module.exports = [
     },
     settings: {
       tailwindcss: {
+        // twrnc support: parse classes from tw`...` and tw.style(...)
+        tags: ['tw'],
+        callees: ['classnames', 'clsx', 'ctl', 'cva', 'tv', 'tw', 'tw.style'],
         classRegex: '^style',
       },
       react: {
@@ -126,6 +132,9 @@ module.exports = [
           reservedFirst: ['ref'],
         },
       ],
+
+      // Tailwind class ordering (including twrnc tw`...`)
+      'tailwindcss/classnames-order': 'error',
     },
   },
 

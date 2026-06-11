@@ -23,11 +23,11 @@ const About = () => {
       description={t('about.description')}
       title={t('about.title')}
       withBackButton={!_root}>
-      <View style={tw`w-full max-w-xl mx-auto mb-6`}>
+      <View style={tw`mx-auto mb-6 w-full max-w-xl`}>
         <SectionTitle style={tw`mx-6`} title={t('about.legal.title')} />
-        <ServiceRow withBottomDivider label={t('about.legal.license.label')} style={tw`px-3 mx-3`}>
+        <ServiceRow withBottomDivider label={t('about.legal.license.label')} style={tw`mx-3 px-3`}>
           <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
             MIT
           </AppText>
         </ServiceRow>
@@ -35,13 +35,13 @@ const About = () => {
           withBottomDivider
           href="https://coworking-metz.fr"
           label={t('about.legal.author.label')}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           target="_blank"
         />
         <ServiceRowLink
           href="https://coworking-metz.fr/donnees/"
           label={t('about.legal.privacyPolicy.label')}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           target="_blank"
         />
 
@@ -49,9 +49,9 @@ const About = () => {
         <ServiceRow
           withBottomDivider
           label={t('about.technical.environment.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
             {APP_ENVIRONMENT}
           </AppText>
         </ServiceRow>
@@ -59,8 +59,8 @@ const About = () => {
           <ServiceRow
             withBottomDivider
             label={t('about.technical.version.label')}
-            style={tw`px-3 mx-3`}>
-            <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
+            style={tw`mx-3 px-3`}>
+            <AppText style={tw`text-right text-base font-normal text-amber-500`}>
               {APP_VERSION}
             </AppText>
           </ServiceRow>
@@ -68,15 +68,15 @@ const About = () => {
         <ServiceRow
           withBottomDivider
           label={t('about.technical.buildDate.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
             {dayjs(Constants.expoConfig?.extra?.buildDate).format('L LT')}
           </AppText>
         </ServiceRow>
-        <ServiceRow label={t('about.technical.executionEnvironment.label')} style={tw`px-3 mx-3`}>
+        <ServiceRow label={t('about.technical.executionEnvironment.label')} style={tw`mx-3 px-3`}>
           <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
             {Constants.executionEnvironment}
           </AppText>
         </ServiceRow>
@@ -86,20 +86,20 @@ const About = () => {
           withBottomDivider
           href="https://lottiefiles.com/page/license"
           label={t('about.credits.lottiefiles.label')}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           target="_blank"
         />
         <ServiceRowLink
           withBottomDivider
           href="https://lordicon.com/licenses"
           label={t('about.credits.lordicon.label')}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           target="_blank"
         />
         <ServiceRowLink
           href="https://rive.app/docs/legal/terms-of-service"
           label={t('about.credits.rive.label')}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           target="_blank"
         />
 
@@ -108,13 +108,13 @@ const About = () => {
           withBottomDivider
           href="https://github.com/coworking-metz"
           label={t('about.opensource.github.label')}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           target="_blank"
         />
         <ServiceRowLink
           href="https://gitlab.com/coworking-metz-poulailler/"
           label={t('about.opensource.gitlab.label')}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           target="_blank"
         />
       </View>

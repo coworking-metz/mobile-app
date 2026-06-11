@@ -44,12 +44,12 @@ const ActionablePhoneBooths = ({
     <AppBlurView
       radius={Platform.OS === 'ios' ? 15 : 30}
       style={[
-        tw`absolute z-10 h-12 w-24 flex items-stretch rounded-full overflow-hidden`,
+        tw`absolute z-10 flex h-12 w-24 items-stretch overflow-hidden rounded-full`,
         // selected && tw.style(`ios:border-2 ios:border-neutral-600 ios:dark:border-neutral-500`),
         style,
       ]}
       {...props}>
-      <AppPressable disabled={disabled} style={tw`h-full w-full`} onPress={onPress}>
+      <AppPressable disabled={disabled} style={tw`size-full`} onPress={onPress}>
         {loading ? (
           <HorizontalLoadingAnimation
             color={
@@ -57,13 +57,13 @@ const ActionablePhoneBooths = ({
                 ? tw.color('neutral-400')
                 : tw.color('neutral-700')
             }
-            style={tw`w-10 h-10 m-auto`}
+            style={tw`m-auto size-10`}
           />
         ) : (
-          <Animated.View style={tw`flex flex-row items-center grow`}>
+          <Animated.View style={tw`flex grow flex-row items-center`}>
             <Animated.View
               style={[
-                tw`h-full grow p-1 flex flex-row items-center justify-center bg-gray-200/30 dark:bg-zinc-900/30`,
+                tw`flex h-full grow flex-row items-center justify-center bg-gray-200/30 p-1 dark:bg-zinc-900/30`,
                 isFirstPhoneBoothSelected && { backgroundColor: theme.meatBrown },
               ]}>
               <MaterialCommunityIcons
@@ -89,7 +89,7 @@ const ActionablePhoneBooths = ({
             </Animated.View>
             <Animated.View
               style={[
-                tw`h-full grow p-1 flex flex-row items-center justify-center bg-gray-200/30 dark:bg-zinc-900/30`,
+                tw`flex h-full grow flex-row items-center justify-center bg-gray-200/30 p-1 dark:bg-zinc-900/30`,
                 isSecondPhoneBoothSelected && { backgroundColor: theme.meatBrown },
               ]}>
               <MaterialCommunityIcons

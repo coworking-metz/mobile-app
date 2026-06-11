@@ -22,16 +22,16 @@ const AppTextButton: ForwardRefRenderFunction<typeof TouchableHighlight, AppText
     <TouchableHighlight
       ref={ref as never}
       disabled={disabled}
-      style={[tw.style(`rounded-full overflow-hidden`), style]}
+      style={[tw.style(`overflow-hidden rounded-full`), style]}
       underlayColor={tw.prefixMatch('dark') ? tw.color('neutral-800') : tw.color('neutral-200')}
       onPress={onPress}>
       <View
-        style={tw`flex flex-row justify-center items-center min-h-14 px-6 relative overflow-hidden`}>
+        style={tw`relative flex min-h-14 flex-row items-center justify-center overflow-hidden px-6`}>
         {loading ? (
-          <HorizontalLoadingAnimation style={tw`h-full w-full`} />
+          <HorizontalLoadingAnimation style={tw`size-full`} />
         ) : (
           <>
-            <View style={tw`flex flex-row items-center justify-start h-full grow shrink basis-0`}>
+            <View style={tw`flex h-full shrink grow basis-0 flex-row items-center justify-start`}>
               {prefixIcon ? (
                 <AppIcon
                   color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
@@ -40,10 +40,10 @@ const AppTextButton: ForwardRefRenderFunction<typeof TouchableHighlight, AppText
                 />
               ) : null}
             </View>
-            <View style={tw`flex flex-row items-center justify-center h-full grow`}>
+            <View style={tw`flex h-full grow flex-row items-center justify-center`}>
               {children}
             </View>
-            <View style={tw`flex flex-row items-center justify-end h-full grow shrink basis-0`}>
+            <View style={tw`flex h-full shrink grow basis-0 flex-row items-center justify-end`}>
               {suffixIcon ? (
                 <AppIcon
                   color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}

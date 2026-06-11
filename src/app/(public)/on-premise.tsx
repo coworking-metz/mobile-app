@@ -106,11 +106,11 @@ const OnPremise = () => {
       ]}
       onLayout={({ nativeEvent }) => setLayoutWidth(nativeEvent.layout.width)}>
       {layoutWidth ? (
-        <BlurTargetView ref={blurTargetRef} style={tw`relative h-full flex grow`}>
+        <BlurTargetView ref={blurTargetRef} style={tw`relative flex h-full grow`}>
           <Animated.ScrollView
             ref={horizontalScrollView}
             horizontal
-            contentContainerStyle={tw`flex flex-row grow items-stretch`}
+            contentContainerStyle={tw`flex grow flex-row items-stretch`}
             pagingEnabled={!isWide}
             scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
@@ -170,7 +170,7 @@ const OnPremise = () => {
 
       <Animated.View
         style={[
-          tw`flex flex-row items-center absolute top-0 px-4 pb-2 w-full z-10`,
+          tw`absolute top-0 z-10 flex w-full flex-row items-center px-4 pb-2`,
           { paddingTop: insets.top },
         ]}
         onLayout={({ nativeEvent }: LayoutChangeEvent) =>
@@ -178,12 +178,12 @@ const OnPremise = () => {
         }>
         <AppTopFader style={tw`absolute inset-x-0 top-0`} />
 
-        <View style={tw`grow shrink basis-0 flex flex-row items-center justify-start gap-2`}>
+        <View style={tw`flex shrink grow basis-0 flex-row items-center justify-start gap-2`}>
           <AppIconButton
             blurTarget={blurTargetRef}
             icon="arrow-left"
             radius={25}
-            style={tw`h-10 w-10`}
+            style={tw`size-10`}
             onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
           />
         </View>
@@ -192,18 +192,18 @@ const OnPremise = () => {
           <CarouselPaginationDots
             count={SUPPORTED_LOCATIONS.length}
             offset={offset}
-            style={tw`grow-0 mx-auto`}
+            style={tw`mx-auto grow-0`}
           />
         ) : null}
 
-        <View style={tw`grow shrink basis-0 flex flex-row items-center justify-end gap-2`}>
+        <View style={tw`flex shrink grow basis-0 flex-row items-center justify-end gap-2`}>
           {IS_DEV && (
             <AppIconButton
               active={areLightsVisible}
               blurTarget={blurTargetRef}
               icon={areLightsVisible ? 'lightbulb-group' : 'lightbulb-group-outline'}
               radius={25}
-              style={tw`h-10 w-10`}
+              style={tw`size-10`}
               onPress={() => {
                 setLightsVisible(!areLightsVisible);
                 setInformationsVisible(false);
@@ -216,7 +216,7 @@ const OnPremise = () => {
             blurTarget={blurTargetRef}
             icon="dots-horizontal"
             radius={25}
-            style={tw`h-10 w-10`}
+            style={tw`size-10`}
             onPress={() => {
               setLightsVisible(false);
               setInformationsVisible(!areInformationsVisible);

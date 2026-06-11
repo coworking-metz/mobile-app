@@ -21,7 +21,7 @@ const CoffeeMachineBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppB
       ref={forwardedRef}
       style={[tw`flex flex-col items-stretch px-6`, style]}
       onClose={onClose}>
-      <CoffeeMachineAnimation autoPlay loop={false} style={tw`w-full h-[192px] mb-2`} />
+      <CoffeeMachineAnimation autoPlay loop={false} style={tw`mb-2 h-[192px] w-full`} />
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.coffeeMachine.label')}
@@ -44,7 +44,7 @@ const CoffeeMachineBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppB
         ]}
         defaults={t('onPremise.coffeeMachine.description')}
         parent={AppText}
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6 mb-3`}
+        style={tw`mb-3 mt-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
       />
     </AppBottomSheet>
   );

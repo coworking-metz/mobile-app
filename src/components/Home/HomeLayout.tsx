@@ -175,20 +175,20 @@ export default function HomeLayout({
   return (
     <View
       style={[
-        tw`w-full grow flex flex-col items-stretch relative bg-gray-100 dark:bg-black`,
+        tw`relative flex w-full grow flex-col items-stretch bg-gray-100 dark:bg-black`,
         style,
       ]}>
       {/* <HomeBackground /> */}
       {enableAnimations ? (
-        <Animated.View style={[tw`absolute top-0 inset-x-0`, refreshAnimationStyles]}>
+        <Animated.View style={[tw`absolute inset-x-0 top-0`, refreshAnimationStyles]}>
           <AppSquircleView
-            style={[tw`overflow-hidden w-full`, isWide && tw`max-w-sm mx-auto rounded-b-[3.5rem]`]}>
+            style={[tw`w-full overflow-hidden`, isWide && tw`mx-auto max-w-sm rounded-b-[3.5rem]`]}>
             {colorScheme === 'light' ? (
               <SunnyRefreshAnimation
                 completed={completed}
                 pullProgress={refreshProgress}
                 released={refreshing}
-                style={tw`w-full h-full`}
+                style={tw`size-full`}
                 onEnd={onRefreshComplete}
               />
             ) : (
@@ -196,7 +196,7 @@ export default function HomeLayout({
                 completed={completed}
                 pullProgress={refreshProgress}
                 released={refreshing}
-                style={tw`w-full h-full`}
+                style={tw`size-full`}
                 onEnd={onRefreshComplete}
               />
             )}
@@ -206,7 +206,7 @@ export default function HomeLayout({
 
       <Animated.View
         {...(enableAnimations && panResponderRef.current.panHandlers)}
-        style={[tw`flex flex-col grow relative w-full`]}>
+        style={[tw`relative flex w-full grow flex-col`]}>
         <Animated.ScrollView
           horizontal={false}
           {...(!enableAnimations && {
@@ -223,14 +223,14 @@ export default function HomeLayout({
               />
             ),
           })}
-          contentContainerStyle={tw`flex flex-col grow`}
+          contentContainerStyle={tw`flex grow flex-col`}
           scrollEventThrottle={16} // Good practice for smooth performance
           showsVerticalScrollIndicator={false}
-          style={[tw`w-full grow flex flex-col`, { paddingTop: insets.top }]}
+          style={[tw`flex w-full grow flex-col`, { paddingTop: insets.top }]}
           onScroll={scrollHandler}>
           <Animated.View
             style={[
-              tw.style(`flex flex-col items-start justify-start w-full bg-gray-100 dark:bg-black`, {
+              tw.style(`flex w-full flex-col items-start justify-start bg-gray-100 dark:bg-black`, {
                 paddingBottom: paddingBottom + (Platform.OS === 'android' ? 64 : 16),
               }),
               enableAnimations && pullDownStyles,

@@ -16,14 +16,14 @@ const SoundOffBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottom
 
   return (
     <AppBottomSheet ref={forwardedRef} style={[tw`p-6`, style]} onClose={onClose}>
-      <SoundOffAnimation autoPlay loop={false} style={tw`w-full h-[144px] mb-2`} />
+      <SoundOffAnimation autoPlay loop={false} style={tw`mb-2 h-[144px] w-full`} />
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.soundOff.label')}
       </AppText>
 
       <AppText
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6 mb-3`}>
+        style={tw`mb-3 mt-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('onPremise.soundOff.description')}
       </AppText>
     </AppBottomSheet>

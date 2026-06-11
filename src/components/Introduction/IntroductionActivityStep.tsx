@@ -23,7 +23,7 @@ const IntroductionActivityStep = ({
     <>
       <View
         style={tw.style(
-          `flex flex-col justify-end items-center self-center overflow-visible relative w-[375px]`,
+          `relative flex w-[375px] flex-col items-center justify-end self-center overflow-visible`,
           !isNil(containerHeight) && {
             height: containerHeight / 2,
           },
@@ -32,13 +32,13 @@ const IntroductionActivityStep = ({
           loop
           autoPlay={!reduceMotion}
           progress={reduceMotion ? 1 : 0}
-          style={tw`w-full max-h-60 h-full mb-6`}
+          style={tw`mb-6 size-full max-h-60`}
         />
       </View>
 
-      <View style={tw.style(`mt-4 flex flex-col self-stretch justify-start`)}>
+      <View style={tw.style(`mt-4 flex flex-col justify-start self-stretch`)}>
         <AppText
-          style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mx-6`}>
+          style={tw`mx-6 text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('introduction.activity.title')}
         </AppText>
         <Trans
@@ -47,10 +47,10 @@ const IntroductionActivityStep = ({
           ]}
           defaults={t('introduction.activity.description')}
           parent={AppText}
-          style={tw`mt-4 mx-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
+          style={tw`mx-6 mt-4 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
         />
         <View style={tw`w-full`}>
-          <ThemePicker style={tw`px-3 mx-3`} onPress={selectTheme} />
+          <ThemePicker style={tw`mx-3 px-3`} onPress={selectTheme} />
         </View>
       </View>
     </>

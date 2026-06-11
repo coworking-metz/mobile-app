@@ -1,7 +1,6 @@
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
-import tw from 'twrnc';
 import WalkingChicken from '@/assets/animations/walking-chicken.json';
 import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie } from '@/helpers/colors';
@@ -14,8 +13,6 @@ const WalkingChickenAnimation: ForwardRefRenderFunction<LottieView, AnimationPro
 ) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const isDark = colorScheme === 'dark';
-    const backgroundColor = (isDark ? tw.color('zinc-900') : tw.color('white')) as string;
     return colouriseLottie(WalkingChicken, {
       // Eye.Rectangle 1.Stroke 1
       'layers.1.shapes.0.it.1.c.k': '#d2bf39',

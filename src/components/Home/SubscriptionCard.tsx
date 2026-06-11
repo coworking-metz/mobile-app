@@ -66,7 +66,7 @@ const SubscriptionCard = ({
   return (
     <AppSquircleView
       style={[
-        tw`flex flex-col items-start gap-1 bg-gray-300/60 dark:bg-zinc-900/85 rounded-2xl relative overflow-hidden px-3 pt-2 pb-4`,
+        tw`relative flex flex-col items-start gap-1 overflow-hidden rounded-2xl bg-gray-300/60 px-3 pb-4 pt-2 dark:bg-zinc-900/85`,
         style,
       ]}>
       <MaterialCommunityIcons
@@ -82,7 +82,7 @@ const SubscriptionCard = ({
       <AppText
         ellipsizeMode={'clip'}
         numberOfLines={2}
-        style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 grow`}>
+        style={tw`grow text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {label}
       </AppText>
       {loading ? (
@@ -92,7 +92,7 @@ const SubscriptionCard = ({
           ellipsizeMode={'clip'}
           numberOfLines={1}
           style={[
-            tw`text-2xl font-normal w-full`,
+            tw`w-full text-2xl font-normal`,
             subscription
               ? tw`text-slate-900 dark:text-gray-200`
               : tw`text-gray-400 dark:text-neutral-700`,
@@ -106,7 +106,7 @@ const SubscriptionCard = ({
           color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
           name="check-circle"
           size={20}
-          style={tw`absolute top-3 right-3 z-10`}
+          style={tw`absolute right-3 top-3 z-10`}
         />
       )}
     </AppSquircleView>

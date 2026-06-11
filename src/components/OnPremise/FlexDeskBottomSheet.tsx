@@ -25,7 +25,7 @@ const FlexDeskBottomSheet: ForwardRefRenderFunction<
       ref={forwardedRef}
       style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
-      <UpliftingDeskAnimation autoPlay loop={false} style={tw`w-full h-[144px] mb-2`} />
+      <UpliftingDeskAnimation autoPlay loop={false} style={tw`mb-2 h-[144px] w-full`} />
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.flexDesk.label')}
@@ -37,15 +37,15 @@ const FlexDeskBottomSheet: ForwardRefRenderFunction<
         ]}
         defaults={t('onPremise.flexDesk.description')}
         parent={AppText}
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6`}
+        style={tw`mt-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
       />
 
-      <ServiceRow label={t('onPremise.flexDesk.occupancy.label')} style={tw`w-full px-0 mt-2`}>
+      <ServiceRow label={t('onPremise.flexDesk.occupancy.label')} style={tw`mt-2 w-full px-0`}>
         {loading ? (
           <LoadingSkeleton height={24} width={128} />
         ) : (
           <AppText
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
             {isNil(occupied)
               ? t('onPremise.flexDesk.occupancy.value.unknown')
               : occupied

@@ -143,10 +143,10 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
         <CallingWithLaptopAnimation
           autoPlay
           loop={false}
-          style={tw`w-full h-[224px] self-center`}
+          style={tw`h-[224px] w-full self-center`}
         />
         <AppText
-          style={tw`text-center self-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+          style={tw`self-center text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.phoneBooths.label')}
         </AppText>
         <Trans
@@ -161,11 +161,11 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
           style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
         />
 
-        <View style={tw`flex flex-col w-full mt-2`}>
+        <View style={tw`mt-2 flex w-full flex-col`}>
           <SectionTitle loading={loading} title={t('onPremise.phoneBooths.state.label')}>
             {!isNil(durationSinceLastFetch) && durationSinceLastFetch > 300 && (
               <AppText
-                style={tw`ml-auto text-xs font-normal text-right text-slate-500 dark:text-neutral-500`}>
+                style={tw`ml-auto text-right text-xs font-normal text-slate-500 dark:text-neutral-500`}>
                 {durationSinceLastFetch > 3_600
                   ? dayjs(onPremiseStateUpdatedAt).calendar()
                   : dayjs(onPremiseStateUpdatedAt).fromNow()}
@@ -183,7 +183,7 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
               <LoadingSkeleton height={24} width={128} />
             ) : (
               <AppText
-                style={tw`text-base font-normal text-orange-500 dark:text-orange-400 text-right mr-1`}>
+                style={tw`mr-1 text-right text-base font-normal text-orange-500 dark:text-orange-400`}>
                 {isNil(orangeOccupied)
                   ? t('onPremise.phoneBooths.state.orange.occupation.unknown')
                   : orangeOccupied
@@ -203,7 +203,7 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
               <LoadingSkeleton height={24} width={128} />
             ) : (
               <AppText
-                style={tw`text-base font-normal text-blue-500 dark:text-blue-400 text-right mr-1`}>
+                style={tw`mr-1 text-right text-base font-normal text-blue-500 dark:text-blue-400`}>
                 {isNil(blueOccupied)
                   ? t('onPremise.phoneBooths.state.blue.occupation.unknown')
                   : blueOccupied
@@ -229,7 +229,7 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
       </SectionTitle>
 
       <View
-        style={tw`flex flex-col self-start w-full`}
+        style={tw`flex w-full flex-col self-start`}
         onLayout={({ nativeEvent }: LayoutChangeEvent) =>
           setCarouselWidth(nativeEvent.layout.width)
         }>
@@ -237,10 +237,10 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
           <Animated.View
             entering={FadeIn.duration(300)}
             exiting={FadeOut.duration(300)}
-            style={tw`flex flex-row items-center justify-center min-h-40`}>
+            style={tw`flex min-h-40 flex-row items-center justify-center`}>
             <VerticalLoadingAnimation
               color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-              style={tw`h-16 w-16`}
+              style={tw`size-16`}
             />
           </Animated.View>
         ) : carouselWidth ? (
@@ -267,7 +267,7 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
             onScroll={onHorizontalScroll}
           />
         ) : null}
-        <CarouselPaginationDots count={7} offset={offset} style={tw`self-center mt-4`} />
+        <CarouselPaginationDots count={7} offset={offset} style={tw`mt-4 self-center`} />
       </View>
     </AppBottomSheet>
   );
@@ -308,10 +308,10 @@ const DailyOccupationBarChart = ({
           stacks: { value: number }[];
         }) => (
           <View
-            style={tw`flex flex-row justify-center bg-gray-300 dark:bg-zinc-700 py-1 rounded w-10 overflow-hidden mb-1 -ml-2 z-20`}>
+            style={tw`z-20 -ml-2 mb-1 flex w-10 flex-row justify-center overflow-hidden rounded bg-gray-300 py-1 dark:bg-zinc-700`}>
             <AppText
               numberOfLines={1}
-              style={tw`text-xs text-center text-slate-900 dark:text-gray-200 font-medium`}>
+              style={tw`text-center text-xs font-medium text-slate-900 dark:text-gray-200`}>
               {Number(blue + orange).toFixed(0)}%
             </AppText>
           </View>
@@ -346,7 +346,7 @@ const DailyOccupationBarChart = ({
                 label: dayjs(item.date).local().format('HH[h]'),
               }),
               labelTextStyle: [
-                tw`text-slate-500 dark:text-neutral-500 text-left`,
+                tw`text-left text-slate-500 dark:text-neutral-500`,
                 { width: BAR_WIDTH },
               ],
             } as stackDataItem,
@@ -359,7 +359,7 @@ const DailyOccupationBarChart = ({
         yAxisLabelWidth={0}
       />
       <AppText
-        style={tw`text-center self-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-2`}>
+        style={tw`mt-2 self-center text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {dayjs(occupation.date).format('dddd')}
       </AppText>
     </View>

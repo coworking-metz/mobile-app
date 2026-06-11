@@ -58,8 +58,8 @@ const CalendarsBottomSheet: ForwardRefRenderFunction<
 
   return (
     <AppBottomSheet ref={forwardedRef} style={[tw`py-6`, style]} {...props}>
-      <View style={tw`flex flex-col w-full gap-1 py-3`}>
-        <AppText style={tw`text-center text-xl text-slate-900 dark:text-gray-200 font-medium mb-5`}>
+      <View style={tw`flex w-full flex-col gap-1 py-3`}>
+        <AppText style={tw`mb-5 text-center text-xl font-medium text-slate-900 dark:text-gray-200`}>
           {t('events.calendars.label')}
         </AppText>
 
@@ -68,9 +68,9 @@ const CalendarsBottomSheet: ForwardRefRenderFunction<
             key={`calendar-option-${calendar}`}
             label={t(`events.detail.author.byCalendar.${calendar}`)}
             selected={selected === calendar}
-            style={tw`px-3 mx-3`}
+            style={tw`mx-3 px-3`}
             onPress={() => onSelect?.(calendar)}>
-            <View style={tw`bg-gray-300 dark:bg-zinc-700 py-1 px-2 rounded`}>
+            <View style={tw`rounded bg-gray-300 px-2 py-1 dark:bg-zinc-700`}>
               <AppText style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
                 {getCalendarCount(calendar)}
               </AppText>
@@ -81,9 +81,9 @@ const CalendarsBottomSheet: ForwardRefRenderFunction<
         <ServiceRow
           label={t('events.calendars.all')}
           selected={selected === null}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           onPress={() => onSelect?.(null)}>
-          <View style={tw`bg-gray-300 dark:bg-zinc-700 py-1 px-2 rounded`}>
+          <View style={tw`rounded bg-gray-300 px-2 py-1 dark:bg-zinc-700`}>
             <AppText style={tw`text-xs font-normal text-slate-900 dark:text-gray-200 `}>
               {filteredEventsByPeriod.length}
             </AppText>

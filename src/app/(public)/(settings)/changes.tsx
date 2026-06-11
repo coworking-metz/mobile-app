@@ -30,10 +30,10 @@ const Changes = () => {
       {isFetching ? (
         <Animated.View
           exiting={FadeOut.duration(300)}
-          style={tw`flex flex-row items-center justify-center h-full w-full`}>
+          style={tw`flex size-full flex-row items-center justify-center`}>
           <VerticalLoadingAnimation
             color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-            style={tw`h-16 w-16`}
+            style={tw`size-16`}
           />
         </Animated.View>
       ) : (

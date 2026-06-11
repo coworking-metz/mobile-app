@@ -100,7 +100,11 @@ export default function MessageScreen() {
             return allMessages;
           },
         );
-        router.canGoBack() ? router.back() : router.replace('/messages');
+        if (router.canGoBack()) {
+          router.back();
+        } else {
+          router.replace('/messages');
+        }
       })
       .catch(handleSilentError)
       .catch((error) =>
@@ -137,7 +141,11 @@ export default function MessageScreen() {
             return allMessages;
           },
         );
-        router.canGoBack() ? router.back() : router.replace('/messages');
+        if (router.canGoBack()) {
+          router.back();
+        } else {
+          router.replace('/messages');
+        }
       })
       .catch(handleSilentError)
       .catch((error) =>
@@ -181,7 +189,7 @@ export default function MessageScreen() {
               onPress: onArchive,
             },
       ]}
-      contentStyle={tw`px-6 pt-3 pb-6`}
+      contentStyle={tw`px-6 pb-6 pt-3`}
       loading={isFetchingFullMessage || archiving || restoring}
       title={message?.title}
       withBackButton={!withoutBackButton}
@@ -193,17 +201,17 @@ export default function MessageScreen() {
               <ProfilePicture
                 name={compact([message.author.firstName, message.author.lastName]).join(' ')}
                 pictureStyle={tw`rounded-full`}
-                style={tw`h-12 w-12`}
+                style={tw`size-12`}
                 url={message.author.thumbnail}
               />
             ) : (
               <AppSquircleView
-                style={tw`h-12 w-12 rounded-xl overflow-hidden flex items-center justify-center bg-zinc-300 dark:bg-zinc-700`}>
-                <Image source={CoworkingLogo} style={[tw`h-full w-full`]} />
+                style={tw`flex size-12 items-center justify-center overflow-hidden rounded-xl bg-zinc-300 dark:bg-zinc-700`}>
+                <Image source={CoworkingLogo} style={[tw`size-full`]} />
               </AppSquircleView>
             )}
 
-            <View style={tw`flex flex-col ml-4 justify-center`}>
+            <View style={tw`ml-4 flex flex-col justify-center`}>
               <AppText style={tw`text-base font-semibold text-gray-900 dark:text-gray-200`}>
                 {message.author
                   ? compact([message.author.firstName, message.author.lastName]).join(' ')
@@ -225,21 +233,21 @@ export default function MessageScreen() {
       ) : isPendingMessageFromList && isPendingFullMessage ? (
         <>
           <Animated.View style={tw`flex flex-row`}>
-            <View style={tw`rounded-full overflow-hidden`}>
+            <View style={tw`overflow-hidden rounded-full`}>
               <LoadingSkeleton height={48} width={48} />
             </View>
-            <View style={tw`flex flex-col ml-4 gap-2 justify-center`}>
+            <View style={tw`ml-4 flex flex-col justify-center gap-2`}>
               <LoadingSkeleton height={18} width={144} />
               <LoadingSkeleton height={12} width={64} />
             </View>
           </Animated.View>
           <Divider style={tw`mt-3`} />
-          <Animated.View style={tw`flex flex-row flex-wrap gap-3 mt-6`}>
+          <Animated.View style={tw`mt-6 flex flex-row flex-wrap gap-3`}>
             {[...Array(8).keys()].map((index) => (
               <Animated.View
                 entering={FadeIn.duration(2000).delay(500 * Math.random())}
                 key={`body-loading-skeleton-${index}`}
-                style={tw`rounded-lg overflow-hidden`}>
+                style={tw`overflow-hidden rounded-lg`}>
                 <LoadingSkeleton height={18} width={Math.random() * 256 + 24} />
               </Animated.View>
             ))}

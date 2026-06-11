@@ -19,14 +19,14 @@ const TelevisionBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
       ref={forwardedRef}
       style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
-      <TelevisionSlideshowAnimation autoPlay loop style={tw`w-full h-32 my-6`} />
+      <TelevisionSlideshowAnimation autoPlay loop style={tw`my-6 h-32 w-full`} />
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.television.label')}
       </AppText>
 
       <AppText
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6 mb-3`}>
+        style={tw`mb-3 mt-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('onPremise.television.description')}
       </AppText>
     </AppBottomSheet>

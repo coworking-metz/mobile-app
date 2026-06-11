@@ -5,13 +5,7 @@ import { capitalize, compact, isNil, sample } from 'lodash';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import Animated, {
-  FadeIn,
-  FadeInLeft,
-  FadeOut,
-  FadeOutLeft,
-  LinearTransition,
-} from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInLeft, FadeOut, LinearTransition } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import EmptyOfficeAnimation from '@/components/Animations/EmptyOfficeAnimation';
 import { AppBottomSheetRef } from '@/components/AppBottomSheet';
@@ -83,7 +77,7 @@ const Attendance = () => {
 
   return (
     <ServiceLayout
-      contentStyle={tw`pt-6 pb-12 gap-6`}
+      contentStyle={tw`gap-6 pb-12 pt-6`}
       description={t('attendance.description')}
       footer={
         <MemberBottomSheet
@@ -98,7 +92,7 @@ const Attendance = () => {
       loading={isFetchingCurrentMembers}
       title={t('attendance.title', { count: currentMembers?.length ?? 0 })}
       onRefresh={refetchCurrentMembers}>
-      <View style={tw`flex flex-row items-center gap-2 min-h-6 px-6`}>
+      <View style={tw`flex min-h-6 flex-row items-center gap-2 px-6`}>
         <AppShimmerText
           active={isFetchingCurrentMembers}
           numberOfLines={1}
@@ -123,26 +117,25 @@ const Attendance = () => {
       </View>
 
       {isPendingCurrentMembers ? (
-        <View style={tw`flex flex-row items-start justify-evenly flex-wrap gap-8 px-6`}>
+        <View style={tw`flex flex-row flex-wrap items-start justify-evenly gap-8 px-6`}>
           {[0, 1, 2, 3, 4].map((index) => (
             <Animated.View
               entering={FadeIn.duration(300).delay(Math.min(index, 10) * 50 + Math.random() * 200)}
               exiting={FadeOut.duration(300)}
               key={`member-skeleton-${index}`}
               layout={LinearTransition}
-              style={tw`flex flex-col items-center w-24 h-24 relative`}>
-              <View
-                style={tw`w-full h-full rounded-full bg-white dark:bg-zinc-800 overflow-hidden`}>
+              style={tw`relative flex size-24 flex-col items-center`}>
+              <View style={tw`size-full overflow-hidden rounded-full bg-white dark:bg-zinc-800`}>
                 <LoadingSkeleton height={`100%`} width={`100%`} />
               </View>
               <View
-                style={tw`shadow-black shadow-2xl absolute -bottom-0 h-7 w-20 px-3 py-1 rounded-full bg-white dark:bg-zinc-800 `}></View>
+                style={tw`absolute -bottom-0 h-7 w-20 rounded-full bg-white px-3 py-1 shadow-2xl shadow-black dark:bg-zinc-800 `}></View>
             </Animated.View>
           ))}
-          <View style={tw`w-24 h-24`} />
+          <View style={tw`size-24`} />
         </View>
       ) : currentMembers?.length ? (
-        <View style={tw`flex flex-row items-start justify-evenly flex-wrap gap-8 px-6`}>
+        <View style={tw`flex flex-row flex-wrap items-start justify-evenly gap-8 px-6`}>
           {currentMembers?.map((member, index) => (
             <Animated.View
               entering={FadeIn.duration(300).delay(Math.min(index, 10) * 50 + Math.random() * 200)}
@@ -162,20 +155,20 @@ const Attendance = () => {
         </View>
       ) : (
         <View
-          style={tw`flex flex-col px-4 gap-2 grow basis-0 justify-start mx-auto w-full max-w-sm`}>
+          style={tw`mx-auto flex w-full max-w-sm grow basis-0 flex-col justify-start gap-2 px-4`}>
           <View style={tw`overflow-hidden`}>
-            <EmptyOfficeAnimation style={tw`h-80 -my-12 w-80 mx-auto`} />
+            <EmptyOfficeAnimation style={tw`-my-12 mx-auto size-80`} />
           </View>
           <AppText
             entering={FadeInLeft.duration(500)}
             numberOfLines={1}
-            style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+            style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
             {emptyTitle}
           </AppText>
           <AppText
             entering={FadeInLeft.duration(500).delay(150)}
             numberOfLines={2}
-            style={tw`text-base text-center text-slate-500 dark:text-neutral-500`}>
+            style={tw`text-center text-base text-slate-500 dark:text-neutral-500`}>
             {emptyDescription}
           </AppText>
         </View>

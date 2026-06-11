@@ -180,7 +180,7 @@ const InboxScreen = ({ from }: { from?: string }) => {
           </Animated.View>
         )}
 
-        <View style={tw`flex flex-row items-center gap-2 min-h-6 px-6 mt-4 mb-2`}>
+        <View style={tw`mb-2 mt-4 flex min-h-6 flex-row items-center gap-2 px-6`}>
           <AppShimmerText
             active={isFetchingMessages}
             numberOfLines={1}
@@ -251,10 +251,10 @@ const InboxScreen = ({ from }: { from?: string }) => {
             <MessageCard pending style={tw``} />
           </Animated.View>
         ) : (
-          <Animated.View style={tw`flex flex-col items-center w-full h-full mt-4 px-6`}>
-            <LoveLetterAnimation autoPlay loop={false} style={tw`h-56 -mb-12 w-full`} />
+          <Animated.View style={tw`mt-4 flex size-full flex-col items-center px-6`}>
+            <LoveLetterAnimation autoPlay loop={false} style={tw`-mb-12 h-56 w-full`} />
             <AppText
-              style={tw`text-base text-center font-normal text-slate-500 dark:text-neutral-500`}>
+              style={tw`text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {t('messages.list.empty.title')}
             </AppText>
           </Animated.View>

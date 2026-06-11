@@ -57,10 +57,11 @@ const ActivityItem = ({
     if (!activity.coverage) {
       return null;
     }
+
     if (activity.type === 'subscription') {
-      const [firstActiveSubscription] = activity.coverage.subscriptions ?? [];
       return t('settings.profile.presence.selected.coverage.value.subscription');
     }
+
     return t('settings.profile.presence.selected.coverage.value.ticket', {
       count: activity.value,
       suffix: activity.coverage.debt
@@ -78,7 +79,7 @@ const ActivityItem = ({
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {dayjs(activity.date).format('dddd LL')}
       </AppText>
-      <View style={tw`flex items-center justify-center mt-4 relative`}>
+      <View style={tw`relative mt-4 flex items-center justify-center`}>
         <AnimatedProgressWheel
           rounded
           showProgressLabel
@@ -87,7 +88,7 @@ const ActivityItem = ({
           color={ringColor as string}
           duration={activity.value === 1 ? 2000 : 1500}
           easing={Easing.inOut(Easing.ease)}
-          labelStyle={tw`text-slate-900 dark:text-gray-200 text-center text-3xl font-bold`}
+          labelStyle={tw`text-center text-3xl font-bold text-slate-900 dark:text-gray-200`}
           max={activity.value === 1 ? 1 : 2}
           progress={1}
           rotation={'-90deg'}
@@ -104,10 +105,10 @@ const ActivityItem = ({
 
       <ServiceRow
         label={t('settings.profile.presence.selected.coverage.label')}
-        style={tw`w-full px-0 mt-2`}>
+        style={tw`mt-2 w-full px-0`}>
         <AppText
           style={[
-            tw`font-normal text-slate-500 dark:text-neutral-500 text-right`,
+            tw`text-right font-normal text-slate-500 dark:text-neutral-500`,
             activity.coverage?.debt && activity.coverage?.debt.value !== activity.value
               ? tw`text-sm`
               : tw`text-base`,
@@ -117,16 +118,16 @@ const ActivityItem = ({
       </ServiceRow>
 
       {activity.coverage?.debt && (
-        <View style={tw`flex flex-row items-start flex-gap-2 mb-3 w-full overflow-hidden`}>
+        <View style={tw`mb-3 flex w-full flex-row items-start gap-2 overflow-hidden`}>
           <MaterialCommunityIcons
             color={tw.color('yellow-500')}
-            iconStyle={tw`h-6 w-6 mr-0`}
+            iconStyle={tw`mr-0 size-6`}
             name="alert"
             size={24}
             style={tw`shrink-0 grow-0`}
           />
           <AppText
-            style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
+            style={tw`shrink grow basis-0 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
             {t('settings.profile.presence.selected.debt.description')}
           </AppText>
         </View>

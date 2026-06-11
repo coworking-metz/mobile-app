@@ -9,7 +9,7 @@ if (IS_RUNNING_IN_EXPO_GO) {
   useAppThemePreference = () => 'system';
   AppThemeBackground = () => null; // eslint-disable-line react/display-name
 } else {
-  setAppThemePreference = require('@vonovak/react-native-theme-control').setThemePreference; // eslint-disable-line @typescript-eslint/no-var-requires
-  useAppThemePreference = require('@vonovak/react-native-theme-control').useThemePreference; // eslint-disable-line @typescript-eslint/no-var-requires
-  AppThemeBackground = require('@vonovak/react-native-theme-control').AppBackground; // eslint-disable-line @typescript-eslint/no-var-requires
+  setAppThemePreference = require('@vonovak/react-native-theme-control').setThemePreference;
+  useAppThemePreference = require('@vonovak/react-native-theme-control').useThemePreference;
+  AppThemeBackground = require('@vonovak/react-native-theme-control').AppBackground;
 }

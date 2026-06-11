@@ -16,7 +16,7 @@ const GiftCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
     <Animated.View
       entering={FadeInLeft.duration(500)}
       exiting={FadeOutLeft.duration(500)}
-      style={[tw`flex flex-col items-stretch p-1 relative rounded-2xl overflow-hidden`, style]}
+      style={[tw`relative flex flex-col items-stretch overflow-hidden rounded-2xl p-1`, style]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => {
         setHeight(nativeEvent.layout.height);
         setWidth(nativeEvent.layout.width);
@@ -24,12 +24,12 @@ const GiftCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
       <AppGlowingBorder
         backgroundColor={tw.prefixMatch('dark') ? tw.color('zinc-900/85') : tw.color('gray-300/60')}
         height={height}
-        style={tw`absolute top-0 left-0`}
+        style={tw`absolute left-0 top-0`}
         width={width}
       />
 
       <View
-        style={tw`flex flex-col items-start grow overflow-hidden gap-1 relative pl-3 pr-0 pt-2 pb-4`}>
+        style={tw`relative flex grow flex-col items-start gap-1 overflow-hidden pb-4 pl-3 pr-0 pt-2`}>
         <MaterialCommunityIcons
           color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
           name="gift"

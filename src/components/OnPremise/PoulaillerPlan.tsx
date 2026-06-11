@@ -6,7 +6,7 @@ import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image as RNImage, StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
-import Animated, { BounceIn, BounceOut, FadeIn, FadeOut } from 'react-native-reanimated';
+import Animated, { BounceIn, BounceOut, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import floorPlanDay from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-13-30.png';
 import floorPlanNight from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-20-30.png';
@@ -92,15 +92,15 @@ const PoulaillerPlan = ({
   }, [backgroundImage]);
 
   return (
-    <View style={[tw`flex flex-col grow items-start`, style]}>
-      <View style={tw`flex flex-row gap-3 items-end w-full mx-6 mb-4`}>
+    <View style={[tw`flex grow flex-col items-start`, style]}>
+      <View style={tw`mx-6 mb-4 flex w-full flex-row items-end gap-3`}>
         <AppText style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.location.poulailler')}
         </AppText>
         {onPremiseStateError && !isSilentError(onPremiseStateError) && !isFetchingOnPremiseState ? (
           <ErrorBadge
             error={onPremiseStateError}
-            style={tw`shrink-0 ios:mb-2 android:mb-1`}
+            style={tw`ios:mb-2 android:mb-1 shrink-0`}
             title={t('onPremise.onFetch.fail')}
             onRetry={refetchOnPremiseState}
           />
@@ -108,7 +108,7 @@ const PoulaillerPlan = ({
       </View>
       <View
         style={[
-          tw`flex flex-col items-center justify-center w-full relative`,
+          tw`relative flex w-full flex-col items-center justify-center`,
           !!imageWidth && !!imageHeight && { aspectRatio: imageWidth / imageHeight },
         ]}>
         <BlurTargetView ref={blurTargetRef} style={tw`absolute inset-0`}>
@@ -116,23 +116,23 @@ const PoulaillerPlan = ({
             <Image
               cachePolicy="memory-disk"
               source={backgroundImage}
-              style={[tw`w-full relative`, { aspectRatio: imageWidth / imageHeight }]}
+              style={[tw`relative w-full`, { aspectRatio: imageWidth / imageHeight }]}
               onLoadEnd={() => setFloorplanLoaded(true)}
             />
           ) : null}
 
           {isFetchingOnPremiseState && (
-            <LoadingProgressBar style={tw`absolute top-0 inset-x-0 z-1`} />
+            <LoadingProgressBar style={tw`absolute inset-x-0 top-0 z-10`} />
           )}
         </BlurTargetView>
 
         {!hasFloorplanLoaded ? (
           <Animated.View
             exiting={FadeOut.duration(300)}
-            style={tw`absolute h-16 w-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full overflow-hidden`}>
+            style={tw`absolute z-10 my-auto size-16 overflow-hidden rounded-full bg-gray-200 dark:bg-black`}>
             <VerticalLoadingAnimation
               color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-              style={tw`h-full w-full`}
+              style={tw`size-full`}
             />
           </Animated.View>
         ) : withInformations ? (
@@ -144,7 +144,7 @@ const PoulaillerPlan = ({
               icon="volume-off"
               key="sound-off"
               selected={isSoundOffSelected}
-              style={tw`top-[22%] left-[66%]`}
+              style={tw`left-[66%] top-[22%]`}
               onPress={selectSoundOff}
             />
 
@@ -155,7 +155,7 @@ const PoulaillerPlan = ({
               icon="fridge-outline"
               key="fridge"
               selected={isFridgeSelected}
-              style={tw`top-[56%] left-[62%]`}
+              style={tw`left-[62%] top-[56%]`}
               onPress={selectFridge}
             />
 
@@ -166,7 +166,7 @@ const PoulaillerPlan = ({
               icon="coffee-outline"
               key="coffee-machine"
               selected={isCoffeeMachineSelected}
-              style={tw`top-[56%] left-[77%]`}
+              style={tw`left-[77%] top-[56%]`}
               onPress={selectCoffeeMachine}
             />
 
@@ -176,7 +176,7 @@ const PoulaillerPlan = ({
               icon="television-guide"
               key="television"
               selected={isTelevisionSelected}
-              style={tw`top-[75%] left-[73%]`}
+              style={tw`left-[73%] top-3/4`}
               onPress={selectTelevision}
             />
 
@@ -187,7 +187,7 @@ const PoulaillerPlan = ({
               icon="printer-outline"
               key="printer"
               selected={isPrinterSelected}
-              style={tw`top-[49%] left-[66%]`}
+              style={tw`left-[66%] top-[49%]`}
               onPress={selectPrinter}
             />
             <ActionableIcon
@@ -197,7 +197,7 @@ const PoulaillerPlan = ({
               icon="bell-ring-outline"
               key="intercom"
               selected={isIntercomSelected}
-              style={tw`top-[32%] left-[48%]`}
+              style={tw`left-[48%] top-[32%]`}
               onPress={selectIntercom}
             />
             <ActionableIcon
@@ -207,7 +207,7 @@ const PoulaillerPlan = ({
               icon="fan"
               key="air-conditioning-1"
               selected={isAirConditioningSelected}
-              style={tw`top-[19%] left-[11%]`}
+              style={tw`left-[11%] top-[19%]`}
               onPress={selectAirConditioning}
             />
             <ActionableIcon
@@ -217,7 +217,7 @@ const PoulaillerPlan = ({
               icon="fan"
               key="air-conditioning-2"
               selected={isAirConditioningSelected}
-              style={tw`top-[46%] left-[11%]`}
+              style={tw`left-[11%] top-[46%]`}
               onPress={selectAirConditioning}
             />
 
@@ -228,7 +228,7 @@ const PoulaillerPlan = ({
               icon="account-group-outline"
               key="group-work"
               selected={isGroupWorkSelected}
-              style={tw`top-[60%] left-[28%]`}
+              style={tw`left-[28%] top-[60%]`}
               onPress={selectGroupWork}
             />
           </>
@@ -243,7 +243,7 @@ const PoulaillerPlan = ({
               key="light-1"
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
-              style={tw`top-[22%] left-[32%]`}
+              style={tw`left-[32%] top-[22%]`}
             />
             <ActionableLight
               blurTarget={blurTargetRef}
@@ -253,7 +253,7 @@ const PoulaillerPlan = ({
               key="light-2"
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
-              style={tw`top-[22%] left-[65%]`}
+              style={tw`left-[65%] top-[22%]`}
             />
             <ActionableLight
               blurTarget={blurTargetRef}
@@ -263,7 +263,7 @@ const PoulaillerPlan = ({
               key="light-3"
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
-              style={tw`top-[40%] left-[32%]`}
+              style={tw`left-[32%] top-[40%]`}
             />
             <ActionableLight
               blurTarget={blurTargetRef}
@@ -273,7 +273,7 @@ const PoulaillerPlan = ({
               key="light-4"
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
-              style={tw`top-[40%] left-[65%]`}
+              style={tw`left-[65%] top-[40%]`}
             />
             <ActionableLight
               blurTarget={blurTargetRef}
@@ -283,7 +283,7 @@ const PoulaillerPlan = ({
               key="light-5"
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
-              style={tw`top-[68%] left-[32%]`}
+              style={tw`left-[32%] top-[68%]`}
             />
             <ActionableLight
               blurTarget={blurTargetRef}
@@ -293,7 +293,7 @@ const PoulaillerPlan = ({
               key="light-6"
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
-              style={tw`top-[68%] left-[65%]`}
+              style={tw`left-[65%] top-[68%]`}
             />
           </>
         ) : (
@@ -309,7 +309,7 @@ const PoulaillerPlan = ({
               key="deck-door"
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
-              style={tw`top-[50%] left-[82%]`}
+              style={tw`left-[82%] top-1/2`}
               onPress={selectDeckDoor}
             />
 
@@ -321,7 +321,7 @@ const PoulaillerPlan = ({
               icon="key-chain"
               key="deck-key-box"
               selected={isDeckKeyBoxSelected}
-              style={tw`top-[43%] left-[89%]`}
+              style={tw`left-[89%] top-[43%]`}
               onPress={selectDeckKeyBox}
             />
 
@@ -338,7 +338,7 @@ const PoulaillerPlan = ({
               icon="door-open"
               key="phone-booths"
               loading={isPendingOnPremiseState}
-              style={tw`top-[82%] left-[12%] w-[25%] min-w-26`}
+              style={tw`left-[12%] top-[82%] w-1/4 min-w-[6.5rem]`}
               unknownIcon="door"
               onPress={selectPhoneBooth}
             />
@@ -350,7 +350,7 @@ const PoulaillerPlan = ({
               icon="key-chain-variant"
               key="poulailler-key-box"
               selected={isPoulaillerKeyBoxSelected}
-              style={tw`top-[84%] left-[56%]`}
+              style={tw`left-[56%] top-[84%]`}
               onPress={selectPoulaillerKeyBox}
             />
 
@@ -360,7 +360,7 @@ const PoulaillerPlan = ({
               exiting={BounceOut.duration(750)}
               icon="wifi"
               selected={isWifiSelected}
-              style={tw`top-[75%] left-[48%]`}
+              style={tw`left-[48%] top-3/4`}
               onPress={selectWifi}
             />
 
@@ -372,7 +372,7 @@ const PoulaillerPlan = ({
                 icon="key-chain-variant"
                 key="storage-key-box"
                 selected={isStorageKeyBoxSelected}
-                style={tw`top-[95%] left-[50%]`}
+                style={tw`left-1/2 top-[95%]`}
                 onPress={selectStorageKeyBox}
               />
             )}
@@ -386,7 +386,7 @@ const PoulaillerPlan = ({
               level={onPremiseState?.sensors?.carbonDioxide.level || 0}
               loading={isFetchingOnPremiseState}
               selected={isCarbonDioxideSelected}
-              style={tw`top-[32%] left-[56%]`}
+              style={tw`left-[56%] top-[32%]`}
               onPress={selectCarbonDioxide}
             />
           </>

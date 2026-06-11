@@ -135,10 +135,10 @@ const ModalLayout = ({
 
   return (
     <Animated.View style={tw`relative bg-gray-100 dark:bg-black`}>
-      <BlurTargetView ref={blurTargetRef} style={tw`w-full h-full`}>
+      <BlurTargetView ref={blurTargetRef} style={tw`size-full`}>
         <Animated.ScrollView
           contentContainerStyle={[
-            tw`flex flex-col grow`,
+            tw`flex grow flex-col`,
             {
               paddingTop: maxHeaderHeight,
               paddingLeft: insets.left,
@@ -150,7 +150,7 @@ const ModalLayout = ({
           horizontal={false}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
-          style={tw`w-full h-full`}
+          style={tw`size-full`}
           onScroll={onVerticalScroll}>
           {children}
         </Animated.ScrollView>
@@ -158,7 +158,7 @@ const ModalLayout = ({
 
       <Animated.View
         style={[
-          tw.style(`absolute flex flex-row justify-between items-start w-full pr-4`, {
+          tw.style(`absolute flex w-full flex-row items-start justify-between pr-4`, {
             left: insets.left,
             right: insets.right,
             ...(Platform.OS !== 'ios' && { paddingTop: insets.top }),
@@ -167,15 +167,15 @@ const ModalLayout = ({
         ]}>
         <Animated.View
           style={[
-            tw`absolute top-0 left-0 bottom-0 right-0 border-b-gray-300 dark:border-b-gray-700 border-b-[0.5px]`,
+            tw`absolute inset-0 border-b-[0.5px] border-b-gray-300 dark:border-b-gray-700`,
             headerBackgroundStyle,
           ]}>
-          <AppBlurView blurTarget={blurTargetRef} style={tw`h-full w-full`} />
+          <AppBlurView blurTarget={blurTargetRef} style={tw`size-full`} />
         </Animated.View>
 
         <View
           style={[
-            tw`ml-4 absolute z-10`,
+            tw`absolute z-10 ml-4`,
             Platform.OS === 'ios' ? tw`mt-3` : { top: insets.top + 4 },
           ]}>
           {from ? (
@@ -186,7 +186,7 @@ const ModalLayout = ({
               iconStyle={{ height: 32, width: 32, marginRight: 0 }}
               name="arrow-left"
               size={32}
-              style={tw`p-1 shrink-0`}
+              style={tw`shrink-0 p-1`}
               underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
               onPress={() => (canGoBack ? router.back() : router.dismissTo(from))}
             />
@@ -196,7 +196,7 @@ const ModalLayout = ({
         </View>
         <Animated.View
           entering={FadeInDown.duration(300).delay(150)}
-          style={[tw.style(`grow basis-0 mb-4 self-end`, !from && `ml-6`), titleStyle]}>
+          style={[tw.style(`mb-4 grow basis-0 self-end`, !from && `ml-6`), titleStyle]}>
           {loading ? (
             <LoadingSkeleton height={28} width={144} />
           ) : (
@@ -212,7 +212,7 @@ const ModalLayout = ({
         </Animated.View>
         <Animated.View
           entering={FadeInDown.duration(300).delay(150)}
-          style={[tw`grow-0 shrink-0`, Platform.OS === 'ios' ? tw`mt-3` : tw`mt-1`]}>
+          style={[tw`shrink-0 grow-0`, Platform.OS === 'ios' ? tw`mt-3` : tw`mt-1`]}>
           <MaterialCommunityIcons.Button
             aria-label={t('actions.close')}
             backgroundColor="transparent"

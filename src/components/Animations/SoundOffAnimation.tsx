@@ -1,7 +1,6 @@
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import { forwardRef, type ForwardRefRenderFunction, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
-import tw from 'twrnc';
 import SoundOff from '@/assets/animations/sound-off.json';
 import AppLottieView from '@/components/AppLottieView';
 import { colouriseLottie } from '@/helpers/colors';
@@ -11,8 +10,6 @@ type AnimationProps = Omit<LottieViewProps, 'source'>;
 const SoundOffAnimation: ForwardRefRenderFunction<LottieView, AnimationProps> = (props, ref) => {
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
-    const isDark = colorScheme === 'dark';
-    const backgroundColor = (isDark ? tw.color('zinc-900') : tw.color('white')) as string;
     return colouriseLottie(SoundOff, {
       // // mask_wave_2.Rectangle 1.Fill 1
       // 'layers.0.shapes.0.it.1.c.k': '#000000',

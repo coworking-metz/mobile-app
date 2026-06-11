@@ -47,21 +47,21 @@ const PtiPoulaillerClimateBottomSheet: ForwardRefRenderFunction<
       ref={forwardedRef}
       style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
-      <HappySunAnimation autoPlay style={tw`w-full h-[224px] -my-4`} />
+      <HappySunAnimation autoPlay style={tw`-my-4 h-[224px] w-full`} />
       <AppText
-        style={tw`text-center self-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+        style={tw`self-center text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.climate.label')}
       </AppText>
       <AppText
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6`}>
+        style={tw`mt-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('onPremise.climate.description')}
       </AppText>
 
-      <View style={tw`flex flex-col w-full mt-4`}>
+      <View style={tw`mt-4 flex w-full flex-col`}>
         <SectionTitle loading={loading} title={t('onPremise.climate.sensors.label')}>
           {!isNil(durationSinceLastFetch) && durationSinceLastFetch > 300 && (
             <AppText
-              style={tw`ml-auto text-xs font-normal text-right text-slate-500 dark:text-neutral-500`}>
+              style={tw`ml-auto text-right text-xs font-normal text-slate-500 dark:text-neutral-500`}>
               {durationSinceLastFetch > 3_600
                 ? dayjs(onPremiseStateUpdatedAt).calendar()
                 : dayjs(onPremiseStateUpdatedAt).fromNow()}
@@ -76,7 +76,7 @@ const PtiPoulaillerClimateBottomSheet: ForwardRefRenderFunction<
             <LoadingSkeleton height={24} width={48} />
           ) : !isNil(temperatureLevel) ? (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
+              style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-400`}>
               {t('onPremise.climate.temperature.level', {
                 level: temperatureLevel,
               })}
@@ -88,7 +88,7 @@ const PtiPoulaillerClimateBottomSheet: ForwardRefRenderFunction<
             <LoadingSkeleton height={24} width={48} />
           ) : !isNil(humidityLevel) ? (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-400 text-right`}>
+              style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-400`}>
               {t('onPremise.climate.humidity.level', { level: humidityLevel })}
             </AppText>
           ) : null}

@@ -38,10 +38,10 @@ const AppTextField: ForwardRefRenderFunction<TextFieldRef, AppTextFieldProps> = 
       preset="outline"
       {...(loading && {
         trailingAccessory: (
-          <View style={tw`relative h-6 w-6 shrink-0`}>
+          <View style={tw`relative size-6 shrink-0`}>
             <HorizontalLoadingAnimation
               color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
-              style={tw`h-full w-full`}
+              style={tw`size-full`}
             />
           </View>
         ),

@@ -25,11 +25,11 @@ const PrinterBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
       style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
       <View style={tw`relative w-full`}>
-        <PaperPrintingAnimation autoPlay loop={false} style={tw`w-full h-[192px]`} />
+        <PaperPrintingAnimation autoPlay loop={false} style={tw`h-[192px] w-full`} />
         <AppFader
           position={Fader.position.BOTTOM}
           size={64}
-          style={tw`inset-0 absolute bottom-0`}
+          style={tw`absolute inset-0`}
           tintColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white') || ''}
         />
       </View>
@@ -56,7 +56,7 @@ const PrinterBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
         ]}
         defaults={t('onPremise.printer.description')}
         parent={AppText}
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6 mb-3`}
+        style={tw`mb-3 mt-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
       />
     </AppBottomSheet>
   );

@@ -14,12 +14,11 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import tw from 'twrnc';
-import { theme } from '@/helpers/colors';
 import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 
 type AccordionType = 'single' | 'multiple';
 
-type AccordionContextType<T> = {
+type AccordionContextType<T extends string> = {
   openItems: Set<T>;
   toggleItem: (id: T) => void;
 };
@@ -215,7 +214,7 @@ const AccordionContent = ({
   return (
     <>
       {!measured && (
-        <View style={tw`absolute opacity-0 left-0 right-0`} onLayout={onLayout}>
+        <View style={tw`absolute inset-x-0 opacity-0`} onLayout={onLayout}>
           <View style={style}>{children}</View>
         </View>
       )}

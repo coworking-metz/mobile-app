@@ -86,24 +86,24 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
 
   return (
     <AppBottomSheet ref={forwardedRef} style={[tw`p-6`, style]} onClose={onClose}>
-      <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
+      <View style={tw`flex h-40 items-center justify-center overflow-visible`}>
         <CouponsAnimation style={tw`h-56 w-full`} />
       </View>
       <AppText
         accessibilityLabel={t('home.profile.tickets.title')}
         accessible={true}
-        style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
+        style={tw`mt-4 text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('home.profile.tickets.title')}
       </AppText>
       <AppText
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full mt-4`}>
+        style={tw`mt-4 w-full text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('home.profile.tickets.description')}
       </AppText>
 
       <ServiceRow
         withBottomDivider
         label={t('home.profile.tickets.balance.label')}
-        style={tw`w-full px-0 mt-2`}>
+        style={tw`mt-2 w-full px-0`}>
         {isFetchingProfile ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
@@ -124,14 +124,14 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
             }
             numberOfLines={1}
             parent={AppText}
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
           />
         )}
       </ServiceRow>
       <ServiceRow
         description={t('home.profile.tickets.consumed.description')}
         label={t('home.profile.tickets.consumed.label')}
-        style={tw`w-full px-0 mb-2`}>
+        style={tw`mb-2 w-full px-0`}>
         {isFetchingTicketsOrders ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
@@ -150,7 +150,7 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
             }
             numberOfLines={1}
             parent={AppText}
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
           />
         )}
       </ServiceRow>
@@ -158,21 +158,21 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
         <ErrorChip
           error={ticketsOrdersError}
           label={t('home.profile.tickets.onFetch.fail')}
-          style={tw`self-start mt-1 mb-4`}
+          style={tw`mb-4 mt-1 self-start`}
           onRetry={refetchTicketsOrders}
         />
       ) : null}
       {memberProfile && isMemberBalanceInsufficient(memberProfile) && (
-        <View style={tw`flex flex-row items-start gap-3 mb-3 w-full overflow-hidden`}>
+        <View style={tw`mb-3 flex w-full flex-row items-start gap-3 overflow-hidden`}>
           <MaterialCommunityIcons
             color={tw.color('yellow-500')}
-            iconStyle={tw`h-6 w-6 mr-0`}
+            iconStyle={tw`mr-0 size-6`}
             name="alert"
             size={24}
             style={tw`shrink-0 grow-0`}
           />
           <AppText
-            style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
+            style={tw`shrink grow basis-0 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
             {t('home.profile.tickets.balance.onDepleted', {
               count: Math.abs(memberProfile.balance),
             })}

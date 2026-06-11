@@ -63,55 +63,55 @@ const Devices = () => {
         />
       ) : null}
       {isDevicesEnabled && isPendingDevices ? (
-        <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-4`}>
+        <View style={tw`flex flex-row flex-wrap items-stretch gap-4 px-4`}>
           {[0].map((index) => (
-            <DeviceCard pending key={index} style={tw`grow shrink basis-0 min-w-32 max-w-48`} />
+            <DeviceCard pending key={index} style={tw`min-w-32 max-w-48 shrink grow basis-0`} />
           ))}
           <AppPressable
-            style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-48`}
+            style={tw`flex min-w-32 max-w-48 shrink grow basis-0 flex-row`}
             onPress={pairDevice}>
-            <NewDeviceCard style={tw`self-stretch w-full`} />
+            <NewDeviceCard style={tw`w-full self-stretch`} />
           </AppPressable>
           {/* Placeholder for the last card to maintain layout */}
-          <View style={tw`grow shrink basis-0 min-w-32 max-w-48`} />
+          <View style={tw`min-w-32 max-w-48 shrink grow basis-0`} />
         </View>
       ) : devices?.length ? (
-        <View style={tw`flex flex-row items-stretch flex-wrap gap-4 px-4`}>
+        <View style={tw`flex flex-row flex-wrap items-stretch gap-4 px-4`}>
           {devices.map((device) => (
             <Link
               asChild
               href={`/devices/${device._id}`}
               key={device.macAddress}
-              style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-48`}>
+              style={tw`flex min-w-32 max-w-48 shrink grow basis-0 flex-row`}>
               <AppPressable>
                 <DeviceCard
                   device={device}
                   key={device.macAddress}
                   loading={isFetchingDevices}
-                  style={tw`self-stretch w-full`}
+                  style={tw`w-full self-stretch`}
                 />
               </AppPressable>
             </Link>
           ))}
           <AppPressable
-            style={tw`flex flex-row grow shrink basis-0 min-w-32 max-w-48`}
+            style={tw`flex min-w-32 max-w-48 shrink grow basis-0 flex-row`}
             onPress={pairDevice}>
-            <NewDeviceCard style={tw`self-stretch w-full`} />
+            <NewDeviceCard style={tw`w-full self-stretch`} />
           </AppPressable>
           {/* Placeholder for the last card to maintain layout */}
-          <View style={tw`grow shrink basis-0 min-w-32 max-w-48`} />
+          <View style={tw`min-w-32 max-w-48 shrink grow basis-0`} />
         </View>
       ) : (
         <Animated.View
-          style={tw`flex flex-col gap-2 grow items-center w-full px-6 max-w-md mx-auto`}>
+          style={tw`mx-auto flex w-full max-w-md grow flex-col items-center gap-2 px-6`}>
           <SwitchDevicesAnimation style={tw`h-48 w-full`} />
           <AppText
             numberOfLines={1}
-            style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+            style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
             {t('devices.empty.title')}
           </AppText>
           <AppText
-            style={tw`text-base text-center font-normal text-slate-500 dark:text-neutral-500 mb-auto`}>
+            style={tw`mb-auto text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
             {t('devices.empty.description')}
           </AppText>
           <AppRoundedButton
@@ -143,26 +143,26 @@ const DeviceCard = ({
       entering={FadeIn.duration(300)}
       exiting={FadeOut.duration(300)}
       style={[
-        tw`flex flex-col items-start py-4 pl-4 rounded-2xl min-h-20 relative bg-gray-200 dark:bg-neutral-800/80`,
+        tw`relative flex min-h-20 flex-col items-start rounded-2xl bg-gray-200 py-4 pl-4 dark:bg-neutral-800/80`,
         style,
       ]}>
       {pending ? (
         <>
-          <View style={tw`rounded-full overflow-hidden`}>
+          <View style={tw`overflow-hidden rounded-full`}>
             <LoadingSkeleton height={48} width={48} />
           </View>
 
-          <View style={tw`mt-5 rounded-lg overflow-hidden`}>
+          <View style={tw`mt-5 overflow-hidden rounded-lg`}>
             <LoadingSkeleton height={24} width={128} />
           </View>
-          <View style={tw`mt-2.5 rounded-lg overflow-hidden`}>
+          <View style={tw`mt-2.5 overflow-hidden rounded-lg`}>
             <LoadingSkeleton height={14} width={80} />
           </View>
         </>
       ) : (
         <>
-          <View style={tw`bg-gray-300 dark:bg-zinc-900/80 rounded-full p-2 z-20`}>
-            <View style={tw`flex relative h-8 w-8 shrink-0`}>
+          <View style={tw`z-20 rounded-full bg-gray-300 p-2 dark:bg-zinc-900/80`}>
+            <View style={tw`relative flex size-8 shrink-0`}>
               <AppIcon
                 color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
                 icon={getDeviceTypeIcon(device?.type ?? DeviceType.UNKNOWN)}
@@ -175,7 +175,7 @@ const DeviceCard = ({
           <AppText
             ellipsizeMode={'tail'}
             numberOfLines={device?.name && !device?.heartbeat ? 2 : 1}
-            style={tw`mt-4 text-xl text-left font-medium text-slate-900 dark:text-gray-200`}>
+            style={tw`mt-4 text-left text-xl font-medium text-slate-900 dark:text-gray-200`}>
             {device?.name ?? device?.macAddress}
           </AppText>
           {device?.heartbeat && (
@@ -183,7 +183,7 @@ const DeviceCard = ({
               <AppShimmerText
                 active={loading}
                 numberOfLines={1}
-                style={tw`text-base text-left font-normal text-slate-500 dark:text-neutral-500`}>
+                style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
                 {dayjs(device.heartbeat).fromNow()}
               </AppShimmerText>
             </View>
@@ -193,8 +193,8 @@ const DeviceCard = ({
             <Animated.View
               entering={BounceIn.duration(1000).delay(300)}
               exiting={BounceOut.duration(1000)}
-              style={tw`z-10 h-5 w-5 bg-gray-50 dark:bg-zinc-900 rounded-full absolute flex items-center justify-center -bottom-1 -right-1`}>
-              <View style={tw`h-3 w-3 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
+              style={tw`absolute -bottom-1 -right-1 z-10 flex size-5 items-center justify-center rounded-full bg-gray-50 dark:bg-zinc-900`}>
+              <View style={tw`size-3 rounded-full bg-emerald-600 dark:bg-emerald-700`} />
             </Animated.View>
           )}
         </>
@@ -210,7 +210,7 @@ const NewDeviceCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
     <View
       // eslint-disable-next-line tailwindcss/no-custom-classname
       style={[
-        tw`flex flex-col items-start gap-4 px-4 py-4 rounded-2xl border-gray-400 dark:border-stone-500`,
+        tw`flex flex-col items-start gap-4 rounded-2xl border-gray-400 p-4 dark:border-stone-500`,
         {
           borderStyle: 'dashed',
           borderWidth: 2,
@@ -226,7 +226,7 @@ const NewDeviceCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
       <AppText
         ellipsizeMode={'clip'}
         numberOfLines={2}
-        style={tw`text-xl text-left font-medium text-slate-900 dark:text-gray-200`}>
+        style={tw`text-left text-xl font-medium text-slate-900 dark:text-gray-200`}>
         {t('devices.new.title')}
       </AppText>
     </View>

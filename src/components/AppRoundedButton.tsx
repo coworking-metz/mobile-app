@@ -45,19 +45,19 @@ const AppRoundedButton: ForwardRefRenderFunction<AppPressableRef, AppRoundedButt
         interactive={!disabled}
         style={[
           tw.style(
-            `flex flex-row justify-center items-center min-h-14 px-6 rounded-full overflow-hidden`,
+            `flex min-h-14 flex-row items-center justify-center overflow-hidden rounded-full px-6`,
             !isLiquidGlassSupported &&
-              `bg-gray-300/85 dark:bg-zinc-700/85 border-[0.5px] border-gray-300 dark:border-zinc-700`,
+              `border-[0.5px] border-gray-300 bg-gray-300/85 dark:border-zinc-700 dark:bg-zinc-700/85`,
             disabled && `opacity-50`,
           ),
           style,
         ]}
         tintColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-300/60')}>
         {loading ? (
-          <HorizontalLoadingAnimation style={tw`h-full w-full`} />
+          <HorizontalLoadingAnimation style={tw`size-full`} />
         ) : (
           <>
-            <View style={tw`flex flex-row items-center justify-start h-full grow shrink basis-0`}>
+            <View style={tw`flex h-full shrink grow basis-0 flex-row items-center justify-start`}>
               {prefixIcon ? (
                 <AppIcon
                   icon={prefixIcon}
@@ -66,7 +66,7 @@ const AppRoundedButton: ForwardRefRenderFunction<AppPressableRef, AppRoundedButt
                 />
               ) : null}
             </View>
-            <View style={tw`flex flex-row items-center justify-center h-full grow`}>
+            <View style={tw`flex h-full grow flex-row items-center justify-center`}>
               {label ? (
                 <AppText style={tw`text-base font-medium text-slate-900 dark:text-gray-200`}>
                   {label}
@@ -75,7 +75,7 @@ const AppRoundedButton: ForwardRefRenderFunction<AppPressableRef, AppRoundedButt
                 children
               )}
             </View>
-            <View style={tw`flex flex-row items-center justify-end h-full grow shrink basis-0`}>
+            <View style={tw`flex h-full shrink grow basis-0 flex-row items-center justify-end`}>
               {suffixIcon ? (
                 <AppIcon
                   icon={suffixIcon}

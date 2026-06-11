@@ -42,19 +42,19 @@ const Privacy = () => {
 
   return (
     <ServiceLayout
-      contentStyle={tw`pt-6 pb-12`}
+      contentStyle={tw`pb-12 pt-6`}
       description={t('privacy.description')}
       loading={isChangingStatus}
       title={t('privacy.title')}
       withBackButton={!_root}>
-      <View style={tw`w-full max-w-xl mx-auto`}>
+      <View style={tw`mx-auto w-full max-w-xl`}>
         <SectionTitle style={tw`mx-6`} title={t('privacy.permissions.title')} />
         <ServiceRow
           withBottomDivider
           description={t('privacy.permissions.calendar.description')}
           label={t('privacy.permissions.calendar.label')}
           prefixIcon="calendar-outline"
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           <Switch
             value={calendarState?.granted}
             onColor={theme.meatBrown}
@@ -65,7 +65,7 @@ const Privacy = () => {
           description={t('privacy.permissions.notifications.description')}
           label={t('privacy.permissions.notifications.label')}
           prefixIcon="bell-outline"
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           <Switch
             value={pushNotificationsEnabled}
             onColor={theme.meatBrown}

@@ -159,42 +159,39 @@ const OpenParkingCard = ({
       <AppSquircleView
         style={[
           tw.style(
-            `flex flex-col items-start gap-4 pl-4 py-4 rounded-3xl min-h-20 overflow-hidden relative bg-gray-300/60 dark:bg-zinc-900/85`,
+            `relative flex min-h-20 flex-col items-start gap-4 overflow-hidden rounded-3xl bg-gray-300/60 py-4 pl-4 dark:bg-zinc-900/85`,
             disabled && `opacity-60`,
           ),
           style,
         ]}>
         <Animated.View
-          style={[
-            tw`absolute top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-zinc-800/80 w-full`,
-            backgroundStyle,
-          ]}
+          style={[tw`absolute inset-0 w-full bg-gray-300 dark:bg-zinc-800/80`, backgroundStyle]}
         />
         <Animated.View
           style={[
-            tw`bg-gray-300 dark:bg-zinc-800 rounded-full p-2 z-20`,
+            tw`z-20 rounded-full bg-gray-300 p-2 dark:bg-zinc-800`,
             isUnlocked && {
               backgroundColor: tw.prefixMatch('dark') ? tw.color('yellow-600') : theme.meatBrown,
             },
           ]}>
-          <View style={tw`relative h-8 w-8 shrink-0`}>
+          <View style={tw`relative size-8 shrink-0`}>
             <BarrierAnimation
               ref={animation}
               autoPlay={false}
               progress={tw.prefixMatch('dark') ? 0.133 : 0.132} // hack to keep the progress in sync with the color scheme
-              style={[tw`h-full w-full`, isLoading && { opacity: 0 }]}
+              style={[tw`size-full`, isLoading && { opacity: 0 }]}
             />
             {isLoading && (
               <HorizontalLoadingAnimation
                 color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-                style={tw`absolute h-full w-full`}
+                style={tw`absolute size-full`}
               />
             )}
           </View>
         </Animated.View>
 
         {isUnlocked ? (
-          <View style={tw`flex flex-col z-20`}>
+          <View style={tw`z-20 flex flex-col`}>
             <AppText
               numberOfLines={1}
               style={tw`text-xl font-normal text-slate-500 dark:text-neutral-500`}>
@@ -207,7 +204,7 @@ const OpenParkingCard = ({
                 {t('home.parking.onUnlocked.secondLine')}
               </AppText>
               <ReanimatedText
-                style={tw`text-xl font-semibold text-slate-900 dark:text-gray-200 android:pr-1`}
+                style={tw`android:pr-1 text-xl font-semibold text-slate-900 dark:text-gray-200`}
                 text={timeLeftInSeconds}
               />
               <AppText
@@ -218,7 +215,7 @@ const OpenParkingCard = ({
             </View>
           </View>
         ) : (
-          <View style={tw`flex flex-col items-stretch z-20 w-full overflow-hidden`}>
+          <View style={tw`z-20 flex w-full flex-col items-stretch overflow-hidden`}>
             <AppText
               ellipsizeMode="clip"
               numberOfLines={2}

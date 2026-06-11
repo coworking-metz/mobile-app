@@ -1,8 +1,6 @@
 import HorizontalLoadingAnimation from './Animations/HorizontalLoadingAnimation';
-import AppText from './AppText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia';
-import * as Haptics from 'expo-haptics';
 import React, { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
   StyleProp,
@@ -14,7 +12,6 @@ import {
 } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
-  Extrapolate,
   Extrapolation,
   convertToRGBA,
   interpolate,
@@ -206,8 +203,9 @@ const SwipeableButton = ({
     <View
       style={[
         tw.style(
-          `flex flex-row justify-center items-center min-h-18 rounded-[4rem] border-4 border-[${theme.meatBrown}] bg-gray-200 dark:bg-neutral-800 overflow-hidden`,
-          disabled && `opacity-50 pointer-events-none`,
+          `flex min-h-[4.5rem] flex-row items-center justify-center overflow-hidden rounded-[4rem] border-4 bg-gray-200 dark:bg-neutral-800`,
+          { borderColor: theme.meatBrown },
+          disabled && `pointer-events-none opacity-50`,
         ),
         style,
       ]}
@@ -229,7 +227,7 @@ const SwipeableButton = ({
       <GestureDetector gesture={pan}>
         <Animated.View
           style={[
-            tw`absolute left-0 h-16 w-16 rounded-full z-20 flex justify-center items-center`,
+            tw`absolute left-0 z-20 flex size-16 items-center justify-center rounded-full`,
             handleAnimatedStyle,
           ]}
           onLayout={({ nativeEvent }: LayoutChangeEvent) => {
@@ -237,7 +235,7 @@ const SwipeableButton = ({
           }}>
           <TouchableOpacity disabled={loading || disabled} onPress={onRestart}>
             {loading ? (
-              <HorizontalLoadingAnimation color={tw.color(`white`)} style={tw`h-10 w-10`} />
+              <HorizontalLoadingAnimation color={tw.color(`white`)} style={tw`size-10`} />
             ) : (
               <AnimatedMaterialCommunityIcons
                 animatedProps={handleIconAnimatedProps}
@@ -252,7 +250,7 @@ const SwipeableButton = ({
       <Animated.Text
         style={[
           withAppFontFamily(
-            tw`ml-10 text-base text-center font-medium text-slate-500 dark:text-neutral-500`,
+            tw`ml-10 text-center text-base font-medium text-slate-500 dark:text-neutral-500`,
           ),
           placeholderAnimatedStyle,
         ]}>

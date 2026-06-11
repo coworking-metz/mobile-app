@@ -298,13 +298,13 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
   return (
     <AppBottomSheet
       ref={bottomSheetRef}
-      style={[tw`flex flex-col w-full gap-4 p-6`, style]}
+      style={[tw`flex w-full flex-col gap-4 p-6`, style]}
       onClose={onCancel}
       onWillPresent={() => {
         animation.current?.reset();
         animation.current?.pause();
       }}>
-      <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
+      <View style={tw`flex h-40 items-center justify-center overflow-visible`}>
         <WifiScanningAnimation
           ref={animation}
           autoPlay={false}
@@ -383,10 +383,10 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
       <AppText
         entering={FadeInLeft.duration(300)}
         exiting={FadeOutRight.duration(300)}
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full`}>
+        style={tw`w-full text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('devices.add.pair.description')}
       </AppText>
-      <View style={tw`flex flex-row items-start flex-gap-2 w-full overflow-hidden`}>
+      <View style={tw`flex w-full flex-row items-start gap-2 overflow-hidden`}>
         <AppIcon
           color={tw.color('blue-600')}
           icon="information"
@@ -404,7 +404,7 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
           ]}
           defaults={t('devices.add.pair.localNetworkPermissions')}
           parent={AppText}
-          style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}
+          style={tw`shrink grow basis-0 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
         />
       </View>
 

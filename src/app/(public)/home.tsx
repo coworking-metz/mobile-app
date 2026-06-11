@@ -293,7 +293,7 @@ export default function HomeScreen() {
       }}>
       <View
         style={[
-          tw`flex flex-row items-center grow shrink pt-1 pl-6 pr-4`,
+          tw`flex shrink grow flex-row items-center pl-6 pr-4 pt-1`,
           isWide && tw`mx-auto w-full max-w-2xl`,
         ]}>
         <StaleDataText
@@ -302,7 +302,7 @@ export default function HomeScreen() {
           onRefresh={onRefresh}
         />
 
-        <View style={tw`flex flex-row items-center justify-end gap-2 shrink grow basis-0`}>
+        <View style={tw`flex shrink grow basis-0 flex-row items-center justify-end gap-2`}>
           {areMessagesEnabled && (
             <Animated.View
               entering={BounceIn.duration(1000).delay(300)}
@@ -322,8 +322,8 @@ export default function HomeScreen() {
                 <Animated.View
                   entering={BounceIn.duration(1000)}
                   exiting={BounceOut.duration(1000)}
-                  style={tw`z-20 h-5 w-5 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -top-1.5 -right-1.5`}>
-                  <View style={tw`h-3 w-3 bg-blue-600 dark:bg-blue-700 rounded-full`} />
+                  style={tw`absolute -right-1.5 -top-1.5 z-20 flex size-5 items-center justify-center rounded-full bg-gray-100 dark:bg-black`}>
+                  <View style={tw`size-3 rounded-full bg-blue-600 dark:bg-blue-700`} />
                 </Animated.View>
               )}
             </Animated.View>
@@ -336,14 +336,14 @@ export default function HomeScreen() {
                 name={authStore.user?.name}
                 pending={!authStore.user && authStore.isFetchingToken}
                 pictureStyle={tw`rounded-full`}
-                style={tw`h-12 w-12`}
+                style={tw`size-12`}
                 url={authStore.user?.picture}>
                 {profile?.attending && (
                   <Animated.View
                     entering={BounceIn.duration(1000)}
                     exiting={BounceOut.duration(1000)}
-                    style={tw`z-20 h-5 w-5 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -bottom-0.5 -right-0.5`}>
-                    <View style={tw`h-3 w-3 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
+                    style={tw`absolute -bottom-0.5 -right-0.5 z-20 flex size-5 items-center justify-center rounded-full bg-gray-100 dark:bg-black`}>
+                    <View style={tw`size-3 rounded-full bg-emerald-600 dark:bg-emerald-700`} />
                   </Animated.View>
                 )}
               </ProfilePicture>
@@ -355,7 +355,7 @@ export default function HomeScreen() {
       <Animated.View
         entering={FadeInLeft.duration(750)}
         style={[
-          tw`flex flex-col self-stretch gap-2 pl-6 pr-4`,
+          tw`flex flex-col gap-2 self-stretch pl-6 pr-4`,
           isWide && tw`mx-auto w-full max-w-2xl`,
         ]}>
         <AttendanceCount style={tw`mt-4`} />
@@ -366,7 +366,7 @@ export default function HomeScreen() {
         style={tw`flex flex-col self-stretch`}>
         <SectionTitle
           loading={isFetchingProfile || isFetchingSubscriptions}
-          style={[tw`self-stretch mt-9 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
+          style={[tw`mt-9 self-stretch pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
           title={t('home.profile.label')}>
           {profileError && !isSilentError(profileError) && !isFetchingProfile ? (
             <ErrorBadge
@@ -387,7 +387,7 @@ export default function HomeScreen() {
 
         <ScrollView
           contentContainerStyle={[
-            tw`flex flex-row items-stretch gap-4 px-4 mt-4 overflow-visible`,
+            tw`mt-4 flex flex-row items-stretch gap-4 overflow-visible px-4`,
             isWide && {
               paddingLeft: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
               paddingRight: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
@@ -402,7 +402,7 @@ export default function HomeScreen() {
               <OnboardingCard
                 date={dayjs().toISOString()}
                 glowing={isNil(settingsStore.hasReadOnboardingInstructionsAt)}
-                style={tw`min-h-38 min-w-32`}
+                style={tw`min-h-[9.5rem] min-w-32`}
               />
             </AppPressable>
           )}
@@ -410,7 +410,7 @@ export default function HomeScreen() {
             <AppPressable
               style={tw`flex flex-row items-stretch`}
               onPress={() => birthdayBottomSheetRef.current?.open()}>
-              <BirthdayCard style={tw`min-h-38 min-w-32`} />
+              <BirthdayCard style={tw`min-h-[9.5rem] min-w-32`} />
             </AppPressable>
           )}
           {((devices && !devices.length) || (profile && !profile.lastSeen)) && (
@@ -421,7 +421,7 @@ export default function HomeScreen() {
                   entering={FadeIn.duration(500)}
                   exiting={FadeOut.duration(500)}
                   pending={isPendingDevices}
-                  style={tw`min-h-38 min-w-32`}
+                  style={tw`min-h-[9.5rem] min-w-32`}
                 />
               </AppPressable>
             </Link>
@@ -432,7 +432,7 @@ export default function HomeScreen() {
             <BalanceCard
               count={profile?.balance ?? 0}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
-              style={tw`min-h-38 min-w-32`}
+              style={tw`min-h-[9.5rem] min-w-32`}
               valid={profile && !isMemberBalanceInsufficient(profile)}
             />
           </AppPressable>
@@ -441,7 +441,7 @@ export default function HomeScreen() {
             onPress={() => subscriptionBottomSheetRef.current?.open()}>
             <SubscriptionCard
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingSubscriptions}
-              style={tw`min-h-38 min-w-32`}
+              style={tw`min-h-[9.5rem] min-w-32`}
               subscription={currentSubscription}
             />
           </AppPressable>
@@ -452,7 +452,7 @@ export default function HomeScreen() {
               active={profile?.activeUser}
               lastMembershipYear={profile?.lastMembership}
               loading={(!authStore.user && authStore.isFetchingToken) || isLoadingProfile}
-              style={tw`min-h-38 min-w-32`}
+              style={tw`min-h-[9.5rem] min-w-32`}
               valid={profile?.membershipOk}
             />
           </AppPressable>
@@ -463,7 +463,7 @@ export default function HomeScreen() {
         count={upcomingEvents.length > 2 ? upcomingEvents.length : null}
         entering={FadeInRight.duration(750).delay(600)}
         loading={isFetchingCalendarEvents}
-        style={[tw`self-stretch mt-9 pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
+        style={[tw`mt-9 self-stretch pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
         title={t('home.calendar.label')}>
         {calendarEventsError && !isSilentError(calendarEventsError) && !isFetchingCalendarEvents ? (
           <ErrorBadge
@@ -475,7 +475,7 @@ export default function HomeScreen() {
 
         <Link asChild href="/events">
           <AppText
-            style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-16`}>
+            style={tw`ml-auto min-w-16 text-right text-base font-normal leading-5 text-amber-500`}>
             {t('home.calendar.browse')}
           </AppText>
         </Link>
@@ -484,7 +484,7 @@ export default function HomeScreen() {
       <Animated.View entering={FadeInRight.duration(750).delay(600)} style={tw`flex w-full`}>
         <ScrollView
           contentContainerStyle={tw.style(
-            `flex flex-row px-4 h-56 min-w-full py-3`,
+            `flex h-56 min-w-full flex-row px-4 py-3`,
             isWide && {
               paddingLeft: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
               paddingRight: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
@@ -519,9 +519,9 @@ export default function HomeScreen() {
                         <Animated.View
                           entering={BounceIn.duration(1000).delay(300)}
                           exiting={BounceOut.duration(1000)}
-                          style={tw`z-10 h-7 w-7 bg-gray-100 dark:bg-black rounded-full absolute flex items-center justify-center -bottom-1.5 -right-1.5`}>
+                          style={tw`absolute -bottom-1.5 -right-1.5 z-10 flex size-7 items-center justify-center rounded-full bg-gray-100 dark:bg-black`}>
                           <View
-                            style={tw`h-4 w-4 bg-emerald-600 dark:bg-emerald-700 rounded-full`}
+                            style={tw`size-4 rounded-full bg-emerald-600 dark:bg-emerald-700`}
                           />
                         </Animated.View>
                       )}
@@ -542,7 +542,7 @@ export default function HomeScreen() {
 
       <View
         style={[
-          tw`flex flex-col w-full px-4 gap-4 mt-9 mb-3`,
+          tw`mb-3 mt-9 flex w-full flex-col gap-4 px-4`,
           isWide && tw`mx-auto w-full max-w-2xl`,
         ]}>
         <SectionTitle
@@ -551,10 +551,10 @@ export default function HomeScreen() {
           title={t('home.services.label')}
         />
 
-        <View style={tw`flex flex-row items-stretch gap-4 min-h-40`}>
+        <View style={tw`flex min-h-40 flex-row items-stretch gap-4`}>
           <Animated.View
             entering={FadeInUp.duration(500).delay(700)}
-            style={tw`flex flex-col grow shrink basis-0`}>
+            style={tw`flex shrink grow basis-0 flex-col`}>
             <UnlockGateCard
               disabled={Boolean(
                 authStore.user && !authStore.user.capabilities?.includes('UNLOCK_GATE'),
@@ -566,7 +566,7 @@ export default function HomeScreen() {
 
           <Animated.View
             entering={FadeInUp.duration(500).delay(800)}
-            style={tw`flex flex-col grow shrink basis-0`}>
+            style={tw`flex shrink grow basis-0 flex-col`}>
             <OpenParkingCard
               disabled={Boolean(
                 authStore.user && !authStore.user.capabilities?.includes('PARKING_ACCESS'),
@@ -600,7 +600,7 @@ export default function HomeScreen() {
           <UnauthenticatedState
             entering={FadeInUp.duration(500).delay(1000)}
             exiting={FadeOutDown.duration(500).delay(1000)}
-            style={tw`mt-12 mb-6 mx-4`}
+            style={tw`mx-4 mb-6 mt-12`}
           />
         )}
       </View>

@@ -114,7 +114,11 @@ const DeviceDetail = () => {
           queryKey: membersQueryKeys.attending(),
           exact: true,
         });
-        router.canGoBack() ? router.back() : router.replace('/devices');
+        if (router.canGoBack()) {
+          router.back();
+        } else {
+          router.replace('/devices');
+        }
       })
       .catch(handleSilentError)
       .catch((error) => noticeStore.addError(error, { message: t('devices.onUpdate.fail') }))
@@ -155,7 +159,11 @@ const DeviceDetail = () => {
           queryKey: membersQueryKeys.attending(),
           exact: true,
         });
-        router.canGoBack() ? router.back() : router.replace('/devices');
+        if (router.canGoBack()) {
+          router.back();
+        } else {
+          router.replace('/devices');
+        }
       })
       .catch(handleSilentError)
       .catch((error) => noticeStore.addError(error, { message: t('devices.onDelete.fail') }))
@@ -212,12 +220,12 @@ const DeviceDetail = () => {
       loading={isFetchingDevices || isDeleting}
       title={device?.name ?? device?.macAddress ?? ''}
       onRefresh={refetchDevices}>
-      <View style={tw`flex flex-col grow px-3 w-full max-w-xl mx-auto`}>
+      <View style={tw`mx-auto flex w-full max-w-xl grow flex-col px-3`}>
         {devicesError ? (
           <ErrorChip
             error={devicesError}
             label={t('devices.onFetch.fail')}
-            style={tw`mb-4 mx-3 self-start`}
+            style={tw`mx-3 mb-4 self-start`}
             onRetry={refetchDevices}
           />
         ) : null}
@@ -252,7 +260,7 @@ const DeviceDetail = () => {
           }}
         />
         {isLocallyAdministeredMacAddress(macAddress) && (
-          <View style={tw`flex flex-row items-start gap-3 w-full overflow-hidden mb-4 px-3`}>
+          <View style={tw`mb-4 flex w-full flex-row items-start gap-3 overflow-hidden px-3`}>
             <AppIcon
               color={tw.color('blue-600')}
               icon="information"
@@ -271,18 +279,18 @@ const DeviceDetail = () => {
               ]}
               defaults={t('devices.detail.macAddress.locallyAdministered')}
               parent={AppText}
-              style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}
+              style={tw`shrink grow basis-0 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
             />
           </View>
         )}
 
-        <View style={tw`flex flex-col items-start gap-1 mx-3`}>
-          <AppText style={tw`text-base leading-5 font-normal text-gray-800 dark:text-neutral-500`}>
+        <View style={tw`mx-3 flex flex-col items-start gap-1`}>
+          <AppText style={tw`text-base font-normal leading-5 text-gray-800 dark:text-neutral-500`}>
             {t('devices.detail.type.label')}
           </AppText>
           <AppSegmentedControl
             activeTabColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
-            style={tw`basis-0 bg-gray-200 dark:bg-zinc-800 w-full`}
+            style={tw`w-full basis-0 bg-gray-200 dark:bg-zinc-800`}
             tabs={DEVICE_TYPES.map((deviceType) => (
               <View key={`device-type-${deviceType}`} style={tw`flex flex-col items-center gap-1`}>
                 <AppIcon
@@ -293,7 +301,7 @@ const DeviceDetail = () => {
                 />
                 <AppText
                   numberOfLines={1}
-                  style={tw`text-base font-normal text-slate-600 dark:text-neutral-400 grow`}>
+                  style={tw`grow text-base font-normal text-slate-600 dark:text-neutral-400`}>
                   {t(`devices.detail.type.value.${deviceType}`)}
                 </AppText>
               </View>
@@ -303,7 +311,7 @@ const DeviceDetail = () => {
           />
         </View>
 
-        <Divider style={tw`mt-6 mx-3`} />
+        <Divider style={tw`mx-3 mt-6`} />
 
         <ServiceRow
           description={
@@ -314,7 +322,7 @@ const DeviceDetail = () => {
           }
           label={t('devices.detail.location.label')}
           prefix={
-            <View style={tw`flex flex-row items-center shrink-0 min-h-10 relative`}>
+            <View style={tw`relative flex min-h-10 shrink-0 flex-row items-center`}>
               <AppIcon
                 color={tw.prefixMatch('dark') ? tw.color('stone-400') : tw.color('gray-700')}
                 icon="map-marker-outline"
@@ -326,31 +334,31 @@ const DeviceDetail = () => {
                 <Animated.View
                   entering={BounceIn.duration(1000)}
                   exiting={BounceOut.duration(1000)}
-                  style={tw`z-20 h-3.5 w-3.5 bg-gray-50 dark:bg-zinc-900 rounded-full absolute flex items-center justify-center -bottom-0 -right-1`}>
-                  <View style={tw`h-2.5 w-2.5 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
+                  style={tw`absolute -bottom-0 -right-1 z-20 flex size-3.5 items-center justify-center rounded-full bg-gray-50 dark:bg-zinc-900`}>
+                  <View style={tw`size-2.5 rounded-full bg-emerald-600 dark:bg-emerald-700`} />
                 </Animated.View>
               )}
             </View>
           }
-          style={tw`px-3 mb-3`}
+          style={tw`mb-3 px-3`}
           onPress={() =>
             device?.location
               ? router.push({ pathname: '/on-premise', params: { location: device.location } })
               : null
           }>
           {device?.location ? (
-            <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
+            <AppText style={tw`text-right text-base font-normal text-amber-500`}>
               {t(`onPremise.location.${device.location}`)}
             </AppText>
           ) : (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+              style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {t(`devices.detail.location.nowhere`)}
             </AppText>
           )}
         </ServiceRow>
 
-        <View style={tw`mt-auto mx-3`}>
+        <View style={tw`mx-3 mt-auto`}>
           <AppRoundedButton
             disabled={!device || isSubmitting || isDeleting}
             label={t('actions.apply')}

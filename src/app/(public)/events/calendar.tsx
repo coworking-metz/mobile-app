@@ -33,7 +33,6 @@ const Calendar = ({ from }: { from?: string }) => {
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>(null);
   const [selectedSort, setSelectedSort] = useState<SortType>('ascending');
   const [selectedCalendar, setSelectedCalendar] = useState<string | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
 
   const periodBottomSheetRef = useRef<AppBottomSheetRef | null>(null);
   const calendarsBottomSheetRef = useRef<AppBottomSheetRef | null>(null);
@@ -132,7 +131,7 @@ const Calendar = ({ from }: { from?: string }) => {
           horizontal={true}
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
-          style={tw`w-full grow-0 shrink-0`}>
+          style={tw`w-full shrink-0 grow-0`}>
           <SelectableChip
             icon="chevron-down"
             label={t(`events.period.options.${selectedPeriod ?? 'none'}.label`)}
@@ -177,7 +176,7 @@ const Calendar = ({ from }: { from?: string }) => {
             onPress={() => calendarsBottomSheetRef.current?.open()}
           />
         </ScrollView>
-        <Animated.View exiting={FadeOut.duration(500)} style={tw`mt-4 mx-4 flex flex-col gap-8`}>
+        <Animated.View exiting={FadeOut.duration(500)} style={tw`mx-4 mt-4 flex flex-col gap-8`}>
           {filteredEventsGroups?.length ? (
             <>
               {filteredEventsGroups.map(([date, events]) => (
@@ -194,15 +193,15 @@ const Calendar = ({ from }: { from?: string }) => {
                       asChild
                       href={`/events/${event.id}`}
                       key={`calendar-event-card-${event.id}`}>
-                      <AppPressable style={tw`w-full h-44`}>
+                      <AppPressable style={tw`h-44 w-full`}>
                         <CalendarEventCard event={event}>
                           {dayjs().isBetween(event.start, event.end) && (
                             <Animated.View
                               entering={BounceIn.duration(1000).delay(300)}
                               exiting={BounceOut.duration(1000)}
-                              style={tw`z-10 h-7 w-7 bg-gray-50 dark:bg-zinc-900 rounded-full absolute flex items-center justify-center -bottom-1.5 -right-1.5`}>
+                              style={tw`absolute -bottom-1.5 -right-1.5 z-10 flex size-7 items-center justify-center rounded-full bg-gray-50 dark:bg-zinc-900`}>
                               <View
-                                style={tw`h-4 w-4 bg-emerald-600 dark:bg-emerald-700 rounded-full`}
+                                style={tw`size-4 rounded-full bg-emerald-600 dark:bg-emerald-700`}
                               />
                             </Animated.View>
                           )}
@@ -214,14 +213,14 @@ const Calendar = ({ from }: { from?: string }) => {
               ))}
               {filteredEventsGroups.reduce((acc, [_, events]) => acc + events.length, 0) > 3 && (
                 <Animated.View
-                  style={tw`flex flex-col gap-2 items-center w-full px-4 max-w-md self-center mt-6 mb-12`}>
+                  style={tw`mb-12 mt-6 flex w-full max-w-md flex-col items-center gap-2 self-center px-4`}>
                   <AppText
                     numberOfLines={1}
-                    style={tw`text-xl text-center font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
+                    style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
                     {t('events.calendar.onEnd.title')}
                   </AppText>
                   <AppText
-                    style={tw`text-base text-center font-normal text-slate-500 dark:text-neutral-500 mb-auto`}>
+                    style={tw`mb-auto text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
                     {t('events.calendar.onEnd.description')}
                   </AppText>
                 </Animated.View>
@@ -230,14 +229,14 @@ const Calendar = ({ from }: { from?: string }) => {
           ) : isLoadingCalendarEvents ? (
             <>
               <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`h-44`} />
-              <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`h-44 mt-8`} />
+              <CalendarEventCard loading={isLoadingCalendarEvents} style={tw`mt-8 h-44`} />
             </>
           ) : calendarEventsError && !isSilentError(calendarEventsError) ? (
             <ErrorState error={calendarEventsError} title={t('home.calendar.onFetch.fail')} />
           ) : (
             <CalendarEmptyState
               description={t(`events.period.options.${selectedPeriod ?? 'none'}.empty`)}
-              style={tw`w-full h-full mt-4`}
+              style={tw`mt-4 size-full`}
             />
           )}
         </Animated.View>

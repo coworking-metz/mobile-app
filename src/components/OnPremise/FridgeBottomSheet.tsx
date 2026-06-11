@@ -19,14 +19,14 @@ const FridgeBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSh
       ref={forwardedRef}
       style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
-      <PizzaIngrediantsAnimation autoPlay loop={false} style={tw`w-full h-[144px] mb-4`} />
+      <PizzaIngrediantsAnimation autoPlay loop={false} style={tw`mb-4 h-[144px] w-full`} />
       <AppText
         style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('onPremise.fridge.label')}
       </AppText>
 
       <AppText
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-6 mb-3`}>
+        style={tw`mb-3 mt-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('onPremise.fridge.description')}
       </AppText>
     </AppBottomSheet>

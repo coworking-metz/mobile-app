@@ -12,11 +12,10 @@ import {
 
 type MemberTileProps = TouchableHighlightProps & {
   member: ApiMemberProfile;
-  since?: string;
   loading?: boolean;
 };
 
-const MemberTile = ({ member, since, style, loading, onPress, ...props }: MemberTileProps) => {
+const MemberTile = ({ member, style, loading, onPress, ...props }: MemberTileProps) => {
   const fullName = [member.firstName, member.lastName].filter(Boolean).join(' ');
 
   return (
@@ -25,9 +24,9 @@ const MemberTile = ({ member, since, style, loading, onPress, ...props }: Member
       underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
       onPress={onPress}
       {...props}>
-      <View style={[tw`flex flex-col w-full pb-5`, style]}>
-        <View style={tw`w-full pt-[100%] relative`}>
-          <View style={tw`absolute inset-0 rounded-full overflow-hidden`}>
+      <View style={[tw`flex w-full flex-col pb-5`, style]}>
+        <View style={tw`relative w-full pt-[100%]`}>
+          <View style={tw`absolute inset-0 overflow-hidden rounded-full`}>
             <ProfilePicture
               initialsStyle={tw`text-3xl`}
               loading={loading}
@@ -38,14 +37,14 @@ const MemberTile = ({ member, since, style, loading, onPress, ...props }: Member
                   ? tw`border-4 border-red-600 dark:border-red-700`
                   : null,
               ]}
-              style={[tw`h-full w-full`]}
+              style={[tw`size-full`]}
               url={member.picture}
             />
           </View>
-          <View style={[tw`absolute -bottom-3 items-center -inset-x-[40%]`]}>
+          <View style={[tw`absolute inset-x-[-40%] -bottom-3 items-center`]}>
             <AppText
               numberOfLines={1}
-              style={tw`text-base text-center font-semibold text-gray-900 dark:text-gray-200 shadow-black shadow-2xl bg-white dark:bg-zinc-800 px-3 py-1 rounded-full`}
+              style={tw`rounded-full bg-white px-3 py-1 text-center text-base font-semibold text-gray-900 shadow-2xl shadow-black dark:bg-zinc-800 dark:text-gray-200`}
               textBreakStrategy="highQuality">
               {member.firstName}
             </AppText>

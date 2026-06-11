@@ -39,16 +39,14 @@ const LoadingSpinner = ({
   return (
     <Animated.View
       accessibilityRole="progressbar"
-      style={[tw`relative h-6 w-6 justify-center items-center`, style]}
+      style={[tw`relative size-6 items-center justify-center`, style]}
       {...props}>
-      <View
-        style={[tw`w-full h-full rounded-full border-2 border-gray-400 dark:border-gray-500`]}
-      />
+      <View style={[tw`size-full rounded-full border-2 border-gray-400 dark:border-gray-500`]} />
 
       <Animated.View
         style={[
           // https://github.com/facebook/react-native/issues/19981#issuecomment-1185341829
-          tw`absolute w-full h-full rounded-full border-t-amber-400 border-l-0 border-r-0 border-b-0`,
+          tw`absolute size-full rounded-full border-x-0 border-b-0 border-t-amber-400`,
           { borderTopWidth: beamSize },
           animatedStyle,
         ]}

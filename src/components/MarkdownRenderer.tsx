@@ -24,11 +24,11 @@ const MarkdownRenderer = ({ content, style }: { content: string; style?: Markdow
       rules={{
         image: (node) => {
           return (
-            <View key={node.key} style={tw`w-full h-40`}>
+            <View key={node.key} style={tw`h-40 w-full`}>
               <ZoomableImage
                 contentFit="cover"
                 source={node.attributes.src}
-                style={tw`w-full h-full rounded-2xl bg-gray-200 dark:bg-zinc-950`}
+                style={tw`size-full rounded-2xl bg-gray-200 dark:bg-zinc-950`}
                 transition={300}
               />
             </View>

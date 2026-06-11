@@ -85,29 +85,29 @@ const MessageCard: ForwardRefRenderFunction<typeof TouchableHighlight, MessageCa
     <TouchableHighlight
       ref={ref as never}
       disabled={disabled || pending || !onPress}
-      style={[tw`flex flex-col pt-2 pl-1 pb-3 pr-6`, style]}
+      style={[tw`flex flex-col pb-3 pl-1 pr-6 pt-2`, style]}
       underlayColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
       onPress={onPress}>
-      <Animated.View style={[tw`flex flex-row items-start w-full`]}>
+      <Animated.View style={[tw`flex w-full flex-row items-start`]}>
         {pending ? (
           <>
-            <View style={tw`h-12 w-12 rounded-full self-center overflow-hidden mt-1.5`}>
+            <View style={tw`mt-1.5 size-12 self-center overflow-hidden rounded-full`}>
               <LoadingSkeleton height={`100%`} width={`100%`} />
             </View>
             <View
-              style={tw`flex flex-col gap-2 items-start justify-center min-h-12 ml-3 self-stretch mt-0.5`}>
+              style={tw`ml-3 mt-0.5 flex min-h-12 flex-col items-start justify-center gap-2 self-stretch`}>
               <LoadingSkeleton height={21} width={128} />
               <LoadingSkeleton height={14} width={192} />
             </View>
           </>
         ) : (
           <>
-            <View style={tw`self-center w-5 rounded-full flex items-center justify-center`}>
+            <View style={tw`flex w-5 items-center justify-center self-center rounded-full`}>
               {unread && (
                 <Animated.View
                   entering={BounceIn.duration(1000)}
                   exiting={BounceOut.duration(1000)}
-                  style={tw`h-3 w-3 bg-blue-600 dark:bg-blue-700 rounded-full`}
+                  style={tw`size-3 rounded-full bg-blue-600 dark:bg-blue-700`}
                 />
               )}
             </View>
@@ -117,19 +117,19 @@ const MessageCard: ForwardRefRenderFunction<typeof TouchableHighlight, MessageCa
                 name={compact([author.firstName, author.lastName]).join(' ')}
                 pending={pending}
                 pictureStyle={tw`rounded-full`}
-                style={tw`h-12 w-12 self-center`}
+                style={tw`size-12 self-center`}
                 url={author.thumbnail}
               />
             ) : (
               <AppSquircleView
-                style={tw`h-12 w-12 rounded-xl overflow-hidden flex items-center justify-center bg-zinc-300 dark:bg-zinc-700`}>
-                <Image source={CoworkingLogo} style={[tw`h-full w-full`]} />
+                style={tw`flex size-12 items-center justify-center overflow-hidden rounded-xl bg-zinc-300 dark:bg-zinc-700`}>
+                <Image source={CoworkingLogo} style={[tw`size-full`]} />
               </AppSquircleView>
             )}
 
             <View
-              style={tw`flex flex-col items-start min-h-12 ml-3 self-stretch shrink grow basis-0`}>
-              <View style={tw`flex flex-row items-center gap-1 justify-between w-full`}>
+              style={tw`ml-3 flex min-h-12 shrink grow basis-0 flex-col items-start self-stretch`}>
+              <View style={tw`flex w-full flex-row items-center justify-between gap-1`}>
                 <View style={tw`shrink grow basis-0`}>
                   <AppShimmerText
                     active={loading}
@@ -146,7 +146,7 @@ const MessageCard: ForwardRefRenderFunction<typeof TouchableHighlight, MessageCa
                 <AppText
                   ellipsizeMode="tail"
                   numberOfLines={1}
-                  style={tw`text-xs font-light text-slate-800 dark:text-neutral-300 shrink-0`}>
+                  style={tw`shrink-0 text-xs font-light text-slate-800 dark:text-neutral-300`}>
                   {publishedAt}
                 </AppText>
               </View>
@@ -158,7 +158,7 @@ const MessageCard: ForwardRefRenderFunction<typeof TouchableHighlight, MessageCa
                   color={tw.prefixMatch('dark') ? tw.color('gray-400') : tw.color('gray-700')}
                   icon="chevron-right"
                   size={24}
-                  style={tw`shrink-0 w-4`}
+                  style={tw`w-4 shrink-0`}
                 />
               </View>
             </View>

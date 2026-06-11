@@ -106,14 +106,14 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
   return (
     <AppBottomSheet ref={forwardedRef} style={[tw`py-6`, style]} onClose={onClose}>
       <View style={tw`mx-6`}>
-        <CalendarAnimation style={tw`w-full h-40 mx-auto`} />
+        <CalendarAnimation style={tw`mx-auto h-40 w-full`} />
         <AppText
           numberOfLines={2}
-          style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
+          style={tw`mt-4 text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('home.profile.subscription.title')}
         </AppText>
         <AppText
-          style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 mt-4 mb-2`}>
+          style={tw`mb-2 mt-4 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
           {t('home.profile.subscription.description')}
         </AppText>
       </View>
@@ -150,7 +150,7 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
           <CarouselPaginationDots
             count={subscriptions.length}
             offset={offset}
-            style={tw.style(`self-center mt-3`)}
+            style={tw.style(`mt-3 self-center`)}
           />
         ) : null}
       </View>
@@ -159,8 +159,8 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
           error={subscriptionsError}
           label={t('home.profile.subscription.onFetch.fail')}
           style={[
-            tw`self-start mx-6`,
-            subscriptions && subscriptions.length > 1 ? tw`mt-6` : tw`mt-2 mb-4`,
+            tw`mx-6 self-start`,
+            subscriptions && subscriptions.length > 1 ? tw`mt-6` : tw`mb-4 mt-2`,
           ]}
           onRetry={refetchSubscriptions}
         />
@@ -238,7 +238,7 @@ const SubscriptionItem = ({
         ) : (
           <AppText
             numberOfLines={2}
-            style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+            style={tw`text-right text-sm font-normal text-slate-500 dark:text-neutral-500`}>
             {t('home.profile.subscription.period.value', {
               started: dayjs(subscription.started).format('dddd ll'),
               ended: dayjs(subscription.ended).format('dddd ll'),
@@ -268,7 +268,7 @@ const SubscriptionItem = ({
             })}
             numberOfLines={1}
             parent={AppText}
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
           />
         )}
       </ServiceRow>
@@ -293,7 +293,7 @@ const SubscriptionItem = ({
             })}
             numberOfLines={1}
             parent={AppText}
-            style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
           />
         )}
       </ServiceRow>
@@ -304,7 +304,7 @@ const SubscriptionItem = ({
         {loading ? (
           <LoadingSkeleton height={24} width={80} />
         ) : subscription.savingsOverTickets > 0 ? (
-          <View style={tw`px-2.5 py-0.5 rounded-full bg-green-100 dark:bg-green-900`}>
+          <View style={tw`rounded-full bg-green-100 px-2.5 py-0.5 dark:bg-green-900`}>
             <AppText
               numberOfLines={1}
               style={[tw`text-base font-semibold leading-5 text-green-800 dark:text-green-300`]}>
@@ -314,7 +314,7 @@ const SubscriptionItem = ({
         ) : (
           <AppText
             numberOfLines={1}
-            style={[tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`]}>
+            style={[tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`]}>
             {formatAmount(subscription.savingsOverTickets, {}, i18n.language)}
           </AppText>
         )}

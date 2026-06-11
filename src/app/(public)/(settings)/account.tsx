@@ -49,27 +49,27 @@ const Account = () => {
 
   return (
     <ServiceLayout
-      contentStyle={tw`pt-6 pb-12`}
+      contentStyle={tw`pb-12 pt-6`}
       loading={isFetchingProfile}
       title={t('account.title')}
       withBackButton={!_root}
       onRefresh={refetchProfile}>
-      <View style={tw`w-full max-w-xl mx-auto`}>
-        <View style={tw`flex flex-col relative h-40 w-40 mx-auto`}>
+      <View style={tw`mx-auto w-full max-w-xl`}>
+        <View style={tw`relative mx-auto flex size-40 flex-col`}>
           <AppSquircleView
-            style={tw`h-full w-full rounded-[2rem] bg-gray-200 dark:bg-zinc-950 overflow-hidden`}>
+            style={tw`size-full overflow-hidden rounded-[2rem] bg-gray-200 dark:bg-zinc-950`}>
             <ZoomableImage
               contentFit="cover"
               source={authStore.user?.picture}
-              style={tw`h-full w-full`}
+              style={tw`size-full`}
             />
           </AppSquircleView>
 
           <View
-            style={tw`absolute -bottom-3 -right-3 z-10 h-12 w-12 bg-gray-50 dark:bg-zinc-900 rounded-full flex items-center justify-center`}>
+            style={tw`absolute -bottom-3 -right-3 z-10 flex size-12 items-center justify-center rounded-full bg-gray-50 dark:bg-zinc-900`}>
             <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/polaroid/`}>
               <AppPressable
-                style={tw`bg-gray-400/50 dark:bg-zinc-600/40 rounded-full flex items-center justify-center h-9 w-9`}>
+                style={tw`flex size-9 items-center justify-center rounded-full bg-gray-400/50 dark:bg-zinc-600/40`}>
                 <AppIcon
                   color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('neutral-700')}
                   icon="pencil"
@@ -93,7 +93,7 @@ const Account = () => {
           ) : null}
           <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/modifier-compte/`}>
             <AppText
-              style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-5`}>
+              style={tw`ml-auto min-w-5 text-right text-base font-normal leading-5 text-amber-500`}>
               {t('actions.edit')} <AppIcon icon="open-in-new" size={16} />
             </AppText>
           </Link>
@@ -102,12 +102,12 @@ const Account = () => {
         <ServiceRow
           withBottomDivider
           label={t('account.profile.firstname.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           {isPendingProfile ? (
             <LoadingSkeleton show height={28} width={Math.random() * 48 + 96} />
           ) : (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+              style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {profile?.firstName}
             </AppText>
           )}
@@ -115,12 +115,12 @@ const Account = () => {
         <ServiceRow
           withBottomDivider
           label={t('account.profile.lastname.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           {isPendingProfile ? (
             <LoadingSkeleton show height={28} width={Math.random() * 48 + 96} />
           ) : (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+              style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {profile?.lastName}
             </AppText>
           )}
@@ -128,24 +128,24 @@ const Account = () => {
         <ServiceRow
           withBottomDivider
           label={t('account.profile.birthdate.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           {isPendingProfile ? (
             <LoadingSkeleton show height={28} width={96} />
           ) : (
             <AppText
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+              style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {profile?.birthDate ? dayjs(profile.birthDate).format('LL') : null}
             </AppText>
           )}
         </ServiceRow>
-        <ServiceRow label={t('account.profile.email.label')} style={tw`px-3 mx-3`}>
+        <ServiceRow label={t('account.profile.email.label')} style={tw`mx-3 px-3`}>
           {isPendingProfile ? (
             <LoadingSkeleton show height={28} width={Math.random() * 64 + 144} />
           ) : (
             <AppText
               ellipsizeMode={'middle'}
               numberOfLines={1}
-              style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right grow ml-auto max-w-4/5`}>
+              style={tw`ml-auto max-w-[80%] grow text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {profile?.email ?? authStore.user?.email}
             </AppText>
           )}
@@ -154,7 +154,7 @@ const Account = () => {
         <ServiceRow
           label={t('actions.logout')}
           prefixIcon="logout"
-          style={tw`px-3 mx-3 mt-6`}
+          style={tw`mx-3 mt-6 px-3`}
           suffixIcon="chevron-right"
           onPress={logout}
         />

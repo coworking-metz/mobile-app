@@ -19,8 +19,8 @@ import { type CalendarEvent } from '@/services/api/calendar';
 
 export const AmourFoodIcon = ({ style }: { style?: StyleProp<ViewStyle> }) => {
   return (
-    <View style={[tw`h-10 w-10 bg-white rounded-lg overflow-hidden p-1`, style]}>
-      <Image source={AmourFoodSquareLogo} style={[tw`h-full w-full`]} />
+    <View style={[tw`size-10 overflow-hidden rounded-lg bg-white p-1`, style]}>
+      <Image source={AmourFoodSquareLogo} style={[tw`size-full`]} />
     </View>
   );
 };
@@ -28,20 +28,16 @@ export const AmourFoodIcon = ({ style }: { style?: StyleProp<ViewStyle> }) => {
 export const CoworkingIcon = ({ style }: { style?: StyleProp<ViewStyle> }) => {
   return (
     <View
-      style={[
-        tw`h-10 w-10 rounded-lg overflow-hidden`,
-        { backgroundColor: theme.meatBrown },
-        style,
-      ]}>
-      <Image source={CoworkingLogo} style={[tw`h-full w-full`]} />
+      style={[tw`size-10 overflow-hidden rounded-lg`, { backgroundColor: theme.meatBrown }, style]}>
+      <Image source={CoworkingLogo} style={[tw`size-full`]} />
     </View>
   );
 };
 
 export const BliiidaIcon = ({ style }: { style?: StyleProp<ViewStyle> }) => {
   return (
-    <View style={[tw`h-10 w-10 bg-black rounded-lg overflow-hidden p-0.5`, style]}>
-      <Image source={BliiidaSquareLogo} style={[tw`h-full w-full`]} />
+    <View style={[tw`size-10 overflow-hidden rounded-lg bg-black p-0.5`, style]}>
+      <Image source={BliiidaSquareLogo} style={[tw`size-full`]} />
     </View>
   );
 };
@@ -100,8 +96,8 @@ const CalendarEventCard = ({
 
   return (
     <View style={[tw`relative`, style]}>
-      <AppSquircleView style={tw`rounded-3xl overflow-hidden bg-gray-300 dark:bg-zinc-700`}>
-        <BlurTargetView ref={blurTargetRef} style={tw`w-full h-full flex relative`}>
+      <AppSquircleView style={tw`overflow-hidden rounded-3xl bg-gray-300 dark:bg-zinc-700`}>
+        <BlurTargetView ref={blurTargetRef} style={tw`relative flex size-full`}>
           <ImageBackground
             cachePolicy="memory"
             contentFit="cover"
@@ -110,7 +106,7 @@ const CalendarEventCard = ({
               uri: firstPicture,
               cacheKey: `${firstPicture}-${dayjs().format('YYYY-MM-DD')}`,
             }}
-            style={tw`w-full h-full flex relative`}
+            style={tw`relative flex size-full`}
             {...(event?.end && dayjs().isAfter(event.end) && { imageStyle: { opacity: 0.5 } })}>
             {loading ? <LoadingSkeleton height={'100%'} width={'100%'} /> : null}
           </ImageBackground>
@@ -120,9 +116,9 @@ const CalendarEventCard = ({
           <AppBlurView
             blurTarget={blurTargetRef}
             radius={100}
-            style={tw`absolute inset-x-0 bottom-0 flex flex-row gap-3 items-center px-4 py-2`}>
+            style={tw`absolute inset-x-0 bottom-0 flex flex-row items-center gap-3 px-4 py-2`}>
             {eventIcon}
-            <View style={tw`flex flex-col items-stretch grow shrink basis-0`}>
+            <View style={tw`flex shrink grow basis-0 flex-col items-stretch`}>
               {date && (
                 <AppText
                   numberOfLines={1}

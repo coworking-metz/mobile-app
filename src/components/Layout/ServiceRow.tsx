@@ -45,17 +45,17 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
       ref={ref as never}
       disabled={disabled || loading || !onPress}
       style={[
-        tw`flex flex-col px-2 rounded-2xl`,
+        tw`flex flex-col rounded-2xl px-2`,
         selected && tw`bg-gray-200/75 dark:bg-zinc-800/75`,
         style,
       ]}
       underlayColor={tw.prefixMatch('dark') ? tw.color('neutral-700/30') : tw.color('gray-200')}
       onPress={onPress}>
       <View style={tw`flex flex-col`}>
-        <View style={tw`flex flex-row items-start min-h-14 gap-3 py-2`}>
+        <View style={tw`flex min-h-14 flex-row items-start gap-3 py-2`}>
           {prefix ??
             (prefixIcon ? (
-              <View style={tw`flex flex-row items-center shrink-0 min-h-10`}>
+              <View style={tw`flex min-h-10 shrink-0 flex-row items-center`}>
                 <AppIcon
                   color={iconColor}
                   icon={prefixIcon}
@@ -65,10 +65,10 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
               </View>
             ) : null)}
 
-          <View style={tw`flex flex-col justify-center shrink grow overflow-hidden min-h-10`}>
+          <View style={tw`flex min-h-10 shrink grow flex-col justify-center overflow-hidden`}>
             <AppText
               style={[
-                tw`text-base leading-5 font-normal dark:text-gray-200`,
+                tw`text-base font-normal leading-5 dark:text-gray-200`,
                 disabled && tw`opacity-40`,
               ]}
               {...(Boolean(description || renderDescription) && { numberOfLines: 1 })}>
@@ -87,11 +87,11 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
             ) : null}
           </View>
 
-          <View style={tw`flex flex-row items-center shrink-0 grow-0 min-h-10`}>
+          <View style={tw`flex min-h-10 shrink-0 grow-0 flex-row items-center`}>
             {children}
             {loading ? (
-              <View style={tw`relative h-10 w-10 shrink-0`}>
-                <HorizontalLoadingAnimation color={iconColor} style={tw`h-full w-full`} />
+              <View style={tw`relative size-10 shrink-0`}>
+                <HorizontalLoadingAnimation color={iconColor} style={tw`size-full`} />
               </View>
             ) : suffixIcon ? (
               <AppIcon

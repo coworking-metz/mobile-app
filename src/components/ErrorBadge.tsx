@@ -38,7 +38,7 @@ const ErrorBadge = ({
 
   return (
     <TouchableOpacity style={style} onPress={onPress}>
-      <ErrorAnimation style={tw`h-5 w-5`} />
+      <ErrorAnimation style={tw`size-5`} />
     </TouchableOpacity>
   );
 };

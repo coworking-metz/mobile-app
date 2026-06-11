@@ -72,8 +72,8 @@ const PtiPoulaillerPlan = ({
   }, [backgroundImage]);
 
   return (
-    <View style={[tw`flex flex-col grow items-start`, style]}>
-      <View style={tw`flex flex-row gap-3 items-end w-full mx-6 mb-4`}>
+    <View style={[tw`flex grow flex-col items-start`, style]}>
+      <View style={tw`mx-6 mb-4 flex w-full flex-row items-end gap-3`}>
         <AppText
           numberOfLines={2}
           style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
@@ -82,7 +82,7 @@ const PtiPoulaillerPlan = ({
         {onPremiseStateError && !isSilentError(onPremiseStateError) && !isFetchingOnPremiseState ? (
           <ErrorBadge
             error={onPremiseStateError}
-            style={tw`shrink-0 ios:mb-2 android:mb-1`}
+            style={tw`ios:mb-2 android:mb-1 shrink-0`}
             title={t('onPremise.onFetch.fail')}
             onRetry={refetchOnPremiseState}
           />
@@ -90,7 +90,7 @@ const PtiPoulaillerPlan = ({
       </View>
       <View
         style={[
-          tw`flex flex-col items-center justify-center w-full relative`,
+          tw`relative flex w-full flex-col items-center justify-center`,
           !!imageWidth && !!imageHeight && { aspectRatio: imageWidth / imageHeight },
         ]}>
         <BlurTargetView ref={blurTargetRef} style={tw`absolute inset-0`}>
@@ -98,23 +98,23 @@ const PtiPoulaillerPlan = ({
             <Image
               cachePolicy="memory-disk"
               source={backgroundImage}
-              style={[tw`w-full relative`, { aspectRatio: imageWidth / imageHeight }]}
+              style={[tw`relative w-full`, { aspectRatio: imageWidth / imageHeight }]}
               onLoadEnd={() => setFloorplanLoaded(true)}
             />
           ) : null}
         </BlurTargetView>
 
         {isFetchingOnPremiseState && (
-          <LoadingProgressBar style={tw`absolute top-0 inset-x-0 z-1`} />
+          <LoadingProgressBar style={tw`absolute inset-x-0 top-0 z-10`} />
         )}
 
         {!hasFloorplanLoaded ? (
           <Animated.View
             exiting={FadeOut.duration(300)}
-            style={tw`absolute h-16 w-16 z-10 my-auto bg-gray-200 dark:bg-black rounded-full overflow-hidden`}>
+            style={tw`absolute z-10 my-auto size-16 overflow-hidden rounded-full bg-gray-200 dark:bg-black`}>
             <VerticalLoadingAnimation
               color={tw.prefixMatch('dark') ? tw.color(`gray-200`) : tw.color(`slate-900`)}
-              style={tw`h-full w-full`}
+              style={tw`size-full`}
             />
           </Animated.View>
         ) : withInformations ? (
@@ -126,7 +126,7 @@ const PtiPoulaillerPlan = ({
               icon="volume-off"
               key="sound-off"
               selected={isSoundOffSelected}
-              style={tw`top-[40%] left-[50%]`}
+              style={tw`left-1/2 top-[40%]`}
               onPress={selectSoundOff}
             />
 
@@ -136,7 +136,7 @@ const PtiPoulaillerPlan = ({
               exiting={BounceOut.duration(750)}
               icon="television-guide"
               selected={isTelevisionSelected}
-              style={tw`top-[71%] left-[50%]`}
+              style={tw`left-1/2 top-[71%]`}
               onPress={selectTelevision}
             />
           </>
@@ -150,7 +150,7 @@ const PtiPoulaillerPlan = ({
               key="light-1"
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
-              style={tw`top-[32%] left-[32%]`}
+              style={tw`left-[32%] top-[32%]`}
             />
             <ActionableLight
               blurTarget={blurTargetRef}
@@ -160,7 +160,7 @@ const PtiPoulaillerPlan = ({
               key="light-2"
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
-              style={tw`top-[32%] left-[65%]`}
+              style={tw`left-[65%] top-[32%]`}
             />
             <ActionableLight
               blurTarget={blurTargetRef}
@@ -170,7 +170,7 @@ const PtiPoulaillerPlan = ({
               key="light-5"
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
-              style={tw`top-[65%] left-[32%]`}
+              style={tw`left-[32%] top-[65%]`}
             />
             <ActionableLight
               blurTarget={blurTargetRef}
@@ -180,7 +180,7 @@ const PtiPoulaillerPlan = ({
               key="light-6"
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
-              style={tw`top-[65%] left-[65%]`}
+              style={tw`left-[65%] top-[65%]`}
             />
           </>
         ) : (
@@ -196,7 +196,7 @@ const PtiPoulaillerPlan = ({
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
               selected={selectedFlexDesk?.id === 'a'}
-              style={tw`top-[25%] left-[43%]`}
+              style={tw`left-[43%] top-1/4`}
               onPress={() =>
                 selectFlexDesk?.({ id: 'a', occupied: onPremiseState?.flexDesks?.a.occupied })
               }
@@ -212,7 +212,7 @@ const PtiPoulaillerPlan = ({
               loading={isFetchingOnPremiseState}
               pending={isPendingOnPremiseState}
               selected={selectedFlexDesk?.id === 'b'}
-              style={tw`top-[25%] left-[30%]`}
+              style={tw`left-[30%] top-1/4`}
               onPress={() =>
                 selectFlexDesk({ id: 'b', occupied: onPremiseState?.flexDesks?.b.occupied })
               }
@@ -224,7 +224,7 @@ const PtiPoulaillerPlan = ({
               exiting={BounceOut.duration(750)}
               icon="wifi"
               selected={isWifiSelected}
-              style={tw`top-[73%] left-[17%]`}
+              style={tw`left-[17%] top-[73%]`}
               onPress={selectWifi}
             />
             {/* Key box */}
@@ -234,7 +234,7 @@ const PtiPoulaillerPlan = ({
               exiting={BounceOut.duration(750)}
               icon="key-chain-variant"
               key="key-box"
-              style={tw`top-[82%] left-[30%]`}
+              style={tw`left-[30%] top-[82%]`}
               onPress={selectPtiPoulaillerKeyBox}
             />
             {/* Climate */}
@@ -245,7 +245,7 @@ const PtiPoulaillerPlan = ({
               icon="sun-thermometer"
               key="climate"
               loading={isPendingOnPremiseState}
-              style={tw`top-[68%] left-[45%]`}
+              style={tw`left-[45%] top-[68%]`}
               onPress={selectPtiPoulaillerClimate}
             />
             {/* Hub key box */}
@@ -256,7 +256,7 @@ const PtiPoulaillerPlan = ({
               icon="key-chain-variant"
               key="hub-key-box"
               selected={isMeetingRoomHubSelected}
-              style={tw`top-[32%] left-[7%]`}
+              style={tw`left-[7%] top-[32%]`}
               onPress={selectMeetingRoomHub}
             />
           </>

@@ -26,12 +26,12 @@ export default function SettingsLayout() {
   }
 
   return (
-    <View style={tw`flex flex-row grow`}>
+    <View style={tw`flex grow flex-row`}>
       <View
-        style={tw`grow shrink basis-0 h-full min-w-80 max-w-md border-r-[1px] border-r-gray-200 dark:border-r-gray-700`}>
+        style={tw`h-full min-w-80 max-w-md shrink grow basis-0 border-r border-r-gray-200 dark:border-r-gray-700`}>
         <SettingsScreen from="/home" />
       </View>
-      <View style={tw`grow shrink basis-0 h-full min-w-80 overflow-hidden`}>
+      <View style={tw`h-full min-w-80 shrink grow basis-0 overflow-hidden`}>
         <Stack
           initialRouteName="root"
           screenOptions={{

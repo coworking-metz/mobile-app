@@ -169,7 +169,7 @@ const Advanced = () => {
       description={t('advanced.description')}
       title={t('advanced.title')}
       withBackButton={!_root}>
-      <View style={tw`w-full max-w-xl mx-auto mb-6`}>
+      <View style={tw`mx-auto mb-6 w-full max-w-xl`}>
         <SectionTitle style={tw`mx-6`} title={t('advanced.actions.title')} />
 
         <ServiceRow
@@ -177,7 +177,7 @@ const Advanced = () => {
           description={t('advanced.actions.clearCache.description')}
           label={t('advanced.actions.clearCache.label')}
           loading={isClearingCache}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           suffixIcon="trash-can-outline"
           onPress={clearCache}
         />
@@ -185,7 +185,7 @@ const Advanced = () => {
           withBottomDivider
           description={t('advanced.actions.crash.description')}
           label={t('advanced.actions.crash.label')}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           suffixIcon="bomb"
           onPress={() => {
             throw new Error("Don't worry, this is a test crash!");
@@ -194,7 +194,7 @@ const Advanced = () => {
         <ServiceRow
           label={t('advanced.actions.reset.label')}
           loading={isResetting}
-          style={tw`px-3 mx-3`}
+          style={tw`mx-3 px-3`}
           suffixIcon="nuke"
           onPress={confirmReset}
         />
@@ -204,7 +204,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.introduction.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           <Switch
             value={settingsStore.hasSeenIntroduction}
             onColor={theme.meatBrown}
@@ -214,7 +214,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.hasLearnPullToRefresh.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           <Switch
             value={settingsStore.hasLearnPullToRefresh}
             onColor={theme.meatBrown}
@@ -224,7 +224,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.withNativePullToRefresh.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           <Switch
             value={settingsStore.withNativePullToRefresh}
             onColor={theme.meatBrown}
@@ -234,7 +234,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.withBottomSheetFullHeight.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           <Switch
             value={settingsStore.withBottomSheetFullHeight}
             onColor={theme.meatBrown}
@@ -246,7 +246,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.hasSeenBirthdayPresentAt.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           <Switch
             value={!isNil(settingsStore.hasSeenBirthdayPresentAt)}
             onColor={theme.meatBrown}
@@ -261,7 +261,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.hasReadOnboardingInstructionsAt.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           <Switch
             value={!isNil(settingsStore.hasReadOnboardingInstructionsAt)}
             onColor={theme.meatBrown}
@@ -275,7 +275,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.hidePushNotificationsAlert.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           <Switch
             value={settingsStore.hidePushNotificationsAlert}
             onColor={theme.meatBrown}
@@ -287,7 +287,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.hasBeenInvitedToReview.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           <Switch
             value={settingsStore.hasBeenInvitedToReview}
             onColor={theme.meatBrown}
@@ -297,7 +297,7 @@ const Advanced = () => {
         <AppTextField
           readOnly
           autoCapitalize="none"
-          containerStyle={tw`mt-3 mx-6`}
+          containerStyle={tw`mx-6 mt-3`}
           keyboardType="default"
           label={t('advanced.settings.pushNotificationsToken.label')}
           value={notificationsStore.expoPushToken ?? ''}
@@ -307,7 +307,7 @@ const Advanced = () => {
               <AppIconButton
                 icon="content-copy"
                 iconSize={20}
-                style={tw`absolute right-2 h-8 w-8 shrink-0`}
+                style={tw`absolute right-2 size-8 shrink-0`}
                 onPress={() => onCopyToClipboard(notificationsStore.expoPushToken ?? '')}
               />
             ),
@@ -315,7 +315,7 @@ const Advanced = () => {
         />
         <AppTextField
           autoCapitalize="none"
-          containerStyle={tw`mt-3 mx-6`}
+          containerStyle={tw`mx-6 mt-3`}
           keyboardType="url"
           label={t('advanced.settings.apiBaseUrl.label')}
           placeholder={HTTP.defaults.baseURL}
@@ -337,7 +337,7 @@ const Advanced = () => {
               <AppIconButton
                 icon="content-copy"
                 iconSize={20}
-                style={tw`absolute right-2 h-8 w-8 shrink-0`}
+                style={tw`absolute right-2 size-8 shrink-0`}
                 onPress={() => onCopyToClipboard(authStore.accessToken ?? '')}
               />
             ),
@@ -358,7 +358,7 @@ const Advanced = () => {
               <AppIconButton
                 icon="content-copy"
                 iconSize={20}
-                style={tw`absolute right-2 h-8 w-8 shrink-0`}
+                style={tw`absolute right-2 size-8 shrink-0`}
                 onPress={() => onCopyToClipboard(authStore.refreshToken ?? '')}
               />
             ),
@@ -368,7 +368,7 @@ const Advanced = () => {
         <ServiceRow
           description={t('advanced.actions.switchTokensStorage.description')}
           label={t('advanced.actions.switchTokensStorage.label')}
-          style={tw`px-3 mx-3`}>
+          style={tw`mx-3 px-3`}>
           <Switch
             value={settingsStore.areTokensInAsyncStorage}
             onColor={theme.meatBrown}

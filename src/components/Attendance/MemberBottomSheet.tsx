@@ -35,7 +35,7 @@ const MemberBottomSheet: ForwardRefRenderFunction<
     <AppBottomSheet ref={forwardedRef} style={[tw`py-6`, style]} onClose={onClose}>
       {member && (
         <>
-          <View style={tw`flex flex-row gap-4 items-end justify-between h-32 mx-6`}>
+          <View style={tw`mx-6 flex h-32 flex-row items-end justify-between gap-4`}>
             <View style={tw`flex flex-col items-start`}>
               <AppText
                 style={tw`text-left text-3xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
@@ -51,17 +51,17 @@ const MemberBottomSheet: ForwardRefRenderFunction<
               contentFit="cover"
               source={member.polaroid}
               style={[
-                tw`h-full bg-gray-200 dark:bg-zinc-800 rounded-xl overflow-hidden`,
+                tw`h-full overflow-hidden rounded-xl bg-gray-200 dark:bg-zinc-800`,
                 { aspectRatio: 506 / 619 },
               ]}
             />
           </View>
 
-          <SectionTitle style={tw`mt-6 mx-6`} title={t('members.profile.title')}>
+          <SectionTitle style={tw`mx-6 mt-6`} title={t('members.profile.title')}>
             {includes(authStore.user?.roles, 'admin') && (
               <Link asChild href={`${MANAGER_BASE_URL}/members/${member._id}`}>
                 <AppText
-                  style={tw`ml-auto text-base font-normal leading-5 text-right text-amber-500 min-w-5`}>
+                  style={tw`ml-auto min-w-5 text-right text-base font-normal leading-5 text-amber-500`}>
                   {t('members.profile.navigateToManager')} <AppIcon icon="open-in-new" size={16} />
                 </AppText>
               </Link>
@@ -73,9 +73,9 @@ const MemberBottomSheet: ForwardRefRenderFunction<
               withBottomDivider
               label={t('members.profile.since.label')}
               prefixIcon="medal-outline"
-              style={tw`px-3 mx-3`}>
+              style={tw`mx-3 px-3`}>
               <AppText
-                style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+                style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
                 {dayjs(member.created).format('YYYY')}
               </AppText>
             </ServiceRow>
@@ -85,7 +85,7 @@ const MemberBottomSheet: ForwardRefRenderFunction<
               withBottomDivider
               label={t('members.profile.membership.label')}
               prefix={
-                <View style={tw`flex flex-row items-center shrink-0 min-h-10 relative`}>
+                <View style={tw`relative flex min-h-10 shrink-0 flex-row items-center`}>
                   <AppIcon
                     color={tw.prefixMatch('dark') ? tw.color('stone-400') : tw.color('gray-700')}
                     icon="badge-account-horizontal-outline"
@@ -96,12 +96,12 @@ const MemberBottomSheet: ForwardRefRenderFunction<
                   <Animated.View
                     entering={BounceIn.duration(1000)}
                     exiting={BounceOut.duration(1000)}
-                    style={tw`z-20 h-3.5 w-3.5 bg-gray-50 dark:bg-zinc-900 rounded-full absolute flex items-center justify-center -bottom-0 -right-1`}>
-                    <View style={tw`h-2.5 w-2.5 bg-red-600 dark:bg-red-700 rounded-full`} />
+                    style={tw`absolute -bottom-0 -right-1 z-20 flex size-3.5 items-center justify-center rounded-full bg-gray-50 dark:bg-zinc-900`}>
+                    <View style={tw`size-2.5 rounded-full bg-red-600 dark:bg-red-700`} />
                   </Animated.View>
                 </View>
               }
-              style={tw`px-3 mx-3`}>
+              style={tw`mx-3 px-3`}>
               <Trans
                 components={[
                   <AppText
@@ -115,7 +115,7 @@ const MemberBottomSheet: ForwardRefRenderFunction<
                     : t(`members.profile.membership.none`)
                 }
                 parent={AppText}
-                style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+                style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
               />
             </ServiceRow>
           )}
@@ -124,7 +124,7 @@ const MemberBottomSheet: ForwardRefRenderFunction<
               withBottomDivider
               label={t('members.profile.balance.label')}
               prefix={
-                <View style={tw`flex flex-row items-center shrink-0 min-h-10 relative`}>
+                <View style={tw`relative flex min-h-10 shrink-0 flex-row items-center`}>
                   <AppIcon
                     color={tw.prefixMatch('dark') ? tw.color('stone-400') : tw.color('gray-700')}
                     icon="ticket"
@@ -135,12 +135,12 @@ const MemberBottomSheet: ForwardRefRenderFunction<
                   <Animated.View
                     entering={BounceIn.duration(1000)}
                     exiting={BounceOut.duration(1000)}
-                    style={tw`z-20 h-3.5 w-3.5 bg-gray-50 dark:bg-zinc-900 rounded-full absolute flex items-center justify-center -bottom-0 -right-1`}>
-                    <View style={tw`h-2.5 w-2.5 bg-red-600 dark:bg-red-700 rounded-full`} />
+                    style={tw`absolute -bottom-0 -right-1 z-20 flex size-3.5 items-center justify-center rounded-full bg-gray-50 dark:bg-zinc-900`}>
+                    <View style={tw`size-2.5 rounded-full bg-red-600 dark:bg-red-700`} />
                   </Animated.View>
                 </View>
               }
-              style={tw`px-3 mx-3`}>
+              style={tw`mx-3 px-3`}>
               <Trans
                 components={[
                   <AppText
@@ -152,7 +152,7 @@ const MemberBottomSheet: ForwardRefRenderFunction<
                   count: Math.abs(member.balance),
                 })}
                 parent={AppText}
-                style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}
+                style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
               />
             </ServiceRow>
           )}
@@ -164,7 +164,7 @@ const MemberBottomSheet: ForwardRefRenderFunction<
             }
             label={t('members.profile.location.label')}
             prefix={
-              <View style={tw`flex flex-row items-center shrink-0 min-h-10 relative`}>
+              <View style={tw`relative flex min-h-10 shrink-0 flex-row items-center`}>
                 <AppIcon
                   color={tw.prefixMatch('dark') ? tw.color('stone-400') : tw.color('gray-700')}
                   icon="map-marker-outline"
@@ -176,32 +176,32 @@ const MemberBottomSheet: ForwardRefRenderFunction<
                   <Animated.View
                     entering={BounceIn.duration(1000)}
                     exiting={BounceOut.duration(1000)}
-                    style={tw`z-20 h-3.5 w-3.5 bg-gray-50 dark:bg-zinc-900 rounded-full absolute flex items-center justify-center -bottom-0 -right-1`}>
-                    <View style={tw`h-2.5 w-2.5 bg-emerald-600 dark:bg-emerald-700 rounded-full`} />
+                    style={tw`absolute -bottom-0 -right-1 z-20 flex size-3.5 items-center justify-center rounded-full bg-gray-50 dark:bg-zinc-900`}>
+                    <View style={tw`size-2.5 rounded-full bg-emerald-600 dark:bg-emerald-700`} />
                   </Animated.View>
                 )}
               </View>
             }
-            style={tw`px-3 mx-3`}
+            style={tw`mx-3 px-3`}
             onPress={() =>
               member?.location
                 ? router.push({ pathname: '/on-premise', params: { location: member.location } })
                 : null
             }>
             {member?.location ? (
-              <AppText style={tw`text-base font-normal text-amber-500 text-right`}>
+              <AppText style={tw`text-right text-base font-normal text-amber-500`}>
                 {t(`onPremise.location.${member.location}`)}
               </AppText>
             ) : (
               <AppText
-                style={tw`text-base font-normal text-slate-500 dark:text-neutral-500 text-right`}>
+                style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
                 {t('members.profile.location.unknown')}
               </AppText>
             )}
           </ServiceRow>
 
           {!member?._id && (
-            <View style={tw`flex flex-row items-start gap-3 my-3 mx-6`}>
+            <View style={tw`mx-6 my-3 flex flex-row items-start gap-3`}>
               <AppIcon
                 color={tw.color('blue-600')}
                 icon="information"
@@ -210,7 +210,7 @@ const MemberBottomSheet: ForwardRefRenderFunction<
               />
 
               <AppText
-                style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 shrink grow basis-0`}>
+                style={tw`shrink grow basis-0 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
                 {t('members.profile.anonymous.description')}
               </AppText>
             </View>

@@ -75,15 +75,15 @@ const LoginBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomShe
 
   return (
     <AppBottomSheet ref={bottomSheetRef} style={[tw`flex flex-col p-6`, style]} onClose={onClose}>
-      <View style={tw`flex items-center justify-center h-40 overflow-visible`}>
+      <View style={tw`flex h-40 items-center justify-center overflow-visible`}>
         <LoginAnimation style={tw`h-56 w-full`} />
       </View>
       <AppText
-        style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200 mt-4`}>
+        style={tw`mt-4 text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
         {t('auth.login.title')}
       </AppText>
       <AppText
-        style={tw`text-left text-base font-normal text-slate-500 dark:text-neutral-500 w-full mt-4`}>
+        style={tw`mt-4 w-full text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('auth.login.description')}
       </AppText>
       <AppRoundedButton
