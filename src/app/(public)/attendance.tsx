@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useIsFocused } from 'expo-router';
-import { capitalize, compact, isNil, sample } from 'lodash';
+import { compact, isNil, sample } from 'lodash';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -14,12 +14,21 @@ import AppText from '@/components/AppText';
 import MemberBottomSheet from '@/components/Attendance/MemberBottomSheet';
 import MemberTile from '@/components/Attendance/MemberTile';
 import ErrorBadge from '@/components/ErrorBadge';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
-import { ApiMemberProfile, getCurrentMembers } from '@/services/api/members';
+import { ApiLocation, ApiMemberProfile, getCurrentMembers } from '@/services/api/members';
 import { membersQueryKeys } from '@/services/query';
+
+const LOCATION_SORT_ORDER: (ApiLocation | null)[] = [
+  'cantina',
+  'racine',
+  'pti-poulailler',
+  'poulailler',
+  null,
+];
 
 const Attendance = () => {
   useDeviceContext(tw);
@@ -65,6 +74,28 @@ const Attendance = () => {
     return Array.isArray(text) ? sample(text) : text;
   }, [t, currentMembersUpdatedAt]);
 
+  const currentMembersPerLocation = useMemo(() => {
+    return currentMembers
+      ?.reduce(
+        (acc, member) => {
+          const location = member.location;
+          const group = acc.find((g) => g.location === location);
+          if (group) {
+            group.members.push(member);
+          } else {
+            acc.push({ location: location ?? null, members: [member] });
+          }
+          return acc;
+        },
+        [] as { location: ApiLocation | null; members: ApiMemberProfile[] }[],
+      )
+      .sort((a, b) => {
+        const aIndex = LOCATION_SORT_ORDER.findIndex((loc) => loc === a.location);
+        const bIndex = LOCATION_SORT_ORDER.findIndex((loc) => loc === b.location);
+        return aIndex - bIndex;
+      });
+  }, [currentMembers]);
+
   const onSelect = useCallback(
     (member: ApiMemberProfile | null) => {
       setSelectedMember(member);
@@ -92,30 +123,6 @@ const Attendance = () => {
       loading={isFetchingCurrentMembers}
       title={t('attendance.title', { count: currentMembers?.length ?? 0 })}
       onRefresh={refetchCurrentMembers}>
-      <View style={tw`flex min-h-6 flex-row items-center gap-2 px-6`}>
-        <AppShimmerText
-          active={isFetchingCurrentMembers}
-          numberOfLines={1}
-          style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
-          {!isNil(durationSinceLastFetch)
-            ? capitalize(
-                durationSinceLastFetch > 3_600
-                  ? dayjs(currentMembersUpdatedAt).calendar()
-                  : dayjs(currentMembersUpdatedAt).fromNow(),
-              )
-            : currentMembersError && !isSilentError(currentMembersError)
-              ? t('attendance.onFetch.fail')
-              : loadingText}
-        </AppShimmerText>
-        {currentMembersError && !isSilentError(currentMembersError) ? (
-          <ErrorBadge
-            error={currentMembersError}
-            title={t('attendance.onFetch.fail')}
-            onRetry={refetchCurrentMembers}
-          />
-        ) : null}
-      </View>
-
       {isPendingCurrentMembers ? (
         <View style={tw`flex flex-row flex-wrap items-start justify-evenly gap-8 px-6`}>
           {[0, 1, 2, 3, 4].map((index) => (
@@ -134,25 +141,63 @@ const Attendance = () => {
           ))}
           <View style={tw`size-24`} />
         </View>
-      ) : currentMembers?.length ? (
-        <View style={tw`flex flex-row flex-wrap items-start justify-evenly gap-8 px-6`}>
-          {currentMembers?.map((member, index) => (
-            <Animated.View
-              entering={FadeIn.duration(300).delay(Math.min(index, 10) * 50 + Math.random() * 200)}
-              exiting={FadeOut.duration(300)}
-              key={`member-tile-${compact([member._id, member.firstName, member.lastName]).join('-')}`}
-              layout={LinearTransition}
-              style={tw`w-24`}>
-              <MemberTile
-                member={member}
-                onPress={() => {
-                  onSelect(member);
-                }}
-              />
-            </Animated.View>
-          ))}
-          <View style={tw`w-24`} />
-        </View>
+      ) : currentMembersPerLocation?.length ? (
+        currentMembersPerLocation?.map(({ location, members }, groupIndex) => (
+          <View
+            key={`location-group-${location ?? 'unknown'}`}
+            style={tw`flex w-full flex-col items-start`}>
+            <SectionTitle
+              loading={isFetchingCurrentMembers}
+              style={tw`mb-6 w-full px-6`}
+              title={
+                location ? t(`onPremise.location.${location}`) : t('onPremise.location.unknown')
+              }>
+              {!groupIndex ? (
+                <View style={tw`ml-auto flex flex-row items-center gap-2`}>
+                  {currentMembersError && !isSilentError(currentMembersError) ? (
+                    <ErrorBadge
+                      error={currentMembersError}
+                      title={t('attendance.onFetch.fail')}
+                      onRetry={refetchCurrentMembers}
+                    />
+                  ) : null}
+                  <AppShimmerText
+                    active={isFetchingCurrentMembers}
+                    numberOfLines={1}
+                    style={tw`text-right text-sm font-normal text-slate-500 dark:text-neutral-500`}>
+                    {!isNil(durationSinceLastFetch)
+                      ? durationSinceLastFetch > 3_600
+                        ? dayjs(currentMembersUpdatedAt).calendar()
+                        : dayjs(currentMembersUpdatedAt).fromNow()
+                      : currentMembersError && !isSilentError(currentMembersError)
+                        ? t('attendance.onFetch.fail')
+                        : loadingText}
+                  </AppShimmerText>
+                </View>
+              ) : null}
+            </SectionTitle>
+            <View style={tw`flex flex-row flex-wrap items-start justify-evenly gap-8 px-6`}>
+              {members?.map((member, index) => (
+                <Animated.View
+                  entering={FadeIn.duration(300).delay(
+                    Math.min(index, 10) * 50 + Math.random() * 200,
+                  )}
+                  exiting={FadeOut.duration(300)}
+                  key={`member-tile-${compact([member._id, member.firstName, member.lastName]).join('-')}`}
+                  layout={LinearTransition}
+                  style={tw`w-24`}>
+                  <MemberTile
+                    member={member}
+                    onPress={() => {
+                      onSelect(member);
+                    }}
+                  />
+                </Animated.View>
+              ))}
+              <View style={tw`w-24`} />
+            </View>
+          </View>
+        ))
       ) : (
         <View
           style={tw`mx-auto flex w-full max-w-sm grow basis-0 flex-col justify-start gap-2 px-4`}>

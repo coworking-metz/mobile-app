@@ -55,6 +55,7 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
 
   const {
     isFetching: isFetchingSubscriptions,
+    isPending: isPendingSubscriptions,
     isEnabled: areSubscriptionsEnabled,
     data: subscriptions,
     refetch: refetchSubscriptions,
@@ -133,6 +134,7 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
             renderItem={({ item }) => (
               <SubscriptionItem
                 loading={isFetchingSubscriptions}
+                pending={isPendingSubscriptions}
                 style={tw.style(`px-6`, { width: carouselWidth })}
                 subscription={item}
               />
@@ -193,10 +195,12 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
 const SubscriptionItem = ({
   subscription,
   loading,
+  pending,
   style,
 }: {
   subscription: ApiMemberSubscription;
   loading?: boolean;
+  pending?: boolean;
   style?: ViewStyle;
 }) => {
   const { t } = useTranslation();
@@ -233,7 +237,7 @@ const SubscriptionItem = ({
         withBottomDivider
         label={t('home.profile.subscription.period.label')}
         style={tw`w-full px-0`}>
-        {loading ? (
+        {pending ? (
           <LoadingSkeleton height={24} width={128} />
         ) : (
           <AppText
@@ -252,7 +256,7 @@ const SubscriptionItem = ({
         description={t('home.profile.subscription.attendance.description')}
         label={t('home.profile.subscription.attendance.label')}
         style={tw`w-full px-0`}>
-        {loading ? (
+        {pending ? (
           <LoadingSkeleton height={24} width={64} />
         ) : (
           <Trans
@@ -277,7 +281,7 @@ const SubscriptionItem = ({
         description={t('home.profile.subscription.activity.description')}
         label={t('home.profile.subscription.activity.label')}
         style={tw`w-full px-0`}>
-        {loading ? (
+        {pending ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
           <Trans
@@ -301,7 +305,7 @@ const SubscriptionItem = ({
         description={t('home.profile.subscription.savings.description')}
         label={t('home.profile.subscription.savings.label')}
         style={tw`w-full px-0`}>
-        {loading ? (
+        {pending ? (
           <LoadingSkeleton height={24} width={80} />
         ) : subscription.savingsOverTickets > 0 ? (
           <View style={tw`rounded-full bg-green-100 px-2.5 py-0.5 dark:bg-green-900`}>

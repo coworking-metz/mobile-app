@@ -35,7 +35,7 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
   const activeSince = useAppState();
 
   const {
-    isFetching: isFetchingProfile,
+    isPending: isPendingProfile,
     data: profile,
     refetch: refetchProfile,
     error: profileError,
@@ -104,7 +104,7 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
               year: dayjs(firstMembership.membershipStart).year(),
             }),
           })}>
-        {isFetchingProfile ? (
+        {isPendingProfile ? (
           <LoadingSkeleton height={24} width={128} />
         ) : (
           <Trans
@@ -134,7 +134,7 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
         description={t('home.profile.membership.activity.description')}
         label={t('home.profile.membership.activity.label')}
         style={tw`w-full px-0`}>
-        {isFetchingProfile ? (
+        {isPendingProfile ? (
           <LoadingSkeleton height={24} width={128} />
         ) : (
           <Trans
@@ -156,7 +156,7 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
       </ServiceRow>
 
       <ServiceRow label={t('home.profile.membership.grade.label')} style={tw`w-full px-0`}>
-        {isFetchingProfile ? (
+        {isPendingProfile ? (
           <LoadingSkeleton height={24} width={128} />
         ) : (
           <AppText

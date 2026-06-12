@@ -38,7 +38,7 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
   const activeSince = useAppState();
 
   const {
-    isFetching: isFetchingProfile,
+    isPending: isPendingProfile,
     data: memberProfile,
     refetch: refetchProfile,
     isEnabled: isProfileQueryEnabled,
@@ -104,7 +104,7 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
         withBottomDivider
         label={t('home.profile.tickets.balance.label')}
         style={tw`mt-2 w-full px-0`}>
-        {isFetchingProfile ? (
+        {isPendingProfile ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
           <Trans

@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - First membership year on membership bottom sheet.
 
+### Changed
+
+- Group attending members by location.
+
 ## [2026.6.1] - 2026-06-04
 
 ### Added
