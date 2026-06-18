@@ -47,14 +47,16 @@ const MemberBottomSheet: ForwardRefRenderFunction<
               </AppText>
             </View>
 
-            <ZoomableImage
-              contentFit="cover"
-              source={member.polaroid}
-              style={[
-                tw`h-full overflow-hidden rounded-xl bg-gray-200 dark:bg-zinc-800`,
-                { aspectRatio: 506 / 619 },
-              ]}
-            />
+            {member.polaroid && (
+              <ZoomableImage
+                contentFit="cover"
+                source={member.polaroid}
+                style={[
+                  tw`h-full overflow-hidden rounded-xl bg-gray-200 dark:bg-zinc-800`,
+                  { aspectRatio: 506 / 619 },
+                ]}
+              />
+            )}
           </View>
 
           <SectionTitle style={tw`mx-6 mt-6`} title={t('members.profile.title')}>

@@ -161,7 +161,7 @@
       "description": "Subscription allows access to the Coworking location for 30 rolling days starting from the chosen start date.",
       "get": "Get one",
       "header": {
-        "current": "Current subscription",
+        "current": "Ongoing subscription",
         "next": "Next subscription"
       },
       "label": {

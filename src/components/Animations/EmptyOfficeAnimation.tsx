@@ -13,8 +13,8 @@ const EmptyOfficeAnimation: ForwardRefRenderFunction<LottieView, AnimationProps>
   const colorizedSource = useMemo(() => {
     const isDark = colorScheme === 'dark';
     const bulbColor = (isDark ? tw.color('amber-400') : tw.color('yellow-300')) as string;
-    const lampColor = (isDark ? tw.color('yellow-50') : tw.color('slate-50')) as string;
-    const backgroundColor = (isDark ? tw.color('gray-950') : tw.color('gray-300')) as string;
+    const lampColor = (isDark ? tw.color('stone-800') : tw.color('slate-50')) as string;
+    const backgroundColor = (isDark ? tw.color('stone-950') : tw.color('gray-300')) as string;
     return colouriseLottie(EmptyOffice, {
       // Shape Layer 1.Ellipse 1.Fill 1
       // 'layers.0.shapes.0.it.1.c.k': '#29acec',

@@ -185,15 +185,17 @@ const InboxScreen = ({ from }: { from?: string }) => {
             active={isFetchingMessages}
             numberOfLines={1}
             style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
-            {!isNil(durationSinceLastFetch)
-              ? capitalize(
-                  durationSinceLastFetch > 3_600
-                    ? dayjs(messagesUpdatedAt).calendar()
-                    : dayjs(messagesUpdatedAt).fromNow(),
-                )
-              : messagesError && !isSilentError(messagesError)
-                ? t('messages.list.onFetch.fail')
-                : loadingText}
+            {isFetchingMessages
+              ? loadingText
+              : !isNil(durationSinceLastFetch)
+                ? capitalize(
+                    durationSinceLastFetch > 3_600
+                      ? dayjs(messagesUpdatedAt).calendar()
+                      : dayjs(messagesUpdatedAt).fromNow(),
+                  )
+                : messagesError && !isSilentError(messagesError)
+                  ? t('messages.list.onFetch.fail')
+                  : null}
           </AppShimmerText>
           {messagesError && !isSilentError(messagesError) ? (
             <ErrorBadge

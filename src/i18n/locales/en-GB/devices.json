@@ -58,7 +58,7 @@
         "COMPUTER": "Computer",
         "MOBILE": "Mobile",
         "UNKNOWN": "Other",
-        "WEARABLE": "Watch"
+        "WEARABLE": "Wearable"
       }
     }
   },

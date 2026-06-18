@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useIsFocused } from 'expo-router';
-import { compact, isNil, sample } from 'lodash';
+import { capitalize, compact, isNil, sample } from 'lodash';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -23,11 +23,11 @@ import { ApiLocation, ApiMemberProfile, getCurrentMembers } from '@/services/api
 import { membersQueryKeys } from '@/services/query';
 
 const LOCATION_SORT_ORDER: (ApiLocation | null)[] = [
+  null,
   'cantina',
   'racine',
   'pti-poulailler',
   'poulailler',
-  null,
 ];
 
 const Attendance = () => {
@@ -79,7 +79,9 @@ const Attendance = () => {
       ?.reduce(
         (acc, member) => {
           const location = member.location;
-          const group = acc.find((g) => g.location === location);
+          const group = acc.find(
+            (g) => g.location === location || (isNil(g.location) && isNil(location)),
+          );
           if (group) {
             group.members.push(member);
           } else {
@@ -108,7 +110,7 @@ const Attendance = () => {
 
   return (
     <ServiceLayout
-      contentStyle={tw`gap-6 pb-12 pt-6`}
+      contentStyle={tw`pb-12`}
       description={t('attendance.description')}
       footer={
         <MemberBottomSheet
@@ -123,59 +125,72 @@ const Attendance = () => {
       loading={isFetchingCurrentMembers}
       title={t('attendance.title', { count: currentMembers?.length ?? 0 })}
       onRefresh={refetchCurrentMembers}>
+      <View style={tw`mt-4 flex min-h-6 flex-row items-center gap-2 px-6`}>
+        <AppShimmerText
+          active={isFetchingCurrentMembers}
+          numberOfLines={1}
+          style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
+          {isFetchingCurrentMembers
+            ? loadingText
+            : !isNil(durationSinceLastFetch)
+              ? capitalize(
+                  durationSinceLastFetch > 3_600
+                    ? dayjs(currentMembersUpdatedAt).calendar()
+                    : dayjs(currentMembersUpdatedAt).fromNow(),
+                )
+              : currentMembersError && !isSilentError(currentMembersError)
+                ? t('attendance.onFetch.fail')
+                : null}
+        </AppShimmerText>
+        {currentMembersError && !isSilentError(currentMembersError) ? (
+          <ErrorBadge
+            error={currentMembersError}
+            title={t('attendance.onFetch.fail')}
+            onRetry={refetchCurrentMembers}
+          />
+        ) : null}
+      </View>
+
       {isPendingCurrentMembers ? (
-        <View style={tw`flex flex-row flex-wrap items-start justify-evenly gap-8 px-6`}>
-          {[0, 1, 2, 3, 4].map((index) => (
-            <Animated.View
-              entering={FadeIn.duration(300).delay(Math.min(index, 10) * 50 + Math.random() * 200)}
-              exiting={FadeOut.duration(300)}
-              key={`member-skeleton-${index}`}
-              layout={LinearTransition}
-              style={tw`relative flex size-24 flex-col items-center`}>
-              <View style={tw`size-full overflow-hidden rounded-full bg-white dark:bg-zinc-800`}>
-                <LoadingSkeleton height={`100%`} width={`100%`} />
-              </View>
-              <View
-                style={tw`absolute -bottom-0 h-7 w-20 rounded-full bg-white px-3 py-1 shadow-2xl shadow-black dark:bg-zinc-800 `}></View>
-            </Animated.View>
-          ))}
-          <View style={tw`size-24`} />
+        <View style={tw`my-4 flex w-full flex-col items-start`}>
+          <View
+            style={tw`mx-6 mb-6 h-6 w-32 overflow-hidden rounded-full bg-white dark:bg-zinc-800`}>
+            <LoadingSkeleton height={`100%`} width={`100%`} />
+          </View>
+          <View style={tw`flex flex-row flex-wrap items-start justify-evenly gap-8 px-6`}>
+            {[0, 1, 2, 3, 4].map((index) => (
+              <Animated.View
+                entering={FadeIn.duration(300).delay(
+                  Math.min(index, 10) * 50 + Math.random() * 200,
+                )}
+                exiting={FadeOut.duration(300)}
+                key={`member-skeleton-${index}`}
+                layout={LinearTransition}
+                style={tw`relative flex size-24 flex-col items-center`}>
+                <View style={tw`size-full overflow-hidden rounded-full bg-white dark:bg-zinc-800`}>
+                  <LoadingSkeleton height={`100%`} width={`100%`} />
+                </View>
+                <View
+                  style={tw`absolute -bottom-0 h-7 w-20 rounded-full bg-white px-3 py-1 shadow-2xl shadow-black dark:bg-zinc-800 `}></View>
+              </Animated.View>
+            ))}
+            <View style={tw`w-24`} />
+            <View style={tw`w-24`} />
+          </View>
         </View>
       ) : currentMembersPerLocation?.length ? (
-        currentMembersPerLocation?.map(({ location, members }, groupIndex) => (
+        currentMembersPerLocation?.map(({ location, members }) => (
           <View
             key={`location-group-${location ?? 'unknown'}`}
-            style={tw`flex w-full flex-col items-start`}>
+            style={tw`my-4 flex w-full flex-col items-start`}>
             <SectionTitle
+              count={members.length > 1 ? members.length : undefined}
               loading={isFetchingCurrentMembers}
               style={tw`mb-6 w-full px-6`}
               title={
                 location ? t(`onPremise.location.${location}`) : t('onPremise.location.unknown')
-              }>
-              {!groupIndex ? (
-                <View style={tw`ml-auto flex flex-row items-center gap-2`}>
-                  {currentMembersError && !isSilentError(currentMembersError) ? (
-                    <ErrorBadge
-                      error={currentMembersError}
-                      title={t('attendance.onFetch.fail')}
-                      onRetry={refetchCurrentMembers}
-                    />
-                  ) : null}
-                  <AppShimmerText
-                    active={isFetchingCurrentMembers}
-                    numberOfLines={1}
-                    style={tw`text-right text-sm font-normal text-slate-500 dark:text-neutral-500`}>
-                    {!isNil(durationSinceLastFetch)
-                      ? durationSinceLastFetch > 3_600
-                        ? dayjs(currentMembersUpdatedAt).calendar()
-                        : dayjs(currentMembersUpdatedAt).fromNow()
-                      : currentMembersError && !isSilentError(currentMembersError)
-                        ? t('attendance.onFetch.fail')
-                        : loadingText}
-                  </AppShimmerText>
-                </View>
-              ) : null}
-            </SectionTitle>
+              }
+            />
             <View style={tw`flex flex-row flex-wrap items-start justify-evenly gap-8 px-6`}>
               {members?.map((member, index) => (
                 <Animated.View
@@ -194,6 +209,7 @@ const Attendance = () => {
                   />
                 </Animated.View>
               ))}
+              <View style={tw`w-24`} />
               <View style={tw`w-24`} />
             </View>
           </View>

@@ -119,9 +119,9 @@ const OnPremise = () => {
             <ScrollView
               contentContainerStyle={[
                 isWide && tw`max-w-lg`,
+                !isWide && { width: layoutWidth },
                 {
                   paddingTop: headerHeight,
-                  width: isWide ? layoutWidth / 2 : layoutWidth,
                   paddingBottom: insets.bottom,
                 },
               ]}
@@ -143,9 +143,9 @@ const OnPremise = () => {
             <ScrollView
               contentContainerStyle={[
                 isWide && tw`max-w-lg`,
+                !isWide && { width: layoutWidth },
                 {
                   paddingTop: headerHeight,
-                  width: isWide ? layoutWidth / 2 : layoutWidth,
                   paddingBottom: insets.bottom,
                 },
               ]}
