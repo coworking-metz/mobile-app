@@ -551,7 +551,7 @@ export default function HomeScreen() {
           title={t('home.services.label')}
         />
 
-        <View style={tw`flex min-h-40 flex-row items-stretch gap-4`}>
+        <View style={tw`flex flex-row items-stretch gap-4`}>
           <Animated.View
             entering={FadeInUp.duration(500).delay(700)}
             style={tw`flex shrink grow basis-0 flex-col`}>
