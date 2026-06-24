@@ -48,7 +48,7 @@ export default function CalendarEventPage() {
   const router = useRouter();
 
   const { eventId, _root: withoutBackButton } = useLocalSearchParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const renderPermissionsBottomSheet = useAppPermissions();
   const [actionHeight, setActionHeight] = useState(0);
   const paddingBottom = useAppPaddingBottom();
@@ -274,7 +274,11 @@ export default function CalendarEventPage() {
                     }}>
                     <ServiceRow
                       withBottomDivider
-                      label={t(`events.detail.author.byCalendar.${event.calendar}`)}
+                      label={
+                        i18n.exists(`events.detail.author.byCalendar.${event.calendar}`)
+                          ? t(`events.detail.author.byCalendar.${event.calendar}`)
+                          : event.calendar
+                      }
                       prefix={eventIcon}
                       style={tw`mx-3 px-3`}
                       suffixIcon="chevron-right"

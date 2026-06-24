@@ -68,7 +68,7 @@ import useToastStore from '@/stores/toast';
 
 export default function HomeScreen() {
   useDeviceContext(tw);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const authStore = useAuthStore();
   const settingsStore = useSettingsStore();
   const toastStore = useToastStore();
@@ -591,7 +591,13 @@ export default function HomeScreen() {
               },
             }}>
             <OnPremiseCard
-              location={onPremiseLocation && t(`onPremise.location.${onPremiseLocation}`)}
+              location={
+                onPremiseLocation
+                  ? i18n.exists(`onPremise.location.${onPremiseLocation}`)
+                    ? t(`onPremise.location.${onPremiseLocation}`)
+                    : onPremiseLocation
+                  : ''
+              }
             />
           </Link>
         </Animated.View>

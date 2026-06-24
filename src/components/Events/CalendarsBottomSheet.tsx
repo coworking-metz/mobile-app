@@ -25,7 +25,7 @@ const CalendarsBottomSheet: ForwardRefRenderFunction<
     'children'
   >
 > = ({ selected, events, period, onSelect, style, ...props }, forwardedRef) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const allCalendars = useMemo(() => {
     return uniq(events?.map((e) => e.calendar));
@@ -66,7 +66,11 @@ const CalendarsBottomSheet: ForwardRefRenderFunction<
         {allCalendars.map((calendar) => (
           <ServiceRow
             key={`calendar-option-${calendar}`}
-            label={t(`events.detail.author.byCalendar.${calendar}`)}
+            label={
+              i18n.exists(`events.detail.author.byCalendar.${calendar}`)
+                ? t(`events.detail.author.byCalendar.${calendar}`)
+                : calendar
+            }
             selected={selected === calendar}
             style={tw`mx-3 px-3`}
             onPress={() => onSelect?.(calendar)}>

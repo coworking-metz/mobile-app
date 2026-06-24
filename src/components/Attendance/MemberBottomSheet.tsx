@@ -19,6 +19,7 @@ import {
   ApiMemberProfile,
   isMemberBalanceInsufficient,
   isMembershipNonCompliant,
+  LAST_SEEN_DELAY_UNTIL_LEAVING_IN_MIN,
 } from '@/services/api/members';
 import { MANAGER_BASE_URL } from '@/services/environment';
 import useAuthStore from '@/stores/auth';
@@ -160,7 +161,9 @@ const MemberBottomSheet: ForwardRefRenderFunction<
           )}
           <ServiceRow
             description={
-              since && member.lastSeen && dayjs(since).diff(member.lastSeen, 'minute') > 2
+              since &&
+              member.lastSeen &&
+              dayjs(since).diff(member.lastSeen, 'minute') >= LAST_SEEN_DELAY_UNTIL_LEAVING_IN_MIN
                 ? dayjs(member.lastSeen).fromNow()
                 : ''
             }

@@ -294,10 +294,20 @@ const Advanced = () => {
             onValueChange={(value) => useSettingsStore.setState({ hasBeenInvitedToReview: value })}
           />
         </ServiceRow>
+
+        <AppTextField
+          autoCapitalize="none"
+          containerStyle={tw`mx-6 mt-3`}
+          keyboardType="url"
+          label={t('advanced.settings.apiBaseUrl.label')}
+          placeholder={HTTP.defaults.baseURL}
+          value={settingsStore.apiBaseUrl ?? ''}
+          onChangeText={(apiBaseUrl) => useSettingsStore.setState({ apiBaseUrl })}
+        />
         <AppTextField
           readOnly
           autoCapitalize="none"
-          containerStyle={tw`mx-6 mt-3`}
+          containerStyle={tw`mx-6`}
           keyboardType="default"
           label={t('advanced.settings.pushNotificationsToken.label')}
           value={notificationsStore.expoPushToken ?? ''}
@@ -312,15 +322,6 @@ const Advanced = () => {
               />
             ),
           })}
-        />
-        <AppTextField
-          autoCapitalize="none"
-          containerStyle={tw`mx-6 mt-3`}
-          keyboardType="url"
-          label={t('advanced.settings.apiBaseUrl.label')}
-          placeholder={HTTP.defaults.baseURL}
-          value={settingsStore.apiBaseUrl ?? ''}
-          onChangeText={(apiBaseUrl) => useSettingsStore.setState({ apiBaseUrl })}
         />
         <AppTextField
           autoCapitalize="none"

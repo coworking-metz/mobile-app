@@ -32,7 +32,7 @@ const LOCATION_SORT_ORDER: (ApiLocation | null)[] = [
 
 const Attendance = () => {
   useDeviceContext(tw);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const memberBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [selectedMember, setSelectedMember] = useState<ApiMemberProfile | null>(null);
   const activeSince = useAppState();
@@ -188,7 +188,11 @@ const Attendance = () => {
               loading={isFetchingCurrentMembers}
               style={tw`mb-6 w-full px-6`}
               title={
-                location ? t(`onPremise.location.${location}`) : t('onPremise.location.unknown')
+                !location
+                  ? t('onPremise.location.unknown')
+                  : i18n.exists(`onPremise.location.${location}`)
+                    ? t(`onPremise.location.${location}`)
+                    : location
               }
             />
             <View style={tw`flex flex-row flex-wrap items-start justify-evenly gap-8 px-6`}>
@@ -203,6 +207,11 @@ const Attendance = () => {
                   style={tw`w-24`}>
                   <MemberTile
                     member={member}
+                    since={
+                      currentMembersUpdatedAt
+                        ? dayjs(currentMembersUpdatedAt).toISOString()
+                        : undefined
+                    }
                     onPress={() => {
                       onSelect(member);
                     }}

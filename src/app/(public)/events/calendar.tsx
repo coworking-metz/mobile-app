@@ -27,7 +27,7 @@ export type SortType = (typeof SORTS)[number];
 
 const Calendar = ({ from }: { from?: string }) => {
   useDeviceContext(tw);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const { period, calendar } = useLocalSearchParams<{ period?: string; calendar?: string }>();
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>(null);
@@ -169,7 +169,9 @@ const Calendar = ({ from }: { from?: string }) => {
             icon="chevron-down"
             label={
               selectedCalendar
-                ? t(`events.detail.author.byCalendar.${selectedCalendar}`)
+                ? i18n.exists(`events.detail.author.byCalendar.${selectedCalendar}`)
+                  ? t(`events.detail.author.byCalendar.${selectedCalendar}`)
+                  : selectedCalendar
                 : t('events.calendars.all')
             }
             selected={selectedCalendar !== null}

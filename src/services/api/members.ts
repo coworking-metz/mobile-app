@@ -3,6 +3,9 @@ import { HTTP } from '@/services/http';
 
 export type ApiLocation = 'poulailler' | 'pti-poulailler' | 'racine' | 'cantina';
 
+export const LAST_SEEN_DELAY_UNTIL_LEAVING_IN_MIN = 3; // Since when a member is considered leaving (in minutes)
+export const LAST_SEEN_DELAY_UNTIL_NON_ATTENDING_IN_MIN = 10; // Since when a member is considered non-attending (in minutes)
+
 export interface ApiMemberProfileSubscription {
   aboEnd: string;
   aboStart: string;
