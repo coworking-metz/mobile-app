@@ -90,8 +90,8 @@ const RootLayout = () => {
                 <AuthProvider>
                   <NoticesProvider>
                     <ContactProvider>
-                      <PushNotificationsProvider>
-                        <PermissionsProvider>
+                      <PermissionsProvider>
+                        <PushNotificationsProvider>
                           <ReviewProvider>
                             <ThemeProvider>
                               <OnPremiseProvider>
@@ -191,8 +191,8 @@ const RootLayout = () => {
                               </OnPremiseProvider>
                             </ThemeProvider>
                           </ReviewProvider>
-                        </PermissionsProvider>
-                      </PushNotificationsProvider>
+                        </PushNotificationsProvider>
+                      </PermissionsProvider>
                     </ContactProvider>
                   </NoticesProvider>
 

@@ -64,8 +64,11 @@ const PushNotificationsBottomSheet: ForwardRefRenderFunction<
           value={pushNotificationsEnabled}
           onColor={theme.meatBrown}
           onValueChange={(willEnablePushNotifications) => {
-            setPushNotificationsEnabled(willEnablePushNotifications);
-            togglePushNotifications(willEnablePushNotifications);
+            togglePushNotifications(willEnablePushNotifications).then(
+              (hasEnabledPushNotifications) => {
+                setPushNotificationsEnabled(hasEnabledPushNotifications);
+              },
+            );
           }}
         />
       </ServiceRow>

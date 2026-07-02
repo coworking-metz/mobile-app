@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import PushNotificationsBottomSheet from '@/components/PushNotifications/PushNotificationsBottomSheet';
+import useAppState from '@/helpers/app-state';
 import { theme } from '@/helpers/colors';
 import { log } from '@/helpers/logger';
 import { addPushToken, removePushToken } from '@/services/api/push-tokens';
@@ -47,16 +48,16 @@ const getProjectId = () => {
 const PushNotificationsContext = createContext<{
   isChangingStatus: boolean;
   arePushNotificationsEnabled?: boolean;
-  enablePushNotifications: () => Promise<void>;
-  disablePushNotifications: () => Promise<void>;
-  togglePushNotifications: (shouldEnable?: boolean) => Promise<void>;
+  enablePushNotifications: () => Promise<boolean>;
+  disablePushNotifications: () => Promise<boolean>;
+  togglePushNotifications: (shouldEnable?: boolean) => Promise<boolean>;
   openPushNotificationsBottomSheet: () => void;
 }>({
   isChangingStatus: false,
   arePushNotificationsEnabled: false,
-  enablePushNotifications: () => Promise.resolve(),
-  disablePushNotifications: () => Promise.resolve(),
-  togglePushNotifications: () => Promise.resolve(),
+  enablePushNotifications: () => Promise.resolve(false),
+  disablePushNotifications: () => Promise.resolve(false),
+  togglePushNotifications: () => Promise.resolve(false),
   openPushNotificationsBottomSheet: () => {},
 });
 
@@ -71,6 +72,7 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
   const noticeStore = useNoticeStore();
   const authStore = useAuthStore();
   const user = useAuthStore((s) => s.user);
+  const activeSince = useAppState();
   const notificationStore = useNotificationStore();
   const [notificationStatus, setNotificationStatus] =
     useState<Notifications.PermissionStatus | null>(null);
@@ -129,7 +131,7 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
   const enablePushNotifications = useCallback(async () => {
     setChangingStatus(true);
 
-    (async () => {
+    return (async () => {
       if (Platform.OS === 'android') {
         await Notifications.setNotificationChannelAsync('default', {
           name: 'default',
@@ -153,7 +155,7 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
 
       if (finalStatus !== 'granted') {
         renderPermissionsBottomSheet();
-        return;
+        return false;
       }
 
       const projectId = getProjectId();
@@ -170,11 +172,14 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
       useNotificationStore.setState({ expoPushToken: token.data });
 
       subscribeToNotifications();
+
+      return true;
     })()
       .catch((error) => {
         noticeStore.addError(error, {
           message: t('pushNotifications.onRegistration.fail'),
         });
+        return false;
       })
       .finally(() => {
         setChangingStatus(false);
@@ -193,6 +198,8 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
     }
 
     notificationStore.clear();
+
+    return false;
   }, [user, notificationStore.expoPushToken]);
 
   useEffect(() => {
@@ -212,6 +219,10 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
     };
   }, [router]);
 
+  useEffect(() => {
+    Notifications.getPermissionsAsync().then(({ status }) => setNotificationStatus(status));
+  }, [activeSince]);
+
   const arePushNotificationsEnabled = useMemo(() => {
     return (
       notificationStatus === Notifications.PermissionStatus.GRANTED &&
@@ -223,11 +234,13 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
     async (shouldEnable?: boolean) => {
       const willEnable = shouldEnable ?? !arePushNotificationsEnabled;
       if (willEnable) {
-        await enablePushNotifications();
+        const result = await enablePushNotifications();
         setNotificationStatus(Notifications.PermissionStatus.GRANTED);
+        return result;
       } else {
-        await disablePushNotifications();
+        const result = await disablePushNotifications();
         setNotificationStatus(null);
+        return result;
       }
     },
     [arePushNotificationsEnabled, enablePushNotifications, disablePushNotifications],
