@@ -103,6 +103,9 @@
     }
   },
 
+  "resources": {
+    "title": "Go further"
+  },
   "review": {
     "description": "Do you enjoy Le Poulailler and its app?\nHelp us make them even better by sharing your feedback on their respective pages.\nThank you so much for your support! 🙏",
     "label": "Give your feedback",
@@ -154,9 +157,6 @@
   },
   "store": {
     "label": "Store"
-  },
-  "support": {
-    "title": "Go further"
   },
   "theme": {
     "label": "Appearance",

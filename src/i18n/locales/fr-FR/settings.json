@@ -88,6 +88,9 @@
       "title": "Présence"
     }
   },
+  "resources": {
+    "title": "Pour aller plus loin"
+  },
   "review": {
     "description": "Vous aimez Le Poulailler et son application ?\nAidez-nous à les rendre encore meilleurs en partageant votre avis sur leurs pages respectives.\nUn grand merci pour votre soutien ! 🙏",
     "label": "Donner mon avis",
@@ -138,9 +141,6 @@
   },
   "store": {
     "label": "Boutique"
-  },
-  "support": {
-    "title": "Pour aller plus loin"
   },
   "theme": {
     "label": "Apparence",

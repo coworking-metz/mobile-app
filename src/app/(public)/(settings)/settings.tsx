@@ -446,7 +446,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               />
             </Link>
 
-            <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.title')} />
+            <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.resources.title')} />
             {authStore.user && (
               <>
                 <ServiceRowLink
