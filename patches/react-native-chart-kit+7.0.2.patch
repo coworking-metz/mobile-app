@@ -1,7 +1,7 @@
-diff --git a/node_modules/react-native-chart-kit/dist/contribution-graph/ContributionGraph.js b/node_modules/react-native-chart-kit/dist/contribution-graph/ContributionGraph.js
-index d311c55..c17eb62 100644
---- a/node_modules/react-native-chart-kit/dist/contribution-graph/ContributionGraph.js
-+++ b/node_modules/react-native-chart-kit/dist/contribution-graph/ContributionGraph.js
+diff --git a/node_modules/react-native-chart-kit/dist/charts/contribution-graph/ContributionGraph.js b/node_modules/react-native-chart-kit/dist/charts/contribution-graph/ContributionGraph.js
+index bb37863..ae41512 100644
+--- a/node_modules/react-native-chart-kit/dist/charts/contribution-graph/ContributionGraph.js
++++ b/node_modules/react-native-chart-kit/dist/charts/contribution-graph/ContributionGraph.js
 @@ -146,7 +146,7 @@ var ContributionGraph = /** @class */ (function (_super) {
                          ? 0
                          : this.state.minValue, isNaN(this.state.maxValue) ? 1 : this.state.maxValue, 0.15 + 0.05, // + 0.05 to make smaller values a bit more visible
