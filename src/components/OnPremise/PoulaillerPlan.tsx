@@ -1,3 +1,4 @@
+import ActionableFan from './ActionableFan';
 import ActionableLight from './ActionableLight';
 import { useOnPremise } from './OnPremiseContext';
 import { useQuery } from '@tanstack/react-query';
@@ -204,27 +205,6 @@ const PoulaillerPlan = ({
               blurTarget={blurTargetRef}
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
-              icon="fan"
-              key="air-conditioning-1"
-              selected={isAirConditioningSelected}
-              style={tw`left-[11%] top-[19%]`}
-              onPress={selectAirConditioning}
-            />
-            <ActionableIcon
-              blurTarget={blurTargetRef}
-              entering={BounceIn.duration(750).delay(Math.random() * 500)}
-              exiting={BounceOut.duration(750)}
-              icon="fan"
-              key="air-conditioning-2"
-              selected={isAirConditioningSelected}
-              style={tw`left-[11%] top-[46%]`}
-              onPress={selectAirConditioning}
-            />
-
-            <ActionableIcon
-              blurTarget={blurTargetRef}
-              entering={BounceIn.duration(750).delay(Math.random() * 500)}
-              exiting={BounceOut.duration(750)}
               icon="account-group-outline"
               key="group-work"
               selected={isGroupWorkSelected}
@@ -388,6 +368,27 @@ const PoulaillerPlan = ({
               selected={isCarbonDioxideSelected}
               style={tw`left-[56%] top-[32%]`}
               onPress={selectCarbonDioxide}
+            />
+
+            <ActionableFan
+              active={onPremiseState?.airConditioners?.south?.active}
+              blurTarget={blurTargetRef}
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              key="air-conditioning-south"
+              selected={isAirConditioningSelected}
+              style={tw`left-[11%] top-[19%]`}
+              onPress={selectAirConditioning}
+            />
+            <ActionableFan
+              active={onPremiseState?.airConditioners?.north?.active}
+              blurTarget={blurTargetRef}
+              entering={BounceIn.duration(750).delay(Math.random() * 500)}
+              exiting={BounceOut.duration(750)}
+              key="air-conditioning-north"
+              selected={isAirConditioningSelected}
+              style={tw`left-[11%] top-[46%]`}
+              onPress={selectAirConditioning}
             />
           </>
         )}

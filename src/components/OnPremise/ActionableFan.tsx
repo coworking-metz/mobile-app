@@ -1,4 +1,4 @@
-import ActionableIcon from './ActionableIcon';
+import ActionableIcon, { ActionableIconProps } from './ActionableIcon';
 import * as Haptics from 'expo-haptics';
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
@@ -17,18 +17,11 @@ import { turnOffFan, turnOnFan } from '@/services/api/services';
 import useToastStore from '@/stores/toast';
 
 const ActionableFan = ({
-  id,
   active = false,
-  style,
+  ...props
 }: {
-  id: string;
   active?: boolean;
-  style?: StyleProp<ViewStyle>;
-}) => {
-  const toastStore = useToastStore();
-  const [isActive, setActive] = useState(active);
-  const [isLoading, setLoading] = useState(false);
-
+} & Omit<ActionableIconProps, 'icon' | 'activeIcon' | 'iconStyle'>) => {
   const rotation = useSharedValue(0);
 
   const animatedStyle = useAnimatedStyle(
@@ -39,7 +32,7 @@ const ActionableFan = ({
   );
 
   useEffect(() => {
-    if (isActive) {
+    if (active) {
       cancelAnimation(rotation);
       rotation.value = 0;
       rotation.value = withSequence(
@@ -63,36 +56,9 @@ const ActionableFan = ({
         duration: 2000,
       });
     }
-  }, [isActive]);
+  }, [active]);
 
-  const toggle = useCallback(() => {
-    setLoading(true);
-    toastStore.dismissAll();
-    vibrate(HapticFeedbackType.Medium);
-    (isActive ? turnOffFan(id) : turnOnFan(id))
-      .then(({ state }) => setActive(state === 'on'))
-      .catch(handleSilentError)
-      .catch(async (error) => {
-        const errorMessage = await parseErrorText(error);
-        toastStore.add({
-          message: errorMessage,
-          type: 'error',
-        });
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      })
-      .finally(() => setLoading(false));
-  }, [id, active, isActive]);
-
-  return (
-    <ActionableIcon
-      active={isActive}
-      icon="fan"
-      iconStyle={animatedStyle}
-      loading={isLoading}
-      style={style}
-      onPress={toggle}
-    />
-  );
+  return <ActionableIcon active={active} icon="fan" iconStyle={animatedStyle} {...props} />;
 };
 
 export default ActionableFan;
