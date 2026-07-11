@@ -22,6 +22,10 @@ export type OnPremiseFlexDesk = {
   occupied?: boolean;
 };
 
+export type OnPremiseAirConditioner = {
+  active: boolean;
+};
+
 export type OnPremiseState = {
   deckDoor: {
     unlocked: boolean;
@@ -33,6 +37,10 @@ export type OnPremiseState = {
     orange: {
       occupied: boolean;
     };
+  };
+  airConditioners: {
+    north: OnPremiseAirConditioner;
+    south: OnPremiseAirConditioner;
   };
   flexDesks: {
     a: OnPremiseFlexDesk;
