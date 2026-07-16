@@ -1,7 +1,5 @@
 import ActionableIcon, { ActionableIconProps } from './ActionableIcon';
-import * as Haptics from 'expo-haptics';
-import React, { useCallback, useEffect, useState } from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
+import React, { useEffect } from 'react';
 import {
   Easing,
   cancelAnimation,
@@ -11,10 +9,6 @@ import {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import { handleSilentError, parseErrorText } from '@/helpers/error';
-import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
-import { turnOffFan, turnOnFan } from '@/services/api/services';
-import useToastStore from '@/stores/toast';
 
 const ActionableFan = ({
   active = false,
