@@ -1,14 +1,22 @@
+import { version as packageVersion } from '../../package.json';
 import Constants, { ExecutionEnvironment } from 'expo-constants';
 import * as Device from 'expo-device';
 import * as Updates from 'expo-updates';
-export { version as APP_VERSION } from '../../package.json';
+import { compact } from 'lodash';
 import { Platform } from 'react-native';
 
 export const APP_NAME = 'COWORKING_MOBILE';
 export const APP_ENVIRONMENT = Updates.channel || 'local';
+export const APP_VERSION = packageVersion;
 export const IS_DEV = ['staging', 'local'].includes(APP_ENVIRONMENT);
 export const IS_RUNNING_IN_EXPO_GO =
   Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+
+export const BUILD_VERSION = compact([
+  Constants.expoConfig?.version ?? APP_VERSION,
+  // add git branch name on dev builds to differentiate between staging and local builds
+  APP_ENVIRONMENT === 'local' ? Constants.expoConfig?.extra?.gitBranch : undefined,
+]).join('-');
 
 let environmentApiBaseUrl =
   process.env.EXPO_PUBLIC_API_BASE_URL || 'https://tickets.coworking-metz.fr';

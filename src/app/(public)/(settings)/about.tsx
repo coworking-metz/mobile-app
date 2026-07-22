@@ -10,7 +10,7 @@ import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import ServiceRowLink from '@/components/Layout/ServiceRowLink';
-import { APP_ENVIRONMENT, APP_VERSION } from '@/services/environment';
+import { APP_ENVIRONMENT, BUILD_VERSION } from '@/services/environment';
 
 const About = () => {
   useDeviceContext(tw);
@@ -60,8 +60,11 @@ const About = () => {
             withBottomDivider
             label={t('about.technical.version.label')}
             style={tw`mx-3 px-3`}>
-            <AppText style={tw`text-right text-base font-normal text-amber-500`}>
-              {APP_VERSION}
+            <AppText
+              ellipsizeMode="tail"
+              numberOfLines={1}
+              style={tw`max-w-60 text-right text-base font-normal text-amber-500`}>
+              {BUILD_VERSION}
             </AppText>
           </ServiceRow>
         </Link>
