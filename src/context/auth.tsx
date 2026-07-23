@@ -31,7 +31,11 @@ export const useAppAuth = () => {
 };
 
 // This hook will protect the route access based on user authentication.
-const useProtectedRoute = (_ready: boolean, setReady: (ready: boolean) => void) => {
+const useProtectedRoute = (
+  _ready: boolean,
+  setReady: (ready: boolean) => void,
+  onLoggedOut: () => void,
+) => {
   const router = useRouter();
   const pathname = usePathname();
   const queryClient = useQueryClient();
@@ -75,6 +79,7 @@ const useProtectedRoute = (_ready: boolean, setReady: (ready: boolean) => void) 
         authLogger.debug('Reset navigation since user just logged out');
         router.dismissAll();
         router.replace(pathname);
+        onLoggedOut();
       });
     }
   }, [loggedOut]);
@@ -100,6 +105,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       authLogger.debug('Reset navigation since user just logged in');
       router.dismissAll();
       router.replace(pathname);
+      loginBottomSheetRef.current?.close();
     }
   }, [authStore.accessToken, isLoggingIn]);
 
@@ -131,7 +137,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     posthog.screen(pathname);
   }, [pathname]);
 
-  useProtectedRoute(ready, setReady);
+  useProtectedRoute(ready, setReady, () => {
+    logoutBottomSheetRef.current?.close();
+  });
 
   return (
     <AuthContext.Provider
