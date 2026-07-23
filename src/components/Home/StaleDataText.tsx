@@ -1,6 +1,6 @@
 import PullToRefreshHint from './PullToRefreshHint';
+import AppIcon from '../AppIcon';
 import AppShimmerText from '../AppShimmerText';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { useIsFocused } from 'expo-router';
 import { capitalize, sample } from 'lodash';
@@ -66,12 +66,7 @@ const StaleDataText = ({
           <AppText style={tw`grow-0 text-sm font-normal leading-5 text-amber-500`}>
             {t('home.refresh.label')}
           </AppText>
-          <MaterialCommunityIcons
-            iconStyle={{ height: 20, width: 20, marginRight: 0 }}
-            name="refresh"
-            size={16}
-            style={tw`shrink-0 grow-0 text-amber-500`}
-          />
+          <AppIcon icon="refresh" size={16} style={tw`shrink-0 grow-0 text-amber-500`} />
         </TouchableOpacity>
       </Animated.View>
       <PullToRefreshHint style={tw`shrink-0`} />

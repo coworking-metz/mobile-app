@@ -1,8 +1,8 @@
 import BikingIsCoolAnimation from '../Animations/BikingIsCoolAnimation';
 import RollingCarAnimation from '../Animations/RollingCarAnimation';
 import WalkingChickenAnimation from '../Animations/WalkingChickenAnimation';
+import AppIcon from '../AppIcon';
 import AppSegmentedControl from '../AppSegmentedControl';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { isNil } from 'lodash';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -91,10 +91,9 @@ const IntroductionServicesStep = ({
               <View
                 key={`commuting-mode-${commutingMode}`}
                 style={tw`flex shrink grow basis-0 flex-col items-center gap-1`}>
-                <MaterialCommunityIcons
+                <AppIcon
                   color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-                  iconStyle={{ height: 12, width: 12, marginRight: 0 }}
-                  name={getCommuteModeIcon(commutingMode)}
+                  icon={getCommuteModeIcon(commutingMode)}
                   size={20}
                 />
                 <AppText
@@ -112,10 +111,9 @@ const IntroductionServicesStep = ({
         </View>
 
         <View style={tw`mx-6 mt-4 flex flex-row items-start gap-3`}>
-          <MaterialCommunityIcons
+          <AppIcon
             color={tw.color('blue-600')}
-            iconStyle={tw`mr-0 size-6`}
-            name="information"
+            icon="information"
             size={24}
             style={tw`shrink-0 grow-0`}
           />

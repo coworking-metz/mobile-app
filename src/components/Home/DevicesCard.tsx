@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AppIcon from '../AppIcon';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewProps, ViewStyle } from 'react-native';
@@ -26,9 +26,9 @@ const DevicesCard = ({
           tw`relative flex flex-col items-start gap-1 rounded-2xl bg-gray-300/60 px-3 pb-4 pt-2 dark:bg-zinc-900/85`,
           style,
         ]}>
-        <MaterialCommunityIcons
+        <AppIcon
           color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
-          name="devices"
+          icon="devices"
           size={40}
         />
 

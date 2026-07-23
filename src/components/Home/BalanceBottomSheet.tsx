@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AppIcon from '../AppIcon';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import { isNil } from 'lodash';
@@ -164,10 +164,9 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
       ) : null}
       {memberProfile && isMemberBalanceInsufficient(memberProfile) && (
         <View style={tw`mb-3 flex w-full flex-row items-start gap-3 overflow-hidden`}>
-          <MaterialCommunityIcons
+          <AppIcon
             color={tw.color('yellow-500')}
-            iconStyle={tw`mr-0 size-6`}
-            name="alert"
+            icon="alert"
             size={24}
             style={tw`shrink-0 grow-0`}
           />

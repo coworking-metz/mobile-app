@@ -1,5 +1,5 @@
+import AppIcon from '../AppIcon';
 import ErrorChip from '../ErrorChip';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
@@ -181,7 +181,7 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
 
       {profile?.membershipOk ? (
         <View style={tw`flex w-full flex-row items-start gap-3 overflow-hidden`}>
-          <MaterialCommunityIcons
+          <AppIcon
             color={
               profile?.activeUser
                 ? theme.meatBrown
@@ -189,8 +189,7 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
                   ? tw.color('gray-400')
                   : tw.color('gray-700')
             }
-            iconStyle={tw`mr-0 size-6`}
-            name="star-circle-outline"
+            icon="star-circle-outline"
             size={24}
             style={tw`shrink-0 grow-0`}
           />
@@ -204,10 +203,9 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
       ) : profile?.membershipOk === false ? (
         <>
           <View style={tw`flex w-full flex-row items-start gap-3 overflow-hidden`}>
-            <MaterialCommunityIcons
+            <AppIcon
               color={tw.color('yellow-500')}
-              iconStyle={tw`mr-0 size-6`}
-              name="alert"
+              icon="alert"
               size={24}
               style={tw`shrink-0 grow-0`}
             />

@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AppIcon from '../AppIcon';
 import LottieView from 'lottie-react-native';
 import React, {
   forwardRef,
@@ -78,13 +78,7 @@ const LanguageBottomSheet: ForwardRefRenderFunction<
           suffixIcon={settingsStore.language === language.code ? 'check' : null}
           onPress={() => onLanguagePicked(language.code)}>
           {!getLanguageLabel(SYSTEM_LANGUAGE) && language.code === SYSTEM_OPTION ? (
-            <MaterialCommunityIcons
-              color={tw.color('yellow-500')}
-              iconStyle={tw`size-6`}
-              name="alert"
-              size={24}
-              style={tw`shrink-0`}
-            />
+            <AppIcon color={tw.color('yellow-500')} icon="alert" size={24} style={tw`shrink-0`} />
           ) : null}
         </ServiceRow>
       ))}

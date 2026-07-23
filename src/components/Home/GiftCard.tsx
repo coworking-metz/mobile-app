@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AppIcon from '../AppIcon';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LayoutChangeEvent, StyleProp, View, ViewStyle } from 'react-native';
@@ -30,9 +30,9 @@ const GiftCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
 
       <View
         style={tw`relative flex grow flex-col items-start gap-1 overflow-hidden pb-4 pl-3 pr-0 pt-2`}>
-        <MaterialCommunityIcons
+        <AppIcon
           color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
-          name="gift"
+          icon="gift"
           size={40}
         />
 
