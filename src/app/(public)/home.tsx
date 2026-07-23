@@ -312,7 +312,6 @@ export default function HomeScreen() {
                 <AppIconButton
                   icon="bell-outline"
                   iconSize={24}
-                  iconStyle={tw`p-2`}
                   loading={isFetchingMessages}
                   radius={0}
                 />
@@ -551,31 +550,25 @@ export default function HomeScreen() {
           title={t('home.services.label')}
         />
 
-        <View style={tw`flex flex-row items-stretch gap-4`}>
-          <Animated.View
-            entering={FadeInUp.duration(500).delay(700)}
-            style={tw`flex shrink grow basis-0 flex-col`}>
-            <UnlockGateCard
-              disabled={Boolean(
-                authStore.user && !authStore.user.capabilities?.includes('UNLOCK_GATE'),
-              )}
-              style={tw`grow`}
-              onSuccessiveTaps={onSuccessiveTaps}
-            />
-          </Animated.View>
+        <Animated.View
+          entering={FadeInUp.duration(500).delay(750)}
+          style={tw`flex flex-row items-stretch gap-4`}>
+          <UnlockGateCard
+            disabled={Boolean(
+              authStore.user && !authStore.user.capabilities?.includes('UNLOCK_GATE'),
+            )}
+            style={tw`shrink grow basis-0`}
+            onSuccessiveTaps={onSuccessiveTaps}
+          />
 
-          <Animated.View
-            entering={FadeInUp.duration(500).delay(800)}
-            style={tw`flex shrink grow basis-0 flex-col`}>
-            <OpenParkingCard
-              disabled={Boolean(
-                authStore.user && !authStore.user.capabilities?.includes('PARKING_ACCESS'),
-              )}
-              style={tw`grow`}
-              onSuccessiveTaps={onSuccessiveTaps}
-            />
-          </Animated.View>
-        </View>
+          <OpenParkingCard
+            disabled={Boolean(
+              authStore.user && !authStore.user.capabilities?.includes('PARKING_ACCESS'),
+            )}
+            style={tw`shrink grow basis-0`}
+            onSuccessiveTaps={onSuccessiveTaps}
+          />
+        </Animated.View>
 
         <Animated.View
           entering={FadeInUp.duration(500).delay(900)}
