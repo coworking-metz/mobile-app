@@ -143,7 +143,7 @@ const Account = () => {
             <LoadingSkeleton show height={28} width={Math.random() * 64 + 144} />
           ) : (
             <AppText
-              ellipsizeMode={'middle'}
+              ellipsizeMode="middle"
               numberOfLines={1}
               style={tw`ml-auto max-w-[80%] grow text-right text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {profile?.email ?? authStore.user?.email}

@@ -244,7 +244,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                     {authStore.user ? authStore.user.name : t('account.title')}
                   </AppText>
                   <AppText
-                    ellipsizeMode={'tail'}
+                    ellipsizeMode="middle"
                     entering={FadeInLeft.duration(500).delay(150)}
                     numberOfLines={!authStore.user ? 2 : 1}
                     style={tw`text-left text-xl font-normal text-slate-500 dark:text-neutral-500`}>

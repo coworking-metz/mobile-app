@@ -46,7 +46,8 @@ const LoadingSpinner = ({
       <Animated.View
         style={[
           // https://github.com/facebook/react-native/issues/19981#issuecomment-1185341829
-          tw`absolute size-full rounded-full border-x-0 border-b-0 border-t-amber-400`,
+          // eslint-disable-next-line tailwindcss/enforces-shorthand
+          tw`absolute size-full rounded-full border-b-0 border-l-0 border-r-0 border-t-amber-400`,
           { borderTopWidth: beamSize },
           animatedStyle,
         ]}
