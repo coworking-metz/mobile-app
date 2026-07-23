@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AppIcon from '../AppIcon';
 import dayjs from 'dayjs';
 import { useIsFocused } from 'expo-router';
 import React, { useMemo } from 'react';
@@ -69,9 +69,9 @@ const SubscriptionCard = ({
         tw`relative flex flex-col items-start gap-1 overflow-hidden rounded-2xl bg-gray-300/60 px-3 pb-4 pt-2 dark:bg-zinc-900/85`,
         style,
       ]}>
-      <MaterialCommunityIcons
+      <AppIcon
         color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
-        name={
+        icon={
           subscription && !dayjs().startOf('day').isAfter(subscription.ended)
             ? 'calendar-month'
             : 'calendar-blank'
@@ -102,9 +102,9 @@ const SubscriptionCard = ({
       )}
 
       {subscription && dayjs().isBetween(subscription.started, subscription.ended, 'day', '[]') && (
-        <MaterialCommunityIcons
+        <AppIcon
           color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
-          name="check-circle"
+          icon="check-circle"
           size={20}
           style={tw`absolute right-3 top-3 z-10`}
         />

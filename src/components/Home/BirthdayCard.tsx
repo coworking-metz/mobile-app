@@ -1,5 +1,5 @@
 import GiftCard from './GiftCard';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AppIcon from '../AppIcon';
 import { isNil } from 'lodash';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -23,9 +23,9 @@ const BirthdayCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {
         tw`flex flex-col items-start gap-1 rounded-2xl bg-gray-300/60 px-3 pb-4 pt-2 dark:bg-zinc-900/85`,
         style,
       ]}>
-      <MaterialCommunityIcons
+      <AppIcon
         color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
-        name="cake"
+        icon="cake"
         size={40}
       />
 

@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AppIcon from '../AppIcon';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
@@ -28,9 +28,9 @@ const BalanceCard = ({
           tw`flex flex-col items-start gap-1 rounded-2xl bg-gray-300/60 px-3 pb-4 pt-2 dark:bg-zinc-900/85`,
           style,
         ]}>
-        <MaterialCommunityIcons
+        <AppIcon
           color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('gray-700')}
-          name="ticket"
+          icon="ticket"
           size={40}
         />
 
@@ -69,9 +69,9 @@ const BalanceCard = ({
         )}
 
         {count > 0 && (
-          <MaterialCommunityIcons
+          <AppIcon
             color={tw.prefixMatch('dark') ? tw.color('emerald-700') : tw.color('emerald-600')}
-            name="check-circle"
+            icon="check-circle"
             size={20}
             style={tw`absolute right-3 top-3 z-10`}
           />

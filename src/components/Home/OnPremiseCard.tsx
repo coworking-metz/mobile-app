@@ -1,3 +1,4 @@
+import AppIcon from '../AppIcon';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -29,10 +30,9 @@ const OnPremiseCard: ForwardRefRenderFunction<
         ]}>
         <Animated.View style={tw`z-20 rounded-full bg-gray-300 p-2 dark:bg-zinc-800`}>
           <View style={tw`relative size-8 shrink-0`}>
-            <MaterialCommunityIcons
+            <AppIcon
               color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-              iconStyle={{ height: 32, width: 32, marginRight: 0 }}
-              name="floor-plan"
+              icon="floor-plan"
               size={32}
               style={[tw`shrink-0`, disabled && tw`opacity-40`]}
             />
@@ -55,10 +55,9 @@ const OnPremiseCard: ForwardRefRenderFunction<
             </AppText>
           )}
         </Animated.View>
-        <MaterialCommunityIcons
+        <AppIcon
           color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-          iconStyle={{ height: 32, width: 32, marginRight: 0 }}
-          name="chevron-right"
+          icon="chevron-right"
           size={32}
           style={[tw`shrink-0`, disabled && tw`opacity-40`]}
         />
