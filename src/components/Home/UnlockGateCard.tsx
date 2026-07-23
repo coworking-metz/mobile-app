@@ -155,7 +155,7 @@ const UnlockCard = ({
   return (
     <AppPressable
       disabled={disabled}
-      style={tw`flex-1`}
+      style={style}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setCardWidth(nativeEvent.layout.width)}
       onPress={() => (authStore.user ? onUnlock() : login?.())}>
       <AppSquircleView
@@ -164,7 +164,6 @@ const UnlockCard = ({
             `relative flex min-h-20 flex-col items-start gap-4 overflow-hidden rounded-3xl bg-gray-300/60 py-4 pl-4 dark:bg-zinc-900/85`,
             disabled && tw`opacity-60`,
           ),
-          style,
         ]}>
         <Animated.View
           style={[tw`absolute inset-0 w-full bg-gray-300 dark:bg-zinc-800/80`, backgroundStyle]}

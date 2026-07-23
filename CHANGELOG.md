@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+
+- Properly render home screen actions buttons and profile animation.
+
 ## [2026.7.1] - 2026-07-10
 
 ### Added
