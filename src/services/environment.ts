@@ -14,8 +14,7 @@ export const IS_RUNNING_IN_EXPO_GO =
 
 export const BUILD_VERSION = compact([
   Constants.expoConfig?.version ?? APP_VERSION,
-  // add git branch name on dev builds to differentiate between staging and local builds
-  APP_ENVIRONMENT === 'local' ? Constants.expoConfig?.extra?.gitBranch : undefined,
+  IS_DEV ? Constants.expoConfig?.extra?.gitBranch : undefined,
 ]).join('-');
 
 let environmentApiBaseUrl =
