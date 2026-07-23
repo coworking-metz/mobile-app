@@ -20,10 +20,15 @@ import WifiBottomSheet from './WifiBottomSheet';
 import { AppBottomSheetRef } from '../AppBottomSheet';
 import { useQuery } from '@tanstack/react-query';
 import { createContext, useContext, useRef, useState } from 'react';
-import { getOnPremiseState, OnPremiseFlexDesk } from '@/services/api/services';
+import {
+  getOnPremiseState,
+  OnPremiseAirConditioner,
+  OnPremiseFlexDesk,
+} from '@/services/api/services';
 import { onPremiseQueryKeys } from '@/services/query';
 
 type SelectedFlexDesk = OnPremiseFlexDesk & { id: string };
+type SelectedAirConditioner = OnPremiseAirConditioner & { id: 'north' | 'south' };
 
 const OnPremiseContext = createContext<{
   isDeckDoorSelected: boolean;
@@ -52,8 +57,8 @@ const OnPremiseContext = createContext<{
   selectPrinter?: () => void;
   isFridgeSelected?: boolean;
   selectFridge?: () => void;
-  isAirConditioningSelected?: boolean;
-  selectAirConditioning?: () => void;
+  selectedAirConditioner: SelectedAirConditioner | null;
+  selectAirConditioner: (airConditioner?: SelectedAirConditioner) => void;
   isWifiSelected?: boolean;
   selectWifi?: () => void;
   isIntercomSelected?: boolean;
@@ -91,8 +96,8 @@ const OnPremiseContext = createContext<{
   selectPrinter: () => {},
   isFridgeSelected: false,
   selectFridge: () => {},
-  isAirConditioningSelected: false,
-  selectAirConditioning: () => {},
+  selectedAirConditioner: null,
+  selectAirConditioner: (_airConditioner?: SelectedAirConditioner) => {},
   isWifiSelected: false,
   selectWifi: () => {},
   isIntercomSelected: false,
@@ -137,7 +142,8 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
   const printerBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isFridgeSelected] = useState<boolean>(false);
   const fridgeBottomSheetRef = useRef<AppBottomSheetRef>(null);
-  const [isAirConditioningSelected] = useState<boolean>(false);
+  const [selectedAirConditioner, setSelectedAirConditioner] =
+    useState<SelectedAirConditioner | null>(null);
   const airConditioningBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isWifiSelected] = useState<boolean>(false);
   const wifiBottomSheetRef = useRef<AppBottomSheetRef>(null);
@@ -187,8 +193,11 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
         selectPrinter: () => printerBottomSheetRef.current?.open(),
         isFridgeSelected,
         selectFridge: () => fridgeBottomSheetRef.current?.open(),
-        isAirConditioningSelected,
-        selectAirConditioning: () => airConditioningBottomSheetRef.current?.open(),
+        selectedAirConditioner,
+        selectAirConditioner: (airConditioner?: SelectedAirConditioner) => {
+          setSelectedAirConditioner(airConditioner || null);
+          airConditioningBottomSheetRef.current?.open();
+        },
         isWifiSelected,
         selectWifi: () => wifiBottomSheetRef.current?.open(),
         isIntercomSelected,
@@ -249,7 +258,12 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
       <PrinterBottomSheet ref={printerBottomSheetRef} />
       <FridgeBottomSheet ref={fridgeBottomSheetRef} />
 
-      <AirConditioningBottomSheet ref={airConditioningBottomSheetRef} />
+      <AirConditioningBottomSheet
+        ref={airConditioningBottomSheetRef}
+        airConditioner={selectedAirConditioner}
+        loading={isFetchingOnPremiseState}
+        onClose={() => setSelectedAirConditioner(null)}
+      />
       <WifiBottomSheet ref={wifiBottomSheetRef} />
       <IntercomBottomSheet ref={intercomBottomSheetRef} />
       <GroupWorkBottomSheet ref={groupWorkBottomSheetRef} />

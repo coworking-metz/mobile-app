@@ -24,6 +24,11 @@ export type OnPremiseFlexDesk = {
 
 export type OnPremiseAirConditioner = {
   active: boolean;
+  currentTemperature: number;
+  targetTemperature: number;
+  minTemperature: number;
+  maxTemperature: number;
+  fanSpeed: number;
 };
 
 export type OnPremiseState = {
@@ -119,6 +124,37 @@ export const getHubKeyBoxCode = async (): Promise<{ code: number }> => {
 
 export const getWifiCredentials = async (): Promise<{ password: string; ssid: string }> => {
   return HTTP.get('/api/on-premise/wifi/credentials').then(({ data }) => data);
+};
+
+export const turnOnAirConditioner = async (
+  airConditionerId: string | number,
+): Promise<OnPremiseAirConditioner> => {
+  return HTTP.post(`/api/on-premise/air-conditioners/${airConditionerId}/turn-on`, null, {
+    timeout: 15_000,
+  }).then(({ data }) => data);
+};
+
+export const turnOffAirConditioner = async (
+  airConditionerId: string | number,
+): Promise<OnPremiseAirConditioner> => {
+  return HTTP.post(`/api/on-premise/air-conditioners/${airConditionerId}/turn-off`, null, {
+    timeout: 15_000,
+  }).then(({ data }) => data);
+};
+
+export const updateAirConditionerTargetTemperature = async (
+  airConditionerId: string | number,
+  targetTemperature: number,
+): Promise<OnPremiseAirConditioner> => {
+  return HTTP.post(
+    `/api/on-premise/air-conditioners/${airConditionerId}/target-temperature`,
+    {
+      temperature: targetTemperature,
+    },
+    {
+      timeout: 15_000,
+    },
+  ).then(({ data }) => data);
 };
 
 export const turnOnLight = async (

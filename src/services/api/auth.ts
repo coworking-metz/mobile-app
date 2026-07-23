@@ -14,7 +14,8 @@ export type ApiUserCapability =
   | 'UNLOCK_DECK_DOOR'
   | 'KEYS_ACCESS'
   | 'STORAGE_KEYS_ACCESS'
-  | 'WIFI_CREDENTIALS_ACCESS';
+  | 'WIFI_CREDENTIALS_ACCESS'
+  | 'AIR_CONDITIONING_ACCESS';
 
 export type ApiUser = {
   id?: string;
