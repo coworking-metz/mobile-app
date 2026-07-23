@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AppIcon from '../AppIcon';
 import * as Haptics from 'expo-haptics';
 import React, { forwardRef, ForwardRefRenderFunction, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -81,11 +81,10 @@ const StorageKeyBoxBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppB
         </Animated.View>
       )}
       {!user?.capabilities?.includes('STORAGE_KEYS_ACCESS') && (
-        <View style={tw`mt-3 flex flex-row items-start gap-2 overflow-hidden`}>
-          <MaterialCommunityIcons
+        <View style={tw`mt-3 flex flex-row items-start gap-3 overflow-hidden`}>
+          <AppIcon
             color={tw.color('yellow-500')}
-            iconStyle={tw`mr-0 size-6`}
-            name="alert"
+            icon="alert"
             size={24}
             style={tw`shrink-0 grow-0`}
           />

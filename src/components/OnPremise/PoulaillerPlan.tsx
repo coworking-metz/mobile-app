@@ -50,7 +50,8 @@ const PoulaillerPlan = ({
     selectCoffeeMachine,
     selectPrinter,
     selectFridge,
-    selectAirConditioning,
+    selectAirConditioner,
+    selectedAirConditioner,
     selectWifi,
     selectIntercom,
     selectGroupWork,
@@ -65,7 +66,6 @@ const PoulaillerPlan = ({
     isPrinterSelected,
     isFridgeSelected,
     isIntercomSelected,
-    isAirConditioningSelected,
     isGroupWorkSelected,
     isSoundOffSelected,
   } = useOnPremise();
@@ -376,9 +376,12 @@ const PoulaillerPlan = ({
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               key="air-conditioning-south"
-              selected={isAirConditioningSelected}
+              selected={selectedAirConditioner?.id === 'south'}
               style={tw`left-[11%] top-[19%]`}
-              onPress={selectAirConditioning}
+              onPress={() =>
+                onPremiseState?.airConditioners?.south &&
+                selectAirConditioner({ id: 'south', ...onPremiseState.airConditioners.south })
+              }
             />
             <ActionableFan
               active={onPremiseState?.airConditioners?.north?.active}
@@ -386,9 +389,12 @@ const PoulaillerPlan = ({
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               key="air-conditioning-north"
-              selected={isAirConditioningSelected}
+              selected={selectedAirConditioner?.id === 'north'}
               style={tw`left-[11%] top-[46%]`}
-              onPress={selectAirConditioning}
+              onPress={() =>
+                onPremiseState?.airConditioners?.north &&
+                selectAirConditioner({ id: 'north', ...onPremiseState.airConditioners.north })
+              }
             />
           </>
         )}

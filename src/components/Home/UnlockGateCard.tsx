@@ -184,12 +184,7 @@ const UnlockCard = ({
               progress={0}
               style={[tw`size-full`, isLoading && { opacity: 0 }]}
             />
-            {isLoading && (
-              <HorizontalLoadingAnimation
-                color={tw.prefixMatch('dark') ? tw.color('gray-200') : tw.color('gray-700')}
-                style={tw`absolute size-full`}
-              />
-            )}
+            {isLoading && <HorizontalLoadingAnimation style={tw`absolute size-full`} />}
           </View>
         </Animated.View>
 

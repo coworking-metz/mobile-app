@@ -107,7 +107,7 @@ const percentToPosition = (
  * only needs a width to lay itself out responsively.
  */
 const AppArcSlider = ({
-  value,
+  value = useSharedValue(0),
   min = 0,
   max = 100,
   sweepAngle = 270,
@@ -270,14 +270,12 @@ const AppArcSlider = ({
     .onUpdate(({ x, y }) => {
       updateFromTouch(x, y);
     })
-    .onEnd(() => {
-      if (onSlidingComplete) {
-        scheduleOnRN(onSlidingComplete, value.value);
-      }
-    })
     .onFinalize(() => {
       pressScale.value = withSpring(1);
       scheduleOnRN(vibrate, HapticFeedbackType.Light);
+      if (onSlidingComplete) {
+        scheduleOnRN(onSlidingComplete, value.value);
+      }
     });
 
   return (
