@@ -62,7 +62,6 @@ const LogoutBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSh
           logoutLogger.debug('openAuthSessionAsync result', result);
           if (result.type === 'success') {
             const url = (result as WebBrowserRedirectResult).url || redirectUriOnSuccess;
-            bottomSheetRef.current?.close();
             return Linking.openURL(url);
           }
         });
