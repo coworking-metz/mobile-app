@@ -1,15 +1,27 @@
 import AppText from './AppText';
-import { Canvas, Circle, Path, Skia } from '@shopify/react-native-skia';
+import ReanimatedText from './ReanimatedText';
+import { Canvas, Circle, Path, Skia, SweepGradient, vec } from '@shopify/react-native-skia';
 import React, { ReactNode, useMemo, useState } from 'react';
 import { StyleProp, View, ViewStyle, type LayoutChangeEvent, type TextStyle } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { useDerivedValue, useSharedValue, type SharedValue } from 'react-native-reanimated';
+import Animated, {
+  Extrapolation,
+  interpolate,
+  interpolateColor,
+  useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+  withSpring,
+  type SharedValue,
+} from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 import tw from 'twrnc';
 import { theme } from '@/helpers/colors';
+import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 
 const CURSOR_MARGIN = 4;
-const LABEL_WIDTH = 48;
+const BUBBLE_GAP = 8;
+const BUBBLE_DARKEN_FACTOR = 0.25;
 const HALF_PI = Math.PI / 2;
 
 const clamp = (value: number, min: number, max: number) => {
@@ -20,7 +32,7 @@ const clamp = (value: number, min: number, max: number) => {
 const getArcGeometry = (
   width: number,
   strokeWidth: number,
-  cursorRadius: number,
+  maxCursorRadius: number,
   sweepAngle: number,
 ) => {
   // the arc always spans symmetrically around the top (90°), leaving a gap centered at the bottom (270°)
@@ -30,13 +42,24 @@ const getArcGeometry = (
   const sweepAngleRad = startAngle - endAngle;
   const gapStart = startAngle - 2 * Math.PI;
 
-  const radius = Math.max(width / 2 - cursorRadius, 0);
+  // reserves room for the cursor at its largest (grown) size, so it never clips the canvas
+  // edges when it scales up on press, even though it's rendered smaller most of the time
+  const radius = Math.max(width / 2 - maxCursorRadius, 0);
   const centerX = width / 2;
-  const cursorClearance = Math.max(strokeWidth / 2, cursorRadius) + CURSOR_MARGIN;
+  const cursorClearance = Math.max(strokeWidth / 2, maxCursorRadius) + CURSOR_MARGIN;
 
   // the apex (top) is always the highest point; the two endpoints are always the lowest, symmetric point
   const centerY = radius + cursorClearance;
   const endpointY = centerY - radius * Math.cos(halfSweep);
+
+  // Skia's SweepGradient has a hard seam at its local 0°/360° boundary (colors don't blend across
+  // it, they jump). Rotating the shader by HALF_PI puts that seam at the bottom-center of the gap,
+  // which is never drawn - so the gradient's local range is centered on the gap too: it spans
+  // [halfGapDeg, 360 - halfGapDeg], leaving a comfortable margin on both sides of the seam for the
+  // round stroke caps (which slightly overshoot the path's mathematical start/end angles) to sit
+  // in without crossing it and clamping to the wrong end color.
+  const gapDeg = 360 - (sweepAngleRad * 180) / Math.PI;
+  const halfGapDeg = gapDeg / 2;
 
   return {
     radius,
@@ -46,6 +69,9 @@ const getArcGeometry = (
     endAngle,
     sweepAngleRad,
     gapStart,
+    endpointY,
+    gradientStartDeg: halfGapDeg,
+    gradientEndDeg: 360 - halfGapDeg,
     leftX: centerX - radius * Math.sin(halfSweep),
     rightX: centerX + radius * Math.sin(halfSweep),
     height: endpointY + cursorClearance,
@@ -84,17 +110,20 @@ const AppArcSlider = ({
   value,
   min = 0,
   max = 100,
-  sweepAngle = 280,
+  sweepAngle = 270,
   strokeWidth = 20,
   arcColor = theme.miramonYellow,
+  arcColors,
   trackColor = theme.charlestonGreen,
   cursorColor,
-  cursorInnerColor = '#ffffff',
+  cursorOuterColor = '#ffffff',
   cursorRadius = strokeWidth,
+  cursorPressScale = 1.25,
   showLabels = true,
-  labelColor,
   labelStyle,
   formatLabel = (labelValue: number) => `${labelValue}`,
+  showValueBubble = true,
+  disabled = false,
   onSlidingComplete,
   style,
   children,
@@ -105,14 +134,18 @@ const AppArcSlider = ({
   sweepAngle?: number;
   strokeWidth?: number;
   arcColor?: string;
+  arcColors?: string[];
   trackColor?: string;
   cursorColor?: string;
-  cursorInnerColor?: string;
+  cursorOuterColor?: string;
   cursorRadius?: number;
+  cursorPressScale?: number;
   showLabels?: boolean;
   labelColor?: string;
   labelStyle?: StyleProp<TextStyle>;
   formatLabel?: (labelValue: number) => string;
+  showValueBubble?: boolean;
+  disabled?: boolean;
   onSlidingComplete?: (value: number) => void;
   style?: StyleProp<ViewStyle>;
   children?: ReactNode;
@@ -120,8 +153,11 @@ const AppArcSlider = ({
   const [width, setWidth] = useState(0);
 
   const geometry = useMemo(
-    () => (width > 0 ? getArcGeometry(width, strokeWidth, cursorRadius, sweepAngle) : null),
-    [width, strokeWidth, cursorRadius, sweepAngle],
+    () =>
+      width > 0
+        ? getArcGeometry(width, strokeWidth, cursorRadius * cursorPressScale, sweepAngle)
+        : null,
+    [width, strokeWidth, cursorRadius, cursorPressScale, sweepAngle],
   );
 
   const path = useMemo(() => {
@@ -129,15 +165,11 @@ const AppArcSlider = ({
       return null;
     }
 
-    const { centerX, radius, startAngle, endAngle, leftX, rightX } = geometry;
-    const endpointY = 0 - (geometry.centerY - geometry.centerY); // unused placeholder removed below
-    void endpointY;
+    const { radius, startAngle, endAngle, leftX, rightX, endpointY } = geometry;
     const largeArcFlag = startAngle - endAngle > Math.PI ? 1 : 0;
-    const y = geometry.centerY - radius * Math.cos((startAngle - endAngle) / 2 - HALF_PI + HALF_PI);
-    void centerX;
 
     return Skia.Path.MakeFromSVGString(
-      `M ${leftX} ${y} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${rightX} ${y}`,
+      `M ${leftX} ${endpointY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${rightX} ${endpointY}`,
     );
   }, [geometry]);
 
@@ -157,46 +189,100 @@ const AppArcSlider = ({
     return geometry ? percentToPosition(percentComplete.value, geometry).y : 0;
   }, [geometry]);
 
-  const dragOriginX = useSharedValue(0);
-  const dragOriginY = useSharedValue(0);
+  const cursorFillColor = useDerivedValue(() => {
+    if (!arcColors || arcColors.length === 0) {
+      return cursorColor ?? arcColor;
+    }
+
+    const positions = arcColors.map((_, index) => index / Math.max(arcColors.length - 1, 1));
+
+    return interpolateColor(percentComplete.value, positions, arcColors);
+  }, [arcColors, cursorColor, arcColor]);
+
+  const pressScale = useSharedValue(1);
+
+  const cursorOuterRadius = useDerivedValue(() => cursorRadius * pressScale.value);
+  const cursorInnerRadius = useDerivedValue(() => cursorRadius * 0.75 * pressScale.value);
+
+  // formatLabel is a plain JS function from the consumer's own file, so it can't be safely called
+  // from this worklet (Reanimated can only run worklets on the UI thread, and it has no way to
+  // auto-workletize a function it never saw at build time) - stick to worklet-safe built-ins.
+  const bubbleText = useDerivedValue(() => `${Math.round(value.value)}`);
+
+  const [bubbleWidth, setBubbleWidth] = useState(0);
+  const [bubbleHeight, setBubbleHeight] = useState(0);
+
+  const bubbleStyle = useAnimatedStyle(() => {
+    // fades and pops in lockstep with the cursor's own press-grow animation
+    const progress = interpolate(
+      pressScale.value,
+      [1, cursorPressScale],
+      [0, 1],
+      Extrapolation.CLAMP,
+    );
+
+    return {
+      opacity: progress,
+      backgroundColor: interpolateColor(
+        BUBBLE_DARKEN_FACTOR,
+        [0, 1],
+        [cursorFillColor.value, '#000000'],
+      ),
+      transform: [
+        { translateX: cursorX.value - bubbleWidth / 2 },
+        { translateY: cursorY.value - cursorOuterRadius.value - BUBBLE_GAP - bubbleHeight },
+        { scale: 0.8 + progress * 0.2 },
+      ],
+    };
+  }, [bubbleWidth, bubbleHeight, cursorPressScale]);
+
+  const updateFromTouch = (x: number, y: number) => {
+    'worklet';
+    if (!geometry) {
+      return;
+    }
+
+    const { centerX, centerY, startAngle, endAngle, sweepAngleRad, gapStart } = geometry;
+    const rawTheta = Math.atan2(-(y - centerY), x - centerX);
+
+    let percent;
+    if (rawTheta <= gapStart) {
+      // wrapped past the atan2 (-π, π] boundary, still on the valid arc
+      percent = clamp((startAngle - (rawTheta + 2 * Math.PI)) / sweepAngleRad, 0, 1);
+    } else if (rawTheta < endAngle) {
+      // touched inside the gap at the bottom: snap to whichever end is closer
+      percent = rawTheta > -HALF_PI ? 1 : 0;
+    } else {
+      percent = clamp((startAngle - rawTheta) / sweepAngleRad, 0, 1);
+    }
+
+    value.value = min + percent * (max - min);
+  };
 
   const gesture = Gesture.Pan()
-    .onBegin(() => {
-      dragOriginX.value = cursorX.value;
-      dragOriginY.value = cursorY.value;
+    .minDistance(0)
+    .enabled(!disabled)
+    .onBegin(({ x, y }) => {
+      pressScale.value = withSpring(cursorPressScale);
+      scheduleOnRN(vibrate, HapticFeedbackType.Light);
+      updateFromTouch(x, y);
     })
-    .onUpdate(({ translationX, translationY }) => {
-      if (!geometry) {
-        return;
-      }
-
-      const { centerX, centerY, startAngle, endAngle, sweepAngleRad, gapStart } = geometry;
-      const canvasX = translationX + dragOriginX.value;
-      const canvasY = translationY + dragOriginY.value;
-      const rawTheta = Math.atan2(-(canvasY - centerY), canvasX - centerX);
-
-      let percent;
-      if (rawTheta <= gapStart) {
-        // wrapped past the atan2 (-π, π] boundary, still on the valid arc
-        percent = clamp((startAngle - (rawTheta + 2 * Math.PI)) / sweepAngleRad, 0, 1);
-      } else if (rawTheta < endAngle) {
-        // dragged into the gap at the bottom: snap to whichever end is closer
-        percent = rawTheta > -HALF_PI ? 1 : 0;
-      } else {
-        percent = clamp((startAngle - rawTheta) / sweepAngleRad, 0, 1);
-      }
-
-      value.value = min + percent * (max - min);
+    .onUpdate(({ x, y }) => {
+      updateFromTouch(x, y);
     })
     .onEnd(() => {
       if (onSlidingComplete) {
         scheduleOnRN(onSlidingComplete, value.value);
       }
+    })
+    .onFinalize(() => {
+      pressScale.value = withSpring(1);
+      scheduleOnRN(vibrate, HapticFeedbackType.Light);
     });
 
   return (
     <View
-      style={[style, geometry ? { height: geometry.height } : undefined]}
+      style={[style, geometry && { height: geometry.height }]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => {
         setWidth((previous) =>
           previous === nativeEvent.layout.width ? previous : nativeEvent.layout.width,
@@ -204,7 +290,7 @@ const AppArcSlider = ({
       }}>
       {geometry && path ? (
         <GestureDetector gesture={gesture}>
-          <Canvas style={{ width, height: geometry.height }}>
+          <Canvas style={[{ width, height: geometry.height }, disabled && { opacity: 0.4 }]}>
             <Path
               color={trackColor}
               path={path}
@@ -214,48 +300,71 @@ const AppArcSlider = ({
               style="stroke"
             />
             <Path
-              color={arcColor}
+              color={arcColors ? undefined : arcColor}
               end={percentComplete}
               path={path}
               start={0}
               strokeCap="round"
               strokeWidth={strokeWidth}
               // eslint-disable-next-line tailwindcss/no-custom-classname
-              style="stroke"
-            />
-            <Circle color={cursorColor ?? arcColor} cx={cursorX} cy={cursorY} r={cursorRadius} />
-            <Circle color={cursorInnerColor} cx={cursorX} cy={cursorY} r={cursorRadius * 0.75} />
+              style="stroke">
+              {arcColors ? (
+                <SweepGradient
+                  c={vec(geometry.centerX, geometry.centerY)}
+                  colors={arcColors}
+                  end={geometry.gradientEndDeg}
+                  origin={vec(geometry.centerX, geometry.centerY)}
+                  start={geometry.gradientStartDeg}
+                  transform={[{ rotate: HALF_PI }]}
+                />
+              ) : null}
+            </Path>
+            <Circle color={cursorOuterColor} cx={cursorX} cy={cursorY} r={cursorOuterRadius} />
+            <Circle color={cursorFillColor} cx={cursorX} cy={cursorY} r={cursorInnerRadius} />
           </Canvas>
         </GestureDetector>
       ) : null}
       {geometry && showLabels ? (
         <>
           <AppText
+            pointerEvents="none"
             style={[
-              tw`absolute top-full text-center`,
+              tw`absolute ml-6 text-left`,
               {
                 position: 'absolute',
                 left: geometry.leftX,
-                width: LABEL_WIDTH,
-                color: labelColor ?? trackColor,
+                top: geometry.endpointY,
               },
               labelStyle,
             ]}>
             {formatLabel(min)}
           </AppText>
           <AppText
+            pointerEvents="none"
             style={[
-              tw`absolute top-full text-center`,
+              tw`absolute mr-6 text-right`,
               {
-                left: geometry.rightX,
-                width: LABEL_WIDTH,
-                color: labelColor ?? trackColor,
+                position: 'absolute',
+                right: width - geometry.rightX,
+                top: geometry.endpointY,
               },
               labelStyle,
             ]}>
             {formatLabel(max)}
           </AppText>
         </>
+      ) : null}
+      {geometry && showValueBubble ? (
+        <Animated.View
+          pointerEvents="none"
+          style={[tw`absolute rounded-lg px-2 py-1 shadow-2xl shadow-black`, bubbleStyle]}
+          onLayout={({ nativeEvent }: LayoutChangeEvent) => {
+            setBubbleWidth(nativeEvent.layout.width);
+            setBubbleHeight(nativeEvent.layout.height);
+          }}>
+          {}
+          <ReanimatedText style={[tw`text-xl text-black`]} text={bubbleText} />
+        </Animated.View>
       ) : null}
       {children}
     </View>
