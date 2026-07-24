@@ -1,4 +1,6 @@
-import { QueryClientConfig } from '@tanstack/react-query';
+import { OnPremiseAirConditioner, OnPremiseState } from './api/services';
+import { QueryClientConfig, useQueryClient } from '@tanstack/react-query';
+import { useCallback } from 'react';
 
 export const DEFAULT_STALE_TIME = 300_000; // 5 minutes
 
@@ -33,4 +35,32 @@ export const membersQueryKeys = {
 export const onPremiseQueryKeys = {
   state: () => ['on-premise', 'state'] as const,
   phoneBoothsOccupation: () => ['on-premise', 'phone-booths-occupation'] as const,
+};
+
+export const useAppQueryClient = () => {
+  const queryClient = useQueryClient();
+
+  const updateAirConditionerQueryData = useCallback(
+    (
+      airConditionerId: keyof OnPremiseState['airConditioners'],
+      updatedAirConditioner: OnPremiseAirConditioner,
+    ) => {
+      queryClient.setQueryData(onPremiseQueryKeys.state(), (state: OnPremiseState) => ({
+        ...state,
+        airConditioners: {
+          ...state.airConditioners,
+          [airConditionerId]: {
+            ...state.airConditioners[airConditionerId],
+            ...updatedAirConditioner,
+          },
+        },
+      }));
+    },
+    [queryClient],
+  );
+
+  return {
+    queryClient,
+    updateAirConditionerQueryData,
+  };
 };

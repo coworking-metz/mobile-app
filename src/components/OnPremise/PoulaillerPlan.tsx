@@ -51,6 +51,8 @@ const PoulaillerPlan = ({
     selectPrinter,
     selectFridge,
     selectAirConditioner,
+    selectNorthAirConditioner,
+    selectSouthAirConditioner,
     selectedAirConditioner,
     selectWifi,
     selectIntercom,
@@ -378,10 +380,7 @@ const PoulaillerPlan = ({
               key="air-conditioning-south"
               selected={selectedAirConditioner?.id === 'south'}
               style={tw`left-[11%] top-[19%]`}
-              onPress={() =>
-                onPremiseState?.airConditioners?.south &&
-                selectAirConditioner({ id: 'south', ...onPremiseState.airConditioners.south })
-              }
+              onPress={selectSouthAirConditioner}
             />
             <ActionableFan
               active={onPremiseState?.airConditioners?.north?.active}
@@ -391,10 +390,7 @@ const PoulaillerPlan = ({
               key="air-conditioning-north"
               selected={selectedAirConditioner?.id === 'north'}
               style={tw`left-[11%] top-[46%]`}
-              onPress={() =>
-                onPremiseState?.airConditioners?.north &&
-                selectAirConditioner({ id: 'north', ...onPremiseState.airConditioners.north })
-              }
+              onPress={selectNorthAirConditioner}
             />
           </>
         )}

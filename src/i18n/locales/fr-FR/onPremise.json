@@ -1,6 +1,6 @@
 {
   "airConditioning": {
-    "description": "La climatisation peut être allumée ou éteinte via les télécommandes prévues à cet effet.\nLa température se régule automatiquement selon l'ambiance du lieu.\n\nIl est recommandé de l'éteindre lorsqu'aucun coworker n'occupe la pièce.",
+    "description": "La climatisation peut être allumée ou éteinte via les télécommandes prévues à cet effet.\nLa température se régule automatiquement selon l'ambiance du lieu.",
     "label": "Climatisation",
     "missingCapability": "L'accès à la climatisation n'est disponible qu'aux adhérents présents sur place.",
     "onToggle": {

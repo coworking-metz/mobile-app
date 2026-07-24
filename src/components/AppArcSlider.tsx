@@ -1,17 +1,22 @@
 import AppText from './AppText';
 import ReanimatedText from './ReanimatedText';
 import { Canvas, Circle, Path, Skia, SweepGradient, vec } from '@shopify/react-native-skia';
-import React, { ReactNode, useMemo, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { StyleProp, View, ViewStyle, type LayoutChangeEvent, type TextStyle } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
+  cancelAnimation,
+  Easing,
   Extrapolation,
   interpolate,
   interpolateColor,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
+  withDelay,
+  withRepeat,
   withSpring,
+  withTiming,
   type SharedValue,
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
@@ -22,6 +27,9 @@ import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 const CURSOR_MARGIN = 4;
 const BUBBLE_GAP = 8;
 const BUBBLE_DARKEN_FACTOR = 0.25;
+const LOADING_SEGMENT_LENGTH = 0.1;
+const LOADING_SHRINK_AMOUNT = 0.35;
+const LOADING_DURATION = 1000;
 const HALF_PI = Math.PI / 2;
 
 const clamp = (value: number, min: number, max: number) => {
@@ -100,6 +108,22 @@ const percentToPosition = (
   };
 };
 
+// the loading segment always spans exactly LOADING_SEGMENT_LENGTH, sliding from touching 0 to
+// touching 1 and back - except near either wall, where it shrinks slightly by pulling its far
+// edge inward (the edge already touching the wall stays anchored there)
+const getLoadingSegment = (t: number) => {
+  'worklet';
+  const baseStart = t * (1 - LOADING_SEGMENT_LENGTH);
+  const baseEnd = baseStart + LOADING_SEGMENT_LENGTH;
+  const distanceToNearestWall = Math.min(t, 1 - t);
+  const shrink =
+    LOADING_SEGMENT_LENGTH * LOADING_SHRINK_AMOUNT * Math.max(1 - distanceToNearestWall * 2, 0);
+
+  return t < 0.5
+    ? { start: baseStart, end: Math.max(baseEnd - shrink, baseStart) }
+    : { start: Math.min(baseStart + shrink, baseEnd), end: baseEnd };
+};
+
 /**
  * A basic arc-shaped slider: drag the cursor along the arc to move `value` between `min` and `max`.
  * `value` is a shared value so the gesture updates it directly on the UI thread, keeping the
@@ -124,6 +148,7 @@ const AppArcSlider = ({
   formatLabel = (labelValue: number) => `${labelValue}`,
   showValueBubble = true,
   disabled = false,
+  loading = false,
   onSlidingComplete,
   style,
   children,
@@ -146,6 +171,7 @@ const AppArcSlider = ({
   formatLabel?: (labelValue: number) => string;
   showValueBubble?: boolean;
   disabled?: boolean;
+  loading?: boolean;
   onSlidingComplete?: (value: number) => void;
   style?: StyleProp<ViewStyle>;
   children?: ReactNode;
@@ -173,12 +199,18 @@ const AppArcSlider = ({
     );
   }, [geometry]);
 
+  const isDragging = useSharedValue(false);
+
   const percentComplete = useDerivedValue(() => {
     if (!geometry || max <= min) {
       return 0;
     }
 
-    return (clamp(value.value, min, max) - min) / (max - min);
+    const target = (clamp(value.value, min, max) - min) / (max - min);
+
+    // while dragging, follow the touch 1:1 with no lag; otherwise (e.g. the consumer assigning
+    // `value` from outside) ease the cursor and track toward the new position instead of snapping
+    return isDragging.value ? target : withTiming(target, { duration: 500 });
   }, [geometry, min, max]);
 
   const cursorX = useDerivedValue(() => {
@@ -189,20 +221,54 @@ const AppArcSlider = ({
     return geometry ? percentToPosition(percentComplete.value, geometry).y : 0;
   }, [geometry]);
 
+  // 0 when enabled, 1 when disabled - animated so the cursor's dimmed/muted look eases in and
+  // out instead of snapping, whichever direction `disabled` flips
+  const disabledProgress = useSharedValue(disabled ? 1 : 0);
+
+  useEffect(() => {
+    disabledProgress.value = withTiming(disabled ? 1 : 0, { duration: 250 });
+  }, [disabled]);
+
   const cursorFillColor = useDerivedValue(() => {
-    if (!arcColors || arcColors.length === 0) {
-      return cursorColor ?? arcColor;
-    }
+    const activeColor =
+      !arcColors || arcColors.length === 0
+        ? (cursorColor ?? arcColor)
+        : interpolateColor(
+            percentComplete.value,
+            arcColors.map((_, index) => index / Math.max(arcColors.length - 1, 1)),
+            arcColors,
+          );
 
-    const positions = arcColors.map((_, index) => index / Math.max(arcColors.length - 1, 1));
-
-    return interpolateColor(percentComplete.value, positions, arcColors);
-  }, [arcColors, cursorColor, arcColor]);
+    return interpolateColor(disabledProgress.value, [0, 1], [activeColor, trackColor]);
+  }, [arcColors, cursorColor, arcColor, trackColor]);
 
   const pressScale = useSharedValue(1);
 
   const cursorOuterRadius = useDerivedValue(() => cursorRadius * pressScale.value);
   const cursorInnerRadius = useDerivedValue(() => cursorRadius * 0.75 * pressScale.value);
+
+  const loadingProgress = useSharedValue(0);
+  const loadingOpacity = useSharedValue(loading ? 1 : 0);
+
+  useEffect(() => {
+    loadingOpacity.value = withTiming(loading ? 1 : 0, { duration: 250 });
+
+    if (loading) {
+      loadingProgress.value = withRepeat(
+        withTiming(1, { duration: LOADING_DURATION, easing: Easing.inOut(Easing.ease) }),
+        -1,
+        true,
+      );
+    } else {
+      cancelAnimation(loadingProgress);
+      loadingProgress.value = withDelay(250, withTiming(0, { duration: 250 }));
+    }
+  }, [loading]);
+
+  // the loading indicator is a short segment of the track that slides back and forth between
+  // the two extremities, rather than a separate element - it reuses the same arc `path`
+  const loadingSegmentStart = useDerivedValue(() => getLoadingSegment(loadingProgress.value).start);
+  const loadingSegmentEnd = useDerivedValue(() => getLoadingSegment(loadingProgress.value).end);
 
   // formatLabel is a plain JS function from the consumer's own file, so it can't be safely called
   // from this worklet (Reanimated can only run worklets on the UI thread, and it has no way to
@@ -261,8 +327,9 @@ const AppArcSlider = ({
 
   const gesture = Gesture.Pan()
     .minDistance(0)
-    .enabled(!disabled)
+    .enabled(!disabled && !loading)
     .onBegin(({ x, y }) => {
+      isDragging.value = true;
       pressScale.value = withSpring(cursorPressScale);
       scheduleOnRN(vibrate, HapticFeedbackType.Light);
       updateFromTouch(x, y);
@@ -271,6 +338,7 @@ const AppArcSlider = ({
       updateFromTouch(x, y);
     })
     .onFinalize(() => {
+      isDragging.value = false;
       pressScale.value = withSpring(1);
       scheduleOnRN(vibrate, HapticFeedbackType.Light);
       if (onSlidingComplete) {
@@ -288,7 +356,7 @@ const AppArcSlider = ({
       }}>
       {geometry && path ? (
         <GestureDetector gesture={gesture}>
-          <Canvas style={[{ width, height: geometry.height }, disabled && { opacity: 0.4 }]}>
+          <Canvas style={[{ width, height: geometry.height }]}>
             <Path
               color={trackColor}
               path={path}
@@ -317,6 +385,19 @@ const AppArcSlider = ({
                 />
               ) : null}
             </Path>
+
+            <Path
+              color={theme.miramonYellow}
+              end={loadingSegmentEnd}
+              opacity={loadingOpacity}
+              path={path}
+              start={loadingSegmentStart}
+              strokeCap="round"
+              strokeWidth={strokeWidth}
+              // eslint-disable-next-line tailwindcss/no-custom-classname
+              style="stroke"
+            />
+
             <Circle color={cursorOuterColor} cx={cursorX} cy={cursorY} r={cursorOuterRadius} />
             <Circle color={cursorFillColor} cx={cursorX} cy={cursorY} r={cursorInnerRadius} />
           </Canvas>
