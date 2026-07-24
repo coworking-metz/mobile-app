@@ -10,6 +10,7 @@ const AppLottieView: ForwardRefRenderFunction<LottieView, LottieViewProps> = (pr
       ref={ref}
       {...(reduceMotion && {
         progress: 1,
+        speed: 0,
       })}
       {...props}
       {...(reduceMotion && {

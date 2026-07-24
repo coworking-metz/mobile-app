@@ -13,7 +13,9 @@ export type AppRoundedButtonProps = {
   loading?: boolean;
   label?: string;
   style?: StyleProp<ViewStyle>;
+  renderPrefix?: () => ReactNode;
   prefixIcon?: MaterialCommunityIconsName | null;
+  renderSuffix?: () => ReactNode;
   suffixIcon?: MaterialCommunityIconsName | null;
   children?: ReactNode;
   blurTarget?: React.RefObject<View | null>;
@@ -23,7 +25,9 @@ export type AppRoundedButtonProps = {
 const AppRoundedButton: ForwardRefRenderFunction<AppPressableRef, AppRoundedButtonProps> = (
   {
     label,
+    renderPrefix,
     prefixIcon,
+    renderSuffix,
     suffixIcon,
     style,
     children,
@@ -58,7 +62,9 @@ const AppRoundedButton: ForwardRefRenderFunction<AppPressableRef, AppRoundedButt
         ) : (
           <>
             <View style={tw`flex h-full shrink grow basis-0 flex-row items-center justify-start`}>
-              {prefixIcon ? (
+              {renderPrefix ? (
+                renderPrefix()
+              ) : prefixIcon ? (
                 <AppIcon
                   icon={prefixIcon}
                   size={24}
@@ -76,7 +82,9 @@ const AppRoundedButton: ForwardRefRenderFunction<AppPressableRef, AppRoundedButt
               )}
             </View>
             <View style={tw`flex h-full shrink grow basis-0 flex-row items-center justify-end`}>
-              {suffixIcon ? (
+              {renderSuffix ? (
+                renderSuffix()
+              ) : suffixIcon ? (
                 <AppIcon
                   icon={suffixIcon}
                   size={24}

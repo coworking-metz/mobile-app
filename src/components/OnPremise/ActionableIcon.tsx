@@ -1,11 +1,10 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { type ReactNode } from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import AppBlurView, { AppBlurViewProps } from '@/components/AppBlurView';
-import { MaterialCommunityIconsName } from '@/components/AppIcon';
+import AppIcon, { MaterialCommunityIconsName } from '@/components/AppIcon';
 import AppPressable from '@/components/AppPressable';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { theme } from '@/helpers/colors';
@@ -60,8 +59,7 @@ const ActionableIcon = ({
 
       <AppPressable disabled={disabled} onPress={onPress}>
         <Animated.View style={iconStyle}>
-          <MaterialCommunityIcons
-            borderRadius={24}
+          <AppIcon
             color={
               active
                 ? theme.charlestonGreen
@@ -69,8 +67,7 @@ const ActionableIcon = ({
                   ? tw.color('neutral-400')
                   : tw.color('neutral-800')
             }
-            iconStyle={{ marginRight: 0 }}
-            name={active ? activeIcon : icon}
+            icon={active ? activeIcon : icon}
             size={32}
             style={[tw`shrink-0`, disabled && tw`opacity-70`, pending && tw`opacity-0`]}
           />

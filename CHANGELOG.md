@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Change climate target temperature on floor plan.
+- Toggle air conditioning and set target temperature from floor plan.
 
 ## [2026.7.2] - 2026-07-23
 

@@ -1,6 +1,6 @@
 {
   "airConditioning": {
-    "description": "The air conditioning can be turned on or off using the provided remote controls.\nThe temperature adjusts automatically according to the room's conditions.\n\nIt is recommended to turn it off when no coworker is in the room.",
+    "description": "The air conditioning can be turned on or off using the provided remote controls.\nThe temperature adjusts automatically according to the room's conditions.",
     "label": "Air conditioning",
     "missingCapability": "Access to the air conditioning is only available to members present on site.",
     "onToggle": {
