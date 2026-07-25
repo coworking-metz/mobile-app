@@ -210,6 +210,7 @@ const AirConditioningBottomSheet: ForwardRefRenderFunction<
             min={airConditioner?.minTemperature ?? DEFAULT_MIN_TEMPERATURE}
             style={tw`relative mx-auto mt-3 w-full max-w-72`}
             sweepAngle={235}
+            bubbleTextStyle={tw`text-xl text-slate-900 dark:text-gray-200`}
             trackColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
             value={targetTemperature}
             onSlidingComplete={onSlidingComplete}>
