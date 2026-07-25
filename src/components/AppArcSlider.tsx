@@ -147,6 +147,7 @@ const AppArcSlider = ({
   labelStyle,
   formatLabel = (labelValue: number) => `${labelValue}`,
   showValueBubble = true,
+  bubbleTextStyle,
   disabled = false,
   loading = false,
   onSlidingComplete,
@@ -170,6 +171,7 @@ const AppArcSlider = ({
   labelStyle?: StyleProp<TextStyle>;
   formatLabel?: (labelValue: number) => string;
   showValueBubble?: boolean;
+  bubbleTextStyle?: StyleProp<TextStyle>;
   disabled?: boolean;
   loading?: boolean;
   onSlidingComplete?: (value: number) => void;
@@ -278,7 +280,7 @@ const AppArcSlider = ({
   const [bubbleWidth, setBubbleWidth] = useState(0);
   const [bubbleHeight, setBubbleHeight] = useState(0);
 
-  const bubbleStyle = useAnimatedStyle(() => {
+  const animatedBubbleStyle = useAnimatedStyle(() => {
     // fades and pops in lockstep with the cursor's own press-grow animation
     const progress = interpolate(
       pressScale.value,
@@ -436,13 +438,13 @@ const AppArcSlider = ({
       {geometry && showValueBubble ? (
         <Animated.View
           pointerEvents="none"
-          style={[tw`absolute rounded-lg px-2 py-1 shadow-2xl shadow-black`, bubbleStyle]}
+          style={[tw`absolute rounded-lg px-2 py-1 shadow-2xl shadow-black`, animatedBubbleStyle]}
           onLayout={({ nativeEvent }: LayoutChangeEvent) => {
             setBubbleWidth(nativeEvent.layout.width);
             setBubbleHeight(nativeEvent.layout.height);
           }}>
           {}
-          <ReanimatedText style={[tw`text-xl text-black`]} text={bubbleText} />
+          <ReanimatedText style={[tw`text-xl`, bubbleTextStyle]} text={bubbleText} />
         </Animated.View>
       ) : null}
       {children}
