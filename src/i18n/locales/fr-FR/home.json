@@ -67,16 +67,16 @@
     },
     "present_one": [
       "Il y a une personne sur place",
-      "Un membre est présent aujourd'hui",
+      "Un adhérent est présent aujourd'hui",
       "Un poste est actuellement occupé",
       "Une seule personne est présente",
-      "membre présent",
+      "adhérent présent",
       "personne présente",
       "personne sur place",
       "poste occupé"
     ],
     "present_other": [
-      "membres présents",
+      "adhérents présents",
       "personnes présentes",
       "personnes sur place",
       "postes occupés",
@@ -118,7 +118,7 @@
         "description": "sur les 6 derniers mois",
         "label": "Activité"
       },
-      "description": "Afin d'assurer une couverture totale de ses membres et de leurs biens, la carte adhérent est obligatoire pour tout usager de l'espace de coworking.\n\nC'est une prérogative de notre assureur.",
+      "description": "Afin d'assurer une couverture totale de ses adhérents et de leurs biens, la carte adhérent est obligatoire pour tout usager de l'espace de coworking.\n\nC'est une prérogative de notre assureur.",
       "get": "Adhérer pour {{year}}",
       "grade": {
         "active": {
@@ -218,8 +218,7 @@
         "count_other": "<0>{{count}}</0> consommés",
         "count_zero": "Aucun",
         "description": "depuis votre arrivée",
-        "label": "Consommation",
-        "unknown": "Inconnue"
+        "label": "Consommation"
       },
       "depleted_one": "<0>{{count}}</0> redevable",
       "depleted_other": "<0>{{count}}</0> redevables",
@@ -228,8 +227,7 @@
       "onFetch": {
         "fail": "Impossible d'actualiser les\u00A0commandes de\u00A0tickets"
       },
-      "title": "Tickets à la journée",
-      "unknown": "Inconnu"
+      "title": "Tickets à la journée"
     }
   },
   "refresh": {

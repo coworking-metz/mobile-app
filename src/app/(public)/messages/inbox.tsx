@@ -64,6 +64,7 @@ const InboxScreen = ({ from }: { from?: string }) => {
   const {
     isPending: isPendingMessages,
     isFetching: isFetchingMessages,
+    isEnabled: areMessagesEnabled,
     data: messages,
     error: messagesError,
     refetch: refetchMessages,
@@ -247,10 +248,10 @@ const InboxScreen = ({ from }: { from?: string }) => {
               </Link>
             )}
           />
-        ) : isPendingMessages ? (
+        ) : areMessagesEnabled && isPendingMessages ? (
           <Animated.View exiting={FadeOut.duration(500)} style={tw`mx-3 flex flex-col`}>
-            <MessageCard pending style={tw``} />
-            <MessageCard pending style={tw``} />
+            <MessageCard pending />
+            <MessageCard pending />
           </Animated.View>
         ) : (
           <Animated.View style={tw`mt-4 flex size-full flex-col items-center px-6`}>

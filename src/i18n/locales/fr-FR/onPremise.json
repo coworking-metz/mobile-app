@@ -106,7 +106,7 @@
     "label": "Espace collaboratif"
   },
   "intercom": {
-    "description": "La sonnette signale le plus souvent l'arrivée d'un membre adhérent ou d'une visite.\nLes membres sont invités à décrocher l'interphone pour permettre l'accès. Ce geste simple participe à la convivialité et au bon accueil au sein du coworking.",
+    "description": "La sonnette signale le plus souvent l'arrivée d'un adhérent ou d'une visite.\nLes personnes présentes sont invitées à décrocher l'interphone pour permettre l'accès. Ce geste simple participe à la convivialité et au bon accueil au sein du coworking.",
     "label": "Interphone"
   },
   "keyBoxes": {
@@ -203,14 +203,14 @@
     "label": "Rester discret"
   },
   "television": {
-    "description": "L'écran de télévision situé dans l'espace affiche les informations importantes du Poulailler : la présence des membres, les événements à venir, les annonces internes ou encore des rappels du règlement.\n\nC'est le tableau d'affichage numérique du coworking, pensé pour que chacun reste informé de la vie de l'association.",
+    "description": "L'écran de télévision situé dans l'espace affiche les informations importantes du Poulailler : la présence des adhérents, les événements à venir, les annonces internes ou encore des rappels du règlement.\n\nC'est le tableau d'affichage numérique du coworking, pensé pour que chacun reste informé de la vie de l'association.",
     "label": "Télévision"
   },
   "title": "Gérer l'espace",
   "wifi": {
     "credentials": {
       "fetch": "Obtenir les identifiants",
-      "missingCapability": "Les identifiants Wi-Fi ne sont disponibles qu'aux visiteurs et membres adhérents.",
+      "missingCapability": "Les identifiants Wi-Fi ne sont disponibles qu'aux visiteurs et adhérents.",
       "onFetch": {
         "fail": "Impossible de récupérer les\u00A0identifiants\u00A0Wi-Fi"
       },
