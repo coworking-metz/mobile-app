@@ -330,6 +330,23 @@ const AppArcSlider = ({
   const gesture = Gesture.Pan()
     .minDistance(0)
     .enabled(!disabled && !loading)
+    .onTouchesDown((event, stateManager) => {
+      const touch = event.allTouches[0];
+      if (!geometry || !touch) {
+        stateManager.fail();
+        return;
+      }
+
+      // only recognize touches that land near the arc itself (within the cursor's own reach),
+      // not anywhere in the canvas's rectangular bounding box
+      const { centerX, centerY, radius } = geometry;
+      const distanceFromArc = Math.abs(Math.hypot(touch.x - centerX, touch.y - centerY) - radius);
+      const tolerance = cursorRadius * cursorPressScale;
+
+      if (distanceFromArc > tolerance) {
+        stateManager.fail();
+      }
+    })
     .onBegin(({ x, y }) => {
       isDragging.value = true;
       pressScale.value = withSpring(cursorPressScale);
@@ -339,13 +356,16 @@ const AppArcSlider = ({
     .onUpdate(({ x, y }) => {
       updateFromTouch(x, y);
     })
+    .onTouchesUp(() => {
+      if (onSlidingComplete) {
+        scheduleOnRN(vibrate, HapticFeedbackType.Light);
+        scheduleOnRN(onSlidingComplete, value.value);
+      }
+    })
     .onFinalize(() => {
       isDragging.value = false;
       pressScale.value = withSpring(1);
-      scheduleOnRN(vibrate, HapticFeedbackType.Light);
-      if (onSlidingComplete) {
-        scheduleOnRN(onSlidingComplete, value.value);
-      }
+
     });
 
   return (
