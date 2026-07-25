@@ -104,7 +104,7 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
         withBottomDivider
         label={t('home.profile.tickets.balance.label')}
         style={tw`mt-2 w-full px-0`}>
-        {isPendingProfile ? (
+        {isProfileQueryEnabled && isPendingProfile ? (
           <LoadingSkeleton height={24} width={96} />
         ) : (
           <Trans
@@ -117,10 +117,10 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
             ]}
             defaults={
               isNil(memberProfile?.balance)
-                ? t('home.profile.tickets.unknown')
-                : memberProfile.balance >= 0
-                  ? t('home.profile.tickets.available', { count: memberProfile.balance })
-                  : t('home.profile.tickets.depleted', { count: -memberProfile.balance })
+                ? t('home.profile.tickets.available', { count: 0 })
+                : memberProfile?.balance < 0
+                  ? t('home.profile.tickets.depleted', { count: -memberProfile.balance })
+                  : t('home.profile.tickets.available', { count: memberProfile.balance })
             }
             numberOfLines={1}
             parent={AppText}
@@ -143,11 +143,7 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
                 style={tw`font-semibold text-slate-900 dark:text-gray-200`}
               />,
             ]}
-            defaults={
-              !isNil(consumedCount)
-                ? t('home.profile.tickets.consumed.count', { count: consumedCount })
-                : t('home.profile.tickets.consumed.unknown')
-            }
+            defaults={t('home.profile.tickets.consumed.count', { count: consumedCount ?? 0 })}
             numberOfLines={1}
             parent={AppText}
             style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}

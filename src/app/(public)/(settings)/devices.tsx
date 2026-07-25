@@ -32,7 +32,7 @@ const Devices = () => {
   const {
     isPending: isPendingDevices,
     isFetching: isFetchingDevices,
-    isEnabled: isDevicesEnabled,
+    isEnabled: areDevicesEnabled,
     data: devices,
     error: devicesError,
     refetch: refetchDevices,
@@ -53,7 +53,7 @@ const Devices = () => {
       loading={isFetchingDevices}
       title={t('devices.title')}
       withBackButton={!_root}
-      {...(isDevicesEnabled && { onRefresh: refetchDevices })}>
+      {...(areDevicesEnabled && { onRefresh: refetchDevices })}>
       {devicesError && !isSilentError(devicesError) ? (
         <ErrorChip
           error={devicesError}
@@ -62,7 +62,7 @@ const Devices = () => {
           onRetry={refetchDevices}
         />
       ) : null}
-      {isDevicesEnabled && isPendingDevices ? (
+      {areDevicesEnabled && isPendingDevices ? (
         <View style={tw`flex flex-row flex-wrap items-stretch gap-4 px-4`}>
           {[0].map((index) => (
             <DeviceCard pending key={index} style={tw`min-w-32 max-w-48 shrink grow basis-0`} />
@@ -115,7 +115,7 @@ const Devices = () => {
             {t('devices.empty.description')}
           </AppText>
           <AppRoundedButton
-            disabled={!isDevicesEnabled}
+            disabled={!areDevicesEnabled}
             label={t('devices.add.pair.label')}
             style={tw`mt-4 w-full self-center`}
             suffixIcon="plus"

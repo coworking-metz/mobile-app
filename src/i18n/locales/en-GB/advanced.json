@@ -24,7 +24,7 @@
       }
     },
     "switchTokensStorage": {
-      "alert": {
+      "alert-octagon": {
         "message": "This will expose tokens to other processes and can lead to potential leak of sensitive data. You should only enable this option if you are aware of the risks and know what you are doing.\nYou've been warned.\n\nApplication will restart after this option has been confirmed.",
         "title": "Switch to insecure storage"
       },

@@ -208,8 +208,7 @@
         "count_other": "<0>{{count}}</0> consumed",
         "count_zero": "None",
         "description": "since your arrival",
-        "label": "Overall consumption",
-        "unknown": "Unknown"
+        "label": "Overall consumption"
       },
       "depleted_one": "<0>{{count}}</0> missing",
       "depleted_other": "<0>{{count}}</0> missing",
@@ -218,8 +217,7 @@
       "onFetch": {
         "fail": "Unable to fetch tickets\u00A0orders"
       },
-      "title": "Individual tickets",
-      "unknown": "Unknown"
+      "title": "Individual tickets"
     }
   },
   "refresh": {
