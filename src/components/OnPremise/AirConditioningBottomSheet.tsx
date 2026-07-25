@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { compact } from 'lodash';
 import React, { forwardRef, ForwardRefRenderFunction, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
 import Animated, {
   cancelAnimation,
   Easing,
@@ -16,6 +15,7 @@ import Animated, {
 import tw from 'twrnc';
 import AirConditionerAnimation from '@/components/Animations/AirConditionerAnimation';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
+import AppAlert from '@/components/AppAlert';
 import AppArcSlider from '@/components/AppArcSlider';
 import AppBottomSheet, {
   AppBottomSheetProps,
@@ -198,6 +198,7 @@ const AirConditioningBottomSheet: ForwardRefRenderFunction<
               : {
                   arcColor: tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200'),
                 })}
+            bubbleTextStyle={tw`text-xl text-slate-900 dark:text-gray-200`}
             cursorOuterColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
             disabled={
               !airConditioner ||
@@ -210,7 +211,6 @@ const AirConditioningBottomSheet: ForwardRefRenderFunction<
             min={airConditioner?.minTemperature ?? DEFAULT_MIN_TEMPERATURE}
             style={tw`relative mx-auto mt-3 w-full max-w-72`}
             sweepAngle={235}
-            bubbleTextStyle={tw`text-xl text-slate-900 dark:text-gray-200`}
             trackColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
             value={targetTemperature}
             onSlidingComplete={onSlidingComplete}>
@@ -252,18 +252,11 @@ const AirConditioningBottomSheet: ForwardRefRenderFunction<
             onPress={toggleActive}
           />
           {!user?.capabilities?.includes('AIR_CONDITIONING_ACCESS') && (
-            <View style={tw`mt-3 flex flex-row items-start gap-3 overflow-hidden`}>
-              <AppIcon
-                color={tw.color('yellow-500')}
-                icon="alert-octagon"
-                size={24}
-                style={tw`shrink-0 grow-0`}
-              />
-              <AppText
-                style={tw`shrink grow basis-0 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
-                {t('onPremise.airConditioning.missingCapability')}
-              </AppText>
-            </View>
+            <AppAlert
+              description={t('onPremise.airConditioning.missingCapability')}
+              style={tw`mt-3`}
+              type="warning"
+            />
           )}
         </>
       )}

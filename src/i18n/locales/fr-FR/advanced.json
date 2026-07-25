@@ -24,12 +24,12 @@
       }
     },
     "switchTokensStorage": {
-      "alert-octagon": {
-        "message": "Cela exposera les jetons à d'autres processus et peut entraîner une fuite potentielle de données sensibles. Vous ne devriez activer cette option que si vous êtes conscient des risques et savez ce que vous faites.\nVous êtes prévenu.\n\nL'application va redémarrer pour que les modifications prennent effet.",
-        "title": "Utiliser le stockage non sécurisé"
-      },
       "description": "En cas de problème avec l'authentification",
-      "label": "Réduire la sécurité des jetons"
+      "label": "Réduire la sécurité des jetons",
+      "onWarn": {
+        "description": "Cela exposera les jetons à d'autres processus et peut entraîner une fuite potentielle de données sensibles. Vous ne devriez activer cette option que si vous êtes conscient des risques et savez ce que vous faites.\nVous êtes prévenu.\n\nL'application va redémarrer pour que les modifications prennent effet.",
+        "title": "Utiliser le stockage non sécurisé"
+      }
     },
     "title": "Actions"
   },

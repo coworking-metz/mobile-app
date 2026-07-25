@@ -50,10 +50,8 @@ const PoulaillerPlan = ({
     selectCoffeeMachine,
     selectPrinter,
     selectFridge,
-    selectAirConditioner,
     selectNorthAirConditioner,
     selectSouthAirConditioner,
-    selectedAirConditioner,
     selectWifi,
     selectIntercom,
     selectGroupWork,
@@ -378,7 +376,7 @@ const PoulaillerPlan = ({
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               key="air-conditioning-south"
-              selected={selectedAirConditioner?.id === 'south'}
+              loading={isFetchingOnPremiseState}
               style={tw`left-[11%] top-[19%]`}
               onPress={selectSouthAirConditioner}
             />
@@ -388,7 +386,7 @@ const PoulaillerPlan = ({
               entering={BounceIn.duration(750).delay(Math.random() * 500)}
               exiting={BounceOut.duration(750)}
               key="air-conditioning-north"
-              selected={selectedAirConditioner?.id === 'north'}
+              loading={isFetchingOnPremiseState}
               style={tw`left-[11%] top-[46%]`}
               onPress={selectNorthAirConditioner}
             />

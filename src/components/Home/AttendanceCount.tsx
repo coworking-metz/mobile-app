@@ -174,7 +174,7 @@ const AttendanceCount = ({
                         style={tw`flex size-8 items-center justify-center rounded-full bg-gray-200 dark:bg-zinc-900`}>
                         <ReanimatedText
                           numberOfLines={1}
-                          style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}
+                          style={tw`text-sm font-medium text-slate-500 dark:text-neutral-500`}
                           text={remainingMembersCount}
                         />
                       </View>

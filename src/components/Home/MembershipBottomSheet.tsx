@@ -1,3 +1,4 @@
+import AppAlert from '../AppAlert';
 import AppIcon from '../AppIcon';
 import ErrorChip from '../ErrorChip';
 import { useQuery } from '@tanstack/react-query';
@@ -180,40 +181,24 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
       ) : null}
 
       {profile?.membershipOk ? (
-        <View style={tw`flex w-full flex-row items-start gap-3 overflow-hidden`}>
-          <AppIcon
-            color={
-              profile?.activeUser
-                ? theme.meatBrown
-                : tw.prefixMatch('dark')
-                  ? tw.color('gray-400')
-                  : tw.color('gray-700')
-            }
-            icon="star-circle-outline"
-            size={24}
-            style={tw`shrink-0 grow-0`}
-          />
-          <AppText
-            style={tw`shrink grow basis-0 text-base font-normal text-slate-500 dark:text-neutral-500`}>
-            {profile?.activeUser
+        <AppAlert
+          description={
+            profile?.activeUser
               ? t('home.profile.membership.grade.active.description')
-              : t('home.profile.membership.grade.standard.description')}
-          </AppText>
-        </View>
+              : t('home.profile.membership.grade.standard.description')
+          }
+          icon="star-circle-outline"
+          iconColor={
+            profile?.activeUser
+              ? theme.meatBrown
+              : tw.prefixMatch('dark')
+                ? tw.color('gray-400')
+                : tw.color('gray-700')
+          }
+        />
       ) : profile?.membershipOk === false ? (
         <>
-          <View style={tw`flex w-full flex-row items-start gap-3 overflow-hidden`}>
-            <AppIcon
-              color={tw.color('yellow-500')}
-              icon="alert-octagon"
-              size={24}
-              style={tw`shrink-0 grow-0`}
-            />
-            <AppText
-              style={tw`shrink grow basis-0 text-base font-normal text-slate-500 dark:text-neutral-500`}>
-              {t('home.profile.membership.required')}
-            </AppText>
-          </View>
+          <AppAlert description={t('home.profile.membership.required')} type="warning" />
 
           <Link
             asChild

@@ -1,4 +1,3 @@
-import AppIcon from '../AppIcon';
 import dayjs from 'dayjs';
 import React, { forwardRef, ForwardRefRenderFunction, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +5,7 @@ import { StyleProp, useColorScheme, View, ViewStyle } from 'react-native';
 import AnimatedProgressWheel from 'react-native-progress-wheel';
 import { Easing } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppAlert from '@/components/AppAlert';
 import AppBottomSheet, {
   AppBottomSheetProps,
   AppBottomSheetRef,
@@ -118,18 +118,11 @@ const ActivityItem = ({
       </ServiceRow>
 
       {activity.coverage?.debt && (
-        <View style={tw`mb-3 flex w-full flex-row items-start gap-3 overflow-hidden`}>
-          <AppIcon
-            color={tw.color('yellow-500')}
-            icon="alert-octagon"
-            size={24}
-            style={tw`shrink-0 grow-0`}
-          />
-          <AppText
-            style={tw`shrink grow basis-0 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
-            {t('settings.profile.presence.selected.debt.description')}
-          </AppText>
-        </View>
+        <AppAlert
+          description={t('settings.profile.presence.selected.debt.description')}
+          style={tw`mb-3`}
+          type="critical"
+        />
       )}
     </View>
   );

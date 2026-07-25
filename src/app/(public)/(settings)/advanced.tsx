@@ -45,8 +45,8 @@ const Advanced = () => {
     async (value: boolean) => {
       if (value) {
         Alert.alert(
-          t('advanced.actions.switchTokensStorage.alert.title'),
-          t('advanced.actions.switchTokensStorage.alert.message'),
+          t('advanced.actions.switchTokensStorage.onWarn.title'),
+          t('advanced.actions.switchTokensStorage.onWarn.description'),
           [
             {
               text: t('actions.cancel'),

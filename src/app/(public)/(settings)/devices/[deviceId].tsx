@@ -7,6 +7,7 @@ import { Alert, View } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import { TextFieldRef } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
+import AppAlert from '@/components/AppAlert';
 import AppIcon from '@/components/AppIcon';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppSegmentedControl from '@/components/AppSegmentedControl';
@@ -260,14 +261,7 @@ const DeviceDetail = () => {
           }}
         />
         {isLocallyAdministeredMacAddress(macAddress) && (
-          <View style={tw`mb-4 flex w-full flex-row items-start gap-3 overflow-hidden px-3`}>
-            <AppIcon
-              color={tw.color('blue-600')}
-              icon="information"
-              size={24}
-              style={tw`shrink-0 grow-0`}
-            />
-
+          <AppAlert style={tw`mb-4 px-3`} type="info">
             <Trans
               components={[
                 <AppTextLink
@@ -281,7 +275,7 @@ const DeviceDetail = () => {
               parent={AppText}
               style={tw`shrink grow basis-0 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
             />
-          </View>
+          </AppAlert>
         )}
 
         <View style={tw`mx-3 flex flex-col items-start gap-1`}>

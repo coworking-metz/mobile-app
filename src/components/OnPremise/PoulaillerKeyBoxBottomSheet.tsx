@@ -1,12 +1,11 @@
-import AppIcon from '../AppIcon';
 import * as Haptics from 'expo-haptics';
 import React, { forwardRef, ForwardRefRenderFunction, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
 import Animated, { FadeIn, FadeOutDown } from 'react-native-reanimated';
 import { RandomReveal } from 'react-random-reveal';
 import tw from 'twrnc';
 import KeysPairAnimation from '@/components/Animations/KeysPairAnimation';
+import AppAlert from '@/components/AppAlert';
 import AppBottomSheet, {
   AppBottomSheetProps,
   AppBottomSheetRef,
@@ -83,18 +82,11 @@ const PoulaillerKeyBoxBottomSheet: ForwardRefRenderFunction<
       )}
 
       {!user?.capabilities?.includes('KEYS_ACCESS') && (
-        <View style={tw`mt-3 flex flex-row items-start gap-3 overflow-hidden`}>
-          <AppIcon
-            color={tw.color('yellow-500')}
-            icon="alert-octagon"
-            size={24}
-            style={tw`shrink-0 grow-0`}
-          />
-          <AppText
-            style={tw`shrink grow basis-0 text-base font-normal text-slate-500 dark:text-neutral-500`}>
-            {t('onPremise.keyBoxes.missingCapability')}
-          </AppText>
-        </View>
+        <AppAlert
+          description={t('onPremise.keyBoxes.missingCapability')}
+          style={tw`mt-3`}
+          type="warning"
+        />
       )}
     </AppBottomSheet>
   );
