@@ -205,7 +205,7 @@ const MembershipBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
           <View style={tw`flex w-full flex-row items-start gap-3 overflow-hidden`}>
             <AppIcon
               color={tw.color('yellow-500')}
-              icon="alert"
+              icon="alert-octagon"
               size={24}
               style={tw`shrink-0 grow-0`}
             />

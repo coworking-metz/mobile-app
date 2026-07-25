@@ -78,7 +78,12 @@ const LanguageBottomSheet: ForwardRefRenderFunction<
           suffixIcon={settingsStore.language === language.code ? 'check' : null}
           onPress={() => onLanguagePicked(language.code)}>
           {!getLanguageLabel(SYSTEM_LANGUAGE) && language.code === SYSTEM_OPTION ? (
-            <AppIcon color={tw.color('yellow-500')} icon="alert" size={24} style={tw`shrink-0`} />
+            <AppIcon
+              color={tw.color('yellow-500')}
+              icon="alert-octagon"
+              size={24}
+              style={tw`shrink-0`}
+            />
           ) : null}
         </ServiceRow>
       ))}
