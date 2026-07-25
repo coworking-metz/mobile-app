@@ -11,9 +11,9 @@ const getToastIcon = (type?: ToastType): MaterialCommunityIconsName => {
     case 'success':
       return 'check-circle-outline';
     case 'warning':
-      return 'alert-outline';
+      return 'alert-octagon-outline';
     case 'error':
-      return 'alert-box-outline';
+      return 'alert-outline';
     case 'info':
     default:
       return 'information-outline';

@@ -359,13 +359,12 @@ const AppArcSlider = ({
     .onTouchesUp(() => {
       if (onSlidingComplete) {
         scheduleOnRN(vibrate, HapticFeedbackType.Light);
-        scheduleOnRN(onSlidingComplete, value.value);
+        scheduleOnRN(onSlidingComplete, Number(value.value.toFixed(0)));
       }
     })
     .onFinalize(() => {
       isDragging.value = false;
       pressScale.value = withSpring(1);
-
     });
 
   return (

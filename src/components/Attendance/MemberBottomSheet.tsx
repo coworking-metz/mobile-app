@@ -53,7 +53,7 @@ const MemberBottomSheet: ForwardRefRenderFunction<
                 contentFit="cover"
                 source={member.polaroid}
                 style={[
-                  tw`h-full overflow-hidden rounded-xl bg-gray-200 dark:bg-zinc-800`,
+                  tw`h-full rounded-xl bg-gray-200 dark:bg-zinc-800`,
                   { aspectRatio: 506 / 619 },
                 ]}
               />

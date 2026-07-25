@@ -96,7 +96,7 @@ const CalendarEventCard = ({
 
   return (
     <View style={[tw`relative`, style]}>
-      <AppSquircleView style={tw`overflow-hidden rounded-3xl bg-gray-300 dark:bg-zinc-700`}>
+      <AppSquircleView style={tw`overflow-hidden rounded-3xl bg-gray-300 dark:bg-zinc-800`}>
         <BlurTargetView ref={blurTargetRef} style={tw`relative flex size-full`}>
           <ImageBackground
             cachePolicy="memory"

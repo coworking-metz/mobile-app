@@ -1,4 +1,3 @@
-import AppIcon from '../AppIcon';
 import * as Haptics from 'expo-haptics';
 import React, {
   forwardRef,
@@ -9,11 +8,11 @@ import React, {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
 import { FadeInLeft, FadeOutLeft, useReducedMotion } from 'react-native-reanimated';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import UnlockAnimation from '@/components/Animations/UnlockAnimation';
+import AppAlert from '@/components/AppAlert';
 import AppBottomSheet, {
   AppBottomSheetProps,
   AppBottomSheetRef,
@@ -142,17 +141,11 @@ const UnlockDeckDoorBottomSheet: ForwardRefRenderFunction<
         </>
       </SwipeableButton>
       {!user?.capabilities?.includes('UNLOCK_DECK_DOOR') && (
-        <View style={tw`mt-3 flex w-full flex-row items-start gap-3 overflow-hidden`}>
-          <AppIcon
-            color={tw.color('yellow-500')}
-            icon="alert-octagon"
-            size={24}
-            style={tw`shrink-0 grow-0`}
-          />
-          <AppText style={tw`shrink grow basis-0 text-base font-normal text-slate-500`}>
-            {t('onPremise.deckDoor.missingCapability')}
-          </AppText>
-        </View>
+        <AppAlert
+          description={t('onPremise.deckDoor.missingCapability')}
+          style={tw`mt-3`}
+          type="warning"
+        />
       )}
     </AppBottomSheet>
   );

@@ -32,7 +32,7 @@ dayjs.updateLocale('fr', {
     nextDay: '[Demain à] LT',
     lastWeek: 'dddd [dernier à] LT',
     nextWeek: 'dddd [à] LT',
-    sameElse: '[Le] dddd D MMM à LT',
+    sameElse: 'dddd D MMM à LT',
   },
   relativeTime: {
     ...dayjs.Ls['fr'].relativeTime,

@@ -1,6 +1,7 @@
 import BikingIsCoolAnimation from '../Animations/BikingIsCoolAnimation';
 import RollingCarAnimation from '../Animations/RollingCarAnimation';
 import WalkingChickenAnimation from '../Animations/WalkingChickenAnimation';
+import AppAlert from '../AppAlert';
 import AppIcon from '../AppIcon';
 import AppSegmentedControl from '../AppSegmentedControl';
 import { isNil } from 'lodash';
@@ -110,14 +111,7 @@ const IntroductionServicesStep = ({
           />
         </View>
 
-        <View style={tw`mx-6 mt-4 flex flex-row items-start gap-3`}>
-          <AppIcon
-            color={tw.color('blue-600')}
-            icon="information"
-            size={24}
-            style={tw`shrink-0 grow-0`}
-          />
-
+        <AppAlert style={tw`mx-6 mt-4`} type="info">
           <Trans
             components={[
               <AppText key="emphasis" style={tw`font-medium text-slate-900 dark:text-gray-200`} />,
@@ -128,7 +122,7 @@ const IntroductionServicesStep = ({
             parent={AppText}
             style={tw`min-h-20 shrink grow basis-0 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
           />
-        </View>
+        </AppAlert>
       </View>
     </>
   );
