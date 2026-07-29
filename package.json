@@ -44,7 +44,7 @@
     "@shopify/flash-list": "2.0.2",
     "@shopify/react-native-skia": "2.4.18",
     "@somesoap/react-native-image-palette": "^1.2.2",
-    "@tanstack/react-query": "^5.101.2",
+    "@tanstack/react-query": "^5.101.4",
     "@vonovak/react-native-theme-control": "^7.0.2",
     "axios": "^1.18.1",
     "axios-retry": "^4.5.0",
@@ -89,13 +89,13 @@
     "moti": "^0.30.0",
     "number-flow-react-native": "^0.4.2",
     "patch-package": "^8.0.1",
-    "posthog-react-native": "^4.57.0",
+    "posthog-react-native": "^4.58.0",
     "posthog-react-native-session-replay": "^1.6.0",
     "promise": "^8.3.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-i18next": "^17.0.10",
-    "react-native": "0.83.6",
+    "react-native": "0.83.10",
     "react-native-animateable-text": "^0.18.1",
     "react-native-awesome-gallery": "^0.4.3",
     "react-native-chart-kit": "^7.0.2",
@@ -141,10 +141,10 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-tailwindcss": "^3.18.3",
     "npm-check-updates": "^22.2.9",
-    "prettier": "^3.9.5",
+    "prettier": "^3.9.6",
     "sort-package-json": "^4.0.0",
     "tailwindcss": "^3.4.19",
     "tslib": "^2.8.1",
-    "typescript": "^6.0.3"
+    "typescript": "~5.9.2"
   }
 }

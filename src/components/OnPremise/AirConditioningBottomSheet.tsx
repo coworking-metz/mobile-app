@@ -33,7 +33,6 @@ import {
   turnOnAirConditioner,
   updateAirConditionerTargetTemperature,
 } from '@/services/api/services';
-import { IS_DEV } from '@/services/environment';
 import { onPremiseQueryKeys, useAppQueryClient } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -182,83 +181,77 @@ const AirConditioningBottomSheet: ForwardRefRenderFunction<
         {t('onPremise.airConditioning.description')}
       </AppText>
 
-      {IS_DEV && (
-        <>
-          <AppArcSlider
-            {...(airConditioner?.active
-              ? {
-                  arcColors: compact([
-                    ,
-                    tw.color('blue-400')?.toString(),
-                    tw.color('emerald-400')?.toString(),
-                    tw.color('amber-400')?.toString(),
-                    tw.color('red-600')?.toString(),
-                  ]),
-                }
-              : {
-                  arcColor: tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200'),
-                })}
-            bubbleTextStyle={tw`text-xl text-slate-900 dark:text-gray-200`}
-            cursorOuterColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
-            disabled={
-              !airConditioner ||
-              !user?.capabilities?.includes('AIR_CONDITIONING_ACCESS') ||
-              isUpdatingTargetTemperature
+      <AppArcSlider
+        {...(airConditioner?.active
+          ? {
+              arcColors: compact([
+                ,
+                tw.color('blue-400')?.toString(),
+                tw.color('emerald-400')?.toString(),
+                tw.color('amber-400')?.toString(),
+                tw.color('red-600')?.toString(),
+              ]),
             }
-            labelStyle={tw`-mt-4 text-2xl font-normal text-slate-500 dark:text-neutral-500`}
-            loading={isFetchingOnPremiseState || isUpdatingTargetTemperature}
-            max={airConditioner?.maxTemperature ?? DEFAULT_MAX_TEMPERATURE}
-            min={airConditioner?.minTemperature ?? DEFAULT_MIN_TEMPERATURE}
-            style={tw`relative mx-auto mt-3 w-full max-w-72`}
-            sweepAngle={235}
-            trackColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
-            value={targetTemperature}
-            onSlidingComplete={onSlidingComplete}>
-            <ReanimatedText
-              style={tw`pointer-events-none absolute inset-x-0 ml-6 mt-20 text-center text-6xl font-semibold leading-[6.5rem] text-slate-900 dark:text-gray-200`}
-              text={formattedAnimatedTemperature}
-            />
-          </AppArcSlider>
+          : {
+              arcColor: tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200'),
+            })}
+        bubbleTextStyle={tw`text-xl text-slate-900 dark:text-gray-200`}
+        cursorOuterColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
+        disabled={
+          !airConditioner ||
+          !user?.capabilities?.includes('AIR_CONDITIONING_ACCESS') ||
+          isUpdatingTargetTemperature
+        }
+        labelStyle={tw`-mt-4 text-2xl font-normal text-slate-500 dark:text-neutral-500`}
+        loading={isFetchingOnPremiseState || isUpdatingTargetTemperature}
+        max={airConditioner?.maxTemperature ?? DEFAULT_MAX_TEMPERATURE}
+        min={airConditioner?.minTemperature ?? DEFAULT_MIN_TEMPERATURE}
+        style={tw`relative mx-auto mt-3 w-full max-w-72`}
+        sweepAngle={235}
+        trackColor={tw.prefixMatch('dark') ? tw.color('zinc-800') : tw.color('gray-200')}
+        value={targetTemperature}
+        onSlidingComplete={onSlidingComplete}>
+        <ReanimatedText
+          style={tw`pointer-events-none absolute inset-x-0 ml-6 mt-20 text-center text-6xl font-semibold leading-[6.5rem] text-slate-900 dark:text-gray-200`}
+          text={formattedAnimatedTemperature}
+        />
+      </AppArcSlider>
 
-          <AppRoundedButton
-            disabled={
-              !airConditioner ||
-              isTogglingActive ||
-              !user?.capabilities?.includes('AIR_CONDITIONING_ACCESS')
-            }
-            label={t(
-              airConditioner?.active
-                ? 'onPremise.airConditioning.turnOff'
-                : 'onPremise.airConditioning.turnOn',
-            )}
-            prefixIcon={airConditioner?.active ? 'power-off' : 'power'}
-            renderPrefix={() =>
-              isTogglingActive ? (
-                <HorizontalLoadingAnimation style={tw`-ml-2 size-8`} />
-              ) : (
-                <Animated.View style={[tw`-ml-2 shrink-0`, iconAnimatedStyle]}>
-                  <AppIcon
-                    color={
-                      tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('neutral-800')
-                    }
-                    icon="fan"
-                    size={32}
-                    style={[tw`shrink-0`]}
-                  />
-                </Animated.View>
-              )
-            }
-            style={tw`mt-6 w-full max-w-sm self-center`}
-            onPress={toggleActive}
-          />
-          {!user?.capabilities?.includes('AIR_CONDITIONING_ACCESS') && (
-            <AppAlert
-              description={t('onPremise.airConditioning.missingCapability')}
-              style={tw`mt-3`}
-              type="warning"
-            />
-          )}
-        </>
+      <AppRoundedButton
+        disabled={
+          !airConditioner ||
+          isTogglingActive ||
+          !user?.capabilities?.includes('AIR_CONDITIONING_ACCESS')
+        }
+        label={t(
+          airConditioner?.active
+            ? 'onPremise.airConditioning.turnOff'
+            : 'onPremise.airConditioning.turnOn',
+        )}
+        prefixIcon={airConditioner?.active ? 'power-off' : 'power'}
+        renderPrefix={() =>
+          isTogglingActive ? (
+            <HorizontalLoadingAnimation style={tw`-ml-2 size-8`} />
+          ) : (
+            <Animated.View style={[tw`-ml-2 shrink-0`, iconAnimatedStyle]}>
+              <AppIcon
+                color={tw.prefixMatch('dark') ? tw.color('neutral-400') : tw.color('neutral-800')}
+                icon="fan"
+                size={32}
+                style={[tw`shrink-0`]}
+              />
+            </Animated.View>
+          )
+        }
+        style={tw`mt-6 w-full max-w-sm self-center`}
+        onPress={toggleActive}
+      />
+      {!user?.capabilities?.includes('AIR_CONDITIONING_ACCESS') && (
+        <AppAlert
+          description={t('onPremise.airConditioning.missingCapability')}
+          style={tw`mt-3`}
+          type="warning"
+        />
       )}
     </AppBottomSheet>
   );
