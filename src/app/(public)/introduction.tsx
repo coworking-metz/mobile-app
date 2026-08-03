@@ -3,8 +3,13 @@ import { useNavigation, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, View, type LayoutChangeEvent } from 'react-native';
-import Animated, { FadeInDown, interpolate, useSharedValue } from 'react-native-reanimated';
-import Carousel, { type ICarouselInstance } from 'react-native-reanimated-carousel';
+import Animated, {
+  FadeInDown,
+  interpolate,
+  useDerivedValue,
+  useSharedValue,
+} from 'react-native-reanimated';
+import { Carousel, type CarouselRef } from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
@@ -38,7 +43,7 @@ const Introduction = () => {
   const [layoutWidth, setLayoutWidth] = useState(0);
   const [actionHeight, setActionHeight] = useState(0);
 
-  const carouselRef = useRef<ICarouselInstance>(null);
+  const carouselRef = useRef<CarouselRef>(null);
   const blurTargetRef = useRef<View | null>(null);
   const offset = useSharedValue(0);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -107,6 +112,8 @@ const Introduction = () => {
     [layoutWidth],
   );
 
+  const invertedOffset = useDerivedValue(() => -offset.value, [offset]);
+
   return (
     <View
       style={[
@@ -143,7 +150,7 @@ const Introduction = () => {
             <View pointerEvents={'none'} style={tw`flex flex-row`}>
               {screens.map((_, index) => (
                 <PaginationDot
-                  animationValue={offset}
+                  animationValue={invertedOffset}
                   containerWidth={layoutWidth}
                   index={index}
                   key={`pagination-dot-${index}`}
@@ -154,26 +161,24 @@ const Introduction = () => {
           <View style={tw`grow basis-0`}>
             <Carousel
               ref={carouselRef}
-              customAnimation={animationStyle}
               data={screens.map((screen, index) => ({ ...screen, index }))}
+              itemAnimation={animationStyle}
               loop={false}
-              renderItem={({ item, index, animationValue }) => (
-                <Step actionHeight={actionHeight} animationValue={animationValue} key={index}>
+              orientation="horizontal"
+              renderItem={({ item, index, relativeProgress }) => (
+                <Step actionHeight={actionHeight} animationValue={relativeProgress} key={index}>
                   {item.component(currentIndex === index)}
                 </Step>
               )}
+              scrollOffsetValue={offset}
               style={{
                 width: layoutWidth,
               }}
-              vertical={false}
               // to let the user scroll vertically inside the carousel
               // https://github.com/dohooo/react-native-reanimated-carousel/issues/143#issuecomment-1022276126
-              width={layoutWidth}
+
               onConfigurePanGesture={(gestureChain) => {
                 gestureChain.activeOffsetX([-10, 10]);
-              }}
-              onProgressChange={(progress) => {
-                offset.set(-progress);
               }}
               onSnapToItem={setCurrentIndex}
             />
