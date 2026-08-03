@@ -23,8 +23,7 @@ import Rive, { type RiveRef } from 'rive-react-native';
 import type React from 'react';
 
 export type RiveSourceResult =
-  | { url: string; resourceName?: never }
-  | { resourceName: string; url?: never };
+  { url: string; resourceName?: never } | { resourceName: string; url?: never };
 
 export function getRiveSource(source: never): RiveSourceResult {
   const { uri } = Image.resolveAssetSource(source);

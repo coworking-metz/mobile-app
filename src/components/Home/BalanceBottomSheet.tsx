@@ -1,5 +1,3 @@
-import AppAlert from '../AppAlert';
-import AppIcon from '../AppIcon';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'expo-router';
 import { isNil } from 'lodash';
@@ -8,6 +6,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw from 'twrnc';
 import CouponsAnimation from '@/components/Animations/CouponsAnimation';
+import AppAlert from '@/components/AppAlert';
 import AppBottomSheet, {
   AppBottomSheetProps,
   AppBottomSheetRef,
