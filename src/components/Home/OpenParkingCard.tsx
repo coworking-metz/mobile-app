@@ -7,7 +7,6 @@ import { StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native
 import Animated, {
   Easing,
   interpolate,
-  runOnJS,
   useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
@@ -15,6 +14,7 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import BarrierAnimation from '@/components/Animations/BarrierAnimation';
@@ -144,7 +144,7 @@ const OpenParkingCard = ({
     },
     (isOpening, previous) => {
       if (isOpening !== previous) {
-        runOnJS(setUnlocked)(isOpening);
+        scheduleOnRN(setUnlocked, isOpening);
       }
     },
     [opening],

@@ -1,6 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import { ViewStyle } from 'react-native';
-import { runOnJS, useDerivedValue, type SharedValue } from 'react-native-reanimated';
+import { useDerivedValue, type SharedValue } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import { Alignment, Fit, type RiveRef } from 'rive-react-native';
 import RiveAnimation from '@/components/RiveAnimation';
 
@@ -49,17 +50,17 @@ const SpaceshipRefreshAnimation = ({
 
   useDerivedValue(() => {
     if (released?.get()) {
-      runOnJS(setPullProgress)(101);
+      scheduleOnRN(setPullProgress, 101);
     } else if (pullProgress?.get() && pullProgress.get() > 1) {
-      runOnJS(setPullProgress)(Math.min(pullProgress.get() / 4, 99));
+      scheduleOnRN(setPullProgress, Math.min(pullProgress.get() / 4, 99));
     } else {
-      runOnJS(onReset)();
+      scheduleOnRN(onReset);
     }
   }, [pullProgress, released]);
 
   useDerivedValue(() => {
     if (completed) {
-      runOnJS(onComplete)();
+      scheduleOnRN(onComplete);
     }
   }, [completed]);
 

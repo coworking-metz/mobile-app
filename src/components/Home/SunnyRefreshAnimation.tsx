@@ -1,6 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import { ViewStyle } from 'react-native';
-import { runOnJS, useDerivedValue, type SharedValue } from 'react-native-reanimated';
+import { useDerivedValue, type SharedValue } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import { Alignment, Fit, type RiveRef } from 'rive-react-native';
 import RiveAnimation from '@/components/RiveAnimation';
 
@@ -49,21 +50,21 @@ const SunnyRefreshAnimation = ({
 
   useDerivedValue(() => {
     if (pullProgress?.get() && pullProgress.get() > 1) {
-      runOnJS(setPullProgress)(pullProgress.get());
+      scheduleOnRN(setPullProgress, pullProgress.get());
     } else {
-      runOnJS(onReset)();
+      scheduleOnRN(onReset);
     }
   }, [pullProgress, released]);
 
   useDerivedValue(() => {
     if (released?.get()) {
-      runOnJS(onRelease)();
+      scheduleOnRN(onRelease);
     }
   }, [released]);
 
   useDerivedValue(() => {
     if (completed?.get()) {
-      runOnJS(onComplete)();
+      scheduleOnRN(onComplete);
     }
   }, [completed]);
 

@@ -7,7 +7,6 @@ import { Platform, StyleProp, View, ViewStyle, type LayoutChangeEvent } from 're
 import Animated, {
   Easing,
   interpolate,
-  runOnJS,
   useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
@@ -15,6 +14,7 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
@@ -146,7 +146,7 @@ const UnlockCard = ({
     },
     (isUnlocking, previous) => {
       if (isUnlocking !== previous) {
-        runOnJS(setUnlocked)(isUnlocking);
+        scheduleOnRN(setUnlocked, isUnlocking);
       }
     },
     [unlocking],
