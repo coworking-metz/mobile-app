@@ -6,7 +6,7 @@
     "balance": {
       "debt_one": "<0>{{count}}</0> missing",
       "debt_other": "<0>{{count}}</0> missing",
-      "debt_zero": "Insufficient (<0>{{count}}</0> tickets)",
+      "debt_zero": "<0>{{count}}</0> tickets",
       "label": "Ticket balance"
     },
     "location": {
@@ -15,7 +15,7 @@
     },
     "membership": {
       "label": "Membership",
-      "last": "Last membership in <0>{{year}}</0>",
+      "last": "Not renewed since <0>{{year}}</0>",
       "none": "None"
     },
     "navigateToManager": "View profile",

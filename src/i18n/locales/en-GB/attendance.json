@@ -9,17 +9,6 @@
     ],
     "title": ["All quiet", "It's empty", "No one here", "No one present"]
   },
-  "members": {
-    "debt": {
-      "ticket_one": "{{count}} ticket missing",
-      "ticket_other": "{{count}} ticket missing",
-      "ticket_zero": "Insufficient balance (0 tickets)"
-    },
-    "membership": {
-      "last": "Last membership in {{year}}",
-      "none": "No membership yet"
-    }
-  },
   "onFetch": {
     "fail": "Unable to fetch the\u00A0list of\u00A0attendees",
     "loading": ["Hang tight…", "Loading…", "Refreshing…", "Syncing…", "Updating…"]
