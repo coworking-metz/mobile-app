@@ -1,6 +1,3 @@
-import AppAlert from '../AppAlert';
-import AppIcon from '../AppIcon';
-import ErrorChip from '../ErrorChip';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { Link } from 'expo-router';
@@ -9,12 +6,14 @@ import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw from 'twrnc';
 import MembershipFormAnimation from '@/components/Animations/MembershipFormAnimation';
+import AppAlert from '@/components/AppAlert';
 import AppBottomSheet, {
   AppBottomSheetProps,
   AppBottomSheetRef,
 } from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
+import ErrorChip from '@/components/ErrorChip';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import useAppState from '@/helpers/app-state';

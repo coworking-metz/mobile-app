@@ -1,4 +1,3 @@
-import AppIcon from './AppIcon';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   type LayoutChangeEvent,
@@ -14,6 +13,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppIcon from '@/components/AppIcon';
 import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 
 type AccordionType = 'single' | 'multiple';
@@ -23,7 +23,7 @@ type AccordionContextType<T extends string> = {
   toggleItem: (id: T) => void;
 };
 
-const AccordionContext = createContext<AccordionContextType<any> | null>(null);
+const AccordionContext = createContext<AccordionContextType<string> | null>(null);
 const AccordionItemContext = createContext<{
   value: string;
   isOpen: boolean;
@@ -108,7 +108,8 @@ const Accordion = <T extends string>({
   };
 
   return (
-    <AccordionContext.Provider value={{ openItems, toggleItem }}>
+    <AccordionContext.Provider
+      value={{ openItems, toggleItem } as unknown as AccordionContextType<string>}>
       <View style={[tw`w-full overflow-hidden`, style]}>{children}</View>
     </AccordionContext.Provider>
   );

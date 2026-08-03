@@ -1,10 +1,9 @@
-import AppIcon from '../AppIcon';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppIcon from '@/components/AppIcon';
 import AppPressable, { AppPressableRef } from '@/components/AppPressable';
 import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
