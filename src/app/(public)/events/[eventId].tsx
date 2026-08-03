@@ -105,6 +105,7 @@ export default function CalendarEventPage() {
       case 'AMOUR_FOOD':
         return <AmourFoodIcon style={tw`size-6 self-center rounded-md`} />;
       case 'COWORKING':
+      case 'ONBOARDING':
         return <CoworkingIcon style={tw`size-6 self-center rounded-md`} />;
       case 'BLIIIDA':
         return <BliiidaIcon style={tw`size-6 self-center rounded-md`} />;

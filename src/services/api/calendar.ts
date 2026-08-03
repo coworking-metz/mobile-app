@@ -9,7 +9,7 @@ export interface CalendarEvent {
   location?: string;
   urls: string[];
   pictures: string[];
-  calendar: 'COWORKING' | 'AMOUR_FOOD' | 'BLIIIDA' | string;
+  calendar: 'COWORKING' | 'AMOUR_FOOD' | 'BLIIIDA' | 'ONBOARDING' | string;
 }
 
 export const getCalendarEvents = async (): Promise<CalendarEvent[]> => {
