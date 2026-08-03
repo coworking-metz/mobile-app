@@ -6,7 +6,7 @@
     "balance": {
       "debt_one": "<0>{{count}}</0> redevable",
       "debt_other": "<0>{{count}}</0> redevables",
-      "debt_zero": "Insuffisant (<0>{{count}}</0> tickets)",
+      "debt_zero": "<0>{{count}}</0> tickets",
       "label": "Solde de tickets"
     },
     "location": {
@@ -15,7 +15,7 @@
     },
     "membership": {
       "label": "Adhésion",
-      "last": "Dernière adhésion en <0>{{year}}</0>",
+      "last": "Dernière en <0>{{year}}</0>",
       "none": "Aucune"
     },
     "navigateToManager": "Consulter le profil",
