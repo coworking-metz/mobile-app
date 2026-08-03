@@ -13,6 +13,7 @@ import ReadMore from 'react-native-read-more-text';
 import Animated, {
   FadeInLeft,
   useAnimatedScrollHandler,
+  useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -77,6 +78,12 @@ export default function CalendarEventPage() {
     },
   });
 
+  const loadingProgressBarStyle = useAnimatedStyle(() => {
+    return {
+      top: Math.min(Math.max(headerHeight - verticalScrollProgress.value, 0), headerHeight),
+    };
+  }, [headerHeight, verticalScrollProgress]);
+
   const {
     isPending: isPendingCalendarEvents,
     isFetching: isFetchingCalendarEvents,
@@ -131,9 +138,9 @@ export default function CalendarEventPage() {
           Calendar.createEventInCalendarAsync({
             startDate: new Date(event.start),
             endDate: new Date(event.end),
-            title: event.title,
-            location: event.location,
-            notes: event.description,
+            ...(event.title && { title: event.title }),
+            ...(event.location && { location: event.location }),
+            ...(event.description && { notes: event.description }),
           });
         } else {
           renderPermissionsBottomSheet();
@@ -187,14 +194,7 @@ export default function CalendarEventPage() {
           </Animated.View>
 
           {isFetchingCalendarEvents && (
-            <LoadingProgressBar
-              style={[
-                tw`absolute inset-x-0 z-10`,
-                {
-                  top: headerHeight,
-                },
-              ]}
-            />
+            <LoadingProgressBar style={[tw`absolute inset-x-0 z-10`, loadingProgressBarStyle]} />
           )}
         </View>
 
@@ -233,6 +233,7 @@ export default function CalendarEventPage() {
                 paddingRight: insets.right,
                 paddingBottom: actionHeight || paddingBottom,
               },
+              !!event?.pictures.length && tw`pt-6`,
             ]}>
             <View style={tw`mx-auto w-full max-w-xl grow`}>
               {event ? (
@@ -240,7 +241,7 @@ export default function CalendarEventPage() {
                   {event.title ? (
                     <Animated.View
                       entering={FadeInLeft.duration(500)}
-                      style={[tw`mx-6`, !!event?.pictures.length && tw`mb-4 mt-6`]}>
+                      style={[tw`mx-6`, !!event?.pictures.length && tw`mb-3`]}>
                       <ReadMore
                         numberOfLines={2}
                         renderRevealedFooter={(handlePress) => (

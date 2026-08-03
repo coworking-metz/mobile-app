@@ -1,24 +1,21 @@
+import AppText from './AppText';
 import { Link, LinkProps } from 'expo-router';
 import { forwardRef, ForwardRefRenderFunction } from 'react';
-import { StyleProp, TextProps, TextStyle } from 'react-native';
-import Animated, { AnimatedProps } from 'react-native-reanimated';
+import { TextProps } from 'react-native';
+import { AnimatedProps } from 'react-native-reanimated';
 import { AnimatedText } from 'react-native-reanimated/lib/typescript/component/Text';
 import AppIcon from '@/components/AppIcon';
-import { withAppFontFamily } from '@/helpers/text';
 
 export type AppTextProps = Omit<AnimatedProps<TextProps>, 'onPress'> &
   Pick<LinkProps, 'href' | 'target' | 'onPress'>;
 
 const AppTextLink: ForwardRefRenderFunction<AnimatedText, AppTextProps> = (
-  { children, style, href, target, onPress, ...otherProps },
+  { children, href, target, onPress, ...otherProps },
   ref,
 ) => {
   return (
     <Link href={href} target={target} onPress={onPress}>
-      <Animated.Text
-        ref={ref}
-        style={withAppFontFamily(style as StyleProp<TextStyle>)}
-        {...otherProps}>
+      <AppText ref={ref} {...otherProps}>
         {children}
         {!`${href}`.startsWith('/') && (
           <>
@@ -26,7 +23,7 @@ const AppTextLink: ForwardRefRenderFunction<AnimatedText, AppTextProps> = (
             <AppIcon icon="open-in-new" size={20} />
           </>
         )}
-      </Animated.Text>
+      </AppText>
     </Link>
   );
 };

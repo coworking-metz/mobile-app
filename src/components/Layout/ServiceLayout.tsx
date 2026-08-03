@@ -168,7 +168,7 @@ const ServiceLayout = ({
               },
               contentStyle,
             ]}>
-            {loading && <LoadingProgressBar style={tw`absolute inset-x-0 top-0`} />}
+            {loading && <LoadingProgressBar style={tw`absolute inset-x-0 top-0 z-10`} />}
             {renderContent ? renderContent({ verticalScrollProgress }) : children}
           </View>
         </AnimatedKeyboardAwareScrollView>
