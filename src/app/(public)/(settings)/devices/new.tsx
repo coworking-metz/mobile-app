@@ -4,8 +4,10 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
+import { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { TextFieldRef } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
+import AppAlert from '@/components/AppAlert';
 import AppIcon from '@/components/AppIcon';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppSegmentedControl from '@/components/AppSegmentedControl';
@@ -121,7 +123,7 @@ const NewDevice = () => {
 
   return (
     <ServiceLayout contentStyle={tw`pt-6`} title={t('devices.new.title')}>
-      <View style={tw`mx-auto flex w-full max-w-xl grow flex-col px-6`}>
+      <View style={tw`mx-auto flex w-full max-w-xl grow flex-col px-3`}>
         <AppTextField
           ref={nameField}
           enableErrors
@@ -148,15 +150,12 @@ const NewDevice = () => {
             setMacAddress(formatMacAddress(newMacAddress));
           }}
         />
-        {isLocallyAdministeredMacAddress(macAddress) && (
-          <View style={tw`mb-4 flex w-full flex-row items-start gap-3 overflow-hidden`}>
-            <AppIcon
-              color={tw.color('blue-600')}
-              icon="information"
-              size={24}
-              style={tw`shrink-0 grow-0`}
-            />
-
+        {isValidMacAddress(macAddress) && isLocallyAdministeredMacAddress(macAddress) && (
+          <AppAlert
+            entering={FadeInUp.duration(300)}
+            exiting={FadeOutDown.duration(300)}
+            style={tw`mb-4 px-3`}
+            type="info">
             <Trans
               components={[
                 <AppTextLink
@@ -170,11 +169,12 @@ const NewDevice = () => {
               parent={AppText}
               style={tw`shrink grow basis-0 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
             />
-          </View>
+          </AppAlert>
         )}
 
         <View style={tw`mb-6 flex flex-col items-start gap-1`}>
-          <AppText style={tw`text-base font-normal leading-5 text-gray-800 dark:text-neutral-500`}>
+          <AppText
+            style={tw`ml-3 text-base font-normal leading-5 text-slate-500 dark:text-neutral-500`}>
             {t('devices.detail.type.label')}
           </AppText>
           <AppSegmentedControl
@@ -190,7 +190,7 @@ const NewDevice = () => {
                 />
                 <AppText
                   numberOfLines={1}
-                  style={tw`grow text-base font-normal text-slate-600 dark:text-neutral-400`}>
+                  style={tw`grow text-base font-normal text-slate-500 dark:text-neutral-500`}>
                   {t(`devices.detail.type.value.${deviceType}`)}
                 </AppText>
               </View>
@@ -200,7 +200,7 @@ const NewDevice = () => {
           />
         </View>
 
-        <View style={tw`mt-auto`}>
+        <View style={tw`mx-3 mt-auto`}>
           <AppRoundedButton
             disabled={isSubmitting}
             label={t('actions.add')}

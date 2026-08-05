@@ -4,7 +4,7 @@ import { useColorScheme } from 'react-native';
 import tw from 'twrnc';
 import WifiScanning from '@/assets/animations/wifi-scanning.json';
 import AppLottieView from '@/components/AppLottieView';
-import { colouriseLottie, theme } from '@/helpers/colors';
+import { colouriseLottie } from '@/helpers/colors';
 
 type AnimationProps = Omit<LottieViewProps, 'source'>;
 
@@ -15,7 +15,7 @@ const WifiScanningAnimation: ForwardRefRenderFunction<LottieView, AnimationProps
   const colorScheme = useColorScheme();
   const colorizedSource = useMemo(() => {
     const isDark = colorScheme === 'dark';
-    const activeColor = theme.blueCrayola; // originally #00d9a7
+    const activeColor = (isDark ? tw.color('emerald-700') : tw.color('emerald-600')) as string; // originally #00d9a7
     const stalledColor = (isDark ? tw.color('zinc-700') : tw.color('gray-300')) as string; // originally #e3e3e3
 
     return colouriseLottie(WifiScanning, {

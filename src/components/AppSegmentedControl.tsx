@@ -139,7 +139,7 @@ const AppSegmentedControl = ({
   };
 
   return (
-    <View style={[tw`flex w-[90%] flex-row items-center rounded-xl`, style]}>
+    <View style={[tw`flex flex-row items-center rounded-xl`, style]}>
       {renderSelectedTab()}
       <View style={[tw`flex shrink grow basis-0 flex-row`, { marginHorizontal: gap }]}>
         {tabs.map((tab, index: number) => renderTab(tab, index))}

@@ -99,7 +99,7 @@ const IntroductionServicesStep = ({
                 />
                 <AppText
                   numberOfLines={1}
-                  style={tw`text-center text-base font-normal text-slate-600 dark:text-neutral-400`}>
+                  style={tw`text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
                   {t(`introduction.services.commute.byCommutingMode.${commutingMode}.label`)}
                 </AppText>
               </View>

@@ -45,8 +45,8 @@ const Advanced = () => {
     async (value: boolean) => {
       if (value) {
         Alert.alert(
-          t('advanced.actions.switchTokensStorage.onWarn.title'),
-          t('advanced.actions.switchTokensStorage.onWarn.description'),
+          t('advanced.support.switchTokensStorage.onWarn.title'),
+          t('advanced.support.switchTokensStorage.onWarn.description'),
           [
             {
               text: t('actions.cancel'),
@@ -89,14 +89,14 @@ const Advanced = () => {
     ])
       .then(() => {
         toastStore.add({
-          message: t('advanced.actions.clearCache.onCleared.success'),
+          message: t('advanced.support.clearCache.onCleared.success'),
           type: 'success',
           timeout: TOAST_SUCCESS_TIMEOUT,
         });
       })
       .catch((error) =>
         noticeStore.addError(error, {
-          message: t('advanced.actions.clearCache.onCleared.fail'),
+          message: t('advanced.support.clearCache.onCleared.fail'),
         }),
       )
       .finally(() => {
@@ -112,14 +112,14 @@ const Advanced = () => {
       )
       .then(() => {
         toastStore.add({
-          message: t('advanced.actions.reset.onReset.success'),
+          message: t('advanced.support.reset.onReset.success'),
           type: 'success',
           timeout: TOAST_SUCCESS_TIMEOUT,
         });
         router.dismissTo('/');
       })
       .catch((error) =>
-        noticeStore.addError(error, { message: t('advanced.actions.reset.onReset.fail') }),
+        noticeStore.addError(error, { message: t('advanced.support.reset.onReset.fail') }),
       )
       .finally(() => {
         setResetting(false);
@@ -128,8 +128,8 @@ const Advanced = () => {
 
   const confirmReset = useCallback(() => {
     Alert.alert(
-      t('advanced.actions.reset.confirm.title'),
-      t('advanced.actions.reset.confirm.message'),
+      t('advanced.support.reset.confirm.title'),
+      t('advanced.support.reset.confirm.message'),
       [
         {
           text: t('actions.cancel'),
@@ -170,12 +170,12 @@ const Advanced = () => {
       title={t('advanced.title')}
       withBackButton={!_root}>
       <View style={tw`mx-auto mb-6 w-full max-w-xl`}>
-        <SectionTitle style={tw`mx-6`} title={t('advanced.actions.title')} />
+        <SectionTitle style={tw`mx-6`} title={t('advanced.support.title')} />
 
         <ServiceRow
           withBottomDivider
-          description={t('advanced.actions.clearCache.description')}
-          label={t('advanced.actions.clearCache.label')}
+          description={t('advanced.support.clearCache.description')}
+          label={t('advanced.support.clearCache.label')}
           loading={isClearingCache}
           style={tw`mx-3 px-3`}
           suffixIcon="trash-can-outline"
@@ -183,8 +183,8 @@ const Advanced = () => {
         />
         <ServiceRow
           withBottomDivider
-          description={t('advanced.actions.crash.description')}
-          label={t('advanced.actions.crash.label')}
+          description={t('advanced.support.crash.description')}
+          label={t('advanced.support.crash.label')}
           style={tw`mx-3 px-3`}
           suffixIcon="bomb"
           onPress={() => {
@@ -192,7 +192,7 @@ const Advanced = () => {
           }}
         />
         <ServiceRow
-          label={t('advanced.actions.reset.label')}
+          label={t('advanced.support.reset.label')}
           loading={isResetting}
           style={tw`mx-3 px-3`}
           suffixIcon="nuke"
@@ -297,7 +297,7 @@ const Advanced = () => {
 
         <AppTextField
           autoCapitalize="none"
-          containerStyle={tw`mx-6 mt-3`}
+          containerStyle={tw`mx-3 mt-3`}
           keyboardType="url"
           label={t('advanced.settings.apiBaseUrl.label')}
           placeholder={HTTP.defaults.baseURL}
@@ -307,7 +307,7 @@ const Advanced = () => {
         <AppTextField
           readOnly
           autoCapitalize="none"
-          containerStyle={tw`mx-6`}
+          containerStyle={tw`mx-3`}
           keyboardType="default"
           label={t('advanced.settings.pushNotificationsToken.label')}
           value={notificationsStore.expoPushToken ?? ''}
@@ -325,7 +325,7 @@ const Advanced = () => {
         />
         <AppTextField
           autoCapitalize="none"
-          containerStyle={tw`mx-6`}
+          containerStyle={tw`mx-3`}
           keyboardType="default"
           label={t('advanced.settings.accessToken.label')}
           placeholder={authStore.accessToken ?? ''}
@@ -346,7 +346,7 @@ const Advanced = () => {
         />
         <AppTextField
           autoCapitalize="none"
-          containerStyle={tw`mx-6`}
+          containerStyle={tw`mx-3`}
           keyboardType="default"
           label={t('advanced.settings.refreshToken.label')}
           placeholder={authStore.refreshToken ?? ''}
@@ -367,8 +367,8 @@ const Advanced = () => {
         />
         <Divider style={tw`mx-6`} />
         <ServiceRow
-          description={t('advanced.actions.switchTokensStorage.description')}
-          label={t('advanced.actions.switchTokensStorage.label')}
+          description={t('advanced.support.switchTokensStorage.description')}
+          label={t('advanced.support.switchTokensStorage.label')}
           style={tw`mx-3 px-3`}>
           <Switch
             value={settingsStore.areTokensInAsyncStorage}
