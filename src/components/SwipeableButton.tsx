@@ -67,7 +67,10 @@ const SwipeableButton = ({
 
   useEffect(() => {
     setSwiped(swiped);
-  }, [swiped]);
+    if (swiped && swipingRange > 0) {
+      sliding.value = swipingRange - RIGHT_PADDING;
+    }
+  }, [swiped, swipingRange]);
 
   useEffect(() => {
     if (!hasSwiped) {

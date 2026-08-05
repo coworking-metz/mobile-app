@@ -113,6 +113,7 @@ const UnlockDeckDoorBottomSheet: ForwardRefRenderFunction<
         loading={isLoading}
         placeholder={t('onPremise.deckDoor.slideToUnlock')}
         style={tw`mt-3 w-full max-w-80 self-center`}
+        swiped={isUnlocked}
         onReset={onReset}
         onSwiped={onUnlock}>
         <>
@@ -123,7 +124,7 @@ const UnlockDeckDoorBottomSheet: ForwardRefRenderFunction<
               style={tw`absolute left-8 text-left text-base font-medium text-black`}>
               {t('onPremise.deckDoor.loading')}
             </AppText>
-          ) : hasSwiped && isUnlocked ? (
+          ) : isUnlocked ? (
             <AppText
               entering={FadeInLeft.duration(300)}
               exiting={FadeOutLeft.duration(300)}
