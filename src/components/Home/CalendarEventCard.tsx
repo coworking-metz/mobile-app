@@ -58,6 +58,7 @@ const CalendarEventCard = ({
       case 'AMOUR_FOOD':
         return <AmourFoodIcon />;
       case 'COWORKING':
+      case 'ONBOARDING':
         return <CoworkingIcon />;
       case 'BLIIIDA':
         return <BliiidaIcon />;

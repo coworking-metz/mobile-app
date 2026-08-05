@@ -1,5 +1,50 @@
 {
-  "actions": {
+  "description": "Pour ceux qui sachent",
+  "onCopyToClipboard": {
+    "fail": "Impossible de copier dans le presse-papiers",
+    "success": "Copié"
+  },
+  "settings": {
+    "accessToken": {
+      "label": "Jeton d'accès"
+    },
+    "apiBaseUrl": {
+      "description": "Les appels à l'API seront relatif à cette URL.",
+      "label": "URL de base pour l'API"
+    },
+    "hasBeenInvitedToReview": {
+      "label": "Cacher l'invitation à donner son\u00A0avis"
+    },
+    "hasLearnPullToRefresh": {
+      "label": "Cacher l'indice du glisser pour\u00A0rafraîchir"
+    },
+    "hasReadOnboardingInstructionsAt": {
+      "label": "Cacher la surbrillance des premiers\u00A0pas"
+    },
+    "hasSeenBirthdayPresentAt": {
+      "label": "Cacher l'effet de surprise d'anniversaire"
+    },
+    "hidePushNotificationsAlert": {
+      "label": "Cacher l'invitation à activer les notifications\u00A0push"
+    },
+    "introduction": {
+      "label": "Passer la présentation au\u00A0démarrage"
+    },
+    "pushNotificationsToken": {
+      "label": "Jeton de notifications push"
+    },
+    "refreshToken": {
+      "label": "Jeton de rafraîchissement"
+    },
+    "title": "Paramètres de l'application",
+    "withBottomSheetFullHeight": {
+      "label": "Afficher les volets inférieurs en plein\u00A0écran"
+    },
+    "withNativePullToRefresh": {
+      "label": "Désactiver les animations du glisser pour\u00A0rafraîchir"
+    }
+  },
+  "support": {
     "clearCache": {
       "description": "Pour libérer de l'espace de stockage",
       "label": "Vider le cache",
@@ -31,52 +76,7 @@
         "title": "Utiliser le stockage non sécurisé"
       }
     },
-    "title": "Actions"
-  },
-  "description": "Pour ceux qui sachent",
-  "onCopyToClipboard": {
-    "fail": "Impossible de copier dans le presse-papiers",
-    "success": "Copié"
-  },
-  "settings": {
-    "accessToken": {
-      "label": "Jeton d'accès"
-    },
-    "apiBaseUrl": {
-      "description": "Les appels à l'API seront relatif à cette URL.",
-      "label": "URL de base pour l'API"
-    },
-    "hasBeenInvitedToReview": {
-      "label": "Cacher l'invitation à donner son avis"
-    },
-    "hasLearnPullToRefresh": {
-      "label": "Cacher l'indice du glisser pour rafraîchir"
-    },
-    "hasReadOnboardingInstructionsAt": {
-      "label": "Cacher la surbrillance des premiers pas"
-    },
-    "hasSeenBirthdayPresentAt": {
-      "label": "Cacher l'effet de surprise d'anniversaire"
-    },
-    "hidePushNotificationsAlert": {
-      "label": "Cacher l'invitation à activer les notifications push"
-    },
-    "introduction": {
-      "label": "Passer la présentation au démarrage"
-    },
-    "pushNotificationsToken": {
-      "label": "Jeton de notifications push"
-    },
-    "refreshToken": {
-      "label": "Jeton de rafraîchissement"
-    },
-    "title": "Paramètres de l'application",
-    "withBottomSheetFullHeight": {
-      "label": "Afficher les volets inférieurs en plein écran"
-    },
-    "withNativePullToRefresh": {
-      "label": "Désactiver les animations du glisser pour rafraîchir"
-    }
+    "title": "Maintenance"
   },
   "title": "Réglages avancés"
 }

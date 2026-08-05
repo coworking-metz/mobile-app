@@ -17,7 +17,7 @@ const AppTextField: ForwardRefRenderFunction<TextFieldRef, AppTextFieldProps> = 
   return (
     <TextField
       ref={ref}
-      charCounterStyle={tw`text-xs text-neutral-500 dark:text-neutral-400`}
+      charCounterStyle={tw`mr-3 text-xs text-slate-500 dark:text-neutral-500`}
       color={{
         default: colorScheme === 'dark' ? tw.color('gray-100') : tw.color('gray-900'),
         error: tw.color('red-500'),
@@ -28,15 +28,17 @@ const AppTextField: ForwardRefRenderFunction<TextFieldRef, AppTextFieldProps> = 
         isFocused && tw`border-amber-500`,
         !isValid && tw`border-red-600 dark:border-red-700`,
       ]}
-      fieldStyle={tw`rounded-lg`}
+      fieldStyle={tw`rounded-xl`}
       labelColor={{
-        default: colorScheme === 'dark' ? tw.color('neutral-500') : tw.color('gray-800'),
+        default: colorScheme === 'dark' ? tw.color('neutral-500') : tw.color('slate-500'),
         focus: tw.color('amber-500'),
         error: colorScheme === 'dark' ? tw.color('red-700') : tw.color('red-600'),
         disabled: tw.color('gray-400'),
       }}
       labelStyle={tw`ml-3 text-base`}
-      placeholderTextColor={colorScheme === 'dark' ? tw.color('neutral-500') : tw.color('gray-400')}
+      placeholderTextColor={
+        colorScheme === 'dark' ? tw.color('neutral-500/60') : tw.color('gray-500/60')
+      }
       preset="outline"
       validationMessageStyle={tw`ml-3 text-xs`}
       {...(loading && {

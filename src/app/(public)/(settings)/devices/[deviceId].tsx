@@ -4,18 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Alert, View } from 'react-native';
-import Animated, {
-  BounceIn,
-  BounceOut,
-  FadeIn,
-  FadeInDown,
-  FadeInUp,
-  FadeOut,
-  FadeOutDown,
-  FadeOutUp,
-  SlideInDown,
-  SlideInUp,
-} from 'react-native-reanimated';
+import Animated, { BounceIn, BounceOut, FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import { TextFieldRef } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppAlert from '@/components/AppAlert';
@@ -232,12 +221,12 @@ const DeviceDetail = () => {
       loading={isFetchingDevices || isDeleting}
       title={device?.name ?? device?.macAddress ?? ''}
       onRefresh={refetchDevices}>
-      <View style={tw`mx-auto flex w-full max-w-xl grow flex-col px-3`}>
+      <View style={tw`mx-auto flex w-full max-w-xl grow flex-col`}>
         {devicesError ? (
           <ErrorChip
             error={devicesError}
             label={t('devices.onFetch.fail')}
-            style={tw`mx-3 mb-4 self-start`}
+            style={tw`mx-6 mb-4 self-start`}
             onRetry={refetchDevices}
           />
         ) : null}
@@ -295,7 +284,7 @@ const DeviceDetail = () => {
 
         <View style={tw`mx-3 flex flex-col items-start gap-1`}>
           <AppText
-            style={tw`ml-3 text-base font-normal leading-5 text-gray-800 dark:text-neutral-500`}>
+            style={tw`ml-3 text-base font-normal leading-5 text-slate-500 dark:text-neutral-500`}>
             {t('devices.detail.type.label')}
           </AppText>
           <AppSegmentedControl
@@ -310,9 +299,8 @@ const DeviceDetail = () => {
                   style={tw``}
                 />
                 <AppText
-                  ellipsizeMode="clip"
                   numberOfLines={1}
-                  style={tw`grow text-base font-normal text-slate-600 dark:text-neutral-400`}>
+                  style={tw`grow text-base font-normal text-slate-500 dark:text-neutral-500`}>
                   {t(`devices.detail.type.value.${deviceType}`)}
                 </AppText>
               </View>
@@ -322,7 +310,7 @@ const DeviceDetail = () => {
           />
         </View>
 
-        <Divider style={tw`mx-3 mt-6`} />
+        <Divider style={tw`mx-6 mt-6`} />
 
         <ServiceRow
           description={
@@ -351,7 +339,7 @@ const DeviceDetail = () => {
               )}
             </View>
           }
-          style={tw`mb-3 px-3`}
+          style={tw`mx-3 mb-3 px-3`}
           onPress={() =>
             device?.location
               ? router.push({ pathname: '/on-premise', params: { location: device.location } })
@@ -369,7 +357,7 @@ const DeviceDetail = () => {
           )}
         </ServiceRow>
 
-        <View style={tw`mx-3 mt-auto`}>
+        <View style={tw`mx-6 mt-auto`}>
           <AppRoundedButton
             disabled={!device || isSubmitting || isDeleting}
             label={t('actions.apply')}
