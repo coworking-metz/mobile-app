@@ -4,7 +4,18 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Alert, View } from 'react-native';
-import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
+import Animated, {
+  BounceIn,
+  BounceOut,
+  FadeIn,
+  FadeInDown,
+  FadeInUp,
+  FadeOut,
+  FadeOutDown,
+  FadeOutUp,
+  SlideInDown,
+  SlideInUp,
+} from 'react-native-reanimated';
 import { TextFieldRef } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppAlert from '@/components/AppAlert';
@@ -260,8 +271,12 @@ const DeviceDetail = () => {
             setMacAddress(formatMacAddress(newMacAddress));
           }}
         />
-        {isLocallyAdministeredMacAddress(macAddress) && (
-          <AppAlert style={tw`mb-4 px-3`} type="info">
+        {isValidMacAddress(macAddress) && isLocallyAdministeredMacAddress(macAddress) && (
+          <AppAlert
+            entering={FadeInUp.duration(300)}
+            exiting={FadeOutDown.duration(300)}
+            style={tw`mb-4 px-3`}
+            type="info">
             <Trans
               components={[
                 <AppTextLink
@@ -279,7 +294,8 @@ const DeviceDetail = () => {
         )}
 
         <View style={tw`mx-3 flex flex-col items-start gap-1`}>
-          <AppText style={tw`text-base font-normal leading-5 text-gray-800 dark:text-neutral-500`}>
+          <AppText
+            style={tw`ml-3 text-base font-normal leading-5 text-gray-800 dark:text-neutral-500`}>
             {t('devices.detail.type.label')}
           </AppText>
           <AppSegmentedControl
@@ -294,6 +310,7 @@ const DeviceDetail = () => {
                   style={tw``}
                 />
                 <AppText
+                  ellipsizeMode="clip"
                   numberOfLines={1}
                   style={tw`grow text-base font-normal text-slate-600 dark:text-neutral-400`}>
                   {t(`devices.detail.type.value.${deviceType}`)}
