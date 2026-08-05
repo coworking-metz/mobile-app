@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { useColorScheme, ViewProps } from 'react-native';
+import Animated, { AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppIcon, { MaterialCommunityIconsName } from '@/components/AppIcon';
 import AppText from '@/components/AppText';
@@ -11,14 +12,15 @@ const AppAlert = ({
   icon,
   iconColor,
   style,
-}: {
+  ...otherProps
+}: AnimatedProps<ViewProps> & {
   children?: React.ReactNode;
   description?: string;
   type?: 'success' | 'info' | 'warning' | 'critical';
   icon?: MaterialCommunityIconsName;
   iconColor?: string;
-  style?: StyleProp<ViewStyle>;
 }) => {
+  const colorScheme = useColorScheme();
   const iconApplied = useMemo(() => {
     if (icon) return icon;
     switch (type) {
@@ -45,14 +47,16 @@ const AppAlert = ({
       case 'warning':
         return tw.color('yellow-500');
       case 'critical':
-        return tw.color('red-500');
+        return colorScheme === 'dark' ? tw.color('red-700') : tw.color('red-600');
       default:
         return tw.color('gray-500');
     }
-  }, [type, iconColor]);
+  }, [type, iconColor, colorScheme]);
 
   return (
-    <View style={[tw`flex flex-row items-start gap-3 overflow-hidden`, style]}>
+    <Animated.View
+      style={[tw`flex flex-row items-start gap-3 overflow-hidden`, style]}
+      {...otherProps}>
       <AppIcon color={iconColorApplied} icon={iconApplied} size={24} style={tw`shrink-0 grow-0`} />
       {children ?? (
         <AppText
@@ -60,7 +64,7 @@ const AppAlert = ({
           {description}
         </AppText>
       )}
-    </View>
+    </Animated.View>
   );
 };
 
