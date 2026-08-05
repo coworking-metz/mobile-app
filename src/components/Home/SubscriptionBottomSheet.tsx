@@ -308,10 +308,10 @@ const SubscriptionItem = ({
         {pending ? (
           <LoadingSkeleton height={24} width={80} />
         ) : subscription.savingsOverTickets > 0 ? (
-          <View style={tw`rounded-full bg-green-100 px-2.5 py-0.5 dark:bg-green-900`}>
+          <View style={tw`rounded-full bg-green-100 px-2.5 py-0.5 dark:bg-green-900/80`}>
             <AppText
               numberOfLines={1}
-              style={[tw`text-base font-semibold leading-5 text-green-800 dark:text-green-300`]}>
+              style={[tw`text-base font-semibold leading-5 text-green-800 dark:text-green-200`]}>
               +{formatAmount(subscription.savingsOverTickets, {}, i18n.language)}
             </AppText>
           </View>
