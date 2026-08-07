@@ -78,12 +78,6 @@ export default function CalendarEventPage() {
     },
   });
 
-  const loadingProgressBarStyle = useAnimatedStyle(() => {
-    return {
-      top: Math.min(Math.max(headerHeight - verticalScrollProgress.value, 0), headerHeight),
-    };
-  }, [headerHeight, verticalScrollProgress]);
-
   const {
     isPending: isPendingCalendarEvents,
     isFetching: isFetchingCalendarEvents,
@@ -106,6 +100,13 @@ export default function CalendarEventPage() {
   const event = useMemo<CalendarEvent | null>(() => {
     return (!isNil(eventId) && (calendarEvents || [])?.find((e) => `${e.id}` === eventId)) || null;
   }, [calendarEvents, eventId]);
+
+  const loadingProgressBarStyle = useAnimatedStyle(() => {
+    const maxTopPosition = event?.pictures.length ? headerHeight : 0;
+    return {
+      top: Math.min(Math.max(headerHeight - verticalScrollProgress.value, 0), maxTopPosition),
+    };
+  }, [headerHeight, verticalScrollProgress, event]);
 
   const eventIcon = useMemo(() => {
     switch (event?.calendar) {
@@ -192,11 +193,11 @@ export default function CalendarEventPage() {
               </View>
             ) : null}
           </Animated.View>
-
-          {isFetchingCalendarEvents && (
-            <LoadingProgressBar style={[tw`absolute inset-x-0 z-10`, loadingProgressBarStyle]} />
-          )}
         </View>
+
+        {isFetchingCalendarEvents && (
+          <LoadingProgressBar style={[tw`absolute inset-x-0 z-10`, loadingProgressBarStyle]} />
+        )}
 
         {/* body */}
         <AnimatedKeyboardAwareScrollView

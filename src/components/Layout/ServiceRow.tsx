@@ -70,8 +70,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
               style={[
                 tw`text-base font-normal leading-5 dark:text-gray-200`,
                 disabled && tw`opacity-40`,
-              ]}
-              {...(Boolean(description || renderDescription) && { numberOfLines: 1 })}>
+              ]}>
               {label}
             </AppText>
             {renderDescription ? (

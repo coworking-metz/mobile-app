@@ -8,15 +8,14 @@ import { isNil } from 'lodash';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, View } from 'react-native';
-import { Switch } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppIconButton from '@/components/AppIconButton';
+import AppSwitch from '@/components/AppSwitch';
 import AppTextField from '@/components/AppTextField';
 import Divider from '@/components/Divider';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
-import { theme } from '@/helpers/colors';
 import { log } from '@/helpers/logger';
 import { HTTP } from '@/services/http';
 import useAuthStore from '@/stores/auth';
@@ -205,9 +204,8 @@ const Advanced = () => {
           withBottomDivider
           label={t('advanced.settings.introduction.label')}
           style={tw`mx-3 px-3`}>
-          <Switch
+          <AppSwitch
             value={settingsStore.hasSeenIntroduction}
-            onColor={theme.meatBrown}
             onValueChange={(value) => useSettingsStore.setState({ hasSeenIntroduction: value })}
           />
         </ServiceRow>
@@ -215,9 +213,8 @@ const Advanced = () => {
           withBottomDivider
           label={t('advanced.settings.hasLearnPullToRefresh.label')}
           style={tw`mx-3 px-3`}>
-          <Switch
+          <AppSwitch
             value={settingsStore.hasLearnPullToRefresh}
-            onColor={theme.meatBrown}
             onValueChange={(value) => useSettingsStore.setState({ hasLearnPullToRefresh: value })}
           />
         </ServiceRow>
@@ -225,9 +222,8 @@ const Advanced = () => {
           withBottomDivider
           label={t('advanced.settings.withNativePullToRefresh.label')}
           style={tw`mx-3 px-3`}>
-          <Switch
+          <AppSwitch
             value={settingsStore.withNativePullToRefresh}
-            onColor={theme.meatBrown}
             onValueChange={(value) => useSettingsStore.setState({ withNativePullToRefresh: value })}
           />
         </ServiceRow>
@@ -235,9 +231,8 @@ const Advanced = () => {
           withBottomDivider
           label={t('advanced.settings.withBottomSheetFullHeight.label')}
           style={tw`mx-3 px-3`}>
-          <Switch
+          <AppSwitch
             value={settingsStore.withBottomSheetFullHeight}
-            onColor={theme.meatBrown}
             onValueChange={(value) =>
               useSettingsStore.setState({ withBottomSheetFullHeight: value })
             }
@@ -247,9 +242,8 @@ const Advanced = () => {
           withBottomDivider
           label={t('advanced.settings.hasSeenBirthdayPresentAt.label')}
           style={tw`mx-3 px-3`}>
-          <Switch
+          <AppSwitch
             value={!isNil(settingsStore.hasSeenBirthdayPresentAt)}
-            onColor={theme.meatBrown}
             onValueChange={(value) =>
               useSettingsStore.setState({
                 hasSeenBirthdayPresentAt: value ? dayjs().toISOString() : null,
@@ -262,9 +256,8 @@ const Advanced = () => {
           withBottomDivider
           label={t('advanced.settings.hasReadOnboardingInstructionsAt.label')}
           style={tw`mx-3 px-3`}>
-          <Switch
+          <AppSwitch
             value={!isNil(settingsStore.hasReadOnboardingInstructionsAt)}
-            onColor={theme.meatBrown}
             onValueChange={(value) =>
               useSettingsStore.setState({
                 hasReadOnboardingInstructionsAt: value ? dayjs().toISOString() : null,
@@ -276,9 +269,8 @@ const Advanced = () => {
           withBottomDivider
           label={t('advanced.settings.hidePushNotificationsAlert.label')}
           style={tw`mx-3 px-3`}>
-          <Switch
+          <AppSwitch
             value={settingsStore.hidePushNotificationsAlert}
-            onColor={theme.meatBrown}
             onValueChange={(value) =>
               useSettingsStore.setState({ hidePushNotificationsAlert: value })
             }
@@ -288,16 +280,15 @@ const Advanced = () => {
           withBottomDivider
           label={t('advanced.settings.hasBeenInvitedToReview.label')}
           style={tw`mx-3 px-3`}>
-          <Switch
+          <AppSwitch
             value={settingsStore.hasBeenInvitedToReview}
-            onColor={theme.meatBrown}
             onValueChange={(value) => useSettingsStore.setState({ hasBeenInvitedToReview: value })}
           />
         </ServiceRow>
 
         <AppTextField
           autoCapitalize="none"
-          containerStyle={tw`mx-3 mt-3`}
+          containerStyle={tw`mx-6 mt-3`}
           keyboardType="url"
           label={t('advanced.settings.apiBaseUrl.label')}
           placeholder={HTTP.defaults.baseURL}
@@ -307,7 +298,7 @@ const Advanced = () => {
         <AppTextField
           readOnly
           autoCapitalize="none"
-          containerStyle={tw`mx-3`}
+          containerStyle={tw`mx-6`}
           keyboardType="default"
           label={t('advanced.settings.pushNotificationsToken.label')}
           value={notificationsStore.expoPushToken ?? ''}
@@ -325,7 +316,7 @@ const Advanced = () => {
         />
         <AppTextField
           autoCapitalize="none"
-          containerStyle={tw`mx-3`}
+          containerStyle={tw`mx-6`}
           keyboardType="default"
           label={t('advanced.settings.accessToken.label')}
           placeholder={authStore.accessToken ?? ''}
@@ -346,7 +337,7 @@ const Advanced = () => {
         />
         <AppTextField
           autoCapitalize="none"
-          containerStyle={tw`mx-3`}
+          containerStyle={tw`mx-6`}
           keyboardType="default"
           label={t('advanced.settings.refreshToken.label')}
           placeholder={authStore.refreshToken ?? ''}
@@ -370,9 +361,9 @@ const Advanced = () => {
           description={t('advanced.support.switchTokensStorage.description')}
           label={t('advanced.support.switchTokensStorage.label')}
           style={tw`mx-3 px-3`}>
-          <Switch
+          <AppSwitch
             value={settingsStore.areTokensInAsyncStorage}
-            onColor={theme.meatBrown}
+
             onValueChange={onSwitchAuthStorage}
           />
         </ServiceRow>

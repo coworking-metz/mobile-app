@@ -9,7 +9,7 @@
       "title": "Aucun message"
     },
     "onFetch": {
-      "fail": "Impossible de récupérer les messages"
+      "fail": "Impossible de récupérer les\u00A0messages"
     },
     "search": {
       "placeholder": "Rechercher"
@@ -17,11 +17,11 @@
     "title": "Messages"
   },
   "onArchive": {
-    "fail": "Impossible d'archiver le message",
+    "fail": "Impossible d'archiver le\u00A0message",
     "success": "{{title}} archivé"
   },
   "onRestore": {
-    "fail": "Impossible de restaurer le message",
+    "fail": "Impossible de restaurer le\u00A0message",
     "success": "{{title}} restauré"
   },
   "root": {
