@@ -4,15 +4,14 @@ import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
 import { Fader } from 'react-native-ui-lib';
-import { Switch } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import PeopleGatheringAnimation from '@/components/Animations/PeopleGatheringAnimation';
 import AppFader from '@/components/AppFader';
+import AppSwitch from '@/components/AppSwitch';
 import AppText from '@/components/AppText';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { useAppPushNotifications } from '@/context/push-notifications';
-import { theme } from '@/helpers/colors';
 
 const IntroductionEventsStep = ({
   active,
@@ -113,9 +112,8 @@ const IntroductionEventsStep = ({
         label={t('introduction.events.enableNotifications')}
         prefixIcon="bell-outline"
         style={tw`mx-3 px-3`}>
-        <Switch
+        <AppSwitch
           value={pushNotificationsEnabled}
-          onColor={theme.meatBrown}
           onValueChange={(willEnablePushNotifications) => {
             setPushNotificationsEnabled(willEnablePushNotifications);
             togglePushNotifications(willEnablePushNotifications);

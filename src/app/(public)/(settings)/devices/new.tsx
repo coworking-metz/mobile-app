@@ -123,7 +123,7 @@ const NewDevice = () => {
 
   return (
     <ServiceLayout contentStyle={tw`pt-6`} title={t('devices.new.title')}>
-      <View style={tw`mx-auto flex w-full max-w-xl grow flex-col px-3`}>
+      <View style={tw`mx-auto flex w-full max-w-xl grow flex-col px-6`}>
         <AppTextField
           ref={nameField}
           enableErrors
@@ -154,7 +154,7 @@ const NewDevice = () => {
           <AppAlert
             entering={FadeInUp.duration(300)}
             exiting={FadeOutDown.duration(300)}
-            style={tw`mb-4 px-3`}
+            style={tw`mb-4`}
             type="info">
             <Trans
               components={[
@@ -173,8 +173,7 @@ const NewDevice = () => {
         )}
 
         <View style={tw`mb-6 flex flex-col items-start gap-1`}>
-          <AppText
-            style={tw`ml-3 text-base font-normal leading-5 text-slate-500 dark:text-neutral-500`}>
+          <AppText style={tw`text-base font-normal leading-5 text-slate-500 dark:text-neutral-500`}>
             {t('devices.detail.type.label')}
           </AppText>
           <AppSegmentedControl
@@ -190,7 +189,7 @@ const NewDevice = () => {
                 />
                 <AppText
                   numberOfLines={1}
-                  style={tw`grow text-base font-normal text-slate-500 dark:text-neutral-500`}>
+                  style={tw`grow px-1 text-base font-normal text-slate-500 dark:text-neutral-500`}>
                   {t(`devices.detail.type.value.${deviceType}`)}
                 </AppText>
               </View>
@@ -200,7 +199,7 @@ const NewDevice = () => {
           />
         </View>
 
-        <View style={tw`mx-3 mt-auto`}>
+        <View style={tw`mt-auto`}>
           <AppRoundedButton
             disabled={isSubmitting}
             label={t('actions.add')}

@@ -2,18 +2,17 @@ import { useTrueSheet } from '@lodev09/react-native-true-sheet';
 import React, { forwardRef, ForwardRefRenderFunction, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { Switch } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import MobileNotificationsAnimation from '@/components/Animations/MobileNotificationsAnimation';
 import AppBottomSheet, {
   AppBottomSheetProps,
   AppBottomSheetRef,
 } from '@/components/AppBottomSheet';
+import AppSwitch from '@/components/AppSwitch';
 import AppText from '@/components/AppText';
 import AppTextLink from '@/components/AppTextLink';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { useAppPushNotifications } from '@/context/push-notifications';
-import { theme } from '@/helpers/colors';
 
 const PushNotificationsBottomSheet: ForwardRefRenderFunction<
   AppBottomSheetRef,
@@ -60,9 +59,8 @@ const PushNotificationsBottomSheet: ForwardRefRenderFunction<
         label={t('privacy.permissions.notifications.label')}
         prefixIcon="bell-outline"
         style={tw`mt-6`}>
-        <Switch
+        <AppSwitch
           value={pushNotificationsEnabled}
-          onColor={theme.meatBrown}
           onValueChange={(willEnablePushNotifications) => {
             togglePushNotifications(willEnablePushNotifications).then(
               (hasEnabledPushNotifications) => {

@@ -35,7 +35,7 @@ const AppTextField: ForwardRefRenderFunction<TextFieldRef, AppTextFieldProps> = 
         error: colorScheme === 'dark' ? tw.color('red-700') : tw.color('red-600'),
         disabled: tw.color('gray-400'),
       }}
-      labelStyle={tw`ml-3 text-base`}
+      labelStyle={tw`text-base`}
       placeholderTextColor={
         colorScheme === 'dark' ? tw.color('neutral-500/60') : tw.color('gray-500/60')
       }

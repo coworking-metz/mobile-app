@@ -3,14 +3,13 @@ import { useLocalSearchParams } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { Switch } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
+import AppSwitch from '@/components/AppSwitch';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { useAppPermissions } from '@/context/permissions';
 import { useAppPushNotifications } from '@/context/push-notifications';
-import { theme } from '@/helpers/colors';
 
 const Privacy = () => {
   useDeviceContext(tw);
@@ -55,20 +54,15 @@ const Privacy = () => {
           label={t('privacy.permissions.calendar.label')}
           prefixIcon="calendar-outline"
           style={tw`mx-3 px-3`}>
-          <Switch
-            value={calendarState?.granted}
-            onColor={theme.meatBrown}
-            onValueChange={onCalendarPermissionsPress}
-          />
+          <AppSwitch value={calendarState?.granted} onValueChange={onCalendarPermissionsPress} />
         </ServiceRow>
         <ServiceRow
           description={t('privacy.permissions.notifications.description')}
           label={t('privacy.permissions.notifications.label')}
           prefixIcon="bell-outline"
           style={tw`mx-3 px-3`}>
-          <Switch
+          <AppSwitch
             value={pushNotificationsEnabled}
-            onColor={theme.meatBrown}
             onValueChange={(willEnablePushNotifications) => {
               setPushNotificationsEnabled(willEnablePushNotifications);
               togglePushNotifications(willEnablePushNotifications);
