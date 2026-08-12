@@ -26,14 +26,13 @@ const AppAlert = ({
     switch (type) {
       case 'success':
         return 'check-circle';
-      case 'info':
-        return 'information';
       case 'warning':
         return 'alert-octagon';
       case 'critical':
         return 'alert-circle';
+      case 'info':
       default:
-        return 'information';
+        return 'information-slab-circle';
     }
   }, [type]);
 

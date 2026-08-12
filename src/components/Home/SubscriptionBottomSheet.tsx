@@ -51,6 +51,7 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
   const hasNavigatedToShop = useRef(false);
   const activeSince = useAppState();
   const [carouselWidth, setCarouselWidth] = useState<number>(0);
+  const [hasMounted, setMounted] = useState(false); // to let the carousel properly render
   const offset = useSharedValue(0);
 
   const {
@@ -105,7 +106,11 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
   }, [subscriptions, currentSubscription]);
 
   return (
-    <AppBottomSheet ref={forwardedRef} style={[tw`py-6`, style]} onClose={onClose}>
+    <AppBottomSheet
+      ref={forwardedRef}
+      style={[tw`py-6`, style]}
+      onClose={onClose}
+      onMount={() => setMounted(true)}>
       <View style={tw`mx-6`}>
         <CalendarAnimation style={tw`mx-auto h-40 w-full`} />
         <AppText
@@ -124,7 +129,7 @@ const SubscriptionBottomSheet: ForwardRefRenderFunction<
         onLayout={({ nativeEvent }: LayoutChangeEvent) =>
           setCarouselWidth(nativeEvent.layout.width)
         }>
-        {subscriptions?.length ? (
+        {hasMounted && subscriptions?.length ? (
           <AnimatedFlashList
             horizontal
             data={subscriptions}

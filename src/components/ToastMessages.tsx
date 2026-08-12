@@ -9,14 +9,14 @@ import useToastStore, { type ToastType } from '@/stores/toast';
 const getToastIcon = (type?: ToastType): MaterialCommunityIconsName => {
   switch (type) {
     case 'success':
-      return 'check-circle-outline';
+      return 'check-circle';
     case 'warning':
-      return 'alert-octagon-outline';
+      return 'alert-octagon';
     case 'error':
-      return 'alert-outline';
+      return 'alert-circle';
     case 'info':
     default:
-      return 'information-outline';
+      return 'information-slab-circle';
   }
 };
 
@@ -53,8 +53,7 @@ const ToastBackgroundWithProgress = ({ duration, color }: ToastProgressBarProps)
   }, [duration, progress]);
 
   return (
-    <View
-      style={tw`absolute inset-0 rounded-2xl bg-neutral-900 dark:border dark:border-zinc-700 dark:bg-neutral-950`}>
+    <View style={tw`absolute inset-0 bg-neutral-900 dark:bg-neutral-950`}>
       <View pointerEvents="none" style={tw`absolute inset-x-0 top-0 h-1`}>
         <Animated.View
           style={[
@@ -98,7 +97,7 @@ const ToastMessages = () => {
             size={20}
           />
         ),
-        style: tw`sm:mx-auto sm:w-full sm:max-w-sm`,
+        style: tw`rounded-full sm:w-full sm:max-w-sm dark:border dark:border-zinc-700`,
         closeButton: true,
         duration: notification.timeout ?? Infinity,
         ...(isTemporary && {
@@ -122,7 +121,12 @@ const ToastMessages = () => {
   }, [notificationsCount]);
 
   return (
-    <Toaster enableStacking offset={(insets.top || 0) + 8} position="top-center" theme="dark" />
+    <Toaster
+      enableStacking
+      offset={(insets.bottom || 0) + 8}
+      position="bottom-center"
+      theme="dark"
+    />
   );
 };
 

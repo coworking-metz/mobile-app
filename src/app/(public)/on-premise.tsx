@@ -28,6 +28,9 @@ const OnPremise = () => {
   const { refetch: refetchOnPremiseState } = useQuery({
     queryKey: onPremiseQueryKeys.state(),
     queryFn: getOnPremiseState,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: 'always',
+    refetchOnReconnect: 'always',
   });
 
   const [isRefreshingPoulaillerPlan, setRefreshingPoulaillerPlan] = useState(false);
