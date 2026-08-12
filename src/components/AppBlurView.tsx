@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/react-native';
 import { BlurView, type BlurViewProps, type BlurTint } from 'expo-blur';
-import React from 'react';
-import { Platform, View, ViewProps } from 'react-native';
+import React, { useMemo } from 'react';
+import { Platform, useColorScheme, View, ViewProps } from 'react-native';
 import ErrorBoundary from 'react-native-error-boundary';
 import Animated, { AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
@@ -24,7 +24,11 @@ const AppBlurView = ({
   blurTarget,
   ...props
 }: AppBlurViewProps) => {
-  const resolvedTint = (type ?? tint ?? (tw.prefixMatch('dark') ? 'dark' : 'light')) as BlurTint;
+  const colorScheme = useColorScheme();
+  const resolvedTint = useMemo(
+    () => (type ?? tint ?? (colorScheme === 'dark' ? 'dark' : 'light')) as BlurTint,
+    [type, tint, colorScheme],
+  );
   const hasAndroidTarget = Platform.OS !== 'android' || !!blurTarget;
 
   return (
