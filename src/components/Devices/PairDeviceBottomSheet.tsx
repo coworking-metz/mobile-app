@@ -1,3 +1,4 @@
+import AppAlert from '../AppAlert';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Device from 'expo-device';
 import * as Linking from 'expo-linking';
@@ -20,7 +21,6 @@ import AppBottomSheet, {
   AppBottomSheetProps,
   AppBottomSheetRef,
 } from '@/components/AppBottomSheet';
-import AppIcon from '@/components/AppIcon';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
@@ -386,13 +386,8 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
         style={tw`w-full text-left text-base font-normal text-slate-500 dark:text-neutral-500`}>
         {t('devices.add.pair.description')}
       </AppText>
-      <View style={tw`flex w-full flex-row items-start gap-2 overflow-hidden`}>
-        <AppIcon
-          color={tw.color('blue-600')}
-          icon="information"
-          size={24}
-          style={tw`shrink-0 grow-0`}
-        />
+
+      <AppAlert style={tw`w-full`} type="info">
         <Trans
           components={[
             <AppText key="wifi-network" style={tw`text-amber-500`} onPress={selectWifi} />,
@@ -406,7 +401,7 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
           parent={AppText}
           style={tw`shrink grow basis-0 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
         />
-      </View>
+      </AppAlert>
 
       <AppRoundedButton
         disabled={isAnimating}

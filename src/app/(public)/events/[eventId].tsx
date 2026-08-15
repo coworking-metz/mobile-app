@@ -176,12 +176,12 @@ export default function CalendarEventPage() {
                     <>
                       <View
                         style={[
-                          tw`absolute bottom-4 right-3 size-6 rounded-md border border-transparent bg-black`,
+                          tw`absolute bottom-4 right-3 size-6 rounded border border-neutral-800 bg-black`,
                         ]}
                       />
                       <View
                         style={[
-                          tw`absolute bottom-3.5 right-3.5 flex size-6 items-center justify-center rounded-md border border-gray-600 bg-black`,
+                          tw`absolute bottom-3.5 right-3.5 flex size-6 items-center justify-center rounded border border-neutral-700 bg-black`,
                         ]}>
                         <AppText style={tw`text-xs font-medium text-gray-200`}>
                           {event.pictures.length}

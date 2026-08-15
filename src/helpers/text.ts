@@ -1,3 +1,4 @@
+import { compact } from 'lodash';
 import { Platform, StyleProp, TextStyle, StyleSheet } from 'react-native';
 
 // as font-weight isn't supported with custom font
@@ -40,13 +41,17 @@ export const getFamilyForWeight = (fontWeight: TextStyle['fontWeight']) =>
 
 export const withAppFontFamily = (style: StyleProp<TextStyle>): StyleProp<TextStyle> => {
   const flattenedStyle = StyleSheet.flatten<TextStyle>(style);
-  return [
+  return compact([
     style,
-    {
-      fontFamily: getFamilyForWeight(flattenedStyle?.fontWeight),
-      fontWeight: undefined,
-    },
-  ];
+    flattenedStyle?.fontStyle === 'italic'
+      ? {
+          fontFamily: undefined,
+        }
+      : {
+          fontFamily: getFamilyForWeight(flattenedStyle?.fontWeight),
+          fontWeight: undefined,
+        },
+  ]);
 };
 
 export const getInitials = (name?: string, email?: string): string => {
