@@ -97,6 +97,7 @@
     "plugins": [
       "@react-native-async-storage/expo-with-async-storage",
       "@vonovak/react-native-theme-control",
+      "expo-asset",
       "expo-image",
       "expo-localization",
       "expo-notifications",

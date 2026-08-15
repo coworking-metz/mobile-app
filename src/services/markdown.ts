@@ -63,4 +63,5 @@ export const getMarkdownStyles = (tw: TailwindFn) =>
     ),
     link: withAppFontFamily(tw`text-amber-500 no-underline`),
     hr: tw`border-b border-b-gray-300 dark:border-b-neutral-600`,
+    em: withAppFontFamily(tw`italic`),
   }) as MarkdownStyles;
