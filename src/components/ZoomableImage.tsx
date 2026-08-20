@@ -1,5 +1,3 @@
-import { AppTopFader } from './AppFader';
-import AppIconButton from './AppIconButton';
 import CarouselPaginationDots from './CarouselPaginationDots';
 import { isLiquidGlassSupported } from '@callstack/liquid-glass';
 import dayjs from 'dayjs';
@@ -13,6 +11,8 @@ import Gallery from 'react-native-awesome-gallery';
 import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw from 'twrnc';
+import { AppTopFader } from '@/components/AppFader';
+import AppIconButton from '@/components/AppIconButton';
 
 // in case we need to migrate off 'react-native-awesome-gallery'
 // https://github.com/saseungmin/react-native-gesture-image-viewer

@@ -1,8 +1,8 @@
-import ErrorAnimation from './Animations/ErrorAnimation';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, type StyleProp, type ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import ErrorAnimation from '@/components/Animations/ErrorAnimation';
 import { AnyError, parseErrorText } from '@/helpers/error';
 import useNoticeStore from '@/stores/notice';
 

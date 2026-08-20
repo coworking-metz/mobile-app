@@ -1,5 +1,3 @@
-import AppText from './AppText';
-import ReanimatedText from './ReanimatedText';
 import { Canvas, Circle, Path, Skia, SweepGradient, vec } from '@shopify/react-native-skia';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { StyleProp, View, ViewStyle, type LayoutChangeEvent, type TextStyle } from 'react-native';
@@ -21,6 +19,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 import tw from 'twrnc';
+import AppText from '@/components/AppText';
+import ReanimatedText from '@/components/ReanimatedText';
 import { theme } from '@/helpers/colors';
 import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 

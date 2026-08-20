@@ -1,10 +1,10 @@
 import GiftCard from './GiftCard';
-import AppIcon from '../AppIcon';
 import { isNil } from 'lodash';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import AppIcon from '@/components/AppIcon';
 import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
 import useSettingsStore from '@/stores/settings';

@@ -1,8 +1,8 @@
-import AppBlurView from './AppBlurView';
 import { isLiquidGlassSupported, LiquidGlassView } from '@callstack/liquid-glass';
 import React from 'react';
 import { ColorValue, StyleProp, type View, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import AppBlurView from '@/components/AppBlurView';
 
 const AppGlassView = ({
   children,

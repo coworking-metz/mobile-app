@@ -1,7 +1,7 @@
-import SoundOffAnimation from '../Animations/SoundOffAnimation';
 import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 import { useTranslation } from 'react-i18next';
 import tw from 'twrnc';
+import SoundOffAnimation from '@/components/Animations/SoundOffAnimation';
 import AppBottomSheet, {
   AppBottomSheetProps,
   AppBottomSheetRef,

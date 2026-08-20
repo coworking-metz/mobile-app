@@ -1,8 +1,8 @@
-import AppIcon, { MaterialCommunityIconsName } from '../AppIcon';
 import React, { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
 import { TouchableHighlight, View, type TouchableHighlightProps } from 'react-native';
 import tw from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
+import AppIcon, { MaterialCommunityIconsName } from '@/components/AppIcon';
 import AppText from '@/components/AppText';
 import Divider from '@/components/Divider';
 

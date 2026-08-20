@@ -1,8 +1,8 @@
-import HorizontalLoadingAnimation from './Animations/HorizontalLoadingAnimation';
 import { forwardRef, ForwardRefRenderFunction } from 'react';
 import { useColorScheme, View } from 'react-native';
 import { TextField, TextFieldProps, TextFieldRef } from 'react-native-ui-lib';
 import tw from 'twrnc';
+import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 
 type AppTextFieldProps = TextFieldProps & {
   loading?: boolean;

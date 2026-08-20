@@ -1,6 +1,3 @@
-import PullToRefreshHint from './PullToRefreshHint';
-import AppIcon from '../AppIcon';
-import AppShimmerText from '../AppShimmerText';
 import dayjs from 'dayjs';
 import { useIsFocused } from 'expo-router';
 import { capitalize, sample } from 'lodash';
@@ -9,7 +6,10 @@ import { useTranslation } from 'react-i18next';
 import { TouchableOpacity } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppIcon from '@/components/AppIcon';
+import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
+import PullToRefreshHint from '@/components/Home/PullToRefreshHint';
 import useAppState from '@/helpers/app-state';
 
 export const STALE_PERIOD_IN_SECONDS = 300; // 5 minutes

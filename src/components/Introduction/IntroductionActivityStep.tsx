@@ -1,4 +1,3 @@
-import ThemePicker from '../Settings/ThemePicker';
 import { isNil } from 'lodash';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -7,6 +6,7 @@ import { useReducedMotion } from 'react-native-reanimated';
 import tw from 'twrnc';
 import WorkingGirlOnComputerAnimation from '@/components/Animations/WorkingGirlOnComputerAnimation';
 import AppText from '@/components/AppText';
+import ThemePicker from '@/components/Settings/ThemePicker';
 import { useAppTheme } from '@/context/theme';
 
 const IntroductionActivityStep = ({

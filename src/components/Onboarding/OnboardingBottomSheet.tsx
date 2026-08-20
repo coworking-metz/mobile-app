@@ -1,7 +1,3 @@
-import DesktopWorkAnimation from '../Animations/DesktopWorkAnimation';
-import EmailReceivedAnimation from '../Animations/EmailReceivedAnimation';
-import AppTextLink from '../AppTextLink';
-import { useOnPremise } from '../OnPremise/OnPremiseContext';
 import dayjs from 'dayjs';
 import React, {
   forwardRef,
@@ -15,6 +11,8 @@ import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Animated, { FadeIn, FadeInDown, FadeOut, useReducedMotion } from 'react-native-reanimated';
 import tw from 'twrnc';
+import DesktopWorkAnimation from '@/components/Animations/DesktopWorkAnimation';
+import EmailReceivedAnimation from '@/components/Animations/EmailReceivedAnimation';
 import StickmanHandshakeAnimation from '@/components/Animations/StickmanHandshakeAnimation';
 import { Accordion } from '@/components/AppAccordion';
 import AppBottomSheet, {
@@ -23,6 +21,8 @@ import AppBottomSheet, {
 } from '@/components/AppBottomSheet';
 import AppIcon from '@/components/AppIcon';
 import AppText from '@/components/AppText';
+import AppTextLink from '@/components/AppTextLink';
+import { useOnPremise } from '@/components/OnPremise/OnPremiseContext';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 

@@ -1,9 +1,9 @@
-import ErrorAnimation from './Animations/ErrorAnimation';
-import AppText from './AppText';
 import React, { useEffect, useState, type ReactNode } from 'react';
 import { StyleProp, ViewStyle, type ViewProps } from 'react-native';
 import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
+import ErrorAnimation from '@/components/Animations/ErrorAnimation';
+import AppText from '@/components/AppText';
 import { parseErrorText } from '@/helpers/error';
 
 const ErrorState = ({

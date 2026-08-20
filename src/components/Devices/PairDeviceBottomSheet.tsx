@@ -1,4 +1,3 @@
-import AppAlert from '../AppAlert';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Device from 'expo-device';
 import * as Linking from 'expo-linking';
@@ -17,6 +16,7 @@ import { View } from 'react-native';
 import Animated, { FadeIn, FadeInLeft, FadeOut, FadeOutRight } from 'react-native-reanimated';
 import tw from 'twrnc';
 import WifiScanningAnimation from '@/components/Animations/WifiScanningAnimation';
+import AppAlert from '@/components/AppAlert';
 import AppBottomSheet, {
   AppBottomSheetProps,
   AppBottomSheetRef,

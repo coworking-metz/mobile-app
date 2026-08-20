@@ -7,11 +7,11 @@ import {
   StyleProp,
   StyleSheet,
   TextStyle,
-  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
 import tw from 'twrnc';
+import AppPressable from '@/components/AppPressable';
 import AppText from '@/components/AppText';
 
 /**
@@ -57,7 +57,7 @@ const AppSegmentedControl = ({
 
   const currentIndex = value ?? localCurrentIndex;
 
-  const handleTabPress = useCallback(
+  const onTabPress = useCallback(
     (index: number) => {
       setCurrentIndex(index);
       onChange?.(index);
@@ -111,7 +111,7 @@ const AppSegmentedControl = ({
     const isActiveTab = currentIndex === index;
     const isTabText = typeof tab === 'string';
     return (
-      <TouchableOpacity
+      <AppPressable
         activeOpacity={0.5}
         key={index}
         style={[
@@ -119,7 +119,7 @@ const AppSegmentedControl = ({
           tabSpecificStyle(index),
         ]}
         onLayout={(e) => onLayoutTab(index, e)}
-        onPress={() => handleTabPress(index)}>
+        onPress={() => onTabPress(index)}>
         {!isTabText ? (
           tab
         ) : (
@@ -134,7 +134,7 @@ const AppSegmentedControl = ({
             {tab}
           </AppText>
         )}
-      </TouchableOpacity>
+      </AppPressable>
     );
   };
 
