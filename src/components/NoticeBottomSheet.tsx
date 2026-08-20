@@ -82,16 +82,15 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
             <ScrollView
               horizontal
               persistentScrollbar
-              contentContainerStyle={tw`px-4 py-2`}
+              contentContainerStyle={tw`w-full px-4 py-2`}
               style={tw`mt-4 rounded-2xl bg-gray-200 dark:bg-black`}>
-              <AppText
-                style={tw`whitespace-pre text-left font-mono text-sm text-slate-500 dark:text-neutral-500`}>
+              <AppText style={tw`text-left font-mono text-sm text-slate-500 dark:text-neutral-500`}>
                 {notice.description.trim()}
               </AppText>
             </ScrollView>
           ) : (
             <AppText
-              style={tw`mt-2 text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
+              style={tw`mt-2 w-full text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
               {notice.description}
             </AppText>
           )

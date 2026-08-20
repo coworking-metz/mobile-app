@@ -19,7 +19,7 @@ const UpcomingEventsPeriodBottomSheet: ForwardRefRenderFunction<
 
   return (
     <AppBottomSheet ref={forwardedRef} {...props} style={[tw`px-6 pt-6`, style]}>
-      <AppText style={tw`text-center text-xl font-medium text-slate-900 dark:text-gray-200`}>
+      <AppText style={tw`mt-2 text-center text-xl font-medium text-slate-900 dark:text-gray-200`}>
         {t('settings.home.upcomingEventsPeriod.label')}
       </AppText>
       <AppText

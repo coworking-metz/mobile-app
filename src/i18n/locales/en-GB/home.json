@@ -38,7 +38,6 @@
     }
   },
   "onSuccessiveTaps": {
-    "action": ["Help me", "Please", "Sure", "Yes"],
     "message": ["Is it acting up?", "Is there something wrong?", "Need help?"]
   },
   "onboarding": {

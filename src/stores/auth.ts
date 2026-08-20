@@ -127,20 +127,14 @@ const useAuthStore = create<AuthState>()(
           const toastStore = useToastStore.getState();
           const noticeStore = useNoticeStore.getState();
           const disconnectedMessage = i18n.t('auth.onDisconnected.message');
-          const errorMessage = await parseErrorText(error);
           toastStore.add({
             message: disconnectedMessage,
             type: 'error',
-            action: {
-              label: i18n.t('actions.more'),
-              onPress: () => {
-                noticeStore.add({
-                  message: disconnectedMessage,
-                  description: errorMessage,
-                  type: 'error',
-                });
-                toast.dismiss();
-              },
+            onPress: () => {
+              noticeStore.addError(error, {
+                message: disconnectedMessage,
+              });
+              toast.dismiss();
             },
           });
         },

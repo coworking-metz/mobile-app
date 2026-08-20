@@ -108,25 +108,15 @@ const ToastMessages = () => {
             />
           ),
         }),
+        onPress: notification.onPress,
         onAutoClose: () => toastStore.dismiss(notification.id),
         onDismiss: () => toastStore.dismiss(notification.id),
-        ...(notification.action && {
-          action: {
-            label: notification.action.label,
-            onClick: notification.action.onPress,
-          },
-        }),
       });
     }
   }, [notificationsCount]);
 
   return (
-    <Toaster
-      enableStacking
-      offset={(insets.bottom || 0) + 8}
-      position="bottom-center"
-      theme="dark"
-    />
+    <Toaster enableStacking offset={(insets.top || 0) + 8} position="top-center" theme="dark" />
   );
 };
 

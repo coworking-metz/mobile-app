@@ -1,11 +1,15 @@
 import { HTTP } from '@/services/http';
 
-export const unlockSteelGate = async (): Promise<{
+export const unlockSteelGate = async (
+  duration?: number | null,
+): Promise<{
   triggered: string;
   locked: string;
   timeout: string;
 }> => {
-  return HTTP.post('/api/interphone').then(({ data }) => data);
+  return HTTP.post('/api/on-premise/unlock-gate', {
+    duration,
+  }).then(({ data }) => data);
 };
 
 export const openParkingGate = async (): Promise<{

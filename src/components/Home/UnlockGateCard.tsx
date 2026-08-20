@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import Animated, {
@@ -24,11 +24,12 @@ import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
 import ReanimatedText from '@/components/ReanimatedText';
 import { useAppAuth } from '@/context/auth';
+import { useAppUnlockGateDuration } from '@/context/unlock-gate-duration';
 import { theme } from '@/helpers/colors';
-import { parseErrorText } from '@/helpers/error';
 import { unlockSteelGate } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
+import useSettingsStore from '@/stores/settings';
 
 const FILL_BACKGROUND_ANIMATION_DURATION_IN_MS = 300;
 const WARN_ON_SUCCESSIVE_TAPS_COUNT = 3;
@@ -50,6 +51,8 @@ const UnlockCard = ({
   const { login } = useAppAuth();
   const animation = useRef<LottieView>(null);
   const unlocking = useSharedValue(0);
+  const { selectUnlockGateDuration } = useAppUnlockGateDuration();
+  const unlockGateDurationInMs = useSettingsStore((state) => state.unlockGateDurationInMs);
   const [cardWidth, setCardWidth] = useState(0);
   const [isLoading, setLoading] = useState(false);
   const [isUnlocked, setUnlocked] = useState<boolean | null>(null);
@@ -57,7 +60,7 @@ const UnlockCard = ({
   const [tapHistory, setTapHistory] = useState<string[]>([]);
   const [lastWarning, setLastWarning] = useState<string | null>(null);
 
-  const onUnlock = () => {
+  const onUnlock = useCallback(() => {
     if (isLoading || disabled) return;
 
     if (!lastWarning || dayjs().diff(lastWarning) > WARN_ON_SUCCESSIVE_TAPS_INTEVAL_IN_MS) {
@@ -65,7 +68,7 @@ const UnlockCard = ({
     }
 
     setLoading(true);
-    unlockSteelGate()
+    return unlockSteelGate(unlockGateDurationInMs)
       .then(({ locked }) => {
         const timeleftInMs = Date.parse(locked) - Date.now();
         const timeleftBeforeLockInMs =
@@ -83,19 +86,31 @@ const UnlockCard = ({
           }),
         );
       })
-      .catch(async (error) => {
-        const description = await parseErrorText(error);
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-        noticeStore.add({
-          message: t('home.intercom.onFail.message'),
-          description,
-          type: 'error',
-        });
+      .catch((error) => {
+        noticeStore
+          .addError(error, {
+            message: t('home.intercom.onFail.message'),
+            action: {
+              label: t('actions.retry'),
+              onPress: () => setTimeout(onUnlock, 500),
+              suffixIcon: 'reload',
+            },
+          })
+          .catch(() => {});
       })
       .finally(() => {
         setLoading(false);
       });
-  };
+  }, [
+    disabled,
+    isLoading,
+    noticeStore,
+    t,
+    unlocking,
+    unlockGateDurationInMs,
+    tapHistory,
+    lastWarning,
+  ]);
 
   useEffect(() => {
     const recentTaps = [...tapHistory]
@@ -157,6 +172,7 @@ const UnlockCard = ({
       disabled={disabled}
       style={style}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setCardWidth(nativeEvent.layout.width)}
+      onLongPress={selectUnlockGateDuration}
       onPress={() => (authStore.user ? onUnlock() : login?.())}>
       <AppSquircleView
         style={[

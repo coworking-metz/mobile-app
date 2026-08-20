@@ -12,10 +12,7 @@ export interface Toast {
   message: string;
   type?: ToastType;
   timeout?: number;
-  action?: {
-    label: string;
-    onPress: () => void;
-  };
+  onPress?: () => void;
 }
 
 export interface StoreToast extends Toast {
