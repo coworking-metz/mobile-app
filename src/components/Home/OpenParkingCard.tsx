@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import Animated, {
@@ -25,7 +25,6 @@ import AppText from '@/components/AppText';
 import ReanimatedText from '@/components/ReanimatedText';
 import { useAppAuth } from '@/context/auth';
 import { theme } from '@/helpers/colors';
-import { parseErrorText } from '@/helpers/error';
 import { openParkingGate } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -57,7 +56,7 @@ const OpenParkingCard = ({
   const [tapHistory, setTapHistory] = useState<string[]>([]);
   const [lastWarning, setLastWarning] = useState<string | null>(null);
 
-  const onOpen = () => {
+  const onOpen = useCallback(() => {
     if (isLoading || disabled) return;
 
     if (!lastWarning || dayjs().diff(lastWarning) > WARN_ON_SUCCESSIVE_TAPS_INTEVAL_IN_MS) {
@@ -83,19 +82,20 @@ const OpenParkingCard = ({
           }),
         );
       })
-      .catch(async (error) => {
-        const description = await parseErrorText(error);
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-        noticeStore.add({
+      .catch((error) => {
+        noticeStore.addError(error, {
           message: t('home.parking.onFail.message'),
-          description,
-          type: 'error',
+          action: {
+            label: t('actions.retry'),
+            onPress: () => setTimeout(onOpen, 500),
+            suffixIcon: 'reload',
+          },
         });
       })
       .finally(() => {
         setLoading(false);
       });
-  };
+  }, [isLoading, disabled, lastWarning, tapHistory, noticeStore, t, opening]);
 
   useEffect(() => {
     const recentTaps = [...tapHistory]

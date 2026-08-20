@@ -42,7 +42,6 @@
     "label": "@:onPremise.title"
   },
   "onSuccessiveTaps": {
-    "action": ["Aidez-moi", "Effectivement", "En effet", "Oui"],
     "message": ["Besoin d'aide ?", "Quelque chose ne va pas ?", "Un souci ?"]
   },
   "onboarding": {

@@ -20,8 +20,13 @@
     "title": "Contacter l'équipe"
   },
   "home": {
+    "unlockGateDuration": {
+      "description": "La porte se verrouille automatiquement après la durée sélectionnée.\n\nSélectionnez une durée par défaut ou maintenez temporairement un appui long sur le bouton situé sur l'écran d'accueil.",
+      "hint": "pendant une durée déterminée",
+      "label": "Garder la porte déverrouillée"
+    },
     "upcomingEventsPeriod": {
-      "description": "Sélectionner la période pour laquelle les événements à venir sont affichés sur l'écran d'accueil.",
+      "description": "Sélectionnez la période pour laquelle les événements à venir sont affichés sur l'écran d'accueil.",
       "hint": "sur l'écran d'accueil",
       "label": "Prochains événements",
       "options": {

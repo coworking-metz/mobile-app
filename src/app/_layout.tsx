@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { PostHogProvider } from 'posthog-react-native';
-import { useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
@@ -26,6 +26,7 @@ import { PushNotificationsProvider } from '@/context/push-notifications';
 import { ReviewProvider } from '@/context/review';
 import { SocialsProvider } from '@/context/socials';
 import { ThemeProvider } from '@/context/theme';
+import { UnlockGateDurationProvider } from '@/context/unlock-gate-duration';
 import { UpcomingEventsProvider } from '@/context/upcoming-events';
 import { IS_DEV } from '@/services/environment';
 import { HTTP } from '@/services/http';
@@ -99,91 +100,93 @@ const RootLayout = () => {
                                   <NewDeviceProvider>
                                     <PresenceProvider>
                                       <UpcomingEventsProvider>
-                                        <OnboardingProvider>
-                                          <Stack
-                                            screenOptions={{
-                                              headerShown: false,
-                                              contentStyle: {
-                                                backgroundColor: 'transparent',
-                                              },
-                                              navigationBarTranslucent: true,
-                                              ...(reduceMotion && {
-                                                animation: 'fade',
-                                              }),
-                                            }}>
-                                            <Stack.Screen
-                                              name="index"
-                                              options={{
-                                                animationTypeForReplace: 'pop',
-                                                animation: 'fade',
+                                        <UnlockGateDurationProvider>
+                                          <OnboardingProvider>
+                                            <Stack
+                                              screenOptions={{
+                                                headerShown: false,
                                                 contentStyle: {
                                                   backgroundColor: 'transparent',
                                                 },
-                                              }}
-                                            />
-                                            <Stack.Screen
-                                              name="[...missing]"
-                                              options={{
-                                                headerShown: false,
-                                              }}
-                                            />
-
-                                            <Stack.Screen
-                                              name="(public)/introduction"
-                                              options={{
-                                                headerShown: false,
-                                                animation: reduceMotion
-                                                  ? 'fade_from_bottom'
-                                                  : 'slide_from_bottom',
-                                              }}
-                                            />
-
-                                            <Stack.Screen
-                                              name="(public)/home"
-                                              options={{
-                                                headerShown: false,
-                                                animationTypeForReplace: 'pop',
-                                              }}
-                                            />
-
-                                            <Stack.Screen
-                                              name="(public)/on-premise"
-                                              options={{
-                                                headerShown: false,
-                                              }}
-                                            />
-                                            <Stack.Screen
-                                              name="(public)/attendance"
-                                              options={{
-                                                headerShown: false,
-                                              }}
-                                            />
-
-                                            <Stack.Screen
-                                              name="(public)/events"
-                                              options={{
-                                                headerShown: false,
-                                              }}
-                                            />
-
-                                            <Stack.Screen
-                                              name="(public)/messages"
-                                              options={{
-                                                headerShown: false,
-                                              }}
-                                            />
-
-                                            <Stack.Screen
-                                              name="(public)/chat"
-                                              options={{
-                                                presentation: 'modal',
-                                                ...(Platform.OS === 'android' && {
-                                                  animation: 'slide_from_bottom',
+                                                navigationBarTranslucent: true,
+                                                ...(reduceMotion && {
+                                                  animation: 'fade',
                                                 }),
-                                              }}
-                                            />
-                                          </Stack>
-                                        </OnboardingProvider>
+                                              }}>
+                                              <Stack.Screen
+                                                name="index"
+                                                options={{
+                                                  animationTypeForReplace: 'pop',
+                                                  animation: 'fade',
+                                                  contentStyle: {
+                                                    backgroundColor: 'transparent',
+                                                  },
+                                                }}
+                                              />
+                                              <Stack.Screen
+                                                name="[...missing]"
+                                                options={{
+                                                  headerShown: false,
+                                                }}
+                                              />
+
+                                              <Stack.Screen
+                                                name="(public)/introduction"
+                                                options={{
+                                                  headerShown: false,
+                                                  animation: reduceMotion
+                                                    ? 'fade_from_bottom'
+                                                    : 'slide_from_bottom',
+                                                }}
+                                              />
+
+                                              <Stack.Screen
+                                                name="(public)/home"
+                                                options={{
+                                                  headerShown: false,
+                                                  animationTypeForReplace: 'pop',
+                                                }}
+                                              />
+
+                                              <Stack.Screen
+                                                name="(public)/on-premise"
+                                                options={{
+                                                  headerShown: false,
+                                                }}
+                                              />
+                                              <Stack.Screen
+                                                name="(public)/attendance"
+                                                options={{
+                                                  headerShown: false,
+                                                }}
+                                              />
+
+                                              <Stack.Screen
+                                                name="(public)/events"
+                                                options={{
+                                                  headerShown: false,
+                                                }}
+                                              />
+
+                                              <Stack.Screen
+                                                name="(public)/messages"
+                                                options={{
+                                                  headerShown: false,
+                                                }}
+                                              />
+
+                                              <Stack.Screen
+                                                name="(public)/chat"
+                                                options={{
+                                                  presentation: 'modal',
+                                                  ...(Platform.OS === 'android' && {
+                                                    animation: 'slide_from_bottom',
+                                                  }),
+                                                }}
+                                              />
+                                            </Stack>
+                                          </OnboardingProvider>
+                                        </UnlockGateDurationProvider>
                                       </UpcomingEventsProvider>
                                     </PresenceProvider>
                                   </NewDeviceProvider>

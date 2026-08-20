@@ -40,13 +40,10 @@ const BirthdayBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottom
         reject(new Error('Not implemented yet'));
       }, 1000);
     })
-      .catch(async (error) => {
-        const description = await parseErrorText(error);
+      .catch((error) => {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-        noticeStore.add({
+        noticeStore.addError(error, {
           message: t('home.profile.birthday.onClaim.fail'),
-          description,
-          type: 'error',
         });
       })
       .finally(() => {

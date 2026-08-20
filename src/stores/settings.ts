@@ -61,6 +61,7 @@ interface SettingsState {
     count: number;
     unit: 'day' | 'week' | 'month';
   };
+  unlockGateDurationInMs: number;
   apiBaseUrl: string | null;
   areTokensInAsyncStorage: boolean;
   clear: () => Promise<void>;
@@ -84,6 +85,7 @@ const defaultSettingsState: Omit<SettingsState, 'hydrated' | 'clear'> = {
     count: 5,
     unit: 'day',
   },
+  unlockGateDurationInMs: 3_000,
   apiBaseUrl: null,
   areTokensInAsyncStorage: false,
 };

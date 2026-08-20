@@ -227,12 +227,9 @@ export default function HomeScreen() {
     toastStore.add({
       message: `${sample(t('home.onSuccessiveTaps.message', { returnObjects: true }))}`,
       type: 'info',
-      action: {
-        label: `${sample(t('home.onSuccessiveTaps.action', { returnObjects: true }))}`,
-        onPress: async () => {
-          toast.dismiss();
-          contact();
-        },
+      onPress: async () => {
+        contact();
+        toast.dismiss();
       },
     });
   }, [toastStore, t]);
