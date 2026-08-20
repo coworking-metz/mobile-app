@@ -1,4 +1,3 @@
-import AppIcon from '../AppIcon';
 import LottieView from 'lottie-react-native';
 import React, {
   forwardRef,
@@ -16,6 +15,7 @@ import AppBottomSheet, {
   AppBottomSheetRef,
   type AppBottomSheetProps,
 } from '@/components/AppBottomSheet';
+import AppIcon from '@/components/AppIcon';
 import AppText from '@/components/AppText';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { APP_LANGUAGES, getLanguageLabel, SYSTEM_LANGUAGE } from '@/i18n';

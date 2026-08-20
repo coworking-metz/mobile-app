@@ -1,10 +1,10 @@
-import AppIcon from '../AppIcon';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LayoutChangeEvent, StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { FadeInLeft, FadeOutLeft } from 'react-native-reanimated';
 import tw from 'twrnc';
 import { AppGlowingBorder } from '@/components/AppGlowingBorder';
+import AppIcon from '@/components/AppIcon';
 import AppText from '@/components/AppText';
 
 const GiftCard = ({ style }: { style?: StyleProp<ViewStyle> }) => {

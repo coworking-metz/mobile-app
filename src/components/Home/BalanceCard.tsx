@@ -1,9 +1,9 @@
-import AppIcon from '../AppIcon';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppIcon from '@/components/AppIcon';
 import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
 import LoadingSkeleton from '@/components/LoadingSkeleton';

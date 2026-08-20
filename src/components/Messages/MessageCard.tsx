@@ -1,5 +1,3 @@
-import AppIcon from '../AppIcon';
-import AppShimmerText from '../AppShimmerText';
 import dayjs from 'dayjs';
 import { Image } from 'expo-image';
 import { useIsFocused } from 'expo-router';
@@ -16,6 +14,8 @@ import {
 import Animated, { BounceIn, BounceOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import CoworkingLogo from '@/assets/images/icon/icon-light-1024.png';
+import AppIcon from '@/components/AppIcon';
+import AppShimmerText from '@/components/AppShimmerText';
 import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
 import ProfilePicture from '@/components/Home/ProfilePicture';

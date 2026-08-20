@@ -1,10 +1,10 @@
-import AppIcon from '../AppIcon';
 import dayjs from 'dayjs';
 import { useIsFocused } from 'expo-router';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, ViewStyle } from 'react-native';
 import tw from 'twrnc';
+import AppIcon from '@/components/AppIcon';
 import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
 import LoadingSkeleton from '@/components/LoadingSkeleton';

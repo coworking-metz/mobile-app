@@ -1,4 +1,3 @@
-import { BliiidaIcon, CoworkingIcon } from '../Home/CalendarEventCard';
 import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -9,6 +8,7 @@ import AppBottomSheet, {
   AppBottomSheetRef,
 } from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
+import { BliiidaIcon, CoworkingIcon } from '@/components/Home/CalendarEventCard';
 import ServiceRowLink from '@/components/Layout/ServiceRowLink';
 import useAuthStore from '@/stores/auth';
 

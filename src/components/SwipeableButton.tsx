@@ -1,4 +1,3 @@
-import HorizontalLoadingAnimation from './Animations/HorizontalLoadingAnimation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia';
 import React, { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
@@ -23,6 +22,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import tw from 'twrnc';
+import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import { theme } from '@/helpers/colors';
 import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 import { withAppFontFamily } from '@/helpers/text';

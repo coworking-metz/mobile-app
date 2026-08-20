@@ -26,6 +26,7 @@ import ReanimatedText from '@/components/ReanimatedText';
 import { useAppAuth } from '@/context/auth';
 import { useAppUnlockGateDuration } from '@/context/unlock-gate-duration';
 import { theme } from '@/helpers/colors';
+import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 import { unlockSteelGate } from '@/services/api/services';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -112,6 +113,11 @@ const UnlockCard = ({
     lastWarning,
   ]);
 
+  const onOpenDurationSheet = useCallback(() => {
+    vibrate(HapticFeedbackType.Medium);
+    selectUnlockGateDuration();
+  }, [selectUnlockGateDuration]);
+
   useEffect(() => {
     const recentTaps = [...tapHistory]
       .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
@@ -172,7 +178,7 @@ const UnlockCard = ({
       disabled={disabled}
       style={style}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setCardWidth(nativeEvent.layout.width)}
-      onLongPress={selectUnlockGateDuration}
+      onLongPress={onOpenDurationSheet}
       onPress={() => (authStore.user ? onUnlock() : login?.())}>
       <AppSquircleView
         style={[

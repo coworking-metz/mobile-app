@@ -1,10 +1,10 @@
-import AppText from './AppText';
 import { Link, LinkProps } from 'expo-router';
 import { forwardRef, ForwardRefRenderFunction } from 'react';
 import { TextProps } from 'react-native';
 import { AnimatedProps } from 'react-native-reanimated';
 import { AnimatedText } from 'react-native-reanimated/lib/typescript/component/Text';
 import AppIcon from '@/components/AppIcon';
+import AppText from '@/components/AppText';
 
 export type AppTextProps = Omit<AnimatedProps<TextProps>, 'onPress'> &
   Pick<LinkProps, 'href' | 'target' | 'onPress'>;

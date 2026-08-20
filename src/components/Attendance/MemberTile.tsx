@@ -1,11 +1,11 @@
-import AppPressable from '../AppPressable';
-import ProfilePicture from '../Home/ProfilePicture';
 import dayjs from 'dayjs';
 import React, { useMemo } from 'react';
 import { TouchableHighlightProps, View } from 'react-native';
 import { FadeInDown, FadeOutUp } from 'react-native-reanimated';
 import tw from 'twrnc';
+import AppPressable from '@/components/AppPressable';
 import AppText from '@/components/AppText';
+import ProfilePicture from '@/components/Home/ProfilePicture';
 import {
   ApiMemberProfile,
   isMemberBalanceInsufficient,
