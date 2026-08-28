@@ -1,3 +1,4 @@
+import '@/services/beacon/bootstrap';
 import 'expo-router/entry';
 import { configureReanimatedLogger } from 'react-native-reanimated';
 import { initSentry } from '@/services/sentry';

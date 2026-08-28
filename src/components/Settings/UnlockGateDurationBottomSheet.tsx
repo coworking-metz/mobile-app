@@ -1,5 +1,8 @@
-import React, { forwardRef, ForwardRefRenderFunction } from 'react';
-import { useTranslation } from 'react-i18next';
+import AppAlert from '../AppAlert';
+import AppTextLink from '../AppTextLink';
+import Divider from '../Divider';
+import React, { forwardRef, ForwardRefRenderFunction, useCallback } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw from 'twrnc';
 import AppBottomSheet, {
@@ -7,9 +10,13 @@ import AppBottomSheet, {
   type AppBottomSheetProps,
 } from '@/components/AppBottomSheet';
 import AppSegmentedControl from '@/components/AppSegmentedControl';
+import AppSwitch from '@/components/AppSwitch';
 import AppText from '@/components/AppText';
+import ServiceRow from '@/components/Layout/ServiceRow';
 import { theme } from '@/helpers/colors';
 import { formatDuration } from '@/i18n';
+import { requestBeaconLocationPermission } from '@/services/beacon/permissions';
+import { WORDPRESS_BASE_URL } from '@/services/environment';
 import useSettingsStore from '@/stores/settings';
 
 const UNLOCK_GATE_DURATIONS_IN_MS = [3_000, 6_000, 12_000];
@@ -20,6 +27,10 @@ const UnlockGateDurationBottomSheet: ForwardRefRenderFunction<
 > = ({ style, ...props }, forwardedRef) => {
   const { t } = useTranslation();
   const unlockGateDurationInMs = useSettingsStore((state) => state.unlockGateDurationInMs);
+
+  const onSwitch = useCallback(() => {
+    requestBeaconLocationPermission();
+  }, []);
 
   return (
     <AppBottomSheet ref={forwardedRef} {...props} style={[tw`p-6`, style]}>
@@ -60,6 +71,31 @@ const UnlockGateDurationBottomSheet: ForwardRefRenderFunction<
           }
         />
       </View>
+
+      <Divider style={tw`mb-3 mt-6`} />
+
+      <ServiceRow label={t('settings.home.unlockGateDuration.beacon.toggle')} style={tw`px-0`}>
+        <AppSwitch
+          value={useSettingsStore((state) => state.withBottomSheetFullHeight)}
+          onValueChange={(value) => useSettingsStore.setState({ withBottomSheetFullHeight: value })}
+        />
+      </ServiceRow>
+
+      <AppAlert style={tw`mb-4`} type="info">
+        <Trans
+          components={[
+            <AppTextLink
+              href={`${WORDPRESS_BASE_URL}/comment-desactiver-les-adresses-mac-aleatoires/`}
+              key="how-to-disable-random-mac-addresses-link"
+              style={tw`text-amber-500`}
+              target="_blank"
+            />,
+          ]}
+          defaults={t('settings.home.unlockGateDuration.beacon.description')}
+          parent={AppText}
+          style={tw`shrink grow basis-0 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
+        />
+      </AppAlert>
     </AppBottomSheet>
   );
 };
