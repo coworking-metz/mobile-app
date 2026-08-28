@@ -1,12 +1,16 @@
 import { MenuAction, MenuView } from '@react-native-menu/menu';
 import { BlurTargetView } from 'expo-blur';
 import { useRouter } from 'expo-router';
-import React, { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import React, { useCallback, useEffect, useRef, useState, type ReactNode, type Ref } from 'react';
 import { RefreshControl, StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+import {
+  KeyboardAwareScrollView,
+  type KeyboardAwareScrollViewRef,
+} from 'react-native-keyboard-controller';
 import Animated, {
   FadeInLeft,
   interpolate,
+  runOnJS,
   type SharedValue,
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -40,6 +44,8 @@ const ServiceLayout = ({
   style,
   contentStyle,
   onRefresh,
+  onScroll,
+  scrollViewRef,
 }: {
   title?: string;
   description?: string;
@@ -57,6 +63,12 @@ const ServiceLayout = ({
   style?: StyleProp<ViewStyle>;
   contentStyle?: StyleProp<ViewStyle>;
   onRefresh?: () => Promise<unknown>;
+  onScroll?: (metrics: {
+    contentOffsetY: number;
+    contentHeight: number;
+    layoutHeight: number;
+  }) => void;
+  scrollViewRef?: Ref<KeyboardAwareScrollViewRef>;
 }) => {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
@@ -77,11 +89,21 @@ const ServiceLayout = ({
     return () => clearTimeout(timeout);
   }, [headerHeight, insets.top]);
 
-  const onVerticalScroll = useAnimatedScrollHandler({
-    onScroll: ({ contentOffset }) => {
-      verticalScrollProgress.value = contentOffset.y;
+  const onVerticalScroll = useAnimatedScrollHandler(
+    {
+      onScroll: ({ contentOffset, contentSize, layoutMeasurement }) => {
+        verticalScrollProgress.value = contentOffset.y;
+        if (onScroll) {
+          runOnJS(onScroll)({
+            contentOffsetY: contentOffset.y,
+            contentHeight: contentSize.height,
+            layoutHeight: layoutMeasurement.height,
+          });
+        }
+      },
     },
-  });
+    [onScroll],
+  );
 
   const headlineStyle = useAnimatedStyle(() => {
     const opacity = interpolate(verticalScrollProgress.value, [-1, 0, headerHeight], [1, 1, 0]);
@@ -139,6 +161,7 @@ const ServiceLayout = ({
         </Animated.View>
 
         <AnimatedKeyboardAwareScrollView
+          ref={scrollViewRef}
           contentContainerStyle={[
             tw`relative flex min-h-full flex-col`,
             { paddingTop: NAVIGATION_HEIGHT + headerHeight + insets.top },
