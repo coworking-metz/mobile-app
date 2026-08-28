@@ -20,6 +20,21 @@
     "title": "Contact the team"
   },
   "home": {
+    "unlockGateOptions": {
+      "beacon": {
+        "description": "When enabled, the gate automatically unlocks without having to open the app.\n\nAdditional <0>permissions</0> are required, such as access to Bluetooth and location at all times.",
+        "hint": "on approach",
+        "label": "Hands-free unlock",
+        "title": "Experimental",
+        "unavailable": "This feature is only available on physical devices equipped with Bluetooth."
+      },
+      "description": "The gate remains unlocked for the selected duration.\nThis duration is applied to each unlock.",
+      "hint": "for a short brief",
+      "label": "Keep front gate unlocked",
+      "onFetch": {
+        "fail": "Unable to fetch gate unlock options"
+      }
+    },
     "upcomingEventsPeriod": {
       "description": "Choose a period for which upcoming events are displayed on the home screen.",
       "hint": "on the home screen",

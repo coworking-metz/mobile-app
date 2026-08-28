@@ -24,7 +24,7 @@ import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
 import ReanimatedText from '@/components/ReanimatedText';
 import { useAppAuth } from '@/context/auth';
-import { useAppUnlockGateDuration } from '@/context/unlock-gate-duration';
+import { useAppUnlockGateOptions } from '@/context/unlock-gate-duration';
 import { theme } from '@/helpers/colors';
 import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 import { unlockSteelGate } from '@/services/api/services';
@@ -48,11 +48,11 @@ const UnlockCard = ({
 }) => {
   const { t } = useTranslation();
   const noticeStore = useNoticeStore();
-  const authStore = useAuthStore();
+  const user = useAuthStore((s) => s.user);
   const { login } = useAppAuth();
   const animation = useRef<LottieView>(null);
   const unlocking = useSharedValue(0);
-  const { selectUnlockGateDuration } = useAppUnlockGateDuration();
+  const { selectUnlockGateOptions } = useAppUnlockGateOptions();
   const unlockGateDurationInMs = useSettingsStore((state) => state.unlockGateDurationInMs);
   const [cardWidth, setCardWidth] = useState(0);
   const [isLoading, setLoading] = useState(false);
@@ -90,7 +90,7 @@ const UnlockCard = ({
       .catch((error) => {
         noticeStore
           .addError(error, {
-            message: t('home.intercom.onFail.message'),
+            message: t('home.unlockGate.onFail.message'),
             action: {
               label: t('actions.retry'),
               onPress: () => setTimeout(onUnlock, 500),
@@ -115,8 +115,8 @@ const UnlockCard = ({
 
   const onOpenDurationSheet = useCallback(() => {
     vibrate(HapticFeedbackType.Medium);
-    selectUnlockGateDuration();
-  }, [selectUnlockGateDuration]);
+    selectUnlockGateOptions();
+  }, [selectUnlockGateOptions]);
 
   useEffect(() => {
     const recentTaps = [...tapHistory]
@@ -179,7 +179,7 @@ const UnlockCard = ({
       style={style}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setCardWidth(nativeEvent.layout.width)}
       onLongPress={onOpenDurationSheet}
-      onPress={() => (authStore.user ? onUnlock() : login?.())}>
+      onPress={() => (user ? onUnlock() : login?.())}>
       <AppSquircleView
         style={[
           tw.style(
@@ -215,13 +215,13 @@ const UnlockCard = ({
             <AppText
               numberOfLines={1}
               style={tw`text-xl font-normal text-slate-500 dark:text-neutral-500`}>
-              {t('home.intercom.onUnlocked.firstLine')}
+              {t('home.unlockGate.onUnlocked.firstLine')}
             </AppText>
             <View style={tw`flex flex-row items-end gap-1`}>
               <AppText
                 numberOfLines={1}
                 style={tw`text-xl font-normal text-slate-500 dark:text-neutral-500`}>
-                {t('home.intercom.onUnlocked.secondLine')}
+                {t('home.unlockGate.onUnlocked.secondLine')}
               </AppText>
               <ReanimatedText
                 style={tw`android:pr-1 text-xl font-semibold text-slate-900 dark:text-gray-200`}
@@ -230,7 +230,7 @@ const UnlockCard = ({
               <AppText
                 numberOfLines={1}
                 style={tw`text-xl font-normal text-slate-500 dark:text-neutral-500`}>
-                {t('home.intercom.onUnlocked.suffix')}
+                {t('home.unlockGate.onUnlocked.suffix')}
               </AppText>
             </View>
           </View>
@@ -240,12 +240,12 @@ const UnlockCard = ({
               ellipsizeMode="clip"
               numberOfLines={1}
               style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
-              {t('home.intercom.label.firstLine')}
+              {t('home.unlockGate.label.firstLine')}
             </AppText>
             <AppText
               numberOfLines={1}
               style={tw`text-xl font-medium text-slate-900 dark:text-gray-200`}>
-              {t('home.intercom.label.secondLine')}
+              {t('home.unlockGate.label.secondLine')}
             </AppText>
           </View>
         )}

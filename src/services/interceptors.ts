@@ -92,6 +92,7 @@ const createHttpInterceptors = (httpInstance: AxiosInstance) => {
       const parsedError =
         typeof content?.text === 'function' ? JSON.parse(await content.text()) : content;
       const isTokenExpired = parsedError.code === ApiErrorCode.EXPIRED_ACCESS_TOKEN;
+
       if (isTokenExpired) {
         // should fetch another access token and retry
         httpLogger.warn(

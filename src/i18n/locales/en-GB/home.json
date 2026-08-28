@@ -23,20 +23,6 @@
       "fail": "Unable to fetch calendar\u00A0events"
     }
   },
-  "intercom": {
-    "label": {
-      "firstLine": "Unlock",
-      "secondLine": "front gate"
-    },
-    "onFail": {
-      "message": "Unable to unlock"
-    },
-    "onUnlocked": {
-      "firstLine": "Locking",
-      "secondLine": "in ",
-      "suffix": "s"
-    }
-  },
   "onSuccessiveTaps": {
     "message": ["Is it acting up?", "Is there something wrong?", "Need help?"]
   },
@@ -226,5 +212,19 @@
   },
   "services": {
     "label": "Services"
+  },
+  "unlockGate": {
+    "label": {
+      "firstLine": "Unlock",
+      "secondLine": "front gate"
+    },
+    "onFail": {
+      "message": "Unable to unlock"
+    },
+    "onUnlocked": {
+      "firstLine": "Locking",
+      "secondLine": "in ",
+      "suffix": "s"
+    }
   }
 }

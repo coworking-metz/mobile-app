@@ -7,7 +7,7 @@
       "title": "System settings"
     },
     "bluetooth": {
-      "description": "To be located within spaces.",
+      "description": "To be located at close range.\nUsed for <0>hands-free\u00A0gate unlocking</0>.",
       "label": "Bluetooth"
     },
     "calendar": {
@@ -20,7 +20,7 @@
       }
     },
     "location": {
-      "description": "To be located on-premise.",
+      "description": "To be located on-premise.\nUsed for <0>hands-free\u00A0gate unlocking</0>.",
       "label": "Location"
     },
     "notifications": {

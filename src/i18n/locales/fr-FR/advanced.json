@@ -2,7 +2,10 @@
   "description": "Pour ceux qui sachent",
   "logs": {
     "description": "Historique de ce qui s'est passé pour simplifier le débogage",
-    "empty": "Aucun log pour le moment",
+    "empty": "Aucune ligne de log pour l'instant",
+    "onFetch": {
+      "fail": "Impossible de récupérer les logs"
+    },
     "title": "Logs"
   },
   "onCopyToClipboard": {

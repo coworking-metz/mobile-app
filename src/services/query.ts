@@ -1,5 +1,13 @@
 import { OnPremiseAirConditioner, OnPremiseState } from './api/services';
-import { QueryClientConfig, useQueryClient } from '@tanstack/react-query';
+import {
+  QueryClientConfig,
+  useQuery,
+  useQueryClient,
+  type DefaultError,
+  type QueryKey,
+  type UseQueryOptions,
+  type UseQueryResult,
+} from '@tanstack/react-query';
 import { useCallback } from 'react';
 
 export const DEFAULT_STALE_TIME = 300_000; // 5 minutes
@@ -35,6 +43,7 @@ export const membersQueryKeys = {
 export const onPremiseQueryKeys = {
   state: () => ['on-premise', 'state'] as const,
   phoneBoothsOccupation: () => ['on-premise', 'phone-booths-occupation'] as const,
+  unlockGateOptions: () => ['on-premise', 'unlock-gate', 'options'] as const,
 };
 
 export const useAppQueryClient = () => {

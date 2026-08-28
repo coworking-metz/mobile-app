@@ -46,7 +46,7 @@ import { useAppPresence } from '@/context/presence';
 import { useAppReview } from '@/context/review';
 import { useAppSocials } from '@/context/socials';
 import { useAppTheme } from '@/context/theme';
-import { useAppUnlockGateDuration } from '@/context/unlock-gate-duration';
+import { useAppUnlockGateOptions } from '@/context/unlock-gate-duration';
 import { useAppUpcomingEvents } from '@/context/upcoming-events';
 import { isSilentError } from '@/helpers/error';
 import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
@@ -70,7 +70,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const { selectTheme } = useAppTheme();
   const { socialise } = useAppSocials();
   const { selectUpcomingEventsPeriod } = useAppUpcomingEvents();
-  const { selectUnlockGateDuration } = useAppUnlockGateDuration();
+  const { selectUnlockGateOptions } = useAppUnlockGateOptions();
   const { selectedActivity, selectActivity } = useAppPresence();
   const { isWide } = useAppScreen();
   const insets = useSafeAreaInsets();
@@ -419,11 +419,11 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             </ServiceRow>
             <ServiceRow
               withBottomDivider
-              description={t('settings.home.unlockGateDuration.hint')}
-              label={t('settings.home.unlockGateDuration.label')}
+              description={t('settings.home.unlockGateOptions.hint')}
+              label={t('settings.home.unlockGateOptions.label')}
               prefixIcon="timer-lock-open-outline"
               style={tw`mx-3 px-3`}
-              onPress={selectUnlockGateDuration}>
+              onPress={selectUnlockGateOptions}>
               <AppText style={tw`text-right text-base font-normal text-amber-500`}>
                 {unlockGateDurationInMs ? formatDuration(unlockGateDurationInMs) : null}
               </AppText>

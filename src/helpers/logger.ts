@@ -21,23 +21,28 @@ export type LogFileInfo = {
 
 // one file per day so a single file never grows large enough to be slow to read/render
 export const listLogFiles = (): LogFileInfo[] => {
-  return Paths.document
-    .list()
-    .filter((entry): entry is File => entry instanceof File)
-    .flatMap((file) => {
-      const date = file.name.match(LOG_FILE_NAME_REGEX)?.[1];
-      return date
-        ? [
-            {
-              date,
-              size: file.size,
-              created: file.creationTime ? dayjs(file.creationTime).toISOString() : null,
-              modified: file.modificationTime ? dayjs(file.modificationTime).toISOString() : null,
-            },
-          ]
-        : [];
-    })
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+  try {
+    const entries = Paths.document.list();
+    return entries
+      .filter((entry): entry is File => entry instanceof File)
+      .flatMap((file) => {
+        const date = file.name.match(LOG_FILE_NAME_REGEX)?.[1];
+        return date
+          ? [
+              {
+                date,
+                size: file.size,
+                created: file.creationTime ? dayjs(file.creationTime).toISOString() : null,
+                modified: file.modificationTime ? dayjs(file.modificationTime).toISOString() : null,
+              },
+            ]
+          : [];
+      })
+      .sort((a, b) => (a.date < b.date ? 1 : -1));
+  } catch {
+    // eg. Android can throw a permission-check exception here rather than fail silently like iOS
+    return [];
+  }
 };
 
 const fileTransportOptions = {
@@ -56,7 +61,7 @@ export const log = logger.createLogger({
     warn: 3,
     error: 4,
   },
-  severity: process.env.EXPO_PUBLIC_DEFAULT_LOG_LEVEL || 'error',
+  severity: process.env.EXPO_PUBLIC_DEFAULT_LOG_LEVEL || 'info',
   ...(APP_ENVIRONMENT === 'local'
     ? {
         transport: [consoleTransport, fileAsyncTransport],
