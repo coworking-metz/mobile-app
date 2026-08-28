@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
 import { type BeaconFailureEvent, type RegionStateChangedEvent } from 'react-native-beacon-kit';
 import { log } from '@/helpers/logger';
 import { unlockSteelGate } from '@/services/api/services';
@@ -17,17 +16,6 @@ const beaconLogger = log.extend('[beacon]');
 // file runs), but before we do anything else. Used purely to time how long each
 // phase below takes.
 const moduleLoadedAt = Date.now();
-
-const scheduleDiagnosticNotification = async (title: string, body: string): Promise<void> => {
-  try {
-    await Notifications.scheduleNotificationAsync({
-      content: { title, body },
-      trigger: null,
-    });
-  } catch (error) {
-    beaconLogger.error('Failed to schedule diagnostic notification', error);
-  }
-};
 
 const waitForAuthHydration = (timeoutMs = 4_000): Promise<void> => {
   if (useAuthStore.getState().hydrated) {
@@ -70,7 +58,7 @@ const handleRegionStateChanged = async ({
   await AsyncStorage.setItem(lastStateKey, state);
 
   if (state !== 'inside') {
-    await scheduleDiagnosticNotification(
+    beaconLogger.info(
       'Beacon: sortie de région',
       `${region.identifier} -> outside (+${sinceModuleLoadMs}ms depuis chargement JS)`,
     );
@@ -78,7 +66,7 @@ const handleRegionStateChanged = async ({
   }
 
   if (previousState === 'inside') {
-    await scheduleDiagnosticNotification(
+    beaconLogger.info(
       'Beacon: entrée répétée (ignorée)',
       `${region.identifier} déjà "inside" (+${sinceModuleLoadMs}ms) — probablement un réveil d'écran. unlockSteelGate() non appelé.`,
     );
@@ -101,7 +89,7 @@ const handleRegionStateChanged = async ({
     const result = await unlockSteelGate(duration);
     const respondedAt = Date.now();
 
-    await scheduleDiagnosticNotification(
+    beaconLogger.info(
       'Beacon: portail déverrouillé',
       [
         `+${authHydratedAt - eventReceivedAt}ms hydratation auth`,
@@ -114,7 +102,7 @@ const handleRegionStateChanged = async ({
   } catch (error) {
     const failedAt = Date.now();
     beaconLogger.error('unlockSteelGate failed', error);
-    await scheduleDiagnosticNotification(
+    beaconLogger.info(
       'Beacon: échec du déverrouillage',
       `+${failedAt - moduleLoadedAt}ms depuis chargement JS | ${
         error instanceof Error ? error.message : String(error)
@@ -128,10 +116,7 @@ const handleRegionStateChanged = async ({
 const handleMonitoringFailed = async (event: BeaconFailureEvent): Promise<void> => {
   const identifier = event.region?.identifier ?? BEACON_REGION.identifier;
   beaconLogger.error(`Monitoring failed for ${identifier}: ${event.code} - ${event.message}`);
-  await scheduleDiagnosticNotification(
-    'Beacon: monitoring en échec',
-    `${event.code}: ${event.message}`,
-  );
+  beaconLogger.info('Beacon: monitoring en échec', `${event.code}: ${event.message}`);
 };
 
 // The iOS Simulator has no Bluetooth radio, and react-native-beacon-kit's native

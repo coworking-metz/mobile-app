@@ -8,7 +8,6 @@ import React, {
   useRef,
 } from 'react';
 import { View } from 'react-native';
-import { ScrollView } from 'react-native';
 import tw from 'twrnc';
 import ErrorAnimation from '@/components/Animations/ErrorAnimation';
 import InfoAnimation from '@/components/Animations/InfoAnimation';
@@ -18,6 +17,7 @@ import AppBottomSheet, {
   AppBottomSheetProps,
   AppBottomSheetRef,
 } from '@/components/AppBottomSheet';
+import AppMonoText from '@/components/AppMonoText';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import { Notice, type NoticeType } from '@/stores/notice';
@@ -79,15 +79,9 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
         </AppText>
         {notice.description ? (
           isDescriptionCode ? (
-            <ScrollView
-              horizontal
-              persistentScrollbar
-              contentContainerStyle={tw`w-full px-4 py-2`}
-              style={tw`mt-4 rounded-2xl bg-gray-200 dark:bg-black`}>
-              <AppText style={tw`text-left font-mono text-sm text-slate-500 dark:text-neutral-500`}>
-                {notice.description.trim()}
-              </AppText>
-            </ScrollView>
+            <View style={tw`mt-4 w-full rounded-2xl bg-gray-200 px-4 py-2 dark:bg-black`}>
+              <AppMonoText>{notice.description.trim()}</AppMonoText>
+            </View>
           ) : (
             <AppText
               style={tw`mt-2 w-full text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>

@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import * as Clipboard from 'expo-clipboard';
 import { Image } from 'expo-image';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import * as Updates from 'expo-updates';
 import { isNil } from 'lodash';
 import React, { useCallback, useState } from 'react';
@@ -171,6 +171,14 @@ const Advanced = () => {
       <View style={tw`mx-auto mb-6 w-full max-w-xl`}>
         <SectionTitle style={tw`mx-6`} title={t('advanced.support.title')} />
 
+        <Link asChild href="/logs/all-logs">
+          <ServiceRow
+            withBottomDivider
+            label={t('advanced.logs.title')}
+            style={tw`mx-3 px-3`}
+            suffixIcon="chevron-right"
+          />
+        </Link>
         <ServiceRow
           withBottomDivider
           description={t('advanced.support.clearCache.description')}

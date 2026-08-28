@@ -1,5 +1,10 @@
 {
   "description": "Pour ceux qui sachent",
+  "logs": {
+    "description": "Historique de ce qui s'est passé pour simplifier le débogage",
+    "empty": "Aucun log pour le moment",
+    "title": "Logs"
+  },
   "onCopyToClipboard": {
     "fail": "Impossible de copier dans le presse-papiers",
     "success": "Copié"
@@ -46,7 +51,7 @@
   },
   "support": {
     "clearCache": {
-      "description": "Pour libérer de l'espace de stockage",
+      "description": "Pour tout ré-actualiser",
       "label": "Vider le cache",
       "onCleared": {
         "fail": "Impossible de vider le\u00A0cache",
