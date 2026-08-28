@@ -1,27 +1,27 @@
 import { createContext, useContext, useRef } from 'react';
 import { AppBottomSheetRef } from '@/components/AppBottomSheet';
-import UnlockGateDurationBottomSheet from '@/components/Settings/UnlockGateDurationBottomSheet';
+import UnlockGateOptionsBottomSheet from '@/components/Settings/UnlockGateOptionsBottomSheet';
 
-const UnlockGateDurationContext = createContext<{
-  selectUnlockGateDuration: () => void;
+const UnlockGateOptionsContext = createContext<{
+  selectUnlockGateOptions: () => void;
 }>({
-  selectUnlockGateDuration: () => {},
+  selectUnlockGateOptions: () => {},
 });
 
-export const useAppUnlockGateDuration = () => {
-  return useContext(UnlockGateDurationContext);
+export const useAppUnlockGateOptions = () => {
+  return useContext(UnlockGateOptionsContext);
 };
 
-export const UnlockGateDurationProvider = ({ children }: { children: React.ReactNode }) => {
+export const UnlockGateOptionsProvider = ({ children }: { children: React.ReactNode }) => {
   const bottomSheetRef = useRef<AppBottomSheetRef>(null);
 
   return (
-    <UnlockGateDurationContext.Provider
+    <UnlockGateOptionsContext.Provider
       value={{
-        selectUnlockGateDuration: () => bottomSheetRef.current?.open(),
+        selectUnlockGateOptions: () => bottomSheetRef.current?.open(),
       }}>
       {children}
-      <UnlockGateDurationBottomSheet ref={bottomSheetRef} />
-    </UnlockGateDurationContext.Provider>
+      <UnlockGateOptionsBottomSheet ref={bottomSheetRef} />
+    </UnlockGateOptionsContext.Provider>
   );
 };

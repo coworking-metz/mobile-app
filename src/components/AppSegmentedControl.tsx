@@ -161,13 +161,6 @@ const styles = {
     backgroundColor: activeTabColor,
     transform: [{ translateX: slideAnimation }],
     borderRadius: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
     elevation: 4,
   }),
 } as const;

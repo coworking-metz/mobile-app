@@ -7,7 +7,7 @@
       "title": "Réglages systèmes"
     },
     "bluetooth": {
-      "description": "Pour être localisé au sein des espaces.",
+      "description": "Pour aider à la localisation à courte distance.\nUtilisé pour le <0>déverrouillage\u00A0automatique</0> de la porte.",
       "label": "Bluetooth"
     },
     "calendar": {
@@ -20,7 +20,7 @@
       }
     },
     "location": {
-      "description": "Pour être localisé sur site.",
+      "description": "Pour être localisé sur site.\nUtilisée pour le <0>déverrouillage\u00A0automatique</0> de la porte.",
       "label": "Localisation"
     },
     "notifications": {

@@ -29,8 +29,8 @@ interface AuthState {
   refreshToken: string | null;
   user: ApiUser | null;
   isFetchingToken: boolean;
-  refreshAccessToken: () => Promise<string | null>;
-  getOrRefreshAccessToken: () => Promise<string | null>;
+  refreshAccessToken: (disconnectOnUnauthorized?: boolean) => Promise<string | null>;
+  getOrRefreshAccessToken: (disconnectOnUnauthorized?: boolean) => Promise<string | null>;
   setTokens: (accessToken: string | null, refreshToken: string | null) => Promise<void>;
   clear: () => Promise<void>;
   logout: () => Promise<void>;
@@ -54,7 +54,7 @@ const useAuthStore = create<AuthState>()(
         ): Promise<void> => {
           await set({ accessToken, refreshToken });
         },
-        refreshAccessToken: (): Promise<string | null> => {
+        refreshAccessToken: (disconnectOnUnauthorized = true): Promise<string | null> => {
           if (!refreshTokensPromise) {
             authLogger.debug('Refreshing access token');
             set({ isFetchingToken: true });
@@ -66,22 +66,22 @@ const useAuthStore = create<AuthState>()(
                 await get().setTokens(accessToken, refreshToken);
                 return accessToken;
               })
-              .catch(async (error: AxiosError) => {
-                if (error.response?.status === 401) {
+              .catch(async (refreshError: AxiosError) => {
+                if (disconnectOnUnauthorized && refreshError.response?.status === 401) {
                   authLogger.debug('Disconnecting user due to server-side unauthorized error');
-                  get().disconnect(error);
+                  get().disconnect(refreshError);
 
                   // prefix a descriptive error message
                   // to let the user know that refreshing tokens failed
-                  const errorMessage = await parseErrorText(error);
+                  const errorMessage = await parseErrorText(refreshError);
                   const prefixedError = new Error(
                     [i18n.t('auth.onRefreshToken.fail'), errorMessage].filter(Boolean).join('\n'),
-                    { cause: error },
+                    { cause: refreshError },
                   );
                   return Promise.reject(prefixedError);
                 }
 
-                return Promise.reject(error);
+                return Promise.reject(refreshError);
               })
               .finally(() => {
                 set({ isFetchingToken: false });
@@ -90,11 +90,19 @@ const useAuthStore = create<AuthState>()(
           }
           return refreshTokensPromise;
         },
-        getOrRefreshAccessToken: async (): Promise<string | null> => {
+        getOrRefreshAccessToken: async (
+          disconnectOnUnauthorized = true,
+        ): Promise<string | null> => {
           const accessToken = get().accessToken;
           const expired = accessToken ? jwtDecode<ApiUser | null>(accessToken)?.exp : null;
+
           if (!expired || dayjs().isAfter(dayjs.unix(expired))) {
-            return get().refreshAccessToken();
+            authLogger.debug(
+              expired
+                ? `Access token is expired since ${dayjs.unix(expired).toISOString()}`
+                : 'Access token is missing',
+            );
+            return get().refreshAccessToken(disconnectOnUnauthorized);
           }
 
           return accessToken;

@@ -26,7 +26,7 @@ import { PushNotificationsProvider } from '@/context/push-notifications';
 import { ReviewProvider } from '@/context/review';
 import { SocialsProvider } from '@/context/socials';
 import { ThemeProvider } from '@/context/theme';
-import { UnlockGateDurationProvider } from '@/context/unlock-gate-duration';
+import { UnlockGateOptionsProvider } from '@/context/unlock-gate-duration';
 import { UpcomingEventsProvider } from '@/context/upcoming-events';
 import { IS_DEV } from '@/services/environment';
 import { HTTP } from '@/services/http';
@@ -100,7 +100,7 @@ const RootLayout = () => {
                                   <NewDeviceProvider>
                                     <PresenceProvider>
                                       <UpcomingEventsProvider>
-                                        <UnlockGateDurationProvider>
+                                        <UnlockGateOptionsProvider>
                                           <OnboardingProvider>
                                             <Stack
                                               screenOptions={{
@@ -186,7 +186,7 @@ const RootLayout = () => {
                                               />
                                             </Stack>
                                           </OnboardingProvider>
-                                        </UnlockGateDurationProvider>
+                                        </UnlockGateOptionsProvider>
                                       </UpcomingEventsProvider>
                                     </PresenceProvider>
                                   </NewDeviceProvider>

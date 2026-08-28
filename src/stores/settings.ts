@@ -62,6 +62,11 @@ interface SettingsState {
     unit: 'day' | 'week' | 'month';
   };
   unlockGateDurationInMs: number;
+  /**
+   * Whether the app should monitor the coworking gate's iBeacon region and
+   * auto-unlock the gate when entering range.
+   */
+  withGateUnlockOnApproach: boolean;
   apiBaseUrl: string | null;
   areTokensInAsyncStorage: boolean;
   clear: () => Promise<void>;
@@ -86,6 +91,7 @@ const defaultSettingsState: Omit<SettingsState, 'hydrated' | 'clear'> = {
     unit: 'day',
   },
   unlockGateDurationInMs: 3_000,
+  withGateUnlockOnApproach: false,
   apiBaseUrl: null,
   areTokensInAsyncStorage: false,
 };

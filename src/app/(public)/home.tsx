@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { NetworkStateType, useNetworkState } from 'expo-network';
-import { useIsFocused } from 'expo-router';
-import { Link } from 'expo-router';
+import { Link, useIsFocused } from 'expo-router';
 import { compact, includes, isNil, sample } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -300,6 +299,17 @@ export default function HomeScreen() {
         />
 
         <View style={tw`flex shrink grow basis-0 flex-row items-center justify-end gap-2`}>
+          {IS_DEV && (
+            <Animated.View
+              entering={BounceIn.duration(1000).delay(450)}
+              exiting={BounceOut.duration(1000)}
+              style={tw`relative`}>
+              <Link asChild href={'/logs/all-logs'}>
+                <AppIconButton icon="bug-outline" iconSize={24} radius={0} />
+              </Link>
+            </Animated.View>
+          )}
+
           {areMessagesEnabled && (
             <Animated.View
               entering={BounceIn.duration(1000).delay(300)}

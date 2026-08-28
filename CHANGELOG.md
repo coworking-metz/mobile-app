@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Keep front gate unlock for a specific duration.
+- Add application logs in advanced settings screen to facilitate troubleshooting.
 
 ## [2026.7.3] - 2026-07-29
 

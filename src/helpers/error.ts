@@ -53,7 +53,7 @@ export const parseErrorText = async (error: AnyError): Promise<string> => {
 export const isSilentError = (error: AnyError): boolean =>
   [AppErrorCode.DISCONNECTED, AppErrorCode.CANCELED].includes((error as AppError)?.code) ||
   [ApiErrorCode.EXPIRED_ACCESS_TOKEN].includes(
-    ((error as AxiosError).response?.data as ApiError)?.code,
+    ((error as AxiosError)?.response?.data as ApiError)?.code,
   );
 
 /**

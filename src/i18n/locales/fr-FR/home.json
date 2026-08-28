@@ -23,20 +23,6 @@
       "fail": "Impossible d'actualiser les\u00A0évènements"
     }
   },
-  "intercom": {
-    "label": {
-      "firstLine": "Déverrouiller",
-      "secondLine": "la porte"
-    },
-    "onFail": {
-      "message": "Impossible de déverrouiller"
-    },
-    "onUnlocked": {
-      "firstLine": "Verrouillage",
-      "secondLine": "dans ",
-      "suffix": "s"
-    }
-  },
   "onPremise": {
     "description": "@:onPremise.description",
     "label": "@:onPremise.title"
@@ -236,5 +222,19 @@
   },
   "services": {
     "label": "Services"
+  },
+  "unlockGate": {
+    "label": {
+      "firstLine": "Déverrouiller",
+      "secondLine": "la porte"
+    },
+    "onFail": {
+      "message": "Impossible de déverrouiller"
+    },
+    "onUnlocked": {
+      "firstLine": "Verrouillage",
+      "secondLine": "dans ",
+      "suffix": "s"
+    }
   }
 }
