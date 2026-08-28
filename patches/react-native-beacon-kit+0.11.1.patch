@@ -1,0 +1,136 @@
+diff --git a/node_modules/react-native-beacon-kit/ios/Beacon.mm b/node_modules/react-native-beacon-kit/ios/Beacon.mm
+index 3cbb201..0c38139 100644
+--- a/node_modules/react-native-beacon-kit/ios/Beacon.mm
++++ b/node_modules/react-native-beacon-kit/ios/Beacon.mm
+@@ -116,12 +116,14 @@
+ // ---------------------------------------------------------------------------
+ // configure
+ // ---------------------------------------------------------------------------
+-- (void)configure:(NSDictionary *)config {
+-    NSDictionary *kalman = config[@"kalmanFilter"];
+-    if (kalman) {
+-        _kalmanEnabled = [kalman[@"enabled"] boolValue];
+-        if (kalman[@"q"]) _kalmanQ = [kalman[@"q"] doubleValue];
+-        if (kalman[@"r"]) _kalmanR = [kalman[@"r"] doubleValue];
++- (void)configure:(JS::NativeBeacon::SpecConfigureConfig &)config {
++    auto kalman = config.kalmanFilter();
++    if (kalman.has_value()) {
++        _kalmanEnabled = kalman->enabled();
++        auto q = kalman->q();
++        auto r = kalman->r();
++        if (q.has_value()) _kalmanQ = *q;
++        if (r.has_value()) _kalmanR = *r;
+         [_kalmanStates removeAllObjects];
+     }
+     // foregroundService, aggressiveBackground, scanPeriod, backgroundScanPeriod,
+@@ -131,11 +133,11 @@
+ // ---------------------------------------------------------------------------
+ // startRanging / stopRanging
+ // ---------------------------------------------------------------------------
+-- (void)startRanging:(NSDictionary *)region
++- (void)startRanging:(JS::NativeBeacon::SpecStartRangingRegion &)region
+              resolve:(RCTPromiseResolveBlock)resolve
+               reject:(RCTPromiseRejectBlock)reject {
+-    NSString *identifier = region[@"identifier"];
+-    NSString *uuidString = region[@"uuid"];
++    NSString *identifier = region.identifier();
++    NSString *uuidString = region.uuid();
+     if (!identifier || !uuidString) {
+         reject(@"RANGING_ERROR", @"identifier and uuid are required", nil);
+         return;
+@@ -157,19 +159,19 @@
+         return;
+     }
+ 
+-    NSNumber *majorNum = region[@"major"];
+-    NSNumber *minorNum = region[@"minor"];
++    std::optional<double> majorOpt = region.major();
++    std::optional<double> minorOpt = region.minor();
+     CLBeaconIdentityConstraint *constraint;
+ 
+-    if (majorNum && minorNum) {
++    if (majorOpt.has_value() && minorOpt.has_value()) {
+         constraint = [[CLBeaconIdentityConstraint alloc]
+                       initWithUUID:uuid
+-                      major:(CLBeaconMajorValue)majorNum.unsignedShortValue
+-                      minor:(CLBeaconMinorValue)minorNum.unsignedShortValue];
+-    } else if (majorNum) {
++                      major:(CLBeaconMajorValue)(*majorOpt)
++                      minor:(CLBeaconMinorValue)(*minorOpt)];
++    } else if (majorOpt.has_value()) {
+         constraint = [[CLBeaconIdentityConstraint alloc]
+                       initWithUUID:uuid
+-                      major:(CLBeaconMajorValue)majorNum.unsignedShortValue];
++                      major:(CLBeaconMajorValue)(*majorOpt)];
+     } else {
+         constraint = [[CLBeaconIdentityConstraint alloc] initWithUUID:uuid];
+     }
+@@ -182,10 +184,10 @@
+     });
+ }
+ 
+-- (void)stopRanging:(NSDictionary *)region
++- (void)stopRanging:(JS::NativeBeacon::SpecStopRangingRegion &)region
+             resolve:(RCTPromiseResolveBlock)resolve
+              reject:(RCTPromiseRejectBlock)reject {
+-    NSString *identifier = region[@"identifier"];
++    NSString *identifier = region.identifier();
+     CLBeaconIdentityConstraint *constraint = _rangingConstraints[identifier];
+     if (constraint) {
+         dispatch_async(dispatch_get_main_queue(), ^{
+@@ -201,11 +203,11 @@
+ // ---------------------------------------------------------------------------
+ // startMonitoring / stopMonitoring
+ // ---------------------------------------------------------------------------
+-- (void)startMonitoring:(NSDictionary *)region
++- (void)startMonitoring:(JS::NativeBeacon::SpecStartMonitoringRegion &)region
+                 resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject {
+-    NSString *identifier = region[@"identifier"];
+-    NSString *uuidString = region[@"uuid"];
++    NSString *identifier = region.identifier();
++    NSString *uuidString = region.uuid();
+     if (!identifier || !uuidString) {
+         reject(@"MONITORING_ERROR", @"identifier and uuid are required", nil);
+         return;
+@@ -227,20 +229,20 @@
+         return;
+     }
+ 
+-    NSNumber *majorNum = region[@"major"];
+-    NSNumber *minorNum = region[@"minor"];
++    std::optional<double> majorOpt = region.major();
++    std::optional<double> minorOpt = region.minor();
+     CLBeaconRegion *beaconRegion;
+ 
+-    if (majorNum && minorNum) {
++    if (majorOpt.has_value() && minorOpt.has_value()) {
+         beaconRegion = [[CLBeaconRegion alloc]
+                         initWithUUID:uuid
+-                        major:(CLBeaconMajorValue)majorNum.unsignedShortValue
+-                        minor:(CLBeaconMinorValue)minorNum.unsignedShortValue
++                        major:(CLBeaconMajorValue)(*majorOpt)
++                        minor:(CLBeaconMinorValue)(*minorOpt)
+                         identifier:identifier];
+-    } else if (majorNum) {
++    } else if (majorOpt.has_value()) {
+         beaconRegion = [[CLBeaconRegion alloc]
+                         initWithUUID:uuid
+-                        major:(CLBeaconMajorValue)majorNum.unsignedShortValue
++                        major:(CLBeaconMajorValue)(*majorOpt)
+                         identifier:identifier];
+     } else {
+         beaconRegion = [[CLBeaconRegion alloc] initWithUUID:uuid identifier:identifier];
+@@ -260,10 +262,10 @@
+     });
+ }
+ 
+-- (void)stopMonitoring:(NSDictionary *)region
++- (void)stopMonitoring:(JS::NativeBeacon::SpecStopMonitoringRegion &)region
+                resolve:(RCTPromiseResolveBlock)resolve
+                 reject:(RCTPromiseRejectBlock)reject {
+-    NSString *identifier = region[@"identifier"];
++    NSString *identifier = region.identifier();
+     CLBeaconRegion *beaconRegion = _monitoringRegions[identifier];
+     if (beaconRegion) {
+         dispatch_async(dispatch_get_main_queue(), ^{
