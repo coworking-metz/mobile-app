@@ -56,7 +56,7 @@ const useAuthStore = create<AuthState>()(
         },
         refreshAccessToken: (disconnectOnUnauthorized = true): Promise<string | null> => {
           if (!refreshTokensPromise) {
-            authLogger.debug('Refreshing access token');
+            authLogger.debug('Refreshing access and refresh tokens');
             set({ isFetchingToken: true });
             refreshTokensPromise = getAccessAndRefreshTokens(
               get().refreshToken as string,
@@ -68,7 +68,10 @@ const useAuthStore = create<AuthState>()(
               })
               .catch(async (refreshError: AxiosError) => {
                 if (disconnectOnUnauthorized && refreshError.response?.status === 401) {
-                  authLogger.debug('Disconnecting user due to server-side unauthorized error');
+                  authLogger.debug(
+                    'Disconnecting user due to server-side unauthorized error when refreshing tokens',
+                    refreshError,
+                  );
                   get().disconnect(refreshError);
 
                   // prefix a descriptive error message
@@ -97,11 +100,6 @@ const useAuthStore = create<AuthState>()(
           const expired = accessToken ? jwtDecode<ApiUser | null>(accessToken)?.exp : null;
 
           if (!expired || dayjs().isAfter(dayjs.unix(expired))) {
-            authLogger.debug(
-              expired
-                ? `Access token is expired since ${dayjs.unix(expired).toISOString()}`
-                : 'Access token is missing',
-            );
             return get().refreshAccessToken(disconnectOnUnauthorized);
           }
 

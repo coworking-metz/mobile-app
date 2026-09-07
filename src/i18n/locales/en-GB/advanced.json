@@ -1,6 +1,7 @@
 {
   "description": "For those who are in on it",
   "logs": {
+    "clear": "Delete logs",
     "description": "History of what happened to simplify debugging",
     "empty": "No logs yet",
     "onFetch": {

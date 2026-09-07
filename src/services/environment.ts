@@ -40,4 +40,4 @@ export const MANAGER_BASE_URL =
 
 export const SUPPORT_EMAIL = 'contact@coworking-metz.fr';
 
-export const IS_GATE_UNLOCK_ON_APPROACH_ENABLED = true; // process.env.EXPO_PUBLIC_IS_GATE_UNLOCK_ON_APPROACH_ENABLED === 'true';
+export const IS_GATE_UNLOCK_ON_APPROACH_ENABLED = IS_DEV;
