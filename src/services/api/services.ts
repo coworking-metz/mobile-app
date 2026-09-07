@@ -1,4 +1,3 @@
-import { IS_DEV } from '@/services/environment';
 import { HTTP } from '@/services/http';
 
 export const unlockSteelGate = async (
@@ -23,16 +22,7 @@ export type ApiBeaconRegion = {
 export const getUnlockSteelGateOptions = async (): Promise<{
   beaconRegion: ApiBeaconRegion;
 }> => {
-  return IS_DEV
-    ? Promise.resolve({
-        beaconRegion: {
-          identifier: 'dev',
-          uuid: '2BDA481F-3A93-4DA2-B6B8-114FDD537D9C',
-          minor: 17551,
-          major: 50408,
-        },
-      })
-    : HTTP.get('/api/on-premise/unlock-gate/options').then(({ data }) => data);
+  return HTTP.get('/api/on-premise/unlock-gate/options').then(({ data }) => data);
 };
 
 export const openParkingGate = async (): Promise<{

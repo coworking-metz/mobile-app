@@ -1,6 +1,3 @@
-import AppTextField from '../AppTextField';
-import ErrorBadge from '../ErrorBadge';
-import SectionTitle from '../Layout/SectionTitle';
 import { useQuery } from '@tanstack/react-query';
 import React, {
   forwardRef,
@@ -21,8 +18,11 @@ import AppBottomSheet, {
 import AppSegmentedControl from '@/components/AppSegmentedControl';
 import AppSwitch from '@/components/AppSwitch';
 import AppText from '@/components/AppText';
+import AppTextField from '@/components/AppTextField';
 import AppTextLink from '@/components/AppTextLink';
 import Divider from '@/components/Divider';
+import ErrorBadge from '@/components/ErrorBadge';
+import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingProgressBar from '@/components/LoadingProgressBar';
 import { theme } from '@/helpers/colors';
@@ -80,7 +80,7 @@ const UnlockGateOptionsBottomSheet: ForwardRefRenderFunction<
   }, []);
 
   return (
-    <AppBottomSheet ref={bottomSheetRef} scrollable {...props} style={[tw`p-6`, style]}>
+    <AppBottomSheet ref={bottomSheetRef} {...props} style={[tw`p-6`, style]}>
       <AppText style={tw`mt-2 text-center text-xl font-medium text-slate-900 dark:text-gray-200`}>
         {t('settings.home.unlockGateOptions.label')}
       </AppText>
@@ -212,7 +212,7 @@ const UnlockGateOptionsBottomSheet: ForwardRefRenderFunction<
                   value={useUnlockGateStore((state) => state.lastRegionState ?? '')}
                   onChangeText={(lastRegionState) =>
                     useUnlockGateStore.setState({
-                      lastRegionState: (lastRegionState as any) || null,
+                      lastRegionState: (lastRegionState as never) || null,
                     })
                   }
                 />

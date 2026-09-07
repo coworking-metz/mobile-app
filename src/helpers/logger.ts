@@ -45,6 +45,14 @@ export const listLogFiles = (): LogFileInfo[] => {
   }
 };
 
+export const clearLogFiles = (): void => {
+  Paths.document
+    .list()
+    .filter((entry): entry is File => entry instanceof File)
+    .filter((file) => LOG_FILE_NAME_REGEX.test(file.name))
+    .forEach((file) => file.delete());
+};
+
 const fileTransportOptions = {
   FS: { File, Paths },
   fileName: getLogFileName(dayjs().format(LOG_DATE_FORMAT)),

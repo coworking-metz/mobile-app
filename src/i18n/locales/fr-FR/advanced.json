@@ -1,6 +1,7 @@
 {
   "description": "Pour ceux qui sachent",
   "logs": {
+    "clear": "Supprimer les logs",
     "description": "Historique de ce qui s'est passé pour simplifier le débogage",
     "empty": "Aucune ligne de log pour l'instant",
     "onFetch": {

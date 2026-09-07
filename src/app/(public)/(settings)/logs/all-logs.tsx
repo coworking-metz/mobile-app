@@ -9,7 +9,7 @@ import AppText from '@/components/AppText';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import useAppState from '@/helpers/app-state';
-import { listLogFiles } from '@/helpers/logger';
+import { clearLogFiles, listLogFiles } from '@/helpers/logger';
 
 const formatFileSize = (bytes: number): string => {
   if (bytes < 1024) return `${bytes} B`;
@@ -37,6 +37,19 @@ const AllLogs = () => {
 
   return (
     <ServiceLayout
+      actions={[
+        {
+          id: 'delete',
+          title: t('advanced.logs.clear'),
+          onPress: () => {
+            clearLogFiles();
+            refreshLogFiles();
+          },
+          attributes: {
+            destructive: true,
+          },
+        },
+      ]}
       contentStyle={tw`p-3`}
       description={t('advanced.logs.description')}
       title={t('advanced.logs.title')}
