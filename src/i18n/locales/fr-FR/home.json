@@ -191,7 +191,7 @@
       "add": "Ajouter",
       "available_one": "<0>{{count}}</0> restant",
       "available_other": "<0>{{count}}</0> disponibles",
-      "available_zero": "Aucun",
+      "available_zero": "<0>{{count}}</0> disponible",
       "balance": {
         "label": "Solde actuel",
         "onDepleted_one": "Une dette excessive peut entraîner une suspension de vos accès.",
@@ -205,12 +205,24 @@
         "description": "depuis votre arrivée",
         "label": "Consommation"
       },
+      "debt": {
+        "description": "Vous étiez présent mais votre solde est insuffisant",
+        "label": "Dette"
+      },
       "depleted_one": "<0>{{count}}</0> redevable",
       "depleted_other": "<0>{{count}}</0> redevables",
-      "description": "Les tickets sont sans fin de validité et chaque ticket équivaut à deux demi-journées.\nUne présence de moins de 5 heures sur une journée correspond à une demi-journée.",
+      "description": "Les tickets n'ont pas de date d'expiration et chaque ticket équivaut à deux demi-journées.\nUne présence de moins de 5 heures sur une journée correspond à une demi-journée.",
       "label": "Tickets à\nla journée",
       "onFetch": {
         "fail": "Impossible d'actualiser les\u00A0commandes de\u00A0tickets"
+      },
+      "orders": {
+        "count_one": "<0>{{count}}</0> commandé",
+        "count_other": "<0>{{count}}</0> commandés",
+        "count_zero": "Aucun",
+        "label_one": "Commande",
+        "label_other": "Commandes",
+        "label_zero": "Commandes"
       },
       "title": "Tickets à la journée"
     }

@@ -79,10 +79,13 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
     }
   }, [activeSince]);
 
+  const ordersCount = useMemo(() => {
+    return ticketsOrders?.reduce((acc, order) => acc + order.count, 0) ?? null;
+  }, [ticketsOrders]);
+
   const consumedCount = useMemo(() => {
-    const ordersCount = ticketsOrders?.reduce((acc, order) => acc + order.count, 0) ?? null;
     return !isNil(ordersCount) ? Math.abs(ordersCount - (memberProfile?.balance ?? 0)) : null;
-  }, [ticketsOrders, memberProfile?.balance]);
+  }, [ordersCount, memberProfile?.balance]);
 
   return (
     <AppBottomSheet ref={forwardedRef} style={[tw`p-6`, style]} onClose={onClose}>
@@ -100,62 +103,114 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
         {t('home.profile.tickets.description')}
       </AppText>
 
-      <ServiceRow
-        withBottomDivider
-        label={t('home.profile.tickets.balance.label')}
-        style={tw`mt-2 w-full px-0`}>
-        {isProfileQueryEnabled && isPendingProfile ? (
-          <LoadingSkeleton height={24} width={96} />
-        ) : (
-          <Trans
-            components={[
-              <AppText
-                key="emphasis"
+      <View style={tw`my-2 w-full`}>
+        <ServiceRow
+          withBottomDivider
+          label={t('home.profile.tickets.orders.label', { count: ticketsOrders?.length ?? 0 })}
+          style={tw`w-full px-0`}>
+          {isFetchingTicketsOrders ? (
+            <LoadingSkeleton height={24} width={96} />
+          ) : (
+            <Trans
+              components={[
+                <AppText
+                  key="emphasis"
+                  numberOfLines={1}
+                  style={tw`font-semibold text-slate-900 dark:text-gray-200`}
+                />,
+              ]}
+              defaults={t('home.profile.tickets.orders.count', { count: ordersCount ?? 0 })}
+              numberOfLines={1}
+              parent={AppText}
+              style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
+            />
+          )}
+        </ServiceRow>
+        <ServiceRow
+          withBottomDivider
+          description={t('home.profile.tickets.consumed.description')}
+          label={t('home.profile.tickets.consumed.label')}
+          style={tw`w-full px-0`}>
+          {isFetchingTicketsOrders ? (
+            <LoadingSkeleton height={24} width={96} />
+          ) : (
+            <Trans
+              components={[
+                <AppText
+                  key="emphasis"
+                  numberOfLines={1}
+                  style={tw`font-semibold text-slate-900 dark:text-gray-200`}
+                />,
+              ]}
+              defaults={t('home.profile.tickets.consumed.count', { count: consumedCount ?? 0 })}
+              numberOfLines={1}
+              parent={AppText}
+              style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
+            />
+          )}
+        </ServiceRow>
+        <ServiceRow
+          label={t('home.profile.tickets.balance.label')}
+          style={tw`w-full px-0`}
+          withBottomDivider={!isNil(memberProfile?.balance) && memberProfile.balance < 0}>
+          {isProfileQueryEnabled && isPendingProfile ? (
+            <LoadingSkeleton height={24} width={96} />
+          ) : (
+            <Trans
+              components={[
+                <AppText
+                  key="emphasis"
+                  numberOfLines={1}
+                  style={tw`font-semibold text-slate-900 dark:text-gray-200`}
+                />,
+              ]}
+              defaults={
+                isNil(memberProfile?.balance)
+                  ? t('home.profile.tickets.available', { count: 0 })
+                  : memberProfile?.balance < 0
+                    ? t('home.profile.tickets.available', { count: 0 })
+                    : t('home.profile.tickets.available', { count: memberProfile.balance })
+              }
+              numberOfLines={1}
+              parent={AppText}
+              style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
+            />
+          )}
+        </ServiceRow>
+        {!isNil(memberProfile?.balance) && memberProfile.balance < 0 && (
+          <ServiceRow
+            description={t('home.profile.tickets.debt.description')}
+            label={t('home.profile.tickets.debt.label')}
+            style={tw`w-full px-0`}>
+            {isProfileQueryEnabled && isPendingProfile ? (
+              <LoadingSkeleton height={24} width={96} />
+            ) : (
+              <Trans
+                components={[
+                  <AppText
+                    key="emphasis"
+                    numberOfLines={1}
+                    style={tw`font-semibold text-slate-900 dark:text-gray-200`}
+                  />,
+                ]}
+                defaults={t('home.profile.tickets.depleted', { count: -memberProfile.balance })}
                 numberOfLines={1}
-                style={tw`font-semibold text-slate-900 dark:text-gray-200`}
-              />,
-            ]}
-            defaults={
-              isNil(memberProfile?.balance)
-                ? t('home.profile.tickets.available', { count: 0 })
-                : memberProfile?.balance < 0
-                  ? t('home.profile.tickets.depleted', { count: -memberProfile.balance })
-                  : t('home.profile.tickets.available', { count: memberProfile.balance })
-            }
-            numberOfLines={1}
-            parent={AppText}
-            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
-          />
+                parent={AppText}
+                style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
+              />
+            )}
+          </ServiceRow>
         )}
-      </ServiceRow>
-      <ServiceRow
-        description={t('home.profile.tickets.consumed.description')}
-        label={t('home.profile.tickets.consumed.label')}
-        style={tw`mb-2 w-full px-0`}>
-        {isFetchingTicketsOrders ? (
-          <LoadingSkeleton height={24} width={96} />
-        ) : (
-          <Trans
-            components={[
-              <AppText
-                key="emphasis"
-                numberOfLines={1}
-                style={tw`font-semibold text-slate-900 dark:text-gray-200`}
-              />,
-            ]}
-            defaults={t('home.profile.tickets.consumed.count', { count: consumedCount ?? 0 })}
-            numberOfLines={1}
-            parent={AppText}
-            style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
-          />
-        )}
-      </ServiceRow>
+      </View>
       {ticketsOrdersError && !isSilentError(ticketsOrdersError) ? (
         <ErrorChip
           error={ticketsOrdersError}
           label={t('home.profile.tickets.onFetch.fail')}
           style={tw`mb-4 mt-1 self-start`}
-          onRetry={refetchTicketsOrders}
+          onRetry={() => {
+            refetchTicketsOrders();
+            refetchProfile();
+          }}
         />
       ) : null}
       {memberProfile && isMemberBalanceInsufficient(memberProfile) && (
