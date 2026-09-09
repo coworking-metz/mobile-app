@@ -22,8 +22,7 @@ jobs:
       - name: Compute release tag
         id: compute_tag
         run: |
-          TAG=$(echo $(git tag | grep -o $(date '+%Y.%-m.') | wc -l) + 1 | bc)
-          echo "next=$(date '+%Y.%-m.')$TAG" >> $GITHUB_OUTPUT
+          npm run -s version >> $GITHUB_OUTPUT
 
       - name: Update version in package.json and package-lock.json
         run: |

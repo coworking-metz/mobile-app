@@ -22,7 +22,8 @@
     "prebuild": "expo prebuild --clean",
     "start": "expo start --port 19001",
     "update": "ncu --deep --cooldown 7d",
-    "update:interactive": "npm run update -- --interactive"
+    "update:interactive": "npm run update -- --interactive",
+    "version": "echo \"$(date '+%Y.%-m.')$(echo $(git describe --tags --abbrev=0 | grep -o $(date '+%Y.%-m.') | wc -l) + 1 | bc)\""
   },
   "dependencies": {
     "@callstack/liquid-glass": "^0.8.1",
