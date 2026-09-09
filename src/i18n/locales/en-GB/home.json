@@ -181,7 +181,7 @@
       "add": "Add",
       "available_one": "<0>{{count}}</0> left",
       "available_other": "<0>{{count}}</0> available",
-      "available_zero": "None",
+      "available_zero": "<0>{{count}}</0> available",
       "balance": {
         "label": "Current balance",
         "onDepleted_one": "Excessive overconsumption can lead to a suspension of your access.",
@@ -195,12 +195,24 @@
         "description": "since your arrival",
         "label": "Overall consumption"
       },
+      "debt": {
+        "description": "You were present but your balance is insufficient",
+        "label": "Debt"
+      },
       "depleted_one": "<0>{{count}}</0> missing",
       "depleted_other": "<0>{{count}}</0> missing",
-      "description": "Tickets have unlimited validity, and each ticket is equivalent to two half-days.\nPresence of less than 5 hours in a day corresponds to half a day.",
+      "description": "Tickets have no expiration date, and each ticket is equivalent to two half-days.\nAttending less than 5 hours in a day corresponds to half a day.",
       "label": "Individual\ntickets",
       "onFetch": {
         "fail": "Unable to fetch tickets\u00A0orders"
+      },
+      "orders": {
+        "count_one": "<0>{{count}}</0> ordered",
+        "count_other": "<0>{{count}}</0> ordered",
+        "count_zero": "None",
+        "label_one": "Order",
+        "label_other": "Orders",
+        "label_zero": "Orders"
       },
       "title": "Individual tickets"
     }
