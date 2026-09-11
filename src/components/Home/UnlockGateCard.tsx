@@ -113,7 +113,7 @@ const UnlockCard = ({
     lastWarning,
   ]);
 
-  const onOpenDurationSheet = useCallback(() => {
+  const onOpenOptionsSheet = useCallback(() => {
     vibrate(HapticFeedbackType.Medium);
     selectUnlockGateOptions();
   }, [selectUnlockGateOptions]);
@@ -178,8 +178,10 @@ const UnlockCard = ({
       disabled={disabled}
       style={style}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setCardWidth(nativeEvent.layout.width)}
-      onLongPress={onOpenDurationSheet}
-      onPress={() => (user ? onUnlock() : login?.())}>
+      onPress={() => (user ? onUnlock() : login?.())}
+      {...(user && {
+        onLongPress: onOpenOptionsSheet,
+      })}>
       <AppSquircleView
         style={[
           tw.style(

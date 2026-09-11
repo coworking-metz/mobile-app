@@ -213,6 +213,7 @@
       "depleted_other": "<0>{{count}}</0> redevables",
       "description": "Les tickets n'ont pas de date d'expiration et chaque ticket équivaut à deux demi-journées.\nUne présence de moins de 5 heures sur une journée correspond à une demi-journée.",
       "label": "Tickets à\nla journée",
+      "none": "Aucun",
       "onFetch": {
         "fail": "Impossible d'actualiser les\u00A0commandes de\u00A0tickets"
       },
@@ -238,7 +239,7 @@
   "unlockGate": {
     "label": {
       "firstLine": "Déverrouiller",
-      "secondLine": "la porte"
+      "secondLine": "le portail"
     },
     "onFail": {
       "message": "Impossible de déverrouiller"

@@ -203,6 +203,7 @@
       "depleted_other": "<0>{{count}}</0> missing",
       "description": "Tickets have no expiration date, and each ticket is equivalent to two half-days.\nAttending less than 5 hours in a day corresponds to half a day.",
       "label": "Individual\ntickets",
+      "none": "None",
       "onFetch": {
         "fail": "Unable to fetch tickets\u00A0orders"
       },
