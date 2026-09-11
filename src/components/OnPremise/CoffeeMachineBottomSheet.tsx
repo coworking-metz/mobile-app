@@ -19,7 +19,7 @@ const CoffeeMachineBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppB
   return (
     <AppBottomSheet
       ref={forwardedRef}
-      style={[tw`flex flex-col items-stretch px-6`, style]}
+      style={[tw`flex flex-col items-stretch p-6`, style]}
       onClose={onClose}>
       <CoffeeMachineAnimation autoPlay loop={false} style={tw`mb-2 h-[192px] w-full`} />
       <AppText
