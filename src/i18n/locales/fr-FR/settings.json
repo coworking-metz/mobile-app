@@ -22,15 +22,15 @@
   "home": {
     "unlockGateOptions": {
       "beacon": {
-        "description": "Lorsque activée, la porte se déverrouille automatiquement sans avoir besoin d'ouvrir l'application.\n\nDes <0>autorisations</0> supplémentaires sont nécessaires, comme l'accès au Bluetooth et à la localisation en permanence.",
+        "description": "Lorsque activée, le portail se déverrouille automatiquement sans avoir besoin d'ouvrir l'application.\n\nDes <0>autorisations</0> supplémentaires sont nécessaires, comme l'accès au Bluetooth et à la localisation en permanence.",
         "hint": "à l'approche",
         "label": "Déverrouiller automatiquement",
         "title": "Expérimental",
         "unavailable": "Cette fonctionnalité n'est disponible que sur des appareils physiques équipés du Bluetooth."
       },
-      "description": "La porte reste déverrouillée pendant toute la durée sélectionnée.\nCette durée est appliquée à chaque déverrouillage.",
+      "description": "Le portail reste déverrouillé pendant toute la durée sélectionnée.\nCette durée est appliquée à chaque déverrouillage.",
       "hint": "pendant une durée déterminée",
-      "label": "Maintenir la porte déverrouillée",
+      "label": "Maintenir le portail déverrouillé",
       "onFetch": {
         "fail": "Impossible de récupérer les options de déverrouillage"
       }

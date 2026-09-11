@@ -79,13 +79,13 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
     }
   }, [activeSince]);
 
-  const ordersCount = useMemo(() => {
+  const orderedCount = useMemo(() => {
     return ticketsOrders?.reduce((acc, order) => acc + order.count, 0) ?? null;
   }, [ticketsOrders]);
 
   const consumedCount = useMemo(() => {
-    return !isNil(ordersCount) ? Math.abs(ordersCount - (memberProfile?.balance ?? 0)) : null;
-  }, [ordersCount, memberProfile?.balance]);
+    return !isNil(orderedCount) ? Math.abs(orderedCount - (memberProfile?.balance ?? 0)) : null;
+  }, [orderedCount, memberProfile?.balance]);
 
   return (
     <AppBottomSheet ref={forwardedRef} style={[tw`p-6`, style]} onClose={onClose}>
@@ -119,7 +119,7 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
                   style={tw`font-semibold text-slate-900 dark:text-gray-200`}
                 />,
               ]}
-              defaults={t('home.profile.tickets.orders.count', { count: ordersCount ?? 0 })}
+              defaults={t('home.profile.tickets.orders.count', { count: orderedCount ?? 0 })}
               numberOfLines={1}
               parent={AppText}
               style={tw`text-right text-base font-normal text-slate-500 dark:text-neutral-500`}
@@ -166,7 +166,7 @@ const BalanceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
               ]}
               defaults={
                 isNil(memberProfile?.balance)
-                  ? t('home.profile.tickets.available', { count: 0 })
+                  ? t('home.profile.tickets.none')
                   : memberProfile?.balance < 0
                     ? t('home.profile.tickets.available', { count: 0 })
                     : t('home.profile.tickets.available', { count: memberProfile.balance })

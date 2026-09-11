@@ -42,6 +42,12 @@ const BalanceCard = ({
         </AppText>
         {loading ? (
           <LoadingSkeleton height={28} show={loading} width={96} />
+        ) : count === 0 ? (
+          <AppText
+            numberOfLines={1}
+            style={tw`shrink text-2xl font-normal text-gray-400 dark:text-neutral-700`}>
+            {t('home.profile.tickets.none')}
+          </AppText>
         ) : (
           <Trans
             components={[
@@ -52,7 +58,7 @@ const BalanceCard = ({
               />,
             ]}
             defaults={
-              count >= 0
+              count > 0
                 ? t('home.profile.tickets.available', { count: count })
                 : t('home.profile.tickets.depleted', { count: -count })
             }
@@ -60,7 +66,7 @@ const BalanceCard = ({
             numberOfLines={1}
             parent={AppText}
             style={[
-              tw`flex-shrink font-normal`,
+              tw`shrink font-normal`,
               count != 0
                 ? tw`ml-0.5 text-sm leading-[1.625rem] text-slate-500 dark:text-neutral-500`
                 : tw`text-2xl text-gray-400 dark:text-neutral-700`,

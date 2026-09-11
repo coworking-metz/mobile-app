@@ -417,28 +417,31 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 {upcomingEventsPeriodValue}
               </AppText>
             </ServiceRow>
-            <ServiceRow
-              withBottomDivider
-              description={t('settings.home.unlockGateOptions.hint')}
-              label={t('settings.home.unlockGateOptions.label')}
-              prefixIcon="timer-lock-open-outline"
-              style={tw`mx-3 px-3`}
-              onPress={selectUnlockGateOptions}>
-              <AppText style={tw`text-right text-base font-normal text-amber-500`}>
-                {unlockGateDurationInMs ? formatDuration(unlockGateDurationInMs) : null}
-              </AppText>
-            </ServiceRow>
+
             {authStore.user?.id && (
-              <Link asChild href="/devices/">
+              <>
                 <ServiceRow
                   withBottomDivider
-                  label={t('devices.title')}
-                  prefixIcon="devices"
-                  selected={isWide && pathname.startsWith('/devices')}
+                  description={t('settings.home.unlockGateOptions.hint')}
+                  label={t('settings.home.unlockGateOptions.label')}
+                  prefixIcon="timer-lock-open-outline"
                   style={tw`mx-3 px-3`}
-                  suffixIcon="chevron-right"
-                />
-              </Link>
+                  onPress={selectUnlockGateOptions}>
+                  <AppText style={tw`text-right text-base font-normal text-amber-500`}>
+                    {unlockGateDurationInMs ? formatDuration(unlockGateDurationInMs) : null}
+                  </AppText>
+                </ServiceRow>
+                <Link asChild href="/devices/">
+                  <ServiceRow
+                    withBottomDivider
+                    label={t('devices.title')}
+                    prefixIcon="devices"
+                    selected={isWide && pathname.startsWith('/devices')}
+                    style={tw`mx-3 px-3`}
+                    suffixIcon="chevron-right"
+                  />
+                </Link>
+              </>
             )}
             <Link asChild href="/privacy/">
               <ServiceRow
