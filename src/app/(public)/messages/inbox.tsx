@@ -70,7 +70,7 @@ const InboxScreen = ({ from }: { from?: string }) => {
     refetch: refetchMessages,
     dataUpdatedAt: messagesUpdatedAt,
   } = useQuery({
-    queryKey: membersQueryKeys.allMessagesById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id ? membersQueryKeys.allMessagesById(authStore.user.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberMessages(userId);

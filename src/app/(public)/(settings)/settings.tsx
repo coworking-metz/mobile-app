@@ -107,7 +107,9 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     error: activityError,
     refetch: refetchActivity,
   } = useQuery({
-    queryKey: membersQueryKeys.activityById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id
+      ? membersQueryKeys.activityById(authStore.user.id)
+      : [`hello-activity`],
     queryFn: () => {
       if (authStore.user?.id) {
         return getMemberActivity(authStore.user.id);
@@ -124,7 +126,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     refetch: refetchProfile,
     isEnabled: isProfileEnabled,
   } = useQuery({
-    queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id ? membersQueryKeys.profileById(authStore.user.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId);

@@ -100,7 +100,7 @@ export default function HomeScreen() {
     error: profileError,
     isEnabled: isProfileEnabled,
   } = useQuery({
-    queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id ? membersQueryKeys.profileById(authStore.user.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId);
@@ -117,7 +117,7 @@ export default function HomeScreen() {
     refetch: refetchDevices,
     isEnabled: areDevicesEnabled,
   } = useQuery({
-    queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id ? membersQueryKeys.devicesById(authStore.user.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberDevices(userId);
@@ -133,7 +133,7 @@ export default function HomeScreen() {
     refetch: refetchMessages,
     isEnabled: areMessagesEnabled,
   } = useQuery({
-    queryKey: membersQueryKeys.allMessagesById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id ? membersQueryKeys.allMessagesById(authStore.user.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberMessages(userId);
@@ -156,7 +156,7 @@ export default function HomeScreen() {
     error: subscriptionsError,
     isEnabled: areSubscriptionsEnabled,
   } = useQuery({
-    queryKey: membersQueryKeys.subscriptionsById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id ? membersQueryKeys.subscriptionsById(authStore.user.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberSubscriptions(userId);

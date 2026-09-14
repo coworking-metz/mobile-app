@@ -36,7 +36,7 @@ const Account = () => {
     error: profileError,
     refetch: refetchProfile,
   } = useQuery({
-    queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id ? membersQueryKeys.profileById(authStore.user.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberProfile(userId);

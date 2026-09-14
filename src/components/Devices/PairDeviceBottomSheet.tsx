@@ -182,32 +182,29 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
         const deviceName = deviceInfo.name || Device.deviceName || null;
         setName(deviceName);
 
+        const userId = authStore.user?.id as string;
         const [newDevice] = await Promise.all([
-          addMemberDevice(
-            authStore.user?.id as string,
-            {
-              name: deviceName,
-              macAddress: deviceMacAddress,
-              type: DeviceType.MOBILE,
-            } as ApiMemberDevice,
-          ),
+          addMemberDevice(userId, {
+            name: deviceName,
+            macAddress: deviceMacAddress,
+            type: DeviceType.MOBILE,
+          } as ApiMemberDevice),
           // wait at least 1 second to let the user read the text
           new Promise((r) => setTimeout(r, 1_000)),
         ]);
         setAddedDevice(newDevice);
         queryClient.invalidateQueries({
-          queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
+          queryKey: membersQueryKeys.devicesById(userId),
           exact: true,
         });
 
-        const attendingDevice = await verifyAttendingDevice(
-          authStore.user?.id as string,
-          newDevice._id as string,
-        ).catch((error) => {
-          throw new Error([t('devices.add.onVerifyDevice.fail'), error.message].join('\n'));
-        });
+        const attendingDevice = await verifyAttendingDevice(userId, newDevice._id as string).catch(
+          (error) => {
+            throw new Error([t('devices.add.onVerifyDevice.fail'), error.message].join('\n'));
+          },
+        );
         queryClient.invalidateQueries({
-          queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
+          queryKey: membersQueryKeys.devicesById(userId),
           exact: true,
         });
         resolve(attendingDevice as never);
@@ -288,9 +285,12 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
       });
 
       // refresh attending members and profile to be consistent
-      queryClient.invalidateQueries({
-        queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
-      });
+      if (authStore.user?.id) {
+        queryClient.invalidateQueries({
+          queryKey: membersQueryKeys.profileById(authStore.user.id),
+          exact: true,
+        });
+      }
       queryClient.invalidateQueries({ queryKey: membersQueryKeys.attending() });
     }
   }, [verifiedDevice, noticeStore, t, bottomSheetRef, queryClient, settingsStore, toastStore]);

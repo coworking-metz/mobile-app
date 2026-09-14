@@ -37,7 +37,7 @@ const Devices = () => {
     error: devicesError,
     refetch: refetchDevices,
   } = useQuery({
-    queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id ? membersQueryKeys.devicesById(authStore.user.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberDevices(userId);

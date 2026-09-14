@@ -64,7 +64,7 @@ const DeviceDetail = () => {
     error: devicesError,
     refetch: refetchDevices,
   } = useQuery({
-    queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id ? membersQueryKeys.devicesById(authStore.user.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberDevices(userId);
@@ -86,9 +86,11 @@ const DeviceDetail = () => {
     nameField.current.blur();
     macAddressField.current.blur();
 
+    const userId = authStore.user?.id as string;
+
     setSubmitting(true);
     updateMemberDevice(
-      authStore.user?.id as string,
+      userId,
       device?._id as string,
       {
         ...device,
@@ -104,11 +106,11 @@ const DeviceDetail = () => {
           timeout: TOAST_SUCCESS_TIMEOUT,
         });
         queryClient.invalidateQueries({
-          queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
+          queryKey: membersQueryKeys.devicesById(userId),
           exact: true,
         });
         queryClient.invalidateQueries({
-          queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
+          queryKey: membersQueryKeys.profileById(userId),
           exact: true,
         });
         queryClient.invalidateQueries({
@@ -140,8 +142,10 @@ const DeviceDetail = () => {
   ]);
 
   const onDelete = useCallback(() => {
+    const userId = authStore.user?.id as string;
+
     setDeleting(true);
-    deleteMemberDevice(authStore.user?.id as string, deviceId as string)
+    deleteMemberDevice(userId, deviceId as string)
       .then(() => {
         toastStore.add({
           message: t('devices.onDelete.success', { name: device?.name || device?.macAddress }),
@@ -149,11 +153,11 @@ const DeviceDetail = () => {
           timeout: TOAST_SUCCESS_TIMEOUT,
         });
         queryClient.invalidateQueries({
-          queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
+          queryKey: membersQueryKeys.devicesById(userId),
           exact: true,
         });
         queryClient.invalidateQueries({
-          queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
+          queryKey: membersQueryKeys.profileById(userId),
           exact: true,
         });
         queryClient.invalidateQueries({
