@@ -44,7 +44,7 @@ export default function MessageScreen() {
   const [restoring, setRestoring] = useState(false);
 
   const { isPending: isPendingMessageFromList, data: messageFromList } = useQuery({
-    queryKey: membersQueryKeys.allMessagesById(authStore.user?.id ?? ''),
+    queryKey: authStore.user?.id ? membersQueryKeys.allMessagesById(authStore.user.id) : [],
     queryFn: ({ queryKey: [_, userId] }) => {
       if (userId) {
         return getMemberMessages(userId);
@@ -62,7 +62,9 @@ export default function MessageScreen() {
     error: fullMessageError,
     refetch: refetchFullMessage,
   } = useQuery({
-    queryKey: membersQueryKeys.messageById(authStore.user?.id ?? '', messageId as string),
+    queryKey: authStore.user?.id
+      ? membersQueryKeys.messageById(authStore.user.id, messageId as string)
+      : [],
     queryFn: ({ queryKey: [_membersPath, userId, _messagesPath, keyMessageId] }) => {
       if (userId) {
         return getMemberMessage(userId, keyMessageId);
@@ -77,8 +79,10 @@ export default function MessageScreen() {
   }, [fullMessage, messageFromList]);
 
   const onArchive = useCallback(() => {
+    const userId = authStore.user?.id as string;
+
     setArchiving(true);
-    archiveMemberMessage(authStore.user?.id as string, messageId as string)
+    archiveMemberMessage(userId, messageId as string)
       .then((archivedMessage) => {
         toastStore.add({
           message: t('messages.onArchive.success', { title: archivedMessage?.title }),
@@ -86,11 +90,11 @@ export default function MessageScreen() {
           timeout: TOAST_SUCCESS_TIMEOUT,
         });
         queryClient.invalidateQueries({
-          queryKey: membersQueryKeys.messageById(authStore.user?.id ?? '', messageId as string),
+          queryKey: membersQueryKeys.messageById(userId, messageId as string),
           exact: true,
         });
         queryClient.setQueryData(
-          membersQueryKeys.allMessagesById(authStore.user?.id ?? ''),
+          membersQueryKeys.allMessagesById(userId),
           (allMessages: ApiMessage[]) => {
             if (Array.isArray(allMessages)) {
               return allMessages.map((m) =>
@@ -118,8 +122,10 @@ export default function MessageScreen() {
   }, [router, toastStore, queryClient, noticeStore, authStore.user, message, messageId]);
 
   const onRestore = useCallback(() => {
+    const userId = authStore.user?.id as string;
+
     setRestoring(true);
-    restoreMemberMessage(authStore.user?.id as string, messageId as string)
+    restoreMemberMessage(userId, messageId as string)
       .then((restoredMessage) => {
         toastStore.add({
           message: t('messages.onRestore.success', { title: restoredMessage?.title }),
@@ -127,11 +133,11 @@ export default function MessageScreen() {
           timeout: TOAST_SUCCESS_TIMEOUT,
         });
         queryClient.invalidateQueries({
-          queryKey: membersQueryKeys.messageById(authStore.user?.id ?? '', messageId as string),
+          queryKey: membersQueryKeys.messageById(userId, messageId as string),
           exact: true,
         });
         queryClient.setQueryData(
-          membersQueryKeys.allMessagesById(authStore.user?.id ?? ''),
+          membersQueryKeys.allMessagesById(userId),
           (allMessages: ApiMessage[]) => {
             if (Array.isArray(allMessages)) {
               return allMessages.map((m) =>
@@ -160,8 +166,9 @@ export default function MessageScreen() {
 
   useEffect(() => {
     if (fullMessage && fullMessage?.read !== messageFromList?.read) {
+      const userId = authStore.user?.id as string;
       queryClient.setQueryData(
-        membersQueryKeys.allMessagesById(authStore.user?.id ?? ''),
+        membersQueryKeys.allMessagesById(userId),
         (allMessages: ApiMessage[]) => {
           if (Array.isArray(allMessages)) {
             return allMessages.map((m) =>

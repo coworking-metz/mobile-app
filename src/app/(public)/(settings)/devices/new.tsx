@@ -62,15 +62,14 @@ const NewDevice = () => {
     nameField.current.blur();
     macAddressField.current.blur();
 
+    const userId = authStore.user?.id as string;
+
     setSubmitting(true);
-    addMemberDevice(
-      authStore.user?.id as string,
-      {
-        name,
-        macAddress,
-        type,
-      } as ApiMemberDevice,
-    )
+    addMemberDevice(userId, {
+      name,
+      macAddress,
+      type,
+    } as ApiMemberDevice)
       .then(() => {
         toastStore.add({
           message: t('devices.onAdd.success', { name: name || macAddress }),
@@ -78,11 +77,11 @@ const NewDevice = () => {
           timeout: TOAST_SUCCESS_TIMEOUT,
         });
         queryClient.invalidateQueries({
-          queryKey: membersQueryKeys.devicesById(authStore.user?.id ?? ''),
+          queryKey: membersQueryKeys.devicesById(userId),
           exact: true,
         });
         queryClient.invalidateQueries({
-          queryKey: membersQueryKeys.profileById(authStore.user?.id ?? ''),
+          queryKey: membersQueryKeys.profileById(userId),
           exact: true,
         });
         queryClient.invalidateQueries({
