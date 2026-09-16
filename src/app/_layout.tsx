@@ -4,14 +4,13 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { PostHogProvider } from 'posthog-react-native';
-import React, { useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { useReducedMotion } from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
-import '@/i18n';
 import { OnPremiseProvider } from '@/components/OnPremise/OnPremiseContext';
 import ToastMessages from '@/components/ToastMessages';
 import { AuthProvider } from '@/context/auth';
@@ -33,6 +32,7 @@ import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
 import { QUERY_CLIENT_CONFIG } from '@/services/query';
 import { AppThemeBackground } from '@/services/theme';
+import '@/i18n';
 
 const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 
@@ -206,7 +206,7 @@ const RootLayout = () => {
                       light={tw.color('transparent') as string}
                     />
                   ) : null}
-                  <StatusBar translucent />
+                  <StatusBar />
                 </AuthProvider>
               </QueryClientProvider>
             </I18nProvider>

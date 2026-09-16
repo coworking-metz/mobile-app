@@ -76,7 +76,7 @@ const ZoomableImage = ({
         visible={isGalleryVisible}
         {...(Platform.OS === 'android' && { navigationBarTranslucent: true })}>
         {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
-        <StatusBar translucent style="light" />
+        <StatusBar style="light" />
         <BlurTargetView ref={blurTargetRef} style={tw`flex size-full flex-col bg-black`}>
           <Gallery
             data={sources ?? [source]}
