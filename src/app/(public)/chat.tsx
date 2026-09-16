@@ -110,8 +110,7 @@ const Chat = () => {
         paddingRight: insets.right,
         paddingBottom,
       })}>
-      {}
-      {Platform.OS !== 'ios' && <StatusBar translucent style="dark" />}
+      {Platform.OS !== 'ios' && <StatusBar style="dark" />}
 
       <BlurTargetView ref={blurTargetRef} style={tw`w-full grow`}>
         <KeyboardAvoidingView

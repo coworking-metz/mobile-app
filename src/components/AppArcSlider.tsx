@@ -462,7 +462,6 @@ const AppArcSlider = ({
             setBubbleWidth(nativeEvent.layout.width);
             setBubbleHeight(nativeEvent.layout.height);
           }}>
-          {}
           <ReanimatedText style={[tw`text-xl`, bubbleTextStyle]} text={bubbleText} />
         </Animated.View>
       ) : null}
