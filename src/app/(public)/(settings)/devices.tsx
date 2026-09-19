@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { Link, useLocalSearchParams } from 'expo-router';
+import { Link } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleProp, View, ViewStyle } from 'react-native';
@@ -18,6 +18,7 @@ import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { useAppNewDevice } from '@/context/new-device';
 import { getDeviceTypeIcon } from '@/helpers/device';
 import { isSilentError } from '@/helpers/error';
+import useAppScreen from '@/helpers/screen';
 import { ApiMemberDevice, DeviceType, getMemberDevices } from '@/services/api/members';
 import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
@@ -25,7 +26,7 @@ import useAuthStore from '@/stores/auth';
 const Devices = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
-  const { _root } = useLocalSearchParams();
+  const { isWide } = useAppScreen();
   const authStore = useAuthStore();
   const { pairDevice } = useAppNewDevice();
 
@@ -52,7 +53,7 @@ const Devices = () => {
       contentStyle={tw`pt-4`}
       loading={isFetchingDevices}
       title={t('devices.title')}
-      withBackButton={!_root}
+      withBackButton={!isWide}
       {...(areDevicesEnabled && { onRefresh: refetchDevices })}>
       {devicesError && !isSilentError(devicesError) ? (
         <ErrorChip

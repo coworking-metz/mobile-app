@@ -1,6 +1,5 @@
 import * as Calendar from 'expo-calendar';
 import * as Location from 'expo-location';
-import { useLocalSearchParams } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Linking, PermissionsAndroid, Platform, View } from 'react-native';
@@ -13,13 +12,14 @@ import ServiceRow from '@/components/Layout/ServiceRow';
 import { useAppPermissions } from '@/context/permissions';
 import { useAppPushNotifications } from '@/context/push-notifications';
 import { useAppUnlockGateOptions } from '@/context/unlock-gate-duration';
+import useAppScreen from '@/helpers/screen';
 import { requestBeaconLocationPermission } from '@/services/beacon';
 import { IS_GATE_UNLOCK_ON_APPROACH_ENABLED } from '@/services/environment';
 
 const Privacy = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
-  const { _root } = useLocalSearchParams();
+  const { isWide } = useAppScreen();
   const { selectUnlockGateOptions } = useAppUnlockGateOptions();
   const [calendarState, requestCalendarPermission] = Calendar.useCalendarPermissions();
   const [locationState, , getLocationPermission] = Location.useBackgroundPermissions();
@@ -80,7 +80,7 @@ const Privacy = () => {
       description={t('privacy.description')}
       loading={isChangingStatus}
       title={t('privacy.title')}
-      withBackButton={!_root}>
+      withBackButton={!isWide}>
       <View style={tw`mx-auto w-full max-w-xl`}>
         <SectionTitle style={tw`mx-6`} title={t('privacy.permissions.title')} />
         <ServiceRow
