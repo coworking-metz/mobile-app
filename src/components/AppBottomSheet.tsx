@@ -27,6 +27,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
 ) => {
   const withBottomSheetFullHeight = useSettingsStore((s) => s.withBottomSheetFullHeight);
   const trueSheetRef = useRef<TrueSheet>(null);
+  const scrollableRef = useRef<ScrollView>(null);
   const [scrollViewHeight, setScrollViewHeight] = useState<number | null>(null);
   const [contentHeight, setContentHeight] = useState<number | null>(null);
   const [detent, setDetent] = useState<number | null>(null);
@@ -56,9 +57,9 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
       backgroundColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
       cornerRadius={48}
       detents={[withBottomSheetFullHeight ? 1 : 'auto']}
-      scrollable={isScrollable}
+      maxContentWidth={448}
+      scrollableRef={scrollableRef}
       style={tw`flex flex-col`}
-      {...(Platform.OS === 'ios' && { insetAdjustment: 'never' })}
       {...props}
       onDetentChange={(event) => {
         setDetent(event.nativeEvent.detent);
@@ -69,7 +70,8 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
         setDetent(null);
       }}>
       <ScrollView
-        contentContainerStyle={[tw`mx-auto flex w-full max-w-sm flex-col`, style]}
+        ref={scrollableRef}
+        contentContainerStyle={[tw`flex flex-col`, style]}
         horizontal={false}
         scrollEnabled={isScrollable}
         onContentSizeChange={(_, contentSizeHeight) => {
