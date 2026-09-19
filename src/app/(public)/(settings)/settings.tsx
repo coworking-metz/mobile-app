@@ -211,7 +211,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
       <BlurTargetView ref={blurTargetRef} style={tw`flex-1`}>
         <View
           style={[
-            tw`absolute flex flex-col items-stretch`,
+            tw`absolute flex w-full flex-col items-stretch`,
             {
               top: NAVIGATION_HEIGHT + insets.top,
               left: insets.left,
