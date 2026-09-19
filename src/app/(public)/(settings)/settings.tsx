@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { BlurTargetView } from 'expo-blur';
-import { Link, usePathname, useRouter } from 'expo-router';
+import { Link, Redirect, usePathname, useRouter } from 'expo-router';
 import { compact } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -205,6 +205,10 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     },
     [selectActivity, activity],
   );
+
+  if (isWide && !from) {
+    return <Redirect href="/root" />;
+  }
 
   return (
     <View style={[tw`relative flex-1 bg-gray-100 dark:bg-black`, style]}>

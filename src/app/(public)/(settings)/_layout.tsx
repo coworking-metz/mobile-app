@@ -11,29 +11,24 @@ export default function SettingsLayout() {
   const { isWide } = useAppScreen();
   const reduceMotion = useReducedMotion();
 
-  if (!isWide) {
-    return (
-      <Stack
-        initialRouteName="settings"
-        screenOptions={{
-          headerShown: false,
-          ...(reduceMotion && {
-            animation: 'fade',
-          }),
-        }}
-      />
-    );
-  }
-
   return (
     <View style={tw`flex grow flex-row`}>
+      {isWide && (
+        <View
+          key="list"
+          style={tw`h-full min-w-80 max-w-md shrink grow basis-0 border-r border-r-gray-200 dark:border-r-gray-700`}>
+          <SettingsScreen from="/home" />
+        </View>
+      )}
       <View
-        style={tw`h-full min-w-80 max-w-md shrink grow basis-0 border-r border-r-gray-200 dark:border-r-gray-700`}>
-        <SettingsScreen from="/home" />
-      </View>
-      <View style={tw`h-full min-w-80 shrink grow basis-0 overflow-hidden`}>
+        key="detail"
+        style={
+          isWide
+            ? tw`h-full min-w-80 shrink grow basis-0 overflow-hidden`
+            : tw`h-full min-w-80 shrink grow basis-0`
+        }>
         <Stack
-          initialRouteName="root"
+          initialRouteName="settings"
           screenOptions={{
             headerShown: false,
             ...(reduceMotion && {
@@ -47,48 +42,33 @@ export default function SettingsLayout() {
             }}
           />
           <Stack.Screen
-            initialParams={{
-              _root: 'true',
-            }}
             name="account"
             options={{
-              animation: 'fade',
+              animation: isWide ? 'fade' : undefined,
             }}
           />
           <Stack.Screen
-            initialParams={{
-              _root: 'true',
-            }}
             name="advanced"
             options={{
-              animation: 'fade_from_bottom',
+              animation: isWide ? 'fade_from_bottom' : undefined,
             }}
           />
           <Stack.Screen
-            initialParams={{
-              _root: 'true',
-            }}
             name="privacy"
             options={{
-              animation: 'fade_from_bottom',
+              animation: isWide ? 'fade_from_bottom' : undefined,
             }}
           />
           <Stack.Screen
-            initialParams={{
-              _root: 'true',
-            }}
             name="devices"
             options={{
-              animation: 'fade_from_bottom',
+              animation: isWide ? 'fade_from_bottom' : undefined,
             }}
           />
           <Stack.Screen
-            initialParams={{
-              _root: 'true',
-            }}
             name="about"
             options={{
-              animation: 'fade_from_bottom',
+              animation: isWide ? 'fade_from_bottom' : undefined,
             }}
           />
         </Stack>

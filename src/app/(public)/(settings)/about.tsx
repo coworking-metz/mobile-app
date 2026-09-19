@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import Constants from 'expo-constants';
-import { Link, useLocalSearchParams } from 'expo-router';
+import { Link } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -10,11 +10,12 @@ import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import ServiceRowLink from '@/components/Layout/ServiceRowLink';
+import useAppScreen from '@/helpers/screen';
 import { APP_ENVIRONMENT, BUILD_VERSION } from '@/services/environment';
 
 const About = () => {
   useDeviceContext(tw);
-  const { _root } = useLocalSearchParams();
+  const { isWide } = useAppScreen();
   const { t } = useTranslation();
 
   return (
@@ -22,7 +23,7 @@ const About = () => {
       contentStyle={tw`pt-6`}
       description={t('about.description')}
       title={t('about.title')}
-      withBackButton={!_root}>
+      withBackButton={!isWide}>
       <View style={tw`mx-auto mb-6 w-full max-w-xl`}>
         <SectionTitle style={tw`mx-6`} title={t('about.legal.title')} />
         <ServiceRow withBottomDivider label={t('about.legal.license.label')} style={tw`mx-3 px-3`}>
