@@ -214,9 +214,11 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             tw`absolute flex w-full flex-col items-stretch`,
             {
               top: NAVIGATION_HEIGHT + insets.top,
+              bottom: insets.bottom,
+            },
+            !isWide && {
               left: insets.left,
               right: insets.right,
-              bottom: insets.bottom,
             },
           ]}>
           <Animated.View
@@ -336,8 +338,8 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           <View
             style={[
               tw`relative flex w-full flex-col bg-gray-50 py-6 dark:bg-zinc-900`,
-              {
-                paddingLeft: insets.left,
+              { paddingLeft: insets.left },
+              !isWide && {
                 paddingRight: insets.right,
               },
             ]}>
