@@ -56,7 +56,6 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
       backgroundColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white')}
       cornerRadius={48}
       detents={[withBottomSheetFullHeight ? 1 : 'auto']}
-      maxContentWidth={448} // TODO: remove maxWidth once position is full height https://sheet.lodev09.com/guides/reanimated
       scrollable={isScrollable}
       style={tw`flex flex-col`}
       {...(Platform.OS === 'ios' && { insetAdjustment: 'never' })}
@@ -70,7 +69,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
         setDetent(null);
       }}>
       <ScrollView
-        contentContainerStyle={[tw`flex flex-col`, style]}
+        contentContainerStyle={[tw`mx-auto flex w-full max-w-sm flex-col`, style]}
         horizontal={false}
         scrollEnabled={isScrollable}
         onContentSizeChange={(_, contentSizeHeight) => {

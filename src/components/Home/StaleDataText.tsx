@@ -3,7 +3,7 @@ import { useIsFocused } from 'expo-router';
 import { capitalize, sample } from 'lodash';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TouchableOpacity } from 'react-native';
+import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
 import Animated, { FadeInUp, FadeOutUp } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppIcon from '@/components/AppIcon';
@@ -18,10 +18,12 @@ const StaleDataText = ({
   lastFetch,
   loading,
   onRefresh,
+  style,
 }: {
   lastFetch?: number | null;
   loading?: boolean;
   onRefresh?: () => void;
+  style?: StyleProp<ViewStyle>;
 }) => {
   const { t } = useTranslation();
   const isFocus = useIsFocused();
@@ -43,7 +45,9 @@ const StaleDataText = ({
   }
 
   return loading ? (
-    <AppText numberOfLines={1} style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
+    <AppText
+      numberOfLines={1}
+      style={[tw`text-sm font-normal text-slate-500 dark:text-neutral-500`, style]}>
       {loadingText}
     </AppText>
   ) : (
@@ -51,7 +55,7 @@ const StaleDataText = ({
       <Animated.View
         entering={FadeInUp.duration(300)}
         exiting={FadeOutUp.duration(300)}
-        style={tw`flex shrink grow basis-0 flex-col items-start gap-1`}>
+        style={[tw`flex shrink grow basis-0 flex-col items-start gap-1`, style]}>
         <AppShimmerText
           active={loading}
           numberOfLines={1}

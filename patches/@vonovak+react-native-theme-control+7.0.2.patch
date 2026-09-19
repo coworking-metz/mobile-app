@@ -1,0 +1,62 @@
+diff --git a/node_modules/@vonovak/react-native-theme-control/plugin/build/withThemeControl.js b/node_modules/@vonovak/react-native-theme-control/plugin/build/withThemeControl.js
+index 1a5060f..53d5aaa 100644
+--- a/node_modules/@vonovak/react-native-theme-control/plugin/build/withThemeControl.js
++++ b/node_modules/@vonovak/react-native-theme-control/plugin/build/withThemeControl.js
+@@ -45,6 +45,15 @@ const path = __importStar(require("path"));
+ const resolve_from_1 = __importDefault(require("resolve-from"));
+ const themeControlName = '@vonovak/react-native-theme-control';
+ const themeRecoveryTag = '-theme-recovery';
++function getThemeRecoveryCode(options) {
++    if (options.mode === 'light') {
++        return 'RNThemeControl.forceTheme(UIUserInterfaceStyle.light)';
++    }
++    if (options.mode === 'dark') {
++        return 'RNThemeControl.forceTheme(UIUserInterfaceStyle.dark)';
++    }
++    return 'RNThemeControl.recoverApplicationTheme()';
++}
+ const withMainActivityThemeRecovery = (config, options) => {
+     return (0, config_plugins_1.withMainActivity)(config, (config) => {
+         checkSystemUi(config.modRequest.projectRoot);
+@@ -72,25 +81,24 @@ const withMainActivityThemeRecovery = (config, options) => {
+         return config;
+     });
+ };
++// Matches both the legacy and scene-lifecycle AppDelegate templates: expo-build-properties'
++// scene support rewrites where UIWindow is created, but leaves this property declaration as-is.
++const WINDOW_PROPERTY = /^([ \t]*)var window: UIWindow\?[ \t]*$/m;
+ const insertThemeRecovery = (config, options) => {
+     return (0, config_plugins_1.withAppDelegate)(config, (config) => {
+-        const themeRecoveryCode = (() => {
+-            if (options.mode === 'light') {
+-                return 'RNThemeControl.forceTheme(UIUserInterfaceStyle.light)';
+-            }
+-            if (options.mode === 'dark') {
+-                return 'RNThemeControl.forceTheme(UIUserInterfaceStyle.dark)';
+-            }
+-            return 'RNThemeControl.recoverApplicationTheme()';
+-        })();
+-        config.modResults.contents = (0, generateCode_1.mergeContents)({
+-            src: config.modResults.contents,
+-            tag: themeControlName + themeRecoveryTag,
+-            newSrc: `    ${themeRecoveryCode}`,
+-            anchor: /window = UIWindow\(frame: UIScreen\.main\.bounds\)/,
+-            offset: 1,
+-            comment: '//',
+-        }).contents;
++        const themeRecoveryCode = getThemeRecoveryCode(options);
++        const contents = config.modResults.contents;
++        if (contents.includes(themeRecoveryCode)) {
++            return config;
++        }
++        if (!WINDOW_PROPERTY.test(contents)) {
++            throw new Error(`${themeControlName}: Could not find "var window: UIWindow?" in AppDelegate to inject theme recovery code.`);
++        }
++        // Injected as a didSet observer (rather than right after window creation) so it also
++        // works under scene lifecycle, where UIWindow is created in ExpoAppSceneDelegate (a
++        // different module where RNThemeControl isn't visible) and only reaches AppDelegate via
++        // `provider.window = window`, right before startReactNative is called either way.
++        config.modResults.contents = contents.replace(WINDOW_PROPERTY, (_match, indent) => `${indent}var window: UIWindow? {\n${indent}  didSet {\n${indent}    ${themeRecoveryCode}\n${indent}  }\n${indent}}`);
+         return config;
+     });
+ };

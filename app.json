@@ -128,7 +128,8 @@
             "targetSdkVersion": 36
           },
           "ios": {
-            "deploymentTarget": "16.4"
+            "deploymentTarget": "16.4",
+            "enableSceneSupport": true
           }
         }
       ],
