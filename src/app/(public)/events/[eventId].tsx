@@ -17,11 +17,10 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import HandwrittenParchmentAnimation from '@/components/Animations/HandwrittenParchmentAnimation';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
-import AppFader, { AppTopFader } from '@/components/AppFader';
+import AppFader, { AppTopFader, FaderPosition } from '@/components/AppFader';
 import AppIconButton from '@/components/AppIconButton';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
@@ -385,7 +384,7 @@ export default function CalendarEventPage() {
               setActionHeight(nativeEvent.layout.height)
             }>
             <AppFader
-              position={Fader.position.BOTTOM}
+              position={FaderPosition.BOTTOM}
               size={actionHeight + 32}
               style={tw`absolute inset-0`}
               tintColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('gray-50')}

@@ -3,11 +3,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
-import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import type LottieView from 'lottie-react-native';
 import PeopleGatheringAnimation from '@/components/Animations/PeopleGatheringAnimation';
-import AppFader from '@/components/AppFader';
+import AppFader, { FaderPosition } from '@/components/AppFader';
 import AppSwitch from '@/components/AppSwitch';
 import AppText from '@/components/AppText';
 import ServiceRow from '@/components/Layout/ServiceRow';
@@ -71,7 +70,7 @@ const IntroductionEventsStep = ({
           },
         )}>
         <AppFader
-          position={Fader.position.START}
+          position={FaderPosition.START}
           size={144}
           style={tw`absolute inset-y-0 left-0 z-10`}
           tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
@@ -86,7 +85,7 @@ const IntroductionEventsStep = ({
           onAnimationFinish={onAnimationFinish}
         />
         <AppFader
-          position={Fader.position.END}
+          position={FaderPosition.END}
           size={144}
           style={tw`absolute inset-y-0 right-0 z-10`}
           tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}

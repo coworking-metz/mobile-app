@@ -5,14 +5,13 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next';
 import { Alert, View } from 'react-native';
 import Animated, { BounceIn, BounceOut, FadeInUp, FadeOutDown } from 'react-native-reanimated';
-import { TextFieldRef } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import AppAlert from '@/components/AppAlert';
 import AppIcon from '@/components/AppIcon';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppSegmentedControl from '@/components/AppSegmentedControl';
 import AppText from '@/components/AppText';
-import AppTextField from '@/components/AppTextField';
+import AppTextField, { AppTextFieldRef } from '@/components/AppTextField';
 import AppTextLink from '@/components/AppTextLink';
 import Divider from '@/components/Divider';
 import ErrorChip from '@/components/ErrorChip';
@@ -51,9 +50,9 @@ const DeviceDetail = () => {
   const queryClient = useQueryClient();
   const { deviceId } = useLocalSearchParams();
   const [name, setName] = useState<string>('');
-  const nameField = useRef<TextFieldRef>(null);
+  const nameField = useRef<AppTextFieldRef>(null);
   const [macAddress, setMacAddress] = useState<string>('');
-  const macAddressField = useRef<TextFieldRef>(null);
+  const macAddressField = useRef<AppTextFieldRef>(null);
   const [type, setType] = useState<DeviceType>(DeviceType.MOBILE);
   const [isSubmitting, setSubmitting] = useState(false);
   const [isDeleting, setDeleting] = useState(false);

@@ -18,9 +18,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
-import { AppTopFader } from '@/components/AppFader';
+import { AppTopFader, FaderPosition } from '@/components/AppFader';
 import AppSquircleView from '@/components/AppSquircleView';
 import SpaceshipRefreshAnimation from '@/components/Home/SpaceshipRefreshAnimation';
 import SunnyRefreshAnimation from '@/components/Home/SunnyRefreshAnimation';
@@ -243,7 +242,7 @@ export default function HomeLayout({
 
         {!!insets.bottom && (
           <AppTopFader
-            position={Fader.position.BOTTOM}
+            position={FaderPosition.BOTTOM}
             size={insets.bottom}
             style={tw.style(`absolute inset-x-0 bottom-0`, { height: insets.bottom })}
           />

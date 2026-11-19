@@ -11,9 +11,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Carousel, type CarouselRef } from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
-import AppFader from '@/components/AppFader';
+import AppFader, { FaderPosition } from '@/components/AppFader';
 import AppIconButton from '@/components/AppIconButton';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import IntroductionAboutStep from '@/components/Introduction/IntroductionAboutStep';
@@ -136,7 +135,7 @@ const Introduction = () => {
               },
             ]}>
             <AppFader
-              position={Fader.position.TOP}
+              position={FaderPosition.TOP}
               size={(insets.top || (Platform.OS === 'android' ? 16 : 0)) + 64}
               style={tw`absolute inset-0`}
               tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
@@ -191,7 +190,7 @@ const Introduction = () => {
               setActionHeight(nativeEvent.layout.height)
             }>
             <AppFader
-              position={Fader.position.BOTTOM}
+              position={FaderPosition.BOTTOM}
               size={actionHeight + 32}
               style={tw`absolute inset-0`}
               tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
