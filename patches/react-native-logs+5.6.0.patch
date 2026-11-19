@@ -1,0 +1,19 @@
+diff --git a/node_modules/react-native-logs/dist/transports/fileAsyncTransport.js b/node_modules/react-native-logs/dist/transports/fileAsyncTransport.js
+index d9ea1f7..e4ad6d8 100644
+--- a/node_modules/react-native-logs/dist/transports/fileAsyncTransport.js
++++ b/node_modules/react-native-logs/dist/transports/fileAsyncTransport.js
+@@ -84,7 +84,13 @@ const EXPONEXTFSprocessQueue = async () => {
+             fileHandler.offset = size;
+             const encoder = new TextEncoder();
+             const bytes = encoder.encode(item.msg);
+-            fileHandler.writeBytes(bytes);
++            // expo-file-system 58 made writeBytes async; unawaited it races close()
++            if (typeof fileHandler.writeBytesSync === "function") {
++                fileHandler.writeBytesSync(bytes);
++            }
++            else {
++                await fileHandler.writeBytes(bytes);
++            }
+         }
+         finally {
+             try {

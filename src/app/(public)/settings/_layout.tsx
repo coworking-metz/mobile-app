@@ -1,4 +1,4 @@
-import { Stack, usePathname } from 'expo-router';
+import { Stack } from 'expo-router';
 import { View } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
@@ -10,28 +10,20 @@ export default function SettingsLayout() {
 
   const { isWide } = useAppScreen();
   const reduceMotion = useReducedMotion();
-  const pathname = usePathname();
-  const isIndexRoute = pathname === '/settings';
 
   return (
-    <View style={tw`relative flex grow flex-row`}>
-      <View
-        key="master"
-        style={
-          isWide
-            ? tw`h-full min-w-80 max-w-md shrink grow basis-0 border-r border-r-gray-200 dark:border-r-gray-700`
-            : tw`absolute inset-0`
-        }>
-        <SettingsHome from="/home" />
-      </View>
+    <View style={tw`flex grow flex-row`}>
+      {isWide && (
+        <View
+          key="master"
+          style={tw`h-full min-w-80 max-w-md shrink grow basis-0 border-r border-r-gray-200 dark:border-r-gray-700`}>
+          <SettingsHome from="/home" />
+        </View>
+      )}
+      {/* keyed so the Stack keeps its state when the master column toggles */}
       <View
         key="detail"
-        pointerEvents={!isWide && isIndexRoute ? 'none' : 'auto'}
-        style={
-          isWide
-            ? tw`h-full min-w-80 shrink grow basis-0 overflow-hidden`
-            : tw`absolute inset-0 z-10 bg-green-300`
-        }>
+        style={isWide ? tw`h-full min-w-80 shrink grow basis-0 overflow-hidden` : tw`flex-1`}>
         <Stack
           initialRouteName="index"
           screenOptions={{
@@ -39,18 +31,8 @@ export default function SettingsLayout() {
             ...(reduceMotion && {
               animation: 'fade',
             }),
-            contentStyle: {
-              backgroundColor: 'transparent',
-            },
           }}>
-          <Stack.Screen
-            name="index"
-            options={{
-              contentStyle: {
-                backgroundColor: 'transparent',
-              },
-            }}
-          />
+          <Stack.Screen name="index" />
           <Stack.Screen
             name="account"
             options={{
