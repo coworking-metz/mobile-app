@@ -1,4 +1,3 @@
-import { Redirect } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
@@ -7,13 +6,14 @@ import MagicWandAnimation from '@/components/Animations/MagicWandAnimation';
 import AppText from '@/components/AppText';
 import useAppScreen from '@/helpers/screen';
 
-export default function RootSettings() {
+export default function SettingsIndex() {
   useDeviceContext(tw);
-  const { isWide } = useAppScreen();
   const { t } = useTranslation();
+  const { isWide } = useAppScreen();
 
+  // narrow: SettingsHome is rendered underneath by the layout, nothing to draw here
   if (!isWide) {
-    return <Redirect href="/settings" />;
+    return <Animated.View style={tw`size-full bg-red-300 opacity-0`} />;
   }
 
   return (

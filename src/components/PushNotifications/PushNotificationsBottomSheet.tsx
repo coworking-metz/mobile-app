@@ -44,7 +44,7 @@ const PushNotificationsBottomSheet: ForwardRefRenderFunction<
       <Trans
         components={[
           <AppTextLink
-            href={`/privacy`}
+            href={`/settings/privacy`}
             key="privacy-link"
             style={tw`text-amber-500`}
             onPress={() => trueSheet.dismissAll()}

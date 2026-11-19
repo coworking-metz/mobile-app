@@ -412,7 +412,7 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
       <Link
         asChild
         href={{
-          pathname: '/devices/new',
+          pathname: '/settings/devices/new',
           params: {
             name,
             macAddress,

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { BlurTargetView } from 'expo-blur';
-import { Link, Redirect, usePathname, useRouter } from 'expo-router';
+import { Link, usePathname, useRouter } from 'expo-router';
 import { compact } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -206,10 +206,6 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     [selectActivity, activity],
   );
 
-  if (isWide && !from) {
-    return <Redirect href="/root" />;
-  }
-
   return (
     <View style={[tw`relative flex-1 bg-gray-100 dark:bg-black`, style]}>
       <BlurTargetView ref={blurTargetRef} style={tw`flex-1`}>
@@ -296,7 +292,11 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             }}>
             <Trans
               components={[
-                <AppTextLink href={`/about`} key="about-link" style={tw`text-amber-500`} />,
+                <AppTextLink
+                  href={`/settings/about`}
+                  key="about-link"
+                  style={tw`text-amber-500`}
+                />,
               ]}
               defaults={t('footer.copyright', { year: dayjs().year() })}
               parent={AppText}
@@ -328,7 +328,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           {
             /* transparent view to fake a touch on the header link, should mimic as much as possible the header */
             <TouchableNativeFeedback
-              onPress={() => (authStore.user ? router.push('/account') : login?.())}>
+              onPress={() => (authStore.user ? router.push('/settings/account') : login?.())}>
               <Animated.View
                 style={[
                   tw`w-full self-center`,
@@ -439,33 +439,33 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                     {unlockGateDurationInMs ? formatDuration(unlockGateDurationInMs) : null}
                   </AppText>
                 </ServiceRow>
-                <Link asChild href="/devices/">
+                <Link asChild href="/settings/devices">
                   <ServiceRow
                     withBottomDivider
                     label={t('devices.title')}
                     prefixIcon="devices"
-                    selected={isWide && pathname.startsWith('/devices')}
+                    selected={isWide && pathname.startsWith('/settings/devices')}
                     style={tw`mx-3 px-3`}
                     suffixIcon="chevron-right"
                   />
                 </Link>
               </>
             )}
-            <Link asChild href="/privacy/">
+            <Link asChild href="/settings/privacy">
               <ServiceRow
                 withBottomDivider
                 label={t('privacy.title')}
                 prefixIcon="shield-account-variant-outline"
-                selected={isWide && pathname.startsWith('/privacy')}
+                selected={isWide && pathname.startsWith('/settings/privacy')}
                 style={tw`mx-3 px-3`}
                 suffixIcon="chevron-right"
               />
             </Link>
-            <Link asChild href="/advanced/">
+            <Link asChild href="/settings/advanced">
               <ServiceRow
                 label={t('advanced.title')}
                 prefixIcon="cog-outline"
-                selected={isWide && pathname === '/advanced'}
+                selected={isWide && pathname === '/settings/advanced'}
                 style={tw`mx-3 px-3`}
                 suffixIcon="chevron-right"
               />
@@ -529,7 +529,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           </View>
 
           {/* transparent view to fake a touch on the footer link, should mimic as much as possible the footer */}
-          <Link asChild href="/about">
+          <Link asChild href="/settings/about">
             <TouchableNativeFeedback>
               <View
                 style={[tw`mt-auto self-center`, { height: footerHeight, width: footerWidth }]}

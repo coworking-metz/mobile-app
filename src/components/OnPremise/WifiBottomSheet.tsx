@@ -65,7 +65,7 @@ const WifiBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomShee
       <Trans
         components={[
           <AppTextLink
-            href={`/devices`}
+            href={`/settings/devices`}
             key="add-device-link"
             style={tw`text-amber-500`}
             onPress={() => trueSheet.dismissAll()}

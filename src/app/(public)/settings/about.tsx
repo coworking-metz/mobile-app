@@ -56,7 +56,7 @@ const About = () => {
             {APP_ENVIRONMENT}
           </AppText>
         </ServiceRow>
-        <Link asChild href="/changes">
+        <Link asChild href="/settings/changes">
           <ServiceRow
             withBottomDivider
             label={t('about.technical.version.label')}

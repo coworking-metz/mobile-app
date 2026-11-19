@@ -91,7 +91,7 @@ const NewDevice = () => {
         if (router.canGoBack()) {
           router.back();
         } else {
-          router.replace('/devices');
+          router.replace('/settings/devices');
         }
       })
       .catch(handleSilentError)

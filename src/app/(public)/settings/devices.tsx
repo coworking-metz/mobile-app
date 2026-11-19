@@ -81,7 +81,7 @@ const Devices = () => {
           {devices.map((device) => (
             <Link
               asChild
-              href={`/devices/${device._id}`}
+              href={`/settings/devices/${device._id}`}
               key={device.macAddress}
               style={tw`flex min-w-32 max-w-48 shrink grow basis-0 flex-row`}>
               <AppPressable>
