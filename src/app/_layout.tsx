@@ -60,8 +60,9 @@ const RootLayout = () => {
       <KeyboardProvider>
         <SafeAreaProvider>
           <PostHogProvider
-            autocapture
+            // expo-router vendors react-navigation, so PostHog can't read its state; screens are tracked in auth.tsx
             apiKey={POSTHOG_API_KEY}
+            autocapture={{ captureScreens: false }}
             options={{
               disabled: IS_DEV,
               host: 'https://eu.i.posthog.com',

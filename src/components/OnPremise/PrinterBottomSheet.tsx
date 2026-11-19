@@ -1,14 +1,13 @@
 import React, { forwardRef, ForwardRefRenderFunction } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { Fader } from 'react-native-ui-lib';
 import tw from 'twrnc';
 import PaperPrintingAnimation from '@/components/Animations/PaperPrintingAnimation';
 import AppBottomSheet, {
   AppBottomSheetProps,
   AppBottomSheetRef,
 } from '@/components/AppBottomSheet';
-import AppFader from '@/components/AppFader';
+import AppFader, { FaderPosition } from '@/components/AppFader';
 import AppText from '@/components/AppText';
 import AppTextLink from '@/components/AppTextLink';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
@@ -27,7 +26,7 @@ const PrinterBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
       <View style={tw`relative w-full`}>
         <PaperPrintingAnimation autoPlay loop={false} style={tw`h-[192px] w-full`} />
         <AppFader
-          position={Fader.position.BOTTOM}
+          position={FaderPosition.BOTTOM}
           size={64}
           style={tw`absolute inset-0`}
           tintColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('white') || ''}

@@ -8,10 +8,9 @@ import React, { useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAwareScrollViewRef } from 'react-native-keyboard-controller';
 import Animated, { FadeIn, FadeInDown, FadeOut } from 'react-native-reanimated';
-import { Fader } from 'react-native-ui-lib';
 import tw, { useDeviceContext } from 'twrnc';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
-import AppFader from '@/components/AppFader';
+import AppFader, { FaderPosition } from '@/components/AppFader';
 import AppIconButton from '@/components/AppIconButton';
 import AppMonoText from '@/components/AppMonoText';
 import ErrorState from '@/components/ErrorState';
@@ -101,7 +100,7 @@ const LogDate = () => {
               { paddingBottom },
             ]}>
             <AppFader
-              position={Fader.position.BOTTOM}
+              position={FaderPosition.BOTTOM}
               size={48}
               style={tw`absolute inset-0`}
               tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100')}
