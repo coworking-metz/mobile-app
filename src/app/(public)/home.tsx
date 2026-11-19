@@ -289,7 +289,7 @@ export default function HomeScreen() {
       }}>
       <View
         style={[
-          tw`flex shrink grow flex-row items-center pl-6 pr-4 pt-1`,
+          tw`flex shrink grow flex-row items-center pl-6 pr-24 pt-1`,
           isWide && tw`mx-auto w-full max-w-2xl`,
         ]}>
         <StaleDataText
@@ -304,7 +304,7 @@ export default function HomeScreen() {
               entering={BounceIn.duration(1000).delay(450)}
               exiting={BounceOut.duration(1000)}
               style={tw`relative`}>
-              <Link asChild href={'/logs/all-logs'}>
+              <Link asChild href={'/settings/logs/all-logs'}>
                 <AppIconButton icon="bug-outline" iconSize={24} radius={0} />
               </Link>
             </Animated.View>
@@ -335,7 +335,7 @@ export default function HomeScreen() {
             </Animated.View>
           )}
 
-          <Link asChild href="(settings)">
+          <Link asChild href="/settings">
             <AppPressable>
               <ProfilePicture
                 loading={isFetching}
@@ -420,7 +420,7 @@ export default function HomeScreen() {
             </AppPressable>
           )}
           {((devices && !devices.length) || (profile && !profile.lastSeen)) && (
-            <Link asChild href="/devices">
+            <Link asChild href="/settings/devices">
               <AppPressable style={tw`flex flex-row items-stretch`}>
                 <DevicesCard
                   count={devices?.length}

@@ -1,8 +1,8 @@
-import SettingsScreen from './settings';
-import { Stack } from 'expo-router';
+import { Stack, usePathname } from 'expo-router';
 import { View } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
+import SettingsHome from '@/components/Settings/SettingsHome';
 import useAppScreen from '@/helpers/screen';
 
 export default function SettingsLayout() {
@@ -10,35 +10,45 @@ export default function SettingsLayout() {
 
   const { isWide } = useAppScreen();
   const reduceMotion = useReducedMotion();
+  const pathname = usePathname();
+  const isIndexRoute = pathname === '/settings';
 
   return (
-    <View style={tw`flex grow flex-row`}>
-      {isWide && (
-        <View
-          key="list"
-          style={tw`h-full min-w-80 max-w-md shrink grow basis-0 border-r border-r-gray-200 dark:border-r-gray-700`}>
-          <SettingsScreen from="/home" />
-        </View>
-      )}
+    <View style={tw`relative flex grow flex-row`}>
+      <View
+        key="master"
+        style={
+          isWide
+            ? tw`h-full min-w-80 max-w-md shrink grow basis-0 border-r border-r-gray-200 dark:border-r-gray-700`
+            : tw`absolute inset-0`
+        }>
+        <SettingsHome from="/home" />
+      </View>
       <View
         key="detail"
+        pointerEvents={!isWide && isIndexRoute ? 'none' : 'auto'}
         style={
           isWide
             ? tw`h-full min-w-80 shrink grow basis-0 overflow-hidden`
-            : tw`h-full min-w-80 shrink grow basis-0`
+            : tw`absolute inset-0 z-10 bg-green-300`
         }>
         <Stack
-          initialRouteName="settings"
+          initialRouteName="index"
           screenOptions={{
             headerShown: false,
             ...(reduceMotion && {
               animation: 'fade',
             }),
+            contentStyle: {
+              backgroundColor: 'transparent',
+            },
           }}>
           <Stack.Screen
-            name="root"
+            name="index"
             options={{
-              animation: 'none',
+              contentStyle: {
+                backgroundColor: 'transparent',
+              },
             }}
           />
           <Stack.Screen

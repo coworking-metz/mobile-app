@@ -51,6 +51,9 @@ export default function CalendarEventPage() {
   const { eventId, _root: withoutBackButton } = useLocalSearchParams();
   const { t, i18n } = useTranslation();
   const renderPermissionsBottomSheet = useAppPermissions();
+  const [calendarState, requestCalendarPermission] = Calendar.useCalendarPermissions({
+    writeOnly: true,
+  });
   const [actionHeight, setActionHeight] = useState(0);
   const paddingBottom = useAppPaddingBottom();
   const [headerHeight, setHeaderHeight] = useState<number>(0);
@@ -134,7 +137,7 @@ export default function CalendarEventPage() {
   const onAddToCalendar = useCallback(() => {
     if (event) {
       (async () => {
-        const { granted } = await Calendar.requestCalendarPermissionsAsync();
+        const { granted } = await requestCalendarPermission();
         if (granted) {
           Calendar.createEventInCalendarAsync({
             startDate: new Date(event.start),

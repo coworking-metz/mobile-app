@@ -57,7 +57,7 @@ const AllLogs = () => {
       {logFiles.length ? (
         <Animated.View entering={FadeIn.duration(300)} style={tw`mx-auto w-full max-w-xl`}>
           {logFiles.map(({ date, size, modified }, index) => (
-            <Link asChild href={`/logs/${date}`} key={date}>
+            <Link asChild href={`/settings/logs/${date}`} key={date}>
               <ServiceRow
                 description={formatFileSize(size)}
                 label={capitalize(dayjs(modified).format('LLLL'))}

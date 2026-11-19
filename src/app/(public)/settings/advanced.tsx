@@ -172,7 +172,7 @@ const Advanced = () => {
       <View style={tw`mx-auto mb-6 w-full max-w-xl`}>
         <SectionTitle style={tw`mx-6`} title={t('advanced.support.title')} />
 
-        <Link asChild href="/logs/all-logs">
+        <Link asChild href="/settings/logs/all-logs">
           <ServiceRow
             withBottomDivider
             label={t('advanced.logs.title')}

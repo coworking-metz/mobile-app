@@ -156,7 +156,7 @@ const UnlockGateOptionsBottomSheet: ForwardRefRenderFunction<
               <Trans
                 components={[
                   <AppTextLink
-                    href={`/privacy`}
+                    href={`/settings/privacy`}
                     key="privacy-link"
                     style={tw`text-amber-500`}
                     onPress={() => bottomSheetRef.current?.close()}

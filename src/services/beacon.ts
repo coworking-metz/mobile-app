@@ -30,7 +30,7 @@ const scheduleNotification = async (title: string, body: string): Promise<void> 
         title,
         body,
         data: {
-          pathname: `/logs/${new Date().toISOString().slice(0, 10)}`,
+          pathname: `/settings/logs/${new Date().toISOString().slice(0, 10)}`,
         },
       },
       trigger: null,

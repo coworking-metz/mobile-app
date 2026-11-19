@@ -60,6 +60,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
       maxContentWidth={448}
       scrollableRef={scrollableRef}
       style={tw`flex flex-col`}
+      {...(Platform.OS === 'ios' && { insetAdjustment: 'never' })}
       {...props}
       onDetentChange={(event) => {
         setDetent(event.nativeEvent.detent);

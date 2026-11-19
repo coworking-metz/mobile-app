@@ -21,7 +21,9 @@ const Privacy = () => {
   const { t } = useTranslation();
   const { isWide } = useAppScreen();
   const { selectUnlockGateOptions } = useAppUnlockGateOptions();
-  const [calendarState, requestCalendarPermission] = Calendar.useCalendarPermissions();
+  const [calendarState, requestCalendarPermission] = Calendar.useCalendarPermissions({
+    writeOnly: true,
+  });
   const [locationState, , getLocationPermission] = Location.useBackgroundPermissions();
   const [areBluetoothPermissionsGranted, setBluetoothPermissionsGranted] = useState<boolean>(false);
   const renderPermissionsBottomSheet = useAppPermissions();
