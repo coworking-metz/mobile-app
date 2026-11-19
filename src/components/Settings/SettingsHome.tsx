@@ -85,6 +85,8 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const pathname = usePathname();
   const blurTargetRef = useRef<View | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  // wide: swap the detail pane instead of stacking top-level screens
+  const replaceDetail = isWide && pathname !== '/settings';
 
   const upcomingEventsPeriodValue = useMemo(() => {
     if (upcomingEventsPeriod.unit === 'day' && upcomingEventsPeriod.count === 1) {
@@ -328,7 +330,13 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           {
             /* transparent view to fake a touch on the header link, should mimic as much as possible the header */
             <TouchableNativeFeedback
-              onPress={() => (authStore.user ? router.push('/settings/account') : login?.())}>
+              onPress={() =>
+                authStore.user
+                  ? replaceDetail
+                    ? router.replace('/settings/account')
+                    : router.push('/settings/account')
+                  : login?.()
+              }>
               <Animated.View
                 style={[
                   tw`w-full self-center`,
@@ -439,7 +447,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                     {unlockGateDurationInMs ? formatDuration(unlockGateDurationInMs) : null}
                   </AppText>
                 </ServiceRow>
-                <Link asChild href="/settings/devices">
+                <Link asChild href="/settings/devices" replace={replaceDetail}>
                   <ServiceRow
                     withBottomDivider
                     label={t('devices.title')}
@@ -451,7 +459,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 </Link>
               </>
             )}
-            <Link asChild href="/settings/privacy">
+            <Link asChild href="/settings/privacy" replace={replaceDetail}>
               <ServiceRow
                 withBottomDivider
                 label={t('privacy.title')}
@@ -461,7 +469,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 suffixIcon="chevron-right"
               />
             </Link>
-            <Link asChild href="/settings/advanced">
+            <Link asChild href="/settings/advanced" replace={replaceDetail}>
               <ServiceRow
                 label={t('advanced.title')}
                 prefixIcon="cog-outline"
@@ -529,7 +537,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           </View>
 
           {/* transparent view to fake a touch on the footer link, should mimic as much as possible the footer */}
-          <Link asChild href="/settings/about">
+          <Link asChild href="/settings/about" replace={replaceDetail}>
             <TouchableNativeFeedback>
               <View
                 style={[tw`mt-auto self-center`, { height: footerHeight, width: footerWidth }]}
