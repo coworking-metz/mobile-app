@@ -34,6 +34,7 @@ import { useAppPushNotifications } from '@/context/push-notifications';
 import useAppState from '@/helpers/app-state';
 import { theme } from '@/helpers/colors';
 import { isSilentError } from '@/helpers/error';
+import useAppScreen from '@/helpers/screen';
 import { ApiMessage, getMemberMessages } from '@/services/api/members';
 import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
@@ -54,6 +55,7 @@ type MessageListItem = ApiMessage & {
 const InboxScreen = ({ from }: { from?: string }) => {
   useDeviceContext(tw);
   const { t } = useTranslation();
+  const { isWide } = useAppScreen();
   const authStore = useAuthStore();
   const settingsStore = useSettingsStore();
   const { arePushNotificationsEnabled } = useAppPushNotifications();
@@ -214,7 +216,11 @@ const InboxScreen = ({ from }: { from?: string }) => {
             horizontal={false}
             keyExtractor={(message) => message._id}
             renderItem={({ item: message }) => (
-              <Link asChild href={`/messages/${message._id}`}>
+              <Link
+                asChild
+                href={`/messages/${message._id}`}
+                // wide: swap the detail pane so back never lands on the placeholder
+                replace={isWide}>
                 <MessageCard
                   author={message.author}
                   loading={isFetchingMessages}

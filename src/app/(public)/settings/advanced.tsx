@@ -17,7 +17,6 @@ import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { log } from '@/helpers/logger';
-import useAppScreen from '@/helpers/screen';
 import { HTTP } from '@/services/http';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -30,7 +29,6 @@ const advancedLogger = log.extend(`[advanced]`);
 const Advanced = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
-  const { isWide } = useAppScreen();
   const toastStore = useToastStore();
   const noticeStore = useNoticeStore();
   const authStore = useAuthStore();
@@ -167,8 +165,7 @@ const Advanced = () => {
     <ServiceLayout
       contentStyle={tw`pt-6`}
       description={t('advanced.description')}
-      title={t('advanced.title')}
-      withBackButton={!isWide}>
+      title={t('advanced.title')}>
       <View style={tw`mx-auto mb-6 w-full max-w-xl`}>
         <SectionTitle style={tw`mx-6`} title={t('advanced.support.title')} />
 

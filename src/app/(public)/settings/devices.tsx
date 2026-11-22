@@ -18,7 +18,6 @@ import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { useAppNewDevice } from '@/context/new-device';
 import { getDeviceTypeIcon } from '@/helpers/device';
 import { isSilentError } from '@/helpers/error';
-import useAppScreen from '@/helpers/screen';
 import { ApiMemberDevice, DeviceType, getMemberDevices } from '@/services/api/members';
 import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
@@ -26,7 +25,6 @@ import useAuthStore from '@/stores/auth';
 const Devices = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
-  const { isWide } = useAppScreen();
   const authStore = useAuthStore();
   const { pairDevice } = useAppNewDevice();
 
@@ -53,7 +51,6 @@ const Devices = () => {
       contentStyle={tw`pt-4`}
       loading={isFetchingDevices}
       title={t('devices.title')}
-      withBackButton={!isWide}
       {...(areDevicesEnabled && { onRefresh: refetchDevices })}>
       {devicesError && !isSilentError(devicesError) ? (
         <ErrorChip

@@ -1,18 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import { BlurTargetView } from 'expo-blur';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
 import { includes } from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { RefreshControl, ScrollView, View, type LayoutChangeEvent } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { RefreshControl, ScrollView, View } from 'react-native';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import { AppTopFader } from '@/components/AppFader';
-import AppIconButton from '@/components/AppIconButton';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
+import NativeHeader, { ScrollEdge, useHeaderTintColor } from '@/components/Layout/NativeHeader';
 import PoulaillerPlan from '@/components/OnPremise/PoulaillerPlan';
 import PtiPoulaillerPlan from '@/components/OnPremise/PtiPoulaillerPlan';
 import useAppScreen from '@/helpers/screen';
+import { useToolbarIcon } from '@/helpers/toolbar';
 import { getOnPremiseState } from '@/services/api/services';
 import { IS_DEV } from '@/services/environment';
 import { onPremiseQueryKeys } from '@/services/query';
@@ -45,20 +47,26 @@ const OnPremise = () => {
   }, [refetchOnPremiseState]);
 
   const insets = useSafeAreaInsets();
-  const router = useRouter();
+  const { t } = useTranslation();
   const [layoutWidth, setLayoutWidth] = useState(0);
-  const [headerHeight, setHeaderHeight] = useState(0);
   const blurTargetRef = useRef<View | null>(null);
+  const tintColor = useHeaderTintColor();
+  const lightsIcon = useToolbarIcon(
+    areLightsVisible ? 'lightbulb.2.fill' : 'lightbulb.2',
+    areLightsVisible ? 'lightbulb-group' : 'lightbulb-group-outline',
+    tintColor,
+  );
+  const informationsIcon = useToolbarIcon('ellipsis', 'dots-horizontal', tintColor);
 
   // https://github.com/facebook/react-native/issues/54183#issuecomment-3467125323
   const [progressViewOffset, setProgressViewOffset] = useState(0);
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setProgressViewOffset(headerHeight - 16);
+      setProgressViewOffset(insets.top);
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [headerHeight]);
+  }, [insets.top]);
 
   const offset = useSharedValue(0);
   const horizontalScrollView = useRef<Animated.ScrollView>(null);
@@ -99,134 +107,114 @@ const OnPremise = () => {
   }, [withInformations, withLights]);
 
   return (
+    // edge to edge: floor plans span the full width, under the native header items
     <View
-      style={[
-        tw`flex-1 overflow-hidden bg-gray-100 dark:bg-black`,
-        {
-          paddingLeft: insets.left,
-          paddingRight: insets.right,
-        },
-      ]}
+      style={tw`flex-1 overflow-hidden bg-gray-100 dark:bg-black`}
       onLayout={({ nativeEvent }) => setLayoutWidth(nativeEvent.layout.width)}>
       {layoutWidth ? (
         <BlurTargetView ref={blurTargetRef} style={tw`relative flex h-full grow`}>
-          <Animated.ScrollView
-            ref={horizontalScrollView}
-            horizontal
-            contentContainerStyle={tw`flex grow flex-row items-stretch`}
-            pagingEnabled={!isWide}
-            scrollEventThrottle={16}
-            showsHorizontalScrollIndicator={false}
-            style={tw`flex-1`}
-            onScroll={onHorizontalScroll}>
-            <ScrollView
-              contentContainerStyle={[
-                isWide && tw`max-w-lg`,
-                !isWide && { width: layoutWidth },
-                {
-                  paddingTop: headerHeight,
-                  paddingBottom: insets.bottom,
-                },
-              ]}
-              horizontal={false}
-              refreshControl={
-                <RefreshControl
-                  progressViewOffset={progressViewOffset}
-                  refreshing={isRefreshingPoulaillerPlan}
-                  onRefresh={onRefreshPoulaillerPlan}
-                />
-              }
+          <ScrollEdge>
+            <Animated.ScrollView
+              ref={horizontalScrollView}
+              horizontal
+              contentContainerStyle={tw`flex grow flex-row items-stretch`}
+              pagingEnabled={!isWide}
               scrollEventThrottle={16}
-              showsVerticalScrollIndicator={false}>
-              <PoulaillerPlan
-                withInformations={areInformationsVisible}
-                withLights={areLightsVisible}
-              />
-            </ScrollView>
-            <ScrollView
-              contentContainerStyle={[
-                isWide && tw`max-w-lg`,
-                !isWide && { width: layoutWidth },
-                {
-                  paddingTop: headerHeight,
-                  paddingBottom: insets.bottom,
-                },
-              ]}
-              horizontal={false}
-              refreshControl={
-                <RefreshControl
-                  progressViewOffset={progressViewOffset}
-                  refreshing={isRefreshingPtiPoulaillerPlan}
-                  onRefresh={onRefreshPtiPoulaillerPlan}
-                />
-              }
-              scrollEventThrottle={16}
-              showsVerticalScrollIndicator={false}>
-              <PtiPoulaillerPlan
-                withInformations={areInformationsVisible}
-                withLights={areLightsVisible}
-              />
-            </ScrollView>
-          </Animated.ScrollView>
+              showsHorizontalScrollIndicator={false}
+              style={tw`flex-1`}
+              onScroll={onHorizontalScroll}>
+              <ScrollEdge style={tw`h-full`}>
+                <ScrollView
+                  contentContainerStyle={[
+                    isWide && tw`max-w-lg`,
+                    !isWide && { width: layoutWidth },
+                    {
+                      paddingTop: insets.top,
+                      paddingBottom: insets.bottom,
+                    },
+                  ]}
+                  horizontal={false}
+                  refreshControl={
+                    <RefreshControl
+                      progressViewOffset={progressViewOffset}
+                      refreshing={isRefreshingPoulaillerPlan}
+                      onRefresh={onRefreshPoulaillerPlan}
+                    />
+                  }
+                  scrollEventThrottle={16}
+                  showsVerticalScrollIndicator={false}>
+                  <PoulaillerPlan
+                    withInformations={areInformationsVisible}
+                    withLights={areLightsVisible}
+                  />
+                </ScrollView>
+              </ScrollEdge>
+              <ScrollEdge style={tw`h-full`}>
+                <ScrollView
+                  contentContainerStyle={[
+                    isWide && tw`max-w-lg`,
+                    !isWide && { width: layoutWidth },
+                    {
+                      paddingTop: insets.top,
+                      paddingBottom: insets.bottom,
+                    },
+                  ]}
+                  horizontal={false}
+                  refreshControl={
+                    <RefreshControl
+                      progressViewOffset={progressViewOffset}
+                      refreshing={isRefreshingPtiPoulaillerPlan}
+                      onRefresh={onRefreshPtiPoulaillerPlan}
+                    />
+                  }
+                  scrollEventThrottle={16}
+                  showsVerticalScrollIndicator={false}>
+                  <PtiPoulaillerPlan
+                    withInformations={areInformationsVisible}
+                    withLights={areLightsVisible}
+                  />
+                </ScrollView>
+              </ScrollEdge>
+            </Animated.ScrollView>
+          </ScrollEdge>
         </BlurTargetView>
       ) : null}
 
-      <Animated.View
-        style={[
-          tw`absolute top-0 z-10 flex w-full flex-row items-center px-4 pb-2`,
-          { paddingTop: insets.top },
-        ]}
-        onLayout={({ nativeEvent }: LayoutChangeEvent) =>
-          setHeaderHeight(nativeEvent.layout.height)
-        }>
-        <AppTopFader style={tw`absolute inset-x-0 top-0`} />
-
-        <View style={tw`flex shrink grow basis-0 flex-row items-center justify-start gap-2`}>
-          <AppIconButton
-            blurTarget={blurTargetRef}
-            icon="arrow-left"
-            radius={25}
-            style={tw`size-10`}
-            onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
-          />
-        </View>
-
-        {!isWide && SUPPORTED_LOCATIONS.length > 1 ? (
-          <CarouselPaginationDots
-            count={SUPPORTED_LOCATIONS.length}
-            offset={offset}
-            style={tw`mx-auto grow-0`}
-          />
-        ) : null}
-
-        <View style={tw`flex shrink grow basis-0 flex-row items-center justify-end gap-2`}>
-          {IS_DEV && (
-            <AppIconButton
-              active={areLightsVisible}
-              blurTarget={blurTargetRef}
-              icon={areLightsVisible ? 'lightbulb-group' : 'lightbulb-group-outline'}
-              radius={25}
-              style={tw`size-10`}
+      <NativeHeader
+        // an array, not a fragment: Stack.Toolbar only reads its direct children
+        rightItems={[
+          IS_DEV && (
+            <Stack.Toolbar.Button
+              icon={lightsIcon}
+              key="lights"
+              tintColor={tintColor}
+              // native active state: tinted when the overlay is shown
+              variant={areLightsVisible ? 'prominent' : 'plain'}
               onPress={() => {
                 setLightsVisible(!areLightsVisible);
                 setInformationsVisible(false);
               }}
             />
-          )}
-
-          <AppIconButton
-            active={areInformationsVisible}
-            blurTarget={blurTargetRef}
-            icon="dots-horizontal"
-            radius={25}
-            style={tw`size-10`}
+          ),
+          <Stack.Toolbar.Button
+            icon={informationsIcon}
+            key="informations"
+            tintColor={tintColor}
+            variant={areInformationsVisible ? 'prominent' : 'plain'}
             onPress={() => {
               setLightsVisible(false);
               setInformationsVisible(!areInformationsVisible);
             }}
-          />
-        </View>
-      </Animated.View>
+          />,
+        ]}
+        title={t('onPremise.title')}
+        titleView={
+          !isWide && SUPPORTED_LOCATIONS.length > 1 ? (
+            <CarouselPaginationDots count={SUPPORTED_LOCATIONS.length} offset={offset} />
+          ) : undefined
+        }
+      />
+      <AppTopFader style={tw`absolute inset-x-0 top-0`} />
     </View>
   );
 };
