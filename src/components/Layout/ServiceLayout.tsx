@@ -29,12 +29,13 @@ import AppText from '@/components/AppText';
 import NativeHeader, {
   ScrollEdge,
   NAVIGATION_HEIGHT,
+  MasterBackButton,
   useNavigationHeight,
   type HeaderAction,
 } from '@/components/Layout/NativeHeader';
 import LoadingProgressBar from '@/components/LoadingProgressBar';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
-import { useAppPaddingBottom } from '@/helpers/screen';
+import useAppScreen, { useAppPaddingBottom } from '@/helpers/screen';
 
 const AnimatedKeyboardAwareScrollView = Animated.createAnimatedComponent(KeyboardAwareScrollView);
 
@@ -80,6 +81,7 @@ const ServiceLayout = ({
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
   const paddingBottom = useAppPaddingBottom();
+  const { isWide } = useAppScreen();
   const blurTargetRef = useRef<View | null>(null);
   const verticalScrollProgress = useSharedValue(0);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
@@ -198,9 +200,9 @@ const ServiceLayout = ({
                 tw`relative flex w-full grow flex-col bg-gray-50 dark:bg-zinc-900`,
                 {
                   paddingLeft: insets.left,
-                  paddingRight: insets.right,
                   paddingBottom,
                 },
+                !isWide && { paddingRight: insets.right },
                 contentStyle,
               ]}>
               {loading && <LoadingProgressBar style={tw`absolute inset-x-0 top-0 z-10`} />}
@@ -211,9 +213,16 @@ const ServiceLayout = ({
       </BlurTargetView>
 
       {withNativeHeader && (
-        <NativeHeader actions={actions} menu={menu} title={title} withBackButton={withBackButton} />
+        <NativeHeader
+          actions={actions}
+          blurTarget={blurTargetRef}
+          menu={menu}
+          title={title}
+          withBackButton={withBackButton}
+        />
       )}
       <AppTopFader style={tw`absolute inset-x-0 top-0`} />
+      {from && <MasterBackButton blurTarget={blurTargetRef} from={from} />}
 
       {footer}
     </View>
