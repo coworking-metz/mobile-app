@@ -4,7 +4,7 @@ import { Image, ImageBackground } from 'expo-image';
 import { useIsFocused } from 'expo-router';
 import React, { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle, type ViewInstance } from 'react-native';
 import tw from 'twrnc';
 import AmourFoodSquareLogo from '@/assets/images/amour-food-square.png';
 import BliiidaSquareLogo from '@/assets/images/bliiida-square.png';
@@ -73,7 +73,7 @@ const CalendarEventCard = ({
   const { t } = useTranslation();
   const isFocus = useIsFocused();
   const activeSince = useAppState();
-  const blurTargetRef = useRef<View | null>(null);
+  const blurTargetRef = useRef<ViewInstance | null>(null);
 
   const date = useMemo(() => {
     if (!event) return null;

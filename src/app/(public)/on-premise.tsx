@@ -4,7 +4,7 @@ import { Stack, useLocalSearchParams } from 'expo-router';
 import { includes } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, RefreshControl, ScrollView, View } from 'react-native';
+import { Platform, RefreshControl, ScrollView, View, type ViewInstance } from 'react-native';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
@@ -60,7 +60,7 @@ const OnPremise = () => {
   }, [insets.top, navigationHeight]);
   const { t } = useTranslation();
   const [layoutWidth, setLayoutWidth] = useState(0);
-  const blurTargetRef = useRef<View | null>(null);
+  const blurTargetRef = useRef<ViewInstance | null>(null);
   const tintColor = useHeaderTintColor();
   const toggleLights = () => {
     setLightsVisible(!areLightsVisible);

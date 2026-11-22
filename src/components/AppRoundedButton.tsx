@@ -1,6 +1,6 @@
 import { isLiquidGlassSupported } from '@callstack/liquid-glass';
 import { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
-import { StyleProp, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle, type ViewInstance } from 'react-native';
 import tw from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import AppGlassView from '@/components/AppGlassView';
@@ -18,7 +18,7 @@ export type AppRoundedButtonProps = {
   renderSuffix?: () => ReactNode;
   suffixIcon?: MaterialCommunityIconsName | null;
   children?: ReactNode;
-  blurTarget?: React.RefObject<View | null>;
+  blurTarget?: React.RefObject<ViewInstance | null>;
   onPress?: () => void;
 };
 

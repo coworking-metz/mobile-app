@@ -8,6 +8,9 @@ import useAppScreen from '@/helpers/screen';
 
 const SECTION = { href: '/messages', rootName: 'root' } as const;
 
+// the section root sits under deep-linked screens (placeholder when wide)
+export const unstable_settings = { anchor: SECTION.rootName };
+
 export default function MessagesLayout() {
   useDeviceContext(tw);
 
@@ -29,7 +32,6 @@ export default function MessagesLayout() {
         style={isWide ? tw`h-full min-w-80 shrink grow basis-0 overflow-hidden` : tw`flex-1`}>
         <SectionContext value={SECTION}>
           <Stack
-            initialRouteName="root"
             screenOptions={{
               headerShown: false,
               ...(reduceMotion && {

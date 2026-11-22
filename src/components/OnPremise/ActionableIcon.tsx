@@ -1,6 +1,6 @@
 import React, { type ReactNode } from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import { StyleProp, type ViewProps, ViewStyle } from 'react-native';
+import Animated, { type AnimatedProps, FadeIn, FadeOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import AppBlurView, { AppBlurViewProps } from '@/components/AppBlurView';
@@ -19,7 +19,7 @@ export type ActionableIconProps = AppBlurViewProps & {
   pending?: boolean;
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
-  iconStyle?: StyleProp<ViewStyle>;
+  iconStyle?: AnimatedProps<ViewProps>['style'];
   children?: ReactNode;
 };
 

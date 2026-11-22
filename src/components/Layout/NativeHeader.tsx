@@ -10,7 +10,7 @@ import {
   type ReactNode,
   type RefObject,
 } from 'react';
-import { Platform, type StyleProp, View, type ViewStyle } from 'react-native';
+import { Platform, type StyleProp, View, type ViewStyle, type ViewInstance } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScrollViewMarker } from 'react-native-screens/experimental';
 import tw from 'twrnc';
@@ -78,7 +78,7 @@ export const MasterBackButton = ({
   blurTarget,
 }: {
   from: string;
-  blurTarget?: RefObject<View | null>;
+  blurTarget?: RefObject<ViewInstance | null>;
 }) => {
   const insets = useSafeAreaInsets();
   const goBack = useGoBack(from);
@@ -115,7 +115,7 @@ const NativeHeader = ({
   // raw Stack.Toolbar items, takes precedence over menu/actions
   rightItems?: ReactNode;
   // Android: the screen's BlurTargetView, so our header buttons blur its content
-  blurTarget?: RefObject<View | null>;
+  blurTarget?: RefObject<ViewInstance | null>;
 }) => {
   const route = useRoute();
   const navigation = useNavigation();

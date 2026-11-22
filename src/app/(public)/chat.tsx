@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, View } from 'react-native';
+import { Platform, View, type ViewInstance } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import Animated, { FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -34,7 +34,7 @@ const Chat = () => {
   const router = useRouter();
   const settingsStore = useSettingsStore();
   const paddingBottom = useAppPaddingBottom();
-  const blurTargetRef = React.useRef<View | null>(null);
+  const blurTargetRef = React.useRef<ViewInstance | null>(null);
 
   const language = useMemo(() => {
     if (settingsStore.language === SYSTEM_OPTION) {

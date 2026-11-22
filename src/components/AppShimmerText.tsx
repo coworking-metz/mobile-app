@@ -1,9 +1,14 @@
-import MaskedView from '@react-native-masked-view/masked-view';
-import { ReactNode, useMemo, useState } from 'react';
-import { StyleSheet, TextStyle, View, type StyleProp } from 'react-native';
+import RNMaskedView from '@react-native-masked-view/masked-view';
+import { type ComponentType, type ReactElement, ReactNode, useMemo, useState } from 'react';
+import { StyleSheet, TextStyle, View, type StyleProp, type ViewProps } from 'react-native';
 import Animated from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppText, { AppTextProps } from '@/components/AppText';
+
+// its mixin class typings don't satisfy React 19's JSX element check
+const MaskedView = RNMaskedView as unknown as ComponentType<
+  ViewProps & { maskElement: ReactElement }
+>;
 
 // inspired by https://github.com/furkananter/react-native-shimmer-text
 const AppShimmerText = ({
@@ -12,7 +17,7 @@ const AppShimmerText = ({
   style,
   children,
   ...props
-}: AppTextProps & {
+}: Omit<AppTextProps, 'style' | 'children'> & {
   active?: boolean;
   activeColor?: string;
   style?: StyleProp<TextStyle>;
@@ -21,7 +26,7 @@ const AppShimmerText = ({
   const [height, setHeight] = useState<number>(0);
   const [width, setWidth] = useState<number>(0);
   const textColor = useMemo(() => {
-    const flattenedStyle = StyleSheet.flatten<TextStyle>(style);
+    const flattenedStyle = StyleSheet.flatten(style);
     return flattenedStyle?.color ? flattenedStyle.color.toString() : tw.color('black');
   }, [style]);
 

@@ -6,7 +6,14 @@ import { Image, type ImageProps } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import { isNil } from 'lodash';
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { Modal, Platform, TouchableOpacity, View, ViewStyle } from 'react-native';
+import {
+  Modal,
+  Platform,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+  type ViewInstance,
+} from 'react-native';
 import Gallery from 'react-native-awesome-gallery';
 import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -37,7 +44,7 @@ const ZoomableImage = ({
   const insets = useSafeAreaInsets();
   const offset = useSharedValue(0);
   const [isGalleryVisible, setGalleryVisible] = useState<boolean>(false);
-  const blurTargetRef = useRef<View | null>(null);
+  const blurTargetRef = useRef<ViewInstance | null>(null);
 
   const sourcesCount = useMemo(() => sources?.length ?? 0, [sources]);
 

@@ -1,6 +1,12 @@
 import { isLiquidGlassSupported } from '@callstack/liquid-glass';
 import { forwardRef, useMemo, type ForwardRefRenderFunction } from 'react';
-import { PlatformColor, StyleProp, useColorScheme, ViewStyle, type View } from 'react-native';
+import {
+  PlatformColor,
+  StyleProp,
+  useColorScheme,
+  ViewStyle,
+  type ViewInstance,
+} from 'react-native';
 import { FadeIn, FadeOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppGlassView from '@/components/AppGlassView';
@@ -21,7 +27,7 @@ export type AppIconButtonProps = {
   loading?: boolean;
   theme?: 'light' | 'dark';
   radius?: number;
-  blurTarget?: React.RefObject<View | null>;
+  blurTarget?: React.RefObject<ViewInstance | null>;
   style?: StyleProp<ViewStyle>;
   onPress?: () => void;
 };

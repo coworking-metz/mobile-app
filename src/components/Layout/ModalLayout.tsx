@@ -3,7 +3,7 @@ import { BlurTargetView } from 'expo-blur';
 import { useNavigation, useRouter } from 'expo-router';
 import React, { useMemo, useRef, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleProp, View, ViewStyle } from 'react-native';
+import { Platform, StyleProp, View, ViewStyle, type ViewInstance } from 'react-native';
 import Animated, {
   Extrapolation,
   FadeInDown,
@@ -52,7 +52,7 @@ const ModalLayout = ({
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const navigation = useNavigation();
-  const blurTargetRef = useRef<View | null>(null);
+  const blurTargetRef = useRef<ViewInstance | null>(null);
   const verticalScrollProgress = useSharedValue(0);
   const { t } = useTranslation();
 

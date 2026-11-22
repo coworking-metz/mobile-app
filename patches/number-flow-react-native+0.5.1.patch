@@ -1,0 +1,19 @@
+diff --git a/node_modules/number-flow-react-native/src/native/glyphMetricsShared.ts b/node_modules/number-flow-react-native/src/native/glyphMetricsShared.ts
+index 0932a85..7813038 100644
+--- a/node_modules/number-flow-react-native/src/native/glyphMetricsShared.ts
++++ b/node_modules/number-flow-react-native/src/native/glyphMetricsShared.ts
+@@ -17,12 +17,12 @@ export function cacheKey(
+   style: {
+     fontFamily?: string;
+     fontSize: number;
+-    fontVariant?: string[];
++    fontVariant?: string | readonly string[];
+     fontWeight?: string | number;
+   },
+   additionalChars?: string,
+ ): string {
+-  const variant = style.fontVariant?.join(",") ?? "";
++  const variant = [style.fontVariant ?? []].flat().join(",");
+   const weight = style.fontWeight ?? "";
+   const base = `${style.fontFamily}:${style.fontSize}:${variant}:${weight}`;
+   return additionalChars ? `${base}:${additionalChars}` : base;

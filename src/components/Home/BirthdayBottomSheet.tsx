@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import * as Haptics from 'expo-haptics';
 import { isNil } from 'lodash';
-import React, { forwardRef, ForwardRefRenderFunction, useCallback, useState } from 'react';
+import { forwardRef, ForwardRefRenderFunction, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Confetti } from 'react-native-fast-confetti';
@@ -13,7 +13,6 @@ import AppBottomSheet, {
 } from '@/components/AppBottomSheet';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
-import { parseErrorText } from '@/helpers/error';
 import useNoticeStore from '@/stores/notice';
 import useSettingsStore from '@/stores/settings';
 
@@ -53,7 +52,7 @@ const BirthdayBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottom
 
   return (
     <AppBottomSheet ref={forwardedRef} style={style} onClose={onClose}>
-      <Confetti autoplay isInfinite={false} onAnimationStart={onConfettiStart} />
+      <Confetti autoplay infinite={false} onAnimationStart={onConfettiStart} />
       <View style={tw`mt-6 flex h-40 items-center justify-center overflow-visible`}>
         <BirthdayCakeAnimation style={tw`-mb-6 h-72 w-full`} />
       </View>
