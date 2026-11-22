@@ -20,6 +20,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw from 'twrnc';
 import { AppTopFader } from '@/components/AppFader';
 import AppIconButton from '@/components/AppIconButton';
+import { StandaloneNativeHeader } from '@/components/Layout/NativeHeader';
 
 // in case we need to migrate off 'react-native-awesome-gallery'
 // https://github.com/saseungmin/react-native-gesture-image-viewer
@@ -82,70 +83,85 @@ const ZoomableImage = ({
         animationType="fade"
         visible={isGalleryVisible}
         {...(Platform.OS === 'android' && { navigationBarTranslucent: true })}>
-        {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
-        <StatusBar style="light" />
-        <BlurTargetView ref={blurTargetRef} style={tw`flex size-full flex-col bg-black`}>
-          <Gallery
-            data={sources ?? [source]}
-            renderItem={({ item, setImageDimensions }) => (
-              <Image
-                allowDownscaling={false}
-                cachePolicy="memory"
-                contentFit="contain"
-                source={{
-                  uri: item,
-                  cacheKey: `${item}-${dayjs().format('YYYY-MM-DD')}`,
-                }}
-                style={tw`size-full`}
-                onLoad={(event) => {
-                  setImageDimensions({
-                    width: event.source.width,
-                    height: event.source.height,
-                  });
-                }}
-              />
-            )}
-            onIndexChange={(index) => {
-              offset.value = withTiming(index, {
-                easing: Easing.linear,
-                duration: 300,
-              });
-            }}
-            onSwipeToClose={() => setGalleryVisible(false)}
-          />
-        </BlurTargetView>
-
-        <View
-          style={[
-            tw`absolute top-0 z-10 flex w-full flex-row items-center justify-start px-4 pb-2`,
+        {/* iOS: close lives in a native bar (the iPhone Duo's side column) */}
+        <StandaloneNativeHeader
+          left={[
             {
-              paddingTop: insets.top,
-              left: insets.left,
-              right: insets.right,
+              type: 'button',
+              icon: { type: 'sfSymbol', name: 'xmark' },
+              tintColor: 'white',
+              onPress: () => setGalleryVisible(false),
             },
           ]}>
-          <AppTopFader style={tw`absolute inset-x-0 top-0`} tintColor={tw.color('black/25')} />
-
-          <AppIconButton
-            blurTarget={blurTargetRef}
-            icon="window-close"
-            radius={25}
-            onPress={() => setGalleryVisible(false)}
-            {...(!isLiquidGlassSupported && { theme: 'dark' })}
-          />
-
-          {sourcesCount > 1 && (
-            <>
-              <CarouselPaginationDots
-                count={sourcesCount}
-                offset={offset}
-                style={tw`mx-auto grow-0`}
+          <>
+            {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
+            <StatusBar style="light" />
+            <BlurTargetView ref={blurTargetRef} style={tw`flex size-full flex-col bg-black`}>
+              <Gallery
+                data={sources ?? [source]}
+                renderItem={({ item, setImageDimensions }) => (
+                  <Image
+                    allowDownscaling={false}
+                    cachePolicy="memory"
+                    contentFit="contain"
+                    source={{
+                      uri: item,
+                      cacheKey: `${item}-${dayjs().format('YYYY-MM-DD')}`,
+                    }}
+                    style={tw`size-full`}
+                    onLoad={(event) => {
+                      setImageDimensions({
+                        width: event.source.width,
+                        height: event.source.height,
+                      });
+                    }}
+                  />
+                )}
+                onIndexChange={(index) => {
+                  offset.value = withTiming(index, {
+                    easing: Easing.linear,
+                    duration: 300,
+                  });
+                }}
+                onSwipeToClose={() => setGalleryVisible(false)}
               />
-              {/* fake a View with the same size as the close button to properly center pagination dots */}
-              <View style={tw`size-10`} />
-            </>
-          )}
-        </View>
+            </BlurTargetView>
+
+            <View
+              style={[
+                tw`absolute top-0 z-10 flex w-full flex-row items-center justify-start px-4 pb-2`,
+                {
+                  paddingTop: insets.top,
+                  left: insets.left,
+                  right: insets.right,
+                },
+              ]}>
+              <AppTopFader style={tw`absolute inset-x-0 top-0`} tintColor={tw.color('black/25')} />
+
+              {Platform.OS !== 'ios' && (
+                <AppIconButton
+                  blurTarget={blurTargetRef}
+                  icon="window-close"
+                  radius={25}
+                  onPress={() => setGalleryVisible(false)}
+                  {...(!isLiquidGlassSupported && { theme: 'dark' })}
+                />
+              )}
+
+              {sourcesCount > 1 && (
+                <>
+                  <CarouselPaginationDots
+                    count={sourcesCount}
+                    offset={offset}
+                    style={tw`mx-auto grow-0`}
+                  />
+                  {/* fake a View with the same size as the close button to properly center pagination dots */}
+                  {Platform.OS !== 'ios' && <View style={tw`size-10`} />}
+                </>
+              )}
+            </View>
+          </>
+        </StandaloneNativeHeader>
       </Modal>
     </>
   );

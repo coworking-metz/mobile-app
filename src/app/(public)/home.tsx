@@ -50,11 +50,7 @@ import { useAppContact } from '@/context/contact';
 import { useAppOnboarding } from '@/context/onboarding';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
-import useAppScreen, {
-  MIN_MINIMUM_EDGE,
-  MIN_PADDING_TOP,
-  WIDE_SCREEN_WIDTH,
-} from '@/helpers/screen';
+import useAppScreen, { MIN_MINIMUM_EDGE, MIN_PADDING_TOP } from '@/helpers/screen';
 import { getCalendarEvents } from '@/services/api/calendar';
 import {
   getCurrentMembers,
@@ -69,6 +65,10 @@ import { eventsQueryKeys, membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
+
+// centered content column on wide screens, horizontal scrollers align their padding on it
+const WIDE_CONTENT_MAX_WIDTH = 672;
+const WIDE_CONTENT_STYLE = { ...tw`mx-auto w-full`, maxWidth: WIDE_CONTENT_MAX_WIDTH };
 
 export default function HomeScreen() {
   useDeviceContext(tw);
@@ -297,9 +297,7 @@ export default function HomeScreen() {
         style={[
           tw`flex shrink grow flex-row items-center pl-6`,
           { paddingTop: insets.top ? MIN_PADDING_TOP : MIN_PADDING_TOP * 2 },
-          isWide
-            ? tw`mx-auto w-full max-w-2xl`
-            : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
+          isWide ? WIDE_CONTENT_STYLE : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
         ]}>
         <StaleDataText
           lastFetch={currentMembersUpdatedAt}
@@ -369,12 +367,7 @@ export default function HomeScreen() {
 
       <Animated.View
         entering={FadeInLeft.duration(750)}
-        style={[
-          tw`flex flex-col gap-2 self-stretch pl-6`,
-          isWide
-            ? tw`mx-auto w-full max-w-2xl`
-            : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
-        ]}>
+        style={[tw`flex flex-col gap-2 self-stretch pl-6 pr-4`, isWide && WIDE_CONTENT_STYLE]}>
         <AttendanceCount style={tw`mt-4`} />
       </Animated.View>
 
@@ -385,9 +378,7 @@ export default function HomeScreen() {
           loading={isFetchingProfile || isFetchingSubscriptions}
           style={[
             tw`mt-9 self-stretch pl-6`,
-            isWide
-              ? tw`mx-auto w-full max-w-2xl`
-              : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
+            isWide ? WIDE_CONTENT_STYLE : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
           ]}
           title={t('home.profile.label')}>
           {profileError && !isSilentError(profileError) && !isFetchingProfile ? (
@@ -412,8 +403,8 @@ export default function HomeScreen() {
             tw`mt-4 flex flex-row items-stretch gap-4 overflow-visible`,
             isWide
               ? {
-                  paddingLeft: (width - WIDE_SCREEN_WIDTH) / 2 + MIN_MINIMUM_EDGE,
-                  paddingRight: (width - WIDE_SCREEN_WIDTH) / 2 + MIN_MINIMUM_EDGE,
+                  paddingLeft: (width - WIDE_CONTENT_MAX_WIDTH) / 2 + MIN_MINIMUM_EDGE,
+                  paddingRight: (width - WIDE_CONTENT_MAX_WIDTH) / 2 + MIN_MINIMUM_EDGE,
                 }
               : {
                   paddingLeft: insets.left || MIN_MINIMUM_EDGE,
@@ -490,12 +481,7 @@ export default function HomeScreen() {
         count={upcomingEvents.length > 2 ? upcomingEvents.length : null}
         entering={FadeInRight.duration(750).delay(600)}
         loading={isFetchingCalendarEvents}
-        style={[
-          tw`mt-9 self-stretch pl-6`,
-          isWide
-            ? tw`mx-auto w-full max-w-2xl`
-            : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
-        ]}
+        style={[tw`mt-9 self-stretch pl-6 pr-4`, isWide && WIDE_CONTENT_STYLE]}
         title={t('home.calendar.label')}>
         {calendarEventsError && !isSilentError(calendarEventsError) && !isFetchingCalendarEvents ? (
           <ErrorBadge
@@ -519,8 +505,8 @@ export default function HomeScreen() {
             `flex h-56 min-w-full flex-row px-4 py-3`,
             isWide
               ? {
-                  paddingLeft: (width - WIDE_SCREEN_WIDTH) / 2 + MIN_MINIMUM_EDGE,
-                  paddingRight: (width - WIDE_SCREEN_WIDTH) / 2 + MIN_MINIMUM_EDGE,
+                  paddingLeft: (width - WIDE_CONTENT_MAX_WIDTH) / 2 + MIN_MINIMUM_EDGE,
+                  paddingRight: (width - WIDE_CONTENT_MAX_WIDTH) / 2 + MIN_MINIMUM_EDGE,
                 }
               : {
                   paddingLeft: insets.left || MIN_MINIMUM_EDGE,
@@ -571,20 +557,13 @@ export default function HomeScreen() {
             <HomeCalendarEmptyState
               events={upcomingEvents}
               lastFetch={calendarEventsUpdatedAt}
-              style={[
-                { width: width - MIN_MINIMUM_EDGE * 2 },
-                isWide && tw`mx-auto w-full max-w-2xl`,
-              ]}
+              style={[{ width: width - MIN_MINIMUM_EDGE * 2 }, isWide && WIDE_CONTENT_STYLE]}
             />
           )}
         </ScrollView>
       </Animated.View>
 
-      <View
-        style={[
-          tw`mb-3 mt-9 flex w-full flex-col gap-4 px-4`,
-          isWide && tw`mx-auto w-full max-w-2xl`,
-        ]}>
+      <View style={[tw`mb-3 mt-9 flex w-full flex-col gap-4 px-4`, isWide && WIDE_CONTENT_STYLE]}>
         <SectionTitle
           entering={FadeInUp.duration(500).delay(600)}
           style={tw`mx-2`}

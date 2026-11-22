@@ -46,6 +46,9 @@
       "label": "Jeton de rafraîchissement"
     },
     "title": "Paramètres de l'application",
+    "withVerticalStatusBar": {
+      "label": "Barre d’état verticale"
+    },
     "withBottomSheetFullHeight": {
       "label": "Afficher les volets inférieurs en plein\u00A0écran"
     },

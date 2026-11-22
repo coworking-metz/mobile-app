@@ -1,5 +1,5 @@
 import { BlurTargetView } from 'expo-blur';
-import { useRouter } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +13,7 @@ import tw, { useDeviceContext } from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import AppIconButton from '@/components/AppIconButton';
 import ErrorState from '@/components/ErrorState';
+import NativeHeader, { useHeaderTintColor } from '@/components/Layout/NativeHeader';
 import { theme } from '@/helpers/colors';
 import { useAppPaddingBottom } from '@/helpers/screen';
 import { SYSTEM_LANGUAGE } from '@/i18n';
@@ -32,6 +33,8 @@ const Chat = () => {
   const [error, setError] = useState<WebViewError | null>(null);
   const authStore = useAuthStore();
   const router = useRouter();
+  const tintColor = useHeaderTintColor();
+  const onClose = () => (router.canDismiss() ? router.dismiss() : router.navigate('/home'));
   const settingsStore = useSettingsStore();
   const paddingBottom = useAppPaddingBottom();
   const blurTargetRef = React.useRef<ViewInstance | null>(null);
@@ -157,18 +160,28 @@ const Chat = () => {
         ) : null}
       </BlurTargetView>
 
-      <AppIconButton
-        blurTarget={blurTargetRef}
-        icon="window-close"
-        radius={25}
-        style={tw.style(
-          `absolute z-20 mr-4`,
-          { right: insets.right },
-          Platform.OS === 'ios' ? tw`mt-3` : { top: insets.top + 4 },
-        )}
-        theme="light"
-        onPress={() => (router.canDismiss() ? router.dismiss() : router.navigate('/home'))}
-      />
+      {Platform.OS === 'ios' ? (
+        <NativeHeader
+          left={[
+            <Stack.Toolbar.Button
+              icon="xmark"
+              key="close"
+              tintColor={tintColor}
+              onPress={onClose}
+            />,
+          ]}
+          withBackButton={false}
+        />
+      ) : (
+        <AppIconButton
+          blurTarget={blurTargetRef}
+          icon="window-close"
+          radius={25}
+          style={[tw`absolute z-20 mr-4`, { right: insets.right, top: insets.top + 4 }]}
+          theme="light"
+          onPress={onClose}
+        />
+      )}
     </View>
   );
 };

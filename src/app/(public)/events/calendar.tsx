@@ -19,7 +19,6 @@ import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import { SelectableChip } from '@/components/SelectableChip';
 import { isSilentError } from '@/helpers/error';
-import useAppScreen from '@/helpers/screen';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 import { eventsQueryKeys } from '@/services/query';
 
@@ -29,7 +28,6 @@ export type SortType = (typeof SORTS)[number];
 const Calendar = ({ from }: { from?: string }) => {
   useDeviceContext(tw);
   const { t, i18n } = useTranslation();
-  const { isWide } = useAppScreen();
   const router = useRouter();
   const { period, calendar } = useLocalSearchParams<{ period?: string; calendar?: string }>();
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>(null);
@@ -196,8 +194,7 @@ const Calendar = ({ from }: { from?: string }) => {
                     <Link
                       asChild
                       href={`/events/${event.id}`}
-                      key={`calendar-event-card-${event.id}`}
-                      replace={isWide}>
+                      key={`calendar-event-card-${event.id}`}>
                       <AppPressable style={tw`h-44 w-full`}>
                         <CalendarEventCard event={event}>
                           {dayjs().isBetween(event.start, event.end) && (

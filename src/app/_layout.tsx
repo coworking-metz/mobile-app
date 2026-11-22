@@ -37,6 +37,7 @@ import { HTTP } from '@/services/http';
 import createHttpInterceptors from '@/services/interceptors';
 import { QUERY_CLIENT_CONFIG } from '@/services/query';
 import { AppThemeBackground } from '@/services/theme';
+import useSettingsStore from '@/stores/settings';
 import '@/i18n';
 
 const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
@@ -50,6 +51,7 @@ const RootLayout = () => {
   useDeviceContext(tw);
   const reduceMotion = useReducedMotion();
   const colorScheme = useColorScheme();
+  const withVerticalStatusBar = useSettingsStore((state) => state.withVerticalStatusBar);
 
   useLayoutEffect(() => {
     createHttpInterceptors(HTTP);
@@ -216,7 +218,9 @@ const RootLayout = () => {
                     dark={tw.color('black') as string}
                     light={tw.color('transparent') as string}
                   />
-                  <StatusBar />
+                  <StatusBar
+                    verticalBarBehaviorIOS={withVerticalStatusBar ? 'automatic' : 'disabled'}
+                  />
                 </AuthProvider>
               </QueryClientProvider>
             </I18nProvider>

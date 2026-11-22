@@ -1,10 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import { BlurTargetView } from 'expo-blur';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { includes } from 'lodash';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Platform, RefreshControl, ScrollView, View, type ViewInstance } from 'react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  Platform,
+  RefreshControl,
+  ScrollView,
+  View,
+  type LayoutChangeEvent,
+  type ViewInstance,
+} from 'react-native';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
@@ -13,9 +19,8 @@ import AppIconButton from '@/components/AppIconButton';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
 import NativeHeader, {
   ScrollEdge,
-  useHasSideSystemColumn,
   useHeaderTintColor,
-  useNavigationHeight,
+  useTopBarHeight,
 } from '@/components/Layout/NativeHeader';
 import PoulaillerPlan from '@/components/OnPremise/PoulaillerPlan';
 import PtiPoulaillerPlan from '@/components/OnPremise/PtiPoulaillerPlan';
@@ -25,6 +30,8 @@ import { IS_DEV } from '@/services/environment';
 import { onPremiseQueryKeys } from '@/services/query';
 
 const SUPPORTED_LOCATIONS = ['poulailler', 'pti-poulailler'];
+// max-w-lg: wide shows both plans side by side, each up to half the screen
+const PLAN_MAX_WIDTH = 512;
 
 const OnPremise = () => {
   useDeviceContext(tw);
@@ -52,15 +59,16 @@ const OnPremise = () => {
   }, [refetchOnPremiseState]);
 
   const insets = useSafeAreaInsets();
-  const navigationHeight = useNavigationHeight();
-  const hasSideSystemColumn = useHasSideSystemColumn();
-  // iOS insets scroll content below the transparent header itself, Android doesn't
-  const contentTop = useMemo(() => {
-    return (Platform.OS === 'android' ? navigationHeight : insets.top) || 16;
-  }, [insets.top, navigationHeight]);
-  const { t } = useTranslation();
+  const router = useRouter();
   const [layoutWidth, setLayoutWidth] = useState(0);
+  const planWidth = isWide ? Math.min(layoutWidth / 2, PLAN_MAX_WIDTH) : layoutWidth;
+  const [headerHeight, setHeaderHeight] = useState(0);
+  // iOS: native header (back, dots, buttons); Android: our RN header row
+  const withNativeHeader = Platform.OS === 'ios';
+  const nativeHeaderHeight = useTopBarHeight(true);
+  const contentTop = withNativeHeader ? nativeHeaderHeight : headerHeight;
   const blurTargetRef = useRef<ViewInstance | null>(null);
+
   const tintColor = useHeaderTintColor();
   const toggleLights = () => {
     setLightsVisible(!areLightsVisible);
@@ -75,7 +83,7 @@ const OnPremise = () => {
   const [progressViewOffset, setProgressViewOffset] = useState(0);
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setProgressViewOffset(contentTop);
+      setProgressViewOffset(contentTop - 16);
     }, 300);
 
     return () => clearTimeout(timeout);
@@ -119,29 +127,7 @@ const OnPremise = () => {
     }
   }, [withInformations, withLights]);
 
-  // an array, not a fragment: Stack.Toolbar only reads its direct children
-  const toolbarItems = [
-    IS_DEV && (
-      <Stack.Toolbar.Button
-        icon={areLightsVisible ? 'lightbulb.2.fill' : 'lightbulb.2'}
-        key="lights"
-        tintColor={tintColor}
-        // native active state: tinted when the overlay is shown
-        variant={areLightsVisible ? 'prominent' : 'plain'}
-        onPress={toggleLights}
-      />
-    ),
-    <Stack.Toolbar.Button
-      icon="ellipsis"
-      key="informations"
-      tintColor={tintColor}
-      variant={areInformationsVisible ? 'prominent' : 'plain'}
-      onPress={toggleInformations}
-    />,
-  ];
-
   return (
-    // edge to edge: floor plans span the full width, under the native header items
     <View
       style={tw`flex-1 overflow-hidden bg-gray-100 dark:bg-black`}
       onLayout={({ nativeEvent }) => setLayoutWidth(nativeEvent.layout.width)}>
@@ -151,17 +137,17 @@ const OnPremise = () => {
             <Animated.ScrollView
               ref={horizontalScrollView}
               horizontal
-              contentContainerStyle={tw`flex grow flex-row items-stretch`}
+              contentContainerStyle={tw`flex grow flex-row items-stretch justify-center`}
               pagingEnabled={!isWide}
+              scrollEnabled={!isWide}
               scrollEventThrottle={16}
               showsHorizontalScrollIndicator={false}
               style={tw`flex-1`}
               onScroll={onHorizontalScroll}>
-              <ScrollEdge style={tw`h-full`}>
+              <ScrollEdge style={[tw`h-full`, { width: planWidth }]}>
                 <ScrollView
                   contentContainerStyle={[
-                    isWide && tw`max-w-lg`,
-                    !isWide && { width: layoutWidth },
+                    tw`w-full`,
                     {
                       paddingTop: contentTop,
                       paddingBottom: insets.bottom,
@@ -183,11 +169,9 @@ const OnPremise = () => {
                   />
                 </ScrollView>
               </ScrollEdge>
-              <ScrollEdge style={tw`h-full`}>
+              <ScrollEdge style={[tw`h-full`, { width: planWidth }]}>
                 <ScrollView
                   contentContainerStyle={[
-                    isWide && tw`max-w-lg`,
-                    !isWide && { width: layoutWidth },
                     {
                       paddingTop: contentTop,
                       paddingBottom: insets.bottom,
@@ -214,48 +198,89 @@ const OnPremise = () => {
         </BlurTargetView>
       ) : null}
 
-      <NativeHeader
-        blurTarget={blurTargetRef}
-        menu={
-          Platform.OS === 'android' ? (
-            <View style={tw`flex-row gap-2`}>
-              {IS_DEV && (
-                <AppIconButton
-                  active={areLightsVisible}
-                  blurTarget={blurTargetRef}
-                  icon={areLightsVisible ? 'lightbulb-group' : 'lightbulb-group-outline'}
-                  radius={25}
-                  style={tw`size-10`}
-                  onPress={toggleLights}
-                />
-              )}
+      {!withNativeHeader && (
+        <Animated.View
+          style={[
+            tw`absolute top-0 z-10 flex w-full flex-row items-center pb-2`,
+            {
+              paddingTop: insets.top,
+              paddingLeft: insets.left + 16,
+              paddingRight: insets.right + 16,
+            },
+          ]}
+          onLayout={({ nativeEvent }: LayoutChangeEvent) =>
+            setHeaderHeight(nativeEvent.layout.height)
+          }>
+          <AppTopFader style={tw`absolute inset-x-0 top-0`} />
+
+          <View style={tw`flex shrink grow basis-0 flex-row items-center justify-start gap-2`}>
+            <AppIconButton
+              blurTarget={blurTargetRef}
+              icon="arrow-left"
+              radius={25}
+              style={tw`size-10`}
+              onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+            />
+          </View>
+
+          {!isWide && SUPPORTED_LOCATIONS.length > 1 ? (
+            <CarouselPaginationDots
+              count={SUPPORTED_LOCATIONS.length}
+              offset={offset}
+              style={tw`mx-auto grow-0`}
+            />
+          ) : null}
+
+          <View style={tw`flex shrink grow basis-0 flex-row items-center justify-end gap-2`}>
+            {IS_DEV && (
               <AppIconButton
-                active={areInformationsVisible}
+                active={areLightsVisible}
                 blurTarget={blurTargetRef}
-                icon="dots-horizontal"
+                icon={areLightsVisible ? 'lightbulb-group' : 'lightbulb-group-outline'}
                 radius={25}
                 style={tw`size-10`}
-                onPress={toggleInformations}
+                onPress={toggleLights}
               />
-            </View>
-          ) : undefined
-        }
-        rightItems={hasSideSystemColumn ? undefined : toolbarItems}
-        title={t('onPremise.title')}
-        titleView={
-          !isWide && SUPPORTED_LOCATIONS.length > 1 ? (
-            <CarouselPaginationDots count={SUPPORTED_LOCATIONS.length} offset={offset} />
-          ) : undefined
-        }
-      />
-      {Platform.OS === 'ios' && hasSideSystemColumn && (
-        // Duo side column: push our items to the bottom of the system bar, away from back
-        <Stack.Toolbar placement="bottom">
-          <Stack.Toolbar.Spacer />
-          {toolbarItems}
-        </Stack.Toolbar>
+            )}
+            <AppIconButton
+              active={areInformationsVisible}
+              blurTarget={blurTargetRef}
+              icon="dots-horizontal"
+              radius={25}
+              style={tw`size-10`}
+              onPress={toggleInformations}
+            />
+          </View>
+        </Animated.View>
       )}
-      <AppTopFader style={tw`absolute inset-x-0 top-0`} />
+
+      {withNativeHeader && (
+        <NativeHeader
+          right={[
+            IS_DEV && (
+              <Stack.Toolbar.Button
+                icon={areLightsVisible ? 'lightbulb.2.fill' : 'lightbulb.2'}
+                key="lights"
+                tintColor={tintColor}
+                variant={areLightsVisible ? 'prominent' : 'plain'}
+                onPress={toggleLights}
+              />
+            ),
+            <Stack.Toolbar.Button
+              icon="ellipsis"
+              key="informations"
+              tintColor={tintColor}
+              variant={areInformationsVisible ? 'prominent' : 'plain'}
+              onPress={toggleInformations}
+            />,
+          ]}
+          titleView={
+            !isWide && SUPPORTED_LOCATIONS.length > 1 ? (
+              <CarouselPaginationDots count={SUPPORTED_LOCATIONS.length} offset={offset} />
+            ) : undefined
+          }
+        />
+      )}
     </View>
   );
 };
