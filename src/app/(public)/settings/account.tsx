@@ -17,6 +17,7 @@ import LoadingSkeleton from '@/components/LoadingSkeleton';
 import ZoomableImage from '@/components/ZoomableImage';
 import { useAppAuth } from '@/context/auth';
 import { isSilentError } from '@/helpers/error';
+import useAppScreen from '@/helpers/screen';
 import { getMemberProfile } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
 import { membersQueryKeys } from '@/services/query';
@@ -25,6 +26,7 @@ import useAuthStore from '@/stores/auth';
 const Account = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
+  const { isWide } = useAppScreen();
   const authStore = useAuthStore();
   const { logout } = useAppAuth();
 
@@ -51,6 +53,7 @@ const Account = () => {
       contentStyle={tw`pb-12 pt-6`}
       loading={isFetchingProfile}
       title={t('account.title')}
+      withBackButton={!isWide}
       onRefresh={refetchProfile}>
       <View style={tw`mx-auto w-full max-w-xl`}>
         <View style={tw`relative mx-auto flex size-40 flex-col`}>

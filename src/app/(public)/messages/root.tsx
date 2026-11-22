@@ -1,11 +1,10 @@
-import InboxScreen from './inbox';
+import { Redirect } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import LoveLetterAnimation from '@/components/Animations/LoveLetterAnimation';
 import AppText from '@/components/AppText';
-import NativeHeader from '@/components/Layout/NativeHeader';
 import useAppScreen from '@/helpers/screen';
 
 export default function RootMessages() {
@@ -14,14 +13,12 @@ export default function RootMessages() {
   const { t } = useTranslation();
 
   if (!isWide) {
-    // wide: the layout renders InboxScreen in the master column
-    return <InboxScreen />;
+    return <Redirect href="/messages/inbox" />;
   }
 
   return (
     <Animated.View
       style={tw`flex size-full grow flex-col items-center justify-center bg-gray-100 dark:bg-black`}>
-      <NativeHeader title={t('messages.list.title')} />
       <View style={tw`flex w-full grow basis-0 flex-col items-center justify-end px-4`}>
         <LoveLetterAnimation autoPlay loop={false} style={tw`-my-8 h-56 w-full max-w-xs`} />
       </View>

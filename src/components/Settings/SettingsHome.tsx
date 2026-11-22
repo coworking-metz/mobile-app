@@ -3,9 +3,10 @@ import dayjs from 'dayjs';
 import { BlurTargetView } from 'expo-blur';
 import { Link, usePathname, useRouter } from 'expo-router';
 import { compact } from 'lodash';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import {
+  Platform,
   RefreshControl,
   StyleProp,
   TouchableNativeFeedback,
@@ -28,15 +29,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import { AppTopFader } from '@/components/AppFader';
 import AppIcon from '@/components/AppIcon';
+import AppIconButton from '@/components/AppIconButton';
 import AppText from '@/components/AppText';
 import AppTextLink from '@/components/AppTextLink';
 import ErrorBadge from '@/components/ErrorBadge';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import NativeHeader, {
+  StandaloneHeaderContext,
   ScrollEdge,
-  NAVIGATION_HEIGHT,
-  MasterBackButton,
-  useNavigationHeight,
+  useTopBarHeight,
 } from '@/components/Layout/NativeHeader';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
@@ -81,11 +82,14 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
   const router = useRouter();
+  // iOS native header, except when wide (master column, outside the Stack)
+  const hasStandaloneHeader = useContext(StandaloneHeaderContext);
+  const withNativeHeader = Platform.OS === 'ios' && (!isWide || hasStandaloneHeader);
+  const topBarHeight = useTopBarHeight(withNativeHeader);
+  const onBack = () =>
+    from ? router.dismissTo(from) : router.canGoBack() ? router.back() : router.replace('/');
   const authStore = useAuthStore();
   const review = useAppReview();
-  // `from` means we're rendered in the wide master column: no header, back lives in the detail pane
-  const withNativeHeader = !from;
-  const navigationHeight = useNavigationHeight();
   const chosenLanguage = useSettingsStore((state) => state.language);
   const upcomingEventsPeriod = useSettingsStore((state) => state.upcomingEventsPeriod);
   const unlockGateDurationInMs = useSettingsStore((state) => state.unlockGateDurationInMs);
@@ -93,8 +97,8 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const pathname = usePathname();
   const blurTargetRef = useRef<ViewInstance | null>(null);
   const [refreshing, setRefreshing] = useState(false);
-  // wide: swap the detail pane (placeholder included) so back never lands on the placeholder
-  const replaceDetail = isWide;
+  // wide: swap the detail pane instead of stacking top-level screens
+  const replaceDetail = isWide && pathname !== '/settings';
 
   const upcomingEventsPeriodValue = useMemo(() => {
     if (upcomingEventsPeriod.unit === 'day' && upcomingEventsPeriod.count === 1) {
@@ -199,11 +203,11 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const [progressViewOffset, setProgressViewOffset] = useState(0);
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setProgressViewOffset(20 + headerHeight + navigationHeight - NAVIGATION_HEIGHT);
+      setProgressViewOffset(20 + headerHeight + insets.top);
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [headerHeight, navigationHeight]);
+  }, [headerHeight, insets.top]);
 
   const onDateSelect = useCallback(
     (selectedDate: string) => {
@@ -223,11 +227,13 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           style={[
             tw`absolute flex w-full flex-col items-stretch`,
             {
-              top: navigationHeight,
-              left: insets.left,
+              top: topBarHeight,
               bottom: insets.bottom,
             },
-            !isWide && { right: insets.right },
+            !isWide && {
+              left: insets.left,
+              right: insets.right,
+            },
           ]}>
           <Animated.View
             style={[tw`w-full shrink-0 grow-0`, headerStyle]}
@@ -318,7 +324,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             contentContainerStyle={[
               tw`relative flex grow flex-col`,
               {
-                paddingTop: navigationHeight + PICTURE_SIZE,
+                paddingTop: topBarHeight + PICTURE_SIZE,
                 paddingBottom: insets.bottom,
               },
             ]}
@@ -356,8 +362,8 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
 
             <View
               style={[
+                // edge to edge: only the header above follows the insets
                 tw`relative flex w-full flex-col bg-gray-50 py-6 dark:bg-zinc-900`,
-                { paddingLeft: insets.left },
               ]}>
               {(isFetchingActivity || isFetchingProfile) && (
                 <LoadingProgressBar style={tw`absolute inset-x-0 top-0`} />
@@ -552,9 +558,32 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
         </ScrollEdge>
       </BlurTargetView>
 
-      {withNativeHeader && <NativeHeader blurTarget={blurTargetRef} title={t('settings.title')} />}
-      <AppTopFader style={tw`absolute inset-x-0 top-0`} />
-      {from && <MasterBackButton blurTarget={blurTargetRef} from={from} />}
+      {withNativeHeader ? (
+        <>
+          <AppTopFader style={tw`absolute inset-x-0 top-0`} />
+          {!hasStandaloneHeader && <NativeHeader title={t('settings.title')} onBack={onBack} />}
+        </>
+      ) : (
+        <Animated.View
+          style={[
+            tw`absolute inset-x-0 top-0 z-10 flex flex-row pb-2`,
+            {
+              paddingTop: insets.top,
+              paddingLeft: insets.left,
+              paddingRight: insets.right,
+            },
+          ]}>
+          <AppTopFader style={tw`absolute inset-x-0 top-0`} />
+
+          <AppIconButton
+            blurTarget={blurTargetRef}
+            icon="arrow-left"
+            radius={25}
+            style={tw`ml-4`}
+            onPress={onBack}
+          />
+        </Animated.View>
+      )}
     </View>
   );
 };

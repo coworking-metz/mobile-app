@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { BlurTargetView } from 'expo-blur';
 import * as Calendar from 'expo-calendar';
-import { Link, useLocalSearchParams } from 'expo-router';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { isNil } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -28,11 +28,12 @@ import tw, { useDeviceContext } from 'twrnc';
 import HandwrittenParchmentAnimation from '@/components/Animations/HandwrittenParchmentAnimation';
 import TumbleweedRollingAnimation from '@/components/Animations/TumbleweedRollingAnimation';
 import AppFader, { AppTopFader, FaderPosition } from '@/components/AppFader';
+import AppIconButton from '@/components/AppIconButton';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import ErrorState from '@/components/ErrorState';
 import { AmourFoodIcon, BliiidaIcon, CoworkingIcon } from '@/components/Home/CalendarEventCard';
-import NativeHeader, { ScrollEdge, useNavigationHeight } from '@/components/Layout/NativeHeader';
+import NativeHeader, { ScrollEdge, useTopBarHeight } from '@/components/Layout/NativeHeader';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingProgressBar from '@/components/LoadingProgressBar';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
@@ -40,7 +41,7 @@ import MarkdownRenderer from '@/components/MarkdownRenderer';
 import ZoomableImage from '@/components/ZoomableImage';
 import { useAppPermissions } from '@/context/permissions';
 import { isSilentError } from '@/helpers/error';
-import { useAppPaddingBottom } from '@/helpers/screen';
+import useAppScreen, { useAppPaddingBottom } from '@/helpers/screen';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
 import { eventsQueryKeys } from '@/services/query';
 
@@ -50,8 +51,11 @@ export default function CalendarEventPage() {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
   const verticalScrollProgress = useSharedValue(0);
+  const router = useRouter();
 
   const { eventId } = useLocalSearchParams();
+  // wide: details live in the side pane, navigation happens from the master column
+  const { isWide: withoutBackButton } = useAppScreen();
   const { t, i18n } = useTranslation();
   const renderPermissionsBottomSheet = useAppPermissions();
   // Android has no default calendar: picking one to open the form needs read access
@@ -65,7 +69,10 @@ export default function CalendarEventPage() {
   const [refreshing, setRefreshing] = useState(false);
   const blurTargetRef = useRef<ViewInstance | null>(null);
 
-  const navigationHeight = useNavigationHeight();
+  // iOS native header in narrow mode; wide shows no back (navigation happens from the master column)
+  const withNativeHeader = Platform.OS === 'ios' && !withoutBackButton;
+  const navigationHeight = useTopBarHeight(withNativeHeader);
+  const onBack = () => (router.canGoBack() ? router.back() : router.replace('/'));
 
   // https://github.com/facebook/react-native/issues/54183#issuecomment-3467125323
   const [progressViewOffset, setProgressViewOffset] = useState(0);
@@ -247,12 +254,9 @@ export default function CalendarEventPage() {
             }
             <View
               style={[
+                // edge to edge: only the header follows the insets
                 tw`relative flex w-full grow flex-col bg-gray-50 dark:bg-zinc-900`,
-                {
-                  paddingLeft: insets.left,
-                  paddingRight: insets.right,
-                  paddingBottom: actionHeight || paddingBottom,
-                },
+                { paddingBottom: actionHeight || paddingBottom },
                 !!event?.pictures.length && tw`pt-6`,
               ]}>
               <View style={tw`mx-auto w-full max-w-xl grow`}>
@@ -291,7 +295,7 @@ export default function CalendarEventPage() {
                       asChild
                       dismissTo
                       href={{
-                        pathname: '/events',
+                        pathname: '/events/calendar',
                         params: { calendar: event.calendar },
                       }}>
                       <ServiceRow
@@ -421,7 +425,29 @@ export default function CalendarEventPage() {
 
       <AppTopFader style={tw`absolute inset-x-0 top-0`} />
 
-      <NativeHeader blurTarget={blurTargetRef} title={event?.title} />
+      {withNativeHeader ? (
+        <NativeHeader title={event?.title} onBack={onBack} />
+      ) : (
+        !withoutBackButton && (
+          <Animated.View
+            style={[
+              tw`absolute inset-x-0 top-0 z-10`,
+              {
+                paddingTop: insets.top,
+                paddingLeft: insets.left,
+                paddingRight: insets.right,
+              },
+            ]}>
+            <AppIconButton
+              blurTarget={blurTargetRef}
+              icon="arrow-left"
+              radius={25}
+              style={tw`ml-4`}
+              onPress={onBack}
+            />
+          </Animated.View>
+        )
+      )}
     </View>
   );
 }

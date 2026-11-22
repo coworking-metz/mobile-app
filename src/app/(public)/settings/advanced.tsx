@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import * as Clipboard from 'expo-clipboard';
 import { Image } from 'expo-image';
 import { Link, useRouter } from 'expo-router';
+import { useVerticalBarEdgeIOS } from 'expo-status-bar';
 import * as Updates from 'expo-updates';
 import { isNil } from 'lodash';
 import React, { useCallback, useState } from 'react';
@@ -17,6 +18,7 @@ import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { log } from '@/helpers/logger';
+import useAppScreen from '@/helpers/screen';
 import { HTTP } from '@/services/http';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
@@ -29,10 +31,13 @@ const advancedLogger = log.extend(`[advanced]`);
 const Advanced = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
+  const { isWide } = useAppScreen();
   const toastStore = useToastStore();
   const noticeStore = useNoticeStore();
   const authStore = useAuthStore();
   const settingsStore = useSettingsStore();
+  // only devices with a vertical bar (iPhone Duo) report an edge
+  const hasVerticalBar = useVerticalBarEdgeIOS() !== null;
   const notificationsStore = useNotificationStore();
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -165,7 +170,8 @@ const Advanced = () => {
     <ServiceLayout
       contentStyle={tw`pt-6`}
       description={t('advanced.description')}
-      title={t('advanced.title')}>
+      title={t('advanced.title')}
+      withBackButton={!isWide}>
       <View style={tw`mx-auto mb-6 w-full max-w-xl`}>
         <SectionTitle style={tw`mx-6`} title={t('advanced.support.title')} />
 
@@ -244,6 +250,17 @@ const Advanced = () => {
             }
           />
         </ServiceRow>
+        {hasVerticalBar && (
+          <ServiceRow
+            withBottomDivider
+            label={t('advanced.settings.withVerticalStatusBar.label')}
+            style={tw`mx-3 px-3`}>
+            <AppSwitch
+              value={settingsStore.withVerticalStatusBar}
+              onValueChange={(value) => useSettingsStore.setState({ withVerticalStatusBar: value })}
+            />
+          </ServiceRow>
+        )}
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.hasSeenBirthdayPresentAt.label')}

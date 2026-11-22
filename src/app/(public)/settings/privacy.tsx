@@ -12,12 +12,14 @@ import ServiceRow from '@/components/Layout/ServiceRow';
 import { useAppPermissions } from '@/context/permissions';
 import { useAppPushNotifications } from '@/context/push-notifications';
 import { useAppUnlockGateOptions } from '@/context/unlock-gate-duration';
+import useAppScreen from '@/helpers/screen';
 import { requestBeaconLocationPermission } from '@/services/beacon';
 import { IS_GATE_UNLOCK_ON_APPROACH_ENABLED } from '@/services/environment';
 
 const Privacy = () => {
   useDeviceContext(tw);
   const { t } = useTranslation();
+  const { isWide } = useAppScreen();
   const { selectUnlockGateOptions } = useAppUnlockGateOptions();
   const [calendarState, requestCalendarPermission] = Calendar.useCalendarPermissions({
     writeOnly: true,
@@ -79,7 +81,8 @@ const Privacy = () => {
       contentStyle={tw`pb-12 pt-6`}
       description={t('privacy.description')}
       loading={isChangingStatus}
-      title={t('privacy.title')}>
+      title={t('privacy.title')}
+      withBackButton={!isWide}>
       <View style={tw`mx-auto w-full max-w-xl`}>
         <SectionTitle style={tw`mx-6`} title={t('privacy.permissions.title')} />
         <ServiceRow

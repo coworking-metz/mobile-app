@@ -16,7 +16,7 @@ import IntroductionEventsStep from '@/components/Introduction/IntroductionEvents
 import IntroductionServicesStep from '@/components/Introduction/IntroductionServicesStep';
 import PaginationDot from '@/components/Introduction/PaginationDot';
 import Step from '@/components/Introduction/Step';
-import { useHeaderTintColor, useNavigationHeight } from '@/components/Layout/NativeHeader';
+import NativeHeader, { useHeaderTintColor } from '@/components/Layout/NativeHeader';
 import { log } from '@/helpers/logger';
 import { MIN_MINIMUM_EDGE, useAppPaddingBottom } from '@/helpers/screen';
 import useSettingsStore from '@/stores/settings';
@@ -35,6 +35,7 @@ const Introduction = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const navigation = useNavigation();
+  const tintColor = useHeaderTintColor();
   const [layoutWidth, setLayoutWidth] = useState(0);
   const [actionHeight, setActionHeight] = useState(0);
 
@@ -42,8 +43,6 @@ const Introduction = () => {
   const blurTargetRef = useRef<ViewInstance | null>(null);
   const offset = useSharedValue(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const tintColor = useHeaderTintColor();
-  const navigationHeight = useNavigationHeight();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('removed', () => {
@@ -117,41 +116,12 @@ const Introduction = () => {
       // edge to edge for immersion: carousel and button centered on the full screen width
       style={tw`overflow-hidden bg-gray-100 dark:bg-black`}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>
-      <Stack.Screen
-        options={{
-          headerShown: true,
-          headerTransparent: true,
-          headerShadowVisible: false,
-          title: '',
-          headerTintColor: tintColor,
-          headerBackVisible: false,
-          ...(Platform.OS === 'android' && {
-            headerLeft: () => (
-              <AppIconButton
-                blurTarget={blurTargetRef}
-                icon="window-close"
-                radius={25}
-                style={tw`size-10`}
-                onPress={onClose}
-              />
-            ),
-          }),
-        }}
-      />
-      {Platform.OS === 'ios' && (
-        <Stack.Toolbar placement="left">
-          <Stack.Toolbar.Button icon="xmark" tintColor={tintColor} onPress={onClose} />
-        </Stack.Toolbar>
-      )}
       {layoutWidth ? (
         <BlurTargetView ref={blurTargetRef} style={tw`relative flex h-full grow flex-col`}>
-          {/* pagination stays custom, vertically aligned with the native header bar */}
           <View
-            pointerEvents="none"
             style={[
-              tw`absolute top-0 z-10 flex min-h-12 w-full flex-row items-center justify-end px-4`,
+              tw`absolute top-0 z-10 flex w-full flex-row items-center justify-between px-4`,
               {
-                height: navigationHeight,
                 paddingTop: insets.top,
                 paddingLeft: insets.left || MIN_MINIMUM_EDGE,
                 paddingRight: insets.right || MIN_MINIMUM_EDGE,
@@ -163,7 +133,18 @@ const Introduction = () => {
               style={tw`absolute inset-0`}
               tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
             />
-            <View style={tw`flex flex-row`}>
+            {Platform.OS === 'ios' ? (
+              // close lives in the native bar, keep the dots on the right
+              <View />
+            ) : (
+              <AppIconButton
+                blurTarget={blurTargetRef}
+                icon="window-close"
+                radius={25}
+                onPress={onClose}
+              />
+            )}
+            <View pointerEvents={'none'} style={tw`flex flex-row`}>
               {screens.map((_, index) => (
                 <PaginationDot
                   animationValue={invertedOffset}
@@ -221,6 +202,19 @@ const Introduction = () => {
           </Animated.View>
         </BlurTargetView>
       ) : null}
+      {Platform.OS === 'ios' && (
+        <NativeHeader
+          left={[
+            <Stack.Toolbar.Button
+              icon="xmark"
+              key="close"
+              tintColor={tintColor}
+              onPress={onClose}
+            />,
+          ]}
+          withBackButton={false}
+        />
+      )}
     </View>
   );
 };

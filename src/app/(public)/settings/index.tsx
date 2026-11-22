@@ -4,7 +4,6 @@ import Animated, { FadeInLeft } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import MagicWandAnimation from '@/components/Animations/MagicWandAnimation';
 import AppText from '@/components/AppText';
-import NativeHeader from '@/components/Layout/NativeHeader';
 import SettingsHome from '@/components/Settings/SettingsHome';
 import useAppScreen from '@/helpers/screen';
 
@@ -15,13 +14,12 @@ export default function SettingsIndex() {
 
   // wide: the layout renders SettingsHome in the master column
   if (!isWide) {
-    return <SettingsHome />;
+    return <SettingsHome from="/home" />;
   }
 
   return (
     <Animated.View
       style={tw`flex size-full grow flex-col items-center justify-center bg-gray-100 dark:bg-black`}>
-      <NativeHeader title={t('settings.title')} />
       <View style={tw`flex w-full grow basis-0 flex-col items-center justify-end px-4`}>
         <MagicWandAnimation style={tw`h-56 w-full max-w-xs`} />
       </View>

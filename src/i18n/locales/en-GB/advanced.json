@@ -46,6 +46,9 @@
       "label": "Refresh token"
     },
     "title": "In-app settings",
+    "withVerticalStatusBar": {
+      "label": "Vertical status bar"
+    },
     "withBottomSheetFullHeight": {
       "label": "Show bottom sheets in full screen"
     },
