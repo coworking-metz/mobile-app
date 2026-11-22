@@ -1,5 +1,5 @@
 import React, { type ReactNode } from 'react';
-import { StyleProp, type ViewProps, ViewStyle } from 'react-native';
+import { Platform, StyleProp, View, type ViewProps, ViewStyle } from 'react-native';
 import Animated, { type AnimatedProps, FadeIn, FadeOut } from 'react-native-reanimated';
 import tw from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
@@ -48,6 +48,11 @@ const ActionableIcon = ({
       ]}
       {...(active && { type: 'light' })}
       {...props}>
+      {/* Android blur fallback overlays white over the container background, washing out the active color */}
+      {active && Platform.OS === 'android' && (
+        <View style={[tw`absolute inset-0`, { backgroundColor: theme.meatBrown }]} />
+      )}
+
       {loading && (
         <LoadingSpinner
           beamSize={2}

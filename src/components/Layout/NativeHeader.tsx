@@ -1,7 +1,7 @@
 import { Stack, useRoute } from 'expo-router';
 import { HeaderHeightContext, useNavigationState } from 'expo-router/react-navigation';
 import { createContext, useContext, useState, type ReactElement, type ReactNode } from 'react';
-import { Platform, type StyleProp, type ViewStyle } from 'react-native';
+import { Platform, type StyleProp, View, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScreenStack, ScreenStackItem, type HeaderBarButtonItem } from 'react-native-screens';
 import { ScrollViewMarker } from 'react-native-screens/experimental';
@@ -12,7 +12,7 @@ const NAVIGATION_HEIGHT = 48;
 const HIDDEN_EDGES = { top: 'hidden', left: 'hidden', right: 'hidden', bottom: 'hidden' } as const;
 
 // iOS: the screen option only reaches the first-child ScrollView, mark nested ones (must be the direct child).
-// Android: no wrapper, its marker throws when RefreshControl wraps the ScrollView
+// Android: plain View carrying the style, the marker throws when RefreshControl wraps the ScrollView
 export const ScrollEdge = ({
   style,
   children,
@@ -25,7 +25,7 @@ export const ScrollEdge = ({
       {children}
     </ScrollViewMarker>
   ) : (
-    children
+    <View style={style ?? tw`flex-1`}>{children}</View>
   );
 
 export const useHeaderTintColor = () =>
