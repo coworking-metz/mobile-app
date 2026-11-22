@@ -7,7 +7,7 @@ export default function useAppState() {
   const appState = useRef(AppState.currentState);
 
   const handleAppStateChange = useCallback((nextAppState: AppStateStatus) => {
-    if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+    if (appState.current?.match(/inactive|background/) && nextAppState === 'active') {
       setActiveSince(dayjs().toISOString());
     }
 

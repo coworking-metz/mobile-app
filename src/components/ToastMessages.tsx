@@ -20,7 +20,7 @@ const getToastIcon = (type?: ToastType): MaterialCommunityIconsName => {
   }
 };
 
-const getToastIconColor = (type?: ToastType, currentTheme?: ColorSchemeName) => {
+const getToastIconColor = (type?: ToastType, currentTheme?: ColorSchemeName | null) => {
   switch (type) {
     case 'success':
       return currentTheme === 'dark' ? `${tw.color('emerald-500')}` : `${tw.color('emerald-600')}`;

@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Platform, ScrollView } from 'react-native';
+import { Platform, ScrollView, type ScrollViewInstance } from 'react-native';
 import tw from 'twrnc';
 import useSettingsStore from '@/stores/settings';
 
@@ -27,7 +27,7 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
 ) => {
   const withBottomSheetFullHeight = useSettingsStore((s) => s.withBottomSheetFullHeight);
   const trueSheetRef = useRef<TrueSheet>(null);
-  const scrollableRef = useRef<ScrollView>(null);
+  const scrollableRef = useRef<ScrollViewInstance>(null);
   const [scrollViewHeight, setScrollViewHeight] = useState<number | null>(null);
   const [contentHeight, setContentHeight] = useState<number | null>(null);
   const [detent, setDetent] = useState<number | null>(null);

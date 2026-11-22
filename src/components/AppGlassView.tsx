@@ -1,6 +1,6 @@
 import { isLiquidGlassSupported, LiquidGlassView } from '@callstack/liquid-glass';
 import React from 'react';
-import { ColorValue, StyleProp, type View, ViewStyle } from 'react-native';
+import { ColorValue, StyleProp, ViewStyle, type ViewInstance } from 'react-native';
 import tw from 'twrnc';
 import AppBlurView from '@/components/AppBlurView';
 
@@ -19,7 +19,7 @@ const AppGlassView = ({
   tintColor?: ColorValue;
   style?: StyleProp<ViewStyle>;
   colorScheme?: 'light' | 'dark';
-  blurTarget?: React.RefObject<View | null>;
+  blurTarget?: React.RefObject<ViewInstance | null>;
 }) => {
   if (isLiquidGlassSupported) {
     return (

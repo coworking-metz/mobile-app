@@ -12,6 +12,7 @@ import {
   View,
   ViewStyle,
   type LayoutChangeEvent,
+  type ViewInstance,
 } from 'react-native';
 import Animated, {
   BounceIn,
@@ -90,7 +91,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const unlockGateDurationInMs = useSettingsStore((state) => state.unlockGateDurationInMs);
   const verticalScrollProgress = useSharedValue(0);
   const pathname = usePathname();
-  const blurTargetRef = useRef<View | null>(null);
+  const blurTargetRef = useRef<ViewInstance | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   // wide: swap the detail pane (placeholder included) so back never lands on the placeholder
   const replaceDetail = isWide;

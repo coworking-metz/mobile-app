@@ -18,15 +18,15 @@
 // expects on the current platform & build type.
 // ─────────────────────────────────────────────────────────────────────────────
 import { forwardRef, ForwardRefRenderFunction } from 'react';
-import { Image, Platform } from 'react-native';
+import { Image, type ImageSourcePropType, Platform } from 'react-native';
 import Rive, { type RiveRef } from 'rive-react-native';
 import type React from 'react';
 
 export type RiveSourceResult =
   { url: string; resourceName?: never } | { resourceName: string; url?: never };
 
-export function getRiveSource(source: never): RiveSourceResult {
-  const { uri } = Image.resolveAssetSource(source);
+export function getRiveSource(source: ImageSourcePropType): RiveSourceResult {
+  const uri = Image.resolveAssetSource(source)?.uri ?? '';
 
   // 1. Remote file (http/https) → url
   if (/^https?:\/\//.test(uri)) {
@@ -46,7 +46,7 @@ export function getRiveSource(source: never): RiveSourceResult {
 }
 
 type WrapperProps = Omit<React.ComponentProps<typeof Rive>, 'url' | 'resourceName'> & {
-  source: never;
+  source: ImageSourcePropType;
 };
 
 const RiveAnimation: ForwardRefRenderFunction<RiveRef, WrapperProps> = (

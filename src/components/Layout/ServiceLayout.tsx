@@ -8,7 +8,14 @@ import React, {
   type ReactNode,
   type Ref,
 } from 'react';
-import { RefreshControl, StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
+import {
+  RefreshControl,
+  StyleProp,
+  View,
+  ViewStyle,
+  type LayoutChangeEvent,
+  type ViewInstance,
+} from 'react-native';
 import {
   KeyboardAwareScrollView,
   type KeyboardAwareScrollViewRef,
@@ -82,7 +89,7 @@ const ServiceLayout = ({
   const insets = useSafeAreaInsets();
   const paddingBottom = useAppPaddingBottom();
   const { isWide } = useAppScreen();
-  const blurTargetRef = useRef<View | null>(null);
+  const blurTargetRef = useRef<ViewInstance | null>(null);
   const verticalScrollProgress = useSharedValue(0);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
   const [refreshing, setRefreshing] = useState(false);

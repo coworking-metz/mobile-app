@@ -1,5 +1,5 @@
+import { type MarkdownStyleMap } from '@ronradtke/react-native-markdown-display';
 import { Asset } from 'expo-asset';
-import { StyleProp, TextStyle, ViewStyle, type StyleSheet } from 'react-native';
 import { type TailwindFn } from 'twrnc';
 import { withAppFontFamily } from '@/helpers/text';
 
@@ -9,43 +9,7 @@ export const fetchLocalMarkdown = async (module: string | number) => {
   return fetch(file.localUri || file.uri).then((r) => r.text());
 };
 
-export type MarkdownStyles = StyleSheet.NamedStyles<{
-  body?: StyleProp<TextStyle>;
-  heading1?: StyleProp<TextStyle>;
-  heading2?: StyleProp<TextStyle>;
-  heading3?: StyleProp<TextStyle>;
-  heading4?: StyleProp<TextStyle>;
-  heading5?: StyleProp<TextStyle>;
-  heading6?: StyleProp<TextStyle>;
-  hr?: StyleProp<ViewStyle>;
-  strong?: StyleProp<TextStyle>;
-  em?: StyleProp<TextStyle>;
-  s?: StyleProp<TextStyle>;
-  blockquote?: StyleProp<TextStyle>;
-  bullet_lis?: StyleProp<TextStyle>;
-  ordered_list?: StyleProp<TextStyle>;
-  list_item?: StyleProp<TextStyle>;
-  code_inline?: StyleProp<TextStyle>;
-  code_block?: StyleProp<TextStyle>;
-  fence?: StyleProp<TextStyle>;
-  table?: StyleProp<ViewStyle>;
-  thead?: StyleProp<TextStyle>;
-  tbody?: StyleProp<TextStyle>;
-  th?: StyleProp<TextStyle>;
-  tr?: StyleProp<TextStyle>;
-  td?: StyleProp<TextStyle>;
-  link?: StyleProp<TextStyle>;
-  blocklink?: StyleProp<TextStyle>;
-  image?: StyleProp<ViewStyle>;
-  text?: StyleProp<TextStyle>;
-  textgroup?: StyleProp<TextStyle>;
-  paragraph?: StyleProp<TextStyle>;
-  hardbreak?: StyleProp<ViewStyle>;
-  softbreak?: StyleProp<ViewStyle>;
-  pre?: StyleProp<TextStyle>;
-  inline?: StyleProp<TextStyle>;
-  span?: StyleProp<TextStyle>;
-}>;
+export type MarkdownStyles = MarkdownStyleMap;
 
 export const getMarkdownStyles = (tw: TailwindFn) =>
   ({

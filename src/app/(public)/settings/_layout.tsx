@@ -8,6 +8,9 @@ import useAppScreen from '@/helpers/screen';
 
 const SECTION = { href: '/settings', rootName: 'index' } as const;
 
+// the section root sits under deep-linked screens (placeholder when wide)
+export const unstable_settings = { anchor: SECTION.rootName };
+
 export default function SettingsLayout() {
   useDeviceContext(tw);
 
@@ -29,7 +32,6 @@ export default function SettingsLayout() {
         style={isWide ? tw`h-full min-w-80 shrink grow basis-0 overflow-hidden` : tw`flex-1`}>
         <SectionContext value={SECTION}>
           <Stack
-            initialRouteName="index"
             screenOptions={{
               headerShown: false,
               ...(reduceMotion && {

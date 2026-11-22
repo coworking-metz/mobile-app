@@ -2,7 +2,7 @@ import { BlurTargetView } from 'expo-blur';
 import { Stack, useNavigation, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, View, type LayoutChangeEvent } from 'react-native';
+import { Platform, View, type LayoutChangeEvent, type ViewInstance } from 'react-native';
 import Animated, { interpolate, useDerivedValue, useSharedValue } from 'react-native-reanimated';
 import { Carousel, type CarouselRef } from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -39,19 +39,20 @@ const Introduction = () => {
   const [actionHeight, setActionHeight] = useState(0);
 
   const carouselRef = useRef<CarouselRef>(null);
-  const blurTargetRef = useRef<View | null>(null);
+  const blurTargetRef = useRef<ViewInstance | null>(null);
   const offset = useSharedValue(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const tintColor = useHeaderTintColor();
   const navigationHeight = useNavigationHeight();
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', () => {
+    const unsubscribe = navigation.addListener('removed', () => {
       introductionLogger.debug('User has dismissed introduction');
       useSettingsStore.setState({ hasSeenIntroduction: true });
     });
-    return unsubscribe;
-  }, []);
+    // `removed` fires after effect cleanup: unsubscribing synchronously would miss it
+    return () => queueMicrotask(unsubscribe);
+  }, [navigation]);
 
   const screens: IntroductionScreen[] = [
     {

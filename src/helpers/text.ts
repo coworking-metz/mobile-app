@@ -40,7 +40,7 @@ export const getFamilyForWeight = (fontWeight: TextStyle['fontWeight']) =>
   fontFamilyForWeight[fontWeight ?? '400'];
 
 export const withAppFontFamily = (style: StyleProp<TextStyle>): StyleProp<TextStyle> => {
-  const flattenedStyle = StyleSheet.flatten<TextStyle>(style);
+  const flattenedStyle = StyleSheet.flatten(style);
   return compact([
     style,
     flattenedStyle?.fontStyle === 'italic'

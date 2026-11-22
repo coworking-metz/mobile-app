@@ -28,7 +28,6 @@ const ThemeBottomSheet: ForwardRefRenderFunction<
     { label: t('settings.theme.options.dark'), code: 'dark' },
   ];
   const currentTheme = useColorScheme();
-  const animationTheme = currentTheme === 'unspecified' ? null : currentTheme;
   const chosenTheme = useAppThemePreference();
 
   const onThemePicked = useCallback((newTheme: AppThemePreference) => {
@@ -38,7 +37,7 @@ const ThemeBottomSheet: ForwardRefRenderFunction<
 
   return (
     <AppBottomSheet ref={forwardedRef} style={[tw`flex flex-col gap-0.5 py-6`, style]} {...props}>
-      <DarklightModeAnimation mode={animationTheme} style={tw`mx-auto mt-5 h-28 w-full max-w-md`} />
+      <DarklightModeAnimation mode={currentTheme} style={tw`mx-auto mt-5 h-28 w-full max-w-md`} />
       <AppText style={tw`my-5 text-center text-xl font-medium text-slate-900 dark:text-gray-200`}>
         {t('settings.theme.label')}
       </AppText>

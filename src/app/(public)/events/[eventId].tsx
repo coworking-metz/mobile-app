@@ -6,7 +6,14 @@ import { Link, useLocalSearchParams } from 'expo-router';
 import { isNil } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LayoutChangeEvent, RefreshControl, TouchableNativeFeedback, View } from 'react-native';
+import {
+  Platform,
+  LayoutChangeEvent,
+  RefreshControl,
+  TouchableNativeFeedback,
+  View,
+  type ViewInstance,
+} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import openMap from 'react-native-open-maps';
 import ReadMore from 'react-native-read-more-text';
@@ -47,15 +54,16 @@ export default function CalendarEventPage() {
   const { eventId } = useLocalSearchParams();
   const { t, i18n } = useTranslation();
   const renderPermissionsBottomSheet = useAppPermissions();
-  const [calendarState, requestCalendarPermission] = Calendar.useCalendarPermissions({
-    writeOnly: true,
+  // Android has no default calendar: picking one to open the form needs read access
+  const [, requestCalendarPermission] = Calendar.useCalendarPermissions({
+    writeOnly: Platform.OS === 'ios',
   });
   const [actionHeight, setActionHeight] = useState(0);
   const paddingBottom = useAppPaddingBottom();
   const [headerHeight, setHeaderHeight] = useState<number>(0);
   const [isGalleryVisible, setGalleryVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const blurTargetRef = useRef<View | null>(null);
+  const blurTargetRef = useRef<ViewInstance | null>(null);
 
   const navigationHeight = useNavigationHeight();
 
@@ -128,24 +136,35 @@ export default function CalendarEventPage() {
     return first;
   }, [event]);
 
-  const onAddToCalendar = useCallback(() => {
-    if (event) {
-      (async () => {
-        const { granted } = await requestCalendarPermission();
-        if (granted) {
-          Calendar.createEventInCalendarAsync({
-            startDate: new Date(event.start),
-            endDate: new Date(event.end),
-            ...(event.title && { title: event.title }),
-            ...(event.location && { location: event.location }),
-            ...(event.description && { notes: event.description }),
-          });
-        } else {
-          renderPermissionsBottomSheet();
-        }
-      })();
+  const onAddToCalendar = useCallback(async () => {
+    if (!event) return;
+    const { granted } = await requestCalendarPermission();
+    if (!granted) {
+      renderPermissionsBottomSheet();
+      return;
     }
-  }, [event]);
+
+    let calendar = null;
+    if (Platform.OS === 'ios') {
+      calendar = Calendar.getDefaultCalendarSync();
+    } else {
+      const calendars = await Calendar.getCalendars(Calendar.EntityTypes.EVENT);
+      const [firstCalendar] = calendars
+        .filter(({ allowsModifications }) => allowsModifications)
+        .sort((a, b) => Number(!!b.isPrimary) - Number(!!a.isPrimary));
+      calendar = firstCalendar;
+    }
+
+    if (calendar) {
+      calendar.addEventWithForm({
+        startDate: new Date(event.start),
+        endDate: new Date(event.end),
+        ...(event.title && { title: event.title }),
+        ...(event.location && { location: event.location }),
+        ...(event.description && { notes: event.description }),
+      });
+    }
+  }, [event, requestCalendarPermission, renderPermissionsBottomSheet]);
 
   return (
     <View style={[tw`relative flex-1 bg-gray-50 dark:bg-zinc-900`]}>

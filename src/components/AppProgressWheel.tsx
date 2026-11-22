@@ -20,13 +20,7 @@ const AppProgressWheel = ({
 }: AppProgressWheelProps) => {
   const radius = size / 2 - strokeWidth / 2;
 
-  const path = useMemo(() => {
-    const skPath = Skia.Path.Make();
-
-    skPath.addCircle(size / 2, size / 2, radius);
-
-    return skPath;
-  }, [radius, size]);
+  const path = useMemo(() => Skia.Path.Circle(size / 2, size / 2, radius), [radius, size]);
 
   const style = {
     width: size,

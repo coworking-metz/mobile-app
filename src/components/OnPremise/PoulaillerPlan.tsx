@@ -6,8 +6,16 @@ import { BlurTargetView } from 'expo-blur';
 import { Image } from 'expo-image';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image as RNImage, StyleProp, View, ViewStyle, useColorScheme } from 'react-native';
+import {
+  Image as RNImage,
+  StyleProp,
+  View,
+  ViewStyle,
+  useColorScheme,
+  type ViewInstance,
+} from 'react-native';
 import Animated, { BounceIn, BounceOut, FadeOut } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import floorPlanDay from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-13-30.png';
 import floorPlanNight from '@/assets/images/floorplans/floorplan-poulailler-01-12-2023-20-30.png';
@@ -34,11 +42,12 @@ const PoulaillerPlan = ({
 }) => {
   useDeviceContext(tw);
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
   const user = useAuthStore((s) => s.user);
   const [imageWidth, setImageWidth] = useState<number | null>(null);
   const [imageHeight, setImageHeight] = useState<number | null>(null);
   const [hasFloorplanLoaded, setFloorplanLoaded] = useState<boolean>(false);
-  const blurTargetRef = useRef<View | null>(null);
+  const blurTargetRef = useRef<ViewInstance | null>(null);
   const {
     selectCarbonDioxide,
     selectDeckDoor,
@@ -87,14 +96,22 @@ const PoulaillerPlan = ({
   }, [colorScheme]);
 
   useEffect(() => {
-    const { width, height } = RNImage.resolveAssetSource(backgroundImage);
-    setImageHeight(height);
-    setImageWidth(width);
+    const asset = RNImage.resolveAssetSource(backgroundImage);
+    if (!asset) return;
+    setImageHeight(asset.height ?? null);
+    setImageWidth(asset.width ?? null);
   }, [backgroundImage]);
 
   return (
     <View style={[tw`flex grow flex-col items-start`, style]}>
-      <View style={tw`mx-6 mb-4 flex w-full flex-row items-end gap-3`}>
+      <View
+        style={[
+          tw`mx-6 mb-4 flex w-full flex-row items-end gap-3`,
+          {
+            paddingLeft: insets.left,
+            paddingRight: insets.right,
+          },
+        ]}>
         <AppText style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.location.poulailler')}
         </AppText>

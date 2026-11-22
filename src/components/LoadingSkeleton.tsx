@@ -1,8 +1,11 @@
 import { Skeleton } from 'moti/skeleton';
-import { MotiSkeletonProps } from 'node_modules/moti/build/skeleton/types';
+import { type ComponentProps } from 'react';
 import tw from 'twrnc';
 
-const LoadingSkeleton = ({ children, ...otherProps }: Omit<MotiSkeletonProps, 'Gradient'>) => {
+const LoadingSkeleton = ({
+  children,
+  ...otherProps
+}: Omit<ComponentProps<typeof Skeleton>, 'Gradient'>) => {
   return (
     <Skeleton
       backgroundColor={tw.prefixMatch('dark') ? tw.color('zinc-900') : tw.color('gray-300')}
