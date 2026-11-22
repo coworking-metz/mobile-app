@@ -9,7 +9,7 @@ import {
   useColorScheme,
   type LayoutChangeEvent,
 } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { GestureDetector, usePanGesture } from 'react-native-gesture-handler';
 import Animated, {
   Extrapolation,
   convertToRGBA,
@@ -92,12 +92,13 @@ const SwipeableButton = ({
     onReset?.();
   }, []);
 
-  const pan = Gesture.Pan()
-    .onBegin(() => {
+  const pan = usePanGesture({
+    runOnJS: true,
+    onBegin: () => {
       isSwiping.value = 1;
       vibrate(HapticFeedbackType.Medium);
-    })
-    .onChange((event) => {
+    },
+    onUpdate: (event) => {
       if (!isSwiping.value) return;
       const newValue = event.translationX;
 
@@ -110,8 +111,8 @@ const SwipeableButton = ({
       } else {
         setPassedThreshold(false);
       }
-    })
-    .onFinalize(() => {
+    },
+    onFinalize: () => {
       if (!isSwiping.value) return;
       if (sliding.value >= swipingRange - HANDLE_ENDING_POSITION) {
         sliding.value = withSpring(swipingRange - RIGHT_PADDING, {
@@ -122,11 +123,11 @@ const SwipeableButton = ({
       } else {
         sliding.value = withSpring(0);
       }
-    })
-    .onEnd(() => {
+    },
+    onDeactivate: () => {
       isSwiping.value = 0;
-    })
-    .runOnJS(true);
+    },
+  });
 
   const colors = useDerivedValue(() => {
     const inputRange = [

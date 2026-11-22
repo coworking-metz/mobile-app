@@ -16,13 +16,13 @@ import {
 import Animated, {
   FadeInLeft,
   interpolate,
-  runOnJS,
   type SharedValue,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { scheduleOnRN } from 'react-native-worklets';
 import tw, { useDeviceContext } from 'twrnc';
 import { AppTopFader } from '@/components/AppFader';
 import AppText from '@/components/AppText';
@@ -103,7 +103,7 @@ const ServiceLayout = ({
       onScroll: ({ contentOffset, contentSize, layoutMeasurement }) => {
         verticalScrollProgress.value = contentOffset.y;
         if (onScroll) {
-          runOnJS(onScroll)({
+          scheduleOnRN(onScroll, {
             contentOffsetY: contentOffset.y,
             contentHeight: contentSize.height,
             layoutHeight: layoutMeasurement.height,
