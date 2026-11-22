@@ -297,7 +297,9 @@ export default function HomeScreen() {
         style={[
           tw`flex shrink grow flex-row items-center pl-6`,
           { paddingTop: insets.top ? MIN_PADDING_TOP : MIN_PADDING_TOP * 2 },
-          isWide ? WIDE_CONTENT_STYLE : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
+          isWide
+            ? { ...WIDE_CONTENT_STYLE, paddingRight: MIN_MINIMUM_EDGE }
+            : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
         ]}>
         <StaleDataText
           lastFetch={currentMembersUpdatedAt}
@@ -367,7 +369,11 @@ export default function HomeScreen() {
 
       <Animated.View
         entering={FadeInLeft.duration(750)}
-        style={[tw`flex flex-col gap-2 self-stretch pl-6 pr-4`, isWide && WIDE_CONTENT_STYLE]}>
+        style={[
+          tw`flex flex-col gap-2 self-stretch pl-6`,
+          { paddingRight: MIN_MINIMUM_EDGE },
+          isWide && WIDE_CONTENT_STYLE,
+        ]}>
         <AttendanceCount style={tw`mt-4`} />
       </Animated.View>
 
@@ -481,7 +487,11 @@ export default function HomeScreen() {
         count={upcomingEvents.length > 2 ? upcomingEvents.length : null}
         entering={FadeInRight.duration(750).delay(600)}
         loading={isFetchingCalendarEvents}
-        style={[tw`mt-9 self-stretch pl-6 pr-4`, isWide && WIDE_CONTENT_STYLE]}
+        style={[
+          tw`mt-9 self-stretch pl-6`,
+          { paddingRight: MIN_MINIMUM_EDGE },
+          isWide && WIDE_CONTENT_STYLE,
+        ]}
         title={t('home.calendar.label')}>
         {calendarEventsError && !isSilentError(calendarEventsError) && !isFetchingCalendarEvents ? (
           <ErrorBadge

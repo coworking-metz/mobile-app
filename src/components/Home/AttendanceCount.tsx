@@ -141,7 +141,7 @@ const AttendanceCount = ({
             )}
 
             {otherMembers.length ? (
-              <Animated.View style={tw`ml-auto shrink-0`}>
+              <Animated.View style={tw`-mr-1 ml-auto shrink-0`}>
                 <View style={tw`flex h-8 grow flex-row items-center pl-4`}>
                   {otherMembers
                     .slice(

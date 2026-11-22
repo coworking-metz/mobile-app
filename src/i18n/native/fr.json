@@ -1,0 +1,15 @@
+{
+  "ios": {
+    "NSBluetoothAlwaysUsageDescription": "Autorisez $(PRODUCT_NAME) à utiliser le Bluetooth pour détecter la balise du portail du coworking et le déverrouiller automatiquement.",
+    "NSCalendarsFullAccessUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à votre calendrier",
+    "NSCalendarsUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à votre calendrier",
+    "NSFaceIDUsageDescription": "Autorisez $(PRODUCT_NAME) à utiliser Face ID.",
+    "NSLocalNetworkUsageDescription": "Autorisez $(PRODUCT_NAME) à détecter votre appareil sur le réseau du coworking pour l'associer automatiquement.",
+    "NSLocationAlwaysAndWhenInUseUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à votre position",
+    "NSLocationAlwaysUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à votre position",
+    "NSLocationWhenInUseUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à votre position",
+    "NSMotionUsageDescription": "Autorisez $(PRODUCT_NAME) à détecter votre activité physique",
+    "NSRemindersFullAccessUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à vos rappels",
+    "NSRemindersUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à vos rappels"
+  }
+}

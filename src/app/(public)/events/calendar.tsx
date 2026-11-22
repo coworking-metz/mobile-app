@@ -118,7 +118,7 @@ const Calendar = ({ from }: { from?: string }) => {
       });
   }, [eventsGroupedByDate, selectedPeriod, selectedSort]);
 
-  const contentInsets = useContentInsets(from);
+  const contentInsets = useContentInsets(from, 16);
   const chipsInsets = useContentInsets(from, 16);
 
   return (

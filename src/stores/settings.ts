@@ -58,7 +58,7 @@ interface SettingsState {
    * iOS 27.1+ (iPhone Duo): whether the status bar may move into the vertical bar beside the content,
    * otherwise it stays horizontal on top.
    */
-  withVerticalStatusBar: boolean;
+  withVerticalStatusBar: boolean | null;
   language: StoreLanguage;
   theme: AppThemePreference;
   commutingMode: CommutingMode;
@@ -88,7 +88,7 @@ const defaultSettingsState: Omit<SettingsState, 'hydrated' | 'clear'> = {
   hidePushNotificationsAlert: false,
   withNativePullToRefresh: IS_DEV,
   withBottomSheetFullHeight: Platform.OS === 'ios' && Math.floor(Number(Platform.Version)) <= 15, // iOS 15- has some issues with react-native-true-sheet 'auto' detent
-  withVerticalStatusBar: false,
+  withVerticalStatusBar: null,
   language: SYSTEM_OPTION,
   theme: SYSTEM_OPTION,
   commutingMode: CommutingMode.ON_FOOT,
