@@ -240,7 +240,14 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             onLayout={({ nativeEvent }: LayoutChangeEvent) => {
               setHeaderHeight(nativeEvent.layout.height);
             }}>
-            <View style={tw`flex flex-col items-start gap-4 px-4 pb-6`}>
+            <View
+              style={[
+                tw`flex flex-col items-start gap-4 px-4 pb-6`,
+                !hasStandaloneHeader && {
+                  paddingLeft: insets.left || 16,
+                  paddingRight: insets.right || 16,
+                },
+              ]}>
               <ProfilePicture
                 initialsStyle={tw`pt-2 text-4xl`}
                 name={authStore.user?.name}

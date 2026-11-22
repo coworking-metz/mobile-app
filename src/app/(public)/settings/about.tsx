@@ -7,7 +7,7 @@ import { View } from 'react-native';
 import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
 import SectionTitle from '@/components/Layout/SectionTitle';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import ServiceRowLink from '@/components/Layout/ServiceRowLink';
 import useAppScreen from '@/helpers/screen';
@@ -18,9 +18,11 @@ const About = () => {
   const { isWide } = useAppScreen();
   const { t } = useTranslation();
 
+  const contentInsets = useContentInsets();
+
   return (
     <ServiceLayout
-      contentStyle={tw`pt-6`}
+      contentStyle={[tw`pt-6`, contentInsets]}
       description={t('about.description')}
       title={t('about.title')}
       withBackButton={!isWide}>

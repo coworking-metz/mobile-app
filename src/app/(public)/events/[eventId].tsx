@@ -34,6 +34,7 @@ import AppText from '@/components/AppText';
 import ErrorState from '@/components/ErrorState';
 import { AmourFoodIcon, BliiidaIcon, CoworkingIcon } from '@/components/Home/CalendarEventCard';
 import NativeHeader, { ScrollEdge, useTopBarHeight } from '@/components/Layout/NativeHeader';
+import { useContentInsets } from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingProgressBar from '@/components/LoadingProgressBar';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
@@ -50,6 +51,8 @@ const AnimatedKeyboardAwareScrollView = Animated.createAnimatedComponent(Keyboar
 export default function CalendarEventPage() {
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
+  const contentInsets = useContentInsets(null, 12);
+  const actionInsets = useContentInsets(undefined, 24);
   const verticalScrollProgress = useSharedValue(0);
   const router = useRouter();
 
@@ -194,25 +197,8 @@ export default function CalendarEventPage() {
                   style={tw`size-full bg-gray-300 dark:bg-zinc-700 `}
                   transition={300}
                   zoomed={isGalleryVisible}
-                  onZoomChange={(zoomed) => setGalleryVisible(zoomed)}>
-                  {event?.pictures.length && event.pictures.length > 1 && (
-                    <>
-                      <View
-                        style={[
-                          tw`absolute bottom-4 right-3 size-6 rounded border border-neutral-800 bg-black`,
-                        ]}
-                      />
-                      <View
-                        style={[
-                          tw`absolute bottom-3.5 right-3.5 flex size-6 items-center justify-center rounded border border-neutral-700 bg-black`,
-                        ]}>
-                        <AppText style={tw`text-xs font-medium text-gray-200`}>
-                          {event.pictures.length}
-                        </AppText>
-                      </View>
-                    </>
-                  )}
-                </ZoomableImage>
+                  onZoomChange={(zoomed) => setGalleryVisible(zoomed)}
+                />
               </View>
             ) : null}
           </Animated.View>
@@ -254,9 +240,10 @@ export default function CalendarEventPage() {
             }
             <View
               style={[
-                // edge to edge: only the header follows the insets
-                tw`relative flex w-full grow flex-col bg-gray-50 dark:bg-zinc-900`,
+                // background stays edge to edge, content follows the insets
+                tw`relative flex w-full grow flex-col bg-gray-50 px-3 dark:bg-zinc-900`,
                 { paddingBottom: actionHeight || paddingBottom },
+                contentInsets,
                 !!event?.pictures.length && tw`pt-6`,
               ]}>
               <View style={tw`mx-auto w-full max-w-xl grow`}>
@@ -265,7 +252,7 @@ export default function CalendarEventPage() {
                     {event.title ? (
                       <Animated.View
                         entering={FadeInLeft.duration(500)}
-                        style={[tw`mx-6`, !!event?.pictures.length && tw`mb-3`]}>
+                        style={[tw`mx-3`, !!event?.pictures.length && tw`mb-3`]}>
                         <ReadMore
                           numberOfLines={2}
                           renderRevealedFooter={(handlePress) => (
@@ -295,7 +282,7 @@ export default function CalendarEventPage() {
                       asChild
                       dismissTo
                       href={{
-                        pathname: '/events/calendar',
+                        pathname: '/events',
                         params: { calendar: event.calendar },
                       }}>
                       <ServiceRow
@@ -306,7 +293,7 @@ export default function CalendarEventPage() {
                             : event.calendar
                         }
                         prefix={eventIcon}
-                        style={tw`mx-3 px-3`}
+                        style={tw`px-3`}
                         suffixIcon="chevron-right"
                       />
                     </Link>
@@ -332,7 +319,7 @@ export default function CalendarEventPage() {
                         },
                       })}
                       prefixIcon="calendar-outline"
-                      style={tw`mx-3 px-3`}
+                      style={tw`px-3`}
                       suffixIcon="calendar-plus"
                       onPress={onAddToCalendar}
                     />
@@ -341,17 +328,17 @@ export default function CalendarEventPage() {
                         withBottomDivider
                         label={event.location}
                         prefixIcon="map-marker-outline"
-                        style={tw`mx-3 px-3`}
+                        style={tw`px-3`}
                         suffixIcon="directions"
                         onPress={() => openMap({ query: event.location })}
                       />
                     ) : null}
                     {event.description ? (
-                      <View style={[tw`mx-6 mt-3`, !!actionHeight && tw`mb-6`]}>
+                      <View style={[tw`mx-3 mt-3`, !!actionHeight && tw`mb-6`]}>
                         <MarkdownRenderer content={event.description} />
                       </View>
                     ) : (
-                      <Animated.View style={tw`mx-6 flex flex-col items-center`}>
+                      <Animated.View style={tw`mx-3 flex flex-col items-center`}>
                         <HandwrittenParchmentAnimation autoPlay loop style={tw`h-64 w-full`} />
                         <AppText
                           style={tw`text-center text-xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
@@ -401,7 +388,11 @@ export default function CalendarEventPage() {
         {/* footer */}
         {firstUrl && (
           <View
-            style={[tw`absolute bottom-0 flex w-full flex-col px-6`, { paddingBottom }]}
+            style={[
+              tw`absolute bottom-0 flex w-full flex-col px-6`,
+              { paddingBottom },
+              actionInsets,
+            ]}
             onLayout={({ nativeEvent }: LayoutChangeEvent) =>
               setActionHeight(nativeEvent.layout.height)
             }>

@@ -14,7 +14,7 @@ import AppFader, { FaderPosition } from '@/components/AppFader';
 import AppIconButton from '@/components/AppIconButton';
 import AppMonoText from '@/components/AppMonoText';
 import ErrorState from '@/components/ErrorState';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import { isSilentError } from '@/helpers/error';
 import { getLogFileName } from '@/helpers/logger';
 import { useAppPaddingBottom } from '@/helpers/screen';
@@ -88,9 +88,11 @@ const LogDate = () => {
     scrollViewRef.current?.scrollToEnd({ animated: true });
   }, []);
 
+  const contentInsets = useContentInsets(null, 24);
+
   return (
     <ServiceLayout
-      contentStyle={tw`pb-16 pt-4`}
+      contentStyle={[tw`pb-16 pt-4`]}
       footer={
         logLines?.length ? (
           <Animated.View
@@ -116,7 +118,7 @@ const LogDate = () => {
       {logLines?.length ? (
         <AnimatedFlashList
           inverted
-          contentContainerStyle={tw`px-6`}
+          contentContainerStyle={[tw`px-6`, contentInsets]}
           data={logLines}
           decelerationRate="fast"
           entering={FadeIn.duration(300)}

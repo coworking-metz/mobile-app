@@ -13,7 +13,7 @@ import AppSegmentedControl from '@/components/AppSegmentedControl';
 import AppText from '@/components/AppText';
 import AppTextField, { AppTextFieldRef } from '@/components/AppTextField';
 import AppTextLink from '@/components/AppTextLink';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import {
   formatMacAddress,
   getDeviceTypeIcon,
@@ -119,9 +119,11 @@ const NewDevice = () => {
     }
   }, [queryName, queryMacAddress]);
 
+  const contentInsets = useContentInsets(null, 24);
+
   return (
-    <ServiceLayout contentStyle={tw`pt-6`} title={t('devices.new.title')}>
-      <View style={tw`mx-auto flex w-full max-w-xl grow flex-col px-6`}>
+    <ServiceLayout contentStyle={[tw`px-6 pt-6`, contentInsets]} title={t('devices.new.title')}>
+      <View style={tw`mx-auto flex w-full max-w-xl grow flex-col`}>
         <AppTextField
           ref={nameField}
           enableErrors

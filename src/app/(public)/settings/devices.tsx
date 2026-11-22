@@ -13,7 +13,7 @@ import AppRoundedButton from '@/components/AppRoundedButton';
 import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
 import ErrorChip from '@/components/ErrorChip';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { useAppNewDevice } from '@/context/new-device';
 import { getDeviceTypeIcon } from '@/helpers/device';
@@ -48,9 +48,11 @@ const Devices = () => {
     enabled: !!authStore.user?.id,
   });
 
+  const contentInsets = useContentInsets(null, 16);
+
   return (
     <ServiceLayout
-      contentStyle={tw`pt-4`}
+      contentStyle={[tw`px-4  pt-4`, contentInsets]}
       loading={isFetchingDevices}
       title={t('devices.title')}
       withBackButton={!isWide}
@@ -64,7 +66,7 @@ const Devices = () => {
         />
       ) : null}
       {areDevicesEnabled && isPendingDevices ? (
-        <View style={tw`flex flex-row flex-wrap items-stretch gap-4 px-4`}>
+        <View style={tw`flex flex-row flex-wrap items-stretch gap-4`}>
           {[0].map((index) => (
             <DeviceCard pending key={index} style={tw`min-w-32 max-w-48 shrink grow basis-0`} />
           ))}
@@ -77,7 +79,7 @@ const Devices = () => {
           <View style={tw`min-w-32 max-w-48 shrink grow basis-0`} />
         </View>
       ) : devices?.length ? (
-        <View style={tw`flex flex-row flex-wrap items-stretch gap-4 px-4`}>
+        <View style={tw`flex flex-row flex-wrap items-stretch gap-4`}>
           {devices.map((device) => (
             <Link
               asChild
@@ -103,8 +105,7 @@ const Devices = () => {
           <View style={tw`min-w-32 max-w-48 shrink grow basis-0`} />
         </View>
       ) : (
-        <Animated.View
-          style={tw`mx-auto flex w-full max-w-md grow flex-col items-center gap-2 px-6`}>
+        <Animated.View style={tw`mx-auto flex w-full max-w-md grow flex-col items-center gap-2`}>
           <SwitchDevicesAnimation style={tw`h-48 w-full`} />
           <AppText
             numberOfLines={1}

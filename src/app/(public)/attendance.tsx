@@ -15,7 +15,7 @@ import MemberBottomSheet from '@/components/Attendance/MemberBottomSheet';
 import MemberTile from '@/components/Attendance/MemberTile';
 import ErrorBadge from '@/components/ErrorBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
@@ -108,9 +108,11 @@ const Attendance = () => {
     [memberBottomSheetRef.current],
   );
 
+  const contentInsets = useContentInsets(null, 24);
+
   return (
     <ServiceLayout
-      contentStyle={tw`pb-12`}
+      contentStyle={[tw`px-6 pb-12`, contentInsets]}
       description={t('attendance.description')}
       footer={
         <MemberBottomSheet
@@ -125,7 +127,7 @@ const Attendance = () => {
       loading={isFetchingCurrentMembers}
       title={t('attendance.title', { count: currentMembers?.length ?? 0 })}
       onRefresh={refetchCurrentMembers}>
-      <View style={tw`mt-4 flex min-h-6 flex-row items-center gap-2 px-6`}>
+      <View style={tw`mt-4 flex min-h-6 flex-row items-center gap-2`}>
         <AppShimmerText
           active={isFetchingCurrentMembers}
           numberOfLines={1}
@@ -224,8 +226,7 @@ const Attendance = () => {
           </View>
         ))
       ) : (
-        <View
-          style={tw`mx-auto flex w-full max-w-sm grow basis-0 flex-col justify-start gap-2 px-4`}>
+        <View style={tw`mx-auto flex w-full max-w-sm grow basis-0 flex-col justify-start gap-2`}>
           <View style={tw`overflow-hidden`}>
             <EmptyOfficeAnimation style={tw`-my-12 mx-auto size-80`} />
           </View>
