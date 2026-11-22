@@ -1,0 +1,43 @@
+diff --git a/node_modules/@lodev09/react-native-true-sheet/ios/TrueSheetView.mm b/node_modules/@lodev09/react-native-true-sheet/ios/TrueSheetView.mm
+index f7e4c00..9b69210 100644
+--- a/node_modules/@lodev09/react-native-true-sheet/ios/TrueSheetView.mm
++++ b/node_modules/@lodev09/react-native-true-sheet/ios/TrueSheetView.mm
+@@ -396,6 +396,10 @@ static void TrueSheetRunAfterTransition(UIViewController *controller, dispatch_b
+       // measure before the sheet presents (parity with Android).
+       UIWindow *window = [WindowUtil keyWindow];
+       size = window ? window.bounds.size : UIScreen.mainScreen.bounds.size;
++      // Seed the width the sheet will present at, else text wraps differently and the auto detent resizes post-present
++      if (_controller.maxContentWidth && _controller.presentation != TrueSheetViewPresentation::Form) {
++        size.width = fmin(size.width, [_controller.maxContentWidth floatValue]);
++      }
+     }
+     [self viewControllerDidChangeSize:size];
+   }
+diff --git a/node_modules/@lodev09/react-native-true-sheet/ios/TrueSheetViewController.mm b/node_modules/@lodev09/react-native-true-sheet/ios/TrueSheetViewController.mm
+index 934afe4..ce23302 100644
+--- a/node_modules/@lodev09/react-native-true-sheet/ios/TrueSheetViewController.mm
++++ b/node_modules/@lodev09/react-native-true-sheet/ios/TrueSheetViewController.mm
+@@ -317,6 +317,15 @@ static BOOL TrueSheetIsPhoneIdiom(void) {
+     return 0;
+   }
+ 
++  UIWindow *window = [WindowUtil keyWindow];
++
++  // Regular width + height window (unfolded foldable) floats the sheet like an iPad form sheet: no inset
++  // added by UIKit. Window traits, since the sheet's own turn compact once it's narrowed to maxContentWidth.
++  if (window.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular &&
++      window.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular) {
++    return 0;
++  }
++
+   // Floating sheets (iOS 26+) get no bottom inset
+   if (@available(iOS 26.0, *)) {
+     if (height <= TrueSheetFloatingDetentMaxHeight) {
+@@ -324,7 +333,6 @@ static BOOL TrueSheetIsPhoneIdiom(void) {
+     }
+   }
+ 
+-  UIWindow *window = [WindowUtil keyWindow];
+   return window ? window.safeAreaInsets.bottom : 0;
+ }
+ 
