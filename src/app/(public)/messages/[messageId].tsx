@@ -14,10 +14,11 @@ import AppText from '@/components/AppText';
 import Divider from '@/components/Divider';
 import ErrorState from '@/components/ErrorState';
 import ProfilePicture from '@/components/Home/ProfilePicture';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import { handleSilentError, isSilentError } from '@/helpers/error';
+import useAppScreen from '@/helpers/screen';
 import {
   ApiMessage,
   archiveMemberMessage,
@@ -29,7 +30,6 @@ import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useNoticeStore from '@/stores/notice';
 import useToastStore, { TOAST_SUCCESS_TIMEOUT } from '@/stores/toast';
-import useAppScreen from '@/helpers/screen';
 
 export default function MessageScreen() {
   useDeviceContext(tw);
@@ -184,6 +184,8 @@ export default function MessageScreen() {
     }
   }, [messageFromList, fullMessage]);
 
+  const contentInsets = useContentInsets(undefined, 24);
+
   return (
     <ServiceLayout
       actions={[
@@ -199,7 +201,7 @@ export default function MessageScreen() {
               onPress: onArchive,
             },
       ]}
-      contentStyle={tw`px-6 pb-6 pt-3`}
+      contentStyle={[tw`px-6 pb-6 pt-3`, contentInsets]}
       loading={isFetchingFullMessage || archiving || restoring}
       title={message?.title}
       withBackButton={!withoutBackButton}

@@ -1,4 +1,4 @@
-import { Redirect } from 'expo-router';
+import InboxScreen from './inbox';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
@@ -12,8 +12,9 @@ export default function RootMessages() {
   const { isWide } = useAppScreen();
   const { t } = useTranslation();
 
+  // narrow: render the screen in place, a redirect would stack it above this anchor
   if (!isWide) {
-    return <Redirect href="/messages/inbox" />;
+    return <InboxScreen from="/home" />;
   }
 
   return (

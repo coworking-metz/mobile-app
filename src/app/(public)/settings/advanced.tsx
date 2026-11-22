@@ -15,7 +15,7 @@ import AppSwitch from '@/components/AppSwitch';
 import AppTextField from '@/components/AppTextField';
 import Divider from '@/components/Divider';
 import SectionTitle from '@/components/Layout/SectionTitle';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { log } from '@/helpers/logger';
 import useAppScreen from '@/helpers/screen';
@@ -166,20 +166,22 @@ const Advanced = () => {
     [toastStore, t],
   );
 
+  const contentInsets = useContentInsets(null, 12);
+
   return (
     <ServiceLayout
-      contentStyle={tw`pt-6`}
+      contentStyle={[tw`px-3 pt-6`, contentInsets]}
       description={t('advanced.description')}
       title={t('advanced.title')}
       withBackButton={!isWide}>
       <View style={tw`mx-auto mb-6 w-full max-w-xl`}>
-        <SectionTitle style={tw`mx-6`} title={t('advanced.support.title')} />
+        <SectionTitle style={tw`mx-3`} title={t('advanced.support.title')} />
 
         <Link asChild href="/settings/logs/all-logs">
           <ServiceRow
             withBottomDivider
             label={t('advanced.logs.title')}
-            style={tw`mx-3 px-3`}
+            style={tw`px-3`}
             suffixIcon="chevron-right"
           />
         </Link>
@@ -188,7 +190,7 @@ const Advanced = () => {
           description={t('advanced.support.clearCache.description')}
           label={t('advanced.support.clearCache.label')}
           loading={isClearingCache}
-          style={tw`mx-3 px-3`}
+          style={tw`px-3`}
           suffixIcon="trash-can-outline"
           onPress={clearCache}
         />
@@ -196,7 +198,7 @@ const Advanced = () => {
           withBottomDivider
           description={t('advanced.support.crash.description')}
           label={t('advanced.support.crash.label')}
-          style={tw`mx-3 px-3`}
+          style={tw`px-3`}
           suffixIcon="bomb"
           onPress={() => {
             throw new Error("Don't worry, this is a test crash!");
@@ -205,17 +207,17 @@ const Advanced = () => {
         <ServiceRow
           label={t('advanced.support.reset.label')}
           loading={isResetting}
-          style={tw`mx-3 px-3`}
+          style={tw`px-3`}
           suffixIcon="nuke"
           onPress={confirmReset}
         />
 
-        <SectionTitle style={tw`mx-6 mt-6`} title={t('advanced.settings.title')} />
+        <SectionTitle style={tw`mx-3 mt-6`} title={t('advanced.settings.title')} />
 
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.introduction.label')}
-          style={tw`mx-3 px-3`}>
+          style={tw`px-3`}>
           <AppSwitch
             value={settingsStore.hasSeenIntroduction}
             onValueChange={(value) => useSettingsStore.setState({ hasSeenIntroduction: value })}
@@ -224,7 +226,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.hasLearnPullToRefresh.label')}
-          style={tw`mx-3 px-3`}>
+          style={tw`px-3`}>
           <AppSwitch
             value={settingsStore.hasLearnPullToRefresh}
             onValueChange={(value) => useSettingsStore.setState({ hasLearnPullToRefresh: value })}
@@ -233,7 +235,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.withNativePullToRefresh.label')}
-          style={tw`mx-3 px-3`}>
+          style={tw`px-3`}>
           <AppSwitch
             value={settingsStore.withNativePullToRefresh}
             onValueChange={(value) => useSettingsStore.setState({ withNativePullToRefresh: value })}
@@ -242,7 +244,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.withBottomSheetFullHeight.label')}
-          style={tw`mx-3 px-3`}>
+          style={tw`px-3`}>
           <AppSwitch
             value={settingsStore.withBottomSheetFullHeight}
             onValueChange={(value) =>
@@ -254,7 +256,7 @@ const Advanced = () => {
           <ServiceRow
             withBottomDivider
             label={t('advanced.settings.withVerticalStatusBar.label')}
-            style={tw`mx-3 px-3`}>
+            style={tw`px-3`}>
             <AppSwitch
               value={settingsStore.withVerticalStatusBar}
               onValueChange={(value) => useSettingsStore.setState({ withVerticalStatusBar: value })}
@@ -264,7 +266,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.hasSeenBirthdayPresentAt.label')}
-          style={tw`mx-3 px-3`}>
+          style={tw`px-3`}>
           <AppSwitch
             value={!isNil(settingsStore.hasSeenBirthdayPresentAt)}
             onValueChange={(value) =>
@@ -278,7 +280,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.hasReadOnboardingInstructionsAt.label')}
-          style={tw`mx-3 px-3`}>
+          style={tw`px-3`}>
           <AppSwitch
             value={!isNil(settingsStore.hasReadOnboardingInstructionsAt)}
             onValueChange={(value) =>
@@ -291,7 +293,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.hidePushNotificationsAlert.label')}
-          style={tw`mx-3 px-3`}>
+          style={tw`px-3`}>
           <AppSwitch
             value={settingsStore.hidePushNotificationsAlert}
             onValueChange={(value) =>
@@ -302,7 +304,7 @@ const Advanced = () => {
         <ServiceRow
           withBottomDivider
           label={t('advanced.settings.hasBeenInvitedToReview.label')}
-          style={tw`mx-3 px-3`}>
+          style={tw`px-3`}>
           <AppSwitch
             value={settingsStore.hasBeenInvitedToReview}
             onValueChange={(value) => useSettingsStore.setState({ hasBeenInvitedToReview: value })}
@@ -311,7 +313,7 @@ const Advanced = () => {
 
         <AppTextField
           autoCapitalize="none"
-          containerStyle={tw`mx-6 mt-3`}
+          containerStyle={tw`mx-3 mt-3`}
           keyboardType="url"
           label={t('advanced.settings.apiBaseUrl.label')}
           placeholder={HTTP.defaults.baseURL}
@@ -321,7 +323,7 @@ const Advanced = () => {
         <AppTextField
           readOnly
           autoCapitalize="none"
-          containerStyle={tw`mx-6`}
+          containerStyle={tw`mx-3`}
           keyboardType="default"
           label={t('advanced.settings.pushNotificationsToken.label')}
           value={notificationsStore.expoPushToken ?? ''}
@@ -339,7 +341,7 @@ const Advanced = () => {
         />
         <AppTextField
           autoCapitalize="none"
-          containerStyle={tw`mx-6`}
+          containerStyle={tw`mx-3`}
           keyboardType="default"
           label={t('advanced.settings.accessToken.label')}
           placeholder={authStore.accessToken ?? ''}
@@ -360,7 +362,7 @@ const Advanced = () => {
         />
         <AppTextField
           autoCapitalize="none"
-          containerStyle={tw`mx-6`}
+          containerStyle={tw`mx-3`}
           keyboardType="default"
           label={t('advanced.settings.refreshToken.label')}
           placeholder={authStore.refreshToken ?? ''}
@@ -379,11 +381,11 @@ const Advanced = () => {
             ),
           })}
         />
-        <Divider style={tw`mx-6`} />
+        <Divider style={tw`mx-3`} />
         <ServiceRow
           description={t('advanced.support.switchTokensStorage.description')}
           label={t('advanced.support.switchTokensStorage.label')}
-          style={tw`mx-3 px-3`}>
+          style={tw`px-3`}>
           <AppSwitch
             value={settingsStore.areTokensInAsyncStorage}
 

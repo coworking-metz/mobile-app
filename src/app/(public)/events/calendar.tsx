@@ -16,7 +16,7 @@ import PeriodBottomSheet, { type PeriodType } from '@/components/Events/PeriodBo
 import CalendarEmptyState from '@/components/Home/CalendarEmptyState';
 import CalendarEventCard from '@/components/Home/CalendarEventCard';
 import SectionTitle from '@/components/Layout/SectionTitle';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import { SelectableChip } from '@/components/SelectableChip';
 import { isSilentError } from '@/helpers/error';
 import { getCalendarEvents, type CalendarEvent } from '@/services/api/calendar';
@@ -118,6 +118,9 @@ const Calendar = ({ from }: { from?: string }) => {
       });
   }, [eventsGroupedByDate, selectedPeriod, selectedSort]);
 
+  const contentInsets = useContentInsets(from);
+  const chipsInsets = useContentInsets(from, 16);
+
   return (
     <>
       <ServiceLayout
@@ -127,7 +130,7 @@ const Calendar = ({ from }: { from?: string }) => {
         title={t('events.calendar.title')}
         onRefresh={refetchCalendarEvents}>
         <ScrollView
-          contentContainerStyle={tw`flex flex-row items-center gap-4 px-4`}
+          contentContainerStyle={[tw`flex flex-row items-center gap-4 px-4`, chipsInsets]}
           horizontal={true}
           scrollEventThrottle={16}
           showsHorizontalScrollIndicator={false}
@@ -178,7 +181,9 @@ const Calendar = ({ from }: { from?: string }) => {
             onPress={() => calendarsBottomSheetRef.current?.open()}
           />
         </ScrollView>
-        <Animated.View exiting={FadeOut.duration(500)} style={tw`mx-4 mt-4 flex flex-col gap-8`}>
+        <Animated.View
+          exiting={FadeOut.duration(500)}
+          style={[tw`mt-4 flex flex-col gap-8 px-4`, contentInsets]}>
           {filteredEventsGroups?.length ? (
             <>
               {filteredEventsGroups.map(([date, events]) => (

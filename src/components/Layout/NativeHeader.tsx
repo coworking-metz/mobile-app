@@ -35,8 +35,10 @@ export const useHeaderTintColor = () =>
 export const useTopBarHeight = (withNativeHeader: boolean) => {
   const insets = useSafeAreaInsets();
   const nativeHeaderHeight = useContext(HeaderHeightContext);
+  const isMasterColumn = useContext(MasterColumnContext);
   // iPhone Duo vertical bar: header items live in the side column, yet UIKit still reports a horizontal bar height
-  const isInSideColumn = !insets.top && (insets.left > 0 || insets.right > 0);
+  // the left master column only touches a bar on the left edge
+  const isInSideColumn = !insets.top && (insets.left > 0 || (!isMasterColumn && insets.right > 0));
   if (withNativeHeader && isInSideColumn) return NAVIGATION_HEIGHT / 2;
   return (withNativeHeader && nativeHeaderHeight) || NAVIGATION_HEIGHT + insets.top;
 };
@@ -109,6 +111,9 @@ const NativeHeader = ({
 
 export default NativeHeader;
 
+// set inside MasterColumnNativeHeader: insets are global, the right one belongs to the detail pane
+const MasterColumnContext = createContext(false);
+
 // set inside StandaloneNativeHeader: the bar is already there, don't mount NativeHeader (it targets the parent screen)
 export const StandaloneHeaderContext = createContext(false);
 
@@ -165,7 +170,7 @@ export const MasterColumnNativeHeader = ({
           onPress: onBack,
         },
       ]}>
-      {children}
+      <MasterColumnContext value>{children}</MasterColumnContext>
     </StandaloneNativeHeader>
   );
 };

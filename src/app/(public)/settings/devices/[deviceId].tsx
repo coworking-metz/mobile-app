@@ -15,7 +15,7 @@ import AppTextField, { AppTextFieldRef } from '@/components/AppTextField';
 import AppTextLink from '@/components/AppTextLink';
 import Divider from '@/components/Divider';
 import ErrorChip from '@/components/ErrorChip';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import {
   formatMacAddress,
@@ -208,6 +208,8 @@ const DeviceDetail = () => {
     }
   }, [device]);
 
+  const contentInsets = useContentInsets(null, 12);
+
   return (
     <ServiceLayout
       actions={[
@@ -220,11 +222,11 @@ const DeviceDetail = () => {
           onPress: onConfirmDelete,
         },
       ]}
-      contentStyle={tw`pt-6`}
+      contentStyle={[tw`px-3 pt-6`, contentInsets]}
       loading={isFetchingDevices || isDeleting}
       title={device?.name ?? device?.macAddress ?? ''}
       onRefresh={refetchDevices}>
-      <View style={tw`mx-auto flex w-full max-w-xl grow flex-col px-3`}>
+      <View style={tw`mx-auto flex w-full max-w-xl grow flex-col`}>
         {devicesError ? (
           <ErrorChip
             error={devicesError}

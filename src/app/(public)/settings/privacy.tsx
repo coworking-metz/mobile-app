@@ -7,7 +7,7 @@ import tw, { useDeviceContext } from 'twrnc';
 import AppSwitch from '@/components/AppSwitch';
 import AppText from '@/components/AppText';
 import SectionTitle from '@/components/Layout/SectionTitle';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import { useAppPermissions } from '@/context/permissions';
 import { useAppPushNotifications } from '@/context/push-notifications';
@@ -76,21 +76,23 @@ const Privacy = () => {
     }
   }, [locationState, getLocationPermission, renderPermissionsBottomSheet]);
 
+  const contentInsets = useContentInsets(null, 12);
+
   return (
     <ServiceLayout
-      contentStyle={tw`pb-12 pt-6`}
+      contentStyle={[tw`px-3 pb-12 pt-6`, contentInsets]}
       description={t('privacy.description')}
       loading={isChangingStatus}
       title={t('privacy.title')}
       withBackButton={!isWide}>
       <View style={tw`mx-auto w-full max-w-xl`}>
-        <SectionTitle style={tw`mx-6`} title={t('privacy.permissions.title')} />
+        <SectionTitle style={tw`mx-3`} title={t('privacy.permissions.title')} />
         <ServiceRow
           withBottomDivider
           description={t('privacy.permissions.calendar.description')}
           label={t('privacy.permissions.calendar.label')}
           prefixIcon="calendar-outline"
-          style={tw`mx-3 px-3`}>
+          style={tw`px-3`}>
           <AppSwitch value={calendarState?.granted} onValueChange={onCalendarPermissionsPress} />
         </ServiceRow>
         <ServiceRow
@@ -98,7 +100,7 @@ const Privacy = () => {
           description={t('privacy.permissions.notifications.description')}
           label={t('privacy.permissions.notifications.label')}
           prefixIcon="bell-outline"
-          style={tw`mx-3 px-3`}>
+          style={tw`px-3`}>
           <AppSwitch
             value={pushNotificationsEnabled}
             onValueChange={(willEnablePushNotifications) => {
@@ -132,7 +134,7 @@ const Privacy = () => {
                   ]}
                 />
               )}
-              style={tw`mx-3 px-3`}>
+              style={tw`px-3`}>
               <AppSwitch
                 value={locationState?.granted}
                 onValueChange={onLocationPermissionsPress}
@@ -167,7 +169,7 @@ const Privacy = () => {
                   ]}
                 />
               )}
-              style={tw`mx-3 px-3`}>
+              style={tw`px-3`}>
               <AppSwitch disabled value={areBluetoothPermissionsGranted} />
             </ServiceRow>
           </>
@@ -175,7 +177,8 @@ const Privacy = () => {
 
         <ServiceRow
           label={t('privacy.permissions.ask.title')}
-          style={tw`mx-3 px-3`}
+          prefix={<View style={tw`min-h-10 w-6 shrink-0`} />}
+          style={tw`px-3`}
           suffixIcon="open-in-new"
           onPress={Linking.openSettings}
         />

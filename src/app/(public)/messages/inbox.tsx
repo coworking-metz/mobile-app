@@ -27,7 +27,7 @@ import AppTextField from '@/components/AppTextField';
 import ErrorBadge from '@/components/ErrorBadge';
 import ErrorState from '@/components/ErrorState';
 import SectionTitle from '@/components/Layout/SectionTitle';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import MessageCard from '@/components/Messages/MessageCard';
 import PushNotificationsAlert from '@/components/PushNotifications/PushNotificationsAlert';
 import { useAppPushNotifications } from '@/context/push-notifications';
@@ -136,10 +136,12 @@ const InboxScreen = ({ from }: { from?: string }) => {
     return allMessagesWithMarkdownRendered;
   }, [search, allMessagesWithMarkdownRendered]);
 
+  const contentInsets = useContentInsets(from);
+
   return (
     <>
       <ServiceLayout
-        contentStyle={tw`pb-6`}
+        contentStyle={[tw`pb-6`, contentInsets]}
         from={from}
         loading={isFetchingMessages}
         // menu={<AppIconButton icon="magnify" iconSize={24} />}

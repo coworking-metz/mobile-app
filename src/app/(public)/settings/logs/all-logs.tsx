@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import AppText from '@/components/AppText';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import useAppState from '@/helpers/app-state';
 import { clearLogFiles, listLogFiles } from '@/helpers/logger';
@@ -35,6 +35,8 @@ const AllLogs = () => {
     }
   }, [isFocused, activeSince, refreshLogFiles]);
 
+  const contentInsets = useContentInsets(undefined, 12);
+
   return (
     <ServiceLayout
       actions={[
@@ -50,7 +52,7 @@ const AllLogs = () => {
           },
         },
       ]}
-      contentStyle={tw`p-3`}
+      contentStyle={[tw`p-3`, contentInsets]}
       description={t('advanced.logs.description')}
       title={t('advanced.logs.title')}
       onRefresh={refreshLogFiles}>

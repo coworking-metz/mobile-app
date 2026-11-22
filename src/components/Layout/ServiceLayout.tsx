@@ -49,6 +49,16 @@ import useAppScreen, { useAppPaddingBottom } from '@/helpers/screen';
 
 const AnimatedKeyboardAwareScrollView = Animated.createAnimatedComponent(KeyboardAwareScrollView);
 
+// wide master column touches the left edge, any other pane only the right one
+// base: the element's own padding on that side, which the inset would otherwise override
+export const useContentInsets = (from?: string | null, base = 0) => {
+  const insets = useSafeAreaInsets();
+  const { isWide } = useAppScreen();
+  return isWide && !!from
+    ? { paddingLeft: insets.left || base }
+    : { paddingRight: insets.right || base };
+};
+
 const ServiceLayout = ({
   title,
   description,
@@ -218,7 +228,7 @@ const ServiceLayout = ({
             })}>
             <View
               style={[
-                // edge to edge: only the header above follows the insets
+                // edge to edge: consumers pad their own content with the insets
                 tw`relative flex w-full grow flex-col bg-gray-50 dark:bg-zinc-900`,
                 { paddingBottom },
                 contentStyle,

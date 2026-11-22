@@ -11,7 +11,7 @@ import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import ZoomableImage from '@/components/ZoomableImage';
@@ -48,9 +48,11 @@ const Account = () => {
     enabled: !!authStore.user?.id,
   });
 
+  const contentInsets = useContentInsets(null, 12);
+
   return (
     <ServiceLayout
-      contentStyle={tw`pb-12 pt-6`}
+      contentStyle={[tw`px-3 pb-12 pt-6`, contentInsets]}
       loading={isFetchingProfile}
       title={t('account.title')}
       withBackButton={!isWide}
@@ -83,7 +85,7 @@ const Account = () => {
 
         <SectionTitle
           loading={isFetchingProfile}
-          style={tw`mx-6 mt-8`}
+          style={tw`mx-3 mt-8`}
           title={t('account.profile.title')}>
           {profileError && !isSilentError(profileError) && !isFetchingProfile ? (
             <ErrorBadge
@@ -100,10 +102,7 @@ const Account = () => {
           </Link>
         </SectionTitle>
 
-        <ServiceRow
-          withBottomDivider
-          label={t('account.profile.firstname.label')}
-          style={tw`mx-3 px-3`}>
+        <ServiceRow withBottomDivider label={t('account.profile.firstname.label')} style={tw`px-3`}>
           {isPendingProfile ? (
             <LoadingSkeleton show height={28} width={Math.random() * 48 + 96} />
           ) : (
@@ -113,10 +112,7 @@ const Account = () => {
             </AppText>
           )}
         </ServiceRow>
-        <ServiceRow
-          withBottomDivider
-          label={t('account.profile.lastname.label')}
-          style={tw`mx-3 px-3`}>
+        <ServiceRow withBottomDivider label={t('account.profile.lastname.label')} style={tw`px-3`}>
           {isPendingProfile ? (
             <LoadingSkeleton show height={28} width={Math.random() * 48 + 96} />
           ) : (
@@ -126,10 +122,7 @@ const Account = () => {
             </AppText>
           )}
         </ServiceRow>
-        <ServiceRow
-          withBottomDivider
-          label={t('account.profile.birthdate.label')}
-          style={tw`mx-3 px-3`}>
+        <ServiceRow withBottomDivider label={t('account.profile.birthdate.label')} style={tw`px-3`}>
           {isPendingProfile ? (
             <LoadingSkeleton show height={28} width={96} />
           ) : (
@@ -139,7 +132,7 @@ const Account = () => {
             </AppText>
           )}
         </ServiceRow>
-        <ServiceRow label={t('account.profile.email.label')} style={tw`mx-3 px-3`}>
+        <ServiceRow label={t('account.profile.email.label')} style={tw`px-3`}>
           {isPendingProfile ? (
             <LoadingSkeleton show height={28} width={Math.random() * 64 + 144} />
           ) : (
@@ -155,7 +148,7 @@ const Account = () => {
         <ServiceRow
           label={t('actions.logout')}
           prefixIcon="logout"
-          style={tw`mx-3 mt-6 px-3`}
+          style={tw`mt-6 px-3`}
           suffixIcon="chevron-right"
           onPress={logout}
         />

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
-import ServiceLayout from '@/components/Layout/ServiceLayout';
+import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import { fetchLocalMarkdown } from '@/services/markdown';
 
@@ -25,8 +25,10 @@ const Changes = () => {
       });
   }, []);
 
+  const contentInsets = useContentInsets();
+
   return (
-    <ServiceLayout title={t('about.changes.title')}>
+    <ServiceLayout contentStyle={contentInsets} title={t('about.changes.title')}>
       {isFetching ? (
         <Animated.View
           exiting={FadeOut.duration(300)}
