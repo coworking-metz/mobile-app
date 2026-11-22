@@ -2,19 +2,24 @@ import { useQuery } from '@tanstack/react-query';
 import { BlurTargetView } from 'expo-blur';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { includes } from 'lodash';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RefreshControl, ScrollView, View } from 'react-native';
+import { Platform, RefreshControl, ScrollView, View } from 'react-native';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import { AppTopFader } from '@/components/AppFader';
+import AppIconButton from '@/components/AppIconButton';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
-import NativeHeader, { ScrollEdge, useHeaderTintColor } from '@/components/Layout/NativeHeader';
+import NativeHeader, {
+  ScrollEdge,
+  useHasSideSystemColumn,
+  useHeaderTintColor,
+  useNavigationHeight,
+} from '@/components/Layout/NativeHeader';
 import PoulaillerPlan from '@/components/OnPremise/PoulaillerPlan';
 import PtiPoulaillerPlan from '@/components/OnPremise/PtiPoulaillerPlan';
 import useAppScreen from '@/helpers/screen';
-import { useToolbarIcon } from '@/helpers/toolbar';
 import { getOnPremiseState } from '@/services/api/services';
 import { IS_DEV } from '@/services/environment';
 import { onPremiseQueryKeys } from '@/services/query';
@@ -47,26 +52,34 @@ const OnPremise = () => {
   }, [refetchOnPremiseState]);
 
   const insets = useSafeAreaInsets();
+  const navigationHeight = useNavigationHeight();
+  const hasSideSystemColumn = useHasSideSystemColumn();
+  // iOS insets scroll content below the transparent header itself, Android doesn't
+  const contentTop = useMemo(() => {
+    return (Platform.OS === 'android' ? navigationHeight : insets.top) || 16;
+  }, [insets.top, navigationHeight]);
   const { t } = useTranslation();
   const [layoutWidth, setLayoutWidth] = useState(0);
   const blurTargetRef = useRef<View | null>(null);
   const tintColor = useHeaderTintColor();
-  const lightsIcon = useToolbarIcon(
-    areLightsVisible ? 'lightbulb.2.fill' : 'lightbulb.2',
-    areLightsVisible ? 'lightbulb-group' : 'lightbulb-group-outline',
-    tintColor,
-  );
-  const informationsIcon = useToolbarIcon('ellipsis', 'dots-horizontal', tintColor);
+  const toggleLights = () => {
+    setLightsVisible(!areLightsVisible);
+    setInformationsVisible(false);
+  };
+  const toggleInformations = () => {
+    setLightsVisible(false);
+    setInformationsVisible(!areInformationsVisible);
+  };
 
   // https://github.com/facebook/react-native/issues/54183#issuecomment-3467125323
   const [progressViewOffset, setProgressViewOffset] = useState(0);
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setProgressViewOffset(insets.top);
+      setProgressViewOffset(contentTop);
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [insets.top]);
+  }, [contentTop]);
 
   const offset = useSharedValue(0);
   const horizontalScrollView = useRef<Animated.ScrollView>(null);
@@ -106,6 +119,27 @@ const OnPremise = () => {
     }
   }, [withInformations, withLights]);
 
+  // an array, not a fragment: Stack.Toolbar only reads its direct children
+  const toolbarItems = [
+    IS_DEV && (
+      <Stack.Toolbar.Button
+        icon={areLightsVisible ? 'lightbulb.2.fill' : 'lightbulb.2'}
+        key="lights"
+        tintColor={tintColor}
+        // native active state: tinted when the overlay is shown
+        variant={areLightsVisible ? 'prominent' : 'plain'}
+        onPress={toggleLights}
+      />
+    ),
+    <Stack.Toolbar.Button
+      icon="ellipsis"
+      key="informations"
+      tintColor={tintColor}
+      variant={areInformationsVisible ? 'prominent' : 'plain'}
+      onPress={toggleInformations}
+    />,
+  ];
+
   return (
     // edge to edge: floor plans span the full width, under the native header items
     <View
@@ -129,7 +163,7 @@ const OnPremise = () => {
                     isWide && tw`max-w-lg`,
                     !isWide && { width: layoutWidth },
                     {
-                      paddingTop: insets.top,
+                      paddingTop: contentTop,
                       paddingBottom: insets.bottom,
                     },
                   ]}
@@ -155,7 +189,7 @@ const OnPremise = () => {
                     isWide && tw`max-w-lg`,
                     !isWide && { width: layoutWidth },
                     {
-                      paddingTop: insets.top,
+                      paddingTop: contentTop,
                       paddingBottom: insets.bottom,
                     },
                   ]}
@@ -181,32 +215,32 @@ const OnPremise = () => {
       ) : null}
 
       <NativeHeader
-        // an array, not a fragment: Stack.Toolbar only reads its direct children
-        rightItems={[
-          IS_DEV && (
-            <Stack.Toolbar.Button
-              icon={lightsIcon}
-              key="lights"
-              tintColor={tintColor}
-              // native active state: tinted when the overlay is shown
-              variant={areLightsVisible ? 'prominent' : 'plain'}
-              onPress={() => {
-                setLightsVisible(!areLightsVisible);
-                setInformationsVisible(false);
-              }}
-            />
-          ),
-          <Stack.Toolbar.Button
-            icon={informationsIcon}
-            key="informations"
-            tintColor={tintColor}
-            variant={areInformationsVisible ? 'prominent' : 'plain'}
-            onPress={() => {
-              setLightsVisible(false);
-              setInformationsVisible(!areInformationsVisible);
-            }}
-          />,
-        ]}
+        blurTarget={blurTargetRef}
+        menu={
+          Platform.OS === 'android' ? (
+            <View style={tw`flex-row gap-2`}>
+              {IS_DEV && (
+                <AppIconButton
+                  active={areLightsVisible}
+                  blurTarget={blurTargetRef}
+                  icon={areLightsVisible ? 'lightbulb-group' : 'lightbulb-group-outline'}
+                  radius={25}
+                  style={tw`size-10`}
+                  onPress={toggleLights}
+                />
+              )}
+              <AppIconButton
+                active={areInformationsVisible}
+                blurTarget={blurTargetRef}
+                icon="dots-horizontal"
+                radius={25}
+                style={tw`size-10`}
+                onPress={toggleInformations}
+              />
+            </View>
+          ) : undefined
+        }
+        rightItems={hasSideSystemColumn ? undefined : toolbarItems}
         title={t('onPremise.title')}
         titleView={
           !isWide && SUPPORTED_LOCATIONS.length > 1 ? (
@@ -214,6 +248,13 @@ const OnPremise = () => {
           ) : undefined
         }
       />
+      {Platform.OS === 'ios' && hasSideSystemColumn && (
+        // Duo side column: push our items to the bottom of the system bar, away from back
+        <Stack.Toolbar placement="bottom">
+          <Stack.Toolbar.Spacer />
+          {toolbarItems}
+        </Stack.Toolbar>
+      )}
       <AppTopFader style={tw`absolute inset-x-0 top-0`} />
     </View>
   );

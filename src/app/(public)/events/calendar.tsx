@@ -184,7 +184,7 @@ const Calendar = ({ from }: { from?: string }) => {
           {filteredEventsGroups?.length ? (
             <>
               {filteredEventsGroups.map(([date, events]) => (
-                <View key={`calendar-group-${date}`} style={tw`flex flex-col gap-4`}>
+                <View key={`calendar-group-${date}`} style={tw`flex w-full flex-col gap-4`}>
                   <SectionTitle
                     entering={FadeInLeft.duration(300)}
                     exiting={FadeOut.duration(300)}
@@ -197,7 +197,6 @@ const Calendar = ({ from }: { from?: string }) => {
                       asChild
                       href={`/events/${event.id}`}
                       key={`calendar-event-card-${event.id}`}
-                      // wide: swap the detail pane so back never lands on the placeholder
                       replace={isWide}>
                       <AppPressable style={tw`h-44 w-full`}>
                         <CalendarEventCard event={event}>

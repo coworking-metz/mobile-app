@@ -402,7 +402,7 @@ export default function CalendarEventPage() {
 
       <AppTopFader style={tw`absolute inset-x-0 top-0`} />
 
-      <NativeHeader title={event?.title} />
+      <NativeHeader blurTarget={blurTargetRef} title={event?.title} />
     </View>
   );
 }

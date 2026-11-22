@@ -3,7 +3,9 @@ import { Platform, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const WIDE_SCREEN_WIDTH = 672;
+export const MIN_PADDING_TOP = 8;
 export const MIN_PADDING_BOTTOM = 24;
+export const MIN_MINIMUM_EDGE = 16;
 
 export default function useAppScreen() {
   const { width } = useWindowDimensions();

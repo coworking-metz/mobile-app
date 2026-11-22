@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { NetworkStateType, useNetworkState } from 'expo-network';
 import { Link, useIsFocused } from 'expo-router';
 import { compact, includes, isNil, sample } from 'lodash';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import Animated, {
@@ -17,6 +17,7 @@ import Animated, {
   FadeOutDown,
   LinearTransition,
 } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { toast } from 'sonner-native';
 import tw, { useDeviceContext } from 'twrnc';
 import { AppBottomSheetRef } from '@/components/AppBottomSheet';
@@ -49,7 +50,11 @@ import { useAppContact } from '@/context/contact';
 import { useAppOnboarding } from '@/context/onboarding';
 import useAppState from '@/helpers/app-state';
 import { isSilentError } from '@/helpers/error';
-import useAppScreen, { WIDE_SCREEN_WIDTH } from '@/helpers/screen';
+import useAppScreen, {
+  MIN_MINIMUM_EDGE,
+  MIN_PADDING_TOP,
+  WIDE_SCREEN_WIDTH,
+} from '@/helpers/screen';
 import { getCalendarEvents } from '@/services/api/calendar';
 import {
   getCurrentMembers,
@@ -72,6 +77,7 @@ export default function HomeScreen() {
   const settingsStore = useSettingsStore();
   const toastStore = useToastStore();
   const activeSince = useAppState();
+  const insets = useSafeAreaInsets();
   const { isWide, width } = useAppScreen();
   const networkState = useNetworkState();
   const isFocus = useIsFocused();
@@ -289,8 +295,11 @@ export default function HomeScreen() {
       }}>
       <View
         style={[
-          tw`flex shrink grow flex-row items-center pl-6 pr-24 pt-1`,
-          isWide && tw`mx-auto w-full max-w-2xl`,
+          tw`flex shrink grow flex-row items-center pl-6`,
+          { paddingTop: insets.top ? MIN_PADDING_TOP : MIN_PADDING_TOP * 2 },
+          isWide
+            ? tw`mx-auto w-full max-w-2xl`
+            : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
         ]}>
         <StaleDataText
           lastFetch={currentMembersUpdatedAt}
@@ -361,8 +370,10 @@ export default function HomeScreen() {
       <Animated.View
         entering={FadeInLeft.duration(750)}
         style={[
-          tw`flex flex-col gap-2 self-stretch pl-6 pr-4`,
-          isWide && tw`mx-auto w-full max-w-2xl`,
+          tw`flex flex-col gap-2 self-stretch pl-6`,
+          isWide
+            ? tw`mx-auto w-full max-w-2xl`
+            : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
         ]}>
         <AttendanceCount style={tw`mt-4`} />
       </Animated.View>
@@ -372,7 +383,12 @@ export default function HomeScreen() {
         style={tw`flex flex-col self-stretch`}>
         <SectionTitle
           loading={isFetchingProfile || isFetchingSubscriptions}
-          style={[tw`mt-9 self-stretch pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
+          style={[
+            tw`mt-9 self-stretch pl-6`,
+            isWide
+              ? tw`mx-auto w-full max-w-2xl`
+              : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
+          ]}
           title={t('home.profile.label')}>
           {profileError && !isSilentError(profileError) && !isFetchingProfile ? (
             <ErrorBadge
@@ -393,11 +409,16 @@ export default function HomeScreen() {
 
         <ScrollView
           contentContainerStyle={[
-            tw`mt-4 flex flex-row items-stretch gap-4 overflow-visible px-4`,
-            isWide && {
-              paddingLeft: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
-              paddingRight: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
-            },
+            tw`mt-4 flex flex-row items-stretch gap-4 overflow-visible`,
+            isWide
+              ? {
+                  paddingLeft: (width - WIDE_SCREEN_WIDTH) / 2 + MIN_MINIMUM_EDGE,
+                  paddingRight: (width - WIDE_SCREEN_WIDTH) / 2 + MIN_MINIMUM_EDGE,
+                }
+              : {
+                  paddingLeft: insets.left || MIN_MINIMUM_EDGE,
+                  paddingRight: insets.right || MIN_MINIMUM_EDGE,
+                },
           ]}
           horizontal={true}
           scrollEventThrottle={16}
@@ -469,7 +490,12 @@ export default function HomeScreen() {
         count={upcomingEvents.length > 2 ? upcomingEvents.length : null}
         entering={FadeInRight.duration(750).delay(600)}
         loading={isFetchingCalendarEvents}
-        style={[tw`mt-9 self-stretch pl-6 pr-4`, isWide && tw`mx-auto w-full max-w-2xl`]}
+        style={[
+          tw`mt-9 self-stretch pl-6`,
+          isWide
+            ? tw`mx-auto w-full max-w-2xl`
+            : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
+        ]}
         title={t('home.calendar.label')}>
         {calendarEventsError && !isSilentError(calendarEventsError) && !isFetchingCalendarEvents ? (
           <ErrorBadge
@@ -491,10 +517,15 @@ export default function HomeScreen() {
         <ScrollView
           contentContainerStyle={tw.style(
             `flex h-56 min-w-full flex-row px-4 py-3`,
-            isWide && {
-              paddingLeft: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
-              paddingRight: (width - WIDE_SCREEN_WIDTH) / 2 + 16,
-            },
+            isWide
+              ? {
+                  paddingLeft: (width - WIDE_SCREEN_WIDTH) / 2 + MIN_MINIMUM_EDGE,
+                  paddingRight: (width - WIDE_SCREEN_WIDTH) / 2 + MIN_MINIMUM_EDGE,
+                }
+              : {
+                  paddingLeft: insets.left || MIN_MINIMUM_EDGE,
+                  paddingRight: insets.right || MIN_MINIMUM_EDGE,
+                },
           )}
           decelerationRate="fast"
           horizontal={true}
@@ -503,7 +534,7 @@ export default function HomeScreen() {
           showsHorizontalScrollIndicator={false}
           snapToAlignment="start"
           snapToOffsets={Array.from({ length: upcomingEvents.length }).map(
-            (_, i) => 320 + i * (320 + 16),
+            (_, i) => 320 + i * (320 + MIN_MINIMUM_EDGE),
           )}
           style={tw`w-full overflow-visible`}>
           {isLoadingCalendarEvents ? (
@@ -540,7 +571,10 @@ export default function HomeScreen() {
             <HomeCalendarEmptyState
               events={upcomingEvents}
               lastFetch={calendarEventsUpdatedAt}
-              style={[{ width: width - 16 * 2 }, isWide && tw`mx-auto w-full max-w-2xl`]}
+              style={[
+                { width: width - MIN_MINIMUM_EDGE * 2 },
+                isWide && tw`mx-auto w-full max-w-2xl`,
+              ]}
             />
           )}
         </ScrollView>

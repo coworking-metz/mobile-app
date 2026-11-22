@@ -34,6 +34,7 @@ import ProfilePicture from '@/components/Home/ProfilePicture';
 import NativeHeader, {
   ScrollEdge,
   NAVIGATION_HEIGHT,
+  MasterBackButton,
   useNavigationHeight,
 } from '@/components/Layout/NativeHeader';
 import SectionTitle from '@/components/Layout/SectionTitle';
@@ -222,12 +223,10 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             tw`absolute flex w-full flex-col items-stretch`,
             {
               top: navigationHeight,
+              left: insets.left,
               bottom: insets.bottom,
             },
-            !isWide && {
-              left: insets.left,
-              right: insets.right,
-            },
+            !isWide && { right: insets.right },
           ]}>
           <Animated.View
             style={[tw`w-full shrink-0 grow-0`, headerStyle]}
@@ -358,9 +357,6 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               style={[
                 tw`relative flex w-full flex-col bg-gray-50 py-6 dark:bg-zinc-900`,
                 { paddingLeft: insets.left },
-                !isWide && {
-                  paddingRight: insets.right,
-                },
               ]}>
               {(isFetchingActivity || isFetchingProfile) && (
                 <LoadingProgressBar style={tw`absolute inset-x-0 top-0`} />
@@ -555,8 +551,9 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
         </ScrollEdge>
       </BlurTargetView>
 
-      {withNativeHeader && <NativeHeader title={t('settings.title')} />}
+      {withNativeHeader && <NativeHeader blurTarget={blurTargetRef} title={t('settings.title')} />}
       <AppTopFader style={tw`absolute inset-x-0 top-0`} />
+      {from && <MasterBackButton blurTarget={blurTargetRef} from={from} />}
     </View>
   );
 };

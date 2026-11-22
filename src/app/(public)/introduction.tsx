@@ -3,16 +3,12 @@ import { Stack, useNavigation, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, View, type LayoutChangeEvent } from 'react-native';
-import Animated, {
-  FadeInDown,
-  interpolate,
-  useDerivedValue,
-  useSharedValue,
-} from 'react-native-reanimated';
+import Animated, { interpolate, useDerivedValue, useSharedValue } from 'react-native-reanimated';
 import { Carousel, type CarouselRef } from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import AppFader, { FaderPosition } from '@/components/AppFader';
+import AppIconButton from '@/components/AppIconButton';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import IntroductionAboutStep from '@/components/Introduction/IntroductionAboutStep';
 import IntroductionActivityStep from '@/components/Introduction/IntroductionActivityStep';
@@ -22,8 +18,7 @@ import PaginationDot from '@/components/Introduction/PaginationDot';
 import Step from '@/components/Introduction/Step';
 import { useHeaderTintColor, useNavigationHeight } from '@/components/Layout/NativeHeader';
 import { log } from '@/helpers/logger';
-import { useAppPaddingBottom } from '@/helpers/screen';
-import { useToolbarIcon } from '@/helpers/toolbar';
+import { MIN_MINIMUM_EDGE, useAppPaddingBottom } from '@/helpers/screen';
 import useSettingsStore from '@/stores/settings';
 
 const introductionLogger = log.extend(`[introduction]`);
@@ -48,7 +43,6 @@ const Introduction = () => {
   const offset = useSharedValue(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const tintColor = useHeaderTintColor();
-  const closeIcon = useToolbarIcon('xmark', 'window-close', tintColor);
   const navigationHeight = useNavigationHeight();
 
   useEffect(() => {
@@ -119,13 +113,8 @@ const Introduction = () => {
 
   return (
     <View
-      style={[
-        tw`overflow-hidden bg-gray-100 dark:bg-black`,
-        {
-          paddingLeft: insets.left,
-          paddingRight: insets.right,
-        },
-      ]}
+      // edge to edge for immersion: carousel and button centered on the full screen width
+      style={tw`overflow-hidden bg-gray-100 dark:bg-black`}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>
       <Stack.Screen
         options={{
@@ -135,23 +124,36 @@ const Introduction = () => {
           title: '',
           headerTintColor: tintColor,
           headerBackVisible: false,
+          ...(Platform.OS === 'android' && {
+            headerLeft: () => (
+              <AppIconButton
+                blurTarget={blurTargetRef}
+                icon="window-close"
+                radius={25}
+                style={tw`size-10`}
+                onPress={onClose}
+              />
+            ),
+          }),
         }}
       />
-      <Stack.Toolbar placement="left">
-        <Stack.Toolbar.Button icon={closeIcon} tintColor={tintColor} onPress={onClose} />
-      </Stack.Toolbar>
+      {Platform.OS === 'ios' && (
+        <Stack.Toolbar placement="left">
+          <Stack.Toolbar.Button icon="xmark" tintColor={tintColor} onPress={onClose} />
+        </Stack.Toolbar>
+      )}
       {layoutWidth ? (
         <BlurTargetView ref={blurTargetRef} style={tw`relative flex h-full grow flex-col`}>
           {/* pagination stays custom, vertically aligned with the native header bar */}
           <View
             pointerEvents="none"
             style={[
-              tw`absolute top-0 z-10 flex w-full flex-row items-center justify-end px-4`,
+              tw`absolute top-0 z-10 flex min-h-12 w-full flex-row items-center justify-end px-4`,
               {
                 height: navigationHeight,
                 paddingTop: insets.top,
-                left: insets.left,
-                right: insets.right,
+                paddingLeft: insets.left || MIN_MINIMUM_EDGE,
+                paddingRight: insets.right || MIN_MINIMUM_EDGE,
               },
             ]}>
             <AppFader
@@ -198,7 +200,7 @@ const Introduction = () => {
           </View>
 
           <Animated.View
-            entering={FadeInDown.duration(500).delay(1000)}
+            // no fade-in: iOS glass created under an opacity-0 ancestor never renders
             style={[tw`absolute bottom-0 flex w-full flex-col px-6`, { paddingBottom }]}
             onLayout={({ nativeEvent }: LayoutChangeEvent) =>
               setActionHeight(nativeEvent.layout.height)
