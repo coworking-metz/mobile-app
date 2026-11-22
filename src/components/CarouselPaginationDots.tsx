@@ -11,6 +11,8 @@ import { theme } from '@/helpers/colors';
 const DOT_SIZE = 12;
 const EXPANDED_DOT_SIZE = DOT_SIZE * 3;
 const MARGIN = (DOT_SIZE / 3) * 2;
+// below this count every dot fits: lay them out statically instead of the sliding window
+const SLIDING_DOTS_COUNT = 6;
 const ACTIVE_DOT_COLOR = '#C27803';
 const LIGHT_INACTIVE_DOT_COLOR = theme.silverSand;
 const DARK_INACTIVE_DOT_COLOR = theme.charlestonGreen;
@@ -29,10 +31,12 @@ const PROGRESSIVE_DARK_COLOR_RANGE = [
 
 const PaginationDot = ({
   index,
+  isStatic,
   progressive = false,
   animationValue,
 }: {
   index: number;
+  isStatic: boolean;
   progressive?: boolean;
   animationValue: SharedValue<number>;
 }) => {
@@ -63,6 +67,19 @@ const PaginationDot = ({
       'clamp',
     );
 
+    if (isStatic) {
+      // shifted right by the expanded dot's extra width while the active dot is before this one
+      const left =
+        index * (DOT_SIZE + MARGIN) +
+        interpolate(
+          animationValue.value,
+          [index - 1, index],
+          [EXPANDED_DOT_SIZE - DOT_SIZE, 0],
+          'clamp',
+        );
+      return { left, width, backgroundColor: color };
+    }
+
     const right = interpolate(
       animationValue.value,
       sizeInputRange,
@@ -91,14 +108,14 @@ const PaginationDot = ({
       width,
       backgroundColor: color,
     };
-  }, [colorScheme, progressive]);
+  }, [colorScheme, progressive, isStatic]);
 
   return (
     <Animated.View
       style={[
         tw`absolute`,
         {
-          right: 0,
+          ...(isStatic ? { left: 0 } : { right: 0 }),
           width: DOT_SIZE,
           height: DOT_SIZE,
           borderRadius: DOT_SIZE / 2,
@@ -120,18 +137,26 @@ const CarouselPaginationDots = ({
   progressive?: boolean;
   style?: StyleProp<ViewStyle>;
 }) => {
+  const isStatic = count < SLIDING_DOTS_COUNT;
+
   return (
     <View
       pointerEvents={'none'}
       style={[
         tw`relative flex flex-row`,
-        { width: (DOT_SIZE + MARGIN) * 6 + EXPANDED_DOT_SIZE, height: DOT_SIZE },
+        {
+          width: isStatic
+            ? Math.max(count - 1, 0) * (DOT_SIZE + MARGIN) + EXPANDED_DOT_SIZE
+            : (DOT_SIZE + MARGIN) * SLIDING_DOTS_COUNT + EXPANDED_DOT_SIZE,
+          height: DOT_SIZE,
+        },
         style,
       ]}>
       {Array.from({ length: count }, (_, index) => (
         <PaginationDot
           animationValue={offset}
           index={index}
+          isStatic={isStatic}
           key={`pagination-dot-${index}`}
           progressive={progressive}
         />

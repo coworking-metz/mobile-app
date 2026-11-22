@@ -1,4 +1,4 @@
-import React, { forwardRef, type ForwardRefRenderFunction, type ReactNode } from 'react';
+import { forwardRef, useMemo, type ForwardRefRenderFunction, type ReactNode } from 'react';
 import { TouchableHighlight, View, type TouchableHighlightProps } from 'react-native';
 import tw from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
@@ -39,6 +39,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
   ref,
 ) => {
   const iconColor = tw.prefixMatch('dark') ? tw.color('stone-400') : tw.color('gray-700');
+  const isLabelSingleWord = useMemo(() => !/\s/.test(label), [label]);
 
   return (
     <TouchableHighlight
@@ -70,7 +71,8 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
               style={[
                 tw`text-base font-normal leading-5 dark:text-gray-200`,
                 disabled && tw`opacity-40`,
-              ]}>
+              ]}
+              {...(isLabelSingleWord && { numberOfLines: 1, ellipsizeMode: 'tail' })}>
               {label}
             </AppText>
             {renderDescription ? (

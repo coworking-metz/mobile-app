@@ -252,13 +252,13 @@ const Advanced = () => {
             }
           />
         </ServiceRow>
-        {hasVerticalBar && (
+        {(hasVerticalBar || !isNil(settingsStore.withVerticalStatusBar)) && (
           <ServiceRow
             withBottomDivider
             label={t('advanced.settings.withVerticalStatusBar.label')}
             style={tw`px-3`}>
             <AppSwitch
-              value={settingsStore.withVerticalStatusBar}
+              value={settingsStore.withVerticalStatusBar ?? false}
               onValueChange={(value) => useSettingsStore.setState({ withVerticalStatusBar: value })}
             />
           </ServiceRow>

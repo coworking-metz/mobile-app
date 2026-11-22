@@ -1,0 +1,15 @@
+{
+  "ios": {
+    "NSBluetoothAlwaysUsageDescription": "Allow $(PRODUCT_NAME) to use Bluetooth to detect the coworking gate beacon and unlock it automatically.",
+    "NSCalendarsFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your calendar",
+    "NSCalendarsUsageDescription": "Allow $(PRODUCT_NAME) to access your calendar",
+    "NSFaceIDUsageDescription": "Allow $(PRODUCT_NAME) to access your Face ID biometric data.",
+    "NSLocalNetworkUsageDescription": "Allow $(PRODUCT_NAME) to detect your device on the coworking network to pair it automatically.",
+    "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow $(PRODUCT_NAME) to access your location",
+    "NSLocationAlwaysUsageDescription": "Allow $(PRODUCT_NAME) to access your location",
+    "NSLocationWhenInUseUsageDescription": "Allow $(PRODUCT_NAME) to access your location",
+    "NSMotionUsageDescription": "Allow $(PRODUCT_NAME) to detect your current motion activity",
+    "NSRemindersFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders",
+    "NSRemindersUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders"
+  }
+}

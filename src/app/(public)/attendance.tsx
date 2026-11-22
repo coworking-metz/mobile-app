@@ -112,7 +112,7 @@ const Attendance = () => {
 
   return (
     <ServiceLayout
-      contentStyle={[tw`px-6 pb-12`, contentInsets]}
+      contentStyle={[tw`pb-12`]}
       description={t('attendance.description')}
       footer={
         <MemberBottomSheet
@@ -127,7 +127,7 @@ const Attendance = () => {
       loading={isFetchingCurrentMembers}
       title={t('attendance.title', { count: currentMembers?.length ?? 0 })}
       onRefresh={refetchCurrentMembers}>
-      <View style={tw`mt-4 flex min-h-6 flex-row items-center gap-2`}>
+      <View style={[tw`mt-4 flex min-h-6 flex-row items-center gap-2 px-6`, contentInsets]}>
         <AppShimmerText
           active={isFetchingCurrentMembers}
           numberOfLines={1}
@@ -154,7 +154,7 @@ const Attendance = () => {
       </View>
 
       {isPendingCurrentMembers ? (
-        <View style={tw`my-4 flex w-full flex-col items-start`}>
+        <View style={[tw`my-4 flex w-full flex-col items-start`, contentInsets]}>
           <View
             style={tw`mx-6 mb-6 h-6 w-32 overflow-hidden rounded-full bg-white dark:bg-zinc-800`}>
             <LoadingSkeleton height={`100%`} width={`100%`} />
@@ -184,11 +184,11 @@ const Attendance = () => {
         currentMembersPerLocation?.map(({ location, members }) => (
           <View
             key={`location-group-${location ?? 'unknown'}`}
-            style={tw`my-4 flex w-full flex-col items-start`}>
+            style={[tw`my-4 flex w-full flex-col items-start px-6`, contentInsets]}>
             <SectionTitle
               count={members.length > 1 ? members.length : undefined}
               loading={isFetchingCurrentMembers}
-              style={tw`mb-6 w-full px-6`}
+              style={tw`mb-6 w-full`}
               title={
                 !location
                   ? t('onPremise.location.unknown')
@@ -197,7 +197,7 @@ const Attendance = () => {
                     : location
               }
             />
-            <View style={tw`flex flex-row flex-wrap items-start justify-evenly gap-8 px-6`}>
+            <View style={tw`flex flex-row flex-wrap items-start justify-evenly gap-8`}>
               {members?.map((member, index) => (
                 <Animated.View
                   entering={FadeIn.duration(300).delay(
@@ -226,7 +226,11 @@ const Attendance = () => {
           </View>
         ))
       ) : (
-        <View style={tw`mx-auto flex w-full max-w-sm grow basis-0 flex-col justify-start gap-2`}>
+        <View
+          style={[
+            tw`mx-auto flex w-full max-w-sm grow basis-0 flex-col items-center justify-start gap-2 px-6`,
+            contentInsets,
+          ]}>
           <View style={tw`overflow-hidden`}>
             <EmptyOfficeAnimation style={tw`-my-12 mx-auto size-80`} />
           </View>

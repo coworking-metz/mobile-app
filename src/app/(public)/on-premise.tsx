@@ -22,6 +22,7 @@ import NativeHeader, {
   useHeaderTintColor,
   useTopBarHeight,
 } from '@/components/Layout/NativeHeader';
+import { useContentInsets } from '@/components/Layout/ServiceLayout';
 import PoulaillerPlan from '@/components/OnPremise/PoulaillerPlan';
 import PtiPoulaillerPlan from '@/components/OnPremise/PtiPoulaillerPlan';
 import useAppScreen from '@/helpers/screen';
@@ -59,6 +60,7 @@ const OnPremise = () => {
   }, [refetchOnPremiseState]);
 
   const insets = useSafeAreaInsets();
+  const contentInsets = useContentInsets(null, 16);
   const router = useRouter();
   const [layoutWidth, setLayoutWidth] = useState(0);
   const planWidth = isWide ? Math.min(layoutWidth / 2, PLAN_MAX_WIDTH) : layoutWidth;
@@ -198,15 +200,33 @@ const OnPremise = () => {
         </BlurTargetView>
       ) : null}
 
-      {!withNativeHeader && (
+      {withNativeHeader ? (
+        <NativeHeader
+          right={[
+            IS_DEV && (
+              <Stack.Toolbar.Button
+                icon={areLightsVisible ? 'lightbulb.2.fill' : 'lightbulb.2'}
+                key="lights"
+                tintColor={tintColor}
+                variant={areLightsVisible ? 'prominent' : 'plain'}
+                onPress={toggleLights}
+              />
+            ),
+            <Stack.Toolbar.Button
+              icon="ellipsis"
+              key="informations"
+              tintColor={tintColor}
+              variant={areInformationsVisible ? 'prominent' : 'plain'}
+              onPress={toggleInformations}
+            />,
+          ]}
+        />
+      ) : (
         <Animated.View
           style={[
-            tw`absolute top-0 z-10 flex w-full flex-row items-center pb-2`,
-            {
-              paddingTop: insets.top,
-              paddingLeft: insets.left + 16,
-              paddingRight: insets.right + 16,
-            },
+            tw`absolute top-0 z-10 flex w-full flex-row items-center px-4 pb-2`,
+            { paddingTop: insets.top },
+            contentInsets,
           ]}
           onLayout={({ nativeEvent }: LayoutChangeEvent) =>
             setHeaderHeight(nativeEvent.layout.height)
@@ -223,13 +243,13 @@ const OnPremise = () => {
             />
           </View>
 
-          {!isWide && SUPPORTED_LOCATIONS.length > 1 ? (
+          {!isWide && SUPPORTED_LOCATIONS.length > 1 && (
             <CarouselPaginationDots
               count={SUPPORTED_LOCATIONS.length}
               offset={offset}
-              style={tw`mx-auto grow-0`}
+              style={tw`grow-0`}
             />
-          ) : null}
+          )}
 
           <View style={tw`flex shrink grow basis-0 flex-row items-center justify-end gap-2`}>
             {IS_DEV && (
@@ -252,34 +272,6 @@ const OnPremise = () => {
             />
           </View>
         </Animated.View>
-      )}
-
-      {withNativeHeader && (
-        <NativeHeader
-          right={[
-            IS_DEV && (
-              <Stack.Toolbar.Button
-                icon={areLightsVisible ? 'lightbulb.2.fill' : 'lightbulb.2'}
-                key="lights"
-                tintColor={tintColor}
-                variant={areLightsVisible ? 'prominent' : 'plain'}
-                onPress={toggleLights}
-              />
-            ),
-            <Stack.Toolbar.Button
-              icon="ellipsis"
-              key="informations"
-              tintColor={tintColor}
-              variant={areInformationsVisible ? 'prominent' : 'plain'}
-              onPress={toggleInformations}
-            />,
-          ]}
-          titleView={
-            !isWide && SUPPORTED_LOCATIONS.length > 1 ? (
-              <CarouselPaginationDots count={SUPPORTED_LOCATIONS.length} offset={offset} />
-            ) : undefined
-          }
-        />
       )}
     </View>
   );
