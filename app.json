@@ -182,7 +182,8 @@
           "project": "mobile",
           "url": "https://sentry.io/"
         }
-      ]
+      ],
+      "@sentry/react-native"
     ],
     "runtimeVersion": {
       "policy": "sdkVersion"
