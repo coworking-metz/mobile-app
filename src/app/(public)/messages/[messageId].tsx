@@ -38,7 +38,7 @@ export default function MessageScreen() {
   const toastStore = useToastStore();
   const noticeStore = useNoticeStore();
 
-  const { messageId, _root: withoutBackButton } = useLocalSearchParams();
+  const { messageId } = useLocalSearchParams();
   const { t } = useTranslation();
   const [archiving, setArchiving] = useState(false);
   const [restoring, setRestoring] = useState(false);
@@ -199,7 +199,6 @@ export default function MessageScreen() {
       contentStyle={tw`px-6 pb-6 pt-3`}
       loading={isFetchingFullMessage || archiving || restoring}
       title={message?.title}
-      withBackButton={!withoutBackButton}
       onRefresh={refetchFullMessage}>
       {message ? (
         <>

@@ -1,5 +1,5 @@
 import { BlurTargetView } from 'expo-blur';
-import { useNavigation, useRouter } from 'expo-router';
+import { Stack, useNavigation, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, View, type LayoutChangeEvent } from 'react-native';
@@ -13,7 +13,6 @@ import { Carousel, type CarouselRef } from 'react-native-reanimated-carousel';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import AppFader, { FaderPosition } from '@/components/AppFader';
-import AppIconButton from '@/components/AppIconButton';
 import AppRoundedButton from '@/components/AppRoundedButton';
 import IntroductionAboutStep from '@/components/Introduction/IntroductionAboutStep';
 import IntroductionActivityStep from '@/components/Introduction/IntroductionActivityStep';
@@ -21,8 +20,10 @@ import IntroductionEventsStep from '@/components/Introduction/IntroductionEvents
 import IntroductionServicesStep from '@/components/Introduction/IntroductionServicesStep';
 import PaginationDot from '@/components/Introduction/PaginationDot';
 import Step from '@/components/Introduction/Step';
+import { useHeaderTintColor, useNavigationHeight } from '@/components/Layout/NativeHeader';
 import { log } from '@/helpers/logger';
 import { useAppPaddingBottom } from '@/helpers/screen';
+import { useToolbarIcon } from '@/helpers/toolbar';
 import useSettingsStore from '@/stores/settings';
 
 const introductionLogger = log.extend(`[introduction]`);
@@ -46,6 +47,9 @@ const Introduction = () => {
   const blurTargetRef = useRef<View | null>(null);
   const offset = useSharedValue(0);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const tintColor = useHeaderTintColor();
+  const closeIcon = useToolbarIcon('xmark', 'window-close', tintColor);
+  const navigationHeight = useNavigationHeight();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', () => {
@@ -123,12 +127,28 @@ const Introduction = () => {
         },
       ]}
       onLayout={({ nativeEvent }: LayoutChangeEvent) => setLayoutWidth(nativeEvent.layout.width)}>
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          headerTransparent: true,
+          headerShadowVisible: false,
+          title: '',
+          headerTintColor: tintColor,
+          headerBackVisible: false,
+        }}
+      />
+      <Stack.Toolbar placement="left">
+        <Stack.Toolbar.Button icon={closeIcon} tintColor={tintColor} onPress={onClose} />
+      </Stack.Toolbar>
       {layoutWidth ? (
         <BlurTargetView ref={blurTargetRef} style={tw`relative flex h-full grow flex-col`}>
+          {/* pagination stays custom, vertically aligned with the native header bar */}
           <View
+            pointerEvents="none"
             style={[
-              tw`absolute top-0 z-10 flex w-full flex-row items-center justify-between px-4`,
+              tw`absolute top-0 z-10 flex w-full flex-row items-center justify-end px-4`,
               {
+                height: navigationHeight,
                 paddingTop: insets.top,
                 left: insets.left,
                 right: insets.right,
@@ -140,13 +160,7 @@ const Introduction = () => {
               style={tw`absolute inset-0`}
               tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
             />
-            <AppIconButton
-              blurTarget={blurTargetRef}
-              icon="window-close"
-              radius={25}
-              onPress={onClose}
-            />
-            <View pointerEvents={'none'} style={tw`flex flex-row`}>
+            <View style={tw`flex flex-row`}>
               {screens.map((_, index) => (
                 <PaginationDot
                   animationValue={invertedOffset}

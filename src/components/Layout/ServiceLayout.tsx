@@ -1,7 +1,13 @@
-import { MenuAction, MenuView } from '@react-native-menu/menu';
 import { BlurTargetView } from 'expo-blur';
-import { useRouter } from 'expo-router';
-import React, { useCallback, useEffect, useRef, useState, type ReactNode, type Ref } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactElement,
+  type ReactNode,
+  type Ref,
+} from 'react';
 import { RefreshControl, StyleProp, View, ViewStyle, type LayoutChangeEvent } from 'react-native';
 import {
   KeyboardAwareScrollView,
@@ -19,13 +25,16 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import { AppTopFader } from '@/components/AppFader';
-import AppIconButton from '@/components/AppIconButton';
 import AppText from '@/components/AppText';
+import NativeHeader, {
+  ScrollEdge,
+  NAVIGATION_HEIGHT,
+  useNavigationHeight,
+  type HeaderAction,
+} from '@/components/Layout/NativeHeader';
 import LoadingProgressBar from '@/components/LoadingProgressBar';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import { useAppPaddingBottom } from '@/helpers/screen';
-
-const NAVIGATION_HEIGHT = 48;
 
 const AnimatedKeyboardAwareScrollView = Animated.createAnimatedComponent(KeyboardAwareScrollView);
 
@@ -50,10 +59,8 @@ const ServiceLayout = ({
   title?: string;
   description?: string;
   loading?: boolean;
-  actions?: (MenuAction & {
-    onPress?: () => void;
-  })[];
-  menu?: ReactNode;
+  actions?: HeaderAction[];
+  menu?: ReactElement;
   header?: ReactNode;
   footer?: ReactNode;
   children?: ReactNode;
@@ -73,21 +80,23 @@ const ServiceLayout = ({
   useDeviceContext(tw);
   const insets = useSafeAreaInsets();
   const paddingBottom = useAppPaddingBottom();
-  const router = useRouter();
   const blurTargetRef = useRef<View | null>(null);
   const verticalScrollProgress = useSharedValue(0);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
   const [refreshing, setRefreshing] = useState(false);
+  // `from` means we're rendered in the wide master column: no header, back lives in the detail pane
+  const withNativeHeader = !from;
+  const navigationHeight = useNavigationHeight();
 
   // https://github.com/facebook/react-native/issues/54183#issuecomment-3467125323
   const [progressViewOffset, setProgressViewOffset] = useState(0);
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setProgressViewOffset(20 + headerHeight + insets.top);
+      setProgressViewOffset(20 + headerHeight + navigationHeight - NAVIGATION_HEIGHT);
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [headerHeight, insets.top]);
+  }, [headerHeight, navigationHeight]);
 
   const onVerticalScroll = useAnimatedScrollHandler(
     {
@@ -129,7 +138,7 @@ const ServiceLayout = ({
           style={[
             tw`absolute flex flex-col px-6 pb-6`,
             {
-              top: NAVIGATION_HEIGHT + insets.top,
+              top: navigationHeight,
               left: insets.left,
               right: insets.right,
             },
@@ -160,93 +169,51 @@ const ServiceLayout = ({
           )}
         </Animated.View>
 
-        <AnimatedKeyboardAwareScrollView
-          ref={scrollViewRef}
-          contentContainerStyle={[
-            tw`relative flex min-h-full flex-col`,
-            { paddingTop: NAVIGATION_HEIGHT + headerHeight + insets.top },
-          ]}
-          horizontal={false}
-          keyboardShouldPersistTaps="handled"
-          scrollEventThrottle={16}
-          showsVerticalScrollIndicator={false}
-          style={{ flex: 1 }}
-          onScroll={onVerticalScroll}
-          {...(onRefresh && {
-            refreshControl: (
-              <RefreshControl
-                progressViewOffset={progressViewOffset}
-                refreshing={refreshing}
-                onRefresh={onShouldRefresh}
-              />
-            ),
-          })}>
-          <View
-            style={[
-              tw`relative flex w-full grow flex-col bg-gray-50 dark:bg-zinc-900`,
-              {
-                paddingLeft: insets.left,
-                paddingRight: insets.right,
-                paddingBottom,
-              },
-              contentStyle,
-            ]}>
-            {loading && <LoadingProgressBar style={tw`absolute inset-x-0 top-0 z-10`} />}
-            {renderContent ? renderContent({ verticalScrollProgress }) : children}
-          </View>
-        </AnimatedKeyboardAwareScrollView>
+        <ScrollEdge>
+          <AnimatedKeyboardAwareScrollView
+            // layout mode renders the ScrollView directly, as ScrollEdge's marker requires
+            ref={scrollViewRef}
+            contentContainerStyle={[
+              tw`relative flex min-h-full flex-col`,
+              { paddingTop: navigationHeight + headerHeight },
+            ]}
+            horizontal={false}
+            keyboardShouldPersistTaps="handled"
+            mode="layout"
+            scrollEventThrottle={16}
+            showsVerticalScrollIndicator={false}
+            style={{ flex: 1 }}
+            onScroll={onVerticalScroll}
+            {...(onRefresh && {
+              refreshControl: (
+                <RefreshControl
+                  progressViewOffset={progressViewOffset}
+                  refreshing={refreshing}
+                  onRefresh={onShouldRefresh}
+                />
+              ),
+            })}>
+            <View
+              style={[
+                tw`relative flex w-full grow flex-col bg-gray-50 dark:bg-zinc-900`,
+                {
+                  paddingLeft: insets.left,
+                  paddingRight: insets.right,
+                  paddingBottom,
+                },
+                contentStyle,
+              ]}>
+              {loading && <LoadingProgressBar style={tw`absolute inset-x-0 top-0 z-10`} />}
+              {renderContent ? renderContent({ verticalScrollProgress }) : children}
+            </View>
+          </AnimatedKeyboardAwareScrollView>
+        </ScrollEdge>
       </BlurTargetView>
 
-      <Animated.View
-        style={[
-          tw`absolute inset-x-0 top-0 z-10 flex min-h-[4.5rem] flex-row items-center pb-2`,
-          {
-            paddingTop: insets.top,
-            paddingLeft: insets.left,
-            paddingRight: insets.right,
-          },
-        ]}>
-        <AppTopFader style={tw`absolute inset-x-0 top-0`} />
-
-        <View style={tw`ml-4 flex min-w-10 shrink-0 grow basis-0 flex-row overflow-visible`}>
-          {withBackButton && (
-            <AppIconButton
-              blurTarget={blurTargetRef}
-              icon="arrow-left"
-              radius={25}
-              style={tw`size-10`}
-              onPress={() =>
-                from
-                  ? router.dismissTo(from)
-                  : router.canGoBack()
-                    ? router.back()
-                    : router.replace('/')
-              }
-            />
-          )}
-        </View>
-
-        {menu || actions?.length ? (
-          <View style={tw`mr-4 flex min-w-10 shrink grow basis-0 flex-row justify-end`}>
-            {menu ?? (
-              <MenuView
-                actions={actions}
-                shouldOpenOnLongPress={false}
-                onPressAction={({ nativeEvent: { event: actionId } }) => {
-                  const action = actions.find(({ id }) => id === actionId);
-                  action?.onPress?.();
-                }}>
-                <AppIconButton
-                  blurTarget={blurTargetRef}
-                  icon="dots-vertical"
-                  radius={25}
-                  style={tw`size-10`}
-                />
-              </MenuView>
-            )}
-          </View>
-        ) : null}
-      </Animated.View>
+      {withNativeHeader && (
+        <NativeHeader actions={actions} menu={menu} title={title} withBackButton={withBackButton} />
+      )}
+      <AppTopFader style={tw`absolute inset-x-0 top-0`} />
 
       {footer}
     </View>

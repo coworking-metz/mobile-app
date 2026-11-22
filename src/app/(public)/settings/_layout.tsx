@@ -2,8 +2,11 @@ import { Stack } from 'expo-router';
 import { View } from 'react-native';
 import { useReducedMotion } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
+import { SectionContext } from '@/components/Layout/NativeHeader';
 import SettingsHome from '@/components/Settings/SettingsHome';
 import useAppScreen from '@/helpers/screen';
+
+const SECTION = { href: '/settings', rootName: 'index' } as const;
 
 export default function SettingsLayout() {
   useDeviceContext(tw);
@@ -24,46 +27,48 @@ export default function SettingsLayout() {
       <View
         key="detail"
         style={isWide ? tw`h-full min-w-80 shrink grow basis-0 overflow-hidden` : tw`flex-1`}>
-        <Stack
-          initialRouteName="index"
-          screenOptions={{
-            headerShown: false,
-            ...(reduceMotion && {
-              animation: 'fade',
-            }),
-          }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen
-            name="account"
-            options={{
-              animation: isWide ? 'fade' : undefined,
-            }}
-          />
-          <Stack.Screen
-            name="advanced"
-            options={{
-              animation: isWide ? 'fade_from_bottom' : undefined,
-            }}
-          />
-          <Stack.Screen
-            name="privacy"
-            options={{
-              animation: isWide ? 'fade_from_bottom' : undefined,
-            }}
-          />
-          <Stack.Screen
-            name="devices"
-            options={{
-              animation: isWide ? 'fade_from_bottom' : undefined,
-            }}
-          />
-          <Stack.Screen
-            name="about"
-            options={{
-              animation: isWide ? 'fade_from_bottom' : undefined,
-            }}
-          />
-        </Stack>
+        <SectionContext value={SECTION}>
+          <Stack
+            initialRouteName="index"
+            screenOptions={{
+              headerShown: false,
+              ...(reduceMotion && {
+                animation: 'fade',
+              }),
+            }}>
+            <Stack.Screen name="index" options={{ animationTypeForReplace: 'pop' }} />
+            <Stack.Screen
+              name="account"
+              options={{
+                animation: isWide ? 'fade' : undefined,
+              }}
+            />
+            <Stack.Screen
+              name="advanced"
+              options={{
+                animation: isWide ? 'fade_from_bottom' : undefined,
+              }}
+            />
+            <Stack.Screen
+              name="privacy"
+              options={{
+                animation: isWide ? 'fade_from_bottom' : undefined,
+              }}
+            />
+            <Stack.Screen
+              name="devices"
+              options={{
+                animation: isWide ? 'fade_from_bottom' : undefined,
+              }}
+            />
+            <Stack.Screen
+              name="about"
+              options={{
+                animation: isWide ? 'fade_from_bottom' : undefined,
+              }}
+            />
+          </Stack>
+        </SectionContext>
       </View>
     </View>
   );

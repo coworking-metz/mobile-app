@@ -27,11 +27,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import tw, { useDeviceContext } from 'twrnc';
 import { AppTopFader } from '@/components/AppFader';
 import AppIcon from '@/components/AppIcon';
-import AppIconButton from '@/components/AppIconButton';
 import AppText from '@/components/AppText';
 import AppTextLink from '@/components/AppTextLink';
 import ErrorBadge from '@/components/ErrorBadge';
 import ProfilePicture from '@/components/Home/ProfilePicture';
+import NativeHeader, {
+  ScrollEdge,
+  NAVIGATION_HEIGHT,
+  useNavigationHeight,
+} from '@/components/Layout/NativeHeader';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import ServiceRowLink from '@/components/Layout/ServiceRowLink';
@@ -58,7 +62,6 @@ import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
 import useSettingsStore, { SYSTEM_OPTION } from '@/stores/settings';
 
-const NAVIGATION_HEIGHT = 48;
 const PICTURE_SIZE = 96;
 
 const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle> }) => {
@@ -78,6 +81,9 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const router = useRouter();
   const authStore = useAuthStore();
   const review = useAppReview();
+  // `from` means we're rendered in the wide master column: no header, back lives in the detail pane
+  const withNativeHeader = !from;
+  const navigationHeight = useNavigationHeight();
   const chosenLanguage = useSettingsStore((state) => state.language);
   const upcomingEventsPeriod = useSettingsStore((state) => state.upcomingEventsPeriod);
   const unlockGateDurationInMs = useSettingsStore((state) => state.unlockGateDurationInMs);
@@ -85,8 +91,8 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const pathname = usePathname();
   const blurTargetRef = useRef<View | null>(null);
   const [refreshing, setRefreshing] = useState(false);
-  // wide: swap the detail pane instead of stacking top-level screens
-  const replaceDetail = isWide && pathname !== '/settings';
+  // wide: swap the detail pane (placeholder included) so back never lands on the placeholder
+  const replaceDetail = isWide;
 
   const upcomingEventsPeriodValue = useMemo(() => {
     if (upcomingEventsPeriod.unit === 'day' && upcomingEventsPeriod.count === 1) {
@@ -191,11 +197,11 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const [progressViewOffset, setProgressViewOffset] = useState(0);
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setProgressViewOffset(20 + headerHeight + insets.top);
+      setProgressViewOffset(20 + headerHeight + navigationHeight - NAVIGATION_HEIGHT);
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [headerHeight, insets.top]);
+  }, [headerHeight, navigationHeight]);
 
   const onDateSelect = useCallback(
     (selectedDate: string) => {
@@ -215,7 +221,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           style={[
             tw`absolute flex w-full flex-col items-stretch`,
             {
-              top: NAVIGATION_HEIGHT + insets.top,
+              top: navigationHeight,
               bottom: insets.bottom,
             },
             !isWide && {
@@ -307,267 +313,250 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
           </View>
         </View>
 
-        <Animated.ScrollView
-          contentContainerStyle={[
-            tw`relative flex grow flex-col`,
-            {
-              paddingTop: NAVIGATION_HEIGHT + insets.top + PICTURE_SIZE,
-              paddingBottom: insets.bottom,
-            },
-          ]}
-          horizontal={false}
-          refreshControl={
-            <RefreshControl
-              progressViewOffset={progressViewOffset}
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-            />
-          }
-          scrollEventThrottle={16}
-          showsVerticalScrollIndicator={false}
-          style={tw`z-10 flex-1 shrink grow`}
-          onScroll={onVerticalScroll}>
-          {
-            /* transparent view to fake a touch on the header link, should mimic as much as possible the header */
-            <TouchableNativeFeedback
-              onPress={() =>
-                authStore.user
-                  ? replaceDetail
-                    ? router.replace('/settings/account')
-                    : router.push('/settings/account')
-                  : login?.()
-              }>
-              <Animated.View
-                style={[
-                  tw`w-full self-center`,
-                  { height: headerHeight - PICTURE_SIZE },
-                  headerTouchableStyle,
-                ]}
-              />
-            </TouchableNativeFeedback>
-          }
-
-          <View
-            style={[
-              tw`relative flex w-full flex-col bg-gray-50 py-6 dark:bg-zinc-900`,
-              { paddingLeft: insets.left },
-              !isWide && {
-                paddingRight: insets.right,
+        <ScrollEdge style={tw`z-10 flex-1`}>
+          <Animated.ScrollView
+            contentContainerStyle={[
+              tw`relative flex grow flex-col`,
+              {
+                paddingTop: navigationHeight + PICTURE_SIZE,
+                paddingBottom: insets.bottom,
               },
-            ]}>
-            {(isFetchingActivity || isFetchingProfile) && (
-              <LoadingProgressBar style={tw`absolute inset-x-0 top-0`} />
-            )}
-            <SectionTitle
-              loading={isFetchingActivity || isFetchingProfile}
-              style={tw`mx-6`}
-              title={t('settings.profile.presence.title')}>
-              {activityError && !isSilentError(activityError) && !isFetchingActivity ? (
-                <ErrorBadge
-                  error={activityError}
-                  title={t('settings.profile.presence.onFetch.fail')}
-                  onRetry={refetchActivity}
-                />
-              ) : profileError && !isSilentError(profileError) && !isFetchingProfile ? (
-                <ErrorBadge
-                  error={profileError}
-                  title={t('home.profile.onFetch.fail')}
-                  onRetry={refetchProfile}
-                />
-              ) : null}
-
-              {profile?.balance && profile.balance < 0 ? (
+            ]}
+            horizontal={false}
+            refreshControl={
+              <RefreshControl
+                progressViewOffset={progressViewOffset}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
+            scrollEventThrottle={16}
+            showsVerticalScrollIndicator={false}
+            style={tw`z-10 flex-1 shrink grow`}
+            onScroll={onVerticalScroll}>
+            {
+              /* transparent view to fake a touch on the header link, should mimic as much as possible the header */
+              <TouchableNativeFeedback
+                onPress={() =>
+                  authStore.user
+                    ? replaceDetail
+                      ? router.replace('/settings/account')
+                      : router.push('/settings/account')
+                    : login?.()
+                }>
                 <Animated.View
-                  entering={FadeInRight.duration(600).delay(500)}
-                  style={tw`ml-auto flex flex-row items-center justify-end gap-1.5`}>
-                  <View style={tw`size-2.5 rounded-full bg-red-600 dark:bg-red-700`} />
-                  <AppText
-                    numberOfLines={1}
-                    style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
-                    {t('settings.profile.presence.selected.coverage.value.ticket', {
-                      count: Math.abs(profile.balance),
-                      suffix: t(`settings.profile.presence.selected.debt.unit.ticket`, {
-                        count: Math.abs(profile.balance),
-                      }),
-                    })}
-                  </AppText>
-                </Animated.View>
-              ) : null}
-            </SectionTitle>
+                  style={[
+                    tw`w-full self-center`,
+                    { height: headerHeight - PICTURE_SIZE },
+                    headerTouchableStyle,
+                  ]}
+                />
+              </TouchableNativeFeedback>
+            }
 
-            <PresenceGraph
-              activity={activity}
-              activityCount={profile?.totalActivity}
-              minimumSquares={!!authStore.user?.id ? 45 : 144}
-              pending={isPendingActivity}
-              selectedDate={selectedActivity?.date}
-              style={tw`grow-0`}
-              withDescription={!!profile}
-              onDateSelect={onDateSelect}
-            />
-
-            <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.title')} />
-            <ServiceRow
-              withBottomDivider
-              label={t('settings.language.label')}
-              prefixIcon="translate"
-              style={tw`mx-3 px-3`}
-              onPress={selectLanguage}>
-              <AppText style={tw`text-right text-base font-normal text-amber-500`}>
-                {getLanguageLabel(
-                  !chosenLanguage || chosenLanguage === SYSTEM_OPTION
-                    ? SYSTEM_LANGUAGE
-                    : chosenLanguage,
-                )}
-              </AppText>
-            </ServiceRow>
-            <ThemePicker withBottomDivider style={tw`mx-3 px-3`} onPress={selectTheme} />
-            <ServiceRow
-              withBottomDivider
-              description={t('settings.home.upcomingEventsPeriod.hint')}
-              label={t('settings.home.upcomingEventsPeriod.label')}
-              prefixIcon="calendar-blank-multiple"
-              style={tw`mx-3 px-3`}
-              onPress={selectUpcomingEventsPeriod}>
-              <AppText style={tw`text-right text-base font-normal text-amber-500`}>
-                {upcomingEventsPeriodValue}
-              </AppText>
-            </ServiceRow>
-
-            {authStore.user?.id && (
-              <>
-                <ServiceRow
-                  withBottomDivider
-                  description={t('settings.home.unlockGateOptions.hint')}
-                  label={t('settings.home.unlockGateOptions.label')}
-                  prefixIcon="timer-lock-open-outline"
-                  style={tw`mx-3 px-3`}
-                  onPress={selectUnlockGateOptions}>
-                  <AppText style={tw`text-right text-base font-normal text-amber-500`}>
-                    {unlockGateDurationInMs ? formatDuration(unlockGateDurationInMs) : null}
-                  </AppText>
-                </ServiceRow>
-                <Link asChild href="/settings/devices" replace={replaceDetail}>
-                  <ServiceRow
-                    withBottomDivider
-                    label={t('devices.title')}
-                    prefixIcon="devices"
-                    selected={isWide && pathname.startsWith('/settings/devices')}
-                    style={tw`mx-3 px-3`}
-                    suffixIcon="chevron-right"
+            <View
+              style={[
+                tw`relative flex w-full flex-col bg-gray-50 py-6 dark:bg-zinc-900`,
+                { paddingLeft: insets.left },
+                !isWide && {
+                  paddingRight: insets.right,
+                },
+              ]}>
+              {(isFetchingActivity || isFetchingProfile) && (
+                <LoadingProgressBar style={tw`absolute inset-x-0 top-0`} />
+              )}
+              <SectionTitle
+                loading={isFetchingActivity || isFetchingProfile}
+                style={tw`mx-6`}
+                title={t('settings.profile.presence.title')}>
+                {activityError && !isSilentError(activityError) && !isFetchingActivity ? (
+                  <ErrorBadge
+                    error={activityError}
+                    title={t('settings.profile.presence.onFetch.fail')}
+                    onRetry={refetchActivity}
                   />
-                </Link>
-              </>
-            )}
-            <Link asChild href="/settings/privacy" replace={replaceDetail}>
+                ) : profileError && !isSilentError(profileError) && !isFetchingProfile ? (
+                  <ErrorBadge
+                    error={profileError}
+                    title={t('home.profile.onFetch.fail')}
+                    onRetry={refetchProfile}
+                  />
+                ) : null}
+
+                {profile?.balance && profile.balance < 0 ? (
+                  <Animated.View
+                    entering={FadeInRight.duration(600).delay(500)}
+                    style={tw`ml-auto flex flex-row items-center justify-end gap-1.5`}>
+                    <View style={tw`size-2.5 rounded-full bg-red-600 dark:bg-red-700`} />
+                    <AppText
+                      numberOfLines={1}
+                      style={tw`text-sm font-normal text-slate-500 dark:text-neutral-500`}>
+                      {t('settings.profile.presence.selected.coverage.value.ticket', {
+                        count: Math.abs(profile.balance),
+                        suffix: t(`settings.profile.presence.selected.debt.unit.ticket`, {
+                          count: Math.abs(profile.balance),
+                        }),
+                      })}
+                    </AppText>
+                  </Animated.View>
+                ) : null}
+              </SectionTitle>
+
+              <PresenceGraph
+                activity={activity}
+                activityCount={profile?.totalActivity}
+                minimumSquares={!!authStore.user?.id ? 45 : 144}
+                pending={isPendingActivity}
+                selectedDate={selectedActivity?.date}
+                style={tw`grow-0`}
+                withDescription={!!profile}
+                onDateSelect={onDateSelect}
+              />
+
+              <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.title')} />
               <ServiceRow
                 withBottomDivider
-                label={t('privacy.title')}
-                prefixIcon="shield-account-variant-outline"
-                selected={isWide && pathname.startsWith('/settings/privacy')}
+                label={t('settings.language.label')}
+                prefixIcon="translate"
                 style={tw`mx-3 px-3`}
-                suffixIcon="chevron-right"
-              />
-            </Link>
-            <Link asChild href="/settings/advanced" replace={replaceDetail}>
+                onPress={selectLanguage}>
+                <AppText style={tw`text-right text-base font-normal text-amber-500`}>
+                  {getLanguageLabel(
+                    !chosenLanguage || chosenLanguage === SYSTEM_OPTION
+                      ? SYSTEM_LANGUAGE
+                      : chosenLanguage,
+                  )}
+                </AppText>
+              </ServiceRow>
+              <ThemePicker withBottomDivider style={tw`mx-3 px-3`} onPress={selectTheme} />
               <ServiceRow
-                label={t('advanced.title')}
-                prefixIcon="cog-outline"
-                selected={isWide && pathname === '/settings/advanced'}
+                withBottomDivider
+                description={t('settings.home.upcomingEventsPeriod.hint')}
+                label={t('settings.home.upcomingEventsPeriod.label')}
+                prefixIcon="calendar-blank-multiple"
                 style={tw`mx-3 px-3`}
-                suffixIcon="chevron-right"
-              />
-            </Link>
+                onPress={selectUpcomingEventsPeriod}>
+                <AppText style={tw`text-right text-base font-normal text-amber-500`}>
+                  {upcomingEventsPeriodValue}
+                </AppText>
+              </ServiceRow>
 
-            <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.resources.title')} />
-            {authStore.user && (
-              <>
-                <ServiceRowLink
-                  withBottomDivider
-                  href={`${WORDPRESS_BASE_URL}/la-boutique/`}
-                  label={t('settings.store.label')}
-                  prefixIcon="cart-outline"
-                  style={tw`mx-3 px-3`}
-                />
-
+              {authStore.user?.id && (
+                <>
+                  <ServiceRow
+                    withBottomDivider
+                    description={t('settings.home.unlockGateOptions.hint')}
+                    label={t('settings.home.unlockGateOptions.label')}
+                    prefixIcon="timer-lock-open-outline"
+                    style={tw`mx-3 px-3`}
+                    onPress={selectUnlockGateOptions}>
+                    <AppText style={tw`text-right text-base font-normal text-amber-500`}>
+                      {unlockGateDurationInMs ? formatDuration(unlockGateDurationInMs) : null}
+                    </AppText>
+                  </ServiceRow>
+                  <Link asChild href="/settings/devices" replace={replaceDetail}>
+                    <ServiceRow
+                      withBottomDivider
+                      label={t('devices.title')}
+                      prefixIcon="devices"
+                      selected={isWide && pathname.startsWith('/settings/devices')}
+                      style={tw`mx-3 px-3`}
+                      suffixIcon="chevron-right"
+                    />
+                  </Link>
+                </>
+              )}
+              <Link asChild href="/settings/privacy" replace={replaceDetail}>
                 <ServiceRow
                   withBottomDivider
-                  label={t('settings.onboarding.label')}
-                  prefixIcon="handshake-outline"
-                  selected={isWide && pathname === '/onboarding'}
+                  label={t('privacy.title')}
+                  prefixIcon="shield-account-variant-outline"
+                  selected={isWide && pathname.startsWith('/settings/privacy')}
                   style={tw`mx-3 px-3`}
                   suffixIcon="chevron-right"
-                  onPress={onboard}
                 />
-              </>
-            )}
-            <ServiceRow
-              withBottomDivider
-              label={t('settings.socials.label')}
-              prefixIcon="heart-outline"
-              style={tw`mx-3 px-3`}
-              suffixIcon="chevron-right"
-              onPress={socialise}
-            />
-            <ServiceRow
-              withBottomDivider
-              label={t('settings.contact.title')}
-              prefixIcon="chat-question-outline"
-              style={tw`mx-3 px-3`}
-              suffixIcon="chevron-right"
-              onPress={contact}
-            />
-            <ServiceRow
-              withBottomDivider
-              label={t('settings.review.label')}
-              prefixIcon="star-outline"
-              style={tw`mx-3 px-3`}
-              suffixIcon="chevron-right"
-              onPress={review}
-            />
-            <Link asChild href="/introduction">
+              </Link>
+              <Link asChild href="/settings/advanced" replace={replaceDetail}>
+                <ServiceRow
+                  label={t('advanced.title')}
+                  prefixIcon="cog-outline"
+                  selected={isWide && pathname === '/settings/advanced'}
+                  style={tw`mx-3 px-3`}
+                  suffixIcon="chevron-right"
+                />
+              </Link>
+
+              <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.resources.title')} />
+              {authStore.user && (
+                <>
+                  <ServiceRowLink
+                    withBottomDivider
+                    href={`${WORDPRESS_BASE_URL}/la-boutique/`}
+                    label={t('settings.store.label')}
+                    prefixIcon="cart-outline"
+                    style={tw`mx-3 px-3`}
+                  />
+
+                  <ServiceRow
+                    withBottomDivider
+                    label={t('settings.onboarding.label')}
+                    prefixIcon="handshake-outline"
+                    selected={isWide && pathname === '/onboarding'}
+                    style={tw`mx-3 px-3`}
+                    suffixIcon="chevron-right"
+                    onPress={onboard}
+                  />
+                </>
+              )}
               <ServiceRow
-                label={t('settings.introduction.label')}
-                prefix={<View style={tw`min-h-10 w-6 shrink-0`} />}
-                selected={isWide && pathname === '/introduction'}
+                withBottomDivider
+                label={t('settings.socials.label')}
+                prefixIcon="heart-outline"
                 style={tw`mx-3 px-3`}
                 suffixIcon="chevron-right"
+                onPress={socialise}
               />
-            </Link>
-          </View>
+              <ServiceRow
+                withBottomDivider
+                label={t('settings.contact.title')}
+                prefixIcon="chat-question-outline"
+                style={tw`mx-3 px-3`}
+                suffixIcon="chevron-right"
+                onPress={contact}
+              />
+              <ServiceRow
+                withBottomDivider
+                label={t('settings.review.label')}
+                prefixIcon="star-outline"
+                style={tw`mx-3 px-3`}
+                suffixIcon="chevron-right"
+                onPress={review}
+              />
+              <Link asChild href="/introduction">
+                <ServiceRow
+                  label={t('settings.introduction.label')}
+                  prefix={<View style={tw`min-h-10 w-6 shrink-0`} />}
+                  selected={isWide && pathname === '/introduction'}
+                  style={tw`mx-3 px-3`}
+                  suffixIcon="chevron-right"
+                />
+              </Link>
+            </View>
 
-          {/* transparent view to fake a touch on the footer link, should mimic as much as possible the footer */}
-          <Link asChild href="/settings/about" replace={replaceDetail}>
-            <TouchableNativeFeedback>
-              <View
-                style={[tw`mt-auto self-center`, { height: footerHeight, width: footerWidth }]}
-              />
-            </TouchableNativeFeedback>
-          </Link>
-        </Animated.ScrollView>
+            {/* transparent view to fake a touch on the footer link, should mimic as much as possible the footer */}
+            <Link asChild href="/settings/about" replace={replaceDetail}>
+              <TouchableNativeFeedback>
+                <View
+                  style={[tw`mt-auto self-center`, { height: footerHeight, width: footerWidth }]}
+                />
+              </TouchableNativeFeedback>
+            </Link>
+          </Animated.ScrollView>
+        </ScrollEdge>
       </BlurTargetView>
 
-      <Animated.View
-        style={[
-          tw`absolute inset-x-0 top-0 z-10 flex flex-row pb-2`,
-          {
-            paddingTop: insets.top,
-            paddingLeft: insets.left,
-            paddingRight: insets.right,
-          },
-        ]}>
-        <AppTopFader style={tw`absolute inset-x-0 top-0`} />
-
-        <AppIconButton
-          blurTarget={blurTargetRef}
-          icon="arrow-left"
-          radius={25}
-          style={tw`ml-4`}
-          onPress={() =>
-            from ? router.dismissTo(from) : router.canGoBack() ? router.back() : router.replace('/')
-          }
-        />
-      </Animated.View>
+      {withNativeHeader && <NativeHeader title={t('settings.title')} />}
+      <AppTopFader style={tw`absolute inset-x-0 top-0`} />
     </View>
   );
 };
