@@ -13,7 +13,7 @@ import tw, { useDeviceContext } from 'twrnc';
 import HorizontalLoadingAnimation from '@/components/Animations/HorizontalLoadingAnimation';
 import AppIconButton from '@/components/AppIconButton';
 import ErrorState from '@/components/ErrorState';
-import NativeHeader, { useHeaderTintColor } from '@/components/Layout/NativeHeader';
+import NativeHeader, { useTopBarHeight } from '@/components/Layout/NativeHeader';
 import { theme } from '@/helpers/colors';
 import { useAppPaddingBottom } from '@/helpers/screen';
 import { SYSTEM_LANGUAGE } from '@/i18n';
@@ -33,7 +33,7 @@ const Chat = () => {
   const [error, setError] = useState<WebViewError | null>(null);
   const authStore = useAuthStore();
   const router = useRouter();
-  const tintColor = useHeaderTintColor();
+  const topBarHeight = useTopBarHeight(Platform.OS === 'ios');
   const onClose = () => (router.canDismiss() ? router.dismiss() : router.navigate('/home'));
   const settingsStore = useSettingsStore();
   const paddingBottom = useAppPaddingBottom();
@@ -108,12 +108,13 @@ const Chat = () => {
   return (
     <View
       style={tw.style(`relative flex size-full flex-col bg-white`, {
-        paddingTop: Platform.OS === 'ios' ? 0 : insets.top,
+        paddingTop: Platform.OS === 'ios' ? topBarHeight : insets.top,
         paddingLeft: insets.left,
         paddingRight: insets.right,
         paddingBottom,
       })}>
-      {Platform.OS !== 'ios' && <StatusBar style="dark" />}
+      {/* white page whatever the theme */}
+      <StatusBar style="dark" />
 
       <BlurTargetView ref={blurTargetRef} style={tw`w-full grow`}>
         <KeyboardAvoidingView
@@ -162,14 +163,7 @@ const Chat = () => {
 
       {Platform.OS === 'ios' ? (
         <NativeHeader
-          left={[
-            <Stack.Toolbar.Button
-              icon="xmark"
-              key="close"
-              tintColor={tintColor}
-              onPress={onClose}
-            />,
-          ]}
+          left={[<Stack.Toolbar.Button icon="xmark" key="close" onPress={onClose} />]}
           withBackButton={false}
         />
       ) : (
