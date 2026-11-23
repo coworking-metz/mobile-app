@@ -144,13 +144,12 @@ const Attendance = () => {
                 ? t('attendance.onFetch.fail')
                 : null}
         </AppShimmerText>
-        {currentMembersError && !isSilentError(currentMembersError) ? (
-          <ErrorBadge
-            error={currentMembersError}
-            title={t('attendance.onFetch.fail')}
-            onRetry={refetchCurrentMembers}
-          />
-        ) : null}
+        <ErrorBadge
+          error={currentMembersError}
+          loading={isFetchingCurrentMembers}
+          title={t('attendance.onFetch.fail')}
+          onRetry={refetchCurrentMembers}
+        />
       </View>
 
       {isPendingCurrentMembers ? (

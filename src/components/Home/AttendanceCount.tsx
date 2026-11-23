@@ -23,7 +23,7 @@ import ErrorBadge from '@/components/ErrorBadge';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import ReanimatedText from '@/components/ReanimatedText';
-import { AnyError, isSilentError } from '@/helpers/error';
+import { AnyError } from '@/helpers/error';
 import { getCurrentMembers, type ApiMemberProfile } from '@/services/api/members';
 import { membersQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
@@ -111,14 +111,13 @@ const AttendanceCount = ({
           style={tw`android:mb-6 android:min-w-28 mb-4 text-5xl font-normal leading-[3.5rem] text-slate-500 dark:text-neutral-500`}>
           {t('home.people.capacity', { total: TOTAL_CAPACITY })}
         </AppText>
-        {currentMembersError && !isSilentError(currentMembersError) && !isFetchingCurrentMembers ? (
-          <ErrorBadge
-            error={currentMembersError}
-            style={tw`ios:mb-6 android:mb-8 ml-3`}
-            title={t('home.people.onFetch.fail')}
-            onRetry={refetchCurrentMembers}
-          />
-        ) : null}
+        <ErrorBadge
+          error={currentMembersError}
+          loading={isFetchingCurrentMembers}
+          style={tw`ios:mb-6 android:mb-8 ml-3`}
+          title={t('home.people.onFetch.fail')}
+          onRetry={refetchCurrentMembers}
+        />
       </View>
 
       <Link asChild href="/attendance">

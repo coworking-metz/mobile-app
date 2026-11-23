@@ -26,7 +26,6 @@ import LoadingProgressBar from '@/components/LoadingProgressBar';
 import ActionableCarbonDioxide from '@/components/OnPremise/ActionableCarbonDioxide';
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import ActionablePhoneBooths from '@/components/OnPremise/ActionablePhoneBooths';
-import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState } from '@/services/api/services';
 import { onPremiseQueryKeys } from '@/services/query';
 import useAuthStore from '@/stores/auth';
@@ -115,14 +114,13 @@ const PoulaillerPlan = ({
         <AppText style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.location.poulailler')}
         </AppText>
-        {onPremiseStateError && !isSilentError(onPremiseStateError) && !isFetchingOnPremiseState ? (
-          <ErrorBadge
-            error={onPremiseStateError}
-            style={tw`ios:mb-2 android:mb-1 shrink-0`}
-            title={t('onPremise.onFetch.fail')}
-            onRetry={refetchOnPremiseState}
-          />
-        ) : null}
+        <ErrorBadge
+          error={onPremiseStateError}
+          loading={isFetchingOnPremiseState}
+          style={tw`ios:mb-2 android:mb-1 shrink-0`}
+          title={t('onPremise.onFetch.fail')}
+          onRetry={refetchOnPremiseState}
+        />
       </View>
       <View
         style={[

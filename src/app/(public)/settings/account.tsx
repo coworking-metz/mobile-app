@@ -16,7 +16,6 @@ import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import ZoomableImage from '@/components/ZoomableImage';
 import { useAppAuth } from '@/context/auth';
-import { isSilentError } from '@/helpers/error';
 import useAppScreen from '@/helpers/screen';
 import { getMemberProfile } from '@/services/api/members';
 import { WORDPRESS_BASE_URL } from '@/services/environment';
@@ -87,13 +86,12 @@ const Account = () => {
           loading={isFetchingProfile}
           style={tw`mx-3 mt-8`}
           title={t('account.profile.title')}>
-          {profileError && !isSilentError(profileError) && !isFetchingProfile ? (
-            <ErrorBadge
-              error={profileError}
-              title={t('account.profile.onFetch.fail')}
-              onRetry={refetchProfile}
-            />
-          ) : null}
+          <ErrorBadge
+            error={profileError}
+            loading={isFetchingProfile}
+            title={t('account.profile.onFetch.fail')}
+            onRetry={refetchProfile}
+          />
           <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/modifier-compte/`}>
             <AppText
               style={tw`ml-auto min-w-5 text-right text-base font-normal leading-5 text-amber-500`}>

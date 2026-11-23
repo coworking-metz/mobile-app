@@ -28,7 +28,6 @@ import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import useAppState from '@/helpers/app-state';
 import { theme } from '@/helpers/colors';
-import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState, getPhoneBoothsOccupation } from '@/services/api/services';
 import { onPremiseQueryKeys } from '@/services/query';
 
@@ -219,13 +218,12 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
         loading={loading}
         style={tw`mx-4`}
         title={t('onPremise.phoneBooths.graph.label')}>
-        {occupationError && !isSilentError(occupationError) && !isFetchingOccupation ? (
-          <ErrorBadge
-            error={occupationError}
-            title={t('onPremise.phoneBooths.onFetch.fail')}
-            onRetry={refetchOccupationPerBooth}
-          />
-        ) : null}
+        <ErrorBadge
+          error={occupationError}
+          loading={isFetchingOccupation}
+          title={t('onPremise.phoneBooths.onFetch.fail')}
+          onRetry={refetchOccupationPerBooth}
+        />
       </SectionTitle>
 
       <View
