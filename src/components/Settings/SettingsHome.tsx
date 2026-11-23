@@ -1,3 +1,4 @@
+import { useContentInsets } from '../Layout/ServiceLayout';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { BlurTargetView } from 'expo-blur';
@@ -80,6 +81,8 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
   const { selectedActivity, selectActivity } = useAppPresence();
   const { isWide } = useAppScreen();
   const insets = useSafeAreaInsets();
+  const contentInsets = useContentInsets(from, 12);
+  const presenceGraphInsets = useContentInsets(from, 24);
   const { t } = useTranslation();
   const router = useRouter();
   // iOS native header, except when wide (master column, outside the Stack)
@@ -243,10 +246,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
             <View
               style={[
                 tw`flex flex-col items-start gap-4 px-4 pb-6`,
-                !hasStandaloneHeader && {
-                  paddingLeft: insets.left || 16,
-                  paddingRight: insets.right || 16,
-                },
+                !hasStandaloneHeader && contentInsets,
               ]}>
               <ProfilePicture
                 initialsStyle={tw`pt-2 text-4xl`}
@@ -377,7 +377,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               )}
               <SectionTitle
                 loading={isFetchingActivity || isFetchingProfile}
-                style={tw`mx-6`}
+                style={[tw`px-6`, presenceGraphInsets]}
                 title={t('settings.profile.presence.title')}>
                 {activityError && !isSilentError(activityError) && !isFetchingActivity ? (
                   <ErrorBadge
@@ -415,6 +415,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
               <PresenceGraph
                 activity={activity}
                 activityCount={profile?.totalActivity}
+                contentStyle={presenceGraphInsets}
                 minimumSquares={!!authStore.user?.id ? 45 : 144}
                 pending={isPendingActivity}
                 selectedDate={selectedActivity?.date}
@@ -423,134 +424,136 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 onDateSelect={onDateSelect}
               />
 
-              <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.title')} />
-              <ServiceRow
-                withBottomDivider
-                label={t('settings.language.label')}
-                prefixIcon="translate"
-                style={tw`mx-3 px-3`}
-                onPress={selectLanguage}>
-                <AppText style={tw`text-right text-base font-normal text-amber-500`}>
-                  {getLanguageLabel(
-                    !chosenLanguage || chosenLanguage === SYSTEM_OPTION
-                      ? SYSTEM_LANGUAGE
-                      : chosenLanguage,
-                  )}
-                </AppText>
-              </ServiceRow>
-              <ThemePicker withBottomDivider style={tw`mx-3 px-3`} onPress={selectTheme} />
-              <ServiceRow
-                withBottomDivider
-                description={t('settings.home.upcomingEventsPeriod.hint')}
-                label={t('settings.home.upcomingEventsPeriod.label')}
-                prefixIcon="calendar-blank-multiple"
-                style={tw`mx-3 px-3`}
-                onPress={selectUpcomingEventsPeriod}>
-                <AppText style={tw`text-right text-base font-normal text-amber-500`}>
-                  {upcomingEventsPeriodValue}
-                </AppText>
-              </ServiceRow>
-
-              {authStore.user?.id && (
-                <>
-                  <ServiceRow
-                    withBottomDivider
-                    description={t('settings.home.unlockGateOptions.hint')}
-                    label={t('settings.home.unlockGateOptions.label')}
-                    prefixIcon="timer-lock-open-outline"
-                    style={tw`mx-3 px-3`}
-                    onPress={selectUnlockGateOptions}>
-                    <AppText style={tw`text-right text-base font-normal text-amber-500`}>
-                      {unlockGateDurationInMs ? formatDuration(unlockGateDurationInMs) : null}
-                    </AppText>
-                  </ServiceRow>
-                  <Link asChild href="/settings/devices" replace={replaceDetail}>
-                    <ServiceRow
-                      withBottomDivider
-                      label={t('devices.title')}
-                      prefixIcon="devices"
-                      selected={isWide && pathname.startsWith('/settings/devices')}
-                      style={tw`mx-3 px-3`}
-                      suffixIcon="chevron-right"
-                    />
-                  </Link>
-                </>
-              )}
-              <Link asChild href="/settings/privacy" replace={replaceDetail}>
+              <View style={[tw`px-3`, contentInsets]}>
+                <SectionTitle style={tw`mx-3 mt-6`} title={t('settings.title')} />
                 <ServiceRow
                   withBottomDivider
-                  label={t('privacy.title')}
-                  prefixIcon="shield-account-variant-outline"
-                  selected={isWide && pathname.startsWith('/settings/privacy')}
-                  style={tw`mx-3 px-3`}
-                  suffixIcon="chevron-right"
-                />
-              </Link>
-              <Link asChild href="/settings/advanced" replace={replaceDetail}>
+                  label={t('settings.language.label')}
+                  prefixIcon="translate"
+                  style={tw`px-3`}
+                  onPress={selectLanguage}>
+                  <AppText style={tw`text-right text-base font-normal text-amber-500`}>
+                    {getLanguageLabel(
+                      !chosenLanguage || chosenLanguage === SYSTEM_OPTION
+                        ? SYSTEM_LANGUAGE
+                        : chosenLanguage,
+                    )}
+                  </AppText>
+                </ServiceRow>
+                <ThemePicker withBottomDivider style={tw`px-3`} onPress={selectTheme} />
                 <ServiceRow
-                  label={t('advanced.title')}
-                  prefixIcon="cog-outline"
-                  selected={isWide && pathname === '/settings/advanced'}
-                  style={tw`mx-3 px-3`}
-                  suffixIcon="chevron-right"
-                />
-              </Link>
+                  withBottomDivider
+                  description={t('settings.home.upcomingEventsPeriod.hint')}
+                  label={t('settings.home.upcomingEventsPeriod.label')}
+                  prefixIcon="calendar-blank-multiple"
+                  style={tw`px-3`}
+                  onPress={selectUpcomingEventsPeriod}>
+                  <AppText style={tw`text-right text-base font-normal text-amber-500`}>
+                    {upcomingEventsPeriodValue}
+                  </AppText>
+                </ServiceRow>
 
-              <SectionTitle style={tw`mx-6 mt-6`} title={t('settings.resources.title')} />
-              {authStore.user && (
-                <>
-                  <ServiceRowLink
-                    withBottomDivider
-                    href={`${WORDPRESS_BASE_URL}/la-boutique/`}
-                    label={t('settings.store.label')}
-                    prefixIcon="cart-outline"
-                    style={tw`mx-3 px-3`}
-                  />
-
+                {authStore.user?.id && (
+                  <>
+                    <ServiceRow
+                      withBottomDivider
+                      description={t('settings.home.unlockGateOptions.hint')}
+                      label={t('settings.home.unlockGateOptions.label')}
+                      prefixIcon="timer-lock-open-outline"
+                      style={tw`px-3`}
+                      onPress={selectUnlockGateOptions}>
+                      <AppText style={tw`text-right text-base font-normal text-amber-500`}>
+                        {unlockGateDurationInMs ? formatDuration(unlockGateDurationInMs) : null}
+                      </AppText>
+                    </ServiceRow>
+                    <Link asChild href="/settings/devices" replace={replaceDetail}>
+                      <ServiceRow
+                        withBottomDivider
+                        label={t('devices.title')}
+                        prefixIcon="devices"
+                        selected={isWide && pathname.startsWith('/settings/devices')}
+                        style={tw`px-3`}
+                        suffixIcon="chevron-right"
+                      />
+                    </Link>
+                  </>
+                )}
+                <Link asChild href="/settings/privacy" replace={replaceDetail}>
                   <ServiceRow
                     withBottomDivider
-                    label={t('settings.onboarding.label')}
-                    prefixIcon="handshake-outline"
-                    selected={isWide && pathname === '/onboarding'}
-                    style={tw`mx-3 px-3`}
+                    label={t('privacy.title')}
+                    prefixIcon="shield-account-variant-outline"
+                    selected={isWide && pathname.startsWith('/settings/privacy')}
+                    style={tw`px-3`}
                     suffixIcon="chevron-right"
-                    onPress={onboard}
                   />
-                </>
-              )}
-              <ServiceRow
-                withBottomDivider
-                label={t('settings.socials.label')}
-                prefixIcon="heart-outline"
-                style={tw`mx-3 px-3`}
-                suffixIcon="chevron-right"
-                onPress={socialise}
-              />
-              <ServiceRow
-                withBottomDivider
-                label={t('settings.contact.title')}
-                prefixIcon="chat-question-outline"
-                style={tw`mx-3 px-3`}
-                suffixIcon="chevron-right"
-                onPress={contact}
-              />
-              <ServiceRow
-                withBottomDivider
-                label={t('settings.review.label')}
-                prefixIcon="star-outline"
-                style={tw`mx-3 px-3`}
-                suffixIcon="chevron-right"
-                onPress={review}
-              />
-              <Link asChild href="/introduction">
+                </Link>
+                <Link asChild href="/settings/advanced" replace={replaceDetail}>
+                  <ServiceRow
+                    label={t('advanced.title')}
+                    prefixIcon="cog-outline"
+                    selected={isWide && pathname === '/settings/advanced'}
+                    style={tw`px-3`}
+                    suffixIcon="chevron-right"
+                  />
+                </Link>
+
+                <SectionTitle style={tw`mx-3 mt-6`} title={t('settings.resources.title')} />
+                {authStore.user && (
+                  <>
+                    <ServiceRowLink
+                      withBottomDivider
+                      href={`${WORDPRESS_BASE_URL}/la-boutique/`}
+                      label={t('settings.store.label')}
+                      prefixIcon="cart-outline"
+                      style={tw`px-3`}
+                    />
+
+                    <ServiceRow
+                      withBottomDivider
+                      label={t('settings.onboarding.label')}
+                      prefixIcon="handshake-outline"
+                      selected={isWide && pathname === '/onboarding'}
+                      style={tw`px-3`}
+                      suffixIcon="chevron-right"
+                      onPress={onboard}
+                    />
+                  </>
+                )}
                 <ServiceRow
-                  label={t('settings.introduction.label')}
-                  prefix={<View style={tw`min-h-10 w-6 shrink-0`} />}
-                  selected={isWide && pathname === '/introduction'}
-                  style={tw`mx-3 px-3`}
+                  withBottomDivider
+                  label={t('settings.socials.label')}
+                  prefixIcon="heart-outline"
+                  style={tw`px-3`}
                   suffixIcon="chevron-right"
+                  onPress={socialise}
                 />
-              </Link>
+                <ServiceRow
+                  withBottomDivider
+                  label={t('settings.contact.title')}
+                  prefixIcon="chat-question-outline"
+                  style={tw`px-3`}
+                  suffixIcon="chevron-right"
+                  onPress={contact}
+                />
+                <ServiceRow
+                  withBottomDivider
+                  label={t('settings.review.label')}
+                  prefixIcon="star-outline"
+                  style={tw`px-3`}
+                  suffixIcon="chevron-right"
+                  onPress={review}
+                />
+                <Link asChild href="/introduction">
+                  <ServiceRow
+                    label={t('settings.introduction.label')}
+                    prefix={<View style={tw`min-h-10 w-6 shrink-0`} />}
+                    selected={isWide && pathname === '/introduction'}
+                    style={tw`px-3`}
+                    suffixIcon="chevron-right"
+                  />
+                </Link>
+              </View>
             </View>
 
             {/* transparent view to fake a touch on the footer link, should mimic as much as possible the footer */}

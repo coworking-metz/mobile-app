@@ -89,7 +89,8 @@ const ZoomableImage = ({
             {
               type: 'button',
               icon: { type: 'sfSymbol', name: 'xmark' },
-              tintColor: 'white',
+              // no tint on iOS 26+: the glass adapts to the photo behind
+              ...(!isLiquidGlassSupported && { tintColor: 'white' }),
               onPress: () => setGalleryVisible(false),
             },
           ]}>
@@ -147,19 +148,18 @@ const ZoomableImage = ({
                   {...(!isLiquidGlassSupported && { theme: 'dark' })}
                 />
               )}
-
-              {sourcesCount > 1 && (
-                <>
-                  <CarouselPaginationDots
-                    count={sourcesCount}
-                    offset={offset}
-                    style={tw`mx-auto grow-0`}
-                  />
-                  {/* fake a View with the same size as the close button to properly center pagination dots */}
-                  {Platform.OS !== 'ios' && <View style={tw`size-10`} />}
-                </>
-              )}
             </View>
+
+            {sourcesCount > 1 && (
+              <View
+                pointerEvents="none"
+                style={[
+                  tw`absolute inset-x-0 bottom-0 items-center`,
+                  { paddingBottom: insets.bottom || 16 },
+                ]}>
+                <CarouselPaginationDots count={sourcesCount} offset={offset} style={tw`grow-0`} />
+              </View>
+            )}
           </>
         </StandaloneNativeHeader>
       </Modal>

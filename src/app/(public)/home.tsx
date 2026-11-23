@@ -67,7 +67,7 @@ import useSettingsStore from '@/stores/settings';
 import useToastStore from '@/stores/toast';
 
 // centered content column on wide screens, horizontal scrollers align their padding on it
-const WIDE_CONTENT_MAX_WIDTH = 672;
+const WIDE_CONTENT_MAX_WIDTH = 688;
 const WIDE_CONTENT_STYLE = { ...tw`mx-auto w-full`, maxWidth: WIDE_CONTENT_MAX_WIDTH };
 
 export default function HomeScreen() {

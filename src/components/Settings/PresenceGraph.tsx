@@ -26,6 +26,7 @@ const PresenceGraph = ({
   minimumSquares = MINIMUM_SQUARES,
   withDescription = false,
   style,
+  contentStyle,
   onDateSelect,
 }: {
   selectedDate?: string;
@@ -35,6 +36,7 @@ const PresenceGraph = ({
   minimumSquares?: number;
   withDescription?: boolean;
   style?: StyleProp<ViewStyle>;
+  contentStyle?: StyleProp<ViewStyle>;
   onDateSelect?: (date: string) => void;
 }) => {
   const { i18n, t } = useTranslation();
@@ -154,7 +156,7 @@ const PresenceGraph = ({
       style={[style, { transform: [{ scaleX: -1 }] }]}>
       <View
         key={`presence-graph-${areAllDatesVisible ? `6months` : 'all'}`}
-        style={[tw`flex flex-row`, { transform: [{ scaleX: -1 }] }]}>
+        style={[tw`flex flex-row px-6`, contentStyle, { transform: [{ scaleX: -1 }] }]}>
         {activityCount && !areAllDatesVisible && hasActivityBeforeSixMonths ? (
           <LinearGradient
             colors={
@@ -173,7 +175,7 @@ const PresenceGraph = ({
             </View>
           </LinearGradient>
         ) : withDescription ? (
-          <View style={tw`ml-6 flex flex-col self-center`}>
+          <View style={tw`flex flex-col self-center`}>
             <Trans
               components={[
                 <AppText
@@ -228,7 +230,7 @@ const PresenceGraph = ({
 
         <View
           style={[
-            tw`mr-6 flex flex-col items-center justify-end gap-px pb-3.5`,
+            tw`flex flex-col items-center justify-end gap-px pb-3.5`,
             { height: HEIGHT_IN_PIXELS },
           ]}>
           {Array(7)

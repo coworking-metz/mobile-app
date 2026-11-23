@@ -72,7 +72,7 @@ const ServiceRow: ForwardRefRenderFunction<typeof TouchableHighlight, ServiceRow
                 tw`text-base font-normal leading-5 dark:text-gray-200`,
                 disabled && tw`opacity-40`,
               ]}
-              {...(isLabelSingleWord && { numberOfLines: 1, ellipsizeMode: 'tail' })}>
+              {...(isLabelSingleWord && { numberOfLines: 1, ellipsizeMode: 'middle' })}>
               {label}
             </AppText>
             {renderDescription ? (

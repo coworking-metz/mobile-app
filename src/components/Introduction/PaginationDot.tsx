@@ -58,7 +58,6 @@ const PaginationDot = ({
           width: DOT_SIZE,
           height: DOT_SIZE,
           borderRadius: DOT_SIZE / 2,
-          marginRight: (DOT_SIZE / 3) * 2,
         },
         animatedStyles,
       ]}
