@@ -56,7 +56,6 @@ import { useAppSocials } from '@/context/socials';
 import { useAppTheme } from '@/context/theme';
 import { useAppUnlockGateOptions } from '@/context/unlock-gate-duration';
 import { useAppUpcomingEvents } from '@/context/upcoming-events';
-import { isSilentError } from '@/helpers/error';
 import { HapticFeedbackType, vibrate } from '@/helpers/haptics';
 import useAppScreen from '@/helpers/screen';
 import { SYSTEM_LANGUAGE, formatDuration, getLanguageLabel } from '@/i18n';
@@ -379,19 +378,18 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 loading={isFetchingActivity || isFetchingProfile}
                 style={[tw`px-6`, presenceGraphInsets]}
                 title={t('settings.profile.presence.title')}>
-                {activityError && !isSilentError(activityError) && !isFetchingActivity ? (
-                  <ErrorBadge
-                    error={activityError}
-                    title={t('settings.profile.presence.onFetch.fail')}
-                    onRetry={refetchActivity}
-                  />
-                ) : profileError && !isSilentError(profileError) && !isFetchingProfile ? (
-                  <ErrorBadge
-                    error={profileError}
-                    title={t('home.profile.onFetch.fail')}
-                    onRetry={refetchProfile}
-                  />
-                ) : null}
+                <ErrorBadge
+                  error={activityError}
+                  loading={isFetchingActivity}
+                  title={t('settings.profile.presence.onFetch.fail')}
+                  onRetry={refetchActivity}
+                />
+                <ErrorBadge
+                  error={profileError}
+                  loading={isFetchingProfile}
+                  title={t('home.profile.onFetch.fail')}
+                  onRetry={refetchProfile}
+                />
 
                 {profile?.balance && profile.balance < 0 ? (
                   <Animated.View

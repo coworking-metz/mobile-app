@@ -23,7 +23,6 @@ import AppText from '@/components/AppText';
 import ErrorBadge from '@/components/ErrorBadge';
 import LoadingProgressBar from '@/components/LoadingProgressBar';
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
-import { isSilentError } from '@/helpers/error';
 import { getOnPremiseState } from '@/services/api/services';
 import { onPremiseQueryKeys } from '@/services/query';
 
@@ -96,14 +95,13 @@ const PtiPoulaillerPlan = ({
           style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.location.pti-poulailler')}
         </AppText>
-        {onPremiseStateError && !isSilentError(onPremiseStateError) && !isFetchingOnPremiseState ? (
-          <ErrorBadge
-            error={onPremiseStateError}
-            style={tw`ios:mb-2 android:mb-1 shrink-0`}
-            title={t('onPremise.onFetch.fail')}
-            onRetry={refetchOnPremiseState}
-          />
-        ) : null}
+        <ErrorBadge
+          error={onPremiseStateError}
+          loading={isFetchingOnPremiseState}
+          style={tw`ios:mb-2 android:mb-1 shrink-0`}
+          title={t('onPremise.onFetch.fail')}
+          onRetry={refetchOnPremiseState}
+        />
       </View>
       <View
         style={[

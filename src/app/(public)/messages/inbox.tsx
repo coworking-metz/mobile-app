@@ -200,13 +200,12 @@ const InboxScreen = ({ from }: { from?: string }) => {
                   ? t('messages.list.onFetch.fail')
                   : null}
           </AppShimmerText>
-          {messagesError && !isSilentError(messagesError) ? (
-            <ErrorBadge
-              error={messagesError}
-              title={t('messages.list.onFetch.fail')}
-              onRetry={refetchMessages}
-            />
-          ) : null}
+          <ErrorBadge
+            error={messagesError}
+            loading={isFetchingMessages}
+            title={t('messages.list.onFetch.fail')}
+            onRetry={refetchMessages}
+          />
         </View>
 
         {filteredMessages?.length ? (

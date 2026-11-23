@@ -26,7 +26,6 @@ import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingProgressBar from '@/components/LoadingProgressBar';
 import { theme } from '@/helpers/colors';
-import { isSilentError } from '@/helpers/error';
 import { formatDuration } from '@/i18n';
 import { getUnlockSteelGateOptions } from '@/services/api/services';
 import { isBeaconMonitoringAvailable, requestBeaconLocationPermission } from '@/services/beacon';
@@ -126,13 +125,12 @@ const UnlockGateOptionsBottomSheet: ForwardRefRenderFunction<
             loading={isFetchingOptions}
             style={tw`mt-3`}
             title={t('settings.home.unlockGateOptions.beacon.title')}>
-            {optionsError && !isSilentError(optionsError) && !isFetchingOptions ? (
-              <ErrorBadge
-                error={optionsError}
-                title={t('settings.home.unlockGateOptions.onFetch.fail')}
-                onRetry={refetchOptions}
-              />
-            ) : null}
+            <ErrorBadge
+              error={optionsError}
+              loading={isFetchingOptions}
+              title={t('settings.home.unlockGateOptions.onFetch.fail')}
+              onRetry={refetchOptions}
+            />
           </SectionTitle>
           <ServiceRow
             description={t('settings.home.unlockGateOptions.beacon.hint')}

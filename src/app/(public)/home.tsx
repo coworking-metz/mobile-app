@@ -49,7 +49,6 @@ import SectionTitle from '@/components/Layout/SectionTitle';
 import { useAppContact } from '@/context/contact';
 import { useAppOnboarding } from '@/context/onboarding';
 import useAppState from '@/helpers/app-state';
-import { isSilentError } from '@/helpers/error';
 import useAppScreen, { MIN_MINIMUM_EDGE, MIN_PADDING_TOP } from '@/helpers/screen';
 import { getCalendarEvents } from '@/services/api/calendar';
 import {
@@ -387,21 +386,18 @@ export default function HomeScreen() {
             isWide ? WIDE_CONTENT_STYLE : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
           ]}
           title={t('home.profile.label')}>
-          {profileError && !isSilentError(profileError) && !isFetchingProfile ? (
-            <ErrorBadge
-              error={profileError}
-              title={t('home.profile.onFetch.fail')}
-              onRetry={onRefresh}
-            />
-          ) : subscriptionsError &&
-            !isSilentError(subscriptionsError) &&
-            !isFetchingSubscriptions ? (
-            <ErrorBadge
-              error={subscriptionsError}
-              title={t('home.profile.subscription.onFetch.fail')}
-              onRetry={onRefresh}
-            />
-          ) : null}
+          <ErrorBadge
+            error={profileError}
+            loading={isFetchingProfile}
+            title={t('home.profile.onFetch.fail')}
+            onRetry={onRefresh}
+          />
+          <ErrorBadge
+            error={subscriptionsError}
+            loading={isFetchingSubscriptions}
+            title={t('home.profile.subscription.onFetch.fail')}
+            onRetry={onRefresh}
+          />
         </SectionTitle>
 
         <ScrollView
@@ -493,13 +489,12 @@ export default function HomeScreen() {
           isWide && WIDE_CONTENT_STYLE,
         ]}
         title={t('home.calendar.label')}>
-        {calendarEventsError && !isSilentError(calendarEventsError) && !isFetchingCalendarEvents ? (
-          <ErrorBadge
-            error={calendarEventsError}
-            title={t('home.calendar.onFetch.fail')}
-            onRetry={onRefresh}
-          />
-        ) : null}
+        <ErrorBadge
+          error={calendarEventsError}
+          loading={isFetchingCalendarEvents}
+          title={t('home.calendar.onFetch.fail')}
+          onRetry={onRefresh}
+        />
 
         <Link asChild href="/events">
           <AppText
