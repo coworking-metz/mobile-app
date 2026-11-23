@@ -127,12 +127,6 @@ const Introduction = () => {
                 paddingRight: insets.right || MIN_MINIMUM_EDGE,
               },
             ]}>
-            <AppFader
-              position={FaderPosition.TOP}
-              size={(insets.top || (Platform.OS === 'android' ? 16 : 0)) + 64}
-              style={tw`absolute inset-0`}
-              tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
-            />
             {/* iOS: close lives in the native bar */}
             {Platform.OS !== 'ios' && (
               <AppIconButton
