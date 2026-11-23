@@ -10,7 +10,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { PostHogProvider } from 'posthog-react-native';
 import { useLayoutEffect } from 'react';
-import { Platform, useColorScheme } from 'react-native';
+import { useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { useReducedMotion } from 'react-native-reanimated';
@@ -191,10 +191,10 @@ const RootLayout = () => {
                                                 <Stack.Screen
                                                   name="(public)/chat"
                                                   options={{
-                                                    presentation: 'modal',
-                                                    ...(Platform.OS === 'android' && {
-                                                      animation: 'slide_from_bottom',
-                                                    }),
+                                                    headerShown: false,
+                                                    animation: reduceMotion
+                                                      ? 'fade_from_bottom'
+                                                      : 'slide_from_bottom',
                                                   }}
                                                 />
                                               </Stack>
