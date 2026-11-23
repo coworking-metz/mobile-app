@@ -5,6 +5,7 @@
         "backgroundColor": "#F9B000",
         "foregroundImage": "./src/assets/images/icon/adaptive-icon.png"
       },
+      "googleServicesFile": "./google-services.json",
       "package": "fr.coworking_metz.mobile",
       "permissions": [
         "android.permission.POST_NOTIFICATIONS",
@@ -31,14 +32,14 @@
       "bundleIdentifier": "fr.coworking-metz.mobile",
       "icon": "./src/assets/images/icon/le-poulailler.icon",
       "infoPlist": {
+        "CFBundleAllowMixedLocalizations": true,
         "ITSAppUsesNonExemptEncryption": false,
         "NSBluetoothAlwaysUsageDescription": "Allow $(PRODUCT_NAME) to use Bluetooth to detect the coworking gate beacon and unlock it automatically.",
         "NSCalendarsFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your calendar",
         "NSCalendarsUsageDescription": "Allow $(PRODUCT_NAME) to access your calendar",
         "NSLocalNetworkUsageDescription": "Allow $(PRODUCT_NAME) to detect your device on the coworking network to pair it automatically.",
         "NSRemindersFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders",
-        "NSRemindersUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders",
-        "CFBundleAllowMixedLocalizations": true
+        "NSRemindersUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders"
       },
       "privacyManifests": {
         "NSPrivacyAccessedAPITypes": [
@@ -93,6 +94,10 @@
         ]
       },
       "supportsTablet": true
+    },
+    "locales": {
+      "en": "./src/i18n/native/en.json",
+      "fr": "./src/i18n/native/fr.json"
     },
     "name": "Le Poulailler",
     "orientation": "portrait",
@@ -194,10 +199,6 @@
     "updates": {
       "url": "https://u.expo.dev/d4548eb7-404d-4a34-a484-8c0a1f01e0d6"
     },
-    "version": "2026.9.1",
-    "locales": {
-      "en": "./src/i18n/native/en.json",
-      "fr": "./src/i18n/native/fr.json"
-    }
+    "version": "2026.9.1"
   }
 }

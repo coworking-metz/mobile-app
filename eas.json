@@ -15,8 +15,6 @@
       "channel": "staging",
       "distribution": "internal",
       "env": {
-        "APP_ADAPTIVE_ICON": "./src/assets/images/adaptive-icon-dev.png",
-        "APP_ICON": "./src/assets/images/icon-dev.png",
         "APP_NAME": "Le Poulailler (dev)"
       }
     },
