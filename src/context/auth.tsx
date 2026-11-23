@@ -40,35 +40,15 @@ const useProtectedRoute = (
   const pathname = usePathname();
   const queryClient = useQueryClient();
   const authStore = useAuthStore();
-  const refreshToken = useAuthStore((state) => state.refreshToken);
   const isAuthStoreHydrated = useAuthStore((state) => state.hydrated);
   const isSettingsStoreHydrated = useSettingsStore((state) => state.hydrated);
 
-  const {
-    accessToken: queryAccessToken,
-    refreshToken: queryRefreshToken,
-    loggedOut,
-  } = useGlobalSearchParams<{
-    accessToken: string;
-    refreshToken: string;
-    loggedOut: string;
-  }>();
+  // tokens from the login redirect are handled in +native-intent
+  const { loggedOut } = useGlobalSearchParams<{ loggedOut: string }>();
 
   useEffect(() => {
-    if (!isAuthStoreHydrated || !isSettingsStoreHydrated) return;
-
-    if (queryRefreshToken && queryAccessToken && refreshToken !== queryRefreshToken) {
-      authLogger.debug('Setting tokens from query params', {
-        queryRefreshToken,
-        queryAccessToken,
-      });
-      authStore.setTokens(queryAccessToken, queryRefreshToken);
-
-      router.setParams({ accessToken: undefined, refreshToken: undefined });
-    }
-
-    setReady(true);
-  }, [queryRefreshToken, queryAccessToken, isAuthStoreHydrated, isSettingsStoreHydrated]);
+    if (isAuthStoreHydrated && isSettingsStoreHydrated) setReady(true);
+  }, [isAuthStoreHydrated, isSettingsStoreHydrated]);
 
   useEffect(() => {
     if (loggedOut) {
