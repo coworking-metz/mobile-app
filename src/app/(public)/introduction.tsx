@@ -120,7 +120,7 @@ const Introduction = () => {
         <BlurTargetView ref={blurTargetRef} style={tw`relative flex h-full grow flex-col`}>
           <View
             style={[
-              tw`absolute top-0 z-10 flex w-full flex-row items-center justify-between px-4`,
+              tw`absolute top-0 z-10 flex w-full flex-row items-center px-4`,
               {
                 paddingTop: insets.top,
                 paddingLeft: insets.left || MIN_MINIMUM_EDGE,
@@ -133,10 +133,8 @@ const Introduction = () => {
               style={tw`absolute inset-0`}
               tintColor={tw.prefixMatch('dark') ? tw.color('black') : tw.color('gray-100') || ''}
             />
-            {Platform.OS === 'ios' ? (
-              // close lives in the native bar, keep the dots on the right
-              <View />
-            ) : (
+            {/* iOS: close lives in the native bar */}
+            {Platform.OS !== 'ios' && (
               <AppIconButton
                 blurTarget={blurTargetRef}
                 icon="window-close"
@@ -144,16 +142,6 @@ const Introduction = () => {
                 onPress={onClose}
               />
             )}
-            <View pointerEvents={'none'} style={tw`flex flex-row`}>
-              {screens.map((_, index) => (
-                <PaginationDot
-                  animationValue={invertedOffset}
-                  containerWidth={layoutWidth}
-                  index={index}
-                  key={`pagination-dot-${index}`}
-                />
-              ))}
-            </View>
           </View>
           <View style={tw`grow basis-0`}>
             <Carousel
@@ -196,6 +184,18 @@ const Introduction = () => {
 
             <AppRoundedButton
               label={t('actions.next')}
+              renderSuffix={() => (
+                <View pointerEvents={'none'} style={tw`flex flex-row gap-2`}>
+                  {screens.map((_, index) => (
+                    <PaginationDot
+                      animationValue={invertedOffset}
+                      containerWidth={layoutWidth}
+                      index={index}
+                      key={`pagination-dot-${index}`}
+                    />
+                  ))}
+                </View>
+              )}
               style={tw`mx-auto w-full max-w-sm`}
               onPress={onNext}
             />
