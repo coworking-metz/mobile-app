@@ -13,7 +13,7 @@ import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
 import MemberBottomSheet from '@/components/Attendance/MemberBottomSheet';
 import MemberTile from '@/components/Attendance/MemberTile';
-import ErrorBadge from '@/components/ErrorBadge';
+import FetchBadge from '@/components/FetchBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
@@ -44,6 +44,7 @@ const Attendance = () => {
     data: currentMembers,
     refetch: refetchCurrentMembers,
     error: currentMembersError,
+    errorUpdatedAt: currentMembersErrorUpdatedAt,
     dataUpdatedAt: currentMembersUpdatedAt,
   } = useQuery({
     queryKey: membersQueryKeys.attending(),
@@ -144,11 +145,16 @@ const Attendance = () => {
                 ? t('attendance.onFetch.fail')
                 : null}
         </AppShimmerText>
-        <ErrorBadge
-          error={currentMembersError}
+        <FetchBadge
+          errors={[
+            {
+              title: t('attendance.onFetch.fail'),
+              error: currentMembersError,
+              updatedAt: currentMembersErrorUpdatedAt,
+              onRetry: refetchCurrentMembers,
+            },
+          ]}
           loading={isFetchingCurrentMembers}
-          title={t('attendance.onFetch.fail')}
-          onRetry={refetchCurrentMembers}
         />
       </View>
 

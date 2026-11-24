@@ -5,7 +5,7 @@ import Animated, { type AnimatedProps } from 'react-native-reanimated';
 import tw from 'twrnc';
 import AppIcon from '@/components/AppIcon';
 import AppText from '@/components/AppText';
-import { AnyError, parseErrorText } from '@/helpers/error';
+import { AnyError } from '@/helpers/error';
 import useNoticeStore from '@/stores/notice';
 
 const ErrorChip = ({
@@ -23,27 +23,24 @@ const ErrorChip = ({
   const { t } = useTranslation();
   const noticeStore = useNoticeStore();
 
-  const onPress = useCallback(async () => {
-    const description = error ? await parseErrorText(error) : null;
-    noticeStore.add({
-      message: label,
-      type: 'error',
-      ...(description && { description }),
-      ...(onRetry && {
+  const onPress = useCallback(() => {
+    noticeStore.addErrors(
+      [{ title: label, error }],
+      onRetry && {
         action: {
           label: t('actions.retry'),
           onPress: onRetry,
           suffixIcon: 'reload',
         },
-      }),
-    });
-  }, [noticeStore, label, error]);
+      },
+    );
+  }, [noticeStore, label, error, onRetry, t]);
 
   return (
     <TouchableOpacity style={[tw`shrink`, style]} onPress={onPress}>
       <Animated.View
         style={[
-          tw`flex flex-row items-center gap-0.5 rounded-full border-[0.5px] border-red-300 bg-red-50 p-0.5 pr-1.5 dark:border-red-900 dark:bg-red-950`,
+          tw`flex flex-row items-center gap-0.5 rounded-full border-[0.5px] border-red-300 bg-red-50 p-0.5 pr-1.5 dark:border-red-900 dark:bg-red-950/50`,
         ]}
         {...props}>
         <AppIcon

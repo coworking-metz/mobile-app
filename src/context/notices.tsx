@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo } from 'react';
 import NoticeBottomSheet from '@/components/NoticeBottomSheet';
+import NoticeErrorBottomSheet from '@/components/NoticeErrorBottomSheet';
 import useNoticeStore from '@/stores/notice';
 
 const NoticesContext = createContext<{
@@ -24,16 +25,17 @@ export const NoticesProvider = ({ children }: { children: React.ReactNode }) => 
         dismissAll: () => noticeStore.dismissAll(),
       }}>
       {children}
-      {undismissedNotices.map((notice) => (
-        <NoticeBottomSheet
-          key={`notice-${notice.id}`}
-          notice={notice}
-          onClose={() => {
-            notice.onClose?.();
-            noticeStore.dismiss(notice.id);
-          }}
-        />
-      ))}
+      {undismissedNotices.map((notice) => {
+        const onClose = () => {
+          notice.onClose?.();
+          noticeStore.dismiss(notice.id);
+        };
+        return notice.type === 'error' ? (
+          <NoticeErrorBottomSheet key={`notice-${notice.id}`} notice={notice} onClose={onClose} />
+        ) : (
+          <NoticeBottomSheet key={`notice-${notice.id}`} notice={notice} onClose={onClose} />
+        );
+      })}
     </NoticesContext.Provider>
   );
 };

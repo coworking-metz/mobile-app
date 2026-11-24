@@ -37,7 +37,7 @@ const MeetingRoomHubBottomSheet: ForwardRefRenderFunction<
       .catch(handleSilentError)
       .catch((error) =>
         noticeStore.addError(error, {
-          message: t('onPremise.meetingRooms.hub.onFetch.fail'),
+          title: t('onPremise.meetingRooms.hub.onFetch.fail'),
         }),
       )
       .finally(() => setLoading(false));

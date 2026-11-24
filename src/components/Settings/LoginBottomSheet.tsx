@@ -66,7 +66,7 @@ const LoginBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomShe
 
       return Linking.openURL(loginUri);
     })()
-      .catch((error) => noticeStore.addError(error, { message: t('errors.default.message') }))
+      .catch((error) => noticeStore.addError(error, { title: t('errors.default.message') }))
       .finally(() => {
         setLoading(false);
       });

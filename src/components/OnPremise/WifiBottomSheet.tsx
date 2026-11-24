@@ -44,7 +44,7 @@ const WifiBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomShee
       })
       .catch(handleSilentError)
       .catch((error) =>
-        noticeStore.addError(error, { message: t('onPremise.wifi.credentials.onFetch.fail') }),
+        noticeStore.addError(error, { title: t('onPremise.wifi.credentials.onFetch.fail') }),
       )
       .finally(() => setLoading(false));
   }, [noticeStore]);

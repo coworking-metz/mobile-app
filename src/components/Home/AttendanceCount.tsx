@@ -19,7 +19,7 @@ import tw from 'twrnc';
 import AppPressable from '@/components/AppPressable';
 import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
-import ErrorBadge from '@/components/ErrorBadge';
+import FetchBadge from '@/components/FetchBadge';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import ReanimatedText from '@/components/ReanimatedText';
@@ -53,6 +53,7 @@ const AttendanceCount = ({
     data: currentMembers,
     refetch: refetchCurrentMembers,
     error: currentMembersError,
+    errorUpdatedAt: currentMembersErrorUpdatedAt,
     dataUpdatedAt: currentMembersUpdatedAt,
   } = useQuery({
     queryKey: membersQueryKeys.attending(),
@@ -111,12 +112,17 @@ const AttendanceCount = ({
           style={tw`android:mb-6 android:min-w-28 mb-4 text-5xl font-normal leading-[3.5rem] text-slate-500 dark:text-neutral-500`}>
           {t('home.people.capacity', { total: TOTAL_CAPACITY })}
         </AppText>
-        <ErrorBadge
-          error={currentMembersError}
+        <FetchBadge
+          errors={[
+            {
+              title: t('home.people.onFetch.fail'),
+              error: currentMembersError,
+              updatedAt: currentMembersErrorUpdatedAt,
+              onRetry: refetchCurrentMembers,
+            },
+          ]}
           loading={isFetchingCurrentMembers}
           style={tw`ios:mb-6 android:mb-8 ml-3`}
-          title={t('home.people.onFetch.fail')}
-          onRetry={refetchCurrentMembers}
         />
       </View>
 

@@ -9,7 +9,7 @@ import AppIcon from '@/components/AppIcon';
 import AppPressable from '@/components/AppPressable';
 import AppSquircleView from '@/components/AppSquircleView';
 import AppText from '@/components/AppText';
-import ErrorBadge from '@/components/ErrorBadge';
+import FetchBadge from '@/components/FetchBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import ServiceRow from '@/components/Layout/ServiceRow';
@@ -34,6 +34,7 @@ const Account = () => {
     isFetching: isFetchingProfile,
     data: profile,
     error: profileError,
+    errorUpdatedAt: profileErrorUpdatedAt,
     refetch: refetchProfile,
   } = useQuery({
     queryKey: authStore.user?.id ? membersQueryKeys.profileById(authStore.user.id) : [],
@@ -86,11 +87,16 @@ const Account = () => {
           loading={isFetchingProfile}
           style={tw`mx-3 mt-8`}
           title={t('account.profile.title')}>
-          <ErrorBadge
-            error={profileError}
+          <FetchBadge
+            errors={[
+              {
+                title: t('account.profile.onFetch.fail'),
+                error: profileError,
+                updatedAt: profileErrorUpdatedAt,
+                onRetry: refetchProfile,
+              },
+            ]}
             loading={isFetchingProfile}
-            title={t('account.profile.onFetch.fail')}
-            onRetry={refetchProfile}
           />
           <Link asChild href={`${WORDPRESS_BASE_URL}/mon-compte/modifier-compte/`}>
             <AppText

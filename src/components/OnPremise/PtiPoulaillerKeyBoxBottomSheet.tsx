@@ -37,7 +37,7 @@ const PtiPoulaillerKeyBoxBottomSheet: ForwardRefRenderFunction<
       .catch(handleSilentError)
       .catch((error) =>
         noticeStore.addError(error, {
-          message: t('onPremise.keyBoxes.ptiPoulailler.onFetch.fail'),
+          title: t('onPremise.keyBoxes.ptiPoulailler.onFetch.fail'),
         }),
       )
       .finally(() => setLoading(false));

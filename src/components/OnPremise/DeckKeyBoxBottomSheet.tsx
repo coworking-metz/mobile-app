@@ -37,7 +37,7 @@ const DeckKeyBoxBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
       .catch(handleSilentError)
       .catch((error) =>
         noticeStore.addError(error, {
-          message: t('onPremise.keyBoxes.deck.onFetch.fail'),
+          title: t('onPremise.keyBoxes.deck.onFetch.fail'),
         }),
       )
       .finally(() => setLoading(false));

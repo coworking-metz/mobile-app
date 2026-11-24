@@ -116,7 +116,7 @@ export default function MessageScreen() {
       .catch(handleSilentError)
       .catch((error) =>
         noticeStore.addError(error, {
-          message: t('messages.onArchive.fail', { title: message?.title }),
+          title: t('messages.onArchive.fail', { title: message?.title }),
         }),
       )
       .finally(() => {
@@ -159,7 +159,7 @@ export default function MessageScreen() {
       .catch(handleSilentError)
       .catch((error) =>
         noticeStore.addError(error, {
-          message: t('messages.onRestore.fail', { title: message?.title }),
+          title: t('messages.onRestore.fail', { title: message?.title }),
         }),
       )
       .finally(() => {

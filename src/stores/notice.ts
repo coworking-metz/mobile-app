@@ -1,7 +1,7 @@
 import uuid from 'react-native-uuid';
 import { create } from 'zustand';
 import { AppRoundedButtonProps } from '@/components/AppRoundedButton';
-import { AnyError, parseErrorText } from '@/helpers/error';
+import { AnyError } from '@/helpers/error';
 
 export type NoticeType = 'info' | 'success' | 'warning' | 'error';
 
@@ -13,7 +13,7 @@ export type NoticeAction = Pick<AppRoundedButtonProps, 'onPress' | 'suffixIcon'>
  * Notification shown through a blocking bottom sheet.
  */
 export interface Notice {
-  message: string;
+  title: string;
   description?: string;
   type?: NoticeType;
   timeout?: number;
@@ -21,16 +21,34 @@ export interface Notice {
   action?: NoticeAction;
 }
 
-export interface StoreNotice extends Notice {
+export interface NoticeError {
+  title?: string;
+  error?: AnyError | null;
+  date?: string;
+}
+
+/**
+ * Error notice listing one or more errors, its message is derived from them.
+ */
+export interface ErrorsNotice extends Omit<Notice, 'title' | 'description' | 'type'> {
+  type: 'error';
+  errors: NoticeError[];
+}
+
+// error notices only go through `addErrors`
+type InfoNotice = Omit<Notice, 'type'> & { type?: Exclude<NoticeType, 'error'> };
+
+export type StoreNotice = (InfoNotice | ErrorsNotice) & {
   id: string | number[];
   created: string;
   dismissed: string | null;
-}
+};
 
 interface NoticeState {
   history: StoreNotice[];
-  add: (notice: Notice) => void;
-  addError: (error: AnyError, options: Notice) => Promise<AnyError>;
+  add: (notice: InfoNotice | ErrorsNotice) => void;
+  addErrors: (errors: NoticeError[], options?: Omit<ErrorsNotice, 'type' | 'errors'>) => void;
+  addError: (error: AnyError, options: Omit<Notice, 'type' | 'description'>) => Promise<AnyError>;
   remove: (id: string | number[]) => void;
   dismiss: (id: string | number[]) => void;
   dismissAll: () => void;
@@ -38,7 +56,7 @@ interface NoticeState {
 
 const useNoticeStore = create<NoticeState>((set, get) => ({
   history: [],
-  add: (notice: Notice): void => {
+  add: (notice: InfoNotice | ErrorsNotice): void => {
     set((state) => ({
       history: [
         ...state.history,
@@ -51,13 +69,11 @@ const useNoticeStore = create<NoticeState>((set, get) => ({
       ],
     }));
   },
-  addError: async (error: AnyError, options: Notice): Promise<AnyError> => {
-    const description = await parseErrorText(error);
-    get().add({
-      description,
-      type: 'error',
-      ...options,
-    });
+  addErrors: (errors, options = {}): void => {
+    get().add({ ...options, type: 'error', errors });
+  },
+  addError: async (error, { title, ...options }): Promise<AnyError> => {
+    get().addErrors([{ title, error }], options);
     return Promise.reject(error);
   },
   remove: (id: string | number[]): void => {

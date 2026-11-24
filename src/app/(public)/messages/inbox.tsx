@@ -24,8 +24,8 @@ import AppIconButton from '@/components/AppIconButton';
 import AppShimmerText from '@/components/AppShimmerText';
 import AppText from '@/components/AppText';
 import AppTextField from '@/components/AppTextField';
-import ErrorBadge from '@/components/ErrorBadge';
 import ErrorState from '@/components/ErrorState';
+import FetchBadge from '@/components/FetchBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayout';
 import MessageCard from '@/components/Messages/MessageCard';
@@ -67,6 +67,7 @@ const InboxScreen = ({ from }: { from?: string }) => {
     isEnabled: areMessagesEnabled,
     data: messages,
     error: messagesError,
+    errorUpdatedAt: messagesErrorUpdatedAt,
     refetch: refetchMessages,
     dataUpdatedAt: messagesUpdatedAt,
   } = useQuery({
@@ -200,11 +201,16 @@ const InboxScreen = ({ from }: { from?: string }) => {
                   ? t('messages.list.onFetch.fail')
                   : null}
           </AppShimmerText>
-          <ErrorBadge
-            error={messagesError}
+          <FetchBadge
+            errors={[
+              {
+                title: t('messages.list.onFetch.fail'),
+                error: messagesError,
+                updatedAt: messagesErrorUpdatedAt,
+                onRetry: refetchMessages,
+              },
+            ]}
             loading={isFetchingMessages}
-            title={t('messages.list.onFetch.fail')}
-            onRetry={refetchMessages}
           />
         </View>
 

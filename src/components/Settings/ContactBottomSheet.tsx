@@ -37,7 +37,7 @@ const ContactBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
     Linking.openURL(`mailto:${SUPPORT_EMAIL}`)
       .catch((error) =>
         noticeStore.addError(error, {
-          message: t('settings.contact.mail.onOpen.fail'),
+          title: t('settings.contact.mail.onOpen.fail'),
         }),
       )
       .finally(() => setContactingTeam(false));

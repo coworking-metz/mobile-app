@@ -2,6 +2,8 @@
   "default": {
     "message": "Oops 🫢"
   },
+  "multiple_one": "{{count}} error occurred",
+  "multiple_other": "{{count}} errors occurred",
   "timeout": {
     "message": "No response from the server{{withDuration}}. This may be due to an interrupted or poor quality connection.",
     "withDuration": " after waiting for {{duration}}"

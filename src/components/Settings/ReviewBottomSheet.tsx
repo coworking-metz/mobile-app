@@ -25,7 +25,7 @@ const ReviewBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSh
   const onReview = useCallback(() => {
     setLoading(true);
     StoreReview.requestReview()
-      .catch((error) => noticeStore.addError(error, { message: t('review.onRequest.fail') }))
+      .catch((error) => noticeStore.addError(error, { title: t('review.onRequest.fail') }))
       .finally(() => {
         setLoading(false);
       });

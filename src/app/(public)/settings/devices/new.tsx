@@ -94,7 +94,7 @@ const NewDevice = () => {
         }
       })
       .catch(handleSilentError)
-      .catch((error) => noticeStore.addError(error, { message: t('devices.onAdd.fail') }))
+      .catch((error) => noticeStore.addError(error, { title: t('devices.onAdd.fail') }))
       .finally(() => {
         setSubmitting(false);
       });

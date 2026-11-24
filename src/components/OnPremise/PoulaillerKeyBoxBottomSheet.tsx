@@ -37,7 +37,7 @@ const PoulaillerKeyBoxBottomSheet: ForwardRefRenderFunction<
       .catch(handleSilentError)
       .catch((error) =>
         noticeStore.addError(error, {
-          message: t('onPremise.keyBoxes.poulailler.onFetch.fail'),
+          title: t('onPremise.keyBoxes.poulailler.onFetch.fail'),
         }),
       )
       .finally(() => setLoading(false));
