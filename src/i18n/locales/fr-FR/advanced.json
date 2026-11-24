@@ -2,11 +2,23 @@
   "description": "Pour ceux qui sachent",
   "logs": {
     "clear": "Supprimer les logs",
+    "delete": "Supprimer",
     "description": "Historique de ce qui s'est passé pour simplifier le débogage",
     "empty": "Aucune ligne de log pour l'instant",
+    "onDelete": {
+      "confirm": {
+        "message": "Cette action est irréversible.",
+        "title": "Supprimer ce fichier de logs ?"
+      },
+      "fail": "Impossible de supprimer les logs"
+    },
     "onFetch": {
       "fail": "Impossible de récupérer les logs"
     },
+    "onShare": {
+      "fail": "Impossible de partager les logs"
+    },
+    "share": "Partager",
     "title": "Logs"
   },
   "onCopyToClipboard": {
@@ -46,14 +58,14 @@
       "label": "Jeton de rafraîchissement"
     },
     "title": "Paramètres de l'application",
-    "withVerticalStatusBar": {
-      "label": "Barre d’état verticale"
-    },
     "withBottomSheetFullHeight": {
       "label": "Afficher les volets inférieurs en plein\u00A0écran"
     },
     "withNativePullToRefresh": {
       "label": "Désactiver les animations du glisser pour\u00A0rafraîchir"
+    },
+    "withVerticalStatusBar": {
+      "label": "Barre d’état verticale"
     }
   },
   "support": {
