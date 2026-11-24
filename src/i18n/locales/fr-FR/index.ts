@@ -20,3 +20,4 @@ export { default as review } from './review.json';
 export { default as messages } from './messages.json';
 export { default as onboarding } from './onboarding.json';
 export { default as pushNotifications } from './push-notifications.json';
+export { default as labelPrinter } from './labelPrinter.json';

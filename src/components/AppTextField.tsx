@@ -39,7 +39,6 @@ export type AppTextFieldProps = Omit<TextInputProps, 'style'> & {
   validateOnChange?: boolean;
   validateOnBlur?: boolean;
   showCharCounter?: boolean;
-  // reserves room under the field for the validation message, even when valid
   enableErrors?: boolean;
 };
 
@@ -100,7 +99,6 @@ const AppTextField: ForwardRefRenderFunction<AppTextFieldRef, AppTextFieldProps>
     validate: () => runValidation(),
   }));
 
-  // validate on value change, skip mount so untouched fields don't start in error
   const isFirstRender = useRef(true);
   useEffect(() => {
     if (isFirstRender.current) {
@@ -146,7 +144,7 @@ const AppTextField: ForwardRefRenderFunction<AppTextFieldRef, AppTextFieldProps>
           placeholderTextColor={
             tw.prefixMatch('dark') ? tw.color('neutral-500/60') : tw.color('gray-500/60')
           }
-          style={withAppFontFamily([tw`h-6 grow p-0 text-base`, inputColorStyle, style])}
+          style={withAppFontFamily([tw`h-6 grow p-0 text-[16px]`, inputColorStyle, style])}
           value={value}
           onBlur={(event) => {
             setIsFocused(false);

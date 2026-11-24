@@ -1,6 +1,6 @@
 {
   "ios": {
-    "NSBluetoothAlwaysUsageDescription": "Autorisez $(PRODUCT_NAME) à utiliser le Bluetooth pour détecter la balise du portail du coworking et le déverrouiller automatiquement.",
+    "NSBluetoothAlwaysUsageDescription": "Autorisez $(PRODUCT_NAME) à utiliser le Bluetooth pour déverrouiller automatiquement le portail et imprimer des étiquettes.",
     "NSCalendarsFullAccessUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à votre calendrier",
     "NSCalendarsUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à votre calendrier",
     "NSFaceIDUsageDescription": "Autorisez $(PRODUCT_NAME) à utiliser Face ID.",

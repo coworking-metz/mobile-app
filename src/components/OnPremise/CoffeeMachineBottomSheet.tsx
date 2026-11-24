@@ -1,4 +1,4 @@
-import React, { forwardRef, ForwardRefRenderFunction } from 'react';
+import { forwardRef, ForwardRefRenderFunction, Fragment } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import tw from 'twrnc';
 import CoffeeMachineAnimation from '@/components/Animations/CoffeeMachineAnimation';
@@ -8,13 +8,15 @@ import AppBottomSheet, {
 } from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import AppTextLink from '@/components/AppTextLink';
-import { WORDPRESS_BASE_URL } from '@/services/environment';
+import { useOnPremise } from '@/components/OnPremise/OnPremiseContext';
+import { IS_DEV, WORDPRESS_BASE_URL } from '@/services/environment';
 
 const CoffeeMachineBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
   { style, onClose },
   forwardedRef,
 ) => {
   const { t } = useTranslation();
+  const { selectPrintLabel } = useOnPremise();
 
   return (
     <AppBottomSheet
@@ -41,6 +43,12 @@ const CoffeeMachineBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppB
             style={tw`text-amber-500`}
             target="_blank"
           />,
+          // label printing is still in development
+          IS_DEV ? (
+            <AppText key="print-label-link" style={tw`text-amber-500`} onPress={selectPrintLabel} />
+          ) : (
+            <Fragment key="print-label-link" />
+          ),
         ]}
         defaults={t('onPremise.coffeeMachine.description')}
         parent={AppText}

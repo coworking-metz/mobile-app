@@ -174,6 +174,7 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
           </SectionTitle>
 
           <ServiceRow
+            withBottomDivider
             label={t('onPremise.phoneBooths.state.orange.occupation.label')}
             style={tw`w-full px-0`}
             {...(!isNil(orangeOccupied) && {
@@ -193,7 +194,6 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
             )}
           </ServiceRow>
           <ServiceRow
-            withBottomDivider
             label={t('onPremise.phoneBooths.state.blue.occupation.label')}
             style={tw`w-full px-0`}
             {...(!isNil(blueOccupied) && {

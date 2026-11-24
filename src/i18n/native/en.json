@@ -1,6 +1,6 @@
 {
   "ios": {
-    "NSBluetoothAlwaysUsageDescription": "Allow $(PRODUCT_NAME) to use Bluetooth to detect the coworking gate beacon and unlock it automatically.",
+    "NSBluetoothAlwaysUsageDescription": "Allow $(PRODUCT_NAME) to use Bluetooth to unlock the gate automatically and print labels.",
     "NSCalendarsFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your calendar",
     "NSCalendarsUsageDescription": "Allow $(PRODUCT_NAME) to access your calendar",
     "NSFaceIDUsageDescription": "Allow $(PRODUCT_NAME) to access your Face ID biometric data.",

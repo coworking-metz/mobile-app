@@ -66,7 +66,7 @@
     }
   },
   "coffeeMachine": {
-    "description": "La machine à café, également utilisable pour le thé, est en libre service.\nUne tasse nominative est recommandée et peut être <0>commandée via la boutique</0> ; des emplacements partagés sont disponibles dans l'entrée du Poulailler pour la laisser sur place.\n\n<1>Une participation</1> est bienvenue en cas de consommation régulière.",
+    "description": "La machine à café, également utilisable pour le thé, est en libre service.\nUne tasse <2>nominative</2> est recommandée et <0>disponible dans la boutique</0> ; des emplacements partagés sont disponibles dans l'entrée du Poulailler pour la laisser sur place.\n\n<1>Une participation</1> est bienvenue en cas de consommation régulière.",
     "label": "Machine à café"
   },
   "deckDoor": {
@@ -195,8 +195,9 @@
     }
   },
   "printer": {
-    "description": "L'imprimante est accessible sur le réseau ou depuis <0>votre compte</0>.\nL'usage reste modéré (environ 30 pages par mois).\n\nUne participation est demandée en cas d'impression régulière, disponible dans <1>la boutique</1>.",
-    "label": "Imprimante"
+    "description": "L'imprimante est accessible sur le réseau ou depuis <0>votre\u00A0compte</0>.\nL'usage reste modéré (environ 30 pages par mois).\n\nUne participation est demandée en cas d'impression régulière, disponible dans <1>la\u00A0boutique</1>.",
+    "label": "Imprimante",
+    "printLabel": "Imprimer une étiquette"
   },
   "soundOff": {
     "description": "Le silence est de rigueur dans l'espace de travail pour préserver la concentration de chacun. Les discussions sont à proscrire et chacun s'engage à rester le plus discret possible.\n\nPar ailleurs, les téléphones doivent impérativement fonctionner en mode silencieux et les appels téléphoniques sont à passer à l'extérieur de l'espace de travail : les phone boxes, l'espace collaboratif, la terrasse sont prévus à cet effet.\n\nLes sons émanant des appareils sont également à proscrire (notifications, musiques, vidéos…). L'utilisation de casque est recommandée et doit se faire dans un volume respectueux de l'environnement proche.",
