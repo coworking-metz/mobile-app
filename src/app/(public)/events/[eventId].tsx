@@ -282,7 +282,7 @@ export default function CalendarEventPage() {
                       asChild
                       dismissTo
                       href={{
-                        pathname: '/events',
+                        pathname: withoutBackButton ? '/events' : '/events/root',
                         params: { calendar: event.calendar },
                       }}>
                       <ServiceRow
