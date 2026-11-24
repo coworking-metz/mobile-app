@@ -2,10 +2,11 @@ import { FlashList } from '@shopify/flash-list';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { File, Paths } from 'expo-file-system';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { capitalize, compact } from 'lodash';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Alert, Platform, Share } from 'react-native';
 import { KeyboardAwareScrollViewRef } from 'react-native-keyboard-controller';
 import Animated, { FadeIn, FadeInDown, FadeOut } from 'react-native-reanimated';
 import tw, { useDeviceContext } from 'twrnc';
@@ -18,6 +19,7 @@ import ServiceLayout, { useContentInsets } from '@/components/Layout/ServiceLayo
 import { isSilentError } from '@/helpers/error';
 import { getLogFileName } from '@/helpers/logger';
 import { useAppPaddingBottom } from '@/helpers/screen';
+import useNoticeStore from '@/stores/notice';
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<LogEntry>);
 
@@ -69,6 +71,8 @@ const LogDate = () => {
   const { logDate } = useLocalSearchParams<{ logDate: string }>();
   const paddingBottom = useAppPaddingBottom();
   const scrollViewRef = useRef<KeyboardAwareScrollViewRef>(null);
+  const router = useRouter();
+  const noticeStore = useNoticeStore();
 
   const {
     isPending: isPendingLogLines,
@@ -90,8 +94,57 @@ const LogDate = () => {
 
   const contentInsets = useContentInsets(null, 24);
 
+  const logFile = useMemo(() => new File(Paths.document, getLogFileName(logDate)), [logDate]);
+
+  const onShare = useCallback(async () => {
+    try {
+      await Share.share(
+        Platform.OS === 'ios' ? { url: logFile.uri } : { message: await logFile.text() },
+      );
+    } catch (error) {
+      noticeStore.addError(error as Error, { title: t('advanced.logs.onShare.fail') });
+    }
+  }, [logFile, noticeStore, t]);
+
+  const onDelete = useCallback(() => {
+    Alert.alert(
+      t('advanced.logs.onDelete.confirm.title'),
+      t('advanced.logs.onDelete.confirm.message'),
+      [
+        { text: t('actions.cancel'), style: 'cancel', isPreferred: true },
+        {
+          text: t('advanced.logs.delete'),
+          style: 'destructive',
+          onPress: () => {
+            try {
+              logFile.delete();
+              router.back();
+            } catch (error) {
+              noticeStore.addError(error as Error, { title: t('advanced.logs.onDelete.fail') });
+            }
+          },
+        },
+      ],
+    );
+  }, [logFile, router, noticeStore, t]);
+
   return (
     <ServiceLayout
+      actions={[
+        {
+          id: 'share',
+          title: t('advanced.logs.share'),
+          image: 'square.and.arrow.up',
+          onPress: onShare,
+        },
+        {
+          id: 'delete',
+          title: t('advanced.logs.delete'),
+          image: 'trash',
+          onPress: onDelete,
+          attributes: { destructive: true },
+        },
+      ]}
       contentStyle={[tw`pb-16 pt-4`]}
       footer={
         logLines?.length ? (

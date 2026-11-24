@@ -2,11 +2,23 @@
   "description": "For those who are in on it",
   "logs": {
     "clear": "Delete logs",
+    "delete": "Delete",
     "description": "History of what happened to simplify debugging",
     "empty": "No logs yet",
+    "onDelete": {
+      "confirm": {
+        "message": "This action cannot be undone.",
+        "title": "Delete this log file?"
+      },
+      "fail": "Unable to delete logs"
+    },
     "onFetch": {
       "fail": "Unable to retrieve logs"
     },
+    "onShare": {
+      "fail": "Unable to share logs"
+    },
+    "share": "Share",
     "title": "Logs"
   },
   "onCopyToClipboard": {
@@ -46,14 +58,14 @@
       "label": "Refresh token"
     },
     "title": "In-app settings",
-    "withVerticalStatusBar": {
-      "label": "Vertical status bar"
-    },
     "withBottomSheetFullHeight": {
       "label": "Show bottom sheets in full screen"
     },
     "withNativePullToRefresh": {
       "label": "Disable pull to refresh animations"
+    },
+    "withVerticalStatusBar": {
+      "label": "Vertical status bar"
     }
   },
   "support": {

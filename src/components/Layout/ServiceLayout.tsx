@@ -7,6 +7,7 @@ import React, {
   useEffect,
   useRef,
   useState,
+  type ComponentProps,
   type ReactNode,
   type Ref,
 } from 'react';
@@ -253,6 +254,11 @@ const ServiceLayout = ({
                           <Stack.Toolbar.MenuAction
                             destructive={action.attributes?.destructive}
                             disabled={action.attributes?.disabled}
+                            icon={
+                              action.image as ComponentProps<
+                                typeof Stack.Toolbar.MenuAction
+                              >['icon']
+                            }
                             key={action.id}
                             onPress={action.onPress}>
                             {action.title}
