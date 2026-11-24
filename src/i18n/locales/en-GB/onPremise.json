@@ -67,7 +67,7 @@
     }
   },
   "coffeeMachine": {
-    "description": "The coffee machine, which can also be used for tea, is self-service.\nA personal mug is recommended and can be <0>ordered from the shop</0>; shared spots are available at the entrance of Le Poulailler to leave it there.\n\n<1>A contribution</1> is appreciated in case of regular use.",
+    "description": "The coffee machine, which can also be used for tea, is self-service.\nA <2>personal</2> mug is recommended and <0>available in the shop</0>; shared spots are available at the entrance of Le Poulailler to leave it there.\n\n<1>A contribution</1> is appreciated in case of regular use.",
     "label": "Coffee machine"
   },
   "deckDoor": {
@@ -197,8 +197,9 @@
     }
   },
   "printer": {
-    "description": "The printer is accessible on the network or from <0>your account</0>.\nUsage should remain occasional and reasonable.\n\nA contribution is requested in case of regular printing, available in <1>the shop</1>.",
-    "label": "Printer"
+    "description": "The printer is accessible on the network or from <0>your\u00A0account</0>.\nUsage should remain occasional and reasonable.\n\nA contribution is requested in case of regular printing, available in <1>the\u00A0shop</1>.",
+    "label": "Printer",
+    "printLabel": "Print a label"
   },
   "soundOff": {
     "description": "Silence is required in the workspace to preserve everyone's focus. Discussions are to be avoided and everyone is committed to being as discreet as possible.\n\nFurthermore, phones must be set to silent mode and phone calls should be made outside of the workspace: phone booths, the collaborative room, and the outside deck are intended for this purpose.\n\nSounds emanating from devices are also to be avoided (notifications, music, videos…). The use of headphones is recommended and should be done at a volume respectful of the immediate environment.",

@@ -8,15 +8,18 @@ import AppBottomSheet, {
   AppBottomSheetRef,
 } from '@/components/AppBottomSheet';
 import AppFader, { FaderPosition } from '@/components/AppFader';
+import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTextLink from '@/components/AppTextLink';
-import { WORDPRESS_BASE_URL } from '@/services/environment';
+import { useOnPremise } from '@/components/OnPremise/OnPremiseContext';
+import { IS_DEV, WORDPRESS_BASE_URL } from '@/services/environment';
 
 const PrinterBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
   { style, onClose },
   forwardedRef,
 ) => {
   const { t } = useTranslation();
+  const { selectPrintLabel } = useOnPremise();
 
   return (
     <AppBottomSheet
@@ -57,6 +60,14 @@ const PrinterBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
         parent={AppText}
         style={tw`mb-3 mt-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
       />
+      {IS_DEV && (
+        <AppRoundedButton
+          label={t('onPremise.printer.printLabel')}
+          prefixIcon="printer"
+          style={tw`mt-3`}
+          onPress={selectPrintLabel}
+        />
+      )}
     </AppBottomSheet>
   );
 };

@@ -1,0 +1,79 @@
+{
+  "choosePrinter": "Plusieurs imprimantes sont à proximité, choisissez-en une",
+  "connectedTo": "Connectée à {{name}}",
+  "errors": {
+    "byCode": {
+      "battery_too_low": {
+        "title": "Batterie trop faible pour imprimer."
+      },
+      "ble": {
+        "hint": "Réessayez. Si le problème persiste, désactivez puis réactivez le Bluetooth du téléphone, éteignez puis rallumez l'imprimante.",
+        "title": "Erreur Bluetooth."
+      },
+      "bluetooth_off": {
+        "hint": "Activez le Bluetooth de votre téléphone puis réessayez.",
+        "title": "Le Bluetooth est désactivé."
+      },
+      "cancelled": {
+        "title": "Impression annulée."
+      },
+      "cassette_missing": {
+        "title": "Aucune cassette détectée dans l'imprimante."
+      },
+      "connection_failed": {
+        "hint": "L'imprimante est sans doute déjà connectée à un autre appareil. Fermez l'application DYMO Connect sur votre téléphone, éteignez puis rallumez l'imprimante et réessayez.",
+        "title": "Connexion à l'imprimante impossible."
+      },
+      "no_reply": {
+        "hint": "Vérifiez que l'imprimante est allumée, que la cassette est bien en place, puis réessayez. Si le problème persiste, déconnectez puis reconnectez l'imprimante.",
+        "title": "L'imprimante n'a pas confirmé l'impression."
+      },
+      "not_connected": {
+        "title": "L'imprimante n'est pas connectée."
+      },
+      "not_found": {
+        "hint": "Vérifiez que l'imprimante LetraTag est allumée et à portée, puis réessayez.",
+        "title": "Aucune imprimante trouvée à proximité."
+      },
+      "not_letratag": {
+        "title": "Cet appareil n'est pas une LetraTag LT-200B."
+      },
+      "permission_denied": {
+        "hint": "Autorisez l'accès au Bluetooth (appareils à proximité) dans les réglages de l'application.",
+        "title": "L'accès au Bluetooth a été refusé."
+      },
+      "protocol": {
+        "title": "Réponse de l'imprimante incompréhensible."
+      },
+      "unknown": {
+        "title": "Erreur inconnue de l'imprimante."
+      },
+      "unknown_failure": {
+        "title": "L'impression a échoué."
+      }
+    }
+  },
+  "font": {
+    "label": "Police d'écriture"
+  },
+  "length": "{{length}} mm sur {{max}} mm maximum recommandés pour une tasse",
+  "letterSpacing": {
+    "label": "Espacement des lettres",
+    "unit": "%"
+  },
+  "onPrint": {
+    "fail": "Impossible d'imprimer l'étiquette",
+    "success": "Étiquette imprimée"
+  },
+  "openSettings": "Ouvrir les réglages",
+  "print": "Imprimer",
+  "size": {
+    "label": "Hauteur du texte",
+    "unit": "mm"
+  },
+  "text": {
+    "label": "Texte"
+  },
+  "title": "Imprimer une étiquette",
+  "unavailable": "L'impression d'étiquettes n'est disponible que sur des appareils physiques équipés du Bluetooth."
+}

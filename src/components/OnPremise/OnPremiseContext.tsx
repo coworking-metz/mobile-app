@@ -9,6 +9,7 @@ import IntercomBottomSheet from './IntercomBottomSheet';
 import MeetingRoomHubBottomSheet from './MeetingRoomHubBottomSheet';
 import PhoneBoothBottomSheet from './PhoneBoothBottomSheet';
 import PoulaillerKeyBoxBottomSheet from './PoulaillerKeyBoxBottomSheet';
+import PrintLabelBottomSheet from './PrintLabelBottomSheet';
 import PrinterBottomSheet from './PrinterBottomSheet';
 import PtiPoulaillerClimateBottomSheet from './PtiPoulaillerClimateBottomSheet';
 import PtiPoulaillerKeyBoxBottomSheet from './PtiPoulaillerKeyBoxBottomSheet';
@@ -50,6 +51,7 @@ const OnPremiseContext = createContext<{
   selectCoffeeMachine?: () => void;
   isPrinterSelected?: boolean;
   selectPrinter?: () => void;
+  selectPrintLabel?: () => void;
   isFridgeSelected?: boolean;
   selectFridge?: () => void;
   selectNorthAirConditioner?: () => void;
@@ -89,6 +91,7 @@ const OnPremiseContext = createContext<{
   selectCoffeeMachine: () => {},
   isPrinterSelected: false,
   selectPrinter: () => {},
+  selectPrintLabel: () => {},
   isFridgeSelected: false,
   selectFridge: () => {},
   selectNorthAirConditioner: () => {},
@@ -133,6 +136,7 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
   const televisionBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isCoffeeMachineSelected] = useState<boolean>(false);
   const coffeeMachineBottomSheetRef = useRef<AppBottomSheetRef>(null);
+  const printLabelBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isPrinterSelected] = useState<boolean>(false);
   const printerBottomSheetRef = useRef<AppBottomSheetRef>(null);
   const [isFridgeSelected] = useState<boolean>(false);
@@ -185,6 +189,7 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
         selectCoffeeMachine: () => coffeeMachineBottomSheetRef.current?.open(),
         isPrinterSelected,
         selectPrinter: () => printerBottomSheetRef.current?.open(),
+        selectPrintLabel: () => printLabelBottomSheetRef.current?.open(),
         isFridgeSelected,
         selectFridge: () => fridgeBottomSheetRef.current?.open(),
         selectNorthAirConditioner: () => airConditioningNorthBottomSheetRef.current?.open(),
@@ -247,6 +252,7 @@ export const OnPremiseProvider = ({ children }: { children: React.ReactNode }) =
       <TelevisionBottomSheet ref={televisionBottomSheetRef} />
       <CoffeeMachineBottomSheet ref={coffeeMachineBottomSheetRef} />
       <PrinterBottomSheet ref={printerBottomSheetRef} />
+      <PrintLabelBottomSheet ref={printLabelBottomSheetRef} />
       <FridgeBottomSheet ref={fridgeBottomSheetRef} />
 
       <WifiBottomSheet ref={wifiBottomSheetRef} />

@@ -1,0 +1,79 @@
+{
+  "choosePrinter": "Several printers are nearby, pick one",
+  "connectedTo": "Connected to {{name}}",
+  "errors": {
+    "byCode": {
+      "battery_too_low": {
+        "title": "Battery too low to print."
+      },
+      "ble": {
+        "hint": "Retry. If it keeps failing, turn your phone's Bluetooth off and on again, and switch the printer off and on.",
+        "title": "Bluetooth error."
+      },
+      "bluetooth_off": {
+        "hint": "Turn on Bluetooth on your phone, then retry.",
+        "title": "Bluetooth is turned off."
+      },
+      "cancelled": {
+        "title": "Print cancelled."
+      },
+      "cassette_missing": {
+        "title": "No cassette detected in the printer."
+      },
+      "connection_failed": {
+        "hint": "The printer is probably already connected to another device. Close the DYMO Connect app on your phone, switch the printer off and on again, then retry.",
+        "title": "Unable to connect to the printer."
+      },
+      "no_reply": {
+        "hint": "Check that the printer is on and the cassette is properly inserted, then retry. If it keeps failing, disconnect and reconnect the printer.",
+        "title": "The printer did not confirm the print."
+      },
+      "not_connected": {
+        "title": "The printer is not connected."
+      },
+      "not_found": {
+        "hint": "Check that the LetraTag printer is on and within range, then retry.",
+        "title": "No printer found nearby."
+      },
+      "not_letratag": {
+        "title": "This device is not a LetraTag LT-200B."
+      },
+      "permission_denied": {
+        "hint": "Allow Bluetooth (nearby devices) access in the app settings.",
+        "title": "Bluetooth access was denied."
+      },
+      "protocol": {
+        "title": "Unreadable reply from the printer."
+      },
+      "unknown": {
+        "title": "Unknown printer error."
+      },
+      "unknown_failure": {
+        "title": "Printing failed."
+      }
+    }
+  },
+  "font": {
+    "label": "Font"
+  },
+  "length": "{{length}} mm of {{max}} mm maximum recommended for a mug",
+  "letterSpacing": {
+    "label": "Letter spacing",
+    "unit": "%"
+  },
+  "onPrint": {
+    "fail": "Unable to print the label",
+    "success": "Label printed"
+  },
+  "openSettings": "Open settings",
+  "print": "Print",
+  "size": {
+    "label": "Text height",
+    "unit": "mm"
+  },
+  "text": {
+    "label": "Text"
+  },
+  "title": "Print a label",
+  "unavailable": "Label printing is only available on physical devices with Bluetooth."
+}
