@@ -67,7 +67,7 @@ const UnlockDeckDoorBottomSheet: ForwardRefRenderFunction<
       .catch(handleSilentError)
       .catch((error) =>
         noticeStore.addError(error, {
-          message: t('onPremise.deckDoor.onUnlock.fail'),
+          title: t('onPremise.deckDoor.onUnlock.fail'),
         }),
       )
       .finally(() => setLoading(false));

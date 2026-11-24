@@ -24,7 +24,7 @@ import { AppBottomSheetRef } from '@/components/AppBottomSheet';
 import AppIconButton from '@/components/AppIconButton';
 import AppPressable from '@/components/AppPressable';
 import AppText from '@/components/AppText';
-import ErrorBadge from '@/components/ErrorBadge';
+import FetchBadge from '@/components/FetchBadge';
 import AttendanceCount from '@/components/Home/AttendanceCount';
 import BalanceBottomSheet from '@/components/Home/BalanceBottomSheet';
 import BalanceCard from '@/components/Home/BalanceCard';
@@ -103,6 +103,7 @@ export default function HomeScreen() {
     isFetching: isFetchingProfile,
     refetch: refetchProfile,
     error: profileError,
+    errorUpdatedAt: profileErrorUpdatedAt,
     isEnabled: isProfileEnabled,
   } = useQuery({
     queryKey: authStore.user?.id ? membersQueryKeys.profileById(authStore.user.id) : [],
@@ -159,6 +160,7 @@ export default function HomeScreen() {
     isFetching: isFetchingSubscriptions,
     refetch: refetchSubscriptions,
     error: subscriptionsError,
+    errorUpdatedAt: subscriptionsErrorUpdatedAt,
     isEnabled: areSubscriptionsEnabled,
   } = useQuery({
     queryKey: authStore.user?.id ? membersQueryKeys.subscriptionsById(authStore.user.id) : [],
@@ -192,6 +194,7 @@ export default function HomeScreen() {
     dataUpdatedAt: calendarEventsUpdatedAt,
     refetch: refetchCalendarEvents,
     error: calendarEventsError,
+    errorUpdatedAt: calendarEventsErrorUpdatedAt,
   } = useQuery({
     queryKey: eventsQueryKeys.all(),
     queryFn: getCalendarEvents,
@@ -386,17 +389,22 @@ export default function HomeScreen() {
             isWide ? WIDE_CONTENT_STYLE : { paddingRight: insets.right || MIN_MINIMUM_EDGE },
           ]}
           title={t('home.profile.label')}>
-          <ErrorBadge
-            error={profileError}
-            loading={isFetchingProfile}
-            title={t('home.profile.onFetch.fail')}
-            onRetry={onRefresh}
-          />
-          <ErrorBadge
-            error={subscriptionsError}
-            loading={isFetchingSubscriptions}
-            title={t('home.profile.subscription.onFetch.fail')}
-            onRetry={onRefresh}
+          <FetchBadge
+            errors={[
+              {
+                title: t('home.profile.onFetch.fail'),
+                error: profileError,
+                updatedAt: profileErrorUpdatedAt,
+                onRetry: onRefresh,
+              },
+              {
+                title: t('home.profile.subscription.onFetch.fail'),
+                error: subscriptionsError,
+                updatedAt: subscriptionsErrorUpdatedAt,
+                onRetry: onRefresh,
+              },
+            ]}
+            loading={isFetchingProfile || isFetchingSubscriptions}
           />
         </SectionTitle>
 
@@ -489,11 +497,16 @@ export default function HomeScreen() {
           isWide && WIDE_CONTENT_STYLE,
         ]}
         title={t('home.calendar.label')}>
-        <ErrorBadge
-          error={calendarEventsError}
+        <FetchBadge
+          errors={[
+            {
+              title: t('home.calendar.onFetch.fail'),
+              error: calendarEventsError,
+              updatedAt: calendarEventsErrorUpdatedAt,
+              onRetry: onRefresh,
+            },
+          ]}
           loading={isFetchingCalendarEvents}
-          title={t('home.calendar.onFetch.fail')}
-          onRetry={onRefresh}
         />
 
         <Link asChild href="/events">

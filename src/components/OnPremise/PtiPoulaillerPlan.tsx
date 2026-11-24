@@ -20,7 +20,7 @@ import floorPlanPtiPoulaillerDay from '@/assets/images/floorplans/floorplan-pti-
 import floorPlanPtiPoulaillerNight from '@/assets/images/floorplans/floorplan-pti-poulailler-01-06-2023-22-30.png';
 import VerticalLoadingAnimation from '@/components/Animations/VerticalLoadingAnimation';
 import AppText from '@/components/AppText';
-import ErrorBadge from '@/components/ErrorBadge';
+import FetchBadge from '@/components/FetchBadge';
 import LoadingProgressBar from '@/components/LoadingProgressBar';
 import ActionableIcon from '@/components/OnPremise/ActionableIcon';
 import { getOnPremiseState } from '@/services/api/services';
@@ -62,6 +62,7 @@ const PtiPoulaillerPlan = ({
     isFetching: isFetchingOnPremiseState,
     data: onPremiseState,
     error: onPremiseStateError,
+    errorUpdatedAt: onPremiseStateErrorUpdatedAt,
     refetch: refetchOnPremiseState,
   } = useQuery({
     queryKey: onPremiseQueryKeys.state(),
@@ -95,12 +96,17 @@ const PtiPoulaillerPlan = ({
           style={tw`text-4xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
           {t('onPremise.location.pti-poulailler')}
         </AppText>
-        <ErrorBadge
-          error={onPremiseStateError}
+        <FetchBadge
+          errors={[
+            {
+              title: t('onPremise.onFetch.fail'),
+              error: onPremiseStateError,
+              updatedAt: onPremiseStateErrorUpdatedAt,
+              onRetry: refetchOnPremiseState,
+            },
+          ]}
           loading={isFetchingOnPremiseState}
           style={tw`ios:mb-2 android:mb-1 shrink-0`}
-          title={t('onPremise.onFetch.fail')}
-          onRetry={refetchOnPremiseState}
         />
       </View>
       <View

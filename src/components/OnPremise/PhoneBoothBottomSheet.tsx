@@ -22,7 +22,7 @@ import AppBottomSheet, {
 } from '@/components/AppBottomSheet';
 import AppText from '@/components/AppText';
 import CarouselPaginationDots from '@/components/CarouselPaginationDots';
-import ErrorBadge from '@/components/ErrorBadge';
+import FetchBadge from '@/components/FetchBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
@@ -79,6 +79,7 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
     data: occupationPerBooth,
     isFetching: isFetchingOccupation,
     error: occupationError,
+    errorUpdatedAt: occupationErrorUpdatedAt,
     refetch: refetchOccupationPerBooth,
   } = useQuery({
     queryKey: onPremiseQueryKeys.phoneBoothsOccupation(),
@@ -218,11 +219,16 @@ const PhoneBoothBottomSheet: ForwardRefRenderFunction<
         loading={loading}
         style={tw`mx-4`}
         title={t('onPremise.phoneBooths.graph.label')}>
-        <ErrorBadge
-          error={occupationError}
+        <FetchBadge
+          errors={[
+            {
+              title: t('onPremise.phoneBooths.onFetch.fail'),
+              error: occupationError,
+              updatedAt: occupationErrorUpdatedAt,
+              onRetry: refetchOccupationPerBooth,
+            },
+          ]}
           loading={isFetchingOccupation}
-          title={t('onPremise.phoneBooths.onFetch.fail')}
-          onRetry={refetchOccupationPerBooth}
         />
       </SectionTitle>
 

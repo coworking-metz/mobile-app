@@ -2,6 +2,8 @@
   "default": {
     "message": "Oups 🫢"
   },
+  "multiple_one": "{{count}} erreur est survenue",
+  "multiple_other": "{{count}} erreurs sont survenues",
   "timeout": {
     "message": "Aucune réponse du serveur{{withDuration}}. Cela peut être dû à une connexion interrompue ou de mauvaise qualité.",
     "withDuration": " après {{duration}} d'attente"

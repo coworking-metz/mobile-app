@@ -33,7 +33,7 @@ import AppIcon from '@/components/AppIcon';
 import AppIconButton from '@/components/AppIconButton';
 import AppText from '@/components/AppText';
 import AppTextLink from '@/components/AppTextLink';
-import ErrorBadge from '@/components/ErrorBadge';
+import FetchBadge from '@/components/FetchBadge';
 import ProfilePicture from '@/components/Home/ProfilePicture';
 import NativeHeader, {
   StandaloneHeaderContext,
@@ -121,6 +121,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     isFetching: isFetchingActivity,
     data: activity,
     error: activityError,
+    errorUpdatedAt: activityErrorUpdatedAt,
     refetch: refetchActivity,
   } = useQuery({
     queryKey: authStore.user?.id
@@ -139,6 +140,7 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
     isFetching: isFetchingProfile,
     data: profile,
     error: profileError,
+    errorUpdatedAt: profileErrorUpdatedAt,
     refetch: refetchProfile,
     isEnabled: isProfileEnabled,
   } = useQuery({
@@ -378,17 +380,22 @@ const Settings = ({ style, from }: { from?: string; style?: StyleProp<ViewStyle>
                 loading={isFetchingActivity || isFetchingProfile}
                 style={[tw`px-6`, presenceGraphInsets]}
                 title={t('settings.profile.presence.title')}>
-                <ErrorBadge
-                  error={activityError}
-                  loading={isFetchingActivity}
-                  title={t('settings.profile.presence.onFetch.fail')}
-                  onRetry={refetchActivity}
-                />
-                <ErrorBadge
-                  error={profileError}
-                  loading={isFetchingProfile}
-                  title={t('home.profile.onFetch.fail')}
-                  onRetry={refetchProfile}
+                <FetchBadge
+                  errors={[
+                    {
+                      title: t('settings.profile.presence.onFetch.fail'),
+                      error: activityError,
+                      updatedAt: activityErrorUpdatedAt,
+                      onRetry: refetchActivity,
+                    },
+                    {
+                      title: t('home.profile.onFetch.fail'),
+                      error: profileError,
+                      updatedAt: profileErrorUpdatedAt,
+                      onRetry: refetchProfile,
+                    },
+                  ]}
+                  loading={isFetchingActivity || isFetchingProfile}
                 />
 
                 {profile?.balance && profile.balance < 0 ? (

@@ -40,9 +40,8 @@ const BirthdayBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottom
       }, 1000);
     })
       .catch((error) => {
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         noticeStore.addError(error, {
-          message: t('home.profile.birthday.onClaim.fail'),
+          title: t('home.profile.birthday.onClaim.fail'),
         });
       })
       .finally(() => {

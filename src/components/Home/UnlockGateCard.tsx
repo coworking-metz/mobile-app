@@ -90,7 +90,7 @@ const UnlockCard = ({
       .catch((error) => {
         noticeStore
           .addError(error, {
-            message: t('home.unlockGate.onFail.message'),
+            title: t('home.unlockGate.onFail.message'),
             action: {
               label: t('actions.retry'),
               onPress: () => setTimeout(onUnlock, 500),

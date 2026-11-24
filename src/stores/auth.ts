@@ -138,7 +138,7 @@ const useAuthStore = create<AuthState>()(
             type: 'error',
             onPress: () => {
               noticeStore.addError(error, {
-                message: disconnectedMessage,
+                title: disconnectedMessage,
               });
               toast.dismiss();
             },

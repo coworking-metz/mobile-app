@@ -37,7 +37,7 @@ const StorageKeyBoxBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppB
       .catch(handleSilentError)
       .catch((error) =>
         noticeStore.addError(error, {
-          message: t('onPremise.keyBoxes.storage.onFetch.fail'),
+          title: t('onPremise.keyBoxes.storage.onFetch.fail'),
         }),
       )
       .finally(() => setFetching(false));

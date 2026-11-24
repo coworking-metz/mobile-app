@@ -84,7 +84,7 @@ const OpenParkingCard = ({
       })
       .catch((error) => {
         noticeStore.addError(error, {
-          message: t('home.parking.onFail.message'),
+          title: t('home.parking.onFail.message'),
           action: {
             label: t('actions.retry'),
             onPress: () => setTimeout(onOpen, 500),

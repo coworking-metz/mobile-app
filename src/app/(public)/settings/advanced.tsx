@@ -99,7 +99,7 @@ const Advanced = () => {
       })
       .catch((error) =>
         noticeStore.addError(error, {
-          message: t('advanced.support.clearCache.onCleared.fail'),
+          title: t('advanced.support.clearCache.onCleared.fail'),
         }),
       )
       .finally(() => {
@@ -122,7 +122,7 @@ const Advanced = () => {
         router.dismissTo('/');
       })
       .catch((error) =>
-        noticeStore.addError(error, { message: t('advanced.support.reset.onReset.fail') }),
+        noticeStore.addError(error, { title: t('advanced.support.reset.onReset.fail') }),
       )
       .finally(() => {
         setResetting(false);
@@ -160,7 +160,7 @@ const Advanced = () => {
           });
         })
         .catch((error) =>
-          noticeStore.addError(error, { message: t('advanced.onCopyToClipboard.fail') }),
+          noticeStore.addError(error, { title: t('advanced.onCopyToClipboard.fail') }),
         );
     },
     [toastStore, t],

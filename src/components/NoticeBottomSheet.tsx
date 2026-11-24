@@ -4,10 +4,9 @@ import React, {
   ForwardRefRenderFunction,
   useCallback,
   useImperativeHandle,
-  useMemo,
   useRef,
 } from 'react';
-import { View } from 'react-native';
+import { View, type StyleProp, type TextStyle } from 'react-native';
 import tw from 'twrnc';
 import ErrorAnimation from '@/components/Animations/ErrorAnimation';
 import InfoAnimation from '@/components/Animations/InfoAnimation';
@@ -22,12 +21,30 @@ import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import { Notice, type NoticeType } from '@/stores/notice';
 
+const NoticeDescription = ({
+  description,
+  style,
+}: {
+  description: string;
+  style?: StyleProp<TextStyle>;
+}) =>
+  description.startsWith('<') || description.startsWith('{') ? (
+    <View style={tw`mt-4 w-full rounded-2xl bg-gray-200 px-4 py-2 dark:bg-black`}>
+      <AppMonoText>{description.trim()}</AppMonoText>
+    </View>
+  ) : (
+    <AppText
+      style={[tw`mt-2 w-full text-base font-normal text-slate-500 dark:text-neutral-500`, style]}>
+      {description}
+    </AppText>
+  );
+
 const NoticeBottomSheet: ForwardRefRenderFunction<
   AppBottomSheetRef,
   AppBottomSheetProps & {
     notice: Notice;
   }
-> = ({ notice, style, onClose }, forwardedRef) => {
+> = ({ notice, style, children, onClose }, forwardedRef) => {
   const bottomSheetRef = useRef<AppBottomSheetRef | null>(null);
   useImperativeHandle(forwardedRef, () => bottomSheetRef.current as AppBottomSheetRef);
 
@@ -56,10 +73,6 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
     }
   }, [notice]);
 
-  const isDescriptionCode = useMemo(() => {
-    return notice.description?.startsWith('<') || notice.description?.startsWith('{');
-  }, [notice.description]);
-
   return (
     <AppBottomSheet
       ref={bottomSheetRef}
@@ -75,20 +88,12 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
       <View style={tw`mt-4 flex grow flex-col items-center self-stretch`}>
         <AppText
           style={tw`text-center text-2xl font-bold tracking-tight text-slate-900 dark:text-gray-200`}>
-          {notice.message}
+          {notice.title}
         </AppText>
         {notice.description ? (
-          isDescriptionCode ? (
-            <View style={tw`mt-4 w-full rounded-2xl bg-gray-200 px-4 py-2 dark:bg-black`}>
-              <AppMonoText>{notice.description.trim()}</AppMonoText>
-            </View>
-          ) : (
-            <AppText
-              style={tw`mt-2 w-full text-center text-base font-normal text-slate-500 dark:text-neutral-500`}>
-              {notice.description}
-            </AppText>
-          )
+          <NoticeDescription description={notice.description} style={tw`text-center`} />
         ) : null}
+        {children}
       </View>
 
       {notice.action ? (
@@ -107,4 +112,5 @@ const NoticeBottomSheet: ForwardRefRenderFunction<
   );
 };
 
+export { NoticeDescription };
 export default forwardRef(NoticeBottomSheet);

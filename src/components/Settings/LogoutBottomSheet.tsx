@@ -69,7 +69,7 @@ const LogoutBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSh
 
       return Linking.openURL(logoutUrl);
     })()
-      .catch((error) => noticeStore.addError(error, { message: t('errors.default.message') }))
+      .catch((error) => noticeStore.addError(error, { title: t('errors.default.message') }))
       .finally(() => {
         setLoading(false);
       });

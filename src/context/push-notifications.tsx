@@ -177,7 +177,7 @@ export const PushNotificationsProvider = ({ children }: { children: React.ReactN
     })()
       .catch((error) => {
         noticeStore.addError(error, {
-          message: t('pushNotifications.onRegistration.fail'),
+          title: t('pushNotifications.onRegistration.fail'),
         });
         return false;
       })

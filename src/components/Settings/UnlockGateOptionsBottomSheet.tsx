@@ -21,7 +21,7 @@ import AppText from '@/components/AppText';
 import AppTextField from '@/components/AppTextField';
 import AppTextLink from '@/components/AppTextLink';
 import Divider from '@/components/Divider';
-import ErrorBadge from '@/components/ErrorBadge';
+import FetchBadge from '@/components/FetchBadge';
 import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingProgressBar from '@/components/LoadingProgressBar';
@@ -52,6 +52,7 @@ const UnlockGateOptionsBottomSheet: ForwardRefRenderFunction<
     isFetching: isFetchingOptions,
     data: options,
     error: optionsError,
+    errorUpdatedAt: optionsErrorUpdatedAt,
     refetch: refetchOptions,
   } = useQuery({
     queryKey: onPremiseQueryKeys.unlockGateOptions(),
@@ -125,11 +126,16 @@ const UnlockGateOptionsBottomSheet: ForwardRefRenderFunction<
             loading={isFetchingOptions}
             style={tw`mt-3`}
             title={t('settings.home.unlockGateOptions.beacon.title')}>
-            <ErrorBadge
-              error={optionsError}
+            <FetchBadge
+              errors={[
+                {
+                  title: t('settings.home.unlockGateOptions.onFetch.fail'),
+                  error: optionsError,
+                  updatedAt: optionsErrorUpdatedAt,
+                  onRetry: refetchOptions,
+                },
+              ]}
               loading={isFetchingOptions}
-              title={t('settings.home.unlockGateOptions.onFetch.fail')}
-              onRetry={refetchOptions}
             />
           </SectionTitle>
           <ServiceRow

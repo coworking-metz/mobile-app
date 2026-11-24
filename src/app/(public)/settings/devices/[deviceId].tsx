@@ -123,7 +123,7 @@ const DeviceDetail = () => {
         }
       })
       .catch(handleSilentError)
-      .catch((error) => noticeStore.addError(error, { message: t('devices.onUpdate.fail') }))
+      .catch((error) => noticeStore.addError(error, { title: t('devices.onUpdate.fail') }))
       .finally(() => {
         setSubmitting(false);
       });
@@ -170,7 +170,7 @@ const DeviceDetail = () => {
         }
       })
       .catch(handleSilentError)
-      .catch((error) => noticeStore.addError(error, { message: t('devices.onDelete.fail') }))
+      .catch((error) => noticeStore.addError(error, { title: t('devices.onDelete.fail') }))
       .finally(() => {
         setDeleting(false);
       });

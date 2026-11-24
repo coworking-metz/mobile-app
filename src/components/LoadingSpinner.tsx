@@ -13,9 +13,13 @@ import tw from 'twrnc';
 
 const LoadingSpinner = ({
   style,
+  ringStyle,
   beamSize = 4,
   ...props
-}: AnimatedProps<{ style?: StyleProp<ViewStyle> }> & { beamSize?: 2 | 4 | 8 }) => {
+}: AnimatedProps<{ style?: StyleProp<ViewStyle> }> & {
+  ringStyle?: StyleProp<ViewStyle>;
+  beamSize?: 2 | 4 | 8;
+}) => {
   const rotation = useSharedValue(0);
   const animatedStyle = useAnimatedStyle(
     () => ({
@@ -41,7 +45,12 @@ const LoadingSpinner = ({
       accessibilityRole="progressbar"
       style={[tw`relative size-6 items-center justify-center`, style]}
       {...props}>
-      <View style={[tw`size-full rounded-full border-2 border-gray-400 dark:border-gray-500`]} />
+      <View
+        style={[
+          tw`size-full rounded-full border-2 border-gray-400 dark:border-gray-500`,
+          ringStyle,
+        ]}
+      />
 
       <Animated.View
         style={[

@@ -220,7 +220,7 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
       })
       .catch(handleSilentError)
       .catch((error) => {
-        noticeStore.addError(error, { message: t('devices.add.onPair.fail') });
+        noticeStore.addError(error, { title: t('devices.add.onPair.fail') });
         resetAnimation();
       });
   }, [authStore]);
@@ -278,7 +278,7 @@ const PairDeviceBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
     if (verifiedDevice) {
       bottomSheetRef.current?.close();
       noticeStore.add({
-        message: t('devices.add.onPair.success', {
+        title: t('devices.add.onPair.success', {
           name: verifiedDevice.name || verifiedDevice.macAddress,
         }),
         type: 'success',

@@ -86,7 +86,7 @@ const AirConditioningBottomSheet: ForwardRefRenderFunction<
       .catch(handleSilentError)
       .catch((error) =>
         noticeStore.addError(error, {
-          message: t('onPremise.airConditioning.onToggle.fail'),
+          title: t('onPremise.airConditioning.onToggle.fail'),
         }),
       )
       .finally(() => setUpdatingTargetTemperature(false));
@@ -108,7 +108,7 @@ const AirConditioningBottomSheet: ForwardRefRenderFunction<
       .catch(handleSilentError)
       .catch((error) =>
         noticeStore.addError(error, {
-          message: t('onPremise.airConditioning.onToggle.fail'),
+          title: t('onPremise.airConditioning.onToggle.fail'),
         }),
       )
       .finally(() => setTogglingActive(false));
