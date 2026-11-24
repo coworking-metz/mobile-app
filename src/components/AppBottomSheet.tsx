@@ -9,6 +9,7 @@ import React, {
   useState,
 } from 'react';
 import { Platform, ScrollView, type ScrollViewInstance } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import tw from 'twrnc';
 import useSettingsStore from '@/stores/settings';
 
@@ -70,19 +71,22 @@ const AppBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheet
         onClose?.();
         setDetent(null);
       }}>
-      <ScrollView
-        ref={scrollableRef}
-        contentContainerStyle={[tw`flex flex-col`, style]}
-        horizontal={false}
-        scrollEnabled={isScrollable}
-        onContentSizeChange={(_, contentSizeHeight) => {
-          setContentHeight(contentSizeHeight);
-        }}
-        onLayout={({ nativeEvent }) => {
-          setScrollViewHeight(nativeEvent.layout.height);
-        }}>
-        {children}
-      </ScrollView>
+      {/* Android mounts the sheet as its own RootView, outside the app's gesture root */}
+      <GestureHandlerRootView style={tw`shrink`}>
+        <ScrollView
+          ref={scrollableRef}
+          contentContainerStyle={[tw`flex flex-col`, style]}
+          horizontal={false}
+          scrollEnabled={isScrollable}
+          onContentSizeChange={(_, contentSizeHeight) => {
+            setContentHeight(contentSizeHeight);
+          }}
+          onLayout={({ nativeEvent }) => {
+            setScrollViewHeight(nativeEvent.layout.height);
+          }}>
+          {children}
+        </ScrollView>
+      </GestureHandlerRootView>
     </TrueSheet>
   );
 };
