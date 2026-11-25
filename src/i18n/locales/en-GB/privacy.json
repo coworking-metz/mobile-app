@@ -7,7 +7,10 @@
       "title": "System settings"
     },
     "bluetooth": {
-      "description": "To be located at close range.\nUsed for <0>hands-free\u00A0gate unlocking</0>.",
+      "description": {
+        "beacon": "To be located at close range. \nUsed for <0>hands-free\u00A0gate unlocking</0>.",
+        "printer": "To connect to the printer.\nUsed for <1>label printing</1>."
+      },
       "label": "Bluetooth"
     },
     "calendar": {

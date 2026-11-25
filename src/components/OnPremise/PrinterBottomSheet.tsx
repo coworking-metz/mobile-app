@@ -63,7 +63,7 @@ const PrinterBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
       {IS_DEV && (
         <AppRoundedButton
           label={t('onPremise.printer.printLabel')}
-          prefixIcon="printer"
+          prefixIcon="label"
           style={tw`mt-3`}
           onPress={selectPrintLabel}
         />

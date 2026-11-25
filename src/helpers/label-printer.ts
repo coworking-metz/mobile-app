@@ -226,8 +226,8 @@ export const renderLabel = (
 const toBase64 = (bytes: Uint8Array) => btoa(String.fromCharCode(...bytes));
 const fromBase64 = (base64: string) => Uint8Array.from(atob(base64), (char) => char.charCodeAt(0));
 
-/** @returns whether Bluetooth is usable, sets the matching error otherwise */
-const ensureBluetooth = async (): Promise<boolean> => {
+/** iOS: creating the manager shows the permission prompt if not answered yet */
+export const requestBluetoothPermission = async (): Promise<boolean> => {
   if (Platform.OS === 'android') {
     const permissions =
       Platform.Version >= 31
@@ -237,14 +237,14 @@ const ensureBluetooth = async (): Promise<boolean> => {
           ]
         : [PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION];
     const results = await PermissionsAndroid.requestMultiple(permissions);
-    if (permissions.some((permission) => results[permission] !== 'granted')) {
-      setError('permission_denied');
-      return false;
-    }
+    return permissions.every((permission) => results[permission] === 'granted');
   }
+  return (await getBluetoothState()) !== State.Unauthorized;
+};
 
-  // iOS reports `Unknown` until the user answered the permission prompt
-  const state = await new Promise<State>((resolve) => {
+// iOS reports `Unknown` until the user answered the permission prompt
+const getBluetoothState = () =>
+  new Promise<State>((resolve) => {
     const timeout = setTimeout(() => {
       subscription.remove();
       resolve(State.Unknown);
@@ -256,6 +256,14 @@ const ensureBluetooth = async (): Promise<boolean> => {
       resolve(newState);
     }, true);
   });
+
+/** @returns whether Bluetooth is usable, sets the matching error otherwise */
+const ensureBluetooth = async (): Promise<boolean> => {
+  if (!(await requestBluetoothPermission())) {
+    setError('permission_denied');
+    return false;
+  }
+  const state = await getBluetoothState();
   if (state === State.PoweredOn) return true;
   setError(
     state === State.Unauthorized

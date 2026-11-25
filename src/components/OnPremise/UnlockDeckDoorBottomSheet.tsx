@@ -41,6 +41,7 @@ const UnlockDeckDoorBottomSheet: ForwardRefRenderFunction<
 
   useEffect(() => {
     setUnlocked(unlocked);
+    if (!unlocked) setSwiped(false);
   }, [unlocked]);
 
   const animateLock = useCallback(() => {

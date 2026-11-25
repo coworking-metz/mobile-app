@@ -1,15 +1,15 @@
 {
   "ios": {
-    "NSBluetoothAlwaysUsageDescription": "Autorisez $(PRODUCT_NAME) à utiliser le Bluetooth pour déverrouiller automatiquement le portail et imprimer des étiquettes.",
-    "NSCalendarsFullAccessUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à votre calendrier",
-    "NSCalendarsUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à votre calendrier",
-    "NSFaceIDUsageDescription": "Autorisez $(PRODUCT_NAME) à utiliser Face ID.",
-    "NSLocalNetworkUsageDescription": "Autorisez $(PRODUCT_NAME) à détecter votre appareil sur le réseau du coworking pour l'associer automatiquement.",
-    "NSLocationAlwaysAndWhenInUseUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à votre position",
-    "NSLocationAlwaysUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à votre position",
-    "NSLocationWhenInUseUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à votre position",
-    "NSMotionUsageDescription": "Autorisez $(PRODUCT_NAME) à détecter votre activité physique",
-    "NSRemindersFullAccessUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à vos rappels",
-    "NSRemindersUsageDescription": "Autorisez $(PRODUCT_NAME) à accéder à vos rappels"
+    "NSBluetoothAlwaysUsageDescription": "Le Bluetooth sert à déverrouiller automatiquement le portail et à imprimer des étiquettes.",
+    "NSCalendarsFullAccessUsageDescription": "Votre calendrier sert à y ajouter des évènements.",
+    "NSCalendarsUsageDescription": "Votre calendrier sert à y ajouter des évènements.",
+    "NSFaceIDUsageDescription": "Face ID sert à vous authentifier.",
+    "NSLocalNetworkUsageDescription": "Le réseau local sert à détecter votre appareil sur le réseau du coworking pour l'associer automatiquement.",
+    "NSLocationAlwaysAndWhenInUseUsageDescription": "Votre position sert à déverrouiller automatiquement le portail à votre arrivée, même quand l'app est fermée.",
+    "NSLocationAlwaysUsageDescription": "Votre position sert à déverrouiller automatiquement le portail à votre arrivée, même quand l'app est fermée.",
+    "NSLocationWhenInUseUsageDescription": "Votre position sert à déverrouiller automatiquement le portail à votre arrivée.",
+    "NSMotionUsageDescription": "Votre activité physique sert à détecter vos déplacements.",
+    "NSRemindersFullAccessUsageDescription": "Vos rappels servent à y ajouter des évènements.",
+    "NSRemindersUsageDescription": "Vos rappels servent à y ajouter des évènements."
   }
 }

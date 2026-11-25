@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-beacon-kit/ios/Beacon.mm b/node_modules/react-native-beacon-kit/ios/Beacon.mm
-index 59c759e..ec6663a 100644
+index 59c759e..e44a09f 100644
 --- a/node_modules/react-native-beacon-kit/ios/Beacon.mm
 +++ b/node_modules/react-native-beacon-kit/ios/Beacon.mm
 @@ -116,12 +116,14 @@
@@ -134,3 +134,12 @@ index 59c759e..ec6663a 100644
      CLBeaconRegion *beaconRegion = _monitoringRegions[identifier];
      if (beaconRegion) {
          dispatch_async(dispatch_get_main_queue(), ^{
+@@ -528,7 +530,7 @@ rangingBeaconsDidFailForConstraint:(CLBeaconIdentityConstraint *)constraint
+         (status == kCLAuthorizationStatusAuthorizedAlways ||
+          status == kCLAuthorizationStatusAuthorizedWhenInUse);
+     BOOL backgroundPermissionGranted = status == kCLAuthorizationStatusAuthorizedAlways;
+-    BOOL bluetoothPermissionGranted = YES;
++    BOOL bluetoothPermissionGranted = CBManager.authorization == CBManagerAuthorizationAllowedAlways;
+     BOOL permissionsGranted = locationPermissionGranted;
+     BOOL canScanInForeground =
+         bluetoothEnabled &&

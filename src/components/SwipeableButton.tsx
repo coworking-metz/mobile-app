@@ -95,6 +95,7 @@ const SwipeableButton = ({
   const pan = usePanGesture({
     runOnJS: true,
     onBegin: () => {
+      if (hasSwiped) return;
       isSwiping.value = 1;
       vibrate(HapticFeedbackType.Medium);
     },

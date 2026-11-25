@@ -108,22 +108,24 @@ const AttendanceCount = ({
             </LoadingSkeleton>
           </View>
         </View>
-        <AppText
-          style={tw`android:mb-6 android:min-w-28 mb-4 text-5xl font-normal leading-[3.5rem] text-slate-500 dark:text-neutral-500`}>
-          {t('home.people.capacity', { total: TOTAL_CAPACITY })}
-        </AppText>
-        <FetchBadge
-          errors={[
-            {
-              title: t('home.people.onFetch.fail'),
-              error: currentMembersError,
-              updatedAt: currentMembersErrorUpdatedAt,
-              onRetry: refetchCurrentMembers,
-            },
-          ]}
-          loading={isFetchingCurrentMembers}
-          style={tw`ios:mb-6 android:mb-8 ml-3`}
-        />
+        <View>
+          <FetchBadge
+            errors={[
+              {
+                title: t('home.people.onFetch.fail'),
+                error: currentMembersError,
+                updatedAt: currentMembersErrorUpdatedAt,
+                onRetry: refetchCurrentMembers,
+              },
+            ]}
+            loading={isFetchingCurrentMembers}
+            style={tw`ml-4`}
+          />
+          <AppText
+            style={tw`android:min-w-28 android:mb-6 mb-4 text-5xl font-normal leading-[3.5rem] text-slate-500 dark:text-neutral-500`}>
+            {t('home.people.capacity', { total: TOTAL_CAPACITY })}
+          </AppText>
+        </View>
       </View>
 
       <Link asChild href="/attendance">

@@ -272,7 +272,6 @@ const PrintLabelBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBott
           disabled={!label}
           label={t('labelPrinter.print')}
           loading={isScanning || isConnecting || isPrinting}
-          prefixIcon="printer"
           style={tw`mt-6`}
           onPress={() => onPrint()}
         />
