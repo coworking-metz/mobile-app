@@ -7,7 +7,10 @@
       "title": "Réglages systèmes"
     },
     "bluetooth": {
-      "description": "Pour aider à la localisation à courte distance.\nUtilisé pour le <0>déverrouillage\u00A0automatique</0> du portail d'entrée.",
+      "description": {
+        "beacon": "Pour aider à la localisation à courte distance.\nUtilisé pour le <0>déverrouillage\u00A0automatique</0> du portail d'entrée.",
+        "printer": "Pour se connecter à l'imprimante.\nUtilisé pour l'<1>impression d'étiquettes</1>."
+      },
       "label": "Bluetooth"
     },
     "calendar": {

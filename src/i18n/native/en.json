@@ -1,15 +1,15 @@
 {
   "ios": {
-    "NSBluetoothAlwaysUsageDescription": "Allow $(PRODUCT_NAME) to use Bluetooth to unlock the gate automatically and print labels.",
-    "NSCalendarsFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your calendar",
-    "NSCalendarsUsageDescription": "Allow $(PRODUCT_NAME) to access your calendar",
-    "NSFaceIDUsageDescription": "Allow $(PRODUCT_NAME) to access your Face ID biometric data.",
-    "NSLocalNetworkUsageDescription": "Allow $(PRODUCT_NAME) to detect your device on the coworking network to pair it automatically.",
-    "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow $(PRODUCT_NAME) to access your location",
-    "NSLocationAlwaysUsageDescription": "Allow $(PRODUCT_NAME) to access your location",
-    "NSLocationWhenInUseUsageDescription": "Allow $(PRODUCT_NAME) to access your location",
-    "NSMotionUsageDescription": "Allow $(PRODUCT_NAME) to detect your current motion activity",
-    "NSRemindersFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders",
-    "NSRemindersUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders"
+    "NSBluetoothAlwaysUsageDescription": "Bluetooth is used to unlock the gate automatically and print labels.",
+    "NSCalendarsFullAccessUsageDescription": "Your calendar is used to add events to it.",
+    "NSCalendarsUsageDescription": "Your calendar is used to add events to it.",
+    "NSFaceIDUsageDescription": "Face ID is used to authenticate you.",
+    "NSLocalNetworkUsageDescription": "The local network is used to detect your device on the coworking network and pair it automatically.",
+    "NSLocationAlwaysAndWhenInUseUsageDescription": "Your location is used to unlock the gate automatically when you arrive, even when the app is closed.",
+    "NSLocationAlwaysUsageDescription": "Your location is used to unlock the gate automatically when you arrive, even when the app is closed.",
+    "NSLocationWhenInUseUsageDescription": "Your location is used to unlock the gate automatically when you arrive.",
+    "NSMotionUsageDescription": "Your motion activity is used to detect your movements.",
+    "NSRemindersFullAccessUsageDescription": "Your reminders are used to add events to them.",
+    "NSRemindersUsageDescription": "Your reminders are used to add events to them."
   }
 }
