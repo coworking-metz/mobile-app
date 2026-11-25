@@ -230,10 +230,8 @@ const applyMonitoringState = (Beacon: BeaconModule, enabled: boolean): void => {
   }
 };
 
-// Importing this package arms CLLocationManager/CBCentralManager as a side
-// effect — risky on the Simulator (no Bluetooth radio, hence Device.isDevice)
-// and it's what triggers iOS's Bluetooth prompt on a real device. Must stay
-// gated behind withGateUnlockOnApproach too, or the prompt fires on first launch.
+// Importing this package arms CLLocationManager as a side effect — risky on the
+// Simulator, hence Device.isDevice. Patched to defer CBCentralManager (Bluetooth prompt).
 let hasRegisteredListeners = false;
 
 const ensureBeaconInitialized = async (): Promise<BeaconModule> => {
@@ -281,8 +279,7 @@ export const bootBeacon = async (): Promise<void> => {
     beaconLogger.error('Initial beacon setup failed', error);
   }
 
-  // Reacts to the toggle changing at runtime, including the first time it's
-  // switched on — which is when the Bluetooth prompt fires.
+  // Reacts to the toggle changing at runtime, including the first time it's switched on.
   useSettingsStore.subscribe(
     (state) => state.withGateUnlockOnApproach,
     (enabled) => void applySetting(enabled),

@@ -1,8 +1,18 @@
 diff --git a/node_modules/react-native-beacon-kit/ios/Beacon.mm b/node_modules/react-native-beacon-kit/ios/Beacon.mm
-index 59c759e..e44a09f 100644
+index 59c759e..9dd2cf3 100644
 --- a/node_modules/react-native-beacon-kit/ios/Beacon.mm
 +++ b/node_modules/react-native-beacon-kit/ios/Beacon.mm
-@@ -116,12 +116,14 @@
+@@ -55,9 +55,6 @@
+         dispatch_block_t setup = ^{
+             self->_locationManager          = [[CLLocationManager alloc] init];
+             self->_locationManager.delegate = self;
+-            self->_centralManager = [[CBCentralManager alloc] initWithDelegate:self
+-                                                                         queue:nil
+-                                                                       options:nil];
+             // Keep a cached snapshot so the JS event only fires when something
+             // user-actionable actually changed (permission, Bluetooth, etc.).
+             self->_lastEnvironmentState = [self currentEnvironmentState];
+@@ -116,12 +113,14 @@
  // ---------------------------------------------------------------------------
  // configure
  // ---------------------------------------------------------------------------
@@ -23,7 +33,7 @@ index 59c759e..e44a09f 100644
          [_kalmanStates removeAllObjects];
      }
      // foregroundService, aggressiveBackground, scanPeriod, backgroundScanPeriod,
-@@ -131,11 +133,11 @@
+@@ -131,11 +130,11 @@
  // ---------------------------------------------------------------------------
  // startRanging / stopRanging
  // ---------------------------------------------------------------------------
@@ -38,7 +48,7 @@ index 59c759e..e44a09f 100644
      if (!identifier || !uuidString) {
          reject(@"RANGING_ERROR", @"identifier and uuid are required", nil);
          return;
-@@ -157,19 +159,19 @@
+@@ -157,19 +156,19 @@
          return;
      }
  
@@ -65,7 +75,7 @@ index 59c759e..e44a09f 100644
      } else {
          constraint = [[CLBeaconIdentityConstraint alloc] initWithUUID:uuid];
      }
-@@ -182,10 +184,10 @@
+@@ -182,10 +181,10 @@
      });
  }
  
@@ -78,7 +88,7 @@ index 59c759e..e44a09f 100644
      CLBeaconIdentityConstraint *constraint = _rangingConstraints[identifier];
      if (constraint) {
          dispatch_async(dispatch_get_main_queue(), ^{
-@@ -201,11 +203,11 @@
+@@ -201,11 +200,11 @@
  // ---------------------------------------------------------------------------
  // startMonitoring / stopMonitoring
  // ---------------------------------------------------------------------------
@@ -93,7 +103,7 @@ index 59c759e..e44a09f 100644
      if (!identifier || !uuidString) {
          reject(@"MONITORING_ERROR", @"identifier and uuid are required", nil);
          return;
-@@ -227,20 +229,20 @@
+@@ -227,20 +226,20 @@
          return;
      }
  
@@ -121,7 +131,7 @@ index 59c759e..e44a09f 100644
                          identifier:identifier];
      } else {
          beaconRegion = [[CLBeaconRegion alloc] initWithUUID:uuid identifier:identifier];
-@@ -260,10 +262,10 @@
+@@ -260,10 +259,10 @@
      });
  }
  
@@ -134,7 +144,22 @@ index 59c759e..e44a09f 100644
      CLBeaconRegion *beaconRegion = _monitoringRegions[identifier];
      if (beaconRegion) {
          dispatch_async(dispatch_get_main_queue(), ^{
-@@ -528,7 +530,7 @@ rangingBeaconsDidFailForConstraint:(CLBeaconIdentityConstraint *)constraint
+@@ -508,7 +507,14 @@ rangingBeaconsDidFailForConstraint:(CLBeaconIdentityConstraint *)constraint
+ // ---------------------------------------------------------------------------
+ // Helpers
+ // ---------------------------------------------------------------------------
++// Creating a CBCentralManager shows the Bluetooth prompt: wait until the app asked for it.
++- (void)ensureCentralManagerIfAuthorized {
++    if (self.centralManager || CBManager.authorization == CBManagerAuthorizationNotDetermined) return;
++    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:nil];
++}
++
+ - (NSDictionary *)currentEnvironmentState {
++    [self ensureCentralManagerIfAuthorized];
+     // Mirror the Android payload shape so apps can render one diagnostics UI
+     // across both platforms without branching on the event structure.
+     BOOL bluetoothEnabled = self.centralManager.state == CBManagerStatePoweredOn;
+@@ -528,7 +534,7 @@ rangingBeaconsDidFailForConstraint:(CLBeaconIdentityConstraint *)constraint
          (status == kCLAuthorizationStatusAuthorizedAlways ||
           status == kCLAuthorizationStatusAuthorizedWhenInUse);
      BOOL backgroundPermissionGranted = status == kCLAuthorizationStatusAuthorizedAlways;
