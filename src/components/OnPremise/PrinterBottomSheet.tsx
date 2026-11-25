@@ -1,4 +1,4 @@
-import React, { forwardRef, ForwardRefRenderFunction } from 'react';
+import { forwardRef, ForwardRefRenderFunction } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import tw from 'twrnc';
@@ -12,7 +12,7 @@ import AppRoundedButton from '@/components/AppRoundedButton';
 import AppText from '@/components/AppText';
 import AppTextLink from '@/components/AppTextLink';
 import { useOnPremise } from '@/components/OnPremise/OnPremiseContext';
-import { IS_DEV, WORDPRESS_BASE_URL } from '@/services/environment';
+import { WORDPRESS_BASE_URL } from '@/services/environment';
 
 const PrinterBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomSheetProps> = (
   { style, onClose },
@@ -60,14 +60,13 @@ const PrinterBottomSheet: ForwardRefRenderFunction<AppBottomSheetRef, AppBottomS
         parent={AppText}
         style={tw`mb-3 mt-6 text-left text-base font-normal text-slate-500 dark:text-neutral-500`}
       />
-      {IS_DEV && (
-        <AppRoundedButton
-          label={t('onPremise.printer.printLabel')}
-          prefixIcon="label"
-          style={tw`mt-3`}
-          onPress={selectPrintLabel}
-        />
-      )}
+
+      <AppRoundedButton
+        label={t('onPremise.printer.printLabel')}
+        prefixIcon="label"
+        style={tw`mt-3`}
+        onPress={selectPrintLabel}
+      />
     </AppBottomSheet>
   );
 };

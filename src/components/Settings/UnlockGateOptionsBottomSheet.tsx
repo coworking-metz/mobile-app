@@ -26,6 +26,7 @@ import SectionTitle from '@/components/Layout/SectionTitle';
 import ServiceRow from '@/components/Layout/ServiceRow';
 import LoadingProgressBar from '@/components/LoadingProgressBar';
 import { theme } from '@/helpers/colors';
+import { requestBluetoothPermission } from '@/helpers/label-printer';
 import { formatDuration } from '@/i18n';
 import { getUnlockSteelGateOptions } from '@/services/api/services';
 import { isBeaconMonitoringAvailable, requestBeaconLocationPermission } from '@/services/beacon';
@@ -76,6 +77,10 @@ const UnlockGateOptionsBottomSheet: ForwardRefRenderFunction<
     const isAlwaysGranted = await requestBeaconLocationPermission();
     // Reverts the switch if the user only grants "When In Use" — monitoring
     // can't survive the app being killed without "Always".
+    if (isAlwaysGranted) {
+      // Not required by CoreLocation monitoring, but lets the app report Bluetooth state.
+      await requestBluetoothPermission().catch(() => false);
+    }
     useSettingsStore.setState({ withGateUnlockOnApproach: isAlwaysGranted });
   }, []);
 
