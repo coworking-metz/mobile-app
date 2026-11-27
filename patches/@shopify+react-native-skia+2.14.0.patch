@@ -1,0 +1,16 @@
+diff --git a/node_modules/@shopify/react-native-skia/android/CMakeLists.txt b/node_modules/@shopify/react-native-skia/android/CMakeLists.txt
+index 6a50c58..4d0e71b 100644
+--- a/node_modules/@shopify/react-native-skia/android/CMakeLists.txt
++++ b/node_modules/@shopify/react-native-skia/android/CMakeLists.txt
+@@ -216,3 +216,11 @@ endif()
+ if(CMAKE_ANDROID_NDK_VERSION VERSION_LESS "27")
+     target_link_options(${PACKAGE_NAME} PRIVATE "-Wl,-z,max-page-size=16384")
+ endif()
++
++# Serialize compile/link: parallel TUs including JsiSkApi.h peak ~8 GB and stall 16 GB EAS workers (skia#4272)
++# Guarded: EAS cached node_modules can get this patch applied twice → ninja "duplicate pool"
++get_property(_rnskia_pools GLOBAL PROPERTY JOB_POOLS)
++if(NOT "rnskia_serial=1" IN_LIST _rnskia_pools)
++    set_property(GLOBAL APPEND PROPERTY JOB_POOLS rnskia_serial=1)
++endif()
++set_target_properties(${PACKAGE_NAME} PROPERTIES JOB_POOL_COMPILE rnskia_serial JOB_POOL_LINK rnskia_serial)
